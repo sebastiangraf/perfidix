@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<root>
+  <snapshot svn="" id="" date="Tue Jan 23 09:43:18 CET 2007">
+    <benchmark max="287" min="287" avg="287.0" stddev="0.0" conf95="0.0" conf99="0.0" name="bench">
+      <class max="287" min="287" avg="287.0" stddev="0.0" conf95="0.0" conf99="0.0" name="class C" class="org.perfidix.LoadXmlTestCase">
+        <method max="148" min="139" avg="143.5" stddev="4.5" conf95="6.236681810065349" conf99="8.196781807514459" name="iAmAResult">
+          <result name="&lt;noNameDefined&gt;">
+            <meter max="82" min="57" avg="69.5" stddev="12.5" conf95="17.324116139070412" conf99="22.768838354206828" name="&lt;noNameDefined&gt;" unit="ms" description="ms" class="MilliMeter"/>
+            <data><![CDATA[57,82]]></data>
+          </result>
+          <result name="&lt;noNameDefined&gt;">
+            <meter max="83" min="65" avg="74.0" stddev="9.0" conf95="12.473363620130698" conf99="16.393563615028917" name="&lt;noNameDefined&gt;" unit="ms" description="ms" class="MilliMeter"/>
+            <data><![CDATA[83,65]]></data>
+          </result>
+          <result name="&lt;noNameDefined&gt;">
+            <meter max="82" min="57" avg="69.5" stddev="12.5" conf95="17.324116139070412" conf99="22.768838354206828" name="&lt;noNameDefined&gt;" unit="ms" description="ms" class="MilliMeter"/>
+            <data><![CDATA[57,82]]></data>
+          </result>
+          <result name="&lt;noNameDefined&gt;">
+            <meter max="83" min="65" avg="74.0" stddev="9.0" conf95="12.473363620130698" conf99="16.393563615028917" name="&lt;noNameDefined&gt;" unit="ms" description="ms" class="MilliMeter"/>
+            <data><![CDATA[83,65]]></data>
+          </result>
+        </method>
+      </class>
+    </benchmark>
+  </snapshot>
+</root>

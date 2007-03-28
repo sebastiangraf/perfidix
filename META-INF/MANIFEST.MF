@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Perfidix
+Bundle-SymbolicName: org.perfidix;singleton:=true
+Bundle-Version: 1.0.0
+Bundle-ClassPath: de.unikn.inf.disy.idefix.perfidix/
+Bundle-Activator: org.perfidix.ant.Perfidix
+Bundle-Vendor: Perfidix
+Bundle-Localization: plugin
+Main-Class: de.unikn.inf.disy.idefix.perfidix.ant.Perfidix

@@ -1,0 +1,350 @@
+ %! program = pdflatex
+ 
+ \documentclass[12pt]{article}
+ \usepackage{geometry} % see geometry.pdf on how to lay out the page. There's lots.
+ \usepackage{listings}
+ \geometry{a4paper} % or letter or a5paper or ... etc
+ % \geometry{landscape} % rotated page geometry
+ \lstset{numbers=left, numberstyle=\tiny, numbersep=5pt} \lstset{language=Java}
+ % See the ``Article customize'' template for come common customizations
+ 
+ \title{}
+ \author{}
+ \date{} % delete this line to display the current date
+ 
+ %%% BEGIN DOCUMENT
+ \begin{document}
+ 
+ \maketitle
+ 
+%\section{Existing JUnit Annotations}
+%With \emph{JUnit 4.0} the test-methods aren't call via reflection any more. The test-environment is now working completely with annotations. A small description of each annotation is given below.
+%\subsection{"@BeforeClass"}
+%"@BeforeClass" is called before at first, but not more than one time. General settings of the complete test should take place in this method.
+%\subsection{"@Before"}
+%A Method which are annotated with "@Before" is called before each test-method. In this method, the preparation of the test should take place. This annotation is replacing the "setUp" - method used in \emph|{JUnit 3.8}.
+%\subsection{"@Test"}
+%This annotation marks a single test of a method. Each method, which is annotated with this annotation is tested by the \emph{JUnit framework}.
+%\subsubsection{"@Test(expected=)"}
+%With the parameter "expected", that takes subclasses of the interface "Throwable", the tested is forced to throw the defined exception.
+%\subsection{"@After"} 
+ %After each test-method methods which this annotation are called. Cleanup of objects, which can affect coming test-cases, should take place here. This annotation is replacing the "tearDown" - method used in \emph|{JUnit 3.8}.
+ %\subsection{"@AfterClass"}  
+ %After the last "@After" methods which this annotation are class. General cleanup like closing remote connections and so on should take place here.
+ 
+ 
+ \section{Little Use-case-Analysis for existing Perfidix Version}
+ Perfidix was working in version 1.0. With this framework already existing, some specific use-cases for the next version of perfidix with annotations were made.\\
+\subsection{Specific "setUp" and "tearDown" for each bench-method}
+Often, the preparation of a bench differ from the preparation of another bench. So there was a need for specifying different "setUp" and "tearDown" methods for different benches.
+ \subsection{Bench-methods should only run a given number of times}
+ Because of the different execution time of the bench-methods, it was useful to define the number of times a bench-method should run.
+ \newpage
+\section{Existing Perfidix}
+Perfidix at version 1.0 worked with inheritation and reflection. A benchmark was implemented in the following way for example:\\
+\\
+\begin{lstlisting}[caption=Perfidix 1.0 Class]
+public class SomeBenchmark extends Benchmarkable {
+  CompressedHandler c;
+  SimpleFileHandler s;
+
+  //Constructor, in fact useless
+  public SomeBenchmark() {
+	  c = new CompressedHandler();
+	  s = new SimpleFileHandler();
+  }
+  
+  //setUp, invoked before each run of each bench-method
+  public void setUp() {
+    super.setUp();
+    c = new CompressedHandler();
+    s = new SimpleFileHandler();
+  }
+
+  //tearDown, invoked after each run of each bench-method
+  public void tearDown() {
+    c = null;
+    s = null;
+    super.tearDown();
+  }
+
+  //bench 1
+  public void benchCWrite() {
+    c.write("hello world");
+  }
+
+  //bench 2
+  public void benchSWrite() {
+    s.write("hello world");
+  }
+
+  //bench 3
+  public void benchCRead() {
+    c.read();
+  }
+
+  //bench 4
+  public void benchSRead() {
+    s.read();
+  }
+
+}\end{lstlisting}
+After implementing the bench, it can be invoked for example in the following way:\\
+\begin{lstlisting}[caption=Invoking the bench]
+.....
+final Benchmark bench = new Benchmark();
+bench.add(new SomeBenchmark());
+bench.run(100);
+.....
+\end{lstlisting}
+In this example, the upper class is build and benched over 100 times.
+\newpage
+
+
+\section{Perfidix Annotations}
+Perfidix, which is currently working with reflection and inheritation, is moved to annotations.
+For this, a small description of possible annotations is listed below. All methods annotated with the following metadata should be parameter and returnvalue free. Each annotation mustn't occur more than one time in a class, except the \emph{Bench} annotation:
+\subsection{"@BenchClass"}
+The annotation has to be placed before the class declaration. The number of runs of each void-method in this class, except the methods annotated below, can be set as a parameter.
+\subsubsection{"@ BenchClass(runs=)"}
+The number of runs of each bench-method can be set here. This setting can be overridden by each method with an extra \emph{Bench} annotation..
+%\subsubsection{"@ BenchClass(chance=)"}
+%The probability of benching each method is set here. This setting can be overridden by each bench-method.
+%\subsubsection{"@ BenchClass(meter=)"}
+%The timeframe in which the calculation of the bench is taking place is set here. This setting can be overridden by each bench-method. 
+\subsection{"@BeforeBenchClass"}
+A method with this annotation is called before the first bench-method but just once per class.
+\subsection{"@BeforeBenchMethod"}
+A method with this annotation is called before the bench-method but just once for all runs.
+\subsection{"@BeforeBenchRun"}
+A method with this annotation is called before the bench-method before each run. This method can be overridden by a method defined in a   \emph{Bench} annotation for bench-specific calling. In this case, a method with this annotation is ignored.
+\subsection{"@Bench"}
+This annotation marks a method which should be benched. The method itself should be parameter-free.
+Perfidix-specific settings can be made through parameter of the annotation
+\subsubsection{"@Bench(beforeMethod=)"} 
+Here, a specific setUp method for this specific bench-method can be defined.
+\subsubsection{"@Bench(afterMethod=)"}
+Here, a specific tearDown method for this specific bench-method can be defined.
+\subsubsection{"@Bench(runs=)"}
+The number of runs of each bench-method can be set here. This setting  overrides the global setting of a possible \emph{BeforeBench} annotation of the corresponding class.
+%\subsubsection{"@Bench(chance=)"}
+%The probability of benching each method is set here. This setting  overrides the global setting of "@BeforeBench".
+%\subsubsection{"@Bench(meter=)"}
+%The timeframe in which the calculation of the bench is taking place is set here. This setting  overrides the global setting of "@BeforeBench".
+\subsection{"@AfterBenchRun"}
+A method with this annotation is called after the bench-method before each run. This method can be overridden by a method defined in a  \emph{Bench} annotation for bench-specific calling. In this case, the method with this annotation is ignored.
+\subsection{"@AfterBenchMethod"}
+A method with this annotation is called after the bench-method but just once for all runs.
+\subsection{"@AfterBenchClass"}
+A method with this annotation is called after the last bench-method but just once per class.
+
+\newpage
+\section{Example Use Cases}
+Perfidix 2.0 offers a very flexible usage based on annotation. The examples contains all the same usecase but are different implemented. A compressed file access is compared to a normal file access.
+\subsection{Example 1}
+The code in Listing 1 and Listing 3 are doing exact the same. The \emph{setUp()} and \emph{tearDown()} methods are invoked before each run of each method. But with Perfidix 2.0 we can do much more.
+\begin{lstlisting}[caption=Perfidix 2.0]
+public class SomeAnnoBenchmark {
+	CompressedHandler c;
+	SimpleFileHandler s;
+
+	//setUp, invoked before each run
+	@BeforeBenchRun
+	public void setUp() {
+		c = new CompressedHandler();
+		s = new SimpleFileHandler();
+	}
+
+	//tearDown, invoked after each run
+	@AfterBenchRun
+	public void tearDown() {
+		c = null;
+		s = null;
+	}
+
+	//bench Method 1
+	@Bench
+	public void benchCWrite() {
+		c.write("hello world");
+	}
+
+	//bench Method 2
+	@Bench
+	public void benchSWrite() {
+		s.write("hello world");
+	}
+
+	//bench Method 3
+	@Bench
+	public void benchCRead() {
+		c.read();
+	}
+
+	//bench Method 1
+	@Bench
+	public void benchSRead() {
+		s.read();
+	}
+}
+\end{lstlisting}
+
+\subsection{Example 2}
+In Listing 4 you see the usage of specific setUp and tearDown methods. These methods have the same behaviour than methods with the \emph{BeforeBenchRun} annotation.
+\begin{lstlisting}[caption=Perfidix 2.0]
+public class SomeSpecificSetUpTearDownBenchmark {
+  CompressedHandler c;
+  SimpleFileHandler s;
+
+  //setUp for benchCRead/benchCWrite. Invoked via @Bench-params
+  public void setUpCompressed() {
+	c = new CompressedHandler();
+  }
+
+  //tearDown for benchCRead/benchCWrite. Invoked via @Bench-params
+  public void tearDownCompressed() {
+	c = null;
+  }
+
+  //setUp for benchSRead/benchSWrite. Invoked via @Bench-params
+  public void setUpSimple() {
+	s = new SimpleFileHandler();
+  }
+
+  //tearDown for benchSRead/benchSWrite. Invoked via @Bench-params
+  public void tearDownSimple() {
+	s = null;
+  }
+
+  //bench Method 1	
+  @Bench(beforeMethod="setUpCompressed"
+  	,afterMethod="tearDownCompressed")
+  public void benchCWrite() {
+	c.write("hello world");
+  }
+  
+  //bench Method 2
+  @Bench(beforeMethod="setUpSimple"
+  	,afterMethod="tearDownSimple")
+   public void benchSWrite() {
+	s.write("hello world");
+  }
+  
+  //bench Method 3	
+  @Bench(beforeMethod="setUpCompressed"
+  	,afterMethod="tearDownCompressed")
+  public void benchCRead() {
+	c.read();
+  }
+
+  //bench Method 4	
+  @Bench(beforeMethod="setUpSimple"
+  	,afterMethod="tearDownSimple")
+  public void benchSRead() {
+	s.read();
+  }
+
+}
+\end{lstlisting}
+
+\subsection{Example 3}
+In Listing 5 the same Bench is a little bit modified: \\
+First of all, the class-annotation \emph{BenchClass} with the param \emph{runs} is used. That means that every method which is parameter-free and is not annotated with a setUp / tearDown annotation, is benched 10 times, except the \emph{benchSWrite} method, which has an extra \emph{Bench} annotation with a run parameter. This method is benched 60 times.\\
+Additional to that, every possible setUp and tearDown method is used in this example. A description is given in the code and in Section 3.
+\begin{lstlisting}[caption=Perfidix 2.0]
+@BenchClass(runs=10)
+public class ClassAnnoBenchmark {
+
+	CompressedHandler c;
+	SimpleFileHandler s;
+
+	String toTest;
+	long testLength;
+
+	//classwide setUp, invoked just one time, just setting the length of the string to compress.
+	@BeforeBenchClass
+	public void beforeClass() {
+		Math.abs(testLength = new Random().nextInt(100));
+	}
+
+	//methodWide setUp, invoked just one time per method, building a string of a given length
+	@BeforeBenchMethod
+	public void beforeMethod() {
+		for(int i = 0; i<testLength; i++) {
+			toTest = toTest + (char)(new Random().nextInt(Character.MAX_VALUE + 1));
+		}
+	}
+
+	//normal setUp, invoked one time per method per run, instantiating the handlers
+	@BeforeBenchRun
+	public void beforeRun() {
+		c = new CompressedHandler();
+		s = new SimpleFileHandler();
+	}
+
+	//normal tearDown, invoked one time per method per run, removing the handlers
+	@AfterBenchRun
+	public void afterRun() {
+		c = null;
+		s = null;
+	}
+	
+	//methodWide tearDown, invoked just one time per Method, reseting the testString
+	@AfterBenchMethod
+	public void afterMethod(){
+		toTest = null;
+	}
+	
+	//classwide tearDown, invoked just one time, reseting the length of the string
+	@AfterBenchClass
+	public void afterClass() {
+		testLength = -1;
+	}
+
+	//bench 1, invoked because of class-annotation
+	public void benchCWrite() {
+		c.write("hello world");
+	}
+
+	//bench 2, invoked because of method-annotation
+	@Bench(runs=60)
+	public void benchSWrite() {
+		s.write("hello world");
+	}
+
+	//bench 3, invoked because of class-annotation
+	public void benchCRead() {
+		c.read();
+	}
+
+	//bench 4, invoked because of class-annotation
+	public void benchSRead() {
+		s.read();
+	}
+
+
+}
+\end{lstlisting}
+\newpage
+The benchs were invoked in the following way:
+ \begin{lstlisting}[caption=Perfidix 2.0]
+ ....
+Benchmark b = new Benchmark("Compressed vs. Simple");
+b.add(new SomeAnnoBenchmark());
+b.add(new SomeSpecificSetUpTearDownBenchmark());
+b.add(new ClassAnnoBenchmark());
+Result r = b.run(32);
+....
+\end{lstlisting}
+%The results are listed below:
+
+
+%\begin{minipage}
+%\begin{lstlisting}[caption=Perfidix 2.0]
+
+% \end{lsltisting}
+% \end{minipage}
+ 
+ 
+ All examples are avliable in the perfidix project in the example folder.
+
+ \end{document}
