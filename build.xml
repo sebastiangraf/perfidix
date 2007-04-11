@@ -32,15 +32,19 @@
      or put them into /build/lib/ if nothing else is possible.                                             
      ====================================================================== -->
 <project name="Perfidix" default="Perfidix">
+  
+  <property name="version.perfidix" value="1.9.9" />
+  
   <property name="src.dir" value="src"/>
   <property name="classes.dir" value="ant-classes"/>
   <property name="externals.dir" value="externals" />
   <property name="build.dir" value="build" />
   <property name="version.junit" value="3.8.1" />
-  <property name="version.jaxen" value="1.1.-beta-5" />
-  <property name="version.perfidix" value="1.0.0" />
+  <property name="version.jaxen" value="1.1.-beta-5" />  
   <property name="version.dom4j" value="1.6.1" />
   <property name="version.ant" value="1.6.5" />
+  <property name="version.log4j" value="1.2.14" />
+  <property name="version.commons-logging" value="1.1.0" />
   
     <description>
            Ant build of the perfidix project.
@@ -53,6 +57,8 @@
         <pathelement location="${externals.dir}/dom4j__V${version.dom4j}.jar"/>
         <pathelement location="${externals.dir}/jaxen__V${version.jaxen}.jar"/>
         <pathelement location="${externals.dir}/ant__V${version.ant}.jar"/>
+        <pathelement location="${externals.dir}/log4j__V${version.log4j}.jar"/>
+        <pathelement location="${externals.dir}/commons-logging__V${version.commons-logging}.jar"/>
       </path>
     </target>
   
