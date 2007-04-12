@@ -19,8 +19,8 @@
 
 package org.perfidix.workloads;
 
+import org.perfidix.Bench;
 import org.perfidix.Benchmark;
-import org.perfidix.Benchmarkable;
 import org.perfidix.IMeter;
 import org.perfidix.Perfidix;
 import org.perfidix.Result;
@@ -29,7 +29,7 @@ import org.perfidix.visitor.GnuPlotData;
 /**
  * a benchmark test.
  */
-public class PerfidixBenchTest extends Benchmarkable {
+public class PerfidixBenchTest  {
 
 	private long[] set;
 
@@ -43,7 +43,6 @@ public class PerfidixBenchTest extends Benchmarkable {
 	 * constructor.
 	 */
 	public PerfidixBenchTest() {
-		super("i am a benchmarkable.");
 		set = new long[inputLength];
 		for (int i = 0; i < inputLength; i++) {
 			set[i] = (int) (Math.random() * 20);
@@ -51,17 +50,8 @@ public class PerfidixBenchTest extends Benchmarkable {
 		r = Perfidix.createSingleResult(set);
 	}
 
-	/**
-	 * 
-	 */
-	public void setUp() {
 
-	}
-
-	/**
-	 * 
-	 * 
-	 */
+	@Bench
 	public void benchAvg() {
 
 		for (int i = 0; i < num; i++) {
@@ -69,10 +59,7 @@ public class PerfidixBenchTest extends Benchmarkable {
 		}
 	}
 
-	/**
-	 * 
-	 * 
-	 */
+	@Bench
 	public void benchSum() {
 
 		for (int i = 0; i < num; i++) {
@@ -80,10 +67,7 @@ public class PerfidixBenchTest extends Benchmarkable {
 		}
 	}
 
-	/**
-	 * 
-	 * 
-	 */
+	@Bench
 	public void benchMean() {
 
 		for (int i = 0; i < num; i++) {
@@ -91,10 +75,7 @@ public class PerfidixBenchTest extends Benchmarkable {
 		}
 	}
 
-	/**
-	 * 
-	 * 
-	 */
+	@Bench
 	public void benchVariance() {
 
 		for (int i = 0; i < num; i++) {
@@ -102,10 +83,7 @@ public class PerfidixBenchTest extends Benchmarkable {
 		}
 	}
 
-	/**
-	 * 
-	 * 
-	 */
+	@Bench
 	public void benchNumberResultSet() {
 
 		for (int i = 0; i < num; i++) {
@@ -113,10 +91,7 @@ public class PerfidixBenchTest extends Benchmarkable {
 		}
 	}
 
-	/**
-	 * 
-	 * 
-	 */
+	@Bench
 	public void benchGetStdDev() {
 
 		for (int i = 0; i < num; i++) {
@@ -124,10 +99,7 @@ public class PerfidixBenchTest extends Benchmarkable {
 		}
 	}
 
-	/**
-	 * 
-	 * 
-	 */
+	@Bench
 	public void benchMin() {
 
 		for (int i = 0; i < num; i++) {
@@ -135,21 +107,15 @@ public class PerfidixBenchTest extends Benchmarkable {
 		}
 	}
 
-	/**
-	 * 
-	 * 
-	 */
+	@Bench
 	public void benchMax() {
 
 		for (int i = 0; i < num; i++) {
 			r.min();
 		}
 	}
-
-	/**
-	 * 
-	 * 
-	 */
+	
+	@Bench
 	public void benchConf95() {
 
 		for (int i = 0; i < num; i++) {
@@ -157,10 +123,7 @@ public class PerfidixBenchTest extends Benchmarkable {
 		}
 	}
 
-	/**
-	 * 
-	 * 
-	 */
+	@Bench
 	public void benchConf99() {
 
 		for (int i = 0; i < num; i++) {
@@ -168,10 +131,7 @@ public class PerfidixBenchTest extends Benchmarkable {
 		}
 	}
 
-	/**
-	 * 
-	 * 
-	 */
+	@Bench
 	public void benchGetSquareSum() {
 
 		for (int i = 0; i < num; i++) {
@@ -179,10 +139,7 @@ public class PerfidixBenchTest extends Benchmarkable {
 		}
 	}
 
-	/**
-	 * benchmarks the median calculation.
-	 * 
-	 */
+	@Bench
 	public void benchMedian() {
 
 		for (int i = 0; i < num; i++) {
@@ -195,7 +152,7 @@ public class PerfidixBenchTest extends Benchmarkable {
 	 * @author axo
 	 * 
 	 */
-	public class SampleBenchmarkClass extends Benchmarkable {
+	public class SampleBenchmarkClass {
 
 		private static final int NUM = 50000;
 
@@ -210,10 +167,7 @@ public class PerfidixBenchTest extends Benchmarkable {
 			oMeter = Perfidix.getMeter("object creations");
 		}
 
-		/**
-		 * 
-		 * 
-		 */
+		@Bench
 		public void benchSampleMethod1() {
 			long[] x = new long[SampleBenchmarkClass.NUM];
 			for (int i = 0; i < x.length; i++) {
@@ -221,10 +175,7 @@ public class PerfidixBenchTest extends Benchmarkable {
 			}
 		}
 
-		/**
-		 * 
-		 * 
-		 */
+		@Bench
 		public void benchSampleMethod2() {
 			SomeObj[] x = new SomeObj[SampleBenchmarkClass.NUM];
 			for (int i = 0; i < x.length; i++) {

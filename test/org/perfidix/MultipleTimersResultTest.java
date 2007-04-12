@@ -186,6 +186,7 @@ public class MultipleTimersResultTest extends PerfidixTest {
     assertEquals("ding", meters.get(1).getUnit());
   }
 
+	@Test
   public void testZero() {
     ResultContainer rc = new IResult.MethodResult("hello");
     rc.append(new IResult.SingleResult(
@@ -200,9 +201,9 @@ public class MultipleTimersResultTest extends PerfidixTest {
     mm.append(rc);
     IMeter blingbling = Perfidix.getMeter("blingbling");
     // System.out.println(mm);
-    assertEquals(6, mm.sum(blingbling));
-    assertEquals(0, mm.min(blingbling));
-    assertEquals(6, mm.max(blingbling));
+    assertEquals(new Long(6), mm.sum(blingbling));
+    assertEquals(new Long(0), mm.min(blingbling));
+    assertEquals(new Long(6), mm.max(blingbling));
 
   }
 

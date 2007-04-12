@@ -44,8 +44,6 @@ import org.perfidix.exceptions.PerfidixMethodException;
  */
 public class Benchmark {
 
-	private MethodContainer methodContainer = null;
-
 	private final static Log LOGGER = LogFactory.getLog("Benchmark");
 
 	/**
@@ -55,19 +53,9 @@ public class Benchmark {
 	public static final int BM_DEFAULT_INVOCATION_COUNT = 1;
 
 	/**
-	 * the prefix each benchmarkable method has to have in order to be
-	 * recognized as benchmarkable.
-	 */
-	@Deprecated
-	public static final String BM_METHOD_PREFIX = "bench";
-
-	/**
 	 * the null value of a long.
 	 */
 	public static final long LONG_NULLVALUE = -1;
-
-	@Deprecated
-	private final ArrayList<Benchmarkable> benchmarkableChilds;
 
 	/**
 	 * List with all objects to bench
@@ -119,7 +107,6 @@ public class Benchmark {
 	 */
 	public Benchmark(final String theName) {
 		this.name = theName;
-		benchmarkableChilds = new ArrayList<Benchmarkable>();
 		children = new ArrayList<Object>();
 		meters.add(timeMeterIndex, new IMeter.MilliMeter());
 	}
@@ -211,36 +198,6 @@ public class Benchmark {
 	}
 
 	/**
-	 * adds a method.
-	 * 
-	 * @param someMethod
-	 *            a method to use.
-	 * @TODO this does not work like that.
-	 * @deprecated uses reflection and not be used any more.
-	 */
-	@Deprecated
-	public void add(final Method someMethod) {
-		if (null == methodContainer) {
-			methodContainer = new MethodContainer();
-			add(methodContainer);
-		}
-		if (someMethod.getExceptionTypes().length > 0) {
-			appendToLogger(SimpleLog.LOG_LEVEL_INFO,
-					"the method you're trying to add - "
-							+ someMethod.getDeclaringClass().getSimpleName()
-							+ "::" + someMethod.getName() + "() - \n"
-							+ "has some throws declarations. please note \n"
-							+ "that your results could be incorrect.");
-		}
-		// FIXME this one throws an exception.
-		// i cannot run the method alone, without having the
-		// parent class in my scope.
-		// i'll have to rewrite this and keep a reference
-		// to the object itself also and then invoke the object.
-		methodContainer.add(someMethod);
-	}
-
-	/**
 	 * configures the benchmark to use the NanoTimer for time measurement.
 	 * 
 	 */
@@ -292,15 +249,6 @@ public class Benchmark {
 
 	}
 
-	@Deprecated
-	public void add(final Benchmarkable obj) {
-		if (null == obj) {
-			appendToLogger(SimpleLog.LOG_LEVEL_INFO, "Null object passed in");
-			return;
-		}
-		benchmarkableChilds.add(obj);
-	}
-
 	/**
 	 * we're recursing often here, so i implement some indentation utilities in
 	 * order to show the result properly.
@@ -316,19 +264,10 @@ public class Benchmark {
 			ind += "\t";
 		}
 
-		if (benchmarkableChilds.size() < 1 && children.size() < 1) {
+		if (children.size() < 1) {
 			return ind + "<>";
 		}
 		String foo = "";
-		for (int i = 0, m = benchmarkableChilds.size(); i < m; i++) {
-			foo += ind;
-			Object obj = benchmarkableChilds.get(i);
-			if (obj instanceof Benchmark) {
-				foo += ((Benchmark) obj).toString(indent + 1);
-			} else {
-				foo += obj.toString() + "\n";
-			}
-		}
 		for (int i = 0, m = children.size(); i < m; i++) {
 			foo += ind;
 			Object obj = children.get(i);
@@ -400,9 +339,6 @@ public class Benchmark {
 
 		ResultContainer myResult = new ResultContainer.BenchmarkResult(this
 				.getName());
-		for (Benchmarkable it : benchmarkableChilds) {
-			myResult.append(doRunObject(it, numInvocations, rand));
-		}
 		for (Object obj : children) {
 			try {
 				myResult.append(doRunObject(obj, numInvocations, rand));
@@ -536,39 +472,21 @@ public class Benchmark {
 		final Class[] setUpParams = {};
 		final Object[] methodParams = {};
 		try {
-			if (objectToBench instanceof Benchmarkable) {
-				String methodString = "";
-				if (anno.equals(BeforeBenchMethod.class)) {
-					methodString = "build";
-				}
-				if (anno.equals(BeforeBenchRun.class)) {
-					methodString = "setUp";
-				}
-				if (anno.equals(AfterBenchRun.class)) {
-					methodString = "tearDown";
-				}
-				if (anno.equals(AfterBenchMethod.class)) {
-					methodString = "cleanUp";
-				}
+			final Bench benchAnno = method.getAnnotation(Bench.class);
+			if (benchAnno != null
+					&& (anno.equals(BeforeBenchRun.class) && !(benchAnno
+							.beforeMethod().equals("")))) {
 				toReturn = objectToBench.getClass().getDeclaredMethod(
-						methodString, setUpParams);
+						benchAnno.beforeMethod(), setUpParams);
+			} else if (benchAnno != null
+					&& (anno.equals(AfterBenchRun.class) && !(benchAnno
+							.afterMethod().equals("")))) {
+				toReturn = objectToBench.getClass().getDeclaredMethod(
+						benchAnno.afterMethod(), setUpParams);
 			} else {
-				final Bench benchAnno = method.getAnnotation(Bench.class);
-				if (benchAnno != null
-						&& (anno.equals(BeforeBenchRun.class) && !(benchAnno
-								.beforeMethod().equals("")))) {
-					toReturn = objectToBench.getClass().getDeclaredMethod(
-							benchAnno.beforeMethod(), setUpParams);
-				} else if (benchAnno != null
-						&& (anno.equals(AfterBenchRun.class) && !(benchAnno
-								.afterMethod().equals("")))) {
-					toReturn = objectToBench.getClass().getDeclaredMethod(
-							benchAnno.afterMethod(), setUpParams);
-				} else {
-					toReturn = getBeforeAfter(objectToBench, anno);
-				}
-
+				toReturn = getBeforeAfter(objectToBench, anno);
 			}
+
 			if (checkMethod(toReturn)) {
 				toReturn.invoke(objectToBench, methodParams);
 			} else {
@@ -607,42 +525,6 @@ public class Benchmark {
 		}
 		return toReturn;
 
-	}
-
-	/**
-	 * runs the object. the internal implementation
-	 * 
-	 * @param numInvocations
-	 *            the number of times one method is to be called.
-	 * @param obj
-	 *            the object under test.
-	 * @return Result
-	 * @param timer
-	 *            the timer to use
-	 * @param rand
-	 *            the randomizer to use
-	 */
-	@SuppressWarnings("unchecked")
-	@Deprecated
-	private Result doRunObject(final Benchmarkable obj,
-			final int numInvocations, final IRandomizer rand) {
-		
-		final ArrayList<Method> invokableMethods = obj.getInvokableMethods();
-
-		final ResultContainer result = new IResult.ClassResult(obj.getName(),
-				obj.getClass().getCanonicalName());
-		try {
-		for (Method it : invokableMethods) {
-			final IResult.MethodResult realResult = doRunObject(it,
-					numInvocations, obj, rand);
-			if (realResult != null) {
-				result.append(realResult);
-			}
-		}
-		} catch(Exception e) {
-			appendToLogger(SimpleLog.LOG_LEVEL_ERROR, "Error invoking method: " + e);
-		}
-		return result;
 	}
 
 	/**
