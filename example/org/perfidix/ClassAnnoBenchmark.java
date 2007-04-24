@@ -37,26 +37,26 @@ public class ClassAnnoBenchmark {
     Math.abs(testLength = new Random().nextInt(10));
   }
 
-  @BeforeBenchMethod
+  @BeforeFirstBenchRun
   public void beforeMethod() {
     for (int i = 0; i < testLength; i++) {
       toTest = toTest + (char) (new Random().nextInt(Character.MAX_VALUE + 1));
     }
   }
 
-  @BeforeBenchRun
+  @BeforeEachBenchRun
   public void beforeRun() {
     c = new CompressedHandler();
     s = new SimpleFileHandler();
   }
 
-  @AfterBenchRun
+  @AfterEachBenchRun
   public void afterRun() {
     c = null;
     s = null;
   }
 
-  @AfterBenchMethod
+  @AfterFirstBenchRun
   public void afterMethod() {
     toTest = null;
   }

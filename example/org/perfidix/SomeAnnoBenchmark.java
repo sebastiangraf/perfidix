@@ -25,13 +25,13 @@ public class SomeAnnoBenchmark {
 
   SimpleFileHandler s;
 
-  @BeforeBenchRun
+  @BeforeEachBenchRun
   public void setUp() {
     c = new CompressedHandler();
     s = new SimpleFileHandler();
   }
 
-  @AfterBenchRun
+  @AfterEachBenchRun
   public void tearDown() {
     c = null;
     s = null;

@@ -41,22 +41,22 @@ public class SomeSpecificSetUpTearDownBenchmark {
     s = null;
   }
 
-  @Bench(beforeMethod = "setUpCompressed", afterMethod = "tearDownCompressed", runs = 20)
+  @Bench(beforeEveryBenchRun = "setUpCompressed", afterEveryBenchRun = "tearDownCompressed", runs = 20)
   public void benchCWrite() {
     c.write("hello world");
   }
 
-  @Bench(beforeMethod = "setUpSimple", afterMethod = "tearDownSimple")
+  @Bench(beforeEveryBenchRun = "setUpSimple", afterEveryBenchRun = "tearDownSimple")
   public void benchSWrite() {
     s.write("hello world");
   }
 
-  @Bench(beforeMethod = "setUpCompressed", afterMethod = "tearDownCompressed")
+  @Bench(beforeEveryBenchRun = "setUpCompressed", afterEveryBenchRun = "tearDownCompressed")
   public void benchCRead() {
     c.read();
   }
 
-  @Bench(beforeMethod = "setUpSimple", afterMethod = "tearDownSimple")
+  @Bench(beforeEveryBenchRun = "setUpSimple", afterEveryBenchRun = "tearDownSimple")
   public void benchSRead() {
     s.read();
   }

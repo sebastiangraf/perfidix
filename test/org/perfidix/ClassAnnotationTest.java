@@ -74,12 +74,12 @@ public class ClassAnnotationTest {
 			beforeClass++;
 		}
 		
-		@BeforeBenchMethod
+		@BeforeFirstBenchRun
 		public void beforeMethod() {
 			beforeMethod++;
 		}
 		
-		@BeforeBenchRun
+		@BeforeEachBenchRun
 		public void setUp() {
 			setUp++;
 		}
@@ -92,12 +92,12 @@ public class ClassAnnotationTest {
 			bench2++;
 		}
 		
-		@AfterBenchRun
+		@AfterEachBenchRun
 		public void tearDown() {
 			tearDown++;
 		}
 		
-		@AfterBenchMethod
+		@AfterFirstBenchRun
 		public void afterMethod() {
 			afterMethod++;
 		}
