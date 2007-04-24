@@ -73,12 +73,12 @@ public class NormalAnnotationTest {
 			build = true;
 		}
 
-		@BeforeBenchMethod
+		@BeforeFirstBenchRun
 		public void beforeMethod() {
 			beforeMethod = true;
 		}
 		
-		@BeforeBenchRun
+		@BeforeEachBenchRun
 		public void setUp() {
 			setUp = true;
 		}
@@ -93,12 +93,12 @@ public class NormalAnnotationTest {
 			bench2 = true;
 		}
 
-		@AfterBenchRun
+		@AfterEachBenchRun
 		public void tearDown() {
 			tearDown = true;
 		}
 
-		@AfterBenchMethod
+		@AfterFirstBenchRun
 		public void afterMethod() {
 			afterMethod = true;
 		}

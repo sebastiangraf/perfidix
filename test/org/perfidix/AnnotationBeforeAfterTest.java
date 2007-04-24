@@ -233,10 +233,10 @@ public class AnnotationBeforeAfterTest {
 	}
 	
 	class DuplicateBefore {
-		@BeforeBenchRun
+		@BeforeEachBenchRun
 		public void setUp1(){
 		}
-		@BeforeBenchRun
+		@BeforeEachBenchRun
 		public void setUp2(){
 		}
 		@Bench
@@ -248,10 +248,10 @@ public class AnnotationBeforeAfterTest {
 		@Bench
 		public void bench() {
 		}
-		@AfterBenchRun
+		@AfterEachBenchRun
 		public void tearDown1() {
 		}
-		@AfterBenchRun
+		@AfterEachBenchRun
 		public void tearDown2() {
 		}
 	}
@@ -260,7 +260,7 @@ public class AnnotationBeforeAfterTest {
 		@Bench
 		public void bench() {
 		}
-		@AfterBenchRun
+		@AfterEachBenchRun
 		public Object tearDown() {
 			return null;
 		}
@@ -270,13 +270,13 @@ public class AnnotationBeforeAfterTest {
 		@Bench
 		public void bench() {
 		}
-		@AfterBenchRun
+		@AfterEachBenchRun
 		public void tearDown(Object obj) {
 		}
 	}
 	
 	class BeforeReturn {
-		@BeforeBenchRun
+		@BeforeEachBenchRun
 		public Object setUp() {
 			return null;
 		}
@@ -286,7 +286,7 @@ public class AnnotationBeforeAfterTest {
 	}
 	
 	class BeforeParam {
-		@BeforeBenchRun
+		@BeforeEachBenchRun
 		public void setUp(Object obj) {
 		}
 		@Bench
@@ -295,10 +295,10 @@ public class AnnotationBeforeAfterTest {
 	}
 	
 	class DuplicateBeforeMethod {
-		@BeforeBenchMethod
+		@BeforeFirstBenchRun
 		public void build1(){
 		}
-		@BeforeBenchMethod
+		@BeforeFirstBenchRun
 		public void build2(){
 		}
 		@Bench
@@ -310,10 +310,10 @@ public class AnnotationBeforeAfterTest {
 		@Bench
 		public void bench() {
 		}
-		@AfterBenchMethod
+		@AfterFirstBenchRun
 		public void cleanUp1() {
 		}
-		@AfterBenchMethod
+		@AfterFirstBenchRun
 		public void cleanUp2() {
 		}
 	}
@@ -322,7 +322,7 @@ public class AnnotationBeforeAfterTest {
 		@Bench
 		public void bench() {
 		}
-		@AfterBenchMethod
+		@AfterFirstBenchRun
 		public Object cleanUp() {
 			return null;
 		}
@@ -332,13 +332,13 @@ public class AnnotationBeforeAfterTest {
 		@Bench
 		public void bench() {
 		}
-		@AfterBenchMethod
+		@AfterFirstBenchRun
 		public void cleanUp(Object obj) {
 		}
 	}
 	
 	class BeforeMethodReturn {
-		@BeforeBenchMethod
+		@BeforeFirstBenchRun
 		public Object build() {
 			return null;
 		}
@@ -348,7 +348,7 @@ public class AnnotationBeforeAfterTest {
 	}
 	
 	class BeforeMethodParam {
-		@BeforeBenchMethod
+		@BeforeFirstBenchRun
 		public void build(Object obj) {
 		}
 		@Bench

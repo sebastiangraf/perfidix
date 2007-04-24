@@ -2,7 +2,7 @@ package org.perfidix.workloads;
 
 import java.util.Random;
 
-import org.perfidix.AfterBenchMethod;
+import org.perfidix.AfterFirstBenchRun;
 import org.perfidix.Bench;
 import org.perfidix.Benchmark;
 import org.perfidix.IMeter;
@@ -148,7 +148,7 @@ public class SimpleInsertSim {
     }
   }
 
-  @AfterBenchMethod
+  @AfterFirstBenchRun
   public void tearDown() {
     for (int i = 0; i < DATASTRUCTURE_SIZE; i++) {
       dataStructure[i] = 0;

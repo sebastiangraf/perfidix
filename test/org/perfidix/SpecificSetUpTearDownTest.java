@@ -78,12 +78,12 @@ public class SpecificSetUpTearDownTest {
   }
 
   class Without {
-    @BeforeBenchRun
+    @BeforeEachBenchRun
     public void setUp() {
       setUp = true;
     }
 
-    @AfterBenchRun
+    @AfterEachBenchRun
     public void tearDown() {
       tearDown = true;
     }
@@ -103,12 +103,12 @@ public class SpecificSetUpTearDownTest {
   }
 
   class With {
-    @BeforeBenchRun
+    @BeforeEachBenchRun
     public void setUp() {
       setUp = true;
     }
 
-    @AfterBenchRun
+    @AfterEachBenchRun
     public void tearDown() {
       tearDown = true;
     }
@@ -121,7 +121,7 @@ public class SpecificSetUpTearDownTest {
       specialTearDown = true;
     }
 
-    @Bench(beforeMethod = "specialSetUp", afterMethod = "specialTearDown")
+    @Bench(beforeEveryBenchRun = "specialSetUp", afterEveryBenchRun = "specialTearDown")
     public void bench() {
       benchWith = true;
     }

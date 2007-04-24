@@ -41,13 +41,13 @@ public @interface Bench {
 	 * Parameter of the method which works as a setUp-like. For more information to setUp, look at JUnit.
 	 * @return a String with the method or nothing.
 	 */
-	String beforeMethod() default "";
+	String beforeEveryBenchRun() default "";
 	
 	/**
 	 * Parameter of the method which works as a tearDown-like. For more information to setUp, look at JUnit.
 	 * @return a String with the method or nothing.
 	 */
-	String afterMethod() default "";
+	String afterEveryBenchRun() default "";
 	
 	/**
 	 * Parameter for the number of runs of this bench.
