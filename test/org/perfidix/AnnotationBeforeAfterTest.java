@@ -310,10 +310,10 @@ public class AnnotationBeforeAfterTest {
 		@Bench
 		public void bench() {
 		}
-		@AfterFirstBenchRun
+		@AfterLastBenchRun
 		public void cleanUp1() {
 		}
-		@AfterFirstBenchRun
+		@AfterLastBenchRun
 		public void cleanUp2() {
 		}
 	}
@@ -322,7 +322,7 @@ public class AnnotationBeforeAfterTest {
 		@Bench
 		public void bench() {
 		}
-		@AfterFirstBenchRun
+		@AfterLastBenchRun
 		public Object cleanUp() {
 			return null;
 		}
@@ -332,7 +332,7 @@ public class AnnotationBeforeAfterTest {
 		@Bench
 		public void bench() {
 		}
-		@AfterFirstBenchRun
+		@AfterLastBenchRun
 		public void cleanUp(Object obj) {
 		}
 	}

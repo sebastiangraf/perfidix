@@ -56,7 +56,7 @@ public class ClassAnnoBenchmark {
     s = null;
   }
 
-  @AfterFirstBenchRun
+  @AfterLastBenchRun
   public void afterMethod() {
     toTest = null;
   }
