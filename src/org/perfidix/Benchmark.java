@@ -416,7 +416,7 @@ public class Benchmark {
 						.getName(), timeElapsed, results, timeMeter);
 				appendToLogger(SimpleLog.LOG_LEVEL_INFO,
 						"invoking cleanUp for method " + m);
-				executeBeforeAfter(parent, m, AfterFirstBenchRun.class);
+				executeBeforeAfter(parent, m, AfterLastBenchRun.class);
 
 				return meterHelper.createMethodResult(result);
 			} else {
@@ -457,7 +457,7 @@ public class Benchmark {
 							|| method.getAnnotation(BeforeFirstBenchRun.class) != null
 							|| method.getAnnotation(BeforeEachBenchRun.class) != null
 							|| method.getAnnotation(AfterEachBenchRun.class) != null
-							|| method.getAnnotation(AfterFirstBenchRun.class) != null || method
+							|| method.getAnnotation(AfterLastBenchRun.class) != null || method
 							.getAnnotation(AfterBenchClass.class) != null)) {
 				return false;
 			}

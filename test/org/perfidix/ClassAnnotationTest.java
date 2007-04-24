@@ -97,7 +97,7 @@ public class ClassAnnotationTest {
 			tearDown++;
 		}
 		
-		@AfterFirstBenchRun
+		@AfterLastBenchRun
 		public void afterMethod() {
 			afterMethod++;
 		}

@@ -98,7 +98,7 @@ public class NormalAnnotationTest {
 			tearDown = true;
 		}
 
-		@AfterFirstBenchRun
+		@AfterLastBenchRun
 		public void afterMethod() {
 			afterMethod = true;
 		}

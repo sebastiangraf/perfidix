@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  * 
- * $Id: AfterFirstBenchRun.java 2624 2007-03-28 15:08:52Z kramis $
+ * $Id: AfterLastBenchRun.java 2624 2007-03-28 15:08:52Z kramis $
  * 
  */
 
@@ -32,6 +32,6 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
-public @interface AfterFirstBenchRun {
+public @interface AfterLastBenchRun {
 
 }
