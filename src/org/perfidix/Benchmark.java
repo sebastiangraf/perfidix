@@ -121,16 +121,6 @@ public class Benchmark {
 	}
 
 	/**
-	 * sets the name of the benchmark.
-	 * 
-	 * @param n
-	 *            string
-	 */
-	public void setName(final String n) {
-		name = n;
-	}
-
-	/**
 	 * obvious, huh?
 	 * 
 	 * @return string
@@ -426,7 +416,11 @@ public class Benchmark {
 
 		} catch (PerfidixMethodException e) {
 			appendToLogger(SimpleLog.LOG_LEVEL_FATAL, "" + e);
-			return null;
+			if(exceptionsThrown) {
+				throw new IllegalStateException(e);
+			} else {
+				return null;	
+			}
 		}
 	}
 
@@ -499,10 +493,16 @@ public class Benchmark {
 		} catch (NoSuchMethodException e) {
 			appendToLogger(SimpleLog.LOG_LEVEL_INFO, anno.getName()
 					+ " method not found or the method has params.");
+			if(exceptionsThrown) {
+				throw new IllegalStateException(e);
+			}
 		} catch (PerfidixMethodException e) {
 			throw e;
 		} catch (Exception e) {
 			appendToLogger(SimpleLog.LOG_LEVEL_ERROR, "" + e);
+			if(exceptionsThrown) {
+				throw new IllegalStateException(e);
+			}
 		}
 	}
 

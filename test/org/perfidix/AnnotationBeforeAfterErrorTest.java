@@ -24,194 +24,140 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-public class AnnotationBeforeAfterTest {
+public class AnnotationBeforeAfterErrorTest {
 
 	
 	
-	@Test
+	@Test(expected=IllegalStateException.class)
 	public void testBeforeClassParam() {
 		final BeforeClassParam test = new BeforeClassParam();
 		final Benchmark bench = new Benchmark();
-		bench.shouldThrowException(false);
-		assertFalse(bench.exceptionsThrown());
-		bench.setLogger(true);
 		bench.add(test);
 		bench.run();
-		assertTrue(bench.exceptionsThrown());
 	}
 	
-	@Test
+	@Test(expected=IllegalStateException.class)
 	public void testBeforeClassReturn() {
 		final BeforeClassReturn test = new BeforeClassReturn();
 		final Benchmark bench = new Benchmark();
-		bench.shouldThrowException(false);
-		assertFalse(bench.exceptionsThrown());
-		bench.setLogger(true);
 		bench.add(test);
 		bench.run();
-		assertTrue(bench.exceptionsThrown());
 	}
 	
-	@Test
+	@Test(expected=IllegalStateException.class)
 	public void testAfterClassParam() {
 		final AfterClassParam test = new AfterClassParam();
 		final Benchmark bench = new Benchmark();
-		bench.shouldThrowException(false);
-		assertFalse(bench.exceptionsThrown());
-		bench.setLogger(true);
 		bench.add(test);
 		bench.run();
-		assertTrue(bench.exceptionsThrown());
 	}
 	
-	@Test
+	@Test(expected=IllegalStateException.class)
 	public void testAfterClassReturn() {
 		final AfterClassReturn test = new AfterClassReturn();
 		final Benchmark bench = new Benchmark();
-		bench.shouldThrowException(false);
-		assertFalse(bench.exceptionsThrown());
-		bench.setLogger(true);
 		bench.add(test);
 		bench.run();
-		assertTrue(bench.exceptionsThrown());
 	}
 	
-	@Test
+	@Test(expected=IllegalStateException.class)
 	public void testDuplicateAfterClass() {
 		final DuplicateAfterClass test = new DuplicateAfterClass();
 		final Benchmark bench = new Benchmark();
-		bench.shouldThrowException(false);
-		assertFalse(bench.exceptionsThrown());
-		bench.setLogger(true);
 		bench.add(test);
 		bench.run();
-		assertTrue(bench.exceptionsThrown());
 	}
 	
-	@Test
+	@Test(expected=IllegalStateException.class)
 	public void testDuplicateBeforeClass() {
 		final DuplicateBeforeClass test = new DuplicateBeforeClass();
 		final Benchmark bench = new Benchmark();
-		bench.shouldThrowException(false);
-		assertFalse(bench.exceptionsThrown());
-		bench.setLogger(true);
 		bench.add(test);
 		bench.run();
-		assertTrue(bench.exceptionsThrown());
 	}
 
-	@Test
-	public void testBeforeMethodParam() {
+	@Test(expected=IllegalStateException.class)
+	public void testBeforeFirstRunParam() {
 		final BeforeMethodParam test = new BeforeMethodParam();
 		final Benchmark bench = new Benchmark();
-		assertFalse(bench.exceptionsThrown());
-		bench.setLogger(true);
 		bench.add(test);
 		bench.run();
-		assertTrue(bench.exceptionsThrown());
 	}
 	
-	@Test
-	public void testBeforeMethodReturn() {
+	@Test(expected=IllegalStateException.class)
+	public void testBeforeFirstRunReturn() {
 		final BeforeMethodReturn test = new BeforeMethodReturn();
 		final Benchmark bench = new Benchmark();
-		assertFalse(bench.exceptionsThrown());
-		bench.setLogger(true);
 		bench.add(test);
 		bench.run();
-		assertTrue(bench.exceptionsThrown());
 	}
 	
-	@Test
-	public void testAfterMethodParam() {
+	@Test(expected=IllegalStateException.class)
+	public void testAfterLastRunParam() {
 		final AfterMethodParam test = new AfterMethodParam();
 		final Benchmark bench = new Benchmark();
-		assertFalse(bench.exceptionsThrown());
-		bench.setLogger(true);
 		bench.add(test);
 		bench.run();
-		assertTrue(bench.exceptionsThrown());
 	}
 	
-	@Test
-	public void testAfterMethodReturn() {
+	@Test(expected=IllegalStateException.class)
+	public void testAfterLastRunReturn() {
 		final AfterMethodReturn test = new AfterMethodReturn();
 		final Benchmark bench = new Benchmark();
-		assertFalse(bench.exceptionsThrown());
-		bench.setLogger(true);
 		bench.add(test);
 		bench.run();
-		assertTrue(bench.exceptionsThrown());
 	}
 	
-	@Test
-	public void testDuplicateAfterMethod() {
+	@Test(expected=IllegalStateException.class)
+	public void testDuplicateAfterLastRun() {
 		final DuplicateAfterMethod test = new DuplicateAfterMethod();
 		final Benchmark bench = new Benchmark();
-		assertFalse(bench.exceptionsThrown());
-		bench.setLogger(true);
 		bench.add(test);
 		bench.run();
-		assertTrue(bench.exceptionsThrown());
 	}
 	
-	@Test
-	public void testDuplicateBeforeMethod() {
+	@Test(expected=IllegalStateException.class)
+	public void testDuplicateBeforeFirstRun() {
 		final DuplicateBeforeMethod test = new DuplicateBeforeMethod();
 		final Benchmark bench = new Benchmark();
-		assertFalse(bench.exceptionsThrown());
-		bench.setLogger(true);
 		bench.add(test);
 		bench.run();
-		assertTrue(bench.exceptionsThrown());
 	}
 
-	@Test
-	public void testBeforeParam() {
+	@Test(expected=IllegalStateException.class)
+	public void testBeforeEveryRunParam() {
 		final BeforeParam test = new BeforeParam();
 		final Benchmark bench = new Benchmark();
-		assertFalse(bench.exceptionsThrown());
-		bench.setLogger(true);
 		bench.add(test);
 		bench.run();
-		assertTrue(bench.exceptionsThrown());
 	}
 	
-	@Test
-	public void testBeforeReturn() {
+	@Test(expected=IllegalStateException.class)
+	public void testBeforeEveryRunReturn() {
 		final BeforeReturn test = new BeforeReturn();
 		final Benchmark bench = new Benchmark();
-		assertFalse(bench.exceptionsThrown());
-		bench.setLogger(true);
 		bench.add(test);
 		bench.run();
-		assertTrue(bench.exceptionsThrown());
 	}
 	
-	@Test
-	public void testAfterParam() {
+	@Test(expected=IllegalStateException.class)
+	public void testAfterEveryRunParam() {
 		final AfterParam test = new AfterParam();
 		final Benchmark bench = new Benchmark();
-		assertFalse(bench.exceptionsThrown());
-		bench.setLogger(true);
 		bench.add(test);
 		bench.run();
-		assertTrue(bench.exceptionsThrown());
 	}
 	
-	@Test
-	public void testAfterReturn() {
+	@Test(expected=IllegalStateException.class)
+	public void testAfterEveryRunReturn() {
 		final AfterReturn test = new AfterReturn();
 		final Benchmark bench = new Benchmark();
-		assertFalse(bench.exceptionsThrown());
-		bench.setLogger(true);
 		bench.add(test);
 		bench.run();
-		assertTrue(bench.exceptionsThrown());
 	}
 	
-	@Test
-	public void testDuplicateAfter() {
+	@Test(expected=IllegalStateException.class)
+	public void testDuplicateAfterEveryRun() {
 		final DuplicateAfter test = new DuplicateAfter();
 		final Benchmark bench = new Benchmark();
 		assertFalse(bench.exceptionsThrown());
@@ -221,8 +167,8 @@ public class AnnotationBeforeAfterTest {
 		assertTrue(bench.exceptionsThrown());
 	}
 	
-	@Test
-	public void testDuplicateBefore() {
+	@Test(expected=IllegalStateException.class)
+	public void testDuplicateBeforeEveryRun() {
 		final DuplicateBefore test = new DuplicateBefore();
 		final Benchmark bench = new Benchmark();
 		assertFalse(bench.exceptionsThrown());
