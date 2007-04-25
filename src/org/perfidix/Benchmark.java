@@ -44,6 +44,10 @@ import org.perfidix.exceptions.PerfidixMethodException;
  */
 public class Benchmark {
 
+	//////////////////////////////////////////////
+	//Static variables
+	//////////////////////////////////////////////
+	
 	private final static Log LOGGER = LogFactory.getLog("Benchmark");
 
 	/**
@@ -57,6 +61,10 @@ public class Benchmark {
 	 */
 	public static final long LONG_NULLVALUE = -1;
 
+	//////////////////////////////////////////////
+	//Normal variables
+	//////////////////////////////////////////////
+	
 	/**
 	 * List with all objects to bench
 	 */
@@ -92,6 +100,10 @@ public class Benchmark {
 	 */
 	private boolean shouldThrowException = true;
 
+	 //////////////////////////////////////////////
+	//Constructors
+	//////////////////////////////////////////////
+	
 	/**
 	 * the standard constructor to initiate a benchmark container.
 	 */
@@ -111,107 +123,8 @@ public class Benchmark {
 		meters.add(timeMeterIndex, new IMeter.MilliMeter());
 	}
 
-	/**
-	 * Setter if you want to get all your thrown Exception to the benched class.
-	 * 
-	 * @param value
-	 */
-	public void shouldThrowException(final boolean value) {
-		shouldThrowException = value;
-	}
-
-	/**
-	 * obvious, huh?
-	 * 
-	 * @return string
-	 */
-	public String getName() {
-		return name;
-	}
-
-	/**
-	 * tells whether exceptions were thrown during the run.
-	 * 
-	 * @return boolean
-	 */
-	public boolean exceptionsThrown() {
-		return exceptionsThrown;
-	}
-
-	/**
-	 * sets the logger. If false, nothing will be logged.
-	 * 
-	 * @param boolean
-	 *            if logger should be set.
-	 */
-	public void setLogger(final boolean logger) {
-		this.logger = logger;
-	}
-
-	/**
-	 * Central method for logging. Sets a boolean if an exception is fired!
-	 * 
-	 * @param loglevel
-	 *            where the log should written
-	 * @param message
-	 *            to be written.
-	 */
-	private void appendToLogger(final int loglevel, final String message) {
-		if (logger) {
-			switch (loglevel) {
-			case SimpleLog.LOG_LEVEL_TRACE:
-				LOGGER.trace(message);
-				break;
-			case SimpleLog.LOG_LEVEL_DEBUG:
-				LOGGER.debug(message);
-				break;
-			case SimpleLog.LOG_LEVEL_INFO:
-				LOGGER.info(message);
-				break;
-			case SimpleLog.LOG_LEVEL_WARN:
-				LOGGER.warn(message);
-				break;
-			case SimpleLog.LOG_LEVEL_ERROR:
-				LOGGER.error(message);
-				break;
-			case SimpleLog.LOG_LEVEL_FATAL:
-				LOGGER.fatal(message);
-				break;
-			default:
-				LOGGER.error("Not known log level!");
-			}
-		}
-		if (loglevel == SimpleLog.LOG_LEVEL_ERROR
-				|| loglevel == SimpleLog.LOG_LEVEL_FATAL) {
-			exceptionsThrown = true;
-		}
-	}
-
-	/**
-	 * configures the benchmark to use the NanoTimer for time measurement.
-	 * 
-	 */
-	public void useNanoMeter() {
-		meters.set(timeMeterIndex, new IMeter.NanoMeter());
-	}
-
-	/**
-	 * configures the benchmark such that it will use the MilliSecond timer for
-	 * time measurement.
-	 */
-	public void useMilliMeter() {
-		meters.set(timeMeterIndex, new IMeter.MilliMeter());
-	}
-
-	/**
-	 * 
-	 * @param someMeter
-	 *            a meter to register
-	 * @return boolean
-	 */
-	public boolean register(final IMeter someMeter) {
-		return meters.add(someMeter);
-	}
+	
+	
 
 	/**
 	 * Adds a class to the call stack via reflection or annotation. Because
@@ -237,46 +150,6 @@ public class Benchmark {
 		}
 		children.add(obj);
 
-	}
-
-	/**
-	 * we're recursing often here, so i implement some indentation utilities in
-	 * order to show the result properly.
-	 * 
-	 * @param indent
-	 *            the number of indentations.
-	 * 
-	 */
-	private String toString(final int indent) {
-
-		String ind = "";
-		for (int i = 0; i < indent; i++) {
-			ind += "\t";
-		}
-
-		if (children.size() < 1) {
-			return ind + "<>";
-		}
-		String foo = "";
-		for (int i = 0, m = children.size(); i < m; i++) {
-			foo += ind;
-			Object obj = children.get(i);
-			if (obj instanceof Benchmark) {
-				foo += ((Benchmark) obj).toString(indent + 1);
-			} else {
-				foo += obj.toString() + "\n";
-			}
-		}
-		return foo;
-	}
-
-	/**
-	 * toString implementation.
-	 * 
-	 * @return a string.
-	 */
-	public String toString() {
-		return toString(0);
 	}
 
 	/**
@@ -371,48 +244,40 @@ public class Benchmark {
 
 		try {
 
-			// TODO can be removed when reflection isn't used any more, the test
-			// for
-			// annotations is done by the doRunObject-method
-			if (checkMethod(m)) {
-				appendToLogger(SimpleLog.LOG_LEVEL_INFO,
-						"invoking build for method " + m);
-				executeBeforeAfter(parent, m, BeforeFirstBenchRun.class);
-				for (int invocationID = 0; invocationID < numInvocations; invocationID++) {
-					if (!rand.shouldRun(m)) {
-						timeElapsed[invocationID] = LONG_NULLVALUE;
-						meterHelper.skip(invocationID);
-						continue;
-					}
-					appendToLogger(SimpleLog.LOG_LEVEL_INFO,
-							"invoking setUp for method " + m);
-					executeBeforeAfter(parent, m, BeforeEachBenchRun.class);
-					meterHelper.start(invocationID);
-
-					appendToLogger(SimpleLog.LOG_LEVEL_INFO,
-							"invoking bench for method " + m);
-					long time1 = timeMeter.getValue();
-					results[invocationID] = m.invoke(parent, args);
-					long time2 = timeMeter.getValue();
-					timeElapsed[invocationID] = time2 - time1;
-
-					meterHelper.stop(invocationID);
-					appendToLogger(SimpleLog.LOG_LEVEL_INFO,
-							"invoking tearDown for method " + m);
-					executeBeforeAfter(parent, m, AfterEachBenchRun.class);
+			appendToLogger(SimpleLog.LOG_LEVEL_INFO,
+					"invoking build for method " + m);
+			executeBeforeAfter(parent, m, BeforeFirstBenchRun.class);
+			for (int invocationID = 0; invocationID < numInvocations; invocationID++) {
+				if (!rand.shouldRun(m)) {
+					timeElapsed[invocationID] = LONG_NULLVALUE;
+					meterHelper.skip(invocationID);
+					continue;
 				}
-
-				IResult.SingleResult result = new IResult.SingleResult(m
-						.getName(), timeElapsed, results, timeMeter);
 				appendToLogger(SimpleLog.LOG_LEVEL_INFO,
-						"invoking cleanUp for method " + m);
-				executeBeforeAfter(parent, m, AfterLastBenchRun.class);
+						"invoking setUp for method " + m);
+				executeBeforeAfter(parent, m, BeforeEachBenchRun.class);
+				meterHelper.start(invocationID);
 
-				return meterHelper.createMethodResult(result);
-			} else {
-				throw new PerfidixMethodException("Method: " + m.getName()
-						+ "was invalid because of Params or Returnval.");
+				appendToLogger(SimpleLog.LOG_LEVEL_INFO,
+						"invoking bench for method " + m);
+				long time1 = timeMeter.getValue();
+				results[invocationID] = m.invoke(parent, args);
+				long time2 = timeMeter.getValue();
+				timeElapsed[invocationID] = time2 - time1;
+
+				meterHelper.stop(invocationID);
+				appendToLogger(SimpleLog.LOG_LEVEL_INFO,
+						"invoking tearDown for method " + m);
+				executeBeforeAfter(parent, m, AfterEachBenchRun.class);
 			}
+
+			IResult.SingleResult result = new IResult.SingleResult(m.getName(),
+					timeElapsed, results, timeMeter);
+			appendToLogger(SimpleLog.LOG_LEVEL_INFO,
+					"invoking cleanUp for method " + m);
+			executeBeforeAfter(parent, m, AfterLastBenchRun.class);
+
+			return meterHelper.createMethodResult(result);
 
 		} catch (PerfidixMethodException e) {
 			appendToLogger(SimpleLog.LOG_LEVEL_FATAL, "" + e);
@@ -424,41 +289,7 @@ public class Benchmark {
 		}
 	}
 
-	private boolean checkMethod(final Method method) {
-		if (method == null) {
-			return false;
-		}
-		final Type[] params = method.getGenericParameterTypes();
-		final Type returnType = method.getGenericReturnType();
 
-		if (params.length != 0 || returnType != Void.TYPE) {
-			return false;
-		}
-		return true;
-	}
-
-	private boolean checkMethodForBench(final Method method) {
-		if (!checkMethod(method)) {
-			return false;
-		}
-		if ((method.getAnnotation(Bench.class) == null && method
-				.getDeclaringClass().getAnnotation(BenchClass.class) == null)
-				|| method.getAnnotation(SkipBench.class) != null) {
-			return false;
-		}
-		if (method.getDeclaringClass().getAnnotation(BenchClass.class) != null) {
-			if ((method.getAnnotation(Bench.class) == null)
-					&& (method.getAnnotation(BeforeBenchClass.class) != null
-							|| method.getAnnotation(BeforeFirstBenchRun.class) != null
-							|| method.getAnnotation(BeforeEachBenchRun.class) != null
-							|| method.getAnnotation(AfterEachBenchRun.class) != null
-							|| method.getAnnotation(AfterLastBenchRun.class) != null 
-							|| method.getAnnotation(AfterBenchClass.class) != null)) {
-				return false;
-			}
-		}
-		return true;
-	}
 
 	private void executeBeforeAfter(final Object objectToBench,
 			final Method method, final Class<? extends Annotation> anno)
@@ -614,6 +445,194 @@ public class Benchmark {
 		return result;
 	}
 
+	//////////////////////////////////////////////
+	//checkMethods
+	//////////////////////////////////////////////
+	private boolean checkMethod(final Method method) {
+		if (method == null) {
+			return false;
+		}
+		final Type[] params = method.getGenericParameterTypes();
+		final Type returnType = method.getGenericReturnType();
+
+		if (params.length != 0 || returnType != Void.TYPE) {
+			return false;
+		}
+		return true;
+	}
+
+	private boolean checkMethodForBench(final Method method) {
+		if (!checkMethod(method)) {
+			return false;
+		}
+		if ((method.getAnnotation(Bench.class) == null && method
+				.getDeclaringClass().getAnnotation(BenchClass.class) == null)
+				|| method.getAnnotation(SkipBench.class) != null) {
+			return false;
+		}
+		if (method.getDeclaringClass().getAnnotation(BenchClass.class) != null) {
+			if ((method.getAnnotation(Bench.class) == null)
+					&& (method.getAnnotation(BeforeBenchClass.class) != null
+							|| method.getAnnotation(BeforeFirstBenchRun.class) != null
+							|| method.getAnnotation(BeforeEachBenchRun.class) != null
+							|| method.getAnnotation(AfterEachBenchRun.class) != null
+							|| method.getAnnotation(AfterLastBenchRun.class) != null || method
+							.getAnnotation(AfterBenchClass.class) != null)) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	//////////////////////////////////////////////
+	//simple access methods
+	//////////////////////////////////////////////
+	/**
+	 * toString implementation.
+	 * 
+	 * @return a string.
+	 */
+	public String toString() {
+		return toString(0);
+	}
+	
+	/**
+	 * Setter if you want to get all your thrown Exception to the benched class.
+	 * 
+	 * @param value
+	 */
+	public void shouldThrowException(final boolean value) {
+		shouldThrowException = value;
+	}
+
+	/**
+	 * getting the name
+	 * 
+	 * @return string
+	 */
+	public String getName() {
+		return name;
+	}
+
+	/**
+	 * tells whether exceptions were thrown during the run.
+	 * 
+	 * @return boolean
+	 */
+	public boolean exceptionsThrown() {
+		return exceptionsThrown;
+	}
+
+	/**
+	 * sets the logger. If false, nothing will be logged.
+	 * 
+	 * @param boolean
+	 *            if logger should be set.
+	 */
+	public void setLogger(final boolean logger) {
+		this.logger = logger;
+	}
+
+
+	/**
+	 * configures the benchmark to use the NanoTimer for time measurement.
+	 * 
+	 */
+	public void useNanoMeter() {
+		meters.set(timeMeterIndex, new IMeter.NanoMeter());
+	}
+
+	/**
+	 * configures the benchmark such that it will use the MilliSecond timer for
+	 * time measurement.
+	 */
+	public void useMilliMeter() {
+		meters.set(timeMeterIndex, new IMeter.MilliMeter());
+	}
+
+	/**
+	 * registers some meter
+	 * @param someMeter
+	 *            a meter to register
+	 * @return boolean
+	 */
+	public boolean register(final IMeter someMeter) {
+		return meters.add(someMeter);
+	}
+	
+	//////////////////////////////////////////////
+	//helper stuff
+	//////////////////////////////////////////////
+	/**
+	 * we're recursing often here, so i implement some indentation utilities in
+	 * order to show the result properly.
+	 * 
+	 * @param indent
+	 *            the number of indentations.
+	 * 
+	 */
+	private String toString(final int indent) {
+
+		String ind = "";
+		for (int i = 0; i < indent; i++) {
+			ind += "\t";
+		}
+
+		if (children.size() < 1) {
+			return ind + "<>";
+		}
+		String foo = "";
+		for (int i = 0, m = children.size(); i < m; i++) {
+			foo += ind;
+			Object obj = children.get(i);
+			if (obj instanceof Benchmark) {
+				foo += ((Benchmark) obj).toString(indent + 1);
+			} else {
+				foo += obj.toString() + "\n";
+			}
+		}
+		return foo;
+	}
+	
+	/**
+	 * Central method for logging. Sets a boolean if an exception is fired!
+	 * 
+	 * @param loglevel
+	 *            where the log should written
+	 * @param message
+	 *            to be written.
+	 */
+	private void appendToLogger(final int loglevel, final String message) {
+		if (logger) {
+			switch (loglevel) {
+			case SimpleLog.LOG_LEVEL_TRACE:
+				LOGGER.trace(message);
+				break;
+			case SimpleLog.LOG_LEVEL_DEBUG:
+				LOGGER.debug(message);
+				break;
+			case SimpleLog.LOG_LEVEL_INFO:
+				LOGGER.info(message);
+				break;
+			case SimpleLog.LOG_LEVEL_WARN:
+				LOGGER.warn(message);
+				break;
+			case SimpleLog.LOG_LEVEL_ERROR:
+				LOGGER.error(message);
+				break;
+			case SimpleLog.LOG_LEVEL_FATAL:
+				LOGGER.fatal(message);
+				break;
+			default:
+				LOGGER.error("Not known log level!");
+			}
+		}
+		if (loglevel == SimpleLog.LOG_LEVEL_ERROR
+				|| loglevel == SimpleLog.LOG_LEVEL_FATAL) {
+			exceptionsThrown = true;
+		}
+	}
+	
 	private final class MeterHelper {
 
 		private ArrayList<IMeter> meters;
