@@ -23,9 +23,11 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Before;
 import org.junit.Test;
-public class ClassAnnotationTest {
+public class GeneralAnnotationTest {
 
-	private static final int runs = 20;
+	private static final int classAnnoRuns = 20;
+	private static final int method1Runs = 50;
+	private static final int method2Runs = 25;
 	
 	private int beforeClass;
 	private int beforeMethod;
@@ -49,7 +51,7 @@ public class ClassAnnotationTest {
 	}
 	
 	@Test
-	public void test() {
+	public void testClassAnnos() {
 		final TestBenchClass benchClass = new TestBenchClass();
 		final Benchmark bench = new Benchmark();
 		bench.add(benchClass);
@@ -57,16 +59,76 @@ public class ClassAnnotationTest {
 		
 		assertEquals(1, beforeClass);
 		assertEquals(2, beforeMethod);
-		assertEquals(2*runs, setUp);
-		assertEquals(runs, bench1);
-		assertEquals(runs, bench2);
-		assertEquals(2*runs,tearDown);
+		assertEquals(2*classAnnoRuns, setUp);
+		assertEquals(classAnnoRuns, bench1);
+		assertEquals(classAnnoRuns, bench2);
+		assertEquals(2*classAnnoRuns,tearDown);
 		assertEquals(2, afterMethod);
 		assertEquals(1, afterClass);
 	}
 	
+	@Test
+	public void testMethodAnnos() {
+		final TestBenchMethods benchClass = new TestBenchMethods();
+		final Benchmark bench = new Benchmark();
+		bench.add(benchClass);
+		bench.run();
+		
+		assertEquals(1, beforeClass);
+		assertEquals(2, beforeMethod);
+		assertEquals(method1Runs + method2Runs, setUp);
+		assertEquals(method1Runs, bench1);
+		assertEquals(method2Runs, bench2);
+		assertEquals(method1Runs + method2Runs,tearDown);
+		assertEquals(2, afterMethod);
+		assertEquals(1, afterClass);
+	}
 	
-	@BenchClass(runs=runs)
+	class TestBenchMethods {
+		@BeforeBenchClass
+		public void build(){
+			beforeClass++;
+		}
+		
+		@BeforeFirstBenchRun
+		public void beforeMethod() {
+			beforeMethod++;
+		}
+		
+		@BeforeEachBenchRun
+		public void setUp() {
+			setUp++;
+		}
+		
+		@Bench(runs=method1Runs)
+		public void bench1(){
+			bench1++;
+		}
+		
+		@Bench(runs=method2Runs)
+		public void bench2(){
+			bench2++;
+		}
+		
+		@AfterEachBenchRun
+		public void tearDown() {
+			tearDown++;
+		}
+		
+		@AfterLastBenchRun
+		public void afterMethod() {
+			afterMethod++;
+		}
+		
+		@AfterBenchClass
+		public void clean() {
+			afterClass++;
+		}
+		
+		
+	}
+	
+	@BenchClass(runs=classAnnoRuns)
 	class TestBenchClass {
 		
 		@BeforeBenchClass
