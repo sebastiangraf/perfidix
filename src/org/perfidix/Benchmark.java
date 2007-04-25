@@ -416,10 +416,10 @@ public class Benchmark {
 
 		} catch (PerfidixMethodException e) {
 			appendToLogger(SimpleLog.LOG_LEVEL_FATAL, "" + e);
-			if(exceptionsThrown) {
+			if (exceptionsThrown) {
 				throw new IllegalStateException(e);
 			} else {
-				return null;	
+				return null;
 			}
 		}
 	}
@@ -441,8 +441,9 @@ public class Benchmark {
 		if (!checkMethod(method)) {
 			return false;
 		}
-		if (method.getAnnotation(Bench.class) == null
-				&& method.getDeclaringClass().getAnnotation(BenchClass.class) == null) {
+		if ((method.getAnnotation(Bench.class) == null && method
+				.getDeclaringClass().getAnnotation(BenchClass.class) == null)
+				|| method.getAnnotation(SkipBench.class) != null) {
 			return false;
 		}
 		if (method.getDeclaringClass().getAnnotation(BenchClass.class) != null) {
@@ -451,8 +452,8 @@ public class Benchmark {
 							|| method.getAnnotation(BeforeFirstBenchRun.class) != null
 							|| method.getAnnotation(BeforeEachBenchRun.class) != null
 							|| method.getAnnotation(AfterEachBenchRun.class) != null
-							|| method.getAnnotation(AfterLastBenchRun.class) != null || method
-							.getAnnotation(AfterBenchClass.class) != null)) {
+							|| method.getAnnotation(AfterLastBenchRun.class) != null 
+							|| method.getAnnotation(AfterBenchClass.class) != null)) {
 				return false;
 			}
 		}
@@ -493,14 +494,14 @@ public class Benchmark {
 		} catch (NoSuchMethodException e) {
 			appendToLogger(SimpleLog.LOG_LEVEL_INFO, anno.getName()
 					+ " method not found or the method has params.");
-			if(exceptionsThrown) {
+			if (exceptionsThrown) {
 				throw new IllegalStateException(e);
 			}
 		} catch (PerfidixMethodException e) {
 			throw e;
 		} catch (Exception e) {
 			appendToLogger(SimpleLog.LOG_LEVEL_ERROR, "" + e);
-			if(exceptionsThrown) {
+			if (exceptionsThrown) {
 				throw new IllegalStateException(e);
 			}
 		}
