@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+   <extension
+         point="org.eclipse.debug.ui.launchShortcuts">
+      <shortcut
+            class="org.perfidix.perclipse.PerfidixLaunchShortcut"
+            id="org.eclipse.jdt.junit.junitShortcut"
+            label="Perfidix Run"
+            modes="run, debug">
+         <contextualLaunch>
+            <enablement>
+               <with
+                     variable="selection">
+                  <count
+                        value="1">
+                  </count>
+               		<iterate>
+                 		<or>
+                 			<test property="org.eclipse.jdt.launching.extendsInterface" args="junit.framework.Test"/>
+                 			<test property="org.eclipse.jdt.launching.hasMethod" args="suite, ()QTest;, public static"/>
+                 			<and>
+                 				<test property="org.eclipse.jdt.launching.isContainer"/>
+                 				<test property="org.eclipse.jdt.launching.buildpathReference" args="junit"/>
+                 			</and>
+                            <test property="org.eclipse.jdt.launching.hasMethodWithAnnotation" args="Test, public"/>
+                            <test property="org.eclipse.jdt.launching.hasMethodWithAnnotation" args="Test, public final"/>
+                 			<test property="org.eclipse.jdt.launching.hasTypeWithAnnotation" args="RunWith"/>
+<!-- TODO: loads plug-in !
+	                 		<test property="org.eclipse.jdt.junit.isTest"/>
+ -->
+                 		</or>
+               		</iterate>
+               </with>
+            </enablement>
+         </contextualLaunch>
+         <perspective
+               id="org.eclipse.jdt.ui.JavaPerspective">
+         </perspective>
+         <perspective
+               id="org.eclipse.jdt.ui.JavaHierarchyPerspective">
+         </perspective>
+         <perspective
+               id="org.eclipse.jdt.ui.JavaBrowsingPerspective">
+         </perspective>
+         <perspective
+               id="org.eclipse.debug.ui.DebugPerspective">
+         </perspective>
+      </shortcut>
+   </extension>
+
+</plugin>
