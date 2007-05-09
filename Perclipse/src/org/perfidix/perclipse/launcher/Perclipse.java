@@ -1,4 +1,4 @@
-package org.perfidix.perclipse;
+package org.perfidix.perclipse.launcher;
 
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
