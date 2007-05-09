@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.2"?>
 <plugin>
-   <extension
+  <extension
          point="org.eclipse.debug.ui.launchShortcuts">
       <shortcut
-            class="org.perfidix.perclipse.launcher.PerfidixLaunchShortcut"
-            id="org.eclipse.jdt.junit.junitShortcut"
             label="Perfidix Bench"
-            icon="$nl$/icons/icon.jpg"
-            modes="run">
+            icon="icons/icon.jpg"
+            helpContextId=""
+            class="org.perfidix.perclipse.launcher.PerfidixLaunchShortcut"
+            modes="run, debug"
+            id="org.perfidix.perclipseShortcut">
          <contextualLaunch>
             <enablement>
                <with
@@ -49,5 +50,4 @@
          </perspective>
       </shortcut>
    </extension>
-
 </plugin>
