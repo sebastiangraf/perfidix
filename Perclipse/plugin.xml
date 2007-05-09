@@ -19,18 +19,11 @@
                   </count>
                		<iterate>
                  		<or>
-                 			<test property="org.eclipse.jdt.launching.extendsInterface" args="junit.framework.Test"/>
-                 			<test property="org.eclipse.jdt.launching.hasMethod" args="suite, ()QTest;, public static"/>
                  			<and>
                  				<test property="org.eclipse.jdt.launching.isContainer"/>
-                 				<test property="org.eclipse.jdt.launching.buildpathReference" args="junit"/>
                  			</and>
-                            <test property="org.eclipse.jdt.launching.hasMethodWithAnnotation" args="Test, public"/>
-                            <test property="org.eclipse.jdt.launching.hasMethodWithAnnotation" args="Test, public final"/>
-                 			<test property="org.eclipse.jdt.launching.hasTypeWithAnnotation" args="RunWith"/>
-<!-- TODO: loads plug-in !
-	                 		<test property="org.eclipse.jdt.junit.isTest"/>
- -->
+                            <test property="org.eclipse.jdt.launching.hasMethodWithAnnotation" args="Bench, public"/>
+                            <test property="org.eclipse.jdt.launching.hasMethodWithAnnotation" args="Bench, public final"/>
                  		</or>
                		</iterate>
                </with>

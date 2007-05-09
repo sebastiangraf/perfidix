@@ -1,11 +1,15 @@
 package org.perfidix.perclipse.launcher;
 
+import java.lang.reflect.InvocationTargetException;
+
 import org.eclipse.debug.ui.ILaunchShortcut;
 import org.eclipse.jdt.core.IJavaElement;
+import org.eclipse.jdt.core.IType;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
+import org.perfidix.perclipse.util.BenchSearchEngine;
 
 public class PerfidixLaunchShortcut implements ILaunchShortcut {
 
@@ -39,38 +43,36 @@ public class PerfidixLaunchShortcut implements ILaunchShortcut {
 			if (search[0] instanceof IJavaElement) {
 				IJavaElement element = (IJavaElement) search[0];
 				// launch a CU or type
-//				launchType(element, mode);
+				launchType(element, mode);
 			}
 		}
 	}
 	
-//	private  void launchType(IJavaElement search, String mode) {
-//		IType[] types= null;
-//		try {
-//			types = findBenchs(new Object[] { search });
-//		} catch (InterruptedException e) {
-////			 TODO Do something real fancy here if exceptions were thrown
-//			return;
-//		} catch (InvocationTargetException e) {
-////			 TODO Do something real fancy here if exceptions were thrown
-//			return;
-//		}
-//		IType type= null;
-//		if (types.length == 0) {
-////			 TODO Do something real fancy here if no bench is found..
-//		} else if (types.length > 1) {
-//			type= chooseType(types, mode);
-//		} else {
-//			type= types[0];
-//		}
-//		if (type != null) {
+	private  void launchType(IJavaElement search, String mode) {
+		IType[] types= null;
+		try {
+			types = BenchSearchEngine.findBenchs(new Object[] { search });
+		} catch (InterruptedException e) {
+//			 TODO Do something real fancy here if exceptions were thrown
+			return;
+		} catch (InvocationTargetException e) {
+//			 TODO Do something real fancy here if exceptions were thrown
+			return;
+		}
+		IType type= null;
+		if (types.length == 0 || types.length > 1) {
+//			 TODO Do something real fancy here if no bench is found..
+		} else {
+			type= types[0];
+		}
+		if (type != null) {
 //			try {
 //				launch(mode, describeTypeLaunch(type));
 //			} catch (LaunchCancelledByUserException e) {
 //				// OK, silently move on
 //			}
-//		}
-//	}
+		}
+	}
 
 	
 	
