@@ -4,11 +4,11 @@
    <extension
          point="org.eclipse.debug.ui.launchShortcuts">
       <shortcut
-            class="org.perfidix.perclipse.PerfidixLaunchShortcut"
+            class="org.perfidix.perclipse.launcher.PerfidixLaunchShortcut"
             id="org.eclipse.jdt.junit.junitShortcut"
-            label="Perfidix Run"
+            label="Perfidix Bench"
             icon="$nl$/icons/icon.jpg"
-            modes="run, debug">
+            modes="run">
          <contextualLaunch>
             <enablement>
                <with
