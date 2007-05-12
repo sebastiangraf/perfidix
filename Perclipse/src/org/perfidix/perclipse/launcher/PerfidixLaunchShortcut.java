@@ -1,10 +1,9 @@
 package org.perfidix.perclipse.launcher;
 
+
 import java.lang.reflect.InvocationTargetException;
 
-import org.eclipse.debug.core.DebugPlugin;
 import org.eclipse.debug.core.ILaunchConfiguration;
-import org.eclipse.debug.core.ILaunchManager;
 import org.eclipse.debug.ui.DebugUITools;
 import org.eclipse.debug.ui.ILaunchShortcut;
 import org.eclipse.jdt.core.IJavaElement;
@@ -88,9 +87,48 @@ public class PerfidixLaunchShortcut implements ILaunchShortcut {
 			DebugUITools.launch(config, mode);
 		}
 	}
-	
-	private ILaunchManager getLaunchManager() {
-		return DebugPlugin.getDefault().getLaunchManager();
-	}
+
+//	private ILaunchConfiguration createConfiguration(IJavaProject project,
+//			String name, String mainType, String container, String testName) {
+//		ILaunchConfiguration config = null;
+//		try {
+//			ILaunchConfigurationWorkingCopy wc = newWorkingCopy(name);
+//			wc.setAttribute(
+//					IJavaLaunchConfigurationConstants.ATTR_MAIN_TYPE_NAME,
+//					mainType);
+//			wc.setAttribute(
+//					IJavaLaunchConfigurationConstants.ATTR_PROJECT_NAME,
+//					project.getElementName());
+//			wc.setAttribute(JUnitBaseLaunchConfiguration.ATTR_KEEPRUNNING,
+//					false);
+//			wc.setAttribute(JUnitBaseLaunchConfiguration.LAUNCH_CONTAINER_ATTR,
+//					container);
+//			if (testName.length() > 0)
+//				wc.setAttribute(JUnitBaseLaunchConfiguration.TESTNAME_ATTR,
+//						testName);
+//			AssertionVMArg.setArgDefault(wc);
+//			config = wc.doSave();
+//		} catch (CoreException ce) {
+//			JUnitPlugin.log(ce);
+//		}
+//		return config;
+//	}
+//
+//	protected ILaunchConfigurationWorkingCopy newWorkingCopy(String name)
+//			throws CoreException {
+//		ILaunchConfigurationType configType = getJUnitLaunchConfigType();
+//		return configType.newInstance(null, getLaunchManager()
+//				.generateUniqueLaunchConfigurationNameFrom(name));
+//	}
+//
+//	private ILaunchConfigurationType getJUnitLaunchConfigType() {
+//		ILaunchManager lm = getLaunchManager();
+//		return lm
+//				.getLaunchConfigurationType(JUnitLaunchConfiguration.ID_JUNIT_APPLICATION);
+//	}
+//	
+//	private ILaunchManager getLaunchManager() {
+//		return DebugPlugin.getDefault().getLaunchManager();
+//	}
 
 }

@@ -45,4 +45,23 @@
          </perspective>
       </shortcut>
    </extension>
+	<extension
+         point="org.eclipse.debug.core.launchConfigurationTypes">
+      <launchConfigurationType
+            name="Perfidix Bench"
+            delegate="org.perfidix.perclipse.launcher.PerfidixLaunchConfiguration"
+            modes="run, debug"
+            id="org.perfidix.configureBench"
+            sourceLocatorId="org.eclipse.jdt.launching.sourceLocator.JavaSourceLookupDirector"
+            sourcePathComputerId="org.eclipse.jdt.launching.sourceLookup.javaSourcePathComputer">
+         <fileExtension
+               default="false"
+               extension="java">
+         </fileExtension>
+         <fileExtension
+               default="false"
+               extension="class">
+         </fileExtension>
+      </launchConfigurationType>
+   </extension>
 </plugin>
