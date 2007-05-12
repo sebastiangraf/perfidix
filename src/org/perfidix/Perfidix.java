@@ -234,4 +234,25 @@ public final class Perfidix {
     return r;
   }
 
+  public static IResult runBenchs(final String[] benchs) {
+	  Benchmark bench = new Benchmark();
+	  for (String each : benchs) {
+			try {
+				bench.add(Class.forName(each).newInstance());
+			} catch (ClassNotFoundException e) {
+				System.out.println("Could not find class: " + each);
+			} catch (InstantiationException e) {
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
+			}
+		}
+		 return bench.run();
+  }
+  
+  public static void main(final String[] args) {
+		System.out.println(runBenchs(args).toString());
+		
+	}
+  
 }
