@@ -10,7 +10,6 @@ import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.ui.IFileEditorInput;
-
 public class BenchSearchEngine {
 
 	public static Object computeScope(Object element) throws JavaModelException {
