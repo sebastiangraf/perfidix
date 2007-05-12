@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Perfidix Plugin
-Bundle-SymbolicName: Perclipse;singleton:=true
+Bundle-SymbolicName: org.perfidix;singleton:=true
 Bundle-Version: 1.0.0
 Bundle-Activator: org.perfidix.perclipse.launcher.Perclipse
 Bundle-Localization: plugin
