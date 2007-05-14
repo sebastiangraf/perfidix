@@ -21,7 +21,7 @@
                  		<or>
                  			<and>
                  				<test property="org.eclipse.jdt.launching.isContainer"/>
-                 				<test property="org.eclipse.jdt.launching.buildpathReference" args="perfidix"/>
+                 				<!-- <test property="org.eclipse.jdt.launching.buildpathReference" args="perfidix"/> -->
                  			</and>
                             <test property="org.eclipse.jdt.launching.hasMethodWithAnnotation" args="Bench, public"/>
                             <test property="org.eclipse.jdt.launching.hasMethodWithAnnotation" args="Bench, public final"/>
