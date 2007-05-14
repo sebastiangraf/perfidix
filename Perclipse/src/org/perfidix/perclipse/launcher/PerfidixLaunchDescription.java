@@ -22,12 +22,16 @@ public class PerfidixLaunchDescription {
 		setAttribute(IJavaLaunchConfigurationConstants.ATTR_PROJECT_NAME, getProjectName());
 	}
 	
-	private String getProjectName() {
+	public String getProjectName() {
 		IJavaProject project = getProject();
 		return project == null ? null : project.getElementName();
 	}
 	
-	private IJavaProject getProject() {
+  public String getName() {
+    return fName;
+  }
+
+  private IJavaProject getProject() {
 		return fElement == null ? null : fElement.getJavaProject();
 	}
 	

@@ -43,6 +43,7 @@ public class PerfidixLaunchConfiguration extends AbstractJavaLaunchConfiguration
 
   
   public void launch(ILaunchConfiguration configuration, String mode, ILaunch launch, IProgressMonitor monitor) throws CoreException {
+ 
     mode = ILaunchManager.RUN_MODE;
     try {
       BenchSearchResult testTypes;
@@ -60,9 +61,12 @@ public class PerfidixLaunchConfiguration extends AbstractJavaLaunchConfiguration
       setDefaultSourceLocator(launch, configuration);
 
       launch.setAttribute(PORT_ATTR, Integer.toString(port));
-      launch.setAttribute(TESTTYPE_ATTR, testTypes.getTypes()[0].getHandleIdentifier());
+      
+      System.err.println("Run");
+      
       runner.run(runConfig, launch, monitor);    
-
+      
+      
     } catch (InvocationTargetException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
