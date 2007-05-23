@@ -15,3 +15,5 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.jdt.launching
 Eclipse-LazyStart: true
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Bundle-ClassPath: Perfidix__V2.0.1.jar,
+ .
