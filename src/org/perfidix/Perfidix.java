@@ -236,6 +236,7 @@ public final class Perfidix {
 
   public static IResult runBenchs(final String[] benchs) {
 	  Benchmark bench = new Benchmark();
+	  bench.setLogger(false);
 	  for (String each : benchs) {
 			try {
 				bench.add(Class.forName(each).newInstance());
