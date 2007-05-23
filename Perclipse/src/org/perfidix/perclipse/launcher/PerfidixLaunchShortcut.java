@@ -12,7 +12,6 @@ import org.eclipse.debug.core.ILaunchManager;
 import org.eclipse.debug.ui.DebugUITools;
 import org.eclipse.debug.ui.ILaunchShortcut;
 import org.eclipse.jdt.core.IJavaElement;
-import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.launching.IJavaLaunchConfigurationConstants;
 import org.eclipse.jface.viewers.ISelection;
@@ -77,19 +76,13 @@ public class PerfidixLaunchShortcut implements ILaunchShortcut {
 			type = types[0];
 		}
 		if (type != null) {
-			launch(mode, describeTypeLaunch(type));
+			launch(mode, type);
 		}
 	}
 
-	public PerfidixLaunchDescription describeTypeLaunch(IType type) {
-		PerfidixLaunchDescription description = new PerfidixLaunchDescription(
-				type, type.getElementName());
-		description.setMainType(type);
-		return description;
-	}
 
-	private void launch(String mode, PerfidixLaunchDescription description) {
-		ILaunchConfiguration config = createConfiguration(description.getName());
+	private void launch(String mode, IType type) {
+		ILaunchConfiguration config = createConfiguration(type);
     
 
     
@@ -98,10 +91,13 @@ public class PerfidixLaunchShortcut implements ILaunchShortcut {
 		}
 	}
 
-	private ILaunchConfiguration createConfiguration(String name) {
+	private ILaunchConfiguration createConfiguration(IType type) {
 		ILaunchConfiguration config = null;
 		try {
-			ILaunchConfigurationWorkingCopy wc = newWorkingCopy(name);
+			ILaunchConfigurationType configType = getPerfidixLaunchConfigType();
+			ILaunchConfigurationWorkingCopy wc = newWorkingCopy(configType, type.getElementName());
+			wc.setAttribute(IJavaLaunchConfigurationConstants.ATTR_MAIN_TYPE_NAME, type.getFullyQualifiedName());
+			wc.setAttribute(IJavaLaunchConfigurationConstants.ATTR_PROJECT_NAME, type.getJavaProject().getElementName());
 			config = wc.doSave();
 		} catch (CoreException ce) {
 		  ce.printStackTrace();
@@ -109,9 +105,9 @@ public class PerfidixLaunchShortcut implements ILaunchShortcut {
 		return config;
 	}
 
-	protected ILaunchConfigurationWorkingCopy newWorkingCopy(String name)
+	protected ILaunchConfigurationWorkingCopy newWorkingCopy(ILaunchConfigurationType configType, String name)
 			throws CoreException {
-		ILaunchConfigurationType configType = getPerfidixLaunchConfigType();
+
 		return configType.newInstance(null, getLaunchManager()
 				.generateUniqueLaunchConfigurationNameFrom(name));
 	}
