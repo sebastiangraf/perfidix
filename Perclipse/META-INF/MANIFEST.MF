@@ -16,4 +16,5 @@ Require-Bundle: org.eclipse.ui,
 Eclipse-LazyStart: true
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Bundle-ClassPath: .,
- commons-logging__V1.1.0.jar
+ commons-logging__V1.1.0.jar,
+ Perfidix__V2.0.1.jar
