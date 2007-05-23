@@ -5,7 +5,7 @@
          point="org.eclipse.debug.ui.launchShortcuts">
       <shortcut
             label="Perfidix Bench"
-            icon="icons/icon.jpg"
+            icon="icons/time.png"
             helpContextId=""
             class="org.perfidix.perclipse.launcher.PerfidixLaunchShortcut"
             modes="run, debug"
@@ -51,9 +51,7 @@
             name="Perfidix Bench"
             delegate="org.perfidix.perclipse.launcher.PerfidixLaunchConfiguration"
             modes="run, debug"
-            id="org.perfidix.configureBench"
-            sourceLocatorId="org.eclipse.jdt.launching.sourceLocator.JavaSourceLookupDirector"
-            sourcePathComputerId="org.eclipse.jdt.launching.sourceLookup.javaSourcePathComputer">
+            id="org.perfidix.configureBench">
          <fileExtension
                default="false"
                extension="java">
