@@ -1,0 +1,14 @@
+#Fat Jar Configuration File
+#Wed May 23 15:42:59 CEST 2007
+onejar.license.required=false
+manifest.classpath=
+manifest.removesigners=true
+onejar.checkbox=true
+jarname=perfidix.jar
+manifest.mergeall=true
+manifest.mainclass=org.perfidix.Perfidix
+manifest.file=<createnew>
+jarname.isextern=false
+onejar.expand=
+excludes=
+includes=
