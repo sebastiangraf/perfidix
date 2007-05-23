@@ -92,7 +92,7 @@ public class PerfidixLaunchConfiguration extends
 		String[] classPath = getClasspath(configuration);
 
 		VMRunnerConfiguration vmConfig = new VMRunnerConfiguration(
-				"org.perfidix.perclipse.runner.BenchRunner", classPath); //$NON-NLS-1$
+				"org.perfidix.Perfidix", classPath); //$NON-NLS-1$
 		Vector argv = getVMArgs(configuration, testTypes, runMode);
 		String[] args = new String[argv.size()];
 		argv.copyInto(args);
