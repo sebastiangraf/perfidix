@@ -87,7 +87,7 @@ public final class BenchFinder {
 	}
 
 	private static boolean isBench(IType type) throws JavaModelException {
-		if (!Flags.isAbstract(type.getFlags()) && Annotation.Bench.annotatesAtLeastOneMethod(type)) {
+		if (!Flags.isAbstract(type.getFlags()) && (Annotation.Bench.annotatesAtLeastOneMethod(type) || Annotation.BenchClass.annotatesClass(type))) {
 			return true;
 		}
 		return false;
@@ -97,6 +97,8 @@ public final class BenchFinder {
 
 		private static final BenchFinder.Annotation Bench= new BenchFinder.Annotation(new String[] { "Bench", "org.perfidix.Bench" }); //$NON-NLS-1$ //$NON-NLS-2$
 
+		private static final BenchFinder.Annotation BenchClass = new BenchFinder.Annotation(new String[] { "BenchClass", "org.perfidix.BenchClass"});
+		
 		private final String[] names;
 
 		private Annotation(String[] names) {
@@ -138,6 +140,10 @@ public final class BenchFinder {
 			return foundIn(source);
 		}
 
+		boolean annotatesClass(IType type) throws JavaModelException {
+			return annotates(type);
+		}
+		
 		boolean annotatesAtLeastOneMethod(IType type) throws JavaModelException {
 			IMethod[] methods= type.getMethods();
 			for (int i= 0; i < methods.length; i++) {
