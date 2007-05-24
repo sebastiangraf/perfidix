@@ -25,7 +25,8 @@
                  			</and>
                             <test property="org.eclipse.jdt.launching.hasMethodWithAnnotation" args="Bench, public"/>
                             <test property="org.eclipse.jdt.launching.hasMethodWithAnnotation" args="Bench, public final"/>
-                            <!-- TODO find the property for determining the BenchClass -->
+                            <test property="org.eclipse.jdt.launching.hasTypeWithAnnotation" args="BenchClass, public"/>                            
+                            <test property="org.eclipse.jdt.launching.hasTypeWithAnnotation" args="BenchClass, public final"/>                            
                  		</or>
                		</iterate>
                </with>
