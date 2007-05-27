@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.2"?>
 <plugin>
-	  <extension point="org.eclipse.debug.ui.launchConfigurationTypeImages">
+	<extension point="org.eclipse.debug.ui.launchConfigurationTabGroups">
+    	<launchConfigurationTabGroup
+        	type="org.perfidix.configureBench"
+	        class="org.perfidix.perclipse.view.PerclipseTabGroup"
+    	    id="org.perfidix.lauchConfigurationTabGroup">
+	    </launchConfigurationTabGroup>
+	</extension>
+	<extension point="org.eclipse.debug.ui.launchConfigurationTypeImages">
 	    <launchConfigurationTypeImage
     	    icon="icons/time.png"
 	        configTypeID="org.perfidix.configureBench"
