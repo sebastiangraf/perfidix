@@ -39,6 +39,7 @@
   <property name="classes.dir" value="ant-classes"/>
   <property name="externals.dir" value="externals" />
   <property name="build.dir" value="build" />
+	<property name="commons.dir" value="commons_unjared" />
   <property name="version.junit" value="3.8.1" />
   <property name="version.jaxen" value="1.1.-beta-5" />  
   <property name="version.dom4j" value="1.6.1" />
@@ -108,9 +109,10 @@
       <jar 
           destfile="${build.dir}/${ant.project.name}__V${version.perfidix}.jar" 
           basedir="${classes.dir}" manifest="META-INF/MANIFEST.MF" 
-        update="true"
-        >
+        update="true">
+        
         <fileset dir="${classes.dir}" includes="**/*.class" id="theClasses" />
+      	<fileset dir="${externals.dir}/${commons.dir}" includes="**/*.class" id="commons" />
     </jar>
       <echo>JAR completed. removing classes directory ...</echo>
       <delete includeEmptyDirs="true" quiet="yes">
