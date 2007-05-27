@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.2"?>
 <plugin>
+	  <extension point="org.eclipse.debug.ui.launchConfigurationTypeImages">
+	    <launchConfigurationTypeImage
+    	    icon="icons/time.png"
+	        configTypeID="org.perfidix.configureBench"
+        	id="org.perfidix.launchConfigurationTypeImage">
+    	</launchConfigurationTypeImage>
+	</extension>
   <extension
          point="org.eclipse.debug.ui.launchShortcuts">
       <shortcut
