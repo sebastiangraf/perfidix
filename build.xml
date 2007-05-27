@@ -112,7 +112,7 @@
         update="true">
         
         <fileset dir="${classes.dir}" includes="**/*.class" id="theClasses" />
-      	<fileset dir="${externals.dir}/${commons.dir}" includes="**/*.class" id="commons" />
+      	<fileset dir="${externals.dir}/${commons.dir}" id="commons" />
     </jar>
       <echo>JAR completed. removing classes directory ...</echo>
       <delete includeEmptyDirs="true" quiet="yes">
