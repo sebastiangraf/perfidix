@@ -32,8 +32,6 @@ public class PerfidixLaunchShortcut implements ILaunchShortcut {
   
   public void launch(ISelection selection, String mode) {
 
-    System.out.println("TestSelection " + selection.toString()
-        + " and arg1 " + mode);
     if (selection instanceof IStructuredSelection) {
       searchAndLaunch(((IStructuredSelection) selection).toArray(), mode);
     }
@@ -41,8 +39,6 @@ public class PerfidixLaunchShortcut implements ILaunchShortcut {
   }
 
   public void launch(IEditorPart editor, String mode) {
-    System.out.println("TestEditorPart " + editor.toString() + " and arg1 "
-        + mode);
     IJavaElement element = null;
     IEditorInput input = editor.getEditorInput();
     element = (IJavaElement) input.getAdapter(IJavaElement.class);
