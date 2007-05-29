@@ -22,7 +22,6 @@ import org.eclipse.jdt.core.ISourceReference;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
-import org.eclipse.jdt.internal.corext.util.JavaModelUtil;
 import org.eclipse.jdt.launching.IJavaLaunchConfigurationConstants;
 import org.eclipse.jdt.ui.JavaElementLabelProvider;
 import org.eclipse.jface.viewers.ILabelProvider;
@@ -168,7 +167,7 @@ public class PerclipseMainTab extends AbstractLaunchConfigurationTab {
 					return;
 				}
 				// Simply grab the first main type found in the searched element
-				name= JavaModelUtil.getFullyQualifiedName(types[0]);
+				name= types[0].getFullyQualifiedName();
 			}	
 		} catch (InterruptedException ie) {
 		} catch (InvocationTargetException ite) {

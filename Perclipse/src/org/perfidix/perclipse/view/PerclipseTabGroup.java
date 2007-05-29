@@ -13,6 +13,7 @@ public class PerclipseTabGroup extends AbstractLaunchConfigurationTabGroup {
 
 	public void createTabs(ILaunchConfigurationDialog dialog, String mode) {
 		ILaunchConfigurationTab[] tabs = new ILaunchConfigurationTab[] {
+				new PerclipseMainTab(),
 				new JavaArgumentsTab(),
 				new JavaClasspathTab(),
 				new JavaJRETab(),
