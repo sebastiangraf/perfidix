@@ -74,9 +74,11 @@ public class PerfidixLaunchShortcut implements ILaunchShortcut {
       return;
     }
     IType type = null;
-    if (types.length == 0 || types.length > 1) {
+    if (types.length == 0 ) {
       // TODO Do something real fancy here if no bench is found..
-    } else {
+    } else if (types.length > 1) {
+    	type = types[0];
+    } else {	
       type = types[0];
     }
     if (type != null) {
@@ -170,12 +172,10 @@ public class PerfidixLaunchShortcut implements ILaunchShortcut {
     
     // return null if no matching configuration was found
     if (candidateCount < 1) {
-      System.out.println("Didn't find a config..");
       return null;
     
     // TODO: what if more than one matching configuration
     } else {
-      System.out.println("Found a config..");
       return (ILaunchConfiguration) candidateConfigs.get(0);
     }
   }
