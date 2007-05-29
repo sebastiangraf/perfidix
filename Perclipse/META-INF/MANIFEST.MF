@@ -17,6 +17,5 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.jdt.ui
 Eclipse-LazyStart: true
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
-Bundle-ClassPath: .,
- commons-logging__V1.1.0.jar,
- Perfidix__V2.0.1.jar
+Bundle-ClassPath: .
+Bundle-Vendor: University of Constance, Disy Group
