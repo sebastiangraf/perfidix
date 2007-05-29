@@ -17,7 +17,7 @@ import org.eclipse.ui.IFileEditorInput;
 public class BenchSearchEngine {
 
 	public static IType[] findBenchs(IRunnableContext context, final Object[] elements) throws InvocationTargetException, InterruptedException {
-		final Set result= new HashSet();
+		final Set<IType> result= new HashSet<IType>();
 
 		if (elements.length > 0) {
 			IRunnableWithProgress runnable= new IRunnableWithProgress() {

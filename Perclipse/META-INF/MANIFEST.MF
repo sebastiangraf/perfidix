@@ -16,6 +16,7 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.jdt.debug.ui,
  org.eclipse.jdt.ui
 Eclipse-LazyStart: true
-Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Bundle-RequiredExecutionEnvironment: J2SE-1.5,
+ CDC-1.0/Foundation-1.0
 Bundle-ClassPath: .
 Bundle-Vendor: University of Constance, Disy Group
