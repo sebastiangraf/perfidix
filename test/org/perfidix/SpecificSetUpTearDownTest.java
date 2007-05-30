@@ -27,129 +27,187 @@ import org.junit.Test;
 
 public class SpecificSetUpTearDownTest {
 
-  private boolean setUp;
+	private boolean firstRun;
 
-  private boolean tearDown;
+	private boolean setUp;
 
-  private boolean specialSetUp;
+	private boolean tearDown;
 
-  private boolean specialTearDown;
+	private boolean lastRun;
 
-  private boolean benchWithout;
+	private boolean specialFirstRun;
 
-  private boolean benchWith;
+	private boolean specialSetUp;
 
-  @Before
-  public void setUp() {
-    setUp = false;
-    tearDown = false;
-    specialSetUp = false;
-    specialTearDown = false;
-    benchWithout = false;
-    benchWith = false;
-  }
+	private boolean specialTearDown;
 
-  @Test
-  public void testWithout() {
-    final Without test = new Without();
-    final Benchmark benchMark = new Benchmark();
-    benchMark.add(test);
-    benchMark.run(1);
-    assertTrue(setUp);
-    assertTrue(tearDown);
-    assertFalse(specialSetUp);
-    assertFalse(specialTearDown);
-    assertTrue(benchWithout);
-    assertFalse(benchWith);
-  }
+	private boolean specialLastRun;
 
-  @Test
-  public void testWith() {
-    final With test = new With();
-    final Benchmark benchMark = new Benchmark();
-    benchMark.add(test);
-    benchMark.run(1);
-    assertFalse(setUp);
-    assertFalse(tearDown);
-    assertTrue(specialSetUp);
-    assertTrue(specialTearDown);
-    assertFalse(benchWithout);
-    assertTrue(benchWith);
-  }
+	private boolean benchWithout;
 
-  @Test(expected=IllegalStateException.class)
-  public void testException() {
-    final WithException test = new WithException();
-    final Benchmark benchMark = new Benchmark();
-    benchMark.add(test);
-    benchMark.run(1);
-  }
-  
-  class Without {
-    @BeforeEachBenchRun
-    public void setUp() {
-      setUp = true;
-    }
+	private boolean benchWith;
 
-    @AfterEachBenchRun
-    public void tearDown() {
-      tearDown = true;
-    }
+	@Before
+	public void setUp() {
+		firstRun = false;
+		setUp = false;
+		tearDown = false;
+		lastRun = false;
+		specialFirstRun = false;
+		specialSetUp = false;
+		specialTearDown = false;
+		specialLastRun = false;
+		benchWithout = false;
+		benchWith = false;
+	}
 
-    public void specialSetUp() {
-      specialSetUp = true;
-    }
+	@Test
+	public void testWithout() {
+		final Without test = new Without();
+		final Benchmark benchMark = new Benchmark();
+		benchMark.add(test);
+		benchMark.run(1);
+		assertTrue(firstRun);
+		assertTrue(setUp);
+		assertTrue(tearDown);
+		assertTrue(lastRun);
+		assertFalse(specialFirstRun);
+		assertFalse(specialSetUp);
+		assertFalse(specialTearDown);
+		assertFalse(specialLastRun);
+		assertTrue(benchWithout);
+		assertFalse(benchWith);
+	}
 
-    public void specialTearDown() {
-      specialTearDown = true;
-    }
+	@Test
+	public void testWith() {
+		final With test = new With();
+		final Benchmark benchMark = new Benchmark();
+		benchMark.add(test);
+		benchMark.run(1);
+		assertFalse(firstRun);
+		assertFalse(setUp);
+		assertFalse(tearDown);
+		assertFalse(lastRun);
+		assertTrue(specialFirstRun);
+		assertTrue(specialSetUp);
+		assertTrue(specialTearDown);
+		assertTrue(specialLastRun);
+		assertFalse(benchWithout);
+		assertTrue(benchWith);
+	}
 
-    @Bench
-    public void bench() {
-      benchWithout = true;
-    }
-  }
+	@Test(expected = IllegalStateException.class)
+	public void testException() {
+		final WithException test = new WithException();
+		final Benchmark benchMark = new Benchmark();
+		benchMark.add(test);
+		benchMark.run(1);
+	}
 
-  class With {
-    @BeforeEachBenchRun
-    public void setUp() {
-      setUp = true;
-    }
+	class Without {
 
-    @AfterEachBenchRun
-    public void tearDown() {
-      tearDown = true;
-    }
+		@BeforeFirstBenchRun
+		public void firstRun() {
+			firstRun = true;
+		}
 
-    public void specialSetUp() throws Exception {
-      specialSetUp = true;
-    }
+		@BeforeEachBenchRun
+		public void setUp() {
+			setUp = true;
+		}
 
-    public void specialTearDown() {
-      specialTearDown = true;
-    }
+		@AfterEachBenchRun
+		public void tearDown() {
+			tearDown = true;
+		}
 
-    @Bench(beforeEveryBenchRun = "specialSetUp", afterEveryBenchRun = "specialTearDown")
-    public void bench() {
-      benchWith = true;
-    }
-  }
-  
-  class WithException {
-	  
-	    public Object specialSetUp() throws Exception {
-	      specialSetUp = true;
-	      return null;
-	    }
+		@AfterLastBenchRun
+		public void lastRun() {
+			lastRun = true;
+		}
 
-	    public void specialTearDown(Object test) {
-	      specialTearDown = true;
-	    }
+		public void specialFirstRun() {
+			specialFirstRun = true;
+		}
 
-	    @Bench(beforeEveryBenchRun = "specialSetUp", afterEveryBenchRun = "specialTearDown")
-	    public void bench() {
-	      benchWith = true;
-	    }
-	  }
+		public void specialSetUp() {
+			specialSetUp = true;
+		}
+
+		public void specialTearDown() {
+			specialTearDown = true;
+		}
+
+		public void specialLastRun() {
+			specialLastRun = true;
+		}
+
+		@Bench
+		public void bench() {
+			benchWithout = true;
+		}
+	}
+
+	class With {
+		@BeforeFirstBenchRun
+		public void firstRun() {
+			firstRun = true;
+		}
+
+		@BeforeEachBenchRun
+		public void setUp() {
+			setUp = true;
+		}
+
+		@AfterEachBenchRun
+		public void tearDown() {
+			tearDown = true;
+		}
+
+		@AfterLastBenchRun
+		public void lastRun() {
+			lastRun = true;
+		}
+
+		public void specialFirstRun() {
+			specialFirstRun = true;
+		}
+
+		public void specialSetUp() {
+			specialSetUp = true;
+		}
+
+		public void specialTearDown() {
+			specialTearDown = true;
+		}
+
+		public void specialLastRun() {
+			specialLastRun = true;
+		}
+		
+		@Bench(beforeEveryBenchRun = "specialSetUp", afterEveryBenchRun = "specialTearDown", beforeFirstBenchRun = "specialFirstRun", afterLastBenchRun = "specialLastRun")
+		public void bench() {
+			benchWith = true;
+		}
+
+	}
+
+	class WithException {
+
+		public Object specialSetUp() {
+			specialSetUp = true;
+			return null;
+		}
+
+		public void specialTearDown(Object test) {
+			specialTearDown = true;
+		}
+
+		@Bench(beforeEveryBenchRun = "specialSetUp", afterEveryBenchRun = "specialTearDown")
+		public void bench() {
+			benchWith = true;
+		}
+	}
 
 }

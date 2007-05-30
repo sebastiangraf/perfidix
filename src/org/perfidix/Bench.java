@@ -38,6 +38,18 @@ public @interface Bench {
 	public static int DEFAULTRUNS = -1;
 	
 	/**
+	 * Parameter of the method which works as a setUp-like, but just once for all runs. For more information to setUp, look at JUnit.
+	 * @return a String with the method or nothing.
+	 */
+	String beforeFirstBenchRun() default "";
+	
+	/**
+	 * Parameter of the method which works as a tearDown-like, but just once for all runs. For more information to setUp, look at JUnit.
+	 * @return a String with the method or nothing.
+	 */
+	String afterLastBenchRun() default "";
+	
+	/**
 	 * Parameter of the method which works as a setUp-like. For more information to setUp, look at JUnit.
 	 * @return a String with the method or nothing.
 	 */

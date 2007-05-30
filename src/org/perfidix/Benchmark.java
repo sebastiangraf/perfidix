@@ -299,7 +299,12 @@ public class Benchmark {
 		final Object[] methodParams = {};
 		try {
 			final Bench benchAnno = method.getAnnotation(Bench.class);
-			if (benchAnno != null
+			if (benchAnno != null &&
+					(anno.equals(BeforeFirstBenchRun.class) && !(benchAnno
+							.beforeFirstBenchRun().equals("")))) {
+				toReturn = objectToBench.getClass().getDeclaredMethod(
+						benchAnno.beforeFirstBenchRun(), setUpParams);
+			} else if (benchAnno != null
 					&& (anno.equals(BeforeEachBenchRun.class) && !(benchAnno
 							.beforeEveryBenchRun().equals("")))) {
 				toReturn = objectToBench.getClass().getDeclaredMethod(
@@ -309,6 +314,11 @@ public class Benchmark {
 							.afterEveryBenchRun().equals("")))) {
 				toReturn = objectToBench.getClass().getDeclaredMethod(
 						benchAnno.afterEveryBenchRun(), setUpParams);
+			} else if (benchAnno != null &&
+					(anno.equals(AfterLastBenchRun.class) && !(benchAnno
+							.afterLastBenchRun().equals("")))) {
+				toReturn = objectToBench.getClass().getDeclaredMethod(
+						benchAnno.afterLastBenchRun(), setUpParams);
 			} else {
 				toReturn = getBeforeAfter(objectToBench, anno);
 			}
