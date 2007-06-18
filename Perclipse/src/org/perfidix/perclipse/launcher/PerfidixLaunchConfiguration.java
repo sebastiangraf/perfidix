@@ -13,6 +13,7 @@ import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.launching.AbstractJavaLaunchConfigurationDelegate;
 import org.eclipse.jdt.launching.ExecutionArguments;
+import org.eclipse.jdt.launching.IJavaLaunchConfigurationConstants;
 import org.eclipse.jdt.launching.IVMInstall;
 import org.eclipse.jdt.launching.IVMRunner;
 import org.eclipse.jdt.launching.VMRunnerConfiguration;
@@ -62,7 +63,26 @@ public class PerfidixLaunchConfiguration extends
     IJavaProject javaProject = getJavaProject(configuration);
     IType[] types = null;
 
-    types = BenchSearchEngine.findBenchs(new Object[] { javaProject });
+    /* Check LAUNCH_CONTAINER_ATTR to see if we are benching an entire 
+     * project/package or just a single class.
+     */
+    
+	String containerHandle = configuration.getAttribute(LAUNCH_CONTAINER_ATTR,
+															""); //$NON-NLS-1$
+	
+	if (containerHandle.length() != 0) {
+		// benching an entire project/package
+		types = BenchSearchEngine.findBenchs(new Object[] { javaProject });
+		Perclipse.logInfo("Benching an entire project/package");
+	} else {
+		// benching a single class
+		String testTypeName= configuration.getAttribute(
+						IJavaLaunchConfigurationConstants.ATTR_MAIN_TYPE_NAME,
+						(String) null);
+		
+		types = new IType[] {javaProject.findType(testTypeName)};
+		Perclipse.logInfo("Benching class " + testTypeName);
+	}
 
     BenchSearchResult result = new BenchSearchResult(types);
     return result;

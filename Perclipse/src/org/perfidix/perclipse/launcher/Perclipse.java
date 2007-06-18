@@ -54,6 +54,14 @@ public class Perclipse extends AbstractUIPlugin {
     return PLUGIN_ID;
   }
 
+  public static void logInfo(String message) {
+	  log(new Status(IStatus.INFO,
+				Perclipse.getPluginId(),
+				IStatus.INFO,
+				message,
+				null));
+  }
+  
   public static void log(Throwable e) {
     log(new Status(IStatus.ERROR, getPluginId(), IStatus.ERROR, "Error", e));
   }
