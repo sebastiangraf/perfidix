@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Perfidix Plugin
-Bundle-SymbolicName: org.perfidix;singleton:=true
+Bundle-SymbolicName: org.perfidix.Perclipse;singleton:=true
 Bundle-Version: 1.0.0
 Bundle-Activator: org.perfidix.perclipse.launcher.Perclipse
 Bundle-Localization: plugin
@@ -19,4 +19,4 @@ Eclipse-LazyStart: true
 Bundle-RequiredExecutionEnvironment: J2SE-1.5,
  CDC-1.0/Foundation-1.0
 Bundle-ClassPath: .
-Bundle-Vendor: University of Constance, Disy Group
+Bundle-Vendor: University of Konstanz, Disy Group
