@@ -44,7 +44,7 @@ public class PerfidixLaunchConfiguration extends
           searchResult);
       runner.run(runConfig, launch, monitor); 
     } catch (Exception e) {
-      e.printStackTrace();
+//      e.printStackTrace();
     }
   }
 
