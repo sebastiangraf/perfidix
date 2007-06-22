@@ -44,6 +44,7 @@ public class PerfidixLaunchConfiguration extends
           searchResult);
       runner.run(runConfig, launch, monitor); 
     } catch (Exception e) {
+    	//TODO message in the application that file has been removed and configuration isn't valid any more
 //      e.printStackTrace();
     }
   }
