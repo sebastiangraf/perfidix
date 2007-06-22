@@ -3,8 +3,8 @@ package org.perfidix.perclipse.launcher;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
+import java.util.Vector;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
@@ -183,7 +183,7 @@ public class PerfidixLaunchShortcut implements ILaunchShortcut {
 	throws LaunchCancelledByUserException {
 
 		ILaunchConfigurationType configType= getPerfidixLaunchConfigType();
-		List<ILaunchConfiguration> candidateConfigs= Collections.EMPTY_LIST;
+		List<ILaunchConfiguration> candidateConfigs = new Vector<ILaunchConfiguration>(0);
 
 		try {
 			ILaunchConfiguration[] configs= getLaunchManager().getLaunchConfigurations(configType);
@@ -249,8 +249,6 @@ public class PerfidixLaunchShortcut implements ILaunchShortcut {
 		} catch (CoreException ce) {
 			Perclipse.log(ce);
 		}
-
-		System.out.println(config == null);
 
 		return config;
 	}
