@@ -295,7 +295,7 @@ public class Benchmark {
 			final Method method, final Class<? extends Annotation> anno)
 			throws PerfidixMethodException {
 		Method toReturn = null;
-		final Class[] setUpParams = {};
+		final Class<?>[] setUpParams = {};
 		final Object[] methodParams = {};
 		try {
 			final Bench benchAnno = method.getAnnotation(Bench.class);
