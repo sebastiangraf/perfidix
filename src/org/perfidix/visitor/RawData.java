@@ -44,16 +44,13 @@ public class RawData extends ResultVisitor {
 
     private void getMethodResult(final IResult.MethodResult methodRes) {
         try {
-            int j = 1;
-            File currentFile = new File(this.folder.getAbsolutePath() + "//"
-                    + methodRes.getName() + j);
+            File currentFile = new File(this.folder.getAbsolutePath()
+                    + File.separatorChar + methodRes.getName());
             while (currentFile.exists()) {
                 System.out.println(currentFile.getAbsolutePath()
                         + " is already existing!");
-                j++;
-                currentFile = new File(this.folder.getAbsolutePath() + "//"
-                        + methodRes.getName() + j);
-
+                currentFile = new File(this.folder.getAbsolutePath()
+                        + File.separatorChar + methodRes.getName());
             }
             System.out.println("Using " + currentFile.getAbsolutePath()
                     + " for output!");
