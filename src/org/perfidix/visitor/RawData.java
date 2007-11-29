@@ -1,8 +1,11 @@
+
 package org.perfidix.visitor;
 
 import java.io.File;
 import java.io.FileWriter;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.perfidix.IResult;
 import org.perfidix.Result;
 
@@ -15,72 +18,76 @@ import org.perfidix.Result;
  */
 public class RawData extends ResultVisitor {
 
-    private final File folder;
+  private final File folder;
 
-    public RawData(final String pathToFolder) {
-        folder = new File(pathToFolder);
-        if (folder.exists()) {
-            if (!folder.isDirectory()) {
-                folder.delete();
-            } else {
-                deleteRecursive(folder);
-            }
-        }
-        folder.mkdir();
+  private static final Log LOGGER = LogFactory.getLog(RawData.class);
+
+  public RawData(final String pathToFolder) {
+
+    folder = new File(pathToFolder);
+    if (folder.exists()) {
+      if (!folder.isDirectory()) {
+        folder.delete();
+      } else {
+        deleteRecursive(folder);
+      }
     }
+    folder.mkdir();
+  }
 
-    @Override
-    public void visit(Result r) {
-        if (!(r instanceof IResult.BenchmarkResult)) {
-            throw new RuntimeException("only benchmark results are supported!");
-        }
-        IResult.BenchmarkResult benchRes = (IResult.BenchmarkResult) r;
-        for (IResult.ClassResult classRes : benchRes.getChildren()) {
-            for (IResult.MethodResult methodRes : classRes.getChildren()) {
-                getMethodResult(methodRes);
-            }
-        }
+  @Override
+  public void visit(Result r) {
+
+    if (!(r instanceof IResult.BenchmarkResult)) {
+      throw new RuntimeException("only benchmark results are supported!");
     }
-
-    private void getMethodResult(final IResult.MethodResult methodRes) {
-        try {
-            File currentFile = new File(this.folder.getAbsolutePath()
-                    + File.separatorChar + methodRes.getName());
-            while (currentFile.exists()) {
-                System.out.println(currentFile.getAbsolutePath()
-                        + " is already existing!");
-                currentFile = new File(this.folder.getAbsolutePath()
-                        + File.separatorChar + methodRes.getName());
-            }
-            System.out.println("Using " + currentFile.getAbsolutePath()
-                    + " for output!");
-            currentFile.createNewFile();
-            final FileWriter out = new FileWriter(currentFile);
-            IResult.SingleResult single = methodRes.getChildren().get(0);
-            final long data[] = single.getResultSet();
-            for (int i = 0; i < data.length; i++) {
-                if (i == data.length - 1) {
-                    out.write(data[i] + " ");
-                } else {
-                    out.write(data[i] + ",");
-                }
-            }
-            out.flush();
-            out.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    IResult.BenchmarkResult benchRes = (IResult.BenchmarkResult) r;
+    for (IResult.ClassResult classRes : benchRes.getChildren()) {
+      for (IResult.MethodResult methodRes : classRes.getChildren()) {
+        getMethodResult(methodRes);
+      }
     }
+  }
 
-    private static void deleteRecursive(final File file) {
-        if (file.isDirectory()) {
-            final File[] childs = file.listFiles();
-            for (int i = 0; i < childs.length; i++) {
-                deleteRecursive(childs[i]);
-            }
+  private void getMethodResult(final IResult.MethodResult methodRes) {
+
+    try {
+      File currentFile = new File(this.folder.getAbsolutePath()
+          + File.separatorChar + methodRes.getName());
+      while (currentFile.exists()) {
+        LOGGER.warn(currentFile.getAbsolutePath() + " is already existing!");
+        currentFile = new File(this.folder.getAbsolutePath()
+            + File.separatorChar + methodRes.getName());
+      }
+      LOGGER.info("Using " + currentFile.getAbsolutePath() + " for output!");
+      currentFile.createNewFile();
+      final FileWriter out = new FileWriter(currentFile);
+      IResult.SingleResult single = methodRes.getChildren().get(0);
+      final long data[] = single.getResultSet();
+      for (int i = 0; i < data.length; i++) {
+        if (i == data.length - 1) {
+          out.write(data[i] + " ");
         } else {
-            file.delete();
+          out.write(data[i] + ",");
         }
+      }
+      out.flush();
+      out.close();
+    } catch (Exception e) {
+      e.printStackTrace();
     }
+  }
+
+  private static void deleteRecursive(final File file) {
+
+    if (file.isDirectory()) {
+      final File[] childs = file.listFiles();
+      for (int i = 0; i < childs.length; i++) {
+        deleteRecursive(childs[i]);
+      }
+    } else {
+      file.delete();
+    }
+  }
 
 }
