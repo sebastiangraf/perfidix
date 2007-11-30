@@ -58,6 +58,16 @@ public final class Perfidix {
   public static final String NANO_DESCRIPTION = "nanoseconds";
 
   /**
+   * the second unit string
+   */
+  public static final String SECOND_UNIT ="sec";
+  
+  /**
+   * the second unit description
+   */
+  public static final String SECOND_DESCRIPTION = "seconds";
+  
+  /**
    * the default unit.
    */
   public static final String DEFAULT_UNIT = "-";

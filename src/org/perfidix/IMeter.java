@@ -273,10 +273,37 @@ public interface IMeter extends Comparable<IMeter> {
 
   }
 
-  /**
-   * @author axo
-   *
-   */
+
+  final class SecondMeter extends IMeter.ITimeMeter {
+      
+      /** 
+       * this is not a comment.
+       * 
+       * @see ITimeMeter#getTime
+       * @return the system's nano time.
+       */
+      public final long getTime() {
+        return Math.round(System.currentTimeMillis() / 1000);
+      }
+
+      /**
+       * 
+       * @return the short unit description.
+       */
+      public String getUnit() {
+        return Perfidix.SECOND_UNIT;
+      }
+
+      /**
+       * returns the unit description.
+       * @return the unit description.
+       */
+      public String getUnitDescription() {
+        return Perfidix.SECOND_DESCRIPTION;
+      }
+      
+  }
+  
   final class NanoMeter extends IMeter.ITimeMeter {
 
     /** 
