@@ -561,6 +561,13 @@ public class Benchmark {
 	}
 
 	/**
+	 * configures the benchmark to use the SecondTimer for time measurement.
+	 */
+	public void useSecondMeter() {
+	    meters.set(timeMeterIndex, new IMeter.SecondMeter());
+	}
+	
+	/**
 	 * registers some meter
 	 * @param someMeter
 	 *            a meter to register
