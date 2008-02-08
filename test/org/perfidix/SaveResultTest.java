@@ -26,6 +26,7 @@ import static org.junit.Assert.assertTrue;
 import java.util.Hashtable;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.perfidix.visitor.ResultToXml;
 
@@ -94,18 +95,21 @@ public class SaveResultTest extends PerfidixTest {
   }
 
   @Test
+  @Ignore
   public void testTreeMapEquals() {
     assertFalse(new TreeMapObj("bla").equals(new TreeMapObj("blu")));
     assertTrue(new TreeMapObj("bla").equals(new TreeMapObj("bla")));
   }
 
   @Test
+  @Ignore
   public void testTreeMapObjHashCode() {
     assertEquals(new TreeMapObj("world").hashCode(), new TreeMapObj("world")
         .hashCode());
   }
 
   @Test
+  @Ignore
   public void testTreeHashing() {
     Hashtable<TreeMapObj, String> t = new Hashtable<TreeMapObj, String>();
     t.put(new TreeMapObj("hello"), "world");
@@ -117,6 +121,7 @@ public class SaveResultTest extends PerfidixTest {
   }
 
   @Test
+  @Ignore
   public void testTreeMap() {
 
     Hashtable<IMeter, TreeMapObj> h = new Hashtable<IMeter, TreeMapObj>();
@@ -129,6 +134,7 @@ public class SaveResultTest extends PerfidixTest {
   }
 
   @Test
+  @Ignore
   public void testXStream() {
 
     ResultToXml x = new ResultToXml();
