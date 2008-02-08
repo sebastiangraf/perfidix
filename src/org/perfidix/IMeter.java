@@ -19,6 +19,7 @@
 
 package org.perfidix;
 
+
 /**
  * the public interface of perfidix meters.
  * each meter consists of a scalar value (e.g. 123) and a 
@@ -201,6 +202,30 @@ public interface IMeter extends Comparable<IMeter> {
     }
   }
 
+  
+  class MemMeter extends IMeter.AbstractMeter {
+
+    public String getUnit() {
+        return Perfidix.MEM_UNIT;
+    }
+
+    public String getUnitDescription() {
+        return Perfidix.MEM_DESCRIPTION;
+    }
+
+    public long getValue() {
+        final Runtime rt = Runtime.getRuntime();
+        final long mem = rt.totalMemory() - rt.freeMemory();
+        rt.gc();
+        return mem;
+    }
+
+    public void tick() {
+    }
+     
+      
+  }
+  
   /**
    * @author axo
    *

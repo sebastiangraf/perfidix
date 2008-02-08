@@ -65,9 +65,6 @@ public interface IResult {
 
     private String data;
 
-    /** 
-     * 
-     */
     private Object[] returnValues;
 
     private IMeter theMeter;

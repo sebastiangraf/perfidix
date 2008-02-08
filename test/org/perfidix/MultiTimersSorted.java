@@ -19,14 +19,15 @@
 
 package org.perfidix;
 
+import static org.junit.Assert.assertTrue;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
-
-import static org.junit.Assert.assertTrue;
 
 public class MultiTimersSorted extends PerfidixTest {
 
@@ -42,6 +43,7 @@ public class MultiTimersSorted extends PerfidixTest {
 	}
 
 	@Test
+	@Ignore
 	public void testOne() {
 		IMeter a = Perfidix.createMeter("someMeter", "a");
 

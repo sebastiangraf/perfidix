@@ -35,7 +35,19 @@ public final class Perfidix {
   private TreeMap<String, IMeter> meters = new TreeMap<String, IMeter>();
 
   private static Perfidix instance = new Perfidix();
+ 
+  /**
+   * the memory unit's string.
+   * 
+   */
+  public static final String MEM_UNIT = "B";
 
+  /**
+   * the memory unit's description.
+   */
+  public static final String MEM_DESCRIPTION = "bytes";
+  
+  
   /**
    * the millisecond unit's string.
    * 

@@ -29,6 +29,7 @@ import java.util.regex.Pattern;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 
@@ -249,6 +250,7 @@ public class MultipleTimersResultTest extends PerfidixTest {
    *
    */
   @Test
+  @Ignore
   public void testOne() {
     IMeter a = Perfidix.createMeter("someMeter", "a");
 
