@@ -91,6 +91,11 @@ public class Benchmark {
     private final int               memMeterIndex               = 1;
 
     /**
+     * flag if memmeter is used
+     */
+    private final boolean           usingMemMeter;
+
+    /**
      * boolean if the exceptions should be logged
      */
     private boolean                 logger                      = true;
@@ -117,16 +122,36 @@ public class Benchmark {
     }
 
     /**
+     * the standard constructor to initiate a benchmark container.
+     */
+    public Benchmark(final boolean memMeter) {
+        this(Benchmark.class.toString(), memMeter);
+    }
+
+    /**
      * you can give a benchmark container a name.
      * 
      * @param theName
      *            the name the benchmark container will have.
      */
     public Benchmark(final String theName) {
+        this(theName, false);
+    }
+
+    /**
+     * you can give a benchmark container a name.
+     * 
+     * @param theName
+     *            the name the benchmark container will have.
+     */
+    public Benchmark(final String theName, final boolean memMeter) {
+        usingMemMeter = memMeter;
         this.name = theName;
         children = new ArrayList<Object>();
         meters.add(timeMeterIndex, new IMeter.MilliMeter());
-        meters.add(memMeterIndex, new IMeter.MemMeter());
+        if (memMeter) {
+            meters.add(memMeterIndex, new IMeter.MemMeter());
+        }
     }
 
     /**
@@ -241,7 +266,11 @@ public class Benchmark {
         long[] memUsed = new long[numInvocations];
         MeterHelper meterHelper = new MeterHelper(numInvocations, meters);
         IMeter timeMeter = meters.get(timeMeterIndex);
-        IMeter memMeter = meters.get(memMeterIndex);
+        IMeter memMeter = null;
+        if (usingMemMeter) {
+            memMeter = meters.get(memMeterIndex);
+            System.gc();
+        }
 
         try {
 
@@ -262,7 +291,9 @@ public class Benchmark {
                 results[invocationID] = m.invoke(parent, args);
                 long time2 = timeMeter.getValue();
                 timeElapsed[invocationID] = time2 - time1;
-                memUsed[invocationID] = memMeter.getValue();
+                if (usingMemMeter) {
+                    memUsed[invocationID] = memMeter.getValue();
+                }
 
                 meterHelper.stop(invocationID);
                 appendToLogger(SimpleLog.LOG_LEVEL_INFO, "invoking tearDown for method " + m);
@@ -270,13 +301,18 @@ public class Benchmark {
             }
 
             IResult.SingleResult timeResult = new IResult.SingleResult(m.getName(), timeElapsed, results, timeMeter);
-            IResult.SingleResult memResult = new IResult.SingleResult(m.getName(), memUsed, results, memMeter);
+            IResult.SingleResult memResult = null;
+            if (usingMemMeter) {
+                memResult = new IResult.SingleResult(m.getName(), memUsed, results, memMeter);
+            }
 
             appendToLogger(SimpleLog.LOG_LEVEL_INFO, "invoking cleanUp for method " + m);
             executeBeforeAfter(parent, m, AfterLastBenchRun.class);
             final IResult.MethodResult[] methodResult = new IResult.MethodResult[2];
             methodResult[timeMeterIndex] = meterHelper.createMethodResult(timeResult);
-            methodResult[memMeterIndex] = meterHelper.createMethodResult(memResult);
+            if (usingMemMeter) {
+                methodResult[memMeterIndex] = meterHelper.createMethodResult(memResult);
+            }
             return methodResult;
 
         } catch (PerfidixMethodException e) {
@@ -373,8 +409,8 @@ public class Benchmark {
         // getting all methods
         final Object[] params = {};
         final Method[] methods = obj.getClass().getDeclaredMethods();
-        final ResultContainer<IResult.MethodResult> memResult = new IResult.ClassResult(obj.getClass().getSimpleName()
-                , obj.getClass().getCanonicalName());
+        final ResultContainer<IResult.MethodResult> memResult = new IResult.ClassResult(obj.getClass().getSimpleName(),
+                obj.getClass().getCanonicalName());
 
         final Method beforeClass = getBeforeAfter(obj, BeforeBenchClass.class);
         if (beforeClass != null) {
@@ -416,7 +452,11 @@ public class Benchmark {
                 }
                 final IResult.MethodResult[] realResult = doRunObject(methods[i], runs, obj, rand);
                 if (realResult != null) {
-                    memResult.append(realResult[memMeterIndex]);
+                    if (this.usingMemMeter) {
+                        memResult.append(realResult[memMeterIndex]);
+                    } else {
+                        memResult.append(realResult[timeMeterIndex]);
+                    }
                 }
             }
         }
