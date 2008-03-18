@@ -268,16 +268,16 @@ public class MultipleTimersResultTest extends PerfidixTest {
     String[] s =
         {
             "benchOne",
-            "ms",
             "a",
+            "ms",
             "b",
             "benchSomeOtherMeter",
-            "ms",
             "a",
+            "ms",
             "b",
             "benchSomeThird",
-            "ms",
             "a",
+            "ms",
             "b",
             "summary for A",
             "ms",
@@ -286,7 +286,8 @@ public class MultipleTimersResultTest extends PerfidixTest {
             "summary for test benchmark",
             "ms",
             "a",
-            "b", };
+            "b"
+            };
     String pattern = ".*" + NiceTable.Util.implode(".*", s) + ".*";
     Pattern p = Pattern.compile(pattern, Pattern.DOTALL);
     Matcher m = p.matcher(r.toString());

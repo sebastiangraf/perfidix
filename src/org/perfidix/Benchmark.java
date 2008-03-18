@@ -692,8 +692,9 @@ public class Benchmark {
                 r.append(s);
                 i++;
             }
+            System.out.println(r.toString());
         }
-
+        
     }
 
 }

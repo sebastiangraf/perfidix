@@ -24,8 +24,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Hashtable;
 import java.util.Iterator;
-import java.util.TreeMap;
 
 import org.perfidix.IMeter;
 import org.perfidix.IResult;
@@ -178,7 +178,7 @@ public class GnuPlotData extends ResultVisitor {
 	}
 
 	private void parseMethod(final MethodResult m) {
-		TreeMap<IMeter, ArrayList<IResult.SingleResult>> tree = m
+	    Hashtable<IMeter, ArrayList<IResult.SingleResult>> tree = m
 				.getCustomChildren();
 		if (!tree.containsKey(meter)) {
 			return;

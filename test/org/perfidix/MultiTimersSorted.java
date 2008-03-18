@@ -31,61 +31,60 @@ import org.junit.Test;
 
 public class MultiTimersSorted extends PerfidixTest {
 
-	@Before
-	public void setUp() throws Exception {
-		super.setUp();
-	}
+    @Before
+    public void setUp() throws Exception {
+        super.setUp();
+    }
 
-	@After
-	public void tearDown() throws Exception {
+    @After
+    public void tearDown() throws Exception {
 
-		super.tearDown();
-	}
+        super.tearDown();
+    }
 
-	@Test
-	public void testOne() {
-		IMeter a = Perfidix.createMeter("someMeter", "a");
+    @Test
+    public void testOne() {
+        IMeter a = Perfidix.createMeter("someMeter", "a");
 
-		Benchmark bm = new Benchmark("test benchmark");
-		bm.useMilliMeter();
-		bm.add(new A(a));
-		bm.register(a);
-		// System.out.println("running ... ");
-		// startDebug();
-		Result r = bm.run(1);
-		String[] s = { "benchOne", "ms", "a", "summary for A", "ms", "a",
-				"summary for test benchmark", "ms", "a", };
-		String pattern = ".*" + NiceTable.Util.implode(".*", s) + ".*";
-		Pattern p = Pattern.compile(pattern, Pattern.DOTALL);
-		Matcher m = p.matcher(r.toString());
-		assertTrue(m.matches());
+        Benchmark bm = new Benchmark("test benchmark");
+        bm.useMilliMeter();
+        bm.add(new A(a));
+        bm.register(a);
+        // System.out.println("running ... ");
+        // startDebug();
+        Result r = bm.run(1);
+        String[] s = { "benchOne", "a", "ms", "summary for A", "ms", "a",  "summary for test benchmark", "ms", "a" };
+        String pattern = ".*" + NiceTable.Util.implode(".*", s) + ".*";
+        Pattern p = Pattern.compile(pattern, Pattern.DOTALL);
+        Matcher m = p.matcher(r.toString());
+        assertTrue(m.matches());
 
-	}
+    }
 
-	public class A {
-		private IMeter a;
+    public class A {
+        private IMeter a;
 
-		public A(final IMeter aa) {
-			a = aa;
-		}
+        public A(final IMeter aa) {
+            a = aa;
+        }
 
-		@Bench
-		public void benchOne() {
-			a.tick();
-			a.tick();
-			tick();
-		}
+        @Bench
+        public void benchOne() {
+            a.tick();
+            a.tick();
+            tick();
+        }
 
-		private boolean rand() {
-			return Math.random() > 0.5;
-		}
+        private boolean rand() {
+            return Math.random() > 0.5;
+        }
 
-		private void tick() {
-			if (rand()) {
-				a.tick();
-			}
-		}
+        private void tick() {
+            if (rand()) {
+                a.tick();
+            }
+        }
 
-	}
+    }
 
 }
