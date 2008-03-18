@@ -108,19 +108,30 @@ public class Benchmark {
      * the standard constructor to initiate a benchmark container.
      */
     public Benchmark() {
-        this(Benchmark.class.toString());
+        this(false);
     }
 
+    public Benchmark(final String name) {
+        this(name, false);
+    }
+    
+    public Benchmark(final boolean useMemMeter) {
+        this(Benchmark.class.toString(), useMemMeter);
+    }
+    
     /**
      * you can give a benchmark container a name.
      * 
      * @param theName
      *            the name the benchmark container will have.
      */
-    public Benchmark(final String theName) {
+    public Benchmark(final String theName, final boolean useMemMeter) {
         this.name = theName;
         children = new ArrayList<Object>();
         meters.add(timeMeterIndex, new IMeter.MilliMeter());
+        if(useMemMeter) {
+            meters.add(new IMeter.MemMeter());
+        }
     }
 
     /**
