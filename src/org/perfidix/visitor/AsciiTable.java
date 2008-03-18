@@ -21,15 +21,14 @@ package org.perfidix.visitor;
 
 import java.util.ArrayList;
 import java.util.Formatter;
-import java.util.Iterator;
-import java.util.Set;
-import java.util.Map.Entry;
+import java.util.Hashtable;
 
 import org.perfidix.IMeter;
 import org.perfidix.IResult;
 import org.perfidix.NiceTable;
 import org.perfidix.Result;
 import org.perfidix.ResultContainer;
+import org.perfidix.IResult.SingleResult;
 
 /**
  * <p>
@@ -172,25 +171,21 @@ public class AsciiTable extends ResultVisitor {
 	 */
 	private void visitMethodResults(final IResult.MethodResult res) {
 
-		Set<Entry<IMeter, ArrayList<IResult.SingleResult>>> es = res
-				.getCustomChildren().entrySet();
-
-		Iterator<Entry<IMeter, ArrayList<IResult.SingleResult>>> it = es
-				.iterator();
-
+	    final Hashtable<IMeter, ArrayList<SingleResult>> customChild = res.getCustomChildren();
+	    
 		String theName;
-		if (es.size() > 1) {
+		if (customChild.size() > 1) {
 			table.addHeader("" + res.getName(), ' ', NiceTable.LEFT);
 			theName = "`";
 		} else {
 			theName = res.getName();
 		}
 
-		while (it.hasNext()) {
-			Iterator<IResult.SingleResult> it2 = it.next().getValue()
-					.iterator();
-			while (it2.hasNext()) {
-				visitSingleResult(it2.next(), theName);
+		for(final IMeter meter : customChild.keySet()) {
+			
+			
+			for(final SingleResult singRes : customChild.get(meter)) {
+				visitSingleResult(singRes, theName);
 			}
 		}
 	}

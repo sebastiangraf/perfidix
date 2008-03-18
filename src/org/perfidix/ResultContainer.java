@@ -301,8 +301,8 @@ public abstract class ResultContainer<ResultType extends Result> extends Result 
    * 
    * @return bla.
    */
-  public TreeMap<IMeter, ArrayList<SingleResult>> getCustomChildren() {
-    return new TreeMap<IMeter, ArrayList<SingleResult>>(customChildren);
+  public Hashtable<IMeter, ArrayList<SingleResult>> getCustomChildren() {
+    return customChildren;
 
   }
 
