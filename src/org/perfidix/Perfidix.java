@@ -121,7 +121,7 @@ public final class Perfidix {
    * 
    * @return
    */
-  private static Perfidix getInstance() {
+  public static Perfidix getInstance() {
     if (instance == null) {
       instance = new Perfidix();
     }
