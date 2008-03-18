@@ -6,7 +6,7 @@ public class StartClass {
 
     public static void main(String[] args) {
 
-        final Benchmark bench = new Benchmark(true);
+        final Benchmark bench = new Benchmark();
         bench.add(new ClassAnnoBenchmark());
         bench.add(new SomeAnnoBenchmark());
         bench.add(new SomeSpecificSetUpTearDownBenchmark());

@@ -86,16 +86,6 @@ public class Benchmark {
     private final int               timeMeterIndex              = 0;
 
     /**
-     * index of the time in the IMeter-arraylist
-     */
-    private final int               memMeterIndex               = 1;
-
-    /**
-     * flag if memmeter is used
-     */
-    private final boolean           usingMemMeter;
-
-    /**
      * boolean if the exceptions should be logged
      */
     private boolean                 logger                      = true;
@@ -122,36 +112,15 @@ public class Benchmark {
     }
 
     /**
-     * the standard constructor to initiate a benchmark container.
-     */
-    public Benchmark(final boolean memMeter) {
-        this(Benchmark.class.toString(), memMeter);
-    }
-
-    /**
      * you can give a benchmark container a name.
      * 
      * @param theName
      *            the name the benchmark container will have.
      */
     public Benchmark(final String theName) {
-        this(theName, false);
-    }
-
-    /**
-     * you can give a benchmark container a name.
-     * 
-     * @param theName
-     *            the name the benchmark container will have.
-     */
-    public Benchmark(final String theName, final boolean memMeter) {
-        usingMemMeter = memMeter;
         this.name = theName;
         children = new ArrayList<Object>();
         meters.add(timeMeterIndex, new IMeter.MilliMeter());
-        if (memMeter) {
-            meters.add(memMeterIndex, new IMeter.MemMeter());
-        }
     }
 
     /**
@@ -255,7 +224,7 @@ public class Benchmark {
      *            the class the method belongs to.
      * @return Result.
      */
-    private IResult.MethodResult[] doRunObject(final Method m, final int numInvocations, final Object parent,
+    private IResult.MethodResult doRunObject(final Method m, final int numInvocations, final Object parent,
             final IRandomizer rand) throws Exception {
         assert (parent != null);
         assert (numInvocations >= 0);
@@ -263,14 +232,8 @@ public class Benchmark {
         appendToLogger(SimpleLog.LOG_LEVEL_DEBUG, "Running method " + m.getName() + "(*" + numInvocations + "): ");
         long[] timeElapsed = new long[numInvocations];
         Object[] results = new Object[numInvocations];
-        long[] memUsed = new long[numInvocations];
         MeterHelper meterHelper = new MeterHelper(numInvocations, meters);
         IMeter timeMeter = meters.get(timeMeterIndex);
-        IMeter memMeter = null;
-        if (usingMemMeter) {
-            memMeter = meters.get(memMeterIndex);
-            System.gc();
-        }
 
         try {
 
@@ -291,29 +254,17 @@ public class Benchmark {
                 results[invocationID] = m.invoke(parent, args);
                 long time2 = timeMeter.getValue();
                 timeElapsed[invocationID] = time2 - time1;
-                if (usingMemMeter) {
-                    memUsed[invocationID] = memMeter.getValue();
-                }
 
                 meterHelper.stop(invocationID);
                 appendToLogger(SimpleLog.LOG_LEVEL_INFO, "invoking tearDown for method " + m);
                 executeBeforeAfter(parent, m, AfterEachBenchRun.class);
             }
 
-            IResult.SingleResult timeResult = new IResult.SingleResult(m.getName(), timeElapsed, results, timeMeter);
-            IResult.SingleResult memResult = null;
-            if (usingMemMeter) {
-                memResult = new IResult.SingleResult(m.getName(), memUsed, results, memMeter);
-            }
-
+            IResult.SingleResult result = new IResult.SingleResult(m.getName(), timeElapsed, results, timeMeter);
             appendToLogger(SimpleLog.LOG_LEVEL_INFO, "invoking cleanUp for method " + m);
             executeBeforeAfter(parent, m, AfterLastBenchRun.class);
-            final IResult.MethodResult[] methodResult = new IResult.MethodResult[2];
-            methodResult[timeMeterIndex] = meterHelper.createMethodResult(timeResult);
-            if (usingMemMeter) {
-                methodResult[memMeterIndex] = meterHelper.createMethodResult(memResult);
-            }
-            return methodResult;
+
+            return meterHelper.createMethodResult(result);
 
         } catch (PerfidixMethodException e) {
             appendToLogger(SimpleLog.LOG_LEVEL_FATAL, "" + e);
@@ -403,13 +354,12 @@ public class Benchmark {
      * @param rand
      *            the randomizer to use
      */
-    @SuppressWarnings("unchecked")
     private Result doRunObject(final Object obj, final int numInvocations, final IRandomizer rand) throws Exception {
 
         // getting all methods
         final Object[] params = {};
         final Method[] methods = obj.getClass().getDeclaredMethods();
-        final ResultContainer<IResult.MethodResult> memResult = new IResult.ClassResult(obj.getClass().getSimpleName(),
+        final ResultContainer<IResult.MethodResult> result = new IResult.ClassResult(obj.getClass().getSimpleName(),
                 obj.getClass().getCanonicalName());
 
         final Method beforeClass = getBeforeAfter(obj, BeforeBenchClass.class);
@@ -450,13 +400,9 @@ public class Benchmark {
                 if (!runSet) {
                     runs = numInvocations;
                 }
-                final IResult.MethodResult[] realResult = doRunObject(methods[i], runs, obj, rand);
+                final IResult.MethodResult realResult = doRunObject(methods[i], runs, obj, rand);
                 if (realResult != null) {
-                    if (this.usingMemMeter) {
-                        memResult.append(realResult[memMeterIndex]);
-                    } else {
-                        memResult.append(realResult[timeMeterIndex]);
-                    }
+                    result.append(realResult);
                 }
             }
         }
@@ -469,7 +415,8 @@ public class Benchmark {
                         + " was invalid because of Params or Returnval.");
             }
         }
-        return memResult;
+
+        return result;
     }
 
     // ////////////////////////////////////////////
@@ -684,8 +631,7 @@ public class Benchmark {
             Iterator<IMeter> it = meters.iterator();
             int i = 0;
             while (it.hasNext()) {
-                final IMeter meter = it.next();
-                res[i][invocationID] = meter.getValue() - res[i][invocationID];
+                res[i][invocationID] = it.next().getValue() - res[i][invocationID];
                 i++;
             }
         }
@@ -718,7 +664,7 @@ public class Benchmark {
         private IResult.MethodResult createMethodResult(final IResult.SingleResult timedResult) {
             if (timedResult != null) {
                 IResult.MethodResult c = new IResult.MethodResult(timedResult.getName());
-                append(c, timedResult);
+                append(c);
                 return c;
             } else {
                 return null;
@@ -726,17 +672,13 @@ public class Benchmark {
 
         }
 
-        private void append(final ResultContainer<IResult.SingleResult> r, IResult.SingleResult result) {
+        private void append(final ResultContainer<IResult.SingleResult> r) {
             Iterator<IMeter> it = meters.iterator();
             int i = 0;
             while (it.hasNext()) {
                 IMeter entry = it.next();
-                if (entry instanceof IMeter.ITimeMeter) {
-                    IResult.SingleResult s = new IResult.SingleResult(entry.getUnitDescription(), theResults[i], entry);
-                    r.append(s);
-                } else {
-                    r.append(result);
-                }
+                IResult.SingleResult s = new IResult.SingleResult(entry.getUnitDescription(), theResults[i], entry);
+                r.append(s);
                 i++;
             }
         }
