@@ -43,7 +43,6 @@ public class MultiTimersSorted extends PerfidixTest {
 	}
 
 	@Test
-	@Ignore
 	public void testOne() {
 		IMeter a = Perfidix.createMeter("someMeter", "a");
 
