@@ -121,13 +121,21 @@ public final class Perfidix {
    * 
    * @return
    */
-  public static Perfidix getInstance() {
+  private static Perfidix getInstance() {
     if (instance == null) {
       instance = new Perfidix();
     }
     return instance;
   }
 
+  /**
+   * Method to register Meters
+   * @param meter to register
+   */
+  public static void registerMeter(final IMeter meter) {
+      Perfidix.getInstance().meters.put(meter.getName(), meter);
+  }
+  
   /**
    * creates a meter.
    * @param meterName the name of the meter.
