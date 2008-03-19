@@ -639,10 +639,15 @@ public class Benchmark {
 
         private void collectResults(final long[][] res, final int invocationID) {
             assert (res.length == meters.size());
-            Iterator<IMeter> it = meters.iterator();
+            
             int i = 0;
-            while (it.hasNext()) {
-                res[i][invocationID] = it.next().getValue() - res[i][invocationID];
+            for(final IMeter meter : meters) {
+                if(meter instanceof IMeter.MemMeter) {
+                    res[i][invocationID] = meter.getValue() ;
+                } else {
+                    res[i][invocationID] = meter.getValue() - res[i][invocationID];    
+                }
+                
                 i++;
             }
         }
