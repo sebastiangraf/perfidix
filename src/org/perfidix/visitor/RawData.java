@@ -26,14 +26,7 @@ public class RawData extends ResultVisitor {
     public RawData(final String pathToFolder) {
 
         folder = new File(pathToFolder);
-        if (folder.exists()) {
-            if (!folder.isDirectory()) {
-                folder.delete();
-            } else {
-                deleteRecursive(folder);
-            }
-        }
-        folder.mkdir();
+        
     }
 
     @Override
@@ -66,6 +59,9 @@ public class RawData extends ResultVisitor {
             for (final IResult.SingleResult result : singleTimes) {
                 final File currentFile = new File(outputFile.getAbsoluteFile() +"$"
                         + result.getMeter().getName());
+                if(currentFile.exists()) {
+                    currentFile.delete();
+                }
                 final FileWriter timeOut = new FileWriter(currentFile);
                 final long data[] = result.getResultSet();
                 for (int i = 0; i < data.length; i++) {
@@ -84,16 +80,5 @@ public class RawData extends ResultVisitor {
         }
     }
 
-    private static void deleteRecursive(final File file) {
-
-        if (file.isDirectory()) {
-            final File[] childs = file.listFiles();
-            for (int i = 0; i < childs.length; i++) {
-                deleteRecursive(childs[i]);
-            }
-        } else {
-            file.delete();
-        }
-    }
 
 }
