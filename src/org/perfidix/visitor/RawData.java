@@ -2,6 +2,8 @@ package org.perfidix.visitor;
 
 import java.io.File;
 import java.io.FileWriter;
+import java.util.ArrayList;
+import java.util.Collection;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -45,7 +47,6 @@ public class RawData extends ResultVisitor {
                 for (IResult.MethodResult methodRes : classRes.getChildren()) {
                     File timeFile = new File(this.folder.getAbsolutePath() + File.separatorChar + classRes.getName()
                             + "$" + methodRes.getName());
-                    timeFile.createNewFile();
                     getMethodResult(timeFile, methodRes);
                 }
             }
@@ -57,18 +58,27 @@ public class RawData extends ResultVisitor {
     private void getMethodResult(final File outputFile, final IResult.MethodResult methodRes) {
 
         try {
-            final FileWriter timeOut = new FileWriter(outputFile);
-            IResult.SingleResult singleTime = methodRes.getChildren().get(0);
-            final long data[] = singleTime.getResultSet();
-            for (int i = 0; i < data.length; i++) {
-                if (i == data.length - 1) {
-                    timeOut.write(data[i] + " ");
-                } else {
-                    timeOut.write(data[i] + ",");
-                }
+            final ArrayList<IResult.SingleResult> singleTimes = new ArrayList<IResult.SingleResult>();
+            final Collection<ArrayList<IResult.SingleResult>> childs = methodRes.getCustomChildren().values();
+            for (final ArrayList<IResult.SingleResult> currentList : childs) {
+                singleTimes.addAll(currentList);
             }
-            timeOut.flush();
-            timeOut.close();
+            for (final IResult.SingleResult result : singleTimes) {
+                final File currentFile = new File(outputFile.getAbsoluteFile() +"$"
+                        + result.getMeter().getName());
+                final FileWriter timeOut = new FileWriter(currentFile);
+                final long data[] = result.getResultSet();
+                for (int i = 0; i < data.length; i++) {
+                    if (i == data.length - 1) {
+                        timeOut.write(data[i] + " ");
+                    } else {
+                        timeOut.write(data[i] + ",");
+                    }
+                }
+                timeOut.flush();
+                timeOut.close();
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
