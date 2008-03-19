@@ -86,12 +86,6 @@ public interface IMeter extends Comparable<IMeter> {
    */
   abstract class AbstractMeter implements IMeter {
 
-    /**
-     * @return the name.
-     */
-    public String getName() {
-      return "";
-    }
 
     /**
      * implements comparable.
@@ -106,13 +100,13 @@ public interface IMeter extends Comparable<IMeter> {
       if (null == o) {
         return -1;
       }
-      if (this instanceof ITimeMeter) {
-        if (o instanceof ITimeMeter) {
+      if (this instanceof AbsTimeMeter) {
+        if (o instanceof AbsTimeMeter) {
           return doCompareValues(o);
         }
         return -1;
       } else {
-        if (o instanceof ITimeMeter) {
+        if (o instanceof AbsTimeMeter) {
           return 1;
         }
         return doCompareValues(o);
@@ -209,6 +203,8 @@ public interface IMeter extends Comparable<IMeter> {
         return Perfidix.MEM_UNIT;
     }
 
+    
+    
     public String getUnitDescription() {
         return Perfidix.MEM_DESCRIPTION;
     }
@@ -222,6 +218,12 @@ public interface IMeter extends Comparable<IMeter> {
 
     public void tick() {
     }
+
+
+
+    public String getName() {
+        return Perfidix.MEM_DESCRIPTION;
+    }
      
       
   }
@@ -230,7 +232,7 @@ public interface IMeter extends Comparable<IMeter> {
    * @author axo
    *
    */
-  abstract class ITimeMeter extends IMeter.AbstractMeter {
+  abstract class AbsTimeMeter extends IMeter.AbstractMeter {
 
     /**
      * returns the current time.
@@ -247,6 +249,10 @@ public interface IMeter extends Comparable<IMeter> {
      */
     public abstract long getTime();
 
+    public String getName(){
+        return "time";
+    }
+    
     /**
      * does nothing. the timeMeters work on their own clock.
      */
@@ -270,12 +276,12 @@ public interface IMeter extends Comparable<IMeter> {
    * @author axo
    *
    */
-  final class MilliMeter extends IMeter.ITimeMeter {
+  final class MilliMeter extends IMeter.AbsTimeMeter {
 
     /** 
      * computes the elapsed time in milliseconds.
      * depending on the OS, the values will differ.
-     * @see ITimeMeter#getTime
+     * @see AbsTimeMeter#getTime
      * @return System.currentTimeMillis();
      */
     public final long getTime() {
@@ -299,12 +305,12 @@ public interface IMeter extends Comparable<IMeter> {
   }
 
 
-  final class SecondMeter extends IMeter.ITimeMeter {
+  final class SecondMeter extends IMeter.AbsTimeMeter {
       
       /** 
        * this is not a comment.
        * 
-       * @see ITimeMeter#getTime
+       * @see AbsTimeMeter#getTime
        * @return the system's nano time.
        */
       public final long getTime() {
@@ -329,12 +335,12 @@ public interface IMeter extends Comparable<IMeter> {
       
   }
   
-  final class NanoMeter extends IMeter.ITimeMeter {
+  final class NanoMeter extends IMeter.AbsTimeMeter {
 
     /** 
      * this is not a comment.
      * 
-     * @see ITimeMeter#getTime
+     * @see AbsTimeMeter#getTime
      * @return the system's nano time.
      */
     public final long getTime() {

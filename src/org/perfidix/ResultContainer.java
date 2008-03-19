@@ -108,7 +108,7 @@ public abstract class ResultContainer<ResultType extends Result> extends Result 
     if (!(res instanceof IResult.SingleResult)) {
       return false;
     }
-    if (((SingleResult) res).getMeter() instanceof IMeter.ITimeMeter) {
+    if (((SingleResult) res).getMeter() instanceof IMeter.AbsTimeMeter) {
       return false;
     }
     return true;
