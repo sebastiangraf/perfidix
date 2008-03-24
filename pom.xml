@@ -1,11 +1,36 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project>
-  <name>Hello World Project</name>
+<?xml version="1.0" encoding="UTF-8"?><project>
   <modelVersion>4.0.0</modelVersion>
   <groupId>de.unikn.inf.disy</groupId>
   <artifactId>idefixHelloWorld</artifactId>
+  <name>Hello World Project</name>
   <version>1.0.0</version>
   <description></description>
+  <url>http://www.inf.uni-konstanz.de/disy</url>
+  <scm>
+    <connection>scm:svn:https://sofa.disy.inf.uni-konstanz.de/svn/hello_world/trunk/HelloWorld</connection>
+    <developerConnection>scm:svn:https://sofa.disy.inf.uni-konstanz.de/svn/hello_world/trunk/HelloWorld</developerConnection>
+    <url>https://sofa.disy.inf.uni-konstanz.de/svn/hello_world/</url>
+  </scm>
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-scm-plugin</artifactId>
+        <version>1.0</version>
+        <configuration>
+          <goals>install</goals>
+          <username>graf</username>
+          <workingDirectory>/tmp</workingDirectory>
+        </configuration>
+      </plugin>
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>1.5</source>
+          <target>1.5</target>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
   <dependencies>
     <dependency>
       <groupId>commons-logging</groupId>
@@ -20,18 +45,22 @@
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>4.4</version>
+      <version>4.0</version>
     </dependency>
     <dependency>
       <groupId>log4j</groupId>
       <artifactId>log4j</artifactId>
       <version>1.2.14</version>
     </dependency>
+    <dependency>
+      <groupId>dom4j</groupId>
+      <artifactId>dom4j</artifactId>
+      <version>1.6</version>
+    </dependency>
   </dependencies>
   <reporting>
-  	<plugins>
+    <plugins>
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-checkstyle-plugin</artifactId>
         <configuration>
           <configLocation>src/main/resources/DisyChecks.xml</configLocation>
@@ -39,32 +68,4 @@
       </plugin>
     </plugins>
   </reporting>
-  <url>http://www.inf.uni-konstanz.de/disy</url>
-  <scm>
-    <connection>scm:svn:https://sofa.disy.inf.uni-konstanz.de/svn/hello_world/trunk/HelloWorld</connection>
-    <developerConnection>scm:svn:https://sofa.disy.inf.uni-konstanz.de/svn/hello_world/trunk/HelloWorld</developerConnection>
-    <url>https://sofa.disy.inf.uni-konstanz.de/svn/hello_world/</url>
-  </scm>
-  <build> 
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-scm-plugin</artifactId>
-        <version>1.0</version>
-        <configuration>
-          <goals>install</goals>
-          <username>graf</username>
-          <workingDirectory>/tmp</workingDirectory>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <configuration>
-          <source>1.5</source>
-          <target>1.5</target>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
 </project>
