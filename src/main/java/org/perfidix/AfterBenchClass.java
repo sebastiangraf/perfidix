@@ -25,7 +25,9 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Marks a single-executed tearDown for every class which contains a bench-method.
+ * Marks a single-executed tearDown for every class which contains a
+ * bench-method.
+ * 
  * @author Sebastian Graf, University of Constance
  */
 @Retention(RetentionPolicy.RUNTIME)

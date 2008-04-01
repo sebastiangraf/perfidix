@@ -32,57 +32,55 @@ import org.junit.Test;
  * tests that the switcher works as expected.
  * 
  * @author onea
- * 
  */
 public class SwitcherTest extends PerfidixTest {
 
-  private IRandomizer.Switcher theSwitcher;
+    private IRandomizer.Switcher theSwitcher;
 
-  private Method aMethod;
+    private Method aMethod;
 
-  /**
-   * sets up the switcher.
-   * 
-   * @throws Exception
-   *             if the parent threw one.
-   */
-  @Before
-  public void setUp() throws Exception {
-    theSwitcher = new IRandomizer.Switcher();
-    initMethod();
-    super.setUp();
-  }
+    /**
+     * sets up the switcher.
+     * 
+     * @throws Exception
+     *                 if the parent threw one.
+     */
+    @Before
+    public void setUp() throws Exception {
+        theSwitcher = new IRandomizer.Switcher();
+        initMethod();
+        super.setUp();
+    }
 
-  @After
-  public void tearDown() throws Exception {
-    theSwitcher = null;
-    aMethod = null;
-    super.tearDown();
-  }
+    @After
+    public void tearDown() throws Exception {
+        theSwitcher = null;
+        aMethod = null;
+        super.tearDown();
+    }
 
-  private void initMethod() {
-    aMethod = this.getClass().getMethods()[0];
-  }
+    private void initMethod() {
+        aMethod = this.getClass().getMethods()[0];
+    }
 
-  /**
-   * Test method for 'Switcher.shouldRun(Method)'.
-   */
-  @Test
-  public void testShouldRun() {
-    assertTrue(theSwitcher.shouldRun(aMethod));
-    assertFalse(theSwitcher.shouldRun(aMethod));
-    assertTrue(theSwitcher.shouldRun(aMethod));
-  }
+    /**
+     * Test method for 'Switcher.shouldRun(Method)'.
+     */
+    @Test
+    public void testShouldRun() {
+        assertTrue(theSwitcher.shouldRun(aMethod));
+        assertFalse(theSwitcher.shouldRun(aMethod));
+        assertTrue(theSwitcher.shouldRun(aMethod));
+    }
 
-  /**
-   * checks that the switcher ignores any parameters given.
-   * 
-   */
-  @Test
-  public void testShouldRunIgnoreParameters() {
-    assertTrue(theSwitcher.shouldRun(null));
-    assertFalse(theSwitcher.shouldRun(null));
-    assertTrue(theSwitcher.shouldRun(null));
-  }
+    /**
+     * checks that the switcher ignores any parameters given.
+     */
+    @Test
+    public void testShouldRunIgnoreParameters() {
+        assertTrue(theSwitcher.shouldRun(null));
+        assertFalse(theSwitcher.shouldRun(null));
+        assertTrue(theSwitcher.shouldRun(null));
+    }
 
 }

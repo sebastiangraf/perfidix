@@ -29,50 +29,48 @@ import org.perfidix.Result;
  */
 public abstract class ResultVisitor {
 
-	/**
-	 * FIXME: comment.
-	 */
-	protected String floatFormat = "%05.2f";
+    /**
+     * FIXME: comment.
+     */
+    protected String floatFormat = "%05.2f";
 
-	/**
-	 * visits the results.
-	 * 
-	 * @param r
-	 *            the Result to visit.
-	 */
-	public abstract void visit(Result r);
+    /**
+     * visits the results.
+     * 
+     * @param r
+     *                the Result to visit.
+     */
+    public abstract void visit(Result r);
 
-	/**
-	 * 
-	 * @param res
-	 *            FIXME
-	 * @return FIXME
-	 */
-	protected double getConf95Min(final Result res) {
-		return Math.max(0, res.avg() - res.getConf95());
-	}
+    /**
+     * @param res
+     *                FIXME
+     * @return FIXME
+     */
+    protected double getConf95Min(final Result res) {
+        return Math.max(0, res.avg() - res.getConf95());
+    }
 
-	/**
-	 * 
-	 * @param res
-	 *            FIXME
-	 * @return FIXME
-	 */
-	protected double getConf95Max(final Result res) {
-		return res.avg() + res.getConf95();
-	}
+    /**
+     * @param res
+     *                FIXME
+     * @return FIXME
+     */
+    protected double getConf95Max(final Result res) {
+        return res.avg() + res.getConf95();
+    }
 
-	/**
-	 * formats a double. if you want to change the output of the doubles, give
-	 * in the floatFormat through the alternative constructor.
-	 * 
-	 * @param i
-	 *            the number to format
-	 * @see java.util.Formatter for the documentation.
-	 * @return the formatted string.
-	 */
-	protected String format(final double i) {
-		return new Formatter().format(floatFormat, i).toString();
-	}
+    /**
+     * formats a double. if you want to change the output of the doubles, give
+     * in the floatFormat through the alternative constructor.
+     * 
+     * @param i
+     *                the number to format
+     * @see java.util.Formatter for the documentation.
+     * @return the formatted string.
+     */
+    protected String format(final double i) {
+        return new Formatter().format(floatFormat, i).toString();
+    }
 
 }

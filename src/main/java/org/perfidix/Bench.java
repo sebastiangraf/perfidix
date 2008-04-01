@@ -25,46 +25,53 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * This Annotation marks a simple bench. Each Method annotated with <code>Bench</code> is executed by perfidix.
+ * This Annotation marks a simple bench. Each Method annotated with
+ * <code>Bench</code> is executed by perfidix.
  * 
  * @author Sebastian Graf, University of Constance
- *
  */
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 public @interface Bench {
 
-	public static int DEFAULTRUNS = -1;
-	
-	/**
-	 * Parameter of the method which works as a setUp-like, but just once for all runs. For more information to setUp, look at JUnit.
-	 * @return a String with the method or nothing.
-	 */
-	String beforeFirstBenchRun() default "";
-	
-	/**
-	 * Parameter of the method which works as a tearDown-like, but just once for all runs. For more information to setUp, look at JUnit.
-	 * @return a String with the method or nothing.
-	 */
-	String afterLastBenchRun() default "";
-	
-	/**
-	 * Parameter of the method which works as a setUp-like. For more information to setUp, look at JUnit.
-	 * @return a String with the method or nothing.
-	 */
-	String beforeEveryBenchRun() default "";
-	
-	/**
-	 * Parameter of the method which works as a tearDown-like. For more information to setUp, look at JUnit.
-	 * @return a String with the method or nothing.
-	 */
-	String afterEveryBenchRun() default "";
-	
-	/**
-	 * Parameter for the number of runs of this bench.
-	 */
-	int runs() default DEFAULTRUNS;
+    public static int DEFAULTRUNS = -1;
 
-	
+    /**
+     * Parameter of the method which works as a setUp-like, but just once for
+     * all runs. For more information to setUp, look at JUnit.
+     * 
+     * @return a String with the method or nothing.
+     */
+    String beforeFirstBenchRun() default "";
+
+    /**
+     * Parameter of the method which works as a tearDown-like, but just once for
+     * all runs. For more information to setUp, look at JUnit.
+     * 
+     * @return a String with the method or nothing.
+     */
+    String afterLastBenchRun() default "";
+
+    /**
+     * Parameter of the method which works as a setUp-like. For more information
+     * to setUp, look at JUnit.
+     * 
+     * @return a String with the method or nothing.
+     */
+    String beforeEveryBenchRun() default "";
+
+    /**
+     * Parameter of the method which works as a tearDown-like. For more
+     * information to setUp, look at JUnit.
+     * 
+     * @return a String with the method or nothing.
+     */
+    String afterEveryBenchRun() default "";
+
+    /**
+     * Parameter for the number of runs of this bench.
+     */
+    int runs() default DEFAULTRUNS;
+
 }

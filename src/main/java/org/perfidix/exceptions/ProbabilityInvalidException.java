@@ -19,14 +19,13 @@
 
 package org.perfidix.exceptions;
 
-/** 
- * This occurs when  a probability was introduced which
- * is not between zero and 1.
- * 
+/**
+ * This occurs when a probability was introduced which is not between zero and
+ * 1.
  */
 public class ProbabilityInvalidException extends Exception {
-  /** 
-   * 
-   */
-  public static final long serialVersionUID = 1;
+    /** 
+     * 
+     */
+    public static final long serialVersionUID = 1;
 }

@@ -24,11 +24,10 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-
 /**
  * Marks a tearDown-like behaviour for each run of each method.
+ * 
  * @author Sebastian Graf, University of Constance
- *
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)

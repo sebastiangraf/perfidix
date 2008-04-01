@@ -23,85 +23,82 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * 
  * @author onea
- * 
  */
 public class GetResultSetTest extends PerfidixTest {
 
-	private ResultContainer<IResult.SingleResult> test;
+    private ResultContainer<IResult.SingleResult> test;
 
-	@Before
-	public void setUp() throws Exception {
-		super.setUp();
-		test = new IResult.MethodResult("hello world.");
-	}
+    @Before
+    public void setUp() throws Exception {
+        super.setUp();
+        test = new IResult.MethodResult("hello world.");
+    }
 
-	/**
-	 * Test method for 'org.perfidix.perf.ResultContainer.getResultSet()'. the
-	 * ResultContainer contains one SingleResult with an empty array of values.
-	 * this results in an array { 0 } as the result set.
-	 * 
-	 */
-	@Test
-	public void testGetResultSetZeroValues() {
+    /**
+     * Test method for 'org.perfidix.perf.ResultContainer.getResultSet()'. the
+     * ResultContainer contains one SingleResult with an empty array of values.
+     * this results in an array { 0 } as the result set.
+     */
+    @Test
+    public void testGetResultSetZeroValues() {
 
-		test.append(Perfidix.createSingleResult("a", new long[] {}));
-		assertEquals(new long[] { 0 }, test.getResultSet());
+        test.append(Perfidix.createSingleResult("a", new long[] {}));
+        assertEquals(new long[] { 0 }, test.getResultSet());
 
-	}
+    }
 
-	/**
-	 * checks that the Result appending won't break the code, but logs an error.
-	 * 
-	 */
-	@Test
-	public void testGetResultSetNullAppend() {
-		test.append(null);
-		assertEquals(test.getResultSet(), new long[] {});
-	}
+    /**
+     * checks that the Result appending won't break the code, but logs an error.
+     */
+    @Test
+    public void testGetResultSetNullAppend() {
+        test.append(null);
+        assertEquals(test.getResultSet(), new long[] {});
+    }
 
-	@Test
-	public void testGetResultSetOneAppend() {
-		test.append(Perfidix.createSingleResult("a", new long[] { 1 }));
-		assertEquals(new long[] { 1 }, test.getResultSet());
-	}
+    @Test
+    public void testGetResultSetOneAppend() {
+        test.append(Perfidix.createSingleResult("a", new long[] { 1 }));
+        assertEquals(new long[] { 1 }, test.getResultSet());
+    }
 
-	@Test
-	public void testGetResultSetTwoAppend() {
+    @Test
+    public void testGetResultSetTwoAppend() {
 
-		test.append(Perfidix.createSingleResult("a", new long[] { 1, 2, 3 }));
-		test.append(Perfidix.createSingleResult("b", new long[] { 2, 3 }));
-		assertEquals(new long[] { 6, 5 }, test.getResultSet());
-	}
+        test.append(Perfidix.createSingleResult("a", new long[] { 1, 2, 3 }));
+        test.append(Perfidix.createSingleResult("b", new long[] { 2, 3 }));
+        assertEquals(new long[] { 6, 5 }, test.getResultSet());
+    }
 
-	@Test
-	public void testGetResultSetMultiAppend() {
-		test.append(Perfidix.createSingleResult("a", new long[] { 1 }));
-		test.append(Perfidix.createSingleResult("b", new long[] { 2 }));
-		test.append(Perfidix.createSingleResult("c",
-				new long[] { 15, 13, 2, 4 }));
-		test.append(Perfidix.createSingleResult("d", new long[] { 3 }));
-		assertEquals(new long[] { 1, 2, 34, 3 }, test.getResultSet());
+    @Test
+    public void testGetResultSetMultiAppend() {
+        test.append(Perfidix.createSingleResult("a", new long[] { 1 }));
+        test.append(Perfidix.createSingleResult("b", new long[] { 2 }));
+        test.append(Perfidix.createSingleResult(
+                "c", new long[] { 15, 13, 2, 4 }));
+        test.append(Perfidix.createSingleResult("d", new long[] { 3 }));
+        assertEquals(new long[] { 1, 2, 34, 3 }, test.getResultSet());
 
-	}
+    }
 
-	/**
-	 * extends the assertEquals test for a value comparation of arrays. this is
-	 * not object equality, but value equality.
-	 * 
-	 * @param one
-	 *            array
-	 * @param two
-	 *            array
-	 */
-	// TODO look if this works this way
-	protected void assertEquals(final long[] one, final long[] two) {
-		org.junit.Assert.assertEquals(NiceTable.Util.implode(", ", one) + " "
-				+ NiceTable.Util.implode(", ", two), one.length, two.length);
-		for (int i = 0; i < one.length; i++) {
-			org.junit.Assert.assertEquals(one[i], two[i]);
-		}
-	}
+    /**
+     * extends the assertEquals test for a value comparation of arrays. this is
+     * not object equality, but value equality.
+     * 
+     * @param one
+     *                array
+     * @param two
+     *                array
+     */
+    // TODO look if this works this way
+    protected void assertEquals(final long[] one, final long[] two) {
+        org.junit.Assert.assertEquals(NiceTable.Util.implode(", ", one)
+                + " "
+                + NiceTable.Util.implode(", ", two), one.length, two.length);
+        for (int i = 0; i < one.length; i++) {
+            org.junit.Assert.assertEquals(one[i], two[i]);
+        }
+    }
 
 }

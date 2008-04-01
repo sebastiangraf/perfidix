@@ -28,36 +28,36 @@ import org.junit.Test;
 
 public class ExceptionTest {
 
-	@Test
-	public void testWithoutException() {
-		final ExceptionBench test = new ExceptionBench();
-		final Benchmark bench = new Benchmark();
-		bench.shouldThrowException(false);
-		assertFalse(bench.exceptionsThrown());
-		bench.setLogger(true);
-		bench.add(test);
-		bench.run();
-		assertTrue(bench.exceptionsThrown());
-	}
-	
-	@Test(expected=IllegalStateException.class)
-	public void testWithException() {
-		final ExceptionBench test = new ExceptionBench();
-		final Benchmark bench = new Benchmark();
-		bench.shouldThrowException(true);
-		assertFalse(bench.exceptionsThrown());
-		bench.setLogger(true);
-		bench.add(test);
-		bench.run();
-		assertTrue(bench.exceptionsThrown());
-	}
-	
-	class ExceptionBench {
-		
-		@Bench
-		public void bench() throws Exception {
-			FileReader reader = new FileReader("/tmp/tralalaMichGibtsNet");
-			reader.close();
-		}
-	}
+    @Test
+    public void testWithoutException() {
+        final ExceptionBench test = new ExceptionBench();
+        final Benchmark bench = new Benchmark();
+        bench.shouldThrowException(false);
+        assertFalse(bench.exceptionsThrown());
+        bench.setLogger(true);
+        bench.add(test);
+        bench.run();
+        assertTrue(bench.exceptionsThrown());
+    }
+
+    @Test(expected = IllegalStateException.class)
+    public void testWithException() {
+        final ExceptionBench test = new ExceptionBench();
+        final Benchmark bench = new Benchmark();
+        bench.shouldThrowException(true);
+        assertFalse(bench.exceptionsThrown());
+        bench.setLogger(true);
+        bench.add(test);
+        bench.run();
+        assertTrue(bench.exceptionsThrown());
+    }
+
+    class ExceptionBench {
+
+        @Bench
+        public void bench() throws Exception {
+            FileReader reader = new FileReader("/tmp/tralalaMichGibtsNet");
+            reader.close();
+        }
+    }
 }

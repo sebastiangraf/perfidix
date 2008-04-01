@@ -21,22 +21,23 @@ package org.perfidix.exceptions;
 
 public class PerfidixMethodException extends Exception {
 
-	public static final long serialVersionUID = 0xDEAD;
+    public static final long serialVersionUID = 0xDEAD;
 
-	  /**
-	   * allowing a message to be told to the user.
-	   * @param message the message to tell.
-	   */
-	  public PerfidixMethodException(final String message) {
-	    super(message);
-	  }
+    /**
+     * allowing a message to be told to the user.
+     * 
+     * @param message
+     *                the message to tell.
+     */
+    public PerfidixMethodException(final String message) {
+        super(message);
+    }
 
-	  /**
-	   * default constructor.
-	   *
-	   */
-	  public PerfidixMethodException() {
-	    super();
-	  }
-	
+    /**
+     * default constructor.
+     */
+    public PerfidixMethodException() {
+        super();
+    }
+
 }

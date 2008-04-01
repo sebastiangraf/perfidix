@@ -40,237 +40,237 @@ import org.perfidix.IResult.MethodResult;
  */
 public class GnuPlotData extends ResultVisitor {
 
-	/**
-	 * a string buffer for the concantenation.
-	 */
-	private String buffer = new String();
+    /**
+     * a string buffer for the concantenation.
+     */
+    private String buffer = new String();
 
-	/**
-	 * the default file ID being parsed as a comment.
-	 */
-	private String theID = "$Id: GnuPlotData.java 2624 2007-03-28 15:08:52Z kramis $";
+    /**
+     * the default file ID being parsed as a comment.
+     */
+    private String theID =
+            "$Id: GnuPlotData.java 2624 2007-03-28 15:08:52Z kramis $";
 
-	/**
-	 * the next row ID.
-	 */
-	private int nextID = 0;
+    /**
+     * the next row ID.
+     */
+    private int nextID = 0;
 
-	/**
-	 * the file being parsed as a comment into the data file.
-	 */
-	private String theFileName = "";
+    /**
+     * the file being parsed as a comment into the data file.
+     */
+    private String theFileName = "";
 
-	/**
-	 * the IMeter which was used.
-	 */
-	private IMeter meter = null;
+    /**
+     * the IMeter which was used.
+     */
+    private IMeter meter = null;
 
-	/**
-	 * the gnuplot visitor converts a perfidix result to a gnuplot file.
-	 * 
-	 */
-	public GnuPlotData() {
-		super();
-	}
+    /**
+     * the gnuplot visitor converts a perfidix result to a gnuplot file.
+     */
+    public GnuPlotData() {
+        super();
+    }
 
-	/**
-	 * resets itself.
-	 * 
-	 */
-	private void reset() {
-		nextID = 0;
-	}
+    /**
+     * resets itself.
+     */
+    private void reset() {
+        nextID = 0;
+    }
 
-	/**
-	 * sets the filename.
-	 * 
-	 * @param filename
-	 *            the filename
-	 */
-	public void setFilename(final String filename) {
-		theFileName = filename;
-	}
+    /**
+     * sets the filename.
+     * 
+     * @param filename
+     *                the filename
+     */
+    public void setFilename(final String filename) {
+        theFileName = filename;
+    }
 
-	/**
-	 * sets the meter to display the results for.
-	 * 
-	 * @param which
-	 *            the meter.
-	 */
-	public void setMeter(final IMeter which) {
-		meter = which;
-	}
+    /**
+     * sets the meter to display the results for.
+     * 
+     * @param which
+     *                the meter.
+     */
+    public void setMeter(final IMeter which) {
+        meter = which;
+    }
 
-	/**
-	 * allows a simpler configuration through a facade.
-	 * 
-	 * @param which
-	 *            the meter to display the results for.
-	 * @param id
-	 *            the subversion-id.
-	 * @param theFilename
-	 *            the filename, whatever information.
-	 */
-	public void configure(final IMeter which, final String id,
-			final String theFilename) {
+    /**
+     * allows a simpler configuration through a facade.
+     * 
+     * @param which
+     *                the meter to display the results for.
+     * @param id
+     *                the subversion-id.
+     * @param theFilename
+     *                the filename, whatever information.
+     */
+    public void configure(
+            final IMeter which, final String id, final String theFilename) {
 
-		setID(id);
-		setFilename(theFilename);
-		setMeter(which);
+        setID(id);
+        setFilename(theFilename);
+        setMeter(which);
 
-	}
+    }
 
-	/**
-	 * if you want to catch other results than the default IMeter, take care to
-	 * use configure() or setMeter() in order to achieve this.
-	 * 
-	 * @see #configure(IMeter, String, String)
-	 * @see #setMeter(IMeter)
-	 * @param r
-	 *            the result which will be visited the result may only be a
-	 *            BenchmarkResult and nothing else!
-	 * 
-	 */
-	public void visit(final Result r) {
+    /**
+     * if you want to catch other results than the default IMeter, take care to
+     * use configure() or setMeter() in order to achieve this.
+     * 
+     * @see #configure(IMeter, String, String)
+     * @see #setMeter(IMeter)
+     * @param r
+     *                the result which will be visited the result may only be a
+     *                BenchmarkResult and nothing else!
+     */
+    public void visit(final Result r) {
 
-		if (!(r instanceof IResult.BenchmarkResult)) {
-			throw new RuntimeException("only benchmark results are supported!");
-		}
+        if (!(r instanceof IResult.BenchmarkResult)) {
+            throw new RuntimeException("only benchmark results are supported!");
+        }
 
-		reset();
+        reset();
 
-		if (null == meter) {
-			meter = r.getDefaultMeter();
-		}
+        if (null == meter) {
+            meter = r.getDefaultMeter();
+        }
 
-		addHeaderComment("Id", theID);
-		addHeaderComment("About", getAboutText(meter));
-		addHeaderComment("Filename", theFileName);
-		addHeaderComment("Title", r.getName());
-		addHeaderComment("Date", new Date(System.currentTimeMillis())
-				.toString());
-		addHeaderComment("Unit", meter.getUnit());
-		addBlankLine();
-		addColumnComment();
-		parseMethods((IResult.BenchmarkResult) r);
-		addBlankLine();
+        addHeaderComment("Id", theID);
+        addHeaderComment("About", getAboutText(meter));
+        addHeaderComment("Filename", theFileName);
+        addHeaderComment("Title", r.getName());
+        addHeaderComment("Date", new Date(System.currentTimeMillis())
+                .toString());
+        addHeaderComment("Unit", meter.getUnit());
+        addBlankLine();
+        addColumnComment();
+        parseMethods((IResult.BenchmarkResult) r);
+        addBlankLine();
 
-	}
+    }
 
-	private String getAboutText(final IMeter m) {
-		return "Perfidix gnuplot (.gpd) data output. Meter is "
-				+ m.getUnitDescription();
-	}
+    private String getAboutText(final IMeter m) {
+        return "Perfidix gnuplot (.gpd) data output. Meter is "
+                + m.getUnitDescription();
+    }
 
-	/**
-	 * 
-	 * @param r
-	 */
-	private void parseMethods(final IResult.BenchmarkResult r) {
-		Iterator<IResult.ClassResult> it = r.getChildren().iterator();
-		while (it.hasNext()) {
-			Iterator<IResult.MethodResult> m = it.next().getChildren()
-					.iterator();
-			while (m.hasNext()) {
-				parseMethod(m.next());
-			}
-		}
-	}
+    /**
+     * @param r
+     */
+    private void parseMethods(final IResult.BenchmarkResult r) {
+        Iterator<IResult.ClassResult> it = r.getChildren().iterator();
+        while (it.hasNext()) {
+            Iterator<IResult.MethodResult> m =
+                    it.next().getChildren().iterator();
+            while (m.hasNext()) {
+                parseMethod(m.next());
+            }
+        }
+    }
 
-	private void parseMethod(final MethodResult m) {
-	    Hashtable<IMeter, ArrayList<IResult.SingleResult>> tree = m
-				.getCustomChildren();
-		if (!tree.containsKey(meter)) {
-			return;
-		}
+    private void parseMethod(final MethodResult m) {
+        Hashtable<IMeter, ArrayList<IResult.SingleResult>> tree =
+                m.getCustomChildren();
+        if (!tree.containsKey(meter)) {
+            return;
+        }
 
-		Iterator<IResult.SingleResult> singleIt = tree.get(meter).iterator();
-		while (singleIt.hasNext()) {
-			parseSingleResult(singleIt.next(), m);
-		}
+        Iterator<IResult.SingleResult> singleIt = tree.get(meter).iterator();
+        while (singleIt.hasNext()) {
+            parseSingleResult(singleIt.next(), m);
+        }
 
-	}
+    }
 
-	private void parseSingleResult(final IResult.SingleResult single,
-			final MethodResult m) {
+    private void parseSingleResult(
+            final IResult.SingleResult single, final MethodResult m) {
 
-		String[] data = { "" + nextID, "" + single.min(), "" + single.max(),
-				"" + format(single.avg()),
-				"" + format(single.getStandardDeviation()),
-				"" + format(getConf95Min(single)),
-				"" + format(getConf95Max(single)), "" + single.resultCount(),
-				"" + single.sum(), m.getName(), "\n", };
+        String[] data =
+                {
+                        "" + nextID, "" + single.min(), "" + single.max(),
+                        "" + format(single.avg()),
+                        "" + format(single.getStandardDeviation()),
+                        "" + format(getConf95Min(single)),
+                        "" + format(getConf95Max(single)),
+                        "" + single.resultCount(), "" + single.sum(),
+                        m.getName(), "\n", };
 
-		buffer += NiceTable.Util.implode("\t", data);
-		nextID++;
-	}
+        buffer += NiceTable.Util.implode("\t", data);
+        nextID++;
+    }
 
-	private void addColumnComment() {
-		String[] cols = { "### id", "min", "max", "avg", "stddev", "conf95min",
-				"conf95max", "runs", "sum", "benchMethodName" };
+    private void addColumnComment() {
+        String[] cols =
+                {
+                        "### id", "min", "max", "avg", "stddev", "conf95min",
+                        "conf95max", "runs", "sum", "benchMethodName" };
 
-		buffer += NiceTable.Util.implode("\t", cols) + "\n";
+        buffer += NiceTable.Util.implode("\t", cols) + "\n";
 
-	}
+    }
 
-	/**
-	 * inserts a blank line.
-	 * 
-	 */
-	private void addBlankLine() {
-		buffer += "\n";
-	}
+    /**
+     * inserts a blank line.
+     */
+    private void addBlankLine() {
+        buffer += "\n";
+    }
 
-	private void addHeaderComment(final String key, final String value) {
-		buffer += "# " + key + "\t# " + value + "\n";
-	}
+    private void addHeaderComment(final String key, final String value) {
+        buffer += "# " + key + "\t# " + value + "\n";
+    }
 
-	/**
-	 * 
-	 * @param someData
-	 *            the data to set.
-	 */
-	public void setID(final String someData) {
-		theID = someData;
-	}
+    /**
+     * @param someData
+     *                the data to set.
+     */
+    public void setID(final String someData) {
+        theID = someData;
+    }
 
-	/**
-	 * @return the buffered result.
-	 */
-	public String toString() {
-		return buffer;
-	}
+    /**
+     * @return the buffered result.
+     */
+    public String toString() {
+        return buffer;
+    }
 
-	/**
-	 * some formatting.
-	 * 
-	 * @param bla
-	 *            bla.
-	 * @overrides
-	 * @return the formatted string
-	 */
-	protected String format(final double bla) {
-		return super.format(bla).replace(',', '.');
-	}
+    /**
+     * some formatting.
+     * 
+     * @param bla
+     *                bla.
+     * @overrides
+     * @return the formatted string
+     */
+    protected String format(final double bla) {
+        return super.format(bla).replace(',', '.');
+    }
 
-	/**
-	 * writes the contents of the buffer to the file name. usage:
-	 * 
-	 * <pre>
-	 * Result r; // get your result
-	 * GnuPlotData d = new GnuPlotData();
-	 * d.configure(r.getMeter(), &quot;0xDEAD&quot;, &quot;testing/gpdFile.gpd&quot;);
-	 * d.visit(r);
-	 * d.save();
-	 * </pre>
-	 * 
-	 * @throws IOException
-	 *             if writing didn't work.
-	 */
-	public void save() throws IOException {
-		File f = new File(theFileName);
-		FileWriter w = new FileWriter(f);
-		w.write(buffer);
-	}
+    /**
+     * writes the contents of the buffer to the file name. usage:
+     * 
+     * <pre>
+     * Result r; // get your result
+     * GnuPlotData d = new GnuPlotData();
+     * d.configure(r.getMeter(), &quot;0xDEAD&quot;, &quot;testing/gpdFile.gpd&quot;);
+     * d.visit(r);
+     * d.save();
+     * </pre>
+     * 
+     * @throws IOException
+     *                 if writing didn't work.
+     */
+    public void save() throws IOException {
+        File f = new File(theFileName);
+        FileWriter w = new FileWriter(f);
+        w.write(buffer);
+    }
 
 }

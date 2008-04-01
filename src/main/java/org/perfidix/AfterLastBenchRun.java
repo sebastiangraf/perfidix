@@ -26,8 +26,8 @@ import java.lang.annotation.Target;
 
 /**
  * Marks a general tearDown for each method for all runs.
+ * 
  * @author Sebastian Graf, University of Constance
- *
  */
 
 @Retention(RetentionPolicy.RUNTIME)

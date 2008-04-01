@@ -23,26 +23,26 @@ package org.perfidix.exceptions;
  *  
  */
 public class PerformanceRuntimeException extends RuntimeException {
-  /** 
-   * 
-   */
-  public static final long serialVersionUID = 1;
+    /** 
+     * 
+     */
+    public static final long serialVersionUID = 1;
 
-  /**
-   * alternative constructor, allowing a default message 
-   * to be given.
-   * @param message the message to tell the user.
-   */
-  public PerformanceRuntimeException(final String message) {
-    super(message);
-  }
+    /**
+     * alternative constructor, allowing a default message to be given.
+     * 
+     * @param message
+     *                the message to tell the user.
+     */
+    public PerformanceRuntimeException(final String message) {
+        super(message);
+    }
 
-  /**
-   * default constructor.
-   *
-   */
-  public PerformanceRuntimeException() {
-    super();
-  }
+    /**
+     * default constructor.
+     */
+    public PerformanceRuntimeException() {
+        super();
+    }
 
 }

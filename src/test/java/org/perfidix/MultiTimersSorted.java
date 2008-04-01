@@ -53,7 +53,10 @@ public class MultiTimersSorted extends PerfidixTest {
         // System.out.println("running ... ");
         // startDebug();
         Result r = bm.run(1);
-        String[] s = { "benchOne", "a", "ms", "summary for A", "ms", "a",  "summary for test benchmark", "ms", "a" };
+        String[] s =
+                {
+                        "benchOne", "a", "ms", "summary for A", "ms", "a",
+                        "summary for test benchmark", "ms", "a" };
         String pattern = ".*" + NiceTable.Util.implode(".*", s) + ".*";
         Pattern p = Pattern.compile(pattern, Pattern.DOTALL);
         Matcher m = p.matcher(r.toString());

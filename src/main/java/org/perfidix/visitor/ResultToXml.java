@@ -39,207 +39,214 @@ import org.perfidix.Result;
 
 /**
  * this visitor allows the saving of the result.
- * 
  */
 public class ResultToXml extends ResultVisitor {
 
-	/**
-	 * where to store the results XML file.
-	 */
-	private File destinationResults;
+    /**
+     * where to store the results XML file.
+     */
+    private File destinationResults;
 
-	/**
-	 * the XML document that represents the results.
-	 */
-	private Document document;
+    /**
+     * the XML document that represents the results.
+     */
+    private Document document;
 
-	/**
-	 * the root element.
-	 */
-	private Element root;
+    /**
+     * the root element.
+     */
+    private Element root;
 
-	/**
-	 * temporary elements.
-	 */
-	private Element snapshot;
+    /**
+     * temporary elements.
+     */
+    private Element snapshot;
 
-	/**
-	 * the logger object.
-	 */
-	private final static Log LOGGER = LogFactory.getLog("ResultToXML");
+    /**
+     * the logger object.
+     */
+    private final static Log LOGGER = LogFactory.getLog("ResultToXML");
 
-	/**
-	 * convenience constructor. the result file is empty.
-	 * 
-	 */
-	public ResultToXml() {
-		this("");
-	}
+    /**
+     * convenience constructor. the result file is empty.
+     */
+    public ResultToXml() {
+        this("");
+    }
 
-	/**
-	 * The constructor in case we create a new results file.
-	 * 
-	 * @TODO allow id and svn attribute.
-	 * @param resultsFile
-	 *            the filename to store the results to.
-	 */
-	public ResultToXml(final String resultsFile) {
+    /**
+     * The constructor in case we create a new results file.
+     * 
+     * @TODO allow id and svn attribute.
+     * @param resultsFile
+     *                the filename to store the results to.
+     */
+    public ResultToXml(final String resultsFile) {
 
-		destinationResults = new File(resultsFile);
-		document = DocumentHelper.createDocument();
-		root = document.addElement("root");
-		snapshot = root.addElement("snapshot").addAttribute("svn", "")
-				.addAttribute("id", "").addAttribute("date",
-						new Date(System.currentTimeMillis()).toString());
-	}
+        destinationResults = new File(resultsFile);
+        document = DocumentHelper.createDocument();
+        root = document.addElement("root");
+        snapshot =
+                root
+                        .addElement("snapshot")
+                        .addAttribute("svn", "")
+                        .addAttribute("id", "")
+                        .addAttribute(
+                                "date",
+                                new Date(System.currentTimeMillis()).toString());
+    }
 
-	/**
-	 * The constructor in case we append new results to an existing result set.
-	 * 
-	 * @param previousResults
-	 *            the results read from the existing file
-	 * @param resultFile
-	 *            where to store it..actually in the same place as the previous
-	 */
-	public ResultToXml(final Document previousResults, final String resultFile) {
+    /**
+     * The constructor in case we append new results to an existing result set.
+     * 
+     * @param previousResults
+     *                the results read from the existing file
+     * @param resultFile
+     *                where to store it..actually in the same place as the
+     *                previous
+     */
+    public ResultToXml(final Document previousResults, final String resultFile) {
 
-		document = previousResults;
-		destinationResults = new File(resultFile);
+        document = previousResults;
+        destinationResults = new File(resultFile);
 
-		snapshot = root.addElement("snapshot").addAttribute("svn", "")
-				.addAttribute("id", "").addAttribute("date", "");
-	}
+        snapshot =
+                root
+                        .addElement("snapshot").addAttribute("svn", "")
+                        .addAttribute("id", "").addAttribute("date", "");
+    }
 
-	private void addDefaultAttributes(final Result r, final Element e) {
-		e.addAttribute("max", Long.toString(r.max()));
-		e.addAttribute("min", Long.toString(r.min()));
-		e.addAttribute("avg", Double.toString(r.avg()));
-		e.addAttribute("stddev", Double.toString(r.getStandardDeviation()));
-		e.addAttribute("conf95", Double.toString(r.getConf95()));
-		e.addAttribute("conf99", Double.toString(r.getConf99()));
+    private void addDefaultAttributes(final Result r, final Element e) {
+        e.addAttribute("max", Long.toString(r.max()));
+        e.addAttribute("min", Long.toString(r.min()));
+        e.addAttribute("avg", Double.toString(r.avg()));
+        e.addAttribute("stddev", Double.toString(r.getStandardDeviation()));
+        e.addAttribute("conf95", Double.toString(r.getConf95()));
+        e.addAttribute("conf99", Double.toString(r.getConf99()));
 
-		e.addAttribute("name", r.getName());
-	}
+        e.addAttribute("name", r.getName());
+    }
 
-	/**
-	 * visits a benchmark result.
-	 * 
-	 * @param r
-	 */
-	private void visit(final IResult.BenchmarkResult r) {
-		Element e = snapshot.addElement("benchmark");
-		addDefaultAttributes(r, e);
-		Iterator<IResult.ClassResult> it = r.getChildren().iterator();
-		while (it.hasNext()) {
-			visit(it.next(), e);
-		}
-	}
+    /**
+     * visits a benchmark result.
+     * 
+     * @param r
+     */
+    private void visit(final IResult.BenchmarkResult r) {
+        Element e = snapshot.addElement("benchmark");
+        addDefaultAttributes(r, e);
+        Iterator<IResult.ClassResult> it = r.getChildren().iterator();
+        while (it.hasNext()) {
+            visit(it.next(), e);
+        }
+    }
 
-	/**
-	 * visits the class result.
-	 * 
-	 * @param my
-	 * @param parent
-	 */
-	private void visit(final IResult.ClassResult my, final Element parent) {
-		Element classResult = parent.addElement("class");
-		addDefaultAttributes(my, classResult);
-		classResult.addAttribute("class", my.getClassUnderTest());
+    /**
+     * visits the class result.
+     * 
+     * @param my
+     * @param parent
+     */
+    private void visit(final IResult.ClassResult my, final Element parent) {
+        Element classResult = parent.addElement("class");
+        addDefaultAttributes(my, classResult);
+        classResult.addAttribute("class", my.getClassUnderTest());
 
-		Iterator<IResult.MethodResult> classIterator = my.getChildren()
-				.iterator();
-		while (classIterator.hasNext()) {
-			visit(classIterator.next(), classResult);
-		}
-	}
+        Iterator<IResult.MethodResult> classIterator =
+                my.getChildren().iterator();
+        while (classIterator.hasNext()) {
+            visit(classIterator.next(), classResult);
+        }
+    }
 
-	private void visit(final IResult.MethodResult method,
-			final Element classResult) {
-		LOGGER.info("visiting the method results...");
-		Element methodResult = classResult.addElement("method");
-		addDefaultAttributes(method, methodResult);
+    private void visit(
+            final IResult.MethodResult method, final Element classResult) {
+        LOGGER.info("visiting the method results...");
+        Element methodResult = classResult.addElement("method");
+        addDefaultAttributes(method, methodResult);
 
-		Iterator<IResult.SingleResult> methodIterator = method.getChildren()
-				.iterator();
+        Iterator<IResult.SingleResult> methodIterator =
+                method.getChildren().iterator();
 
-		while (methodIterator.hasNext()) {
-			visit(methodIterator.next(), methodResult);
+        while (methodIterator.hasNext()) {
+            visit(methodIterator.next(), methodResult);
 
-		}
-	}
+        }
+    }
 
-	private void visit(final IResult.SingleResult result,
-			final Element methodResult) {
-		LOGGER.info("visiting the singleresult...");
+    private void visit(
+            final IResult.SingleResult result, final Element methodResult) {
+        LOGGER.info("visiting the singleresult...");
 
-		Element singleResult = methodResult.addElement("result");
-		singleResult.addAttribute("name", result.getName());
-		Element meter = singleResult.addElement("meter");
-		IMeter theMeter = result.getDefaultMeter();
-		addDefaultAttributes(result, meter);
-		meter.addAttribute("unit", theMeter.getUnit());
-		meter.addAttribute("description", theMeter.getUnit());
-		meter.addAttribute("class", theMeter.getClass().getSimpleName());
+        Element singleResult = methodResult.addElement("result");
+        singleResult.addAttribute("name", result.getName());
+        Element meter = singleResult.addElement("meter");
+        IMeter theMeter = result.getDefaultMeter();
+        addDefaultAttributes(result, meter);
+        meter.addAttribute("unit", theMeter.getUnit());
+        meter.addAttribute("description", theMeter.getUnit());
+        meter.addAttribute("class", theMeter.getClass().getSimpleName());
 
-		Element data = singleResult.addElement("data");
-		data.addCDATA(NiceTable.Util.implode(",", result.getResultSet()));
+        Element data = singleResult.addElement("data");
+        data.addCDATA(NiceTable.Util.implode(",", result.getResultSet()));
 
-	}
+    }
 
-	/**
-	 * TODO ALEX....explain this!
-	 * 
-	 * <pre>
-	 * Visitor v = new SaveResultVisitor();
-	 * Result r = new Result();
-	 * v.visit(r);
-	 * </pre>
-	 * 
-	 * @param r
-	 *            the result to visit.
-	 */
-	public void visit(final Result r) {
+    /**
+     * TODO ALEX....explain this!
+     * 
+     * <pre>
+     * Visitor v = new SaveResultVisitor();
+     * Result r = new Result();
+     * v.visit(r);
+     * </pre>
+     * 
+     * @param r
+     *                the result to visit.
+     */
+    public void visit(final Result r) {
 
-		if (r instanceof IResult.BenchmarkResult) {
-			visit((IResult.BenchmarkResult) r);
-		} else if (r instanceof IResult.ClassResult) {
-			visit((IResult.ClassResult) r, snapshot.addElement("benchmark"));
-		} else if (r instanceof IResult.MethodResult) {
-			visit((IResult.MethodResult) r, snapshot.addElement("benchmark")
-					.addElement("class"));
-		} else if (r instanceof IResult.SingleResult) {
-			visit((IResult.SingleResult) r, snapshot.addElement("benchmark")
-					.addElement("class").addElement("method"));
-		} else {
-			throw new RuntimeException("unsupported result type.");
-		}
+        if (r instanceof IResult.BenchmarkResult) {
+            visit((IResult.BenchmarkResult) r);
+        } else if (r instanceof IResult.ClassResult) {
+            visit((IResult.ClassResult) r, snapshot.addElement("benchmark"));
+        } else if (r instanceof IResult.MethodResult) {
+            visit((IResult.MethodResult) r, snapshot
+                    .addElement("benchmark").addElement("class"));
+        } else if (r instanceof IResult.SingleResult) {
+            visit((IResult.SingleResult) r, snapshot
+                    .addElement("benchmark").addElement("class").addElement(
+                            "method"));
+        } else {
+            throw new RuntimeException("unsupported result type.");
+        }
 
-	}
+    }
 
-	/**
-	 * Save the results in a file.
-	 * 
-	 * @throws IOException
-	 *             if the fileWriter could not write the file.
-	 */
-	public void save() throws IOException {
-		OutputFormat format = OutputFormat.createPrettyPrint();
-		XMLWriter writer1 = new XMLWriter(new FileWriter(destinationResults),
-				format);
-		LOGGER.trace("will save the results in");
-		LOGGER.trace(document.asXML());
-		writer1.write(document);
-		writer1.flush();
-		writer1.close();
+    /**
+     * Save the results in a file.
+     * 
+     * @throws IOException
+     *                 if the fileWriter could not write the file.
+     */
+    public void save() throws IOException {
+        OutputFormat format = OutputFormat.createPrettyPrint();
+        XMLWriter writer1 =
+                new XMLWriter(new FileWriter(destinationResults), format);
+        LOGGER.trace("will save the results in");
+        LOGGER.trace(document.asXML());
+        writer1.write(document);
+        writer1.flush();
+        writer1.close();
 
-	}
+    }
 
-	/**
-	 * @return the XML document
-	 */
-	public Document getDocument() {
+    /**
+     * @return the XML document
+     */
+    public Document getDocument() {
 
-		return document;
-	}
+        return document;
+    }
 
 }

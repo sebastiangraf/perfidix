@@ -29,261 +29,247 @@ import org.perfidix.visitor.GnuPlotData;
 /**
  * a benchmark test.
  */
-public class PerfidixBenchTest  {
+public class PerfidixBenchTest {
 
-	private long[] set;
+    private long[] set;
 
-	private Result r;
+    private Result r;
 
-	private int num = 10;
+    private int num = 10;
 
-	private int inputLength = 2000;
+    private int inputLength = 2000;
 
-	/**
-	 * constructor.
-	 */
-	public PerfidixBenchTest() {
-		set = new long[inputLength];
-		for (int i = 0; i < inputLength; i++) {
-			set[i] = (int) (Math.random() * 20);
-		}
-		r = Perfidix.createSingleResult(set);
-	}
+    /**
+     * constructor.
+     */
+    public PerfidixBenchTest() {
+        set = new long[inputLength];
+        for (int i = 0; i < inputLength; i++) {
+            set[i] = (int) (Math.random() * 20);
+        }
+        r = Perfidix.createSingleResult(set);
+    }
 
+    @Bench
+    public void benchAvg() {
 
-	@Bench
-	public void benchAvg() {
+        for (int i = 0; i < num; i++) {
+            r.avg();
+        }
+    }
 
-		for (int i = 0; i < num; i++) {
-			r.avg();
-		}
-	}
+    @Bench
+    public void benchSum() {
 
-	@Bench
-	public void benchSum() {
+        for (int i = 0; i < num; i++) {
+            r.sum();
+        }
+    }
 
-		for (int i = 0; i < num; i++) {
-			r.sum();
-		}
-	}
+    @Bench
+    public void benchMean() {
 
-	@Bench
-	public void benchMean() {
+        for (int i = 0; i < num; i++) {
+            r.mean();
+        }
+    }
 
-		for (int i = 0; i < num; i++) {
-			r.mean();
-		}
-	}
+    @Bench
+    public void benchVariance() {
 
-	@Bench
-	public void benchVariance() {
+        for (int i = 0; i < num; i++) {
+            r.variance();
+        }
+    }
 
-		for (int i = 0; i < num; i++) {
-			r.variance();
-		}
-	}
+    @Bench
+    public void benchNumberResultSet() {
 
-	@Bench
-	public void benchNumberResultSet() {
+        for (int i = 0; i < num; i++) {
+            r.resultCount();
+        }
+    }
 
-		for (int i = 0; i < num; i++) {
-			r.resultCount();
-		}
-	}
+    @Bench
+    public void benchGetStdDev() {
 
-	@Bench
-	public void benchGetStdDev() {
+        for (int i = 0; i < num; i++) {
+            r.getStandardDeviation();
+        }
+    }
 
-		for (int i = 0; i < num; i++) {
-			r.getStandardDeviation();
-		}
-	}
+    @Bench
+    public void benchMin() {
 
-	@Bench
-	public void benchMin() {
+        for (int i = 0; i < num; i++) {
+            r.min();
+        }
+    }
 
-		for (int i = 0; i < num; i++) {
-			r.min();
-		}
-	}
+    @Bench
+    public void benchMax() {
 
-	@Bench
-	public void benchMax() {
+        for (int i = 0; i < num; i++) {
+            r.min();
+        }
+    }
 
-		for (int i = 0; i < num; i++) {
-			r.min();
-		}
-	}
-	
-	@Bench
-	public void benchConf95() {
+    @Bench
+    public void benchConf95() {
 
-		for (int i = 0; i < num; i++) {
-			r.getConf95();
-		}
-	}
+        for (int i = 0; i < num; i++) {
+            r.getConf95();
+        }
+    }
 
-	@Bench
-	public void benchConf99() {
+    @Bench
+    public void benchConf99() {
 
-		for (int i = 0; i < num; i++) {
-			r.getConf99();
-		}
-	}
+        for (int i = 0; i < num; i++) {
+            r.getConf99();
+        }
+    }
 
-	@Bench
-	public void benchGetSquareSum() {
+    @Bench
+    public void benchGetSquareSum() {
 
-		for (int i = 0; i < num; i++) {
-			r.squareSum();
-		}
-	}
+        for (int i = 0; i < num; i++) {
+            r.squareSum();
+        }
+    }
 
-	@Bench
-	public void benchMedian() {
+    @Bench
+    public void benchMedian() {
 
-		for (int i = 0; i < num; i++) {
-			r.median();
-		}
-	}
+        for (int i = 0; i < num; i++) {
+            r.median();
+        }
+    }
 
-	/**
-	 * 
-	 * @author axo
-	 * 
-	 */
-	public class SampleBenchmarkClass {
+    /**
+     * @author axo
+     */
+    public class SampleBenchmarkClass {
 
-		private static final int NUM = 50000;
+        private static final int NUM = 50000;
 
-		private IMeter oMeter;
+        private IMeter oMeter;
 
-		/**
-		 * default constructor.
-		 * 
-		 */
-		public SampleBenchmarkClass() {
-			Perfidix.createMeter("object creations", "o");
-			oMeter = Perfidix.getMeter("object creations");
-		}
+        /**
+         * default constructor.
+         */
+        public SampleBenchmarkClass() {
+            Perfidix.createMeter("object creations", "o");
+            oMeter = Perfidix.getMeter("object creations");
+        }
 
-		@Bench
-		public void benchSampleMethod1() {
-			long[] x = new long[SampleBenchmarkClass.NUM];
-			for (int i = 0; i < x.length; i++) {
-				x[i] = i;
-			}
-		}
+        @Bench
+        public void benchSampleMethod1() {
+            long[] x = new long[SampleBenchmarkClass.NUM];
+            for (int i = 0; i < x.length; i++) {
+                x[i] = i;
+            }
+        }
 
-		@Bench
-		public void benchSampleMethod2() {
-			SomeObj[] x = new SomeObj[SampleBenchmarkClass.NUM];
-			for (int i = 0; i < x.length; i++) {
-				x[i] = new SomeObj(i, new Unit("CFR"));
-				oMeter.tick();
-				oMeter.tick();
-			}
-		}
+        @Bench
+        public void benchSampleMethod2() {
+            SomeObj[] x = new SomeObj[SampleBenchmarkClass.NUM];
+            for (int i = 0; i < x.length; i++) {
+                x[i] = new SomeObj(i, new Unit("CFR"));
+                oMeter.tick();
+                oMeter.tick();
+            }
+        }
 
-	}
+    }
 
-	/**
-	 * 
-	 * @author axo
-	 * 
-	 */
-	public class SomeObj {
-		private Unit u;
+    /**
+     * @author axo
+     */
+    public class SomeObj {
+        private Unit u;
 
-		private long value;
+        private long value;
 
-		/**
-		 * 
-		 * @param aValue
-		 *            str
-		 * @param unit
-		 *            str
-		 */
-		public SomeObj(final long aValue, final Unit unit) {
-			this.value = aValue;
-			this.u = unit;
-		}
+        /**
+         * @param aValue
+         *                str
+         * @param unit
+         *                str
+         */
+        public SomeObj(final long aValue, final Unit unit) {
+            this.value = aValue;
+            this.u = unit;
+        }
 
-		/**
-		 * 
-		 * @return theUnit
-		 */
-		Unit getUnit() {
-			return u;
-		}
+        /**
+         * @return theUnit
+         */
+        Unit getUnit() {
+            return u;
+        }
 
-		/**
-		 * 
-		 * @return theValue
-		 */
-		long getValue() {
-			return value;
-		}
+        /**
+         * @return theValue
+         */
+        long getValue() {
+            return value;
+        }
 
-	}
+    }
 
-	/**
-	 * 
-	 * @author axo
-	 * 
-	 */
-	public class Unit {
-		private String key;
+    /**
+     * @author axo
+     */
+    public class Unit {
+        private String key;
 
-		/**
-		 * 
-		 * @param aKey
-		 *            t
-		 */
-		public Unit(final String aKey) {
-			key = aKey;
-		}
+        /**
+         * @param aKey
+         *                t
+         */
+        public Unit(final String aKey) {
+            key = aKey;
+        }
 
-		/**
-		 * 
-		 * this is not a comment.
-		 * 
-		 * @see java.lang.Object#toString
-		 * @return the representation
-		 */
-		public String toString() {
-			return key;
-		}
-	}
+        /**
+         * this is not a comment.
+         * 
+         * @see java.lang.Object#toString
+         * @return the representation
+         */
+        public String toString() {
+            return key;
+        }
+    }
 
-	/**
-	 * 
-	 * @param args
-	 *            nothing will be taken as input.
-	 */
-	public static void main(final String[] args) {
-		Benchmark b = new Benchmark("hello world.");
+    /**
+     * @param args
+     *                nothing will be taken as input.
+     */
+    public static void main(final String[] args) {
+        Benchmark b = new Benchmark("hello world.");
 
-		try {
-			b.add(PerfidixBenchTest.class);
-		} catch (Exception e) {
-			System.out.println("argh. could not add the PerfidixBenchTest.");
-		}
-		b.useNanoMeter();
-		Result r = b.run(10);
-		System.out.println(r);
+        try {
+            b.add(PerfidixBenchTest.class);
+        } catch (Exception e) {
+            System.out.println("argh. could not add the PerfidixBenchTest.");
+        }
+        b.useNanoMeter();
+        Result r = b.run(10);
+        System.out.println(r);
 
-		Benchmark b2 = new Benchmark("EXAMPLE");
-		b2.add(new PerfidixBenchTest().new SampleBenchmarkClass());
-		// b2.useMilliMeter();
-		Result r2 = b2.run(10);
-		System.out.println(r2);
+        Benchmark b2 = new Benchmark("EXAMPLE");
+        b2.add(new PerfidixBenchTest().new SampleBenchmarkClass());
+        // b2.useMilliMeter();
+        Result r2 = b2.run(10);
+        System.out.println(r2);
 
-		GnuPlotData v = new GnuPlotData();
-		v.visit(r2);
-		System.out.println("gnuplot output");
-		System.out.println(v.toString());
+        GnuPlotData v = new GnuPlotData();
+        v.visit(r2);
+        System.out.println("gnuplot output");
+        System.out.println(v.toString());
 
-	}
+    }
 
 }

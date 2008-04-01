@@ -25,100 +25,100 @@ import static org.junit.Assert.assertEquals;
 
 public class PerfidixTimerTest extends PerfidixTest {
 
-	private final int numRuns = 10;
+    private final int numRuns = 10;
 
-	/**
-	 * tests the new timer api.
-	 * 
-	 */
-	@Test
-	public void testAPI1() {
-		Benchmark bm = new Benchmark();
-		bm.add(new T());
-		bm.useNanoMeter();
-		Perfidix.createMeter("fileToucher", "ft");
-		Result r = bm.run(numRuns);
-		r.toString(); // no debugging output.
+    /**
+     * tests the new timer api.
+     */
+    @Test
+    public void testAPI1() {
+        Benchmark bm = new Benchmark();
+        bm.add(new T());
+        bm.useNanoMeter();
+        Perfidix.createMeter("fileToucher", "ft");
+        Result r = bm.run(numRuns);
+        r.toString(); // no debugging output.
 
-		getLog().info(r.toString());
-	}
+        getLog().info(r.toString());
+    }
 
-	@Test
-	public void testAPI2() {
-		Benchmark bm = new Benchmark();
-		bm.add(new T());
-		bm.useMilliMeter();
-		Result r = bm.run(numRuns);
-		// startDebug();
-		getLog().info("\n\n" + r.toString());
-		// stopDebug();
-	}
+    @Test
+    public void testAPI2() {
+        Benchmark bm = new Benchmark();
+        bm.add(new T());
+        bm.useMilliMeter();
+        Result r = bm.run(numRuns);
+        // startDebug();
+        getLog().info("\n\n" + r.toString());
+        // stopDebug();
+    }
 
-	@Test
-	public void testAPI3() {
-		Perfidix.createMeter("myMeter", "ding");
-		assertEquals(0l, Perfidix.getMeter("myMeter").getValue());
-		Perfidix.getMeter("myMeter").tick();
-		assertEquals(1l, Perfidix.getMeter("myMeter").getValue());
-	}
+    @Test
+    public void testAPI3() {
+        Perfidix.createMeter("myMeter", "ding");
+        assertEquals(0l, Perfidix.getMeter("myMeter").getValue());
+        Perfidix.getMeter("myMeter").tick();
+        assertEquals(1l, Perfidix.getMeter("myMeter").getValue());
+    }
 
-	@Test
-	@SuppressWarnings("unchecked")
-	public void testDoNotMixCarrotsWithPotatoes() {
-		ResultContainer rc = new IResult.MethodResult("rabbit");
-		IMeter carrotCounter = Perfidix.createMeter("carrotCounter",
-				"vegetables");
-		IMeter potatoeCounter = Perfidix.createMeter("potatoeCounter",
-				"vegetables");
-		// startDebug();
-		rc.append(new IResult.SingleResult("carrotEater", new long[] { 3 },
-				Perfidix.getMeter("carrotCounter")));
-		rc.append(new IResult.SingleResult("hello", new long[] { 7 }, Perfidix
-				.getMeter("potatoeCounter")));
-		rc
-				.append(Perfidix.createSingleResult("time elapsed",
-						new long[] { 5 }));
+    @Test
+    @SuppressWarnings("unchecked")
+    public void testDoNotMixCarrotsWithPotatoes() {
+        ResultContainer rc = new IResult.MethodResult("rabbit");
+        IMeter carrotCounter =
+                Perfidix.createMeter("carrotCounter", "vegetables");
+        IMeter potatoeCounter =
+                Perfidix.createMeter("potatoeCounter", "vegetables");
+        // startDebug();
+        rc.append(new IResult.SingleResult(
+                "carrotEater", new long[] { 3 }, Perfidix
+                        .getMeter("carrotCounter")));
+        rc.append(new IResult.SingleResult("hello", new long[] { 7 }, Perfidix
+                .getMeter("potatoeCounter")));
+        rc
+                .append(Perfidix.createSingleResult(
+                        "time elapsed", new long[] { 5 }));
 
-		assertEquals("the default max() action may only return the results for"
-				+ " elapsed time", 5l, rc.max());
+        assertEquals("the default max() action may only return the results for"
+                + " elapsed time", 5l, rc.max());
 
-		assertEquals(7l, rc.max(potatoeCounter));
-		assertEquals(3l, rc.max(carrotCounter));
+        assertEquals(7l, rc.max(potatoeCounter));
+        assertEquals(3l, rc.max(carrotCounter));
 
-	}
+    }
 
-	@Test
-	public void testMixedCounters1() {
-		ResultContainer<IResult.SingleResult> rc = new IResult.MethodResult(
-				"bla");
-		Perfidix.createMeter("a", "foo");
-		Perfidix.createMeter("b", "bar");
-		rc.append(new IResult.SingleResult("a", new long[] { 3 }, Perfidix
-				.getMeter("a")));
-		rc.append(new IResult.SingleResult("b", new long[] { 7 }, Perfidix
-				.getMeter("a")));
-		rc.append(new IResult.SingleResult("c", new long[] { 5 }, Perfidix
-				.getMeter("b")));
+    @Test
+    public void testMixedCounters1() {
+        ResultContainer<IResult.SingleResult> rc =
+                new IResult.MethodResult("bla");
+        Perfidix.createMeter("a", "foo");
+        Perfidix.createMeter("b", "bar");
+        rc.append(new IResult.SingleResult("a", new long[] { 3 }, Perfidix
+                .getMeter("a")));
+        rc.append(new IResult.SingleResult("b", new long[] { 7 }, Perfidix
+                .getMeter("a")));
+        rc.append(new IResult.SingleResult("c", new long[] { 5 }, Perfidix
+                .getMeter("b")));
 
-	}
+    }
 
-	public class T {
+    public class T {
 
-		@Bench
-		public void benchOne() {
-			IMeter m = Perfidix.getMeter("fileToucher");
-			// IMeter m2 = Perfidix.getMeter("dongToucher");
-			for (int i = 0; i < 1000; i++) {
-				Math.random();
-				if (i % 10 == 0) {
-					m.tick();
-				}
-				if (i % 100 == 0) {
-					// m2.tick();
-				}
-			}
+        @Bench
+        public void benchOne() {
+            IMeter m = Perfidix.getMeter("fileToucher");
+            // IMeter m2 = Perfidix.getMeter("dongToucher");
+            for (int i = 0; i < 1000; i++) {
+                Math.random();
+                if (i % 10 == 0) {
+                    m.tick();
+                }
+                if (i % 100 == 0) {
+                    // m2.tick();
+                }
+            }
 
-		}
-	}
+        }
+    }
 
 }

@@ -16,7 +16,7 @@
  * $Id: GnuPlotVisitorTest.java 2624 2007-03-28 15:08:52Z kramis $
  * 
  */
- 
+
 package org.perfidix;
 
 import org.junit.Before;
@@ -25,28 +25,28 @@ import org.perfidix.visitor.GnuPlotData;
 
 public class GnuPlotVisitorTest extends PerfidixTest {
 
-	private GnuPlotData v;
+    private GnuPlotData v;
 
-	@Before
-	public void setUp() throws Exception {
-		super.setUp();
-		v = new GnuPlotData();
-	}
+    @Before
+    public void setUp() throws Exception {
+        super.setUp();
+        v = new GnuPlotData();
+    }
 
-	@Test
-	public void testVisit() {
+    @Test
+    public void testVisit() {
 
-		Benchmark b = new Benchmark();
-		b.add(new PerfidixTest.BenchmarkableTestingStub());
-		Result r = b.run(100);
-		v.visit(r);
-		System.out.println(v.toString());
+        Benchmark b = new Benchmark();
+        b.add(new PerfidixTest.BenchmarkableTestingStub());
+        Result r = b.run(100);
+        v.visit(r);
+        System.out.println(v.toString());
 
-	}
+    }
 
-	@Test
-	public void testGnuPlotVisitor() {
+    @Test
+    public void testGnuPlotVisitor() {
 
-	}
+    }
 
 }

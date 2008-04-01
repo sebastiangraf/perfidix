@@ -20,31 +20,32 @@
 package org.perfidix.exceptions;
 
 /**
- * this exception will be thrown when any computation 
- * of benchmark results will compute integer overflows.
+ * this exception will be thrown when any computation of benchmark results will
+ * compute integer overflows.
+ * 
  * @author axo
- *
  */
 public class IntegerOverflowException extends PerformanceRuntimeException {
-  /**
-   * 
-   */
-  public static final long serialVersionUID = 0xDEAD;
+    /**
+     * 
+     */
+    public static final long serialVersionUID = 0xDEAD;
 
-  /**
-   * allowing a message to be told to the user.
-   * @param message the message to tell.
-   */
-  public IntegerOverflowException(final String message) {
-    super(message);
-  }
+    /**
+     * allowing a message to be told to the user.
+     * 
+     * @param message
+     *                the message to tell.
+     */
+    public IntegerOverflowException(final String message) {
+        super(message);
+    }
 
-  /**
-   * default constructor.
-   *
-   */
-  public IntegerOverflowException() {
-    super();
-  }
+    /**
+     * default constructor.
+     */
+    public IntegerOverflowException() {
+        super();
+    }
 
 }

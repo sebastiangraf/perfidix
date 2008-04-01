@@ -28,36 +28,36 @@ import org.perfidix.visitor.ResultToXml;
 
 public class XMLCreatorTest extends PerfidixTest {
 
-  private ResultToXml v;
+    private ResultToXml v;
 
-  private Result s;
+    private Result s;
 
-  private ResultContainer rc;
+    private ResultContainer rc;
 
-  @Before
-  public void setUp() throws Exception {
-    super.setUp();
-    long[] simpleData = { 1, 2, 3 };
-    v = new ResultToXml("output.xml");
-    s = Perfidix.createSingleResult("singleResult", simpleData);
-    rc = new IResult.MethodResult("testname");
-    rc.append(s);
-    rc.append(s);
-  }
-
-  @Test
-  public void test1() {
-
-    v.visit(s);
-    Document d = v.getDocument();
-    String xml = d.asXML();
-    List myContent = d.content();
-
-    for (int i = 0; i < myContent.size(); i++) {
-      getLog().info(myContent.get(i).toString());
+    @Before
+    public void setUp() throws Exception {
+        super.setUp();
+        long[] simpleData = { 1, 2, 3 };
+        v = new ResultToXml("output.xml");
+        s = Perfidix.createSingleResult("singleResult", simpleData);
+        rc = new IResult.MethodResult("testname");
+        rc.append(s);
+        rc.append(s);
     }
 
-    getLog().info(xml);
+    @Test
+    public void test1() {
 
-  }
+        v.visit(s);
+        Document d = v.getDocument();
+        String xml = d.asXML();
+        List myContent = d.content();
+
+        for (int i = 0; i < myContent.size(); i++) {
+            getLog().info(myContent.get(i).toString());
+        }
+
+        getLog().info(xml);
+
+    }
 }

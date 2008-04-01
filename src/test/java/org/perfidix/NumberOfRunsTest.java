@@ -27,41 +27,44 @@ import org.junit.Test;
 
 public class NumberOfRunsTest extends PerfidixTest {
 
-	@Test
-	public void testIgnoreMethods() {
-		Benchmark b = new Benchmark("my test");
-		PerfidixTest.BenchmarkableTestingStub stub = new PerfidixTest.BenchmarkableTestingStub();
-		b.add(stub);
-		IRandomizer.Randomizer rand = new IRandomizer.Randomizer();
-		rand.doIgnoreMethod(findMethod(stub, "benchA"));
-		rand.doInvokeMethod(findMethod(stub, "benchB"));
-		IResult.BenchmarkResult r = (IResult.BenchmarkResult) b.run(10, rand);
+    @Test
+    public void testIgnoreMethods() {
+        Benchmark b = new Benchmark("my test");
+        PerfidixTest.BenchmarkableTestingStub stub =
+                new PerfidixTest.BenchmarkableTestingStub();
+        b.add(stub);
+        IRandomizer.Randomizer rand = new IRandomizer.Randomizer();
+        rand.doIgnoreMethod(findMethod(stub, "benchA"));
+        rand.doInvokeMethod(findMethod(stub, "benchB"));
+        IResult.BenchmarkResult r = (IResult.BenchmarkResult) b.run(10, rand);
 
-		IResult.ClassResult cls = r.getChildren().get(0);
+        IResult.ClassResult cls = r.getChildren().get(0);
 
-		IResult.MethodResult benchA = cls.getChildren().get(0);
-		IResult.MethodResult benchB = cls.getChildren().get(1);
-		IResult.SingleResult benchAmillis = benchA.getChildren().get(0);
-		printChildren(benchA);
-		printChildren(benchB);
-		// assertEquals(1, benchA.getChildren().size());
-		assertEquals(0l, benchAmillis.getNumberOfRuns());
-		assertEquals("benchA", benchA.getName());
-		assertEquals(0l, benchA.getNumberOfRuns());
-		assertEquals(10l, benchB.getNumberOfRuns());
-		assertEquals(10l, cls.getNumberOfRuns());
-		assertEquals(10l, r.getNumberOfRuns());
-		System.out.println(r);
-	}
+        IResult.MethodResult benchA = cls.getChildren().get(0);
+        IResult.MethodResult benchB = cls.getChildren().get(1);
+        IResult.SingleResult benchAmillis = benchA.getChildren().get(0);
+        printChildren(benchA);
+        printChildren(benchB);
+        // assertEquals(1, benchA.getChildren().size());
+        assertEquals(0l, benchAmillis.getNumberOfRuns());
+        assertEquals("benchA", benchA.getName());
+        assertEquals(0l, benchA.getNumberOfRuns());
+        assertEquals(10l, benchB.getNumberOfRuns());
+        assertEquals(10l, cls.getNumberOfRuns());
+        assertEquals(10l, r.getNumberOfRuns());
+        System.out.println(r);
+    }
 
-	private void printChildren(IResult.MethodResult m) {
-		Iterator<IResult.SingleResult> children = m.getChildren().iterator();
-		while (children.hasNext()) {
-			IResult.SingleResult myChild = children.next();
-			System.out.println(" " + myChild.getName() + "  --- "
-					+ myChild.getNumberOfRuns()
-					+ NiceTable.Util.implode(",", myChild.getResultSet()));
-		}
-	}
+    private void printChildren(IResult.MethodResult m) {
+        Iterator<IResult.SingleResult> children = m.getChildren().iterator();
+        while (children.hasNext()) {
+            IResult.SingleResult myChild = children.next();
+            System.out.println(" "
+                    + myChild.getName()
+                    + "  --- "
+                    + myChild.getNumberOfRuns()
+                    + NiceTable.Util.implode(",", myChild.getResultSet()));
+        }
+    }
 
 }

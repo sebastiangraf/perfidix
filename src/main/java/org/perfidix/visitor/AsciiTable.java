@@ -43,201 +43,212 @@ import org.perfidix.IResult.SingleResult;
  * @see Result
  * @see ResultVisitor
  * @author axo
- * 
  */
 public class AsciiTable extends ResultVisitor {
 
-	private NiceTable table;
+    private NiceTable table;
 
-	private final String[] header = { " - ", "unit", "sum", "min", "max",
-			"avg", "stddev", "conf95", "runs", };
+    private final String[] header =
+            {
+                    " - ", "unit", "sum", "min", "max", "avg", "stddev",
+                    "conf95", "runs", };
 
-	private final int[] alignments = { NiceTable.LEFT, NiceTable.RIGHT,
-			NiceTable.RIGHT, NiceTable.RIGHT, NiceTable.RIGHT, NiceTable.RIGHT,
-			NiceTable.RIGHT, NiceTable.CENTER, NiceTable.RIGHT, };
+    private final int[] alignments =
+            {
+                    NiceTable.LEFT, NiceTable.RIGHT, NiceTable.RIGHT,
+                    NiceTable.RIGHT, NiceTable.RIGHT, NiceTable.RIGHT,
+                    NiceTable.RIGHT, NiceTable.CENTER, NiceTable.RIGHT, };
 
-	/**
-	 * allows formatting of the doubles.
-	 * 
-	 * @see java.util.Formatter for valid format strings.
-	 * @param theFloatFormat
-	 *            a comment.
-	 */
-	public AsciiTable(final String theFloatFormat) {
-		this();
-		floatFormat = theFloatFormat;
-	}
+    /**
+     * allows formatting of the doubles.
+     * 
+     * @see java.util.Formatter for valid format strings.
+     * @param theFloatFormat
+     *                a comment.
+     */
+    public AsciiTable(final String theFloatFormat) {
+        this();
+        floatFormat = theFloatFormat;
+    }
 
-	/**
-	 * constructor.
-	 */
-	public AsciiTable() {
+    /**
+     * constructor.
+     */
+    public AsciiTable() {
 
-		table = new NiceTable(header.length);
-		for (int i = 0; i < alignments.length; i++) {
-			table.setOrientation(i, alignments[i]);
-		}
-	}
+        table = new NiceTable(header.length);
+        for (int i = 0; i < alignments.length; i++) {
+            table.setOrientation(i, alignments[i]);
+        }
+    }
 
-	/**
-	 * adds the result container's header to the table.
-	 * 
-	 * @param res
-	 */
-	private void addHeader(final ResultContainer res) {
-		if (res instanceof IResult.BenchmarkResult) {
-			table.addHeader(res.getName().toUpperCase());
-			table.addLine('*');
-			table.addRow(header);
-			table.addLine('=');
-			return;
-		}
-		if (res instanceof IResult.ClassResult) {
-			table.addHeader(" ", ' ', NiceTable.LEFT);
-			table.addHeader(res.getName(), '.', NiceTable.LEFT);
-			return;
-		}
-		// other result containers don't need a header.
-	}
+    /**
+     * adds the result container's header to the table.
+     * 
+     * @param res
+     */
+    private void addHeader(final ResultContainer res) {
+        if (res instanceof IResult.BenchmarkResult) {
+            table.addHeader(res.getName().toUpperCase());
+            table.addLine('*');
+            table.addRow(header);
+            table.addLine('=');
+            return;
+        }
+        if (res instanceof IResult.ClassResult) {
+            table.addHeader(" ", ' ', NiceTable.LEFT);
+            table.addHeader(res.getName(), '.', NiceTable.LEFT);
+            return;
+        }
+        // other result containers don't need a header.
+    }
 
-	/**
-	 * generates a summary.
-	 * 
-	 * @param m
-	 * @param res
-	 */
-	private void createSummary(final IMeter m, final ResultContainer res) {
-		Formatter j = new Formatter();
-		Object[] data = {
-				" ",
-				m.getUnit(),
-				res.sum(m),
-				res.min(m),
-				res.max(m),
-				format(res.avg(m)),
-				format(res.getStandardDeviation(m)),
-				j.format("[" + floatFormat + "," + floatFormat + "]", Math.max(
-						0, res.avg(m) - res.getConf95(m)), res.avg(m)
-						+ res.getConf95(m)), res.getNumberOfRuns(),
+    /**
+     * generates a summary.
+     * 
+     * @param m
+     * @param res
+     */
+    private void createSummary(final IMeter m, final ResultContainer res) {
+        Formatter j = new Formatter();
+        Object[] data =
+                {
+                        " ",
+                        m.getUnit(),
+                        res.sum(m),
+                        res.min(m),
+                        res.max(m),
+                        format(res.avg(m)),
+                        format(res.getStandardDeviation(m)),
+                        j.format(
+                                "[" + floatFormat + "," + floatFormat + "]",
+                                Math.max(0, res.avg(m) - res.getConf95(m)), res
+                                        .avg(m)
+                                        + res.getConf95(m)),
+                        res.getNumberOfRuns(),
 
-		};
-		table.addRow(data);
-	}
+                };
+        table.addRow(data);
+    }
 
-	private void addFooter(final ResultContainer res) {
-		char whichChar;
-		String indent;
-		if (res instanceof IResult.BenchmarkResult) {
-			table.addHeader(" ", ' ', NiceTable.LEFT);
-			whichChar = '*';
-			indent = "";
-		} else if (res instanceof IResult.ClassResult) {
-			whichChar = '_';
-			indent = "  ";
-		} else {
-			whichChar = ' ';
-			indent = "    ";
-		}
+    private void addFooter(final ResultContainer res) {
+        char whichChar;
+        String indent;
+        if (res instanceof IResult.BenchmarkResult) {
+            table.addHeader(" ", ' ', NiceTable.LEFT);
+            whichChar = '*';
+            indent = "";
+        } else if (res instanceof IResult.ClassResult) {
+            whichChar = '_';
+            indent = "  ";
+        } else {
+            whichChar = ' ';
+            indent = "    ";
+        }
 
-		table.addHeader(indent + "summary for " + res.getName() + indent,
-				whichChar, NiceTable.LEFT);
+        table.addHeader(
+                indent + "summary for " + res.getName() + indent, whichChar,
+                NiceTable.LEFT);
 
-		for(Object meter : res.getRegisteredMeters()) {
-			createSummary((IMeter)meter,res);
-		}
-		
-		if (res instanceof IResult.BenchmarkResult) {
-			table.addLine('=');
-		} else if (res instanceof IResult.ClassResult) {
-			table.addLine('_');
-		} else {
-			// do nothing.
-		}
+        for (Object meter : res.getRegisteredMeters()) {
+            createSummary((IMeter) meter, res);
+        }
 
-	}
+        if (res instanceof IResult.BenchmarkResult) {
+            table.addLine('=');
+        } else if (res instanceof IResult.ClassResult) {
+            table.addLine('_');
+        } else {
+            // do nothing.
+        }
 
-	private void visitSubcontainers(final ResultContainer res) {
-		addHeader(res);
-		for(Object res2 : res.getChildren()) {
-			visit((Result)res2);
-		}
-		addFooter(res);
-	}
+    }
 
-	/**
-	 * visits the method results. the this is a
-	 * 
-	 * @param res
-	 */
-	private void visitMethodResults(final IResult.MethodResult res) {
+    private void visitSubcontainers(final ResultContainer res) {
+        addHeader(res);
+        for (Object res2 : res.getChildren()) {
+            visit((Result) res2);
+        }
+        addFooter(res);
+    }
 
-	    final Hashtable<IMeter, ArrayList<SingleResult>> customChild = res.getCustomChildren();
-	    
-		String theName;
-		if (customChild.size() > 1) {
-			table.addHeader("" + res.getName(), ' ', NiceTable.LEFT);
-			theName = "`";
-		} else {
-			theName = res.getName();
-		}
+    /**
+     * visits the method results. the this is a
+     * 
+     * @param res
+     */
+    private void visitMethodResults(final IResult.MethodResult res) {
 
-		for(final IMeter meter : customChild.keySet()) {
-			
-			
-			for(final SingleResult singRes : customChild.get(meter)) {
-				visitSingleResult(singRes, theName);
-			}
-		}
-	}
+        final Hashtable<IMeter, ArrayList<SingleResult>> customChild =
+                res.getCustomChildren();
 
-	private void visitSingleResult(final IResult.SingleResult res,
-			final String nameToDisplay) {
+        String theName;
+        if (customChild.size() > 1) {
+            table.addHeader("" + res.getName(), ' ', NiceTable.LEFT);
+            theName = "`";
+        } else {
+            theName = res.getName();
+        }
 
-		if (res.getResultSet().length < 1) {
-			return;
-		}
+        for (final IMeter meter : customChild.keySet()) {
 
-		Object[] data = {
-				nameToDisplay,
-				res.getUnit(),
-				res.sum(),
-				res.min(),
-				res.max(),
-				format(res.avg()),
-				format(res.getStandardDeviation()),
-				"[" + format(getConf95Min(res)) + ","
-						+ format(getConf95Max(res)) + "]",
-				res.getNumberOfRuns() };
-		table.addRow(data);
+            for (final SingleResult singRes : customChild.get(meter)) {
+                visitSingleResult(singRes, theName);
+            }
+        }
+    }
 
-	}
+    private void visitSingleResult(
+            final IResult.SingleResult res, final String nameToDisplay) {
 
-	/**
-	 * visits a result. the input parameter "Result" is deprecated, i don't
-	 * really like to do typecasting within the method, but we'll have to see.
-	 * 
-	 * @param res
-	 *            the result to look visit.
-	 */
-	public void visit(final Result res) {
+        if (res.getResultSet().length < 1) {
+            return;
+        }
 
-		if (res instanceof IResult.SingleResult) {
-			visitSingleResult((IResult.SingleResult) res, res.getName());
-		} else if (res instanceof IResult.MethodResult) {
-			visitMethodResults((IResult.MethodResult) res);
-		} else {
-			visitSubcontainers((ResultContainer) res);
-		}
+        Object[] data =
+                {
+                        nameToDisplay,
+                        res.getUnit(),
+                        res.sum(),
+                        res.min(),
+                        res.max(),
+                        format(res.avg()),
+                        format(res.getStandardDeviation()),
+                        "["
+                                + format(getConf95Min(res))
+                                + ","
+                                + format(getConf95Max(res))
+                                + "]", res.getNumberOfRuns() };
+        table.addRow(data);
 
-	}
+    }
 
-	/**
-	 * returns the output.
-	 * 
-	 * @return a string.
-	 */
-	public String toString() {
-		return table.toString();
-	}
+    /**
+     * visits a result. the input parameter "Result" is deprecated, i don't
+     * really like to do typecasting within the method, but we'll have to see.
+     * 
+     * @param res
+     *                the result to look visit.
+     */
+    public void visit(final Result res) {
+
+        if (res instanceof IResult.SingleResult) {
+            visitSingleResult((IResult.SingleResult) res, res.getName());
+        } else if (res instanceof IResult.MethodResult) {
+            visitMethodResults((IResult.MethodResult) res);
+        } else {
+            visitSubcontainers((ResultContainer) res);
+        }
+
+    }
+
+    /**
+     * returns the output.
+     * 
+     * @return a string.
+     */
+    public String toString() {
+        return table.toString();
+    }
 
 }

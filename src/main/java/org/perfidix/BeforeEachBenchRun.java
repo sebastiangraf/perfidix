@@ -26,8 +26,8 @@ import java.lang.annotation.Target;
 
 /**
  * Marks a setup for each run of a method.
+ * 
  * @author Sebastian Graf, University of Constance
- *
  */
 
 @Retention(RetentionPolicy.RUNTIME)

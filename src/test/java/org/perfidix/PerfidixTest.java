@@ -29,110 +29,107 @@ import org.apache.commons.logging.LogFactory;
  * functionality which all other test cases could use.
  * 
  * @author onea
- * 
  */
 public abstract class PerfidixTest {
 
-	private boolean isDebugging;
+    private boolean isDebugging;
 
-	/**
-	 * the default accuracy for computations.
-	 */
-	public static final double EPSILON = 0.000001;
+    /**
+     * the default accuracy for computations.
+     */
+    public static final double EPSILON = 0.000001;
 
-	/**
-	 * the testing logger. and NO, i do NOT want this variable to be private.
-	 * damn.
-	 */
-	private Log log = LogFactory.getLog(getClass().getName());
+    /**
+     * the testing logger. and NO, i do NOT want this variable to be private.
+     * damn.
+     */
+    private Log log = LogFactory.getLog(getClass().getName());
 
-	/**
-	 * always stops the debugger.
-	 * 
-	 * @throws Exception
-	 *             on exceptionally intelligent input.
-	 */
-	protected void setUp() throws Exception {
-		stopDebug();
-	}
+    /**
+     * always stops the debugger.
+     * 
+     * @throws Exception
+     *                 on exceptionally intelligent input.
+     */
+    protected void setUp() throws Exception {
+        stopDebug();
+    }
 
-	/**
-	 * tears down the unit test.
-	 * 
-	 * @throws Exception
-	 *             on exceptionally intelligent input.
-	 */
-	protected void tearDown() throws Exception {
-		stopDebug();
-	}
+    /**
+     * tears down the unit test.
+     * 
+     * @throws Exception
+     *                 on exceptionally intelligent input.
+     */
+    protected void tearDown() throws Exception {
+        stopDebug();
+    }
 
-	/**
-	 * 
-	 * @return the current log object.
-	 */
-	protected Log getLog() {
-		return log;
-	}
+    /**
+     * @return the current log object.
+     */
+    protected Log getLog() {
+        return log;
+    }
 
-	private String getDebugMessageHeader() {
-		return " .... -:[ " + getClass().getSimpleName() + " ]:- .... ";
-	}
+    private String getDebugMessageHeader() {
+        return " .... -:[ " + getClass().getSimpleName() + " ]:- .... ";
+    }
 
-	/**
-	 * starts the debugger.
-	 * 
-	 */
-	protected void startDebug() {
-		isDebugging = true;
-	}
+    /**
+     * starts the debugger.
+     */
+    protected void startDebug() {
+        isDebugging = true;
+    }
 
-	/**
-	 * stops the debugging run by configuring the log4j to produce less output.
-	 */
-	protected void stopDebug() {
-		if (!isDebugging) {
-			return;
-		}
-		log.info(getDebugMessageHeader());
-		isDebugging = false;
-	}
+    /**
+     * stops the debugging run by configuring the log4j to produce less output.
+     */
+    protected void stopDebug() {
+        if (!isDebugging) {
+            return;
+        }
+        log.info(getDebugMessageHeader());
+        isDebugging = false;
+    }
 
-	/**
-	 * finds a method within a given object.
-	 * 
-	 * @param o
-	 *            the object to find the method in.
-	 * @param methodName
-	 *            the method name to look for.
-	 * @return the method if found - null if not found.
-	 */
-	protected Method findMethod(final Object o, final String methodName) {
-		Method[] methods = o.getClass().getMethods();
-		for (int i = 0; i < methods.length; i++) {
-			if (methodName.equals(methods[i].getName())) {
-				return methods[i];
-			}
-		}
-		return null;
-	}
+    /**
+     * finds a method within a given object.
+     * 
+     * @param o
+     *                the object to find the method in.
+     * @param methodName
+     *                the method name to look for.
+     * @return the method if found - null if not found.
+     */
+    protected Method findMethod(final Object o, final String methodName) {
+        Method[] methods = o.getClass().getMethods();
+        for (int i = 0; i < methods.length; i++) {
+            if (methodName.equals(methods[i].getName())) {
+                return methods[i];
+            }
+        }
+        return null;
+    }
 
-	public static class BenchmarkableTestingStub {
+    public static class BenchmarkableTestingStub {
 
-		@Bench
-		public void benchA() {
-			for (int i = 0; i < 0xFF; i++) {
-				Math.random();
-			}
-		}
+        @Bench
+        public void benchA() {
+            for (int i = 0; i < 0xFF; i++) {
+                Math.random();
+            }
+        }
 
-		@Bench
-		public void benchB() {
+        @Bench
+        public void benchB() {
 
-			for (int i = 0; i < 0xFFF; i++) {
-				Math.random();
-			}
-		}
+            for (int i = 0; i < 0xFFF; i++) {
+                Math.random();
+            }
+        }
 
-	}
+    }
 
 }

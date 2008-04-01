@@ -37,10 +37,7 @@ import org.perfidix.exceptions.PerfidixMethodException;
  * @author axo
  * @since 04.10.2005 changelog: the timer usage is deprecated now. old code:
  * @since 07.03.2007 changelog: usage of bench.. method os deprecated. Use
- *        annotations instead.
- * 
- * For usage please read the Readme!
- * 
+ *        annotations instead. For usage please read the Readme!
  */
 public class Benchmark {
 
@@ -48,18 +45,18 @@ public class Benchmark {
     // Static variables
     // ////////////////////////////////////////////
 
-    private final static Log        LOGGER                      = LogFactory.getLog("Benchmark");
+    private final static Log LOGGER = LogFactory.getLog("Benchmark");
 
     /**
      * Defines how often the methods will be invoked when no invocation count is
      * given.
      */
-    public static final int         BM_DEFAULT_INVOCATION_COUNT = 1;
+    public static final int BM_DEFAULT_INVOCATION_COUNT = 1;
 
     /**
      * the null value of a long.
      */
-    public static final long        LONG_NULLVALUE              = -1;
+    public static final long LONG_NULLVALUE = -1;
 
     // ////////////////////////////////////////////
     // Normal variables
@@ -73,32 +70,32 @@ public class Benchmark {
     /**
      * name of this bench
      */
-    private String                  name                        = "";
+    private String name = "";
 
     /**
      * the array list of the meters. the first one is always the time meter.
      */
-    private ArrayList<IMeter>       meters                      = new ArrayList<IMeter>();
+    private ArrayList<IMeter> meters = new ArrayList<IMeter>();
 
     /**
      * index of the timer in the IMeter-arraylist
      */
-    private final int               timeMeterIndex              = 0;
+    private final int timeMeterIndex = 0;
 
     /**
      * boolean if the exceptions should be logged
      */
-    private boolean                 logger                      = true;
+    private boolean logger = true;
 
     /**
      * boolean if any exception is thrown by the bench
      */
-    private boolean                 exceptionsThrown            = false;
+    private boolean exceptionsThrown = false;
 
     /**
      * boolean if exceptions of any kind should be thrown to the benched class.
      */
-    private boolean                 shouldThrowException        = true;
+    private boolean shouldThrowException = true;
 
     // ////////////////////////////////////////////
     // Constructors
@@ -114,22 +111,22 @@ public class Benchmark {
     public Benchmark(final String name) {
         this(name, false);
     }
-    
+
     public Benchmark(final boolean useMemMeter) {
         this(Benchmark.class.toString(), useMemMeter);
     }
-    
+
     /**
      * you can give a benchmark container a name.
      * 
      * @param theName
-     *            the name the benchmark container will have.
+     *                the name the benchmark container will have.
      */
     public Benchmark(final String theName, final boolean useMemMeter) {
         this.name = theName;
         children = new ArrayList<Object>();
         meters.add(timeMeterIndex, new IMeter.MilliMeter());
-        if(useMemMeter) {
+        if (useMemMeter) {
             meters.add(new IMeter.MemMeter());
         }
     }
@@ -139,17 +136,17 @@ public class Benchmark {
      * Benchmarkable is deprecated, move to annotations quickly.
      * 
      * @param cls
-     *            the class under test.
+     *                the class under test.
      * @throws InstantiationException
-     *             when calling the class instance was not possible
+     *                 when calling the class instance was not possible
      * @throws IllegalAccessException
-     *             when the class is not accessible
-     * 
+     *                 when the class is not accessible
      */
     public void add(final Object obj) {
 
         if (obj instanceof Class) {
-            throw new IllegalArgumentException("Use a concrete Object, no Class!");
+            throw new IllegalArgumentException(
+                    "Use a concrete Object, no Class!");
         }
         if (null == obj) {
             appendToLogger(SimpleLog.LOG_LEVEL_INFO, "Null object passed in");
@@ -174,7 +171,7 @@ public class Benchmark {
      * 
      * @return the result.
      * @param rand
-     *            the randomizer.
+     *                the randomizer.
      */
     public Result run(final IRandomizer rand) {
         return run(BM_DEFAULT_INVOCATION_COUNT, rand);
@@ -184,7 +181,7 @@ public class Benchmark {
      * runs the benchmark, invoking each method numInvocations times.
      * 
      * @param numInvocations
-     *            how many times to run each method.
+     *                how many times to run each method.
      * @return the result.
      */
     public Result run(final int numInvocations) {
@@ -196,9 +193,9 @@ public class Benchmark {
      * benchtimer to calculate the time.
      * 
      * @param numInvocations
-     *            the number of runs.
+     *                the number of runs.
      * @param rand
-     *            the randomizer to use for the decision making.
+     *                the randomizer to use for the decision making.
      * @return the result.
      */
     @SuppressWarnings("unchecked")
@@ -207,7 +204,8 @@ public class Benchmark {
             return run(numInvocations);
         }
 
-        ResultContainer myResult = new ResultContainer.BenchmarkResult(this.getName());
+        ResultContainer myResult =
+                new ResultContainer.BenchmarkResult(this.getName());
         for (Object obj : children) {
             try {
                 myResult.append(doRunObject(obj, numInvocations, rand));
@@ -226,21 +224,26 @@ public class Benchmark {
      * to be invokable, but since this method is private, there's no problem.
      * 
      * @param numInvocations
-     *            the number of invocations.
+     *                the number of invocations.
      * @param m
-     *            the method to run.
+     *                the method to run.
      * @param rand
-     *            the randomizer to use
+     *                the randomizer to use
      * @param parent
-     *            the class the method belongs to.
+     *                the class the method belongs to.
      * @return Result.
      */
-    private IResult.MethodResult doRunObject(final Method m, final int numInvocations, final Object parent,
+    private IResult.MethodResult doRunObject(
+            final Method m, final int numInvocations, final Object parent,
             final IRandomizer rand) throws Exception {
         assert (parent != null);
         assert (numInvocations >= 0);
         Object[] args = {};
-        appendToLogger(SimpleLog.LOG_LEVEL_DEBUG, "Running method " + m.getName() + "(*" + numInvocations + "): ");
+        appendToLogger(SimpleLog.LOG_LEVEL_DEBUG, "Running method "
+                + m.getName()
+                + "(*"
+                + numInvocations
+                + "): ");
         long[] timeElapsed = new long[numInvocations];
         Object[] results = new Object[numInvocations];
         MeterHelper meterHelper = new MeterHelper(numInvocations, meters);
@@ -248,7 +251,8 @@ public class Benchmark {
 
         try {
 
-            appendToLogger(SimpleLog.LOG_LEVEL_INFO, "invoking build for method " + m);
+            appendToLogger(
+                    SimpleLog.LOG_LEVEL_INFO, "invoking build for method " + m);
             executeBeforeAfter(parent, m, BeforeFirstBenchRun.class);
             for (int invocationID = 0; invocationID < numInvocations; invocationID++) {
                 if (!rand.shouldRun(m)) {
@@ -256,23 +260,33 @@ public class Benchmark {
                     meterHelper.skip(invocationID);
                     continue;
                 }
-                appendToLogger(SimpleLog.LOG_LEVEL_INFO, "invoking setUp for method " + m);
+                appendToLogger(
+                        SimpleLog.LOG_LEVEL_INFO, "invoking setUp for method "
+                                + m);
                 executeBeforeAfter(parent, m, BeforeEachBenchRun.class);
                 meterHelper.start(invocationID);
 
-                appendToLogger(SimpleLog.LOG_LEVEL_INFO, "invoking bench for method " + m);
+                appendToLogger(
+                        SimpleLog.LOG_LEVEL_INFO, "invoking bench for method "
+                                + m);
                 long time1 = timeMeter.getValue();
                 results[invocationID] = m.invoke(parent, args);
                 long time2 = timeMeter.getValue();
                 timeElapsed[invocationID] = time2 - time1;
 
                 meterHelper.stop(invocationID);
-                appendToLogger(SimpleLog.LOG_LEVEL_INFO, "invoking tearDown for method " + m);
+                appendToLogger(
+                        SimpleLog.LOG_LEVEL_INFO,
+                        "invoking tearDown for method " + m);
                 executeBeforeAfter(parent, m, AfterEachBenchRun.class);
             }
 
-            IResult.SingleResult result = new IResult.SingleResult(m.getName(), timeElapsed, results, timeMeter);
-            appendToLogger(SimpleLog.LOG_LEVEL_INFO, "invoking cleanUp for method " + m);
+            IResult.SingleResult result =
+                    new IResult.SingleResult(
+                            m.getName(), timeElapsed, results, timeMeter);
+            appendToLogger(
+                    SimpleLog.LOG_LEVEL_INFO, "invoking cleanUp for method "
+                            + m);
             executeBeforeAfter(parent, m, AfterLastBenchRun.class);
 
             return meterHelper.createMethodResult(result);
@@ -287,25 +301,39 @@ public class Benchmark {
         }
     }
 
-    private void executeBeforeAfter(final Object objectToBench, final Method method,
-            final Class<? extends Annotation> anno) throws PerfidixMethodException {
+    private void executeBeforeAfter(
+            final Object objectToBench, final Method method,
+            final Class<? extends Annotation> anno)
+            throws PerfidixMethodException {
         Method toReturn = null;
         final Class<?>[] setUpParams = {};
         final Object[] methodParams = {};
         try {
             final Bench benchAnno = method.getAnnotation(Bench.class);
             if (benchAnno != null
-                    && (anno.equals(BeforeFirstBenchRun.class) && !(benchAnno.beforeFirstBenchRun().equals("")))) {
-                toReturn = objectToBench.getClass().getDeclaredMethod(benchAnno.beforeFirstBenchRun(), setUpParams);
+                    && (anno.equals(BeforeFirstBenchRun.class) && !(benchAnno
+                            .beforeFirstBenchRun().equals("")))) {
+                toReturn =
+                        objectToBench.getClass().getDeclaredMethod(
+                                benchAnno.beforeFirstBenchRun(), setUpParams);
             } else if (benchAnno != null
-                    && (anno.equals(BeforeEachBenchRun.class) && !(benchAnno.beforeEveryBenchRun().equals("")))) {
-                toReturn = objectToBench.getClass().getDeclaredMethod(benchAnno.beforeEveryBenchRun(), setUpParams);
+                    && (anno.equals(BeforeEachBenchRun.class) && !(benchAnno
+                            .beforeEveryBenchRun().equals("")))) {
+                toReturn =
+                        objectToBench.getClass().getDeclaredMethod(
+                                benchAnno.beforeEveryBenchRun(), setUpParams);
             } else if (benchAnno != null
-                    && (anno.equals(AfterEachBenchRun.class) && !(benchAnno.afterEveryBenchRun().equals("")))) {
-                toReturn = objectToBench.getClass().getDeclaredMethod(benchAnno.afterEveryBenchRun(), setUpParams);
+                    && (anno.equals(AfterEachBenchRun.class) && !(benchAnno
+                            .afterEveryBenchRun().equals("")))) {
+                toReturn =
+                        objectToBench.getClass().getDeclaredMethod(
+                                benchAnno.afterEveryBenchRun(), setUpParams);
             } else if (benchAnno != null
-                    && (anno.equals(AfterLastBenchRun.class) && !(benchAnno.afterLastBenchRun().equals("")))) {
-                toReturn = objectToBench.getClass().getDeclaredMethod(benchAnno.afterLastBenchRun(), setUpParams);
+                    && (anno.equals(AfterLastBenchRun.class) && !(benchAnno
+                            .afterLastBenchRun().equals("")))) {
+                toReturn =
+                        objectToBench.getClass().getDeclaredMethod(
+                                benchAnno.afterLastBenchRun(), setUpParams);
             } else {
                 toReturn = getBeforeAfter(objectToBench, anno);
             }
@@ -314,12 +342,14 @@ public class Benchmark {
                 toReturn.invoke(objectToBench, methodParams);
             } else {
                 if (toReturn != null) {
-                    throw new IllegalStateException("Method: " + toReturn.getName()
+                    throw new IllegalStateException("Method: "
+                            + toReturn.getName()
                             + " was invalid because of Params or Returnval.");
                 }
             }
         } catch (NoSuchMethodException e) {
-            appendToLogger(SimpleLog.LOG_LEVEL_INFO, anno.getName() + " method not found or the method has params.");
+            appendToLogger(SimpleLog.LOG_LEVEL_INFO, anno.getName()
+                    + " method not found or the method has params.");
             if (exceptionsThrown) {
                 throw new IllegalStateException(e);
             }
@@ -333,7 +363,8 @@ public class Benchmark {
         }
     }
 
-    private Method getBeforeAfter(final Object obj, final Class<? extends Annotation> anno)
+    private Method getBeforeAfter(
+            final Object obj, final Class<? extends Annotation> anno)
             throws PerfidixMethodException {
         Method toReturn = null;
         final Method[] methods = obj.getClass().getMethods();
@@ -344,7 +375,9 @@ public class Benchmark {
                     toReturn = methods[i];
                     found = true;
                 } else {
-                    throw new PerfidixMethodException("Use just one " + anno.getName() + " for every Bench Class!");
+                    throw new PerfidixMethodException("Use just one "
+                            + anno.getName()
+                            + " for every Bench Class!");
                 }
             }
         }
@@ -356,29 +389,33 @@ public class Benchmark {
      * runs the object. the internal implementation
      * 
      * @param numInvocations
-     *            the number of times one method is to be called.
+     *                the number of times one method is to be called.
      * @param obj
-     *            the object under test.
+     *                the object under test.
      * @return Result
      * @param timer
-     *            the timer to use
+     *                the timer to use
      * @param rand
-     *            the randomizer to use
+     *                the randomizer to use
      */
-    private Result doRunObject(final Object obj, final int numInvocations, final IRandomizer rand) throws Exception {
+    private Result doRunObject(
+            final Object obj, final int numInvocations, final IRandomizer rand)
+            throws Exception {
 
         // getting all methods
         final Object[] params = {};
         final Method[] methods = obj.getClass().getDeclaredMethods();
-        final ResultContainer<IResult.MethodResult> result = new IResult.ClassResult(obj.getClass().getSimpleName(),
-                obj.getClass().getCanonicalName());
+        final ResultContainer<IResult.MethodResult> result =
+                new IResult.ClassResult(obj.getClass().getSimpleName(), obj
+                        .getClass().getCanonicalName());
 
         final Method beforeClass = getBeforeAfter(obj, BeforeBenchClass.class);
         if (beforeClass != null) {
             if (checkMethod(beforeClass)) {
                 beforeClass.invoke(obj, params);
             } else {
-                throw new IllegalStateException("Method: " + beforeClass.getName()
+                throw new IllegalStateException("Method: "
+                        + beforeClass.getName()
                         + " was invalid because of Params or Returnval.");
             }
         }
@@ -388,12 +425,15 @@ public class Benchmark {
             if (checkMethodForBench(methods[i])) {
                 int runs = -1;
                 final Bench anno = methods[i].getAnnotation(Bench.class);
-                final BenchClass classAnno = methods[i].getDeclaringClass().getAnnotation(BenchClass.class);
+                final BenchClass classAnno =
+                        methods[i].getDeclaringClass().getAnnotation(
+                                BenchClass.class);
                 boolean runSet = false;
                 if (anno != null) {
                     if (anno.runs() != Bench.DEFAULTRUNS) {
                         if (anno.runs() < 0) {
-                            throw new PerfidixMethodException("Runs shall not be negative!");
+                            throw new PerfidixMethodException(
+                                    "Runs shall not be negative!");
                         }
                         runs = anno.runs();
                         runSet = true;
@@ -402,7 +442,8 @@ public class Benchmark {
                 if (classAnno != null && !runSet) {
                     if (classAnno.runs() != BenchClass.DEFAULTRUNS) {
                         if (classAnno.runs() < 0) {
-                            throw new PerfidixMethodException("Runs shall not be negative!");
+                            throw new PerfidixMethodException(
+                                    "Runs shall not be negative!");
                         }
                         runs = classAnno.runs();
                         runSet = true;
@@ -411,7 +452,8 @@ public class Benchmark {
                 if (!runSet) {
                     runs = numInvocations;
                 }
-                final IResult.MethodResult realResult = doRunObject(methods[i], runs, obj, rand);
+                final IResult.MethodResult realResult =
+                        doRunObject(methods[i], runs, obj, rand);
                 if (realResult != null) {
                     result.append(realResult);
                 }
@@ -422,7 +464,8 @@ public class Benchmark {
             if (checkMethod(afterClass)) {
                 afterClass.invoke(obj, params);
             } else {
-                throw new IllegalStateException("Method: " + afterClass.getName()
+                throw new IllegalStateException("Method: "
+                        + afterClass.getName()
                         + " was invalid because of Params or Returnval.");
             }
         }
@@ -450,7 +493,8 @@ public class Benchmark {
         if (!checkMethod(method)) {
             return false;
         }
-        if ((method.getAnnotation(Bench.class) == null && method.getDeclaringClass().getAnnotation(BenchClass.class) == null)
+        if ((method.getAnnotation(Bench.class) == null && method
+                .getDeclaringClass().getAnnotation(BenchClass.class) == null)
                 || method.getAnnotation(SkipBench.class) != null) {
             return false;
         }
@@ -511,7 +555,7 @@ public class Benchmark {
      * sets the logger. If false, nothing will be logged.
      * 
      * @param boolean
-     *            if logger should be set.
+     *                if logger should be set.
      */
     public void setLogger(final boolean logger) {
         this.logger = logger;
@@ -519,7 +563,6 @@ public class Benchmark {
 
     /**
      * configures the benchmark to use the NanoTimer for time measurement.
-     * 
      */
     public void useNanoMeter() {
         meters.set(timeMeterIndex, new IMeter.NanoMeter());
@@ -544,7 +587,7 @@ public class Benchmark {
      * registers some meter
      * 
      * @param someMeter
-     *            a meter to register
+     *                a meter to register
      * @return boolean
      */
     public boolean register(final IMeter someMeter) {
@@ -559,8 +602,7 @@ public class Benchmark {
      * order to show the result properly.
      * 
      * @param indent
-     *            the number of indentations.
-     * 
+     *                the number of indentations.
      */
     private String toString(final int indent) {
 
@@ -589,9 +631,9 @@ public class Benchmark {
      * Central method for logging. Sets a boolean if an exception is fired!
      * 
      * @param loglevel
-     *            where the log should written
+     *                where the log should written
      * @param message
-     *            to be written.
+     *                to be written.
      */
     private void appendToLogger(final int loglevel, final String message) {
         if (logger) {
@@ -618,7 +660,8 @@ public class Benchmark {
                 LOGGER.error("Not known log level!");
             }
         }
-        if (loglevel == SimpleLog.LOG_LEVEL_ERROR || loglevel == SimpleLog.LOG_LEVEL_FATAL) {
+        if (loglevel == SimpleLog.LOG_LEVEL_ERROR
+                || loglevel == SimpleLog.LOG_LEVEL_FATAL) {
             exceptionsThrown = true;
         }
     }
@@ -627,11 +670,12 @@ public class Benchmark {
 
         private ArrayList<IMeter> meters;
 
-        private boolean           metersAvailable = false;
+        private boolean metersAvailable = false;
 
-        private long[][]          theResults;
+        private long[][] theResults;
 
-        private MeterHelper(final int numInvocations, final ArrayList<IMeter> theMeters) {
+        private MeterHelper(
+                final int numInvocations, final ArrayList<IMeter> theMeters) {
             meters = theMeters;
             metersAvailable = (meters.size() > 0);
             theResults = new long[meters.size()][numInvocations];
@@ -639,15 +683,16 @@ public class Benchmark {
 
         private void collectResults(final long[][] res, final int invocationID) {
             assert (res.length == meters.size());
-            
+
             int i = 0;
-            for(final IMeter meter : meters) {
-                if(meter instanceof IMeter.MemMeter) {
-                    res[i][invocationID] = meter.getValue() ;
+            for (final IMeter meter : meters) {
+                if (meter instanceof IMeter.MemMeter) {
+                    res[i][invocationID] = meter.getValue();
                 } else {
-                    res[i][invocationID] = meter.getValue() - res[i][invocationID];    
+                    res[i][invocationID] =
+                            meter.getValue() - res[i][invocationID];
                 }
-                
+
                 i++;
             }
         }
@@ -677,9 +722,11 @@ public class Benchmark {
             }
         }
 
-        private IResult.MethodResult createMethodResult(final IResult.SingleResult timedResult) {
+        private IResult.MethodResult createMethodResult(
+                final IResult.SingleResult timedResult) {
             if (timedResult != null) {
-                IResult.MethodResult c = new IResult.MethodResult(timedResult.getName());
+                IResult.MethodResult c =
+                        new IResult.MethodResult(timedResult.getName());
                 append(c);
                 return c;
             } else {
@@ -693,13 +740,16 @@ public class Benchmark {
             int i = 0;
             while (it.hasNext()) {
                 IMeter entry = it.next();
-                IResult.SingleResult s = new IResult.SingleResult(entry.getUnitDescription(), theResults[i], entry);
+                IResult.SingleResult s =
+                        new IResult.SingleResult(
+                                entry.getUnitDescription(), theResults[i],
+                                entry);
                 r.append(s);
                 i++;
             }
             System.out.println(r.toString());
         }
-        
+
     }
 
 }

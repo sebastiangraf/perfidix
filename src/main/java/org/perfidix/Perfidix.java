@@ -22,268 +22,273 @@ package org.perfidix;
 import java.util.TreeMap;
 
 /**
- * this is the main class, consisting of all the factory methods needed
- * in order to perform a benchmark run.
+ * this is the main class, consisting of all the factory methods needed in order
+ * to perform a benchmark run.
+ * 
  * @author axo
- *
  */
 public final class Perfidix {
 
-  /**
-   * a hashtable of meters .
-   */
-  private TreeMap<String, IMeter> meters = new TreeMap<String, IMeter>();
+    /**
+     * a hashtable of meters .
+     */
+    private TreeMap<String, IMeter> meters = new TreeMap<String, IMeter>();
 
-  private static Perfidix instance = new Perfidix();
- 
-  /**
-   * the memory unit's string.
-   * 
-   */
-  public static final String MEM_UNIT = "B";
+    private static Perfidix instance = new Perfidix();
 
-  /**
-   * the memory unit's description.
-   */
-  public static final String MEM_DESCRIPTION = "bytes";
-  
-  
-  /**
-   * the millisecond unit's string.
-   * 
-   */
-  public static final String MSEC_UNIT = "ms";
+    /**
+     * the memory unit's string.
+     */
+    public static final String MEM_UNIT = "B";
 
-  /**
-   * the millisecond unit's description.
-   */
-  public static final String MSEC_DESCRIPTION = "milliseconds";
+    /**
+     * the memory unit's description.
+     */
+    public static final String MEM_DESCRIPTION = "bytes";
 
-  /**
-   * the nanometer unit string.
-   */
-  public static final String NANO_UNIT = "ns";
+    /**
+     * the millisecond unit's string.
+     */
+    public static final String MSEC_UNIT = "ms";
 
-  /**
-   * the nanometer unit description.
-   */
-  public static final String NANO_DESCRIPTION = "nanoseconds";
+    /**
+     * the millisecond unit's description.
+     */
+    public static final String MSEC_DESCRIPTION = "milliseconds";
 
-  /**
-   * the second unit string
-   */
-  public static final String SECOND_UNIT ="sec";
-  
-  /**
-   * the second unit description
-   */
-  public static final String SECOND_DESCRIPTION = "seconds";
-  
-  /**
-   * the default unit.
-   */
-  public static final String DEFAULT_UNIT = "-";
+    /**
+     * the nanometer unit string.
+     */
+    public static final String NANO_UNIT = "ns";
 
-  /**
-   * the default description for the counters.
-   */
-  public static final String DEFAULT_DESCRIPTION = "- no description -";
+    /**
+     * the nanometer unit description.
+     */
+    public static final String NANO_DESCRIPTION = "nanoseconds";
 
-  /**
-   * the default counter name (if no counter name given).
-   */
-  public static final String DEFAULT_COUNTER_NAME = "counter";
+    /**
+     * the second unit string
+     */
+    public static final String SECOND_UNIT = "sec";
 
-  /**
-   * the default initial value for the counter.
-   */
-  public static final int DEFAULT_COUNTER_INITVALUE = 0;
+    /**
+     * the second unit description
+     */
+    public static final String SECOND_DESCRIPTION = "seconds";
 
-  /**
-   * used as a hashCode seed in the classes overriding Object.hashCode().
-   */
-  public static final int HASHCODE_SEED = 17;
+    /**
+     * the default unit.
+     */
+    public static final String DEFAULT_UNIT = "-";
 
-  /**
-   * a prime number as a multiplier for the hashCode() overriding.
-   */
-  public static final int HASHCODE_PRIME = 37;
+    /**
+     * the default description for the counters.
+     */
+    public static final String DEFAULT_DESCRIPTION = "- no description -";
 
-  /**
-   * private constructor. 
-   *
-   */
-  private Perfidix() {
+    /**
+     * the default counter name (if no counter name given).
+     */
+    public static final String DEFAULT_COUNTER_NAME = "counter";
 
-  }
+    /**
+     * the default initial value for the counter.
+     */
+    public static final int DEFAULT_COUNTER_INITVALUE = 0;
 
-  /**
-   * 
-   * @return
-   */
-  private static Perfidix getInstance() {
-    if (instance == null) {
-      instance = new Perfidix();
+    /**
+     * used as a hashCode seed in the classes overriding Object.hashCode().
+     */
+    public static final int HASHCODE_SEED = 17;
+
+    /**
+     * a prime number as a multiplier for the hashCode() overriding.
+     */
+    public static final int HASHCODE_PRIME = 37;
+
+    /**
+     * private constructor.
+     */
+    private Perfidix() {
+
     }
-    return instance;
-  }
 
-  /**
-   * Method to register Meters
-   * @param meter to register
-   */
-  public static void registerMeter(final IMeter meter) {
-      Perfidix.getInstance().meters.put(meter.getName(), meter);
-  }
-  
-  /**
-   * creates a meter.
-   * @param meterName the name of the meter.
-   * @param unit the unit of that meter.
-   * @return the meter created - 
-   *           if the meter already exists, the existing one will be returned.
-   */
-  public static IMeter createMeter(final String meterName, final String unit) {
-    return Perfidix.createMeter(meterName, unit, 0, "");
-  }
-
-  /**
-   * helper method to create a counting meter.
-   * @param meterName the name of the meter
-   * @param unit the unit of the meter
-   * @param initValue the initial value
-   * @return
-   */
-  private static IMeter.CountingMeter doCreateMeter(
-      final String meterName,
-      final String unit,
-      final int initValue) {
-    IMeter.CountingMeter c = new IMeter.CountingMeter(meterName, initValue);
-    c.setUnit(unit);
-    return c;
-  }
-
-  /**
-   * creates a meter with a given initial value.
-   * @param meterName the name of the meter.
-   * @param unit the unit to use
-   * @param initialValue the initial value of the meter. normally 0
-   * @param description the description of the meter.
-   * @return an initialized custom meter.
-   */
-  public static IMeter createMeter(
-      final String meterName,
-      final String unit,
-      final int initialValue,
-      final String description) {
-    IMeter.CountingMeter m =
-        Perfidix.doCreateMeter(meterName, unit, initialValue);
-    m.setUnitDescription(description);
-    Perfidix.getInstance().meters.put(meterName, m);
-    return m;
-  }
-
-  /**
-   * returns the meter assigned to by name.
-   * if the meter does not exist, it will be created.
-   * 
-   * @param meterName the name of the meter.
-   * @return the meter assigned to. 
-   *          if it has not been created, null will be returned.
-   */
-  public static IMeter getMeter(final String meterName) {
-    Perfidix p = Perfidix.getInstance();
-    if (!p.meters.containsKey(meterName)) {
-      return null;
+    /**
+     * @return
+     */
+    private static Perfidix getInstance() {
+        if (instance == null) {
+            instance = new Perfidix();
+        }
+        return instance;
     }
-    return p.meters.get(meterName);
-  }
 
-  /**
-   * 
-   * @return the registered meters.
-   */
-  static TreeMap<String, IMeter> getRegisteredMeters() {
-    return Perfidix.getInstance().meters;
-  }
-
-  /**
-   * 
-   * @return a benchmark.
-   */
-  public static Benchmark createBenchmark() {
-    return new Benchmark();
-  }
-
-  /**
-   * loads a meter from a given unit.
-   * @param theUnit string
-   * @return the IMeter
-   */
-  public static final IMeter loadMeter(final String theUnit) {
-    String my = theUnit.toLowerCase();
-    if (my.equals(Perfidix.MSEC_UNIT)) {
-      return new IMeter.MilliMeter();
+    /**
+     * Method to register Meters
+     * 
+     * @param meter
+     *                to register
+     */
+    public static void registerMeter(final IMeter meter) {
+        Perfidix.getInstance().meters.put(meter.getName(), meter);
     }
-    if (my.equals(Perfidix.NANO_UNIT)) {
-      return new IMeter.NanoMeter();
+
+    /**
+     * creates a meter.
+     * 
+     * @param meterName
+     *                the name of the meter.
+     * @param unit
+     *                the unit of that meter.
+     * @return the meter created - if the meter already exists, the existing one
+     *         will be returned.
+     */
+    public static IMeter createMeter(final String meterName, final String unit) {
+        return Perfidix.createMeter(meterName, unit, 0, "");
     }
-    IMeter.CountingMeter c = new IMeter.CountingMeter();
-    c.setUnit(theUnit);
-    return c;
-  }
 
-  /**
-   * 
-   * @return the default meter.
-   */
-  public static final IMeter defaultMeter() {
-    return new IMeter.MilliMeter();
-  }
+    /**
+     * helper method to create a counting meter.
+     * 
+     * @param meterName
+     *                the name of the meter
+     * @param unit
+     *                the unit of the meter
+     * @param initValue
+     *                the initial value
+     * @return
+     */
+    private static IMeter.CountingMeter doCreateMeter(
+            final String meterName, final String unit, final int initValue) {
+        IMeter.CountingMeter c = new IMeter.CountingMeter(meterName, initValue);
+        c.setUnit(unit);
+        return c;
+    }
 
-  /**
-   * 
-   * @param set the dataset.
-   * @return the single result.
-   */
-  public static final IResult.SingleResult createSingleResult(final long[] set) {
-    return new IResult.SingleResult(set, Perfidix.defaultMeter());
-  }
+    /**
+     * creates a meter with a given initial value.
+     * 
+     * @param meterName
+     *                the name of the meter.
+     * @param unit
+     *                the unit to use
+     * @param initialValue
+     *                the initial value of the meter. normally 0
+     * @param description
+     *                the description of the meter.
+     * @return an initialized custom meter.
+     */
+    public static IMeter createMeter(
+            final String meterName, final String unit, final int initialValue,
+            final String description) {
+        IMeter.CountingMeter m =
+                Perfidix.doCreateMeter(meterName, unit, initialValue);
+        m.setUnitDescription(description);
+        Perfidix.getInstance().meters.put(meterName, m);
+        return m;
+    }
 
-  /**
-   * 
-   * @param name the name.
-   * @param set the result set.
-   * @return a single result.
-   */
-  public static final IResult.SingleResult createSingleResult(
-      final String name,
-      final long[] set) {
-    IResult.SingleResult r = Perfidix.createSingleResult(set);
-    r.setName(name);
-    return r;
-  }
+    /**
+     * returns the meter assigned to by name. if the meter does not exist, it
+     * will be created.
+     * 
+     * @param meterName
+     *                the name of the meter.
+     * @return the meter assigned to. if it has not been created, null will be
+     *         returned.
+     */
+    public static IMeter getMeter(final String meterName) {
+        Perfidix p = Perfidix.getInstance();
+        if (!p.meters.containsKey(meterName)) {
+            return null;
+        }
+        return p.meters.get(meterName);
+    }
 
-  public static IResult runBenchs(final String[] benchs) {
-	  Benchmark bench = new Benchmark();
-	  bench.setLogger(false);
-	  for (String each : benchs) {
-			try {
-				bench.add(Class.forName(each).newInstance());
-			} catch (ClassNotFoundException e) {
-				System.out.println("Could not find class: " + each);
-			} catch (InstantiationException e) {
-				e.printStackTrace();
-			} catch (IllegalAccessException e) {
-				e.printStackTrace();
-			}
-		}
-		 return bench.run();
-  }
-  
-  public static void main(final String[] args) {
-		System.out.println(runBenchs(args).toString());
-		
-	}
-  
+    /**
+     * @return the registered meters.
+     */
+    static TreeMap<String, IMeter> getRegisteredMeters() {
+        return Perfidix.getInstance().meters;
+    }
+
+    /**
+     * @return a benchmark.
+     */
+    public static Benchmark createBenchmark() {
+        return new Benchmark();
+    }
+
+    /**
+     * loads a meter from a given unit.
+     * 
+     * @param theUnit
+     *                string
+     * @return the IMeter
+     */
+    public static final IMeter loadMeter(final String theUnit) {
+        String my = theUnit.toLowerCase();
+        if (my.equals(Perfidix.MSEC_UNIT)) {
+            return new IMeter.MilliMeter();
+        }
+        if (my.equals(Perfidix.NANO_UNIT)) {
+            return new IMeter.NanoMeter();
+        }
+        IMeter.CountingMeter c = new IMeter.CountingMeter();
+        c.setUnit(theUnit);
+        return c;
+    }
+
+    /**
+     * @return the default meter.
+     */
+    public static final IMeter defaultMeter() {
+        return new IMeter.MilliMeter();
+    }
+
+    /**
+     * @param set
+     *                the dataset.
+     * @return the single result.
+     */
+    public static final IResult.SingleResult createSingleResult(final long[] set) {
+        return new IResult.SingleResult(set, Perfidix.defaultMeter());
+    }
+
+    /**
+     * @param name
+     *                the name.
+     * @param set
+     *                the result set.
+     * @return a single result.
+     */
+    public static final IResult.SingleResult createSingleResult(
+            final String name, final long[] set) {
+        IResult.SingleResult r = Perfidix.createSingleResult(set);
+        r.setName(name);
+        return r;
+    }
+
+    public static IResult runBenchs(final String[] benchs) {
+        Benchmark bench = new Benchmark();
+        bench.setLogger(false);
+        for (String each : benchs) {
+            try {
+                bench.add(Class.forName(each).newInstance());
+            } catch (ClassNotFoundException e) {
+                System.out.println("Could not find class: " + each);
+            } catch (InstantiationException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        }
+        return bench.run();
+    }
+
+    public static void main(final String[] args) {
+        System.out.println(runBenchs(args).toString());
+
+    }
+
 }
