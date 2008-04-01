@@ -1,16 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?><project>
   <modelVersion>4.0.0</modelVersion>
-  <groupId>de.unikn.inf.disy</groupId>
-  <artifactId>idefixHelloWorld</artifactId>
-  <name>Hello World Project</name>
+  <groupId>org</groupId>
+  <artifactId>perfidix</artifactId>
+  <name>Perfidix Project</name>
   <version>1.0.0</version>
-  <description></description>
-  <url>http://www.inf.uni-konstanz.de/disy</url>
-  <scm>
-    <connection>scm:svn:https://sofa.disy.inf.uni-konstanz.de/svn/hello_world/trunk/HelloWorld</connection>
-    <developerConnection>scm:svn:https://sofa.disy.inf.uni-konstanz.de/svn/hello_world/trunk/HelloWorld</developerConnection>
-    <url>https://sofa.disy.inf.uni-konstanz.de/svn/hello_world/</url>
-  </scm>
+  <description>A Java Benchmarking tool</description>
+  <url>http://www.perfidix.org</url>
   <build>
     <plugins>
       <plugin>
