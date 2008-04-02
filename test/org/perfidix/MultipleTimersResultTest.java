@@ -202,9 +202,9 @@ public class MultipleTimersResultTest extends PerfidixTest {
     mm.append(rc);
     IMeter blingbling = Perfidix.getMeter("blingbling");
     // System.out.println(mm);
-    assertEquals(new Long(6), mm.sum(blingbling));
-    assertEquals(new Long(0), mm.min(blingbling));
-    assertEquals(new Long(6), mm.max(blingbling));
+    assertEquals(new Long(6), mm.sum(blingbling),0);
+    assertEquals(new Long(0), mm.min(blingbling),0);
+    assertEquals(new Long(6), mm.max(blingbling),0);
 
   }
 
