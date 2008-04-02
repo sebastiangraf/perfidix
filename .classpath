@@ -4,12 +4,12 @@
 	<classpathentry kind="src" path="conf"/>
 	<classpathentry kind="src" path="test"/>
 	<classpathentry kind="src" path="example"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="externals/ant__V1.6.5.jar"/>
 	<classpathentry kind="lib" path="externals/commons-logging__V1.1.0.jar"/>
 	<classpathentry kind="lib" path="externals/dom4j__V1.6.1.jar"/>
 	<classpathentry kind="lib" path="externals/jaxen__V1.1-beta-5.jar"/>
 	<classpathentry kind="lib" path="externals/log4j__V1.2.14.jar"/>
+	<classpathentry kind="lib" path="externals/junit-4.4.jar"/>
 	<classpathentry kind="output" path="generated"/>
 </classpath>
