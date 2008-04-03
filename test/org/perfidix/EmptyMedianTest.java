@@ -25,10 +25,10 @@ import org.junit.Test;
 
 public class EmptyMedianTest extends PerfidixTest {
 
-	@Test
-	public void testMedian() {
-		Result r = Perfidix.createSingleResult("hello world", new long[] {});
-		assertEquals(0.0, r.median());
-	}
+    @Test
+    public void testMedian() {
+        Result r = Perfidix.createSingleResult("hello world", new long[] {});
+        assertEquals(0.0, r.median(), PerfidixTest.EPSILON);
+    }
 
 }

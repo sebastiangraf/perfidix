@@ -28,9 +28,9 @@ import org.junit.Test;
 public class APITest extends PerfidixTest {
 
 	/**
-	 * running two methods: A -> 1,2,3 B -> 2,2,2 --------------- sum: (1+2+3) +
-	 * (2+2+2) = 6 + 6 = 12. avg: ((1+2+3) + (2+2+2)) / 2 = 12 / 2 = 6
-	 */
+     * running two methods: A -> 1,2,3 B -> 2,2,2 --------------- sum: (1+2+3) +
+     * (2+2+2) = 6 + 6 = 12. avg: ((1+2+3) + (2+2+2)) / 2 = 12 / 2 = 6
+     */
 	@Test
 	public void testMultipleAvg() {
 
@@ -42,7 +42,7 @@ public class APITest extends PerfidixTest {
 		cnt.append(r2);
 
 		assertEquals(12l, cnt.sum());
-		assertEquals(6.0, cnt.avg());
+		assertEquals(6.0, cnt.avg(),PerfidixTest.EPSILON);
 
 	}
 
@@ -72,7 +72,7 @@ public class APITest extends PerfidixTest {
 		assertEquals(6l, cnt.min());
 
 		assertEquals(6l, cnt.max());
-		assertEquals(6.0, cnt.avg());
+		assertEquals(6.0, cnt.avg(),PerfidixTest.EPSILON);
 	}
 
 	@Test
@@ -86,11 +86,11 @@ public class APITest extends PerfidixTest {
 	}
 
 	/**
-	 * this one tries to run a test class. the BenchmarkContainer should run all
-	 * the methods involved. right now, there's only one method there, namely
-	 * "firstMethod" which should be called. the SomeTestClass keeps a boolean
-	 * telling that the first method was really involved.
-	 */
+     * this one tries to run a test class. the BenchmarkContainer should run all
+     * the methods involved. right now, there's only one method there, namely
+     * "firstMethod" which should be called. the SomeTestClass keeps a boolean
+     * telling that the first method was really involved.
+     */
 	@Test
 	public void testRunMethods() {
 
@@ -114,8 +114,8 @@ public class APITest extends PerfidixTest {
 	}
 
 	/**
-	 * checks whether the number of invocations is handled correctly.
-	 */
+     * checks whether the number of invocations is handled correctly.
+     */
 	@Test
 	public void testInvocations() {
 
@@ -164,13 +164,13 @@ public class APITest extends PerfidixTest {
 		long[] testResultSet = { 1, 2, 3 };
 		Result res = Perfidix.createSingleResult(testResultSet);
 		assertEquals(3l, res.resultCount());
-		assertEquals(2.0, res.median());
-		assertEquals(2.0, res.avg(), 0);
+		assertEquals(2.0, res.median(),PerfidixTest.EPSILON);
+		assertEquals(2.0, res.avg(), PerfidixTest.EPSILON);
 	}
 
 	/**
-	 * tests a single median.
-	 */
+     * tests a single median.
+     */
 	@Test
 	public void testAnotherMedian() {
 
@@ -178,12 +178,12 @@ public class APITest extends PerfidixTest {
 		// sorted: 3,3,4,5,20,50
 		Result res = new IResult.SingleResult("test", testResultSet, Perfidix
 				.defaultMeter());
-		assertEquals(0.5 * (4.0 + 5.0), res.median());
+		assertEquals(0.5 * (4.0 + 5.0), res.median(),PerfidixTest.EPSILON);
 	}
 
 	/**
-	 * tests the computation of the average on a single result set.
-	 */
+     * tests the computation of the average on a single result set.
+     */
 	@Test
 	public void testAvg() {
 
@@ -195,11 +195,11 @@ public class APITest extends PerfidixTest {
 	}
 
 	/**
-	 * tests whether the average calculation works correctly on
-	 * BenchmarkContainers. changelog: ------------------- 07.03.2006 (axo): i
-	 * modified the average computation; thus the average of a method is the
-	 * overall-average of the runs and not the average of the sums.
-	 */
+     * tests whether the average calculation works correctly on
+     * BenchmarkContainers. changelog: ------------------- 07.03.2006 (axo): i
+     * modified the average computation; thus the average of a method is the
+     * overall-average of the runs and not the average of the sums.
+     */
 	@Test
 	public void testAvgContainer() {
 
@@ -289,8 +289,8 @@ public class APITest extends PerfidixTest {
 		double bShouldBe = 1.96 * (res.getStandardDeviation() / Math.sqrt(res
 				.resultCount()));
 
-		assertEquals(aShouldBe, a);
-		assertEquals(bShouldBe, b);
+		assertEquals(aShouldBe, a,PerfidixTest.EPSILON);
+		assertEquals(bShouldBe, b,PerfidixTest.EPSILON);
 	}
 
 	@Test
@@ -317,9 +317,9 @@ public class APITest extends PerfidixTest {
 	}
 
 	/**
-	 * just another test class, which is working a bit in order to be able to
-	 * calculate some details.
-	 */
+     * just another test class, which is working a bit in order to be able to
+     * calculate some details.
+     */
 	public class FibTestClass {
 
 		@Bench
@@ -336,9 +336,9 @@ public class APITest extends PerfidixTest {
 	}
 
 	/**
-	 * this is a test class, showing that the invocation of methods is
-	 * implemented and working.
-	 */
+     * this is a test class, showing that the invocation of methods is
+     * implemented and working.
+     */
 	public class SomeTestClass {
 
 		private boolean firstMethodInvoked = false;
@@ -358,8 +358,8 @@ public class APITest extends PerfidixTest {
 	}
 
 	/**
-	 * a test class counting how many times a method was invoked.
-	 */
+     * a test class counting how many times a method was invoked.
+     */
 	public class InvocationTestClass {
 
 		private int numInvocations = 0;
