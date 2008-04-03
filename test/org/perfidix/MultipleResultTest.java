@@ -28,51 +28,51 @@ import org.junit.Test;
  */
 public class MultipleResultTest extends PerfidixTest {
 
-	/**
-	 * tests that the calculations are invoked correctly.
-	 */
-	@Test
-	public void testCalc() {
+    /**
+     * tests that the calculations are invoked correctly.
+     */
+    @Test
+    public void testCalc() {
 
-		long[] r1Set = { 1, 2, 3 };
-		long[] r2Set = { 4, 5, 6 };
+        long[] r1Set = { 1, 2, 3 };
+        long[] r2Set = { 4, 5, 6 };
 
-		IResult.SingleResult r1 = Perfidix.createSingleResult(r1Set);
-		IResult.SingleResult r2 = Perfidix.createSingleResult(r2Set);
-		assertEquals(2.0, r1.avg());
-		assertEquals(5.0, r2.avg());
-		assertEquals(1l, r1.min());
-		assertEquals(4l, r2.min());
-		assertEquals(3l, r1.max());
-		assertEquals(6l, r2.max());
-		assertEquals(3l, r2.resultCount());
-		assertEquals(3l, r1.resultCount());
-		assertEquals(2.0, r1.median());
-		assertEquals(5.0, r2.median());
+        IResult.SingleResult r1 = Perfidix.createSingleResult(r1Set);
+        IResult.SingleResult r2 = Perfidix.createSingleResult(r2Set);
+        assertEquals(2.0, r1.avg(), 0);
+        assertEquals(5.0, r2.avg(), 0);
+        assertEquals(1l, r1.min());
+        assertEquals(4l, r2.min());
+        assertEquals(3l, r1.max());
+        assertEquals(6l, r2.max());
+        assertEquals(3l, r2.resultCount());
+        assertEquals(3l, r1.resultCount());
+        assertEquals(2.0, r1.median(), 0);
+        assertEquals(5.0, r2.median(), 0);
 
-		ResultContainer<IResult.SingleResult> res = new IResult.MethodResult(
-				"*** testing container ***");
-		res.append(r1);
-		res.append(r2);
-		assertEquals(2l, res.resultCount());
-		assertEquals(21l, res.sum());
-		assertEquals(21.0 / 2.0, res.avg());
-		assertEquals(6l, res.min());
-		assertEquals(15l, res.max());
-		assertEquals(10.5, res.median());
+        ResultContainer<IResult.SingleResult> res = new IResult.MethodResult(
+                "*** testing container ***");
+        res.append(r1);
+        res.append(r2);
+        assertEquals(2l, res.resultCount());
+        assertEquals(21l, res.sum());
+        assertEquals(21.0 / 2.0, res.avg(), 0);
+        assertEquals(6l, res.min());
+        assertEquals(15l, res.max());
+        assertEquals(10.5, res.median(), 0);
 
-	}
+    }
 
-	@Test
-	public void testCalcTwo() {
+    @Test
+    public void testCalcTwo() {
 
-		IResult.SingleResult r = Perfidix.createSingleResult(
-				"just another test", new long[] { 5, 6, 8, 9 });
+        IResult.SingleResult r = Perfidix.createSingleResult(
+                "just another test", new long[] { 5, 6, 8, 9 });
 
-		getLog().info("standardDeviation(): " + r.getStandardDeviation());
+        getLog().info("standardDeviation(): " + r.getStandardDeviation());
 
-		assertEquals(1.581138, r.getStandardDeviation(), PerfidixTest.EPSILON);
+        assertEquals(1.581138, r.getStandardDeviation(), PerfidixTest.EPSILON);
 
-	}
+    }
 
 }
