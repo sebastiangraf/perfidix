@@ -1,0 +1,405 @@
+/*
+ * Copyright 2007 University of Konstanz
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * 
+ * $Id: ResultContainer.java 2624 2007-03-28 15:08:52Z kramis $
+ * 
+ */
+
+package org.perfidix;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.TreeMap;
+
+import org.perfidix.visitor.ResultVisitor;
+
+/**
+ * the result container contains more results. it is by definition recursive, so
+ * it can handle as much diversity as possible
+ * 
+ * @author axo axo@axolander.de
+ * @since 08-2005
+ * @version 0.8
+ * @param <ResultType>
+ *                the type of the children.
+ */
+public abstract class ResultContainer<ResultType extends Result> extends Result {
+
+    private ArrayList<ResultType> children = new ArrayList<ResultType>();
+
+    private Hashtable<IMeter, ArrayList<SingleResult>> customChildren =
+            new Hashtable<IMeter, ArrayList<SingleResult>>();
+
+    /**
+     * default constructor.
+     */
+    public ResultContainer() {
+        this(Result.DEFAULT_NAME);
+    }
+
+    /**
+     * @param name
+     *                the name of the result.
+     */
+    public ResultContainer(final String name) {
+        super();
+        setName(name);
+    }
+
+    /**
+     * appends a result to the children.
+     * 
+     * @param res
+     *                the result to append.
+     */
+    public void append(final ResultType res) {
+
+        try {
+            String logMessage = "" + res.getName() + " ... ";
+
+            if (isCustomMeterResult(res)) {
+                appendToCustomMeterStack((SingleResult) res);
+                return;
+            }
+            logMessage += "" + res.getName() + " is a timed result.";
+            children.add(res);
+
+            if (res instanceof SingleResult) {
+                appendToCustomMeterStack((SingleResult) res);
+            }
+
+        } catch (Exception e) {
+            // do nothing.
+        }
+    }
+
+    private void appendToCustomMeterStack(final SingleResult res) {
+        String logMessage = "";
+
+        IMeter resMeter = res.getMeter();
+        if (!customChildren.containsKey(resMeter)) {
+            logMessage += " new meter " + resMeter.getUnit();
+            customChildren.put(resMeter, new ArrayList<SingleResult>());
+        }
+        logMessage += " appending " + res.getName() + " ";
+        customChildren.get(resMeter).add(res);
+    }
+
+    /**
+     * checks whether it's a custom meter result or not.
+     * 
+     * @param res
+     * @return
+     */
+    private boolean isCustomMeterResult(final ResultType res) {
+        if (!(res instanceof IResult.SingleResult)) {
+            return false;
+        }
+        if (((SingleResult) res).getMeter() instanceof IMeter.AbsTimeMeter) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * returns the full result set on all children. this works recursively. the
+     * recursion takes place by calling each child's sum() operation.
+     * 
+     * @return the result set.
+     */
+    public long[] getResultSet() {
+        int resultLength = children.size();
+        long[] theResult = new long[resultLength];
+        for (int i = 0; i < resultLength; i++) {
+            theResult[i] = children.get(i).sum();
+        }
+        return theResult;
+    }
+
+    /**
+     * @param meterName
+     *                the unique identifier for the meter involved.
+     * @return the maximum value.
+     */
+    public long max(final IMeter meterName) {
+        return computeMax(getResultSet(meterName));
+    }
+
+    /**
+     * @param m
+     *                the meter to fetch the result set for.
+     * @return the result set allocated to the meter.
+     */
+    private long[] getResultSet(final IMeter m) {
+        if (null == m) {
+            return new long[] {};
+        }
+        ArrayList<SingleResult> theSingleResults = getSingleResultsFor(m);
+        long[] theResult = new long[theSingleResults.size()];
+        for (int i = 0; i < theSingleResults.size(); i++) {
+            theResult[i] = theSingleResults.get(i).sum();
+        }
+
+        return theResult;
+
+    }
+
+    /**
+     * yes, the casting may be unchecked.
+     * 
+     * @param meter
+     * @return
+     */
+    @SuppressWarnings("unchecked")
+    private ArrayList<SingleResult> getSingleResultsFor(final IMeter meter) {
+        ArrayList<SingleResult> theList = new ArrayList<SingleResult>();
+
+        if (customChildren.containsKey(meter)) {
+            theList.addAll(customChildren.get(meter));
+        } else {
+            // do nothing.
+        }
+
+        for (int i = 0; i < children.size(); i++) {
+            Result tmp = children.get(i);
+            if (tmp instanceof ResultContainer) {
+                theList.addAll(((ResultContainer) tmp)
+                        .getSingleResultsFor(meter));
+            }
+        }
+        return theList;
+    }
+
+    /**
+     * returns all children.
+     * 
+     * @return the children being in this result container.
+     */
+    public ArrayList<ResultType> getChildren() {
+        return children;
+    }
+
+    /**
+     * accepts a result visitor.
+     * 
+     * @param v
+     *                the visitor
+     */
+    public void accept(final ResultVisitor v) {
+        v.visit(this);
+
+    }
+
+    /**
+     * computes the minimum result for the given meter name.
+     * 
+     * @param m
+     *                the meter which is used.
+     * @return the minimum value.
+     */
+    public long min(final IMeter m) {
+        return computeMin(getResultSet(m));
+    }
+
+    /**
+     * this is not a comment.
+     * 
+     * @param m
+     *                the meter which is used.
+     * @return the result.
+     */
+    public double avg(final IMeter m) {
+        return computeMean(getResultSet(m));
+    }
+
+    /**
+     * this is not a comment.
+     * 
+     * @param m
+     *                the meter.
+     * @return the result.
+     */
+    public double mean(final IMeter m) {
+        return computeMean(getResultSet(m));
+    }
+
+    /**
+     * this is not a comment.
+     * 
+     * @param m
+     *                the meter name.
+     * @return the result.
+     */
+    public long squareSum(final IMeter m) {
+        return computeSquareSum(getResultSet(m));
+    }
+
+    /**
+     * this is not a comment.
+     * 
+     * @param m
+     *                the meter.
+     * @return the result.
+     */
+    public int resultCount(final IMeter m) {
+        return getResultSet(m).length;
+    }
+
+    /**
+     * this is not a comment.
+     * 
+     * @param m
+     *                the meter.
+     * @return the result.
+     */
+    public double variance(final IMeter m) {
+        return computeVariance(getResultSet(m));
+    }
+
+    /**
+     * this is not a comment.
+     * 
+     * @param m
+     *                the meter name.
+     * @return the result.
+     */
+    public double median(final IMeter m) {
+        return computeMedian(getResultSet(m));
+    }
+
+    /**
+     * @param m
+     *                the meter name.
+     * @return the sum.
+     */
+    public long sum(final IMeter m) {
+        return computeSum(getResultSet(m));
+    }
+
+    /**
+     * this is not a comment.
+     * 
+     * @param meterName
+     *                the meter name.
+     * @return the result.
+     */
+    public double getConf99(final IMeter meterName) {
+        return computeConf99(getResultSet(meterName));
+    }
+
+    /**
+     * this is not a comment.
+     * 
+     * @param meterName
+     *                the meter name.
+     * @return the result.
+     */
+    public double getConf95(final IMeter meterName) {
+        return computeConf95(getResultSet(meterName));
+    }
+
+    /**
+     * this is not a comment.
+     * 
+     * @param meterName
+     *                the meter name.
+     * @return the result.
+     */
+    public double getStandardDeviation(final IMeter meterName) {
+        return computeStandardDeviation(getResultSet(meterName));
+    }
+
+    /**
+     * @return bla.
+     */
+    public Hashtable<IMeter, ArrayList<SingleResult>> getCustomChildren() {
+        return customChildren;
+
+    }
+
+    private void pushUnique(
+            final ArrayList<IMeter> into, final ResultContainer from) {
+        Iterator c = from.getRegisteredMeters().iterator();
+        while (c.hasNext()) {
+            pushUnique(into, (IMeter) c.next());
+        }
+    }
+
+    private void pushUnique(final ArrayList<IMeter> meters, final IMeter m) {
+        if (meters.contains(m)) {
+            return;
+        }
+        meters.add(m);
+    }
+
+    private void getChildrenMeters(final ArrayList<IMeter> meters) {
+        Iterator<ResultType> cIterator = children.iterator();
+        while (cIterator.hasNext()) {
+            Result next = cIterator.next();
+            if (next instanceof ResultContainer) {
+                pushUnique(meters, (ResultContainer) next);
+                continue;
+            }
+            if (next instanceof SingleResult) {
+                pushUnique(meters, ((SingleResult) next).getMeter());
+                continue;
+            }
+            // ignore all other cases.
+        }
+    }
+
+    private void getCustomMeters(final ArrayList<IMeter> meters) {
+        Iterator<IMeter> cc = customChildren.keySet().iterator();
+        while (cc.hasNext()) {
+            pushUnique(meters, cc.next());
+        }
+    }
+
+    /**
+     * @return all registered meters.
+     */
+    public ArrayList<IMeter> getRegisteredMeters() {
+        ArrayList<IMeter> meters = new ArrayList<IMeter>();
+        getChildrenMeters(meters);
+        getCustomMeters(meters);
+        Collections.sort(meters);
+        return meters;
+    }
+
+    /**
+     * returns the default meter.
+     * 
+     * @return a meter.
+     */
+    public IMeter getDefaultMeter() {
+        ArrayList<IMeter> meters = getRegisteredMeters();
+        if (meters.isEmpty()) {
+            return Perfidix.defaultMeter();
+        }
+        return meters.iterator().next();
+    }
+
+    public long getNumberOfRuns() {
+        Iterator<ResultType> cust = getChildren().iterator();
+        long numberOfRuns = 0;
+        while (cust.hasNext()) {
+            numberOfRuns += cust.next().getNumberOfRuns();
+        }
+        return numberOfRuns;
+    }
+
+}
