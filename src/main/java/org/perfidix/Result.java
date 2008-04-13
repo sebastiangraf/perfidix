@@ -30,7 +30,6 @@ import org.perfidix.visitor.ResultVisitor;
  * 
  * @author axo
  * @since 10.12.2005
- * @link http://www.iti.fh-flensburg.de/lang/algorithmen/sortieren/median.htm
  */
 public abstract class Result implements IResult {
 
@@ -63,8 +62,14 @@ public abstract class Result implements IResult {
      */
     public static final String DEFAULT_NAME = "<noNameDefined>";
 
+    /**
+     * Factor of nearly 2 standardfailures
+     */
     private static final double CONF95_FACTOR = 1.96;
 
+    /**
+     * Factor of 2 and a half standardfailures
+     */
     private static final double CONF99_FACTOR = 2.576;
 
     /**
@@ -207,7 +212,6 @@ public abstract class Result implements IResult {
     /**
      * the more exact computation of the variance.
      * 
-     * @see http://en.wikipedia.org/wiki/Algorithms_for_calculating_variance
      * @return the variance of the data set.
      */
     private final double computeVariance() {
@@ -222,8 +226,6 @@ public abstract class Result implements IResult {
      * first, and if the result set is even, 0.5 * ( the two middle values) is
      * being taken. if the result set is odd, the middle value is being taken.
      * 
-     * @link http://de.wikipedia.org/wiki/Median
-     * @link http://en.wikipedia.org/wiki/Median computes the median.
      * @return the median
      */
     public final double median() {
@@ -314,7 +316,7 @@ public abstract class Result implements IResult {
             aMean += delta / n;
             aS += delta * (resSet[i] - aMean);
         }
-        return (aS / (double) (n - 1));
+        return (aS / (n - 1));
     }
 
     /**
@@ -420,8 +422,7 @@ public abstract class Result implements IResult {
      * @return the 95% confidence TODO enum implementation of CONF ?
      */
     public final double getConf95() {
-        return Result.CONF95_FACTOR
-                * (getStandardDeviation() / Math.sqrt(resultCount()));
+        return computeConf95(getResultSet());
     }
 
     /**
@@ -539,6 +540,7 @@ public abstract class Result implements IResult {
      * 
      * @return the result.
      */
+    @Override
     public final String toString() {
         return toString(-1, false);
 
@@ -576,6 +578,7 @@ public abstract class Result implements IResult {
      * 
      * @return always 0
      */
+    @Override
     public final int hashCode() {
         return 0;
     }
