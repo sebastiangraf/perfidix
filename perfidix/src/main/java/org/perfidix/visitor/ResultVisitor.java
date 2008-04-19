@@ -60,6 +60,14 @@ public abstract class ResultVisitor {
         return res.avg() + res.getConf95();
     }
 
+    protected double getConf99Min(final Result res) {
+        return Math.max(0, res.avg() - res.getConf99());
+    }
+
+    protected double getConf99Max(final Result res) {
+        return res.avg() + res.getConf99();
+    }
+
     /**
      * formats a double. if you want to change the output of the doubles, give
      * in the floatFormat through the alternative constructor.

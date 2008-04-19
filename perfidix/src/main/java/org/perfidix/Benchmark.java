@@ -520,6 +520,7 @@ public class Benchmark {
      * 
      * @return a string.
      */
+    @Override
     public String toString() {
         return toString(0);
     }
@@ -676,6 +677,8 @@ public class Benchmark {
 
         private MeterHelper(
                 final int numInvocations, final ArrayList<IMeter> theMeters) {
+            // check for arraymeter and set sizes correct.
+            // if Arraymeter present,
             meters = theMeters;
             metersAvailable = (meters.size() > 0);
             theResults = new long[meters.size()][numInvocations];
@@ -688,6 +691,8 @@ public class Benchmark {
             for (final IMeter meter : meters) {
                 if (meter instanceof IMeter.MemMeter) {
                     res[i][invocationID] = meter.getValue();
+                } else if (meter instanceof IMeter.ArrayMeter) {
+
                 } else {
                     res[i][invocationID] =
                             meter.getValue() - res[i][invocationID];
