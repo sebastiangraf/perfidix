@@ -680,22 +680,23 @@ public class Benchmark {
             // check for arraymeter and set sizes correct.
             // if Arraymeter present,
             meters = theMeters;
-            metersAvailable = (meters.size() > 0);
-            theResults = new long[meters.size()][numInvocations];
+            int l = meters.size();
+            metersAvailable = (l > 0);
+            theResults = new long[l][numInvocations];
         }
 
-        private void collectResults(final long[][] res, final int invocationID) {
-            assert (res.length == meters.size());
+        // private void collectResults(final long[][] res, final int
+        // invocationID) {
+        private void collectResults(final int invocationID) {
+            assert (theResults.length == meters.size());
 
             int i = 0;
             for (final IMeter meter : meters) {
                 if (meter instanceof IMeter.MemMeter) {
-                    res[i][invocationID] = meter.getValue();
-                } else if (meter instanceof IMeter.ArrayMeter) {
-
+                    theResults[i][invocationID] = meter.getValue();
                 } else {
-                    res[i][invocationID] =
-                            meter.getValue() - res[i][invocationID];
+                    theResults[i][invocationID] =
+                            meter.getValue() - theResults[i][invocationID];
                 }
 
                 i++;
@@ -706,14 +707,16 @@ public class Benchmark {
             if (!metersAvailable) {
                 return;
             }
-            collectResults(theResults, index);
+            // collectResults(theResults, index);
+            collectResults(index);
         }
 
         private void stop(final int index) {
             if (!metersAvailable) {
                 return;
             }
-            collectResults(theResults, index);
+            // collectResults(theResults, index);
+            collectResults(index);
         }
 
         private void skip(final int index) {
