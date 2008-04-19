@@ -19,9 +19,6 @@ import org.perfidix.Result;
  */
 public class ResultToCsv extends ResultVisitor {
 
-    /** path to files */
-    private String path = "";
-
     /** map of filenames and filecontent */
     private HashMap<String, String> finaco;
 
@@ -31,12 +28,8 @@ public class ResultToCsv extends ResultVisitor {
 
     /**
      * basic constructor
-     * 
-     * @param pathToFolder
-     *                the path to the output folder
      */
-    public ResultToCsv(final String pathToFolder) {
-        path = new File(pathToFolder).getAbsolutePath();
+    public ResultToCsv() {
         finaco = new HashMap<String, String>();
     }
 
@@ -99,9 +92,13 @@ public class ResultToCsv extends ResultVisitor {
     }
 
     /**
-     * flushes the csv to files in the output folder
+     * flushes the csv to files in the specified output folder
+     * 
+     * @param pathToFolder
+     *                the output path
      */
-    public void toFiles() {
+    public void toFiles(final String pathToFolder) {
+        String path = new File(pathToFolder).getAbsolutePath();
         Set<String> keys = finaco.keySet();
         for (String key : keys) {
             final File curf =
@@ -118,4 +115,5 @@ public class ResultToCsv extends ResultVisitor {
             }
         }
     }
+
 }
