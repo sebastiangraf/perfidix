@@ -486,41 +486,4 @@ public interface IMeter extends Comparable<IMeter> {
 
     }
 
-    /**
-     * @author tzn
-     */
-    class ArrayMeter extends IMeter.AbstractMeter {
-
-        /** {@inheritDoc} */
-        public String getName() {
-            // TODO Auto-generated method stub
-            return null;
-        }
-
-        /** {@inheritDoc} */
-        public String getUnit() {
-            // TODO Auto-generated method stub
-            return null;
-        }
-
-        /** {@inheritDoc} */
-        public String getUnitDescription() {
-            // TODO Auto-generated method stub
-            return null;
-        }
-
-        /** {@inheritDoc} */
-        public long getValue() {
-            // TODO Auto-generated method stub
-            return 0;
-        }
-
-        /** {@inheritDoc} */
-        public void tick() {
-            // TODO Auto-generated method stub
-
-        }
-
-    }
-
 }
