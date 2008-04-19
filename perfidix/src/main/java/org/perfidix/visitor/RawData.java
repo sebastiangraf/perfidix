@@ -43,7 +43,8 @@ public class RawData extends ResultVisitor {
                                     + File.separatorChar
                                     + classRes.getName()
                                     + "$"
-                                    + methodRes.getName());
+                                    + methodRes.getName()
+                                    + ".csv");
                     getMethodResult(timeFile, methodRes);
                 }
             }
