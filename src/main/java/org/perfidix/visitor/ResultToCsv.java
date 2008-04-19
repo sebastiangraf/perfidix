@@ -3,6 +3,12 @@
  */
 package org.perfidix.visitor;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.util.HashMap;
+import java.util.Set;
+
+import org.perfidix.IResult;
 import org.perfidix.Result;
 
 /**
@@ -13,11 +19,25 @@ import org.perfidix.Result;
  */
 public class ResultToCsv extends ResultVisitor {
 
+    /** path to files */
+    private String path = "";
+
+    /** map of filenames and filecontent */
+    private HashMap<String, String> finaco;
+
+    /** the column header */
+    private final String header =
+            "unit,sum,min,max,avg,var,stddev,conf95+,conf95-,conf99+,conf99-,runs\n";
+
     /**
+     * basic constructor
      * 
+     * @param pathToFolder
+     *                the path to the output folder
      */
-    public ResultToCsv() {
-        // TODO Auto-generated constructor stub
+    public ResultToCsv(final String pathToFolder) {
+        path = new File(pathToFolder).getAbsolutePath();
+        finaco = new HashMap<String, String>();
     }
 
     /*
@@ -27,14 +47,75 @@ public class ResultToCsv extends ResultVisitor {
      */
     @Override
     public void visit(Result r) {
-        // TODO Auto-generated method stub
-
+        try {
+            if (!(r instanceof IResult.BenchmarkResult)) {
+                throw new RuntimeException(
+                        "only benchmark results are supported!");
+            }
+            IResult.BenchmarkResult benchRes = (IResult.BenchmarkResult) r;
+            for (IResult.ClassResult classRes : benchRes.getChildren()) {
+                for (IResult.MethodResult methodRes : classRes.getChildren()) {
+                    String fina =
+                            classRes.getName() + "$" + methodRes.getName();
+                    StringBuilder fico = new StringBuilder();
+                    for (IResult.SingleResult singleRes : methodRes
+                            .getChildren()) {
+                        // "unit,sum,min,max,avg,var,stddev,conf95+,conf95-,conf99+,conf99-,runs"
+                        fico.append(singleRes.getUnit()).append(",");
+                        fico.append(singleRes.sum()).append(",");
+                        fico.append(singleRes.min()).append(",");
+                        fico.append(singleRes.max()).append(",");
+                        fico.append(singleRes.avg()).append(",");
+                        fico.append(singleRes.variance()).append(",");
+                        fico.append(singleRes.getStandardDeviation());
+                        fico.append(",");
+                        fico.append(getConf95Min(singleRes)).append(",");
+                        fico.append(getConf95Max(singleRes)).append(",");
+                        fico.append(getConf99Min(singleRes)).append(",");
+                        fico.append(getConf99Max(singleRes)).append(",");
+                        fico.append(singleRes.getNumberOfRuns()).append("\n");
+                    }
+                    finaco.put(fina, fico.toString());
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
-    // public String toString() {
-    //		
-    // }
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String toString() {
+        StringBuilder ret = new StringBuilder();
+        Set<String> keys = finaco.keySet();
+        for (String key : keys) {
+            ret.append(key).append("\n");
+            ret.append(header);
+            ret.append(finaco.get(key)).append("\n");
+        }
+        return ret.toString();
+    }
 
-    // public
-
+    /**
+     * flushes the csv to files in the output folder
+     */
+    public void toFiles() {
+        Set<String> keys = finaco.keySet();
+        for (String key : keys) {
+            final File curf =
+                    new File(path + File.separatorChar + key + ".csv");
+            if (curf.exists())
+                curf.delete();
+            try {
+                final FileWriter curfw = new FileWriter(curf);
+                curfw.write(header + finaco.get(key));
+                curfw.flush();
+                curfw.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }
