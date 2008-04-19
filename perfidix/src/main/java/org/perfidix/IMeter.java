@@ -133,6 +133,7 @@ public interface IMeter extends Comparable<IMeter> {
          *                the meter to compare with
          * @return whether they're equel.
          */
+        @Override
         public final boolean equals(final Object obj) {
             if ((null == obj) || (obj.getClass() != this.getClass())) {
                 return false;
@@ -152,6 +153,7 @@ public interface IMeter extends Comparable<IMeter> {
          * 
          * @return the hash code.
          */
+        @Override
         public final int hashCode() {
             int result = Perfidix.HASHCODE_SEED;
             result = Perfidix.HASHCODE_PRIME * result + getUnit().hashCode();
@@ -177,6 +179,7 @@ public interface IMeter extends Comparable<IMeter> {
         /**
          * @return a string representation of this meter.
          */
+        @Override
         public final String toString() {
             return getName()
                     + "["
@@ -270,6 +273,7 @@ public interface IMeter extends Comparable<IMeter> {
          * @see AbsTimeMeter#getTime
          * @return System.currentTimeMillis();
          */
+        @Override
         public final long getTime() {
             return System.currentTimeMillis();
         }
@@ -298,6 +302,7 @@ public interface IMeter extends Comparable<IMeter> {
          * @see AbsTimeMeter#getTime
          * @return the system's nano time.
          */
+        @Override
         public final long getTime() {
             return Math.round(System.currentTimeMillis() / 1000);
         }
@@ -328,6 +333,7 @@ public interface IMeter extends Comparable<IMeter> {
          * @see AbsTimeMeter#getTime
          * @return the system's nano time.
          */
+        @Override
         public final long getTime() {
             return System.nanoTime();
         }
@@ -476,6 +482,43 @@ public interface IMeter extends Comparable<IMeter> {
          */
         void setUnitDescription(final String theUnitDescription) {
             unitDescription = theUnitDescription;
+        }
+
+    }
+
+    /**
+     * @author tzn
+     */
+    class ArrayMeter extends IMeter.AbstractMeter {
+
+        /** {@inheritDoc} */
+        public String getName() {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        /** {@inheritDoc} */
+        public String getUnit() {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        /** {@inheritDoc} */
+        public String getUnitDescription() {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        /** {@inheritDoc} */
+        public long getValue() {
+            // TODO Auto-generated method stub
+            return 0;
+        }
+
+        /** {@inheritDoc} */
+        public void tick() {
+            // TODO Auto-generated method stub
+
         }
 
     }
