@@ -156,6 +156,21 @@ public class Benchmark {
 
     }
 
+    public void add(final Object obj, final String name) {
+
+        if (obj instanceof Class) {
+            throw new IllegalArgumentException(
+                    "Use a concrete Object, no Class!");
+        }
+        if (null == obj) {
+            appendToLogger(SimpleLog.LOG_LEVEL_INFO, "Null object passed in");
+            return;
+        }
+        final Object[] newObject = { obj, name };
+        children.add(newObject);
+
+    }
+
     /**
      * runs the benchmark with the default number of invocations.
      * 
@@ -404,15 +419,26 @@ public class Benchmark {
 
         // getting all methods
         final Object[] params = {};
-        final Method[] methods = obj.getClass().getDeclaredMethods();
-        final ResultContainer<IResult.MethodResult> result =
-                new IResult.ClassResult(obj.getClass().getSimpleName(), obj
-                        .getClass().getCanonicalName());
-
-        final Method beforeClass = getBeforeAfter(obj, BeforeBenchClass.class);
+        ResultContainer<IResult.MethodResult> result;
+        Object toExecute;
+        if (obj.getClass().isArray()) {
+            result =
+                    new IResult.ClassResult(
+                            ((Object[]) obj)[1].toString(), ((Object[]) obj)[1]
+                                    .toString());
+            toExecute = ((Object[]) obj)[0];
+        } else {
+            result =
+                    new IResult.ClassResult(obj.getClass().getSimpleName(), obj
+                            .getClass().getCanonicalName());
+            toExecute = obj;
+        }
+        final Method[] methods = toExecute.getClass().getDeclaredMethods();
+        final Method beforeClass =
+                getBeforeAfter(toExecute, BeforeBenchClass.class);
         if (beforeClass != null) {
             if (checkMethod(beforeClass)) {
-                beforeClass.invoke(obj, params);
+                beforeClass.invoke(toExecute, params);
             } else {
                 throw new IllegalStateException("Method: "
                         + beforeClass.getName()
@@ -453,16 +479,17 @@ public class Benchmark {
                     runs = numInvocations;
                 }
                 final IResult.MethodResult realResult =
-                        doRunObject(methods[i], runs, obj, rand);
+                        doRunObject(methods[i], runs, toExecute, rand);
                 if (realResult != null) {
                     result.append(realResult);
                 }
             }
         }
-        final Method afterClass = getBeforeAfter(obj, AfterBenchClass.class);
+        final Method afterClass =
+                getBeforeAfter(toExecute, AfterBenchClass.class);
         if (afterClass != null) {
             if (checkMethod(afterClass)) {
-                afterClass.invoke(obj, params);
+                afterClass.invoke(toExecute, params);
             } else {
                 throw new IllegalStateException("Method: "
                         + afterClass.getName()

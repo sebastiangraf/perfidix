@@ -69,10 +69,16 @@ public class RawData extends ResultVisitor {
                         new File(outputFile.getAbsoluteFile()
                                 + "$"
                                 + result.getMeter().getName());
+                // if (currentFile.exists()) {
+                // currentFile.delete();
+                // }
+                FileWriter timeOut;
                 if (currentFile.exists()) {
-                    currentFile.delete();
+                    timeOut = new FileWriter(currentFile, true);
+                    timeOut.write(",");
+                } else {
+                    timeOut = new FileWriter(currentFile, false);
                 }
-                final FileWriter timeOut = new FileWriter(currentFile);
                 final long data[] = result.getResultSet();
                 for (int i = 0; i < data.length; i++) {
                     if (i == data.length - 1) {
