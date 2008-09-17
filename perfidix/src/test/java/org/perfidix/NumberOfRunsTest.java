@@ -33,10 +33,7 @@ public class NumberOfRunsTest extends PerfidixTest {
         PerfidixTest.BenchmarkableTestingStub stub =
                 new PerfidixTest.BenchmarkableTestingStub();
         b.add(stub);
-        IRandomizer.Randomizer rand = new IRandomizer.Randomizer();
-        rand.doIgnoreMethod(findMethod(stub, "benchA"));
-        rand.doInvokeMethod(findMethod(stub, "benchB"));
-        IResult.BenchmarkResult r = (IResult.BenchmarkResult) b.run(10, rand);
+        IResult.BenchmarkResult r = (IResult.BenchmarkResult) b.run(10);
 
         IResult.ClassResult cls = r.getChildren().get(0);
 
@@ -46,12 +43,12 @@ public class NumberOfRunsTest extends PerfidixTest {
         printChildren(benchA);
         printChildren(benchB);
         // assertEquals(1, benchA.getChildren().size());
-        assertEquals(0l, benchAmillis.getNumberOfRuns());
+        assertEquals(10l, benchAmillis.getNumberOfRuns());
         assertEquals("benchA", benchA.getName());
-        assertEquals(0l, benchA.getNumberOfRuns());
+        assertEquals(10l, benchA.getNumberOfRuns());
         assertEquals(10l, benchB.getNumberOfRuns());
-        assertEquals(10l, cls.getNumberOfRuns());
-        assertEquals(10l, r.getNumberOfRuns());
+        assertEquals(20l, cls.getNumberOfRuns());
+        assertEquals(20l, r.getNumberOfRuns());
         System.out.println(r);
     }
 

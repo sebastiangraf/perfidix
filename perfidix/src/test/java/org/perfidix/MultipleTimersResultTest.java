@@ -24,6 +24,8 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.SortedSet;
+import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -129,8 +131,8 @@ public class MultipleTimersResultTest extends PerfidixTest {
          * ma, mb), no additionals. [blang] contains 4 meters: (ms, ma, mb, mc)
          */
 
-        ArrayList<IMeter> areg = a.getRegisteredMeters();
-        ArrayList<IMeter> aregContains = new ArrayList<IMeter>();
+        final SortedSet<IMeter> areg = a.getRegisteredMeters();
+        final SortedSet<IMeter> aregContains = new TreeSet<IMeter>();
         aregContains.add(tim);
         aregContains.add(ma);
         aregContains.add(mb);
@@ -139,8 +141,8 @@ public class MultipleTimersResultTest extends PerfidixTest {
         assertEquals(4, areg.size());
         assertTrue(areg.containsAll(aregContains));
 
-        ArrayList<IMeter> breg = b.getRegisteredMeters();
-        ArrayList<IMeter> bregContains = new ArrayList<IMeter>();
+        final SortedSet<IMeter> breg = b.getRegisteredMeters();
+        final SortedSet<IMeter> bregContains = new TreeSet<IMeter>();
         bregContains.add(tim);
         bregContains.add(ma);
         bregContains.add(mb);
