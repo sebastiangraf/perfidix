@@ -31,13 +31,10 @@ import org.apache.commons.logging.impl.SimpleLog;
 import org.perfidix.exceptions.PerfidixMethodException;
 
 /**
- * this is the generic benchmark container. TODO autosensing of runtime... some
- * warmUp() method perhaps.
+ * This is the generic benchmark container.
  * 
- * @author axo
- * @since 04.10.2005 changelog: the timer usage is deprecated now. old code:
- * @since 07.03.2007 changelog: usage of bench.. method os deprecated. Use
- *        annotations instead. For usage please read the Readme!
+ * @author Alexander Onea
+ * @author Sebastian Graf
  */
 public class Benchmark {
 
@@ -102,25 +99,39 @@ public class Benchmark {
     // ////////////////////////////////////////////
 
     /**
-     * the standard constructor to initiate a benchmark container.
+     * Constructor, without name or mem-benchmarking.
      */
     public Benchmark() {
         this(false);
     }
 
+    /**
+     * Constructor, with name but without mem-benchmarking.
+     * 
+     * @param name
+     *            name of benchmark
+     */
     public Benchmark(final String name) {
         this(name, false);
     }
 
+    /**
+     * Constructor, without name but with mem-benchmarking
+     * 
+     * @param useMemMeter
+     *            should the mem be benchmarked
+     */
     public Benchmark(final boolean useMemMeter) {
         this(Benchmark.class.toString(), useMemMeter);
     }
 
     /**
-     * you can give a benchmark container a name.
+     * Constructor, without name but with mem-benchmarking
      * 
+     * @param useMemMeter
+     *            should the mem be benchmarked
      * @param theName
-     *                the name the benchmark container will have.
+     *            name of benchmark
      */
     public Benchmark(final String theName, final boolean useMemMeter) {
         this.name = theName;
@@ -132,15 +143,10 @@ public class Benchmark {
     }
 
     /**
-     * Adds a class to the call stack via reflection or annotation. Because
-     * Benchmarkable is deprecated, move to annotations quickly.
+     * Adds an object to the call stack via annotation.
      * 
-     * @param cls
-     *                the class under test.
-     * @throws InstantiationException
-     *                 when calling the class instance was not possible
-     * @throws IllegalAccessException
-     *                 when the class is not accessible
+     * @param obj
+     *            the obj under bench.
      */
     public void add(final Object obj) {
 
@@ -156,6 +162,14 @@ public class Benchmark {
 
     }
 
+    /**
+     * Adds an object with a given name to the call stack via anotation
+     * 
+     * @param obj
+     *            the obj under bench
+     * @param name
+     *            name of the bench
+     */
     public void add(final Object obj, final String name) {
 
         if (obj instanceof Class) {
@@ -176,31 +190,8 @@ public class Benchmark {
      * 
      * @return the result.
      */
-    public Result run() {
+    public IResult run() {
         return run(BM_DEFAULT_INVOCATION_COUNT);
-    }
-
-    /**
-     * runs all methods with the default invocation count, but still using the
-     * randomizer.
-     * 
-     * @return the result.
-     * @param rand
-     *                the randomizer.
-     */
-    public Result run(final IRandomizer rand) {
-        return run(BM_DEFAULT_INVOCATION_COUNT, rand);
-    }
-
-    /**
-     * runs the benchmark, invoking each method numInvocations times.
-     * 
-     * @param numInvocations
-     *                how many times to run each method.
-     * @return the result.
-     */
-    public Result run(final int numInvocations) {
-        return run(numInvocations, new IRandomizer.DefaultRandomizer());
     }
 
     /**
@@ -208,22 +199,17 @@ public class Benchmark {
      * benchtimer to calculate the time.
      * 
      * @param numInvocations
-     *                the number of runs.
-     * @param rand
-     *                the randomizer to use for the decision making.
+     *            the number of runs.
      * @return the result.
      */
     @SuppressWarnings("unchecked")
-    public Result run(final int numInvocations, final IRandomizer rand) {
-        if (null == rand) {
-            return run(numInvocations);
-        }
+    public Result run(final int numInvocations) {
 
         ResultContainer myResult =
                 new ResultContainer.BenchmarkResult(this.getName());
         for (Object obj : children) {
             try {
-                myResult.append(doRunObject(obj, numInvocations, rand));
+                myResult.append(doRunObject(obj, numInvocations));
             } catch (Exception e) {
                 appendToLogger(SimpleLog.LOG_LEVEL_ERROR, "" + e);
                 if (shouldThrowException) {
@@ -239,30 +225,30 @@ public class Benchmark {
      * to be invokable, but since this method is private, there's no problem.
      * 
      * @param numInvocations
-     *                the number of invocations.
+     *            the number of invocations.
      * @param m
-     *                the method to run.
+     *            the method to run.
      * @param rand
-     *                the randomizer to use
+     *            the randomizer to use
      * @param parent
-     *                the class the method belongs to.
+     *            the class the method belongs to.
      * @return Result.
      */
     private IResult.MethodResult doRunObject(
-            final Method m, final int numInvocations, final Object parent,
-            final IRandomizer rand) throws Exception {
+            final Method m, final int numInvocations, final Object parent)
+            throws Exception {
         assert (parent != null);
         assert (numInvocations >= 0);
-        Object[] args = {};
+        final Object[] args = {};
         appendToLogger(SimpleLog.LOG_LEVEL_DEBUG, "Running method "
                 + m.getName()
                 + "(*"
                 + numInvocations
                 + "): ");
-        long[] timeElapsed = new long[numInvocations];
-        Object[] results = new Object[numInvocations];
-        MeterHelper meterHelper = new MeterHelper(numInvocations, meters);
-        IMeter timeMeter = meters.get(timeMeterIndex);
+        final long[] timeElapsed = new long[numInvocations];
+        final Object[] results = new Object[numInvocations];
+        final MeterHelper meterHelper = new MeterHelper(numInvocations, meters);
+        final IMeter timeMeter = meters.get(timeMeterIndex);
 
         try {
 
@@ -270,11 +256,6 @@ public class Benchmark {
                     SimpleLog.LOG_LEVEL_INFO, "invoking build for method " + m);
             executeBeforeAfter(parent, m, BeforeFirstBenchRun.class);
             for (int invocationID = 0; invocationID < numInvocations; invocationID++) {
-                if (!rand.shouldRun(m)) {
-                    timeElapsed[invocationID] = LONG_NULLVALUE;
-                    meterHelper.skip(invocationID);
-                    continue;
-                }
                 appendToLogger(
                         SimpleLog.LOG_LEVEL_INFO, "invoking setUp for method "
                                 + m);
@@ -296,7 +277,7 @@ public class Benchmark {
                 executeBeforeAfter(parent, m, AfterEachBenchRun.class);
             }
 
-            IResult.SingleResult result =
+            final IResult.SingleResult result =
                     new IResult.SingleResult(
                             m.getName(), timeElapsed, results, timeMeter);
             appendToLogger(
@@ -404,17 +385,16 @@ public class Benchmark {
      * runs the object. the internal implementation
      * 
      * @param numInvocations
-     *                the number of times one method is to be called.
+     *            the number of times one method is to be called.
      * @param obj
-     *                the object under test.
+     *            the object under test.
      * @return Result
      * @param timer
-     *                the timer to use
+     *            the timer to use
      * @param rand
-     *                the randomizer to use
+     *            the randomizer to use
      */
-    private Result doRunObject(
-            final Object obj, final int numInvocations, final IRandomizer rand)
+    private Result doRunObject(final Object obj, final int numInvocations)
             throws Exception {
 
         // getting all methods
@@ -479,7 +459,7 @@ public class Benchmark {
                     runs = numInvocations;
                 }
                 final IResult.MethodResult realResult =
-                        doRunObject(methods[i], runs, toExecute, rand);
+                        doRunObject(methods[i], runs, toExecute);
                 if (realResult != null) {
                     result.append(realResult);
                 }
@@ -582,8 +562,7 @@ public class Benchmark {
     /**
      * sets the logger. If false, nothing will be logged.
      * 
-     * @param boolean
-     *                if logger should be set.
+     * @param boolean if logger should be set.
      */
     public void setLogger(final boolean logger) {
         this.logger = logger;
@@ -615,7 +594,7 @@ public class Benchmark {
      * registers some meter
      * 
      * @param someMeter
-     *                a meter to register
+     *            a meter to register
      * @return boolean
      */
     public boolean register(final IMeter someMeter) {
@@ -630,7 +609,7 @@ public class Benchmark {
      * order to show the result properly.
      * 
      * @param indent
-     *                the number of indentations.
+     *            the number of indentations.
      */
     private String toString(final int indent) {
 
@@ -659,9 +638,9 @@ public class Benchmark {
      * Central method for logging. Sets a boolean if an exception is fired!
      * 
      * @param loglevel
-     *                where the log should written
+     *            where the log should written
      * @param message
-     *                to be written.
+     *            to be written.
      */
     private void appendToLogger(final int loglevel, final String message) {
         if (logger) {

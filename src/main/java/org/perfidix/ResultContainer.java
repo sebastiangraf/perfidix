@@ -20,10 +20,10 @@
 package org.perfidix;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Hashtable;
 import java.util.Iterator;
-import java.util.TreeMap;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import org.perfidix.visitor.ResultVisitor;
 
@@ -35,7 +35,7 @@ import org.perfidix.visitor.ResultVisitor;
  * @since 08-2005
  * @version 0.8
  * @param <ResultType>
- *                the type of the children.
+ *            the type of the children.
  */
 public abstract class ResultContainer<ResultType extends Result> extends Result {
 
@@ -53,7 +53,7 @@ public abstract class ResultContainer<ResultType extends Result> extends Result 
 
     /**
      * @param name
-     *                the name of the result.
+     *            the name of the result.
      */
     public ResultContainer(final String name) {
         super();
@@ -64,7 +64,7 @@ public abstract class ResultContainer<ResultType extends Result> extends Result 
      * appends a result to the children.
      * 
      * @param res
-     *                the result to append.
+     *            the result to append.
      */
     public void append(final ResultType res) {
 
@@ -121,6 +121,7 @@ public abstract class ResultContainer<ResultType extends Result> extends Result 
      * 
      * @return the result set.
      */
+    @Override
     public long[] getResultSet() {
         int resultLength = children.size();
         long[] theResult = new long[resultLength];
@@ -132,7 +133,7 @@ public abstract class ResultContainer<ResultType extends Result> extends Result 
 
     /**
      * @param meterName
-     *                the unique identifier for the meter involved.
+     *            the unique identifier for the meter involved.
      * @return the maximum value.
      */
     public long max(final IMeter meterName) {
@@ -141,7 +142,7 @@ public abstract class ResultContainer<ResultType extends Result> extends Result 
 
     /**
      * @param m
-     *                the meter to fetch the result set for.
+     *            the meter to fetch the result set for.
      * @return the result set allocated to the meter.
      */
     private long[] getResultSet(final IMeter m) {
@@ -197,8 +198,9 @@ public abstract class ResultContainer<ResultType extends Result> extends Result 
      * accepts a result visitor.
      * 
      * @param v
-     *                the visitor
+     *            the visitor
      */
+    @Override
     public void accept(final ResultVisitor v) {
         v.visit(this);
 
@@ -208,7 +210,7 @@ public abstract class ResultContainer<ResultType extends Result> extends Result 
      * computes the minimum result for the given meter name.
      * 
      * @param m
-     *                the meter which is used.
+     *            the meter which is used.
      * @return the minimum value.
      */
     public long min(final IMeter m) {
@@ -219,7 +221,7 @@ public abstract class ResultContainer<ResultType extends Result> extends Result 
      * this is not a comment.
      * 
      * @param m
-     *                the meter which is used.
+     *            the meter which is used.
      * @return the result.
      */
     public double avg(final IMeter m) {
@@ -230,7 +232,7 @@ public abstract class ResultContainer<ResultType extends Result> extends Result 
      * this is not a comment.
      * 
      * @param m
-     *                the meter.
+     *            the meter.
      * @return the result.
      */
     public double mean(final IMeter m) {
@@ -241,7 +243,7 @@ public abstract class ResultContainer<ResultType extends Result> extends Result 
      * this is not a comment.
      * 
      * @param m
-     *                the meter name.
+     *            the meter name.
      * @return the result.
      */
     public long squareSum(final IMeter m) {
@@ -252,7 +254,7 @@ public abstract class ResultContainer<ResultType extends Result> extends Result 
      * this is not a comment.
      * 
      * @param m
-     *                the meter.
+     *            the meter.
      * @return the result.
      */
     public int resultCount(final IMeter m) {
@@ -263,7 +265,7 @@ public abstract class ResultContainer<ResultType extends Result> extends Result 
      * this is not a comment.
      * 
      * @param m
-     *                the meter.
+     *            the meter.
      * @return the result.
      */
     public double variance(final IMeter m) {
@@ -274,7 +276,7 @@ public abstract class ResultContainer<ResultType extends Result> extends Result 
      * this is not a comment.
      * 
      * @param m
-     *                the meter name.
+     *            the meter name.
      * @return the result.
      */
     public double median(final IMeter m) {
@@ -283,7 +285,7 @@ public abstract class ResultContainer<ResultType extends Result> extends Result 
 
     /**
      * @param m
-     *                the meter name.
+     *            the meter name.
      * @return the sum.
      */
     public long sum(final IMeter m) {
@@ -294,7 +296,7 @@ public abstract class ResultContainer<ResultType extends Result> extends Result 
      * this is not a comment.
      * 
      * @param meterName
-     *                the meter name.
+     *            the meter name.
      * @return the result.
      */
     public double getConf99(final IMeter meterName) {
@@ -305,7 +307,7 @@ public abstract class ResultContainer<ResultType extends Result> extends Result 
      * this is not a comment.
      * 
      * @param meterName
-     *                the meter name.
+     *            the meter name.
      * @return the result.
      */
     public double getConf95(final IMeter meterName) {
@@ -316,7 +318,7 @@ public abstract class ResultContainer<ResultType extends Result> extends Result 
      * this is not a comment.
      * 
      * @param meterName
-     *                the meter name.
+     *            the meter name.
      * @return the result.
      */
     public double getStandardDeviation(final IMeter meterName) {
@@ -331,68 +333,42 @@ public abstract class ResultContainer<ResultType extends Result> extends Result 
 
     }
 
-    private void pushUnique(
-            final ArrayList<IMeter> into, final ResultContainer from) {
-        Iterator c = from.getRegisteredMeters().iterator();
-        while (c.hasNext()) {
-            pushUnique(into, (IMeter) c.next());
-        }
-    }
-
-    private void pushUnique(final ArrayList<IMeter> meters, final IMeter m) {
-        if (meters.contains(m)) {
-            return;
-        }
-        meters.add(m);
-    }
-
-    private void getChildrenMeters(final ArrayList<IMeter> meters) {
-        Iterator<ResultType> cIterator = children.iterator();
-        while (cIterator.hasNext()) {
-            Result next = cIterator.next();
-            if (next instanceof ResultContainer) {
-                pushUnique(meters, (ResultContainer) next);
-                continue;
-            }
-            if (next instanceof SingleResult) {
-                pushUnique(meters, ((SingleResult) next).getMeter());
-                continue;
-            }
-            // ignore all other cases.
-        }
-    }
-
-    private void getCustomMeters(final ArrayList<IMeter> meters) {
-        Iterator<IMeter> cc = customChildren.keySet().iterator();
-        while (cc.hasNext()) {
-            pushUnique(meters, cc.next());
-        }
-    }
-
     /**
-     * @return all registered meters.
+     * Returning all registered meters.
+     * 
+     * @return the meters
      */
-    public ArrayList<IMeter> getRegisteredMeters() {
-        ArrayList<IMeter> meters = new ArrayList<IMeter>();
-        getChildrenMeters(meters);
-        getCustomMeters(meters);
-        Collections.sort(meters);
+    public SortedSet<IMeter> getRegisteredMeters() {
+        final SortedSet<IMeter> meters = new TreeSet<IMeter>();
+        for (final ResultType child : children) {
+            if (child instanceof ResultContainer) {
+                meters.addAll(((ResultContainer) child).getRegisteredMeters());
+            }
+            if (child instanceof SingleResult) {
+                meters.add(((SingleResult) child).getMeter());
+            }
+        }
+        for (final IMeter meter : customChildren.keySet()) {
+            meters.add(meter);
+        }
+
         return meters;
     }
 
     /**
-     * returns the default meter.
-     * 
-     * @return a meter.
+     * {@inheritDoc}
      */
     public IMeter getDefaultMeter() {
-        ArrayList<IMeter> meters = getRegisteredMeters();
+        final SortedSet<IMeter> meters = getRegisteredMeters();
         if (meters.isEmpty()) {
             return Perfidix.defaultMeter();
         }
-        return meters.iterator().next();
+        return meters.first();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public long getNumberOfRuns() {
         Iterator<ResultType> cust = getChildren().iterator();
         long numberOfRuns = 0;
