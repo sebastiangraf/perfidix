@@ -28,13 +28,16 @@ import java.lang.annotation.Target;
  * This Annotation marks a simple bench. Each Method annotated with
  * <code>Bench</code> is executed by perfidix.
  * 
- * @author Sebastian Graf, University of Constance
+ * @author Sebastian Graf, University of Konstanz
  */
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 public @interface Bench {
 
+    /**
+     * The default number of runs. Flag to ensure no runs are made.
+     */
     public static int DEFAULTRUNS = -1;
 
     /**
