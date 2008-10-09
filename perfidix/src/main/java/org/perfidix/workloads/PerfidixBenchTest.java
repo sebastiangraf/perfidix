@@ -20,9 +20,9 @@
 package org.perfidix.workloads;
 
 import org.perfidix.Benchmark;
-import org.perfidix.IMeter;
 import org.perfidix.Perfidix;
 import org.perfidix.annotation.Bench;
+import org.perfidix.meter.IMeter;
 import org.perfidix.result.GnuPlotData;
 import org.perfidix.result.IResult;
 import org.perfidix.result.Result;

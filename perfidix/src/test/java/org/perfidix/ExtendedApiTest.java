@@ -24,6 +24,7 @@ import static org.junit.Assert.assertEquals;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.perfidix.meter.IMeter;
 import org.perfidix.result.MethodResult;
 import org.perfidix.result.ResultContainer;
 import org.perfidix.result.SingleResult;
