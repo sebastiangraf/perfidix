@@ -8,7 +8,6 @@ import java.util.Collection;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.perfidix.IResult;
-import org.perfidix.Result;
 
 /**
  * Storing the raw data without any computation in single files. Per method, one
@@ -29,7 +28,7 @@ public class RawData extends ResultVisitor {
     }
 
     @Override
-    public void visit(Result r) {
+    public void visit(IResult r) {
         try {
             if (!(r instanceof IResult.BenchmarkResult)) {
                 throw new RuntimeException(

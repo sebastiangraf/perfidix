@@ -36,45 +36,32 @@ import java.lang.annotation.Target;
 public @interface Bench {
 
     /**
-     * The default number of runs. Flag to ensure no runs are made.
-     */
-    public static int DEFAULTRUNS = -1;
-
-    /**
      * Parameter of the method which works as a setUp-like, but just once for
      * all runs. For more information to setUp, look at JUnit.
-     * 
-     * @return a String with the method or nothing.
      */
     String beforeFirstBenchRun() default "";
 
     /**
      * Parameter of the method which works as a tearDown-like, but just once for
      * all runs. For more information to setUp, look at JUnit.
-     * 
-     * @return a String with the method or nothing.
      */
     String afterLastBenchRun() default "";
 
     /**
      * Parameter of the method which works as a setUp-like. For more information
      * to setUp, look at JUnit.
-     * 
-     * @return a String with the method or nothing.
      */
     String beforeEveryBenchRun() default "";
 
     /**
      * Parameter of the method which works as a tearDown-like. For more
      * information to setUp, look at JUnit.
-     * 
-     * @return a String with the method or nothing.
      */
     String afterEveryBenchRun() default "";
 
     /**
      * Parameter for the number of runs of this bench.
      */
-    int runs() default DEFAULTRUNS;
+    int runs() default -1;
 
 }

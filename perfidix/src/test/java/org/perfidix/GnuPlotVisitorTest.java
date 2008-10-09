@@ -27,6 +27,7 @@ public class GnuPlotVisitorTest extends PerfidixTest {
 
     private GnuPlotData v;
 
+    @Override
     @Before
     public void setUp() throws Exception {
         super.setUp();
@@ -38,7 +39,7 @@ public class GnuPlotVisitorTest extends PerfidixTest {
 
         Benchmark b = new Benchmark();
         b.add(new PerfidixTest.BenchmarkableTestingStub());
-        Result r = b.run(100);
+        IResult r = b.run(100);
         v.visit(r);
         System.out.println(v.toString());
 

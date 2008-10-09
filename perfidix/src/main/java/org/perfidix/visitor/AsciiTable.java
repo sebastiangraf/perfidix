@@ -64,7 +64,7 @@ public class AsciiTable extends ResultVisitor {
      * 
      * @see java.util.Formatter for valid format strings.
      * @param theFloatFormat
-     *                a comment.
+     *            a comment.
      */
     public AsciiTable(final String theFloatFormat) {
         this();
@@ -228,9 +228,10 @@ public class AsciiTable extends ResultVisitor {
      * really like to do typecasting within the method, but we'll have to see.
      * 
      * @param res
-     *                the result to look visit.
+     *            the result to look visit.
      */
-    public void visit(final Result res) {
+    @Override
+    public void visit(final IResult res) {
 
         if (res instanceof IResult.SingleResult) {
             visitSingleResult((IResult.SingleResult) res, res.getName());
@@ -247,6 +248,7 @@ public class AsciiTable extends ResultVisitor {
      * 
      * @return a string.
      */
+    @Override
     public String toString() {
         return table.toString();
     }

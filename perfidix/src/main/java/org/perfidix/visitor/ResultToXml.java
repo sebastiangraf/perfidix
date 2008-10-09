@@ -79,7 +79,7 @@ public class ResultToXml extends ResultVisitor {
      * 
      * @TODO allow id and svn attribute.
      * @param resultsFile
-     *                the filename to store the results to.
+     *            the filename to store the results to.
      */
     public ResultToXml(final String resultsFile) {
 
@@ -100,10 +100,9 @@ public class ResultToXml extends ResultVisitor {
      * The constructor in case we append new results to an existing result set.
      * 
      * @param previousResults
-     *                the results read from the existing file
+     *            the results read from the existing file
      * @param resultFile
-     *                where to store it..actually in the same place as the
-     *                previous
+     *            where to store it..actually in the same place as the previous
      */
     public ResultToXml(final Document previousResults, final String resultFile) {
 
@@ -202,9 +201,10 @@ public class ResultToXml extends ResultVisitor {
      * </pre>
      * 
      * @param r
-     *                the result to visit.
+     *            the result to visit.
      */
-    public void visit(final Result r) {
+    @Override
+    public void visit(final IResult r) {
 
         if (r instanceof IResult.BenchmarkResult) {
             visit((IResult.BenchmarkResult) r);
@@ -227,7 +227,7 @@ public class ResultToXml extends ResultVisitor {
      * Save the results in a file.
      * 
      * @throws IOException
-     *                 if the fileWriter could not write the file.
+     *             if the fileWriter could not write the file.
      */
     public void save() throws IOException {
         OutputFormat format = OutputFormat.createPrettyPrint();
