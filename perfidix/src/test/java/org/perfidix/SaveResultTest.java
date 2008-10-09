@@ -28,6 +28,8 @@ import java.util.Hashtable;
 import org.junit.Before;
 import org.junit.Test;
 import org.perfidix.annotation.Bench;
+import org.perfidix.meter.IMeter;
+import org.perfidix.meter.MilliMeter;
 import org.perfidix.result.IResult;
 import org.perfidix.result.ResultToXml;
 
@@ -125,12 +127,12 @@ public class SaveResultTest extends PerfidixTest {
     public void testTreeMap() {
 
         Hashtable<IMeter, TreeMapObj> h = new Hashtable<IMeter, TreeMapObj>();
-        h.put(new IMeter.MilliMeter(), new TreeMapObj("hello"));
-        h.put(new IMeter.MilliMeter(), new TreeMapObj("hello"));
+        h.put(new MilliMeter(), new TreeMapObj("hello"));
+        h.put(new MilliMeter(), new TreeMapObj("hello"));
         assertEquals(1, h.size());
-        assertTrue(new IMeter.MilliMeter().equals(new IMeter.MilliMeter()));
-        assertTrue(new IMeter.MilliMeter().equals(new IMeter.MilliMeter()));
-        assertTrue(h.containsKey(new IMeter.MilliMeter()));
+        assertTrue(new MilliMeter().equals(new MilliMeter()));
+        assertTrue(new MilliMeter().equals(new MilliMeter()));
+        assertTrue(h.containsKey(new MilliMeter()));
     }
 
     @Test

@@ -21,6 +21,10 @@ package org.perfidix;
 
 import java.util.TreeMap;
 
+import org.perfidix.meter.CountingMeter;
+import org.perfidix.meter.IMeter;
+import org.perfidix.meter.MilliMeter;
+import org.perfidix.meter.NanoMeter;
 import org.perfidix.result.IResult;
 import org.perfidix.result.SingleResult;
 
@@ -109,6 +113,8 @@ public final class Perfidix {
      */
     public static final int HASHCODE_PRIME = 37;
 
+    public static final IMeter DEFAULTMETER = new MilliMeter();
+
     /**
      * private constructor.
      */
@@ -161,9 +167,9 @@ public final class Perfidix {
      *            the initial value
      * @return
      */
-    private static IMeter.CountingMeter doCreateMeter(
+    private static CountingMeter doCreateMeter(
             final String meterName, final String unit, final int initValue) {
-        IMeter.CountingMeter c = new IMeter.CountingMeter(meterName, initValue);
+        CountingMeter c = new CountingMeter(meterName, initValue);
         c.setUnit(unit);
         return c;
     }
@@ -184,8 +190,7 @@ public final class Perfidix {
     public static IMeter createMeter(
             final String meterName, final String unit, final int initialValue,
             final String description) {
-        IMeter.CountingMeter m =
-                Perfidix.doCreateMeter(meterName, unit, initialValue);
+        CountingMeter m = Perfidix.doCreateMeter(meterName, unit, initialValue);
         m.setUnitDescription(description);
         Perfidix.getInstance().meters.put(meterName, m);
         return m;
@@ -232,12 +237,12 @@ public final class Perfidix {
     public static final IMeter loadMeter(final String theUnit) {
         String my = theUnit.toLowerCase();
         if (my.equals(Perfidix.MSEC_UNIT)) {
-            return new IMeter.MilliMeter();
+            return new MilliMeter();
         }
         if (my.equals(Perfidix.NANO_UNIT)) {
-            return new IMeter.NanoMeter();
+            return new NanoMeter();
         }
-        IMeter.CountingMeter c = new IMeter.CountingMeter();
+        CountingMeter c = new CountingMeter();
         c.setUnit(theUnit);
         return c;
     }
@@ -246,7 +251,7 @@ public final class Perfidix {
      * @return the default meter.
      */
     public static final IMeter defaultMeter() {
-        return new IMeter.MilliMeter();
+        return new MilliMeter();
     }
 
     /**

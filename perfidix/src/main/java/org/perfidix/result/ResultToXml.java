@@ -32,7 +32,7 @@ import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 import org.dom4j.io.OutputFormat;
 import org.dom4j.io.XMLWriter;
-import org.perfidix.IMeter;
+import org.perfidix.meter.IMeter;
 
 /**
  * this visitor allows the saving of the result.
