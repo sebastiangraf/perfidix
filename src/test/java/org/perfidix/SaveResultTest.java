@@ -27,7 +27,9 @@ import java.util.Hashtable;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.perfidix.visitor.ResultToXml;
+import org.perfidix.annotation.Bench;
+import org.perfidix.result.IResult;
+import org.perfidix.result.ResultToXml;
 
 /**
  * checks how the saveResultVisitor works.

@@ -17,13 +17,13 @@
  * 
  */
 
-package org.perfidix;
+package org.perfidix.result;
 
 import java.util.Arrays;
 
+import org.perfidix.Benchmark;
 import org.perfidix.exceptions.IntegerOverflowException;
-import org.perfidix.visitor.AsciiTable;
-import org.perfidix.visitor.ResultVisitor;
+import org.perfidix.result.NiceTable.Util;
 
 /**
  * a base class for result sets.

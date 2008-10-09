@@ -23,6 +23,7 @@ import java.lang.reflect.Method;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.perfidix.annotation.Bench;
 
 /**
  * a possible superclass for all perfidix test cases. enables some common

@@ -24,6 +24,11 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
+import org.perfidix.annotation.Bench;
+import org.perfidix.result.IResult;
+import org.perfidix.result.NiceTable;
+import org.perfidix.result.Result;
+import org.perfidix.result.ResultContainer;
 
 public class APITest extends PerfidixTest {
 

@@ -21,6 +21,9 @@ package org.perfidix;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.perfidix.result.IResult;
+import org.perfidix.result.NiceTable;
+import org.perfidix.result.ResultContainer;
 
 /**
  * @author onea

@@ -24,7 +24,10 @@ import java.util.List;
 import org.dom4j.Document;
 import org.junit.Before;
 import org.junit.Test;
-import org.perfidix.visitor.ResultToXml;
+import org.perfidix.result.IResult;
+import org.perfidix.result.Result;
+import org.perfidix.result.ResultContainer;
+import org.perfidix.result.ResultToXml;
 
 public class XMLCreatorTest extends PerfidixTest {
 

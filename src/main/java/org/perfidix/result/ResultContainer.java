@@ -17,7 +17,7 @@
  * 
  */
 
-package org.perfidix;
+package org.perfidix.result;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
@@ -25,7 +25,9 @@ import java.util.Iterator;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-import org.perfidix.visitor.ResultVisitor;
+import org.perfidix.IMeter;
+import org.perfidix.Perfidix;
+import org.perfidix.IMeter.AbsTimeMeter;
 
 /**
  * the result container contains more results. it is by definition recursive, so

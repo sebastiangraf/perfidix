@@ -24,6 +24,8 @@ import static org.junit.Assert.assertEquals;
 import java.util.Arrays;
 
 import org.junit.Test;
+import org.perfidix.result.IResult;
+import org.perfidix.result.NiceTable;
 
 public class SortingTest extends PerfidixTest {
 

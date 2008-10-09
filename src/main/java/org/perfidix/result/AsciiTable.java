@@ -17,18 +17,14 @@
  * 
  */
 
-package org.perfidix.visitor;
+package org.perfidix.result;
 
 import java.util.ArrayList;
 import java.util.Formatter;
 import java.util.Hashtable;
 
 import org.perfidix.IMeter;
-import org.perfidix.IResult;
-import org.perfidix.NiceTable;
-import org.perfidix.Result;
-import org.perfidix.ResultContainer;
-import org.perfidix.IResult.SingleResult;
+import org.perfidix.result.IResult.SingleResult;
 
 /**
  * <p>

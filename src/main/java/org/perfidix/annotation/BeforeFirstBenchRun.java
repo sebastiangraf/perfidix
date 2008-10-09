@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  * 
- * $Id: AfterBenchClass.java 2624 2007-03-28 15:08:52Z kramis $
+ * $Id: BeforeFirstBenchRun.java 2624 2007-03-28 15:08:52Z kramis $
  * 
  */
 
-package org.perfidix;
+package org.perfidix.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -25,13 +25,12 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Marks a single-executed tearDown for every class which contains a
- * bench-method.
+ * Marks a general setUp for each method for all runs.
  * 
- * @author Sebastian Graf, University of Constance
+ * @author Sebastian Graf, University of Konstanz
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
-public @interface AfterBenchClass {
+public @interface BeforeFirstBenchRun {
 
 }

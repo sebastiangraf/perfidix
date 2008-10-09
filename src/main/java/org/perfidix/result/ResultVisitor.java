@@ -17,12 +17,10 @@
  * 
  */
 
-package org.perfidix.visitor;
+package org.perfidix.result;
 
 import java.util.Formatter;
 
-import org.perfidix.IResult;
-import org.perfidix.Result;
 
 /**
  * the ResultVisitor is able to visit and view the results. mainly an iterator,

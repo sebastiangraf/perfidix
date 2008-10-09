@@ -2,12 +2,12 @@ package org.perfidix.workloads;
 
 import java.util.Random;
 
-import org.perfidix.AfterLastBenchRun;
-import org.perfidix.Bench;
 import org.perfidix.Benchmark;
 import org.perfidix.IMeter;
-import org.perfidix.IResult;
 import org.perfidix.Perfidix;
+import org.perfidix.annotation.AfterLastBenchRun;
+import org.perfidix.annotation.Bench;
+import org.perfidix.result.IResult;
 
 public class SimpleInsertSim {
 

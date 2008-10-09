@@ -1,4 +1,4 @@
-package org.perfidix.visitor;
+package org.perfidix.result;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -7,7 +7,6 @@ import java.util.Collection;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.perfidix.IResult;
 
 /**
  * Storing the raw data without any computation in single files. Per method, one
