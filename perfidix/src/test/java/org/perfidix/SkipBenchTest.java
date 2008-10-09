@@ -4,6 +4,15 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.perfidix.annotation.AfterBenchClass;
+import org.perfidix.annotation.AfterEachBenchRun;
+import org.perfidix.annotation.AfterLastBenchRun;
+import org.perfidix.annotation.BeforeBenchClass;
+import org.perfidix.annotation.BeforeEachBenchRun;
+import org.perfidix.annotation.BeforeFirstBenchRun;
+import org.perfidix.annotation.Bench;
+import org.perfidix.annotation.BenchClass;
+import org.perfidix.annotation.SkipBench;
 
 public class SkipBenchTest {
     private static final int classAnnoRuns = 20;

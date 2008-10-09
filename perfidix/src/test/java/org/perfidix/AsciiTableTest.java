@@ -27,6 +27,7 @@ import static org.junit.Assert.fail;
 import java.util.regex.Pattern;
 
 import org.junit.Test;
+import org.perfidix.result.NiceTable;
 
 public class AsciiTableTest extends PerfidixTest {
 

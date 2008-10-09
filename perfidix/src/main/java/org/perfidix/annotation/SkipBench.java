@@ -1,4 +1,4 @@
-package org.perfidix;
+package org.perfidix.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -9,7 +9,7 @@ import java.lang.annotation.Target;
  * Marks a method that it is not used for a bench, no matter if a Bench oder a
  * BenchClass annotation is present.
  * 
- * @author Sebastian Graf, University of Constance
+ * @author Sebastian Graf, University of Konstanz
  */
 
 @Retention(RetentionPolicy.RUNTIME)

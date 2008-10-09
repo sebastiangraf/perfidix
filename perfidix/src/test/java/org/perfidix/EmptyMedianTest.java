@@ -22,6 +22,7 @@ package org.perfidix;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
+import org.perfidix.result.Result;
 
 public class EmptyMedianTest extends PerfidixTest {
 

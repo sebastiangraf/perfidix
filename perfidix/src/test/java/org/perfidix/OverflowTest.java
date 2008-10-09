@@ -30,6 +30,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.perfidix.exceptions.IntegerOverflowException;
+import org.perfidix.result.IResult;
 
 public class OverflowTest extends PerfidixTest {
 

@@ -17,16 +17,15 @@
  * 
  */
 
-package org.perfidix;
+package org.perfidix.result;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import org.perfidix.visitor.ResultVisitor;
+import org.perfidix.Benchmark;
+import org.perfidix.IMeter;
+import org.perfidix.Perfidix;
 
-/**
- * @author onea
- */
 public interface IResult {
 
     /**
@@ -166,7 +165,7 @@ public interface IResult {
         /**
          * this is not a comment.
          * 
-         * @see org.perfidix.IResult#getNumberOfRuns()
+         * @see org.perfidix.result.IResult#getNumberOfRuns()
          */
         public long getNumberOfRuns() {
             // debug System.out.println(getName() + " # " + resultSet.length);
@@ -286,7 +285,7 @@ public interface IResult {
     /**
      * @author axo
      */
-    class ClassResult extends ResultContainer<IResult.MethodResult> {
+    public class ClassResult extends ResultContainer<IResult.MethodResult> {
 
         private String theClass;
 
@@ -296,7 +295,7 @@ public interface IResult {
          * @param classUnderTest
          *            the class name which is benchmarked.
          */
-        ClassResult(final String theName, final String classUnderTest) {
+        public ClassResult(final String theName, final String classUnderTest) {
             super(theName);
             theClass = classUnderTest;
         }
@@ -322,13 +321,13 @@ public interface IResult {
     /**
      * @author onea
      */
-    class MethodResult extends ResultContainer<IResult.SingleResult> {
+    public class MethodResult extends ResultContainer<IResult.SingleResult> {
 
         /**
          * @param theName
          *            the name.
          */
-        MethodResult(final String theName) {
+        public MethodResult(final String theName) {
             super(theName);
         }
 

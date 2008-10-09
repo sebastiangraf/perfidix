@@ -19,13 +19,13 @@
 
 package org.perfidix.workloads;
 
-import org.perfidix.Bench;
 import org.perfidix.Benchmark;
 import org.perfidix.IMeter;
-import org.perfidix.IResult;
 import org.perfidix.Perfidix;
-import org.perfidix.Result;
-import org.perfidix.visitor.GnuPlotData;
+import org.perfidix.annotation.Bench;
+import org.perfidix.result.GnuPlotData;
+import org.perfidix.result.IResult;
+import org.perfidix.result.Result;
 
 /**
  * a benchmark test.

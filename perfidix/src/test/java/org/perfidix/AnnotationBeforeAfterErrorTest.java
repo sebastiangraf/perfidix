@@ -23,6 +23,13 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
+import org.perfidix.annotation.AfterBenchClass;
+import org.perfidix.annotation.AfterEachBenchRun;
+import org.perfidix.annotation.AfterLastBenchRun;
+import org.perfidix.annotation.BeforeBenchClass;
+import org.perfidix.annotation.BeforeEachBenchRun;
+import org.perfidix.annotation.BeforeFirstBenchRun;
+import org.perfidix.annotation.Bench;
 
 public class AnnotationBeforeAfterErrorTest {
 

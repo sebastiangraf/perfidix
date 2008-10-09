@@ -21,6 +21,8 @@ package org.perfidix;
 
 import java.util.TreeMap;
 
+import org.perfidix.result.IResult;
+
 /**
  * this is the main class, consisting of all the factory methods needed in order
  * to perform a benchmark run.
@@ -127,7 +129,7 @@ public final class Perfidix {
      * Method to register Meters
      * 
      * @param meter
-     *                to register
+     *            to register
      */
     public static void registerMeter(final IMeter meter) {
         Perfidix.getInstance().meters.put(meter.getName(), meter);
@@ -137,9 +139,9 @@ public final class Perfidix {
      * creates a meter.
      * 
      * @param meterName
-     *                the name of the meter.
+     *            the name of the meter.
      * @param unit
-     *                the unit of that meter.
+     *            the unit of that meter.
      * @return the meter created - if the meter already exists, the existing one
      *         will be returned.
      */
@@ -151,11 +153,11 @@ public final class Perfidix {
      * helper method to create a counting meter.
      * 
      * @param meterName
-     *                the name of the meter
+     *            the name of the meter
      * @param unit
-     *                the unit of the meter
+     *            the unit of the meter
      * @param initValue
-     *                the initial value
+     *            the initial value
      * @return
      */
     private static IMeter.CountingMeter doCreateMeter(
@@ -169,13 +171,13 @@ public final class Perfidix {
      * creates a meter with a given initial value.
      * 
      * @param meterName
-     *                the name of the meter.
+     *            the name of the meter.
      * @param unit
-     *                the unit to use
+     *            the unit to use
      * @param initialValue
-     *                the initial value of the meter. normally 0
+     *            the initial value of the meter. normally 0
      * @param description
-     *                the description of the meter.
+     *            the description of the meter.
      * @return an initialized custom meter.
      */
     public static IMeter createMeter(
@@ -193,7 +195,7 @@ public final class Perfidix {
      * will be created.
      * 
      * @param meterName
-     *                the name of the meter.
+     *            the name of the meter.
      * @return the meter assigned to. if it has not been created, null will be
      *         returned.
      */
@@ -223,7 +225,7 @@ public final class Perfidix {
      * loads a meter from a given unit.
      * 
      * @param theUnit
-     *                string
+     *            string
      * @return the IMeter
      */
     public static final IMeter loadMeter(final String theUnit) {
@@ -248,7 +250,7 @@ public final class Perfidix {
 
     /**
      * @param set
-     *                the dataset.
+     *            the dataset.
      * @return the single result.
      */
     public static final IResult.SingleResult createSingleResult(final long[] set) {
@@ -257,15 +259,15 @@ public final class Perfidix {
 
     /**
      * @param name
-     *                the name.
+     *            the name.
      * @param set
-     *                the result set.
+     *            the result set.
      * @return a single result.
      */
     public static final IResult.SingleResult createSingleResult(
             final String name, final long[] set) {
         IResult.SingleResult r = Perfidix.createSingleResult(set);
-        r.setName(name);
+        // r.setName(name);
         return r;
     }
 

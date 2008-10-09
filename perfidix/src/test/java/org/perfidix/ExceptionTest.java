@@ -25,6 +25,7 @@ import static org.junit.Assert.assertTrue;
 import java.io.FileReader;
 
 import org.junit.Test;
+import org.perfidix.annotation.Bench;
 
 public class ExceptionTest {
 
