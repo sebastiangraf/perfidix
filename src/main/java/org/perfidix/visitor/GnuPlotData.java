@@ -30,7 +30,6 @@ import java.util.Iterator;
 import org.perfidix.IMeter;
 import org.perfidix.IResult;
 import org.perfidix.NiceTable;
-import org.perfidix.Result;
 import org.perfidix.IResult.MethodResult;
 
 /**
@@ -84,7 +83,7 @@ public class GnuPlotData extends ResultVisitor {
      * sets the filename.
      * 
      * @param filename
-     *                the filename
+     *            the filename
      */
     public void setFilename(final String filename) {
         theFileName = filename;
@@ -94,7 +93,7 @@ public class GnuPlotData extends ResultVisitor {
      * sets the meter to display the results for.
      * 
      * @param which
-     *                the meter.
+     *            the meter.
      */
     public void setMeter(final IMeter which) {
         meter = which;
@@ -104,11 +103,11 @@ public class GnuPlotData extends ResultVisitor {
      * allows a simpler configuration through a facade.
      * 
      * @param which
-     *                the meter to display the results for.
+     *            the meter to display the results for.
      * @param id
-     *                the subversion-id.
+     *            the subversion-id.
      * @param theFilename
-     *                the filename, whatever information.
+     *            the filename, whatever information.
      */
     public void configure(
             final IMeter which, final String id, final String theFilename) {
@@ -126,10 +125,10 @@ public class GnuPlotData extends ResultVisitor {
      * @see #configure(IMeter, String, String)
      * @see #setMeter(IMeter)
      * @param r
-     *                the result which will be visited the result may only be a
-     *                BenchmarkResult and nothing else!
+     *            the result which will be visited the result may only be a
+     *            BenchmarkResult and nothing else!
      */
-    public void visit(final Result r) {
+    public void visit(final IResult r) {
 
         if (!(r instanceof IResult.BenchmarkResult)) {
             throw new RuntimeException("only benchmark results are supported!");
@@ -228,7 +227,7 @@ public class GnuPlotData extends ResultVisitor {
 
     /**
      * @param someData
-     *                the data to set.
+     *            the data to set.
      */
     public void setID(final String someData) {
         theID = someData;
@@ -237,6 +236,7 @@ public class GnuPlotData extends ResultVisitor {
     /**
      * @return the buffered result.
      */
+    @Override
     public String toString() {
         return buffer;
     }
@@ -245,10 +245,11 @@ public class GnuPlotData extends ResultVisitor {
      * some formatting.
      * 
      * @param bla
-     *                bla.
+     *            bla.
      * @overrides
      * @return the formatted string
      */
+    @Override
     protected String format(final double bla) {
         return super.format(bla).replace(',', '.');
     }
@@ -265,7 +266,7 @@ public class GnuPlotData extends ResultVisitor {
      * </pre>
      * 
      * @throws IOException
-     *                 if writing didn't work.
+     *             if writing didn't work.
      */
     public void save() throws IOException {
         File f = new File(theFileName);

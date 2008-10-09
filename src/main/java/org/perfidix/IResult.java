@@ -44,6 +44,8 @@ public interface IResult {
 
     public long getNumberOfRuns();
 
+    public String getName();
+
     /**
      * contains the single result for anything. this is the 'leaf' result class,
      * containing the real resulting values of a test run. for each method run,
@@ -75,9 +77,9 @@ public interface IResult {
          * constructor.
          * 
          * @param aResultSet
-         *                the result set.
+         *            the result set.
          * @param meter
-         *                the meter with which measurement was taken.
+         *            the meter with which measurement was taken.
          */
         public SingleResult(final long[] aResultSet, final IMeter meter) {
             this(Result.DEFAULT_NAME, aResultSet, meter);
@@ -97,6 +99,7 @@ public interface IResult {
          * 
          * @return the resolved object.
          */
+        @Override
         protected Object readResolve() {
             super.readResolve();
             String[] longData = NiceTable.Util.explode(',', data);
@@ -120,14 +123,13 @@ public interface IResult {
          * constructor.
          * 
          * @param aName
-         *                the literal name you want to give the result.
+         *            the literal name you want to give the result.
          * @param aResultSet
-         *                an array of long values to be computed.
+         *            an array of long values to be computed.
          * @param theReturnValues
-         *                an array of return values generated for each
-         *                iteration.
+         *            an array of return values generated for each iteration.
          * @param whichMeter
-         *                the meter with which the calculations were done.
+         *            the meter with which the calculations were done.
          */
         public SingleResult(
                 final String aName, final long[] aResultSet,
@@ -141,11 +143,11 @@ public interface IResult {
          * the standard constructor.
          * 
          * @param name
-         *                the name of the result.
+         *            the name of the result.
          * @param aResultSet
-         *                the results.
+         *            the results.
          * @param whichMeter
-         *                the meter with which the calculations were done.
+         *            the meter with which the calculations were done.
          */
         public SingleResult(
                 final String name, final long[] aResultSet,
@@ -225,6 +227,7 @@ public interface IResult {
          * 
          * @return the result set.
          */
+        @Override
         public long[] getResultSet() {
             return resultSet.clone();
         }
@@ -233,8 +236,9 @@ public interface IResult {
          * accepts a result visitor.
          * 
          * @param v
-         *                the visitor.
+         *            the visitor.
          */
+        @Override
         public void accept(final ResultVisitor v) {
             v.visit(this);
         }
@@ -271,7 +275,7 @@ public interface IResult {
 
         /**
          * @param theName
-         *                name
+         *            name
          */
         public BenchmarkResult(final String theName) {
             super(theName);
@@ -288,9 +292,9 @@ public interface IResult {
 
         /**
          * @param theName
-         *                the name.
+         *            the name.
          * @param classUnderTest
-         *                the class name which is benchmarked.
+         *            the class name which is benchmarked.
          */
         ClassResult(final String theName, final String classUnderTest) {
             super(theName);
@@ -299,7 +303,7 @@ public interface IResult {
 
         /**
          * @param theName
-         *                only the name.
+         *            only the name.
          */
         public ClassResult(final String theName) {
             super(theName);
@@ -322,18 +326,19 @@ public interface IResult {
 
         /**
          * @param theName
-         *                the name.
+         *            the name.
          */
         MethodResult(final String theName) {
             super(theName);
         }
 
+        @Override
         public long getNumberOfRuns() {
             /*
-             * debug Iterator<SingleResult> it = getChildren().iterator();
-             * while (it.hasNext()) { SingleResult s = it.next();
-             * System.out.println(getName() + " number of runs: " + s.getName() + " " +
-             * s.getNumberOfRuns()); }
+             * debug Iterator<SingleResult> it = getChildren().iterator(); while
+             * (it.hasNext()) { SingleResult s = it.next();
+             * System.out.println(getName() + " number of runs: " + s.getName()
+             * + " " + s.getNumberOfRuns()); }
              */
             return getChildren().get(0).getNumberOfRuns();
         }
@@ -343,6 +348,7 @@ public interface IResult {
          * 
          * @return the children.
          */
+        @Override
         public ArrayList<IResult.SingleResult> getChildren() {
             ArrayList<IResult.SingleResult> children = super.getChildren();
             Iterator<ArrayList<IResult.SingleResult>> cust =

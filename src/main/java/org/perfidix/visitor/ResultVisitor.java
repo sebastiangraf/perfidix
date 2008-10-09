@@ -21,6 +21,7 @@ package org.perfidix.visitor;
 
 import java.util.Formatter;
 
+import org.perfidix.IResult;
 import org.perfidix.Result;
 
 /**
@@ -38,13 +39,13 @@ public abstract class ResultVisitor {
      * visits the results.
      * 
      * @param r
-     *                the Result to visit.
+     *            the Result to visit.
      */
-    public abstract void visit(Result r);
+    public abstract void visit(IResult r);
 
     /**
      * @param res
-     *                FIXME
+     *            FIXME
      * @return FIXME
      */
     protected double getConf95Min(final Result res) {
@@ -53,7 +54,7 @@ public abstract class ResultVisitor {
 
     /**
      * @param res
-     *                FIXME
+     *            FIXME
      * @return FIXME
      */
     protected double getConf95Max(final Result res) {
@@ -73,7 +74,7 @@ public abstract class ResultVisitor {
      * in the floatFormat through the alternative constructor.
      * 
      * @param i
-     *                the number to format
+     *            the number to format
      * @see java.util.Formatter for the documentation.
      * @return the formatted string.
      */

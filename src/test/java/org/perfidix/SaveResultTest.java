@@ -26,7 +26,6 @@ import static org.junit.Assert.assertTrue;
 import java.util.Hashtable;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.perfidix.visitor.ResultToXml;
 
@@ -37,10 +36,11 @@ import org.perfidix.visitor.ResultToXml;
  */
 public class SaveResultTest extends PerfidixTest {
 
-    private Result r;
+    private IResult r;
 
     private IMeter theMeter;
 
+    @Override
     @Before
     public void setUp() throws Exception {
         super.setUp();
@@ -68,6 +68,7 @@ public class SaveResultTest extends PerfidixTest {
             theValue = value;
         }
 
+        @Override
         public boolean equals(final Object o) {
             if (null == o) {
                 return false;
@@ -81,10 +82,12 @@ public class SaveResultTest extends PerfidixTest {
             return ((TreeMapObj) o).theValue.equals(theValue);
         }
 
+        @Override
         public String toString() {
             return theValue;
         }
 
+        @Override
         public int hashCode() {
             int result = 17;
             result = 37 * result + theValue.hashCode();
@@ -148,7 +151,7 @@ public class SaveResultTest extends PerfidixTest {
          * constructor. getting a meter as a parameter
          * 
          * @param some
-         *                the meter to use.
+         *            the meter to use.
          */
         public A(final IMeter some) {
             aMeter = some;

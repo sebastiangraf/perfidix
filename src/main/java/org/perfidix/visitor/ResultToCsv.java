@@ -9,7 +9,6 @@ import java.util.HashMap;
 import java.util.Set;
 
 import org.perfidix.IResult;
-import org.perfidix.Result;
 
 /**
  * Converts a result to comma separated values including column and row header
@@ -35,11 +34,10 @@ public class ResultToCsv extends ResultVisitor {
 
     /*
      * (non-Javadoc)
-     * 
      * @see org.perfidix.visitor.ResultVisitor#visit(org.perfidix.Result)
      */
     @Override
-    public void visit(Result r) {
+    public void visit(IResult r) {
         try {
             if (!(r instanceof IResult.BenchmarkResult)) {
                 throw new RuntimeException(
@@ -95,7 +93,7 @@ public class ResultToCsv extends ResultVisitor {
      * flushes the csv to files in the specified output folder
      * 
      * @param pathToFolder
-     *                the output path
+     *            the output path
      */
     public void toFiles(final String pathToFolder) {
         String path = new File(pathToFolder).getAbsolutePath();
