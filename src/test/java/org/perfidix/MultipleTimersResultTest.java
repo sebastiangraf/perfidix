@@ -33,11 +33,13 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.perfidix.annotation.Bench;
+import org.perfidix.result.BenchmarkResult;
+import org.perfidix.result.ClassResult;
 import org.perfidix.result.IResult;
+import org.perfidix.result.MethodResult;
 import org.perfidix.result.NiceTable;
 import org.perfidix.result.ResultContainer;
-import org.perfidix.result.IResult.BenchmarkResult;
-import org.perfidix.result.IResult.ClassResult;
+import org.perfidix.result.SingleResult;
 
 public class MultipleTimersResultTest extends PerfidixTest {
 
@@ -80,11 +82,9 @@ public class MultipleTimersResultTest extends PerfidixTest {
     public void testResultsAreSorted() {
         IMeter c = Perfidix.createMeter("hello", "cMeterMeter");
         IMeter d = Perfidix.createMeter("bello", "dMeterMeter");
-        IResult.SingleResult a =
-                new IResult.SingleResult("a", new long[] {}, c);
-        IResult.SingleResult b =
-                new IResult.SingleResult("a", new long[] {}, d);
-        IResult.MethodResult bla = new IResult.MethodResult("bla");
+        SingleResult a = new SingleResult("a", new long[] {}, c);
+        SingleResult b = new SingleResult("a", new long[] {}, d);
+        MethodResult bla = new MethodResult("bla");
         bla.append(a);
         bla.append(b);
         IResult cls = new ClassResult("class");
@@ -103,9 +103,9 @@ public class MultipleTimersResultTest extends PerfidixTest {
 
     @Test
     public void testGetRegisteredMetersRecursive() {
-        ResultContainer a = new IResult.ClassResult("blang");
-        ResultContainer b = new IResult.ClassResult("bleng");
-        ResultContainer c = new IResult.ClassResult("bling");
+        ResultContainer a = new ClassResult("blang");
+        ResultContainer b = new ClassResult("bleng");
+        ResultContainer c = new ClassResult("bling");
 
         a.append(b);
         b.append(c);
@@ -115,12 +115,12 @@ public class MultipleTimersResultTest extends PerfidixTest {
         IMeter mc = Perfidix.createMeter(getClass() + "mc", "mcc");
         IMeter tim = Perfidix.defaultMeter();
         long[] data = new long[] { 1, 2, 3 };
-        IResult.SingleResult r1 = new IResult.SingleResult("bl0", data, tim);
-        IResult.SingleResult r2 = new IResult.SingleResult("bla", data, ma);
-        IResult.SingleResult r3 = new IResult.SingleResult("ble", data, mb);
-        IResult.SingleResult r4 = new IResult.SingleResult("bli", data, mc);
-        IResult.SingleResult r5 = new IResult.SingleResult("blo", data, tim);
-        IResult.SingleResult r6 = new IResult.SingleResult("blu", data, tim);
+        SingleResult r1 = new SingleResult("bl0", data, tim);
+        SingleResult r2 = new SingleResult("bla", data, ma);
+        SingleResult r3 = new SingleResult("ble", data, mb);
+        SingleResult r4 = new SingleResult("bli", data, mc);
+        SingleResult r5 = new SingleResult("blo", data, tim);
+        SingleResult r6 = new SingleResult("blu", data, tim);
 
         c.append(r1);
         c.append(r2);
@@ -167,15 +167,15 @@ public class MultipleTimersResultTest extends PerfidixTest {
      */
     @Test
     public void testGetRegisteredMeters() {
-        ResultContainer rc = new IResult.MethodResult("hello");
+        ResultContainer rc = new MethodResult("hello");
         Perfidix.createMeter("bla", "ding");
-        rc.append(new IResult.SingleResult("aResult", new long[] {}, Perfidix
+        rc.append(new SingleResult("aResult", new long[] {}, Perfidix
                 .getMeter("bla")));
         SortedSet<IMeter> meters = rc.getRegisteredMeters();
         assertEquals(1, meters.size());
         assertEquals("ding", meters.last().getUnit());
 
-        rc.append(new IResult.SingleResult("bResult", new long[] {}, Perfidix
+        rc.append(new SingleResult("bResult", new long[] {}, Perfidix
                 .defaultMeter()));
         meters = rc.getRegisteredMeters();
         assertEquals(2, meters.size());
@@ -186,15 +186,14 @@ public class MultipleTimersResultTest extends PerfidixTest {
 
     @Test
     public void testZero() {
-        ResultContainer rc = new IResult.MethodResult("hello");
-        rc.append(new IResult.SingleResult(
-                "aResult", new long[] { 1, 2, 3 }, Perfidix.createMeter(
-                        "blingbling", "aDing")));
+        ResultContainer rc = new MethodResult("hello");
+        rc.append(new SingleResult("aResult", new long[] { 1, 2, 3 }, Perfidix
+                .createMeter("blingbling", "aDing")));
 
-        rc.append(new IResult.SingleResult("bResult", new long[] {}, Perfidix
+        rc.append(new SingleResult("bResult", new long[] {}, Perfidix
                 .getMeter("blingbling")));
 
-        ResultContainer mm = new IResult.MethodResult("cont");
+        ResultContainer mm = new MethodResult("cont");
         mm.append(rc);
         IMeter blingbling = Perfidix.getMeter("blingbling");
         // System.out.println(mm);
@@ -209,18 +208,12 @@ public class MultipleTimersResultTest extends PerfidixTest {
         IMeter a = Perfidix.createMeter("hello", "a");
         IMeter b = Perfidix.createMeter("bello", "b");
 
-        IResult.MethodResult method1 =
-                new IResult.MethodResult("someNiceMethod");
-        IResult.MethodResult method2 =
-                new IResult.MethodResult("someNiceOtherMethod");
-        IResult.SingleResult aResult =
-                new IResult.SingleResult(new long[] { 11, 13 }, a);
-        IResult.SingleResult bResult =
-                new IResult.SingleResult(new long[] { 17, 19 }, b);
-        IResult.SingleResult cResult =
-                new IResult.SingleResult(new long[] { 23, 29 }, a);
-        IResult.SingleResult dResult =
-                new IResult.SingleResult(new long[] { 31, 37 }, b);
+        MethodResult method1 = new MethodResult("someNiceMethod");
+        MethodResult method2 = new MethodResult("someNiceOtherMethod");
+        SingleResult aResult = new SingleResult(new long[] { 11, 13 }, a);
+        SingleResult bResult = new SingleResult(new long[] { 17, 19 }, b);
+        SingleResult cResult = new SingleResult(new long[] { 23, 29 }, a);
+        SingleResult dResult = new SingleResult(new long[] { 31, 37 }, b);
         IResult cls = new ClassResult("C");
         BenchmarkResult full = new BenchmarkResult("Benchmark A");
 

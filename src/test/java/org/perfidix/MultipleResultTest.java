@@ -22,8 +22,9 @@ package org.perfidix;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
-import org.perfidix.result.IResult;
+import org.perfidix.result.MethodResult;
 import org.perfidix.result.ResultContainer;
+import org.perfidix.result.SingleResult;
 
 /**
  * tests the multiple results.
@@ -39,8 +40,8 @@ public class MultipleResultTest extends PerfidixTest {
         long[] r1Set = { 1, 2, 3 };
         long[] r2Set = { 4, 5, 6 };
 
-        IResult.SingleResult r1 = Perfidix.createSingleResult(r1Set);
-        IResult.SingleResult r2 = Perfidix.createSingleResult(r2Set);
+        SingleResult r1 = Perfidix.createSingleResult(r1Set);
+        SingleResult r2 = Perfidix.createSingleResult(r2Set);
         assertEquals(2.0, r1.avg(), 0);
         assertEquals(5.0, r2.avg(), 0);
         assertEquals(1l, r1.min());
@@ -52,8 +53,8 @@ public class MultipleResultTest extends PerfidixTest {
         assertEquals(2.0, r1.median(), 0);
         assertEquals(5.0, r2.median(), 0);
 
-        ResultContainer<IResult.SingleResult> res =
-                new IResult.MethodResult("*** testing container ***");
+        ResultContainer<SingleResult> res =
+                new MethodResult("*** testing container ***");
         res.append(r1);
         res.append(r2);
         assertEquals(2l, res.resultCount());
@@ -68,7 +69,7 @@ public class MultipleResultTest extends PerfidixTest {
     @Test
     public void testCalcTwo() {
 
-        IResult.SingleResult r =
+        SingleResult r =
                 Perfidix.createSingleResult("just another test", new long[] {
                         5, 6, 8, 9 });
 

@@ -28,7 +28,6 @@ import java.util.Hashtable;
 import java.util.Iterator;
 
 import org.perfidix.IMeter;
-import org.perfidix.result.IResult.MethodResult;
 
 /**
  * the gnu plot visitor parses the result into a gnu readable file.
@@ -126,9 +125,10 @@ public class GnuPlotData extends ResultVisitor {
      *            the result which will be visited the result may only be a
      *            BenchmarkResult and nothing else!
      */
+    @Override
     public void visit(final IResult r) {
 
-        if (!(r instanceof IResult.BenchmarkResult)) {
+        if (!(r instanceof BenchmarkResult)) {
             throw new RuntimeException("only benchmark results are supported!");
         }
 
@@ -147,7 +147,7 @@ public class GnuPlotData extends ResultVisitor {
         addHeaderComment("Unit", meter.getUnit());
         addBlankLine();
         addColumnComment();
-        parseMethods((IResult.BenchmarkResult) r);
+        parseMethods((BenchmarkResult) r);
         addBlankLine();
 
     }
@@ -160,11 +160,10 @@ public class GnuPlotData extends ResultVisitor {
     /**
      * @param r
      */
-    private void parseMethods(final IResult.BenchmarkResult r) {
-        Iterator<IResult.ClassResult> it = r.getChildren().iterator();
+    private void parseMethods(final BenchmarkResult r) {
+        Iterator<ClassResult> it = r.getChildren().iterator();
         while (it.hasNext()) {
-            Iterator<IResult.MethodResult> m =
-                    it.next().getChildren().iterator();
+            Iterator<MethodResult> m = it.next().getChildren().iterator();
             while (m.hasNext()) {
                 parseMethod(m.next());
             }
@@ -172,13 +171,12 @@ public class GnuPlotData extends ResultVisitor {
     }
 
     private void parseMethod(final MethodResult m) {
-        Hashtable<IMeter, ArrayList<IResult.SingleResult>> tree =
-                m.getCustomChildren();
+        Hashtable<IMeter, ArrayList<SingleResult>> tree = m.getCustomChildren();
         if (!tree.containsKey(meter)) {
             return;
         }
 
-        Iterator<IResult.SingleResult> singleIt = tree.get(meter).iterator();
+        Iterator<SingleResult> singleIt = tree.get(meter).iterator();
         while (singleIt.hasNext()) {
             parseSingleResult(singleIt.next(), m);
         }
@@ -186,7 +184,7 @@ public class GnuPlotData extends ResultVisitor {
     }
 
     private void parseSingleResult(
-            final IResult.SingleResult single, final MethodResult m) {
+            final SingleResult single, final MethodResult m) {
 
         String[] data =
                 {

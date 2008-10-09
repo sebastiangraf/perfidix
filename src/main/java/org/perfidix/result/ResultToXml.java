@@ -128,10 +128,10 @@ public class ResultToXml extends ResultVisitor {
      * 
      * @param r
      */
-    private void visit(final IResult.BenchmarkResult r) {
+    private void visit(final BenchmarkResult r) {
         Element e = snapshot.addElement("benchmark");
         addDefaultAttributes(r, e);
-        Iterator<IResult.ClassResult> it = r.getChildren().iterator();
+        Iterator<ClassResult> it = r.getChildren().iterator();
         while (it.hasNext()) {
             visit(it.next(), e);
         }
@@ -143,26 +143,23 @@ public class ResultToXml extends ResultVisitor {
      * @param my
      * @param parent
      */
-    private void visit(final IResult.ClassResult my, final Element parent) {
+    private void visit(final ClassResult my, final Element parent) {
         Element classResult = parent.addElement("class");
         addDefaultAttributes(my, classResult);
         classResult.addAttribute("class", my.getClassUnderTest());
 
-        Iterator<IResult.MethodResult> classIterator =
-                my.getChildren().iterator();
+        Iterator<MethodResult> classIterator = my.getChildren().iterator();
         while (classIterator.hasNext()) {
             visit(classIterator.next(), classResult);
         }
     }
 
-    private void visit(
-            final IResult.MethodResult method, final Element classResult) {
+    private void visit(final MethodResult method, final Element classResult) {
         LOGGER.info("visiting the method results...");
         Element methodResult = classResult.addElement("method");
         addDefaultAttributes(method, methodResult);
 
-        Iterator<IResult.SingleResult> methodIterator =
-                method.getChildren().iterator();
+        Iterator<SingleResult> methodIterator = method.getChildren().iterator();
 
         while (methodIterator.hasNext()) {
             visit(methodIterator.next(), methodResult);
@@ -170,8 +167,7 @@ public class ResultToXml extends ResultVisitor {
         }
     }
 
-    private void visit(
-            final IResult.SingleResult result, final Element methodResult) {
+    private void visit(final SingleResult result, final Element methodResult) {
         LOGGER.info("visiting the singleresult...");
 
         Element singleResult = methodResult.addElement("result");
@@ -203,15 +199,15 @@ public class ResultToXml extends ResultVisitor {
     @Override
     public void visit(final IResult r) {
 
-        if (r instanceof IResult.BenchmarkResult) {
-            visit((IResult.BenchmarkResult) r);
-        } else if (r instanceof IResult.ClassResult) {
-            visit((IResult.ClassResult) r, snapshot.addElement("benchmark"));
-        } else if (r instanceof IResult.MethodResult) {
-            visit((IResult.MethodResult) r, snapshot
+        if (r instanceof BenchmarkResult) {
+            visit((BenchmarkResult) r);
+        } else if (r instanceof ClassResult) {
+            visit((ClassResult) r, snapshot.addElement("benchmark"));
+        } else if (r instanceof MethodResult) {
+            visit((MethodResult) r, snapshot
                     .addElement("benchmark").addElement("class"));
-        } else if (r instanceof IResult.SingleResult) {
-            visit((IResult.SingleResult) r, snapshot
+        } else if (r instanceof SingleResult) {
+            visit((SingleResult) r, snapshot
                     .addElement("benchmark").addElement("class").addElement(
                             "method"));
         } else {

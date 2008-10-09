@@ -30,11 +30,11 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.perfidix.exceptions.IntegerOverflowException;
-import org.perfidix.result.IResult;
+import org.perfidix.result.SingleResult;
 
 public class OverflowTest extends PerfidixTest {
 
-    private IResult.SingleResult r;
+    private SingleResult r;
 
     @Override
     @Before
@@ -114,9 +114,9 @@ public class OverflowTest extends PerfidixTest {
      * a given method.
      * 
      * @param methodName
-     *                the name of the method.
+     *            the name of the method.
      * @param e
-     *                the exception prototype to be thrown.
+     *            the exception prototype to be thrown.
      */
     private void assertExceptionThrown(
             final String methodName, final Exception e) {

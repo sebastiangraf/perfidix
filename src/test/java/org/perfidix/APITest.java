@@ -26,9 +26,11 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 import org.perfidix.annotation.Bench;
 import org.perfidix.result.IResult;
+import org.perfidix.result.MethodResult;
 import org.perfidix.result.NiceTable;
 import org.perfidix.result.Result;
 import org.perfidix.result.ResultContainer;
+import org.perfidix.result.SingleResult;
 
 public class APITest extends PerfidixTest {
 
@@ -40,12 +42,12 @@ public class APITest extends PerfidixTest {
     public void testMultipleAvg() {
 
         long[][] set = { { 1, 2, 3 }, { 2, 2, 2 }, };
-        IResult.SingleResult r1 =
+        SingleResult r1 =
                 Perfidix.createSingleResult("testMultipleAvg()A", set[0]);
-        IResult.SingleResult r2 =
+        SingleResult r2 =
                 Perfidix.createSingleResult("testMultipleAvg()B", set[1]);
-        ResultContainer<IResult.SingleResult> cnt =
-                new IResult.MethodResult("test_multipleAvg");
+        ResultContainer<SingleResult> cnt =
+                new MethodResult("test_multipleAvg");
         cnt.append(r1);
         cnt.append(r2);
 
@@ -58,11 +60,10 @@ public class APITest extends PerfidixTest {
     public void testMultipleMin() {
 
         long[][] set = { { 1, 2, 3 }, { 1, 2, 3 }, { 1, 2, 3 } };
-        IResult.SingleResult r1 = Perfidix.createSingleResult(set[0]);
-        IResult.SingleResult r2 = Perfidix.createSingleResult(set[1]);
-        IResult.SingleResult r3 = Perfidix.createSingleResult(set[2]);
-        ResultContainer<IResult.SingleResult> cnt =
-                new IResult.MethodResult("has a name");
+        SingleResult r1 = Perfidix.createSingleResult(set[0]);
+        SingleResult r2 = Perfidix.createSingleResult(set[1]);
+        SingleResult r3 = Perfidix.createSingleResult(set[2]);
+        ResultContainer<SingleResult> cnt = new MethodResult("has a name");
         cnt.append(r1);
         cnt.append(r2);
         cnt.append(r3);
@@ -187,8 +188,7 @@ public class APITest extends PerfidixTest {
         long[] testResultSet = { 3, 4, 3, 5, 20, 50 };
         // sorted: 3,3,4,5,20,50
         Result res =
-                new IResult.SingleResult("test", testResultSet, Perfidix
-                        .defaultMeter());
+                new SingleResult("test", testResultSet, Perfidix.defaultMeter());
         assertEquals(0.5 * (4.0 + 5.0), res.median(), 0);
     }
 
@@ -200,8 +200,7 @@ public class APITest extends PerfidixTest {
 
         long[] testResultSet = { 7, 8, 9, 1, 2, 3, 6, 5, 4 };
         Result res =
-                new IResult.SingleResult("test", testResultSet, Perfidix
-                        .defaultMeter());
+                new SingleResult("test", testResultSet, Perfidix.defaultMeter());
         assertEquals(5.0, res.avg(), 0);
 
     }
@@ -216,11 +215,10 @@ public class APITest extends PerfidixTest {
     public void testAvgContainer() {
 
         long[][] testResultSet = { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } };
-        ResultContainer<IResult.SingleResult> res =
-                new IResult.MethodResult("test");
+        ResultContainer<SingleResult> res = new MethodResult("test");
         for (int i = 0; i < testResultSet.length; i++) {
-            res.append(new IResult.SingleResult(
-                    "bla" + i, testResultSet[i], Perfidix.defaultMeter()));
+            res.append(new SingleResult("bla" + i, testResultSet[i], Perfidix
+                    .defaultMeter()));
         }
         assertEquals(3l, res.resultCount());
         assertEquals(6l + 15l + 24l, res.sum());
@@ -318,10 +316,9 @@ public class APITest extends PerfidixTest {
 
         double expStandardDeviation = Math.sqrt((14.0 / 3.0) - 4.0);
 
-        IResult.SingleResult a = Perfidix.createSingleResult(r);
-        IResult.SingleResult b = Perfidix.createSingleResult(s);
-        ResultContainer<IResult.SingleResult> c =
-                new IResult.MethodResult("bla");
+        SingleResult a = Perfidix.createSingleResult(r);
+        SingleResult b = Perfidix.createSingleResult(s);
+        ResultContainer<SingleResult> c = new MethodResult("bla");
         c.append(a);
         c.append(b);
 

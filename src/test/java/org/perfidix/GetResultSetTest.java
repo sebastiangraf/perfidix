@@ -21,21 +21,23 @@ package org.perfidix;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.perfidix.result.IResult;
+import org.perfidix.result.MethodResult;
 import org.perfidix.result.NiceTable;
 import org.perfidix.result.ResultContainer;
+import org.perfidix.result.SingleResult;
 
 /**
  * @author onea
  */
 public class GetResultSetTest extends PerfidixTest {
 
-    private ResultContainer<IResult.SingleResult> test;
+    private ResultContainer<SingleResult> test;
 
+    @Override
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        test = new IResult.MethodResult("hello world.");
+        test = new MethodResult("hello world.");
     }
 
     /**
@@ -90,9 +92,9 @@ public class GetResultSetTest extends PerfidixTest {
      * not object equality, but value equality.
      * 
      * @param one
-     *                array
+     *            array
      * @param two
-     *                array
+     *            array
      */
     // TODO look if this works this way
     protected void assertEquals(final long[] one, final long[] two) {
