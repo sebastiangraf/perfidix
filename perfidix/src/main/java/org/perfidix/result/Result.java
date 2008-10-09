@@ -23,7 +23,6 @@ import java.util.Arrays;
 
 import org.perfidix.Benchmark;
 import org.perfidix.exceptions.IntegerOverflowException;
-import org.perfidix.result.NiceTable.Util;
 
 /**
  * a base class for result sets.
@@ -145,7 +144,7 @@ public abstract class Result implements IResult {
      * simple setter.
      * 
      * @param someName
-     *                to give the result a name.
+     *            to give the result a name.
      */
     protected final void setName(final String someName) {
         this.name = someName;
@@ -162,7 +161,7 @@ public abstract class Result implements IResult {
      * tells the object to accept a visitor.
      * 
      * @param r
-     *                the visitor to accept.
+     *            the visitor to accept.
      */
     public abstract void accept(ResultVisitor r);
 
@@ -267,7 +266,7 @@ public abstract class Result implements IResult {
      * bla.
      * 
      * @param resSet
-     *                the data
+     *            the data
      * @return bla.
      */
     protected final double computeStandardDeviation(final long[] resSet) {
@@ -282,7 +281,7 @@ public abstract class Result implements IResult {
      * the bla.
      * 
      * @param resSet
-     *                the bla.
+     *            the bla.
      * @return bla.
      */
     protected final long computeSquareSum(final long[] resSet) {
@@ -300,7 +299,7 @@ public abstract class Result implements IResult {
      * the bla.
      * 
      * @param resSet
-     *                the bla.
+     *            the bla.
      * @return bla.
      */
     protected double computeVariance(final long[] resSet) {
@@ -323,7 +322,7 @@ public abstract class Result implements IResult {
      * the bla.
      * 
      * @param resSet
-     *                the bla.
+     *            the bla.
      * @return bla.
      */
     protected double computeMedian(final long[] aesSet) {
@@ -345,7 +344,7 @@ public abstract class Result implements IResult {
      * the bla.
      * 
      * @param resSet
-     *                the bla.
+     *            the bla.
      * @return bla.
      */
     protected double computeConf99(final long[] resSet) {
@@ -356,7 +355,7 @@ public abstract class Result implements IResult {
      * the bla.
      * 
      * @param resSet
-     *                the bla.
+     *            the bla.
      * @return bla.
      */
     protected double computeConf95(final long[] resSet) {
@@ -442,7 +441,7 @@ public abstract class Result implements IResult {
      * computes the minimum value.
      * 
      * @param data
-     *                the array,
+     *            the array,
      * @return the result.
      */
     protected final long computeMin(final long[] data) {
@@ -457,7 +456,7 @@ public abstract class Result implements IResult {
      * computes the maximum from a given array.
      * 
      * @param data
-     *                the array.
+     *            the array.
      * @return the maximum value.
      */
     protected final long computeMax(final long[] data) {
@@ -472,7 +471,7 @@ public abstract class Result implements IResult {
      * computes the sum, goddamn.
      * 
      * @param resSet
-     *                the data.
+     *            the data.
      * @return the sum.
      */
     protected final long computeSum(final long[] resSet) {
@@ -498,7 +497,7 @@ public abstract class Result implements IResult {
      * computes the mean of a given result set.
      * 
      * @param resSet
-     *                array.
+     *            array.
      * @return mean value.
      */
     protected final double computeMean(final long[] resSet) {
@@ -510,9 +509,9 @@ public abstract class Result implements IResult {
 
     /**
      * @param indent
-     *                the number of indentations to use.
+     *            the number of indentations to use.
      * @param displayRawData
-     *                whether to show the raw data also.
+     *            whether to show the raw data also.
      * @return string
      */
     protected final String toString(
@@ -527,7 +526,7 @@ public abstract class Result implements IResult {
 
     /**
      * @param displayRawData
-     *                whether to display the raw results or not.
+     *            whether to display the raw results or not.
      * @return string
      */
     public final String toString(final boolean displayRawData) {
@@ -551,7 +550,7 @@ public abstract class Result implements IResult {
      * 
      * @return whether another object equals the current one.
      * @param r
-     *                the result to compare with
+     *            the result to compare with
      */
     public final boolean equals(final Result r) {
 

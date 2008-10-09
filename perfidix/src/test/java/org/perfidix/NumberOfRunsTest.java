@@ -24,8 +24,11 @@ import static org.junit.Assert.assertEquals;
 import java.util.Iterator;
 
 import org.junit.Test;
-import org.perfidix.result.IResult;
+import org.perfidix.result.BenchmarkResult;
+import org.perfidix.result.ClassResult;
+import org.perfidix.result.MethodResult;
 import org.perfidix.result.NiceTable;
+import org.perfidix.result.SingleResult;
 
 public class NumberOfRunsTest extends PerfidixTest {
 
@@ -35,13 +38,13 @@ public class NumberOfRunsTest extends PerfidixTest {
         PerfidixTest.BenchmarkableTestingStub stub =
                 new PerfidixTest.BenchmarkableTestingStub();
         b.add(stub);
-        IResult.BenchmarkResult r = (IResult.BenchmarkResult) b.run(10);
+        BenchmarkResult r = (BenchmarkResult) b.run(10);
 
-        IResult.ClassResult cls = r.getChildren().get(0);
+        ClassResult cls = r.getChildren().get(0);
 
-        IResult.MethodResult benchA = cls.getChildren().get(0);
-        IResult.MethodResult benchB = cls.getChildren().get(1);
-        IResult.SingleResult benchAmillis = benchA.getChildren().get(0);
+        MethodResult benchA = cls.getChildren().get(0);
+        MethodResult benchB = cls.getChildren().get(1);
+        SingleResult benchAmillis = benchA.getChildren().get(0);
         printChildren(benchA);
         printChildren(benchB);
         // assertEquals(1, benchA.getChildren().size());
@@ -54,10 +57,10 @@ public class NumberOfRunsTest extends PerfidixTest {
         System.out.println(r);
     }
 
-    private void printChildren(IResult.MethodResult m) {
-        Iterator<IResult.SingleResult> children = m.getChildren().iterator();
+    private void printChildren(MethodResult m) {
+        Iterator<SingleResult> children = m.getChildren().iterator();
         while (children.hasNext()) {
-            IResult.SingleResult myChild = children.next();
+            SingleResult myChild = children.next();
             System.out.println(" "
                     + myChild.getName()
                     + "  --- "

@@ -29,13 +29,13 @@ public class RawData extends ResultVisitor {
     @Override
     public void visit(IResult r) {
         try {
-            if (!(r instanceof IResult.BenchmarkResult)) {
+            if (!(r instanceof BenchmarkResult)) {
                 throw new RuntimeException(
                         "only benchmark results are supported!");
             }
-            IResult.BenchmarkResult benchRes = (IResult.BenchmarkResult) r;
-            for (IResult.ClassResult classRes : benchRes.getChildren()) {
-                for (IResult.MethodResult methodRes : classRes.getChildren()) {
+            BenchmarkResult benchRes = (BenchmarkResult) r;
+            for (ClassResult classRes : benchRes.getChildren()) {
+                for (MethodResult methodRes : classRes.getChildren()) {
                     File timeFile =
                             new File(this.folder.getAbsolutePath()
                                     + File.separatorChar
@@ -52,17 +52,17 @@ public class RawData extends ResultVisitor {
     }
 
     private void getMethodResult(
-            final File outputFile, final IResult.MethodResult methodRes) {
+            final File outputFile, final MethodResult methodRes) {
 
         try {
-            final ArrayList<IResult.SingleResult> singleTimes =
-                    new ArrayList<IResult.SingleResult>();
-            final Collection<ArrayList<IResult.SingleResult>> childs =
+            final ArrayList<SingleResult> singleTimes =
+                    new ArrayList<SingleResult>();
+            final Collection<ArrayList<SingleResult>> childs =
                     methodRes.getCustomChildren().values();
-            for (final ArrayList<IResult.SingleResult> currentList : childs) {
+            for (final ArrayList<SingleResult> currentList : childs) {
                 singleTimes.addAll(currentList);
             }
-            for (final IResult.SingleResult result : singleTimes) {
+            for (final SingleResult result : singleTimes) {
                 final File currentFile =
                         new File(outputFile.getAbsoluteFile()
                                 + "$"

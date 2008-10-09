@@ -27,7 +27,6 @@ import java.util.TreeSet;
 
 import org.perfidix.IMeter;
 import org.perfidix.Perfidix;
-import org.perfidix.IMeter.AbsTimeMeter;
 
 /**
  * the result container contains more results. it is by definition recursive, so
@@ -108,7 +107,7 @@ public abstract class ResultContainer<ResultType extends Result> extends Result 
      * @return
      */
     private boolean isCustomMeterResult(final ResultType res) {
-        if (!(res instanceof IResult.SingleResult)) {
+        if (!(res instanceof SingleResult)) {
             return false;
         }
         if (((SingleResult) res).getMeter() instanceof IMeter.AbsTimeMeter) {

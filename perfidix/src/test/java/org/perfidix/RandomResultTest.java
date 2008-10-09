@@ -24,9 +24,10 @@ import static org.junit.Assert.assertEquals;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.perfidix.result.IResult;
+import org.perfidix.result.MethodResult;
 import org.perfidix.result.Result;
 import org.perfidix.result.ResultContainer;
+import org.perfidix.result.SingleResult;
 
 /**
  * CHANGELOG: 1.12.2005: fixed standard deviation error.
@@ -73,8 +74,8 @@ public class RandomResultTest extends PerfidixTest {
         long[] data2 = { Benchmark.LONG_NULLVALUE, 2, 3 };
         long[] data3 = { 1, 2, 3 };
 
-        ResultContainer<IResult.SingleResult> container =
-                new IResult.MethodResult("********BLA********");
+        ResultContainer<SingleResult> container =
+                new MethodResult("********BLA********");
         container.append(Perfidix.createSingleResult("hiho", data1));
         container.append(Perfidix.createSingleResult("hoho", data2));
         container.append(Perfidix.createSingleResult("bla", data3));
@@ -112,19 +113,19 @@ public class RandomResultTest extends PerfidixTest {
     @Test
     public void testFive() {
 
-        ResultContainer<IResult.SingleResult> resultA;
-        ResultContainer<IResult.SingleResult> resultB;
+        ResultContainer<SingleResult> resultA;
+        ResultContainer<SingleResult> resultB;
         ResultContainer rc;
 
-        resultA = new IResult.MethodResult("class A");
+        resultA = new MethodResult("class A");
         resultA.append(Perfidix.createSingleResult("a", new long[] { 1, 1 }));
         resultA.append(Perfidix.createSingleResult("b", new long[] { 1, 1 }));
 
-        resultB = new IResult.MethodResult("class B");
+        resultB = new MethodResult("class B");
         resultB.append(Perfidix.createSingleResult("c", new long[] { 3, 1 }));
         resultB.append(Perfidix.createSingleResult("d", new long[] { 1, 1 }));
 
-        rc = new IResult.MethodResult("hellowho?");
+        rc = new MethodResult("hellowho?");
         rc.append(resultA);
         rc.append(resultB);
         // startDebug();

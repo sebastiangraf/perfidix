@@ -24,15 +24,15 @@ import static org.junit.Assert.assertEquals;
 import java.util.Arrays;
 
 import org.junit.Test;
-import org.perfidix.result.IResult;
 import org.perfidix.result.NiceTable;
+import org.perfidix.result.SingleResult;
 
 public class SortingTest extends PerfidixTest {
 
     @Test
     public void testSortingValuesReturnsSame() {
         long data[] = { 3, 2, 1, 4 };
-        IResult.SingleResult r = new IResult.SingleResult(data);
+        SingleResult r = new SingleResult(data);
         r.min(); // run once to invoke sorting.
         assertEquals("3214", NiceTable.Util.implode("", r.getResultSet()));
     }
