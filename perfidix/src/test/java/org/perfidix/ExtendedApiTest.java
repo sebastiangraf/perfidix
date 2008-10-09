@@ -24,8 +24,9 @@ import static org.junit.Assert.assertEquals;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.perfidix.result.IResult;
+import org.perfidix.result.MethodResult;
 import org.perfidix.result.ResultContainer;
+import org.perfidix.result.SingleResult;
 
 /**
  * tests the extended api for the new system loaders.
@@ -34,7 +35,7 @@ import org.perfidix.result.ResultContainer;
  */
 public class ExtendedApiTest extends PerfidixTest {
 
-    private ResultContainer<IResult.SingleResult> rc;
+    private ResultContainer<SingleResult> rc;
 
     private IMeter carrots;
 
@@ -42,21 +43,18 @@ public class ExtendedApiTest extends PerfidixTest {
 
     /**
      * @throws Exception
-     *                 if parent did not work how it should.
+     *             if parent did not work how it should.
      */
     @Override
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        rc = new IResult.MethodResult("foo");
+        rc = new MethodResult("foo");
         carrots = Perfidix.createMeter("carrots", "legumes");
         potatoes = Perfidix.createMeter("potatoes", "legumes");
-        rc.append(new IResult.SingleResult(
-                "single 1", new long[] { 3 }, carrots));
-        rc.append(new IResult.SingleResult(
-                "single 2", new long[] { 7 }, carrots));
-        rc.append(new IResult.SingleResult(
-                "single 3", new long[] { 5 }, potatoes));
+        rc.append(new SingleResult("single 1", new long[] { 3 }, carrots));
+        rc.append(new SingleResult("single 2", new long[] { 7 }, carrots));
+        rc.append(new SingleResult("single 3", new long[] { 5 }, potatoes));
         rc.append(Perfidix.createSingleResult("single 4", new long[] { 11 }));
         rc.append(Perfidix
                 .createSingleResult("single 5", new long[] { 13, 17 }));
@@ -64,7 +62,7 @@ public class ExtendedApiTest extends PerfidixTest {
 
     /**
      * @throws Exception
-     *                 if the parent did throw an exception.
+     *             if the parent did throw an exception.
      */
     @Override
     @After

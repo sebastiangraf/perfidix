@@ -22,6 +22,7 @@ package org.perfidix;
 import java.util.TreeMap;
 
 import org.perfidix.result.IResult;
+import org.perfidix.result.SingleResult;
 
 /**
  * this is the main class, consisting of all the factory methods needed in order
@@ -253,8 +254,8 @@ public final class Perfidix {
      *            the dataset.
      * @return the single result.
      */
-    public static final IResult.SingleResult createSingleResult(final long[] set) {
-        return new IResult.SingleResult(set, Perfidix.defaultMeter());
+    public static final SingleResult createSingleResult(final long[] set) {
+        return new SingleResult(set, Perfidix.defaultMeter());
     }
 
     /**
@@ -264,9 +265,9 @@ public final class Perfidix {
      *            the result set.
      * @return a single result.
      */
-    public static final IResult.SingleResult createSingleResult(
+    public static final SingleResult createSingleResult(
             final String name, final long[] set) {
-        IResult.SingleResult r = Perfidix.createSingleResult(set);
+        SingleResult r = Perfidix.createSingleResult(set);
         // r.setName(name);
         return r;
     }

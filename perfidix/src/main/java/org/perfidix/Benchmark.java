@@ -38,9 +38,13 @@ import org.perfidix.annotation.Bench;
 import org.perfidix.annotation.BenchClass;
 import org.perfidix.annotation.SkipBench;
 import org.perfidix.exceptions.PerfidixMethodException;
+import org.perfidix.result.BenchmarkResult;
+import org.perfidix.result.ClassResult;
 import org.perfidix.result.IResult;
+import org.perfidix.result.MethodResult;
 import org.perfidix.result.Result;
 import org.perfidix.result.ResultContainer;
+import org.perfidix.result.SingleResult;
 
 /**
  * This is the generic benchmark container.
@@ -219,8 +223,7 @@ public class Benchmark {
      */
     public final IResult run(final int numInvocations) {
 
-        ResultContainer myResult =
-                new ResultContainer.BenchmarkResult(this.getName());
+        ResultContainer myResult = new BenchmarkResult(this.getName());
         for (Object obj : children) {
             try {
                 myResult.append(doRunObject(obj, numInvocations));
@@ -248,7 +251,7 @@ public class Benchmark {
      * @throws Exception
      *             of any kind
      */
-    private IResult.MethodResult doRunObject(
+    private MethodResult doRunObject(
             final Method m, final int numInvocations, final Object parent)
             throws Exception {
         assert (parent != null);
@@ -291,8 +294,8 @@ public class Benchmark {
                 executeBeforeAfter(parent, m, AfterEachBenchRun.class);
             }
 
-            final IResult.SingleResult result =
-                    new IResult.SingleResult(
+            final SingleResult result =
+                    new SingleResult(
                             m.getName(), timeElapsed, results, timeMeter);
             appendToLogger(
                     SimpleLog.LOG_LEVEL_INFO, "invoking cleanUp for method "
@@ -423,17 +426,17 @@ public class Benchmark {
 
         // getting all methods
         final Object[] params = {};
-        ResultContainer<IResult.MethodResult> result;
+        ResultContainer<MethodResult> result;
         Object toExecute;
         if (obj.getClass().isArray()) {
             result =
-                    new IResult.ClassResult(
+                    new ClassResult(
                             ((Object[]) obj)[1].toString(), ((Object[]) obj)[1]
                                     .toString());
             toExecute = ((Object[]) obj)[0];
         } else {
             result =
-                    new IResult.ClassResult(obj.getClass().getSimpleName(), obj
+                    new ClassResult(obj.getClass().getSimpleName(), obj
                             .getClass().getCanonicalName());
             toExecute = obj;
         }
@@ -482,7 +485,7 @@ public class Benchmark {
                 if (!runSet) {
                     runs = numInvocations;
                 }
-                final IResult.MethodResult realResult =
+                final MethodResult realResult =
                         doRunObject(methods[i], runs, toExecute);
                 if (realResult != null) {
                     result.append(realResult);
@@ -776,11 +779,9 @@ public class Benchmark {
             }
         }
 
-        private IResult.MethodResult createMethodResult(
-                final IResult.SingleResult timedResult) {
+        private MethodResult createMethodResult(final SingleResult timedResult) {
             if (timedResult != null) {
-                IResult.MethodResult c =
-                        new IResult.MethodResult(timedResult.getName());
+                MethodResult c = new MethodResult(timedResult.getName());
                 append(c);
                 return c;
             } else {
@@ -789,13 +790,13 @@ public class Benchmark {
 
         }
 
-        private void append(final ResultContainer<IResult.SingleResult> r) {
+        private void append(final ResultContainer<SingleResult> r) {
             Iterator<IMeter> it = meters.iterator();
             int i = 0;
             while (it.hasNext()) {
                 IMeter entry = it.next();
-                IResult.SingleResult s =
-                        new IResult.SingleResult(
+                SingleResult s =
+                        new SingleResult(
                                 entry.getUnitDescription(), theResults[i],
                                 entry);
                 r.append(s);

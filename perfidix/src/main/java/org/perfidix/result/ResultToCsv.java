@@ -8,7 +8,6 @@ import java.io.FileWriter;
 import java.util.HashMap;
 import java.util.Set;
 
-
 /**
  * Converts a result to comma separated values including column and row header
  * allows nice output on stdout and writing to file.
@@ -38,18 +37,17 @@ public class ResultToCsv extends ResultVisitor {
     @Override
     public void visit(IResult r) {
         try {
-            if (!(r instanceof IResult.BenchmarkResult)) {
+            if (!(r instanceof BenchmarkResult)) {
                 throw new RuntimeException(
                         "only benchmark results are supported!");
             }
-            IResult.BenchmarkResult benchRes = (IResult.BenchmarkResult) r;
-            for (IResult.ClassResult classRes : benchRes.getChildren()) {
-                for (IResult.MethodResult methodRes : classRes.getChildren()) {
+            BenchmarkResult benchRes = (BenchmarkResult) r;
+            for (ClassResult classRes : benchRes.getChildren()) {
+                for (MethodResult methodRes : classRes.getChildren()) {
                     String fina =
                             classRes.getName() + "$" + methodRes.getName();
                     StringBuilder fico = new StringBuilder();
-                    for (IResult.SingleResult singleRes : methodRes
-                            .getChildren()) {
+                    for (SingleResult singleRes : methodRes.getChildren()) {
                         // "unit,sum,min,max,avg,var,stddev,conf95+,conf95-,conf99+,conf99-,runs"
                         fico.append(singleRes.getUnit()).append(",");
                         fico.append(singleRes.sum()).append(",");

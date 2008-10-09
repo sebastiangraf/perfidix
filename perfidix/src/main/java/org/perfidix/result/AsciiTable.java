@@ -24,7 +24,6 @@ import java.util.Formatter;
 import java.util.Hashtable;
 
 import org.perfidix.IMeter;
-import org.perfidix.result.IResult.SingleResult;
 
 /**
  * <p>
@@ -84,14 +83,14 @@ public class AsciiTable extends ResultVisitor {
      * @param res
      */
     private void addHeader(final ResultContainer res) {
-        if (res instanceof IResult.BenchmarkResult) {
+        if (res instanceof BenchmarkResult) {
             table.addHeader(res.getName().toUpperCase());
             table.addLine('*');
             table.addRow(header);
             table.addLine('=');
             return;
         }
-        if (res instanceof IResult.ClassResult) {
+        if (res instanceof ClassResult) {
             table.addHeader(" ", ' ', NiceTable.LEFT);
             table.addHeader(res.getName(), '.', NiceTable.LEFT);
             return;
@@ -130,11 +129,11 @@ public class AsciiTable extends ResultVisitor {
     private void addFooter(final ResultContainer res) {
         char whichChar;
         String indent;
-        if (res instanceof IResult.BenchmarkResult) {
+        if (res instanceof BenchmarkResult) {
             table.addHeader(" ", ' ', NiceTable.LEFT);
             whichChar = '*';
             indent = "";
-        } else if (res instanceof IResult.ClassResult) {
+        } else if (res instanceof ClassResult) {
             whichChar = '_';
             indent = "  ";
         } else {
@@ -150,9 +149,9 @@ public class AsciiTable extends ResultVisitor {
             createSummary((IMeter) meter, res);
         }
 
-        if (res instanceof IResult.BenchmarkResult) {
+        if (res instanceof BenchmarkResult) {
             table.addLine('=');
-        } else if (res instanceof IResult.ClassResult) {
+        } else if (res instanceof ClassResult) {
             table.addLine('_');
         } else {
             // do nothing.
@@ -173,7 +172,7 @@ public class AsciiTable extends ResultVisitor {
      * 
      * @param res
      */
-    private void visitMethodResults(final IResult.MethodResult res) {
+    private void visitMethodResults(final MethodResult res) {
 
         final Hashtable<IMeter, ArrayList<SingleResult>> customChild =
                 res.getCustomChildren();
@@ -195,7 +194,7 @@ public class AsciiTable extends ResultVisitor {
     }
 
     private void visitSingleResult(
-            final IResult.SingleResult res, final String nameToDisplay) {
+            final SingleResult res, final String nameToDisplay) {
 
         if (res.getResultSet().length < 1) {
             return;
@@ -229,10 +228,10 @@ public class AsciiTable extends ResultVisitor {
     @Override
     public void visit(final IResult res) {
 
-        if (res instanceof IResult.SingleResult) {
-            visitSingleResult((IResult.SingleResult) res, res.getName());
-        } else if (res instanceof IResult.MethodResult) {
-            visitMethodResults((IResult.MethodResult) res);
+        if (res instanceof SingleResult) {
+            visitSingleResult((SingleResult) res, res.getName());
+        } else if (res instanceof MethodResult) {
+            visitMethodResults((MethodResult) res);
         } else {
             visitSubcontainers((ResultContainer) res);
         }

@@ -24,7 +24,9 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 import org.perfidix.annotation.Bench;
 import org.perfidix.result.IResult;
+import org.perfidix.result.MethodResult;
 import org.perfidix.result.ResultContainer;
+import org.perfidix.result.SingleResult;
 
 public class PerfidixTimerTest extends PerfidixTest {
 
@@ -67,16 +69,15 @@ public class PerfidixTimerTest extends PerfidixTest {
     @Test
     @SuppressWarnings("unchecked")
     public void testDoNotMixCarrotsWithPotatoes() {
-        ResultContainer rc = new IResult.MethodResult("rabbit");
+        ResultContainer rc = new MethodResult("rabbit");
         IMeter carrotCounter =
                 Perfidix.createMeter("carrotCounter", "vegetables");
         IMeter potatoeCounter =
                 Perfidix.createMeter("potatoeCounter", "vegetables");
         // startDebug();
-        rc.append(new IResult.SingleResult(
-                "carrotEater", new long[] { 3 }, Perfidix
-                        .getMeter("carrotCounter")));
-        rc.append(new IResult.SingleResult("hello", new long[] { 7 }, Perfidix
+        rc.append(new SingleResult("carrotEater", new long[] { 3 }, Perfidix
+                .getMeter("carrotCounter")));
+        rc.append(new SingleResult("hello", new long[] { 7 }, Perfidix
                 .getMeter("potatoeCounter")));
         rc
                 .append(Perfidix.createSingleResult(
@@ -92,15 +93,14 @@ public class PerfidixTimerTest extends PerfidixTest {
 
     @Test
     public void testMixedCounters1() {
-        ResultContainer<IResult.SingleResult> rc =
-                new IResult.MethodResult("bla");
+        ResultContainer<SingleResult> rc = new MethodResult("bla");
         Perfidix.createMeter("a", "foo");
         Perfidix.createMeter("b", "bar");
-        rc.append(new IResult.SingleResult("a", new long[] { 3 }, Perfidix
+        rc.append(new SingleResult("a", new long[] { 3 }, Perfidix
                 .getMeter("a")));
-        rc.append(new IResult.SingleResult("b", new long[] { 7 }, Perfidix
+        rc.append(new SingleResult("b", new long[] { 7 }, Perfidix
                 .getMeter("a")));
-        rc.append(new IResult.SingleResult("c", new long[] { 5 }, Perfidix
+        rc.append(new SingleResult("c", new long[] { 5 }, Perfidix
                 .getMeter("b")));
 
     }
