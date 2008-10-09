@@ -38,6 +38,11 @@ import org.perfidix.annotation.Bench;
 import org.perfidix.annotation.BenchClass;
 import org.perfidix.annotation.SkipBench;
 import org.perfidix.exceptions.PerfidixMethodException;
+import org.perfidix.meter.IMeter;
+import org.perfidix.meter.MemMeter;
+import org.perfidix.meter.MilliMeter;
+import org.perfidix.meter.NanoMeter;
+import org.perfidix.meter.SecondMeter;
 import org.perfidix.result.BenchmarkResult;
 import org.perfidix.result.ClassResult;
 import org.perfidix.result.IResult;
@@ -155,9 +160,9 @@ public class Benchmark {
     public Benchmark(final String theName, final boolean useMemMeter) {
         this.name = theName;
         children = new ArrayList<Object>();
-        meters.add(timeMeterIndex, new IMeter.MilliMeter());
+        meters.add(timeMeterIndex, new MilliMeter());
         if (useMemMeter) {
-            meters.add(new IMeter.MemMeter());
+            meters.add(new MemMeter());
         }
     }
 
@@ -615,7 +620,7 @@ public class Benchmark {
      * configures the benchmark to use the NanoTimer for time measurement.
      */
     public void useNanoMeter() {
-        meters.set(timeMeterIndex, new IMeter.NanoMeter());
+        meters.set(timeMeterIndex, new NanoMeter());
     }
 
     /**
@@ -623,14 +628,14 @@ public class Benchmark {
      * time measurement.
      */
     public void useMilliMeter() {
-        meters.set(timeMeterIndex, new IMeter.MilliMeter());
+        meters.set(timeMeterIndex, new MilliMeter());
     }
 
     /**
      * configures the benchmark to use the SecondTimer for time measurement.
      */
     public void useSecondMeter() {
-        meters.set(timeMeterIndex, new IMeter.SecondMeter());
+        meters.set(timeMeterIndex, new SecondMeter());
     }
 
     /**
@@ -741,7 +746,7 @@ public class Benchmark {
 
             int i = 0;
             for (final IMeter meter : meters) {
-                if (meter instanceof IMeter.MemMeter) {
+                if (meter instanceof MemMeter) {
                     theResults[i][invocationID] = meter.getValue();
                 } else {
                     theResults[i][invocationID] =

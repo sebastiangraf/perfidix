@@ -1,0 +1,65 @@
+/*
+ * Copyright 2008 Distributed Systems Group, University of Konstanz
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * $Revision$
+ * $Author$
+ * $Date$
+ *
+ */
+package org.perfidix.meter;
+
+/**
+ * @author axo
+ */
+public abstract class AbsTimeMeter extends AbstractMeter {
+
+    /**
+     * returns the current time. depending on the subclass, the values of this
+     * method will differ. usage example will be:
+     * 
+     * <pre>
+     * double start, end, elapsed;
+     * start = IMeter.getTime();
+     * // perform some work here ... 
+     * end = IMeter.getTime();
+     * elapsed = (end - start);
+     * </pre>
+     * 
+     * @return the current time measure.
+     */
+    public abstract long getTime();
+
+    public String getName() {
+        return "time";
+    }
+
+    /**
+     * does nothing. the timeMeters work on their own clock.
+     */
+    public final void tick() {
+        // do nothing.
+    }
+
+    /**
+     * this is not a comment.
+     * 
+     * @see org.perfidix.meter.IMeter#getValue()
+     * @return the time elapsed.
+     */
+    public final long getValue() {
+        return getTime();
+    }
+
+}

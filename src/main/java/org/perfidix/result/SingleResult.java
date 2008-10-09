@@ -21,8 +21,8 @@
 package org.perfidix.result;
 
 import org.perfidix.Benchmark;
-import org.perfidix.IMeter;
 import org.perfidix.Perfidix;
+import org.perfidix.meter.IMeter;
 
 /**
  * contains the single result for anything. this is the 'leaf' result class,
@@ -48,7 +48,7 @@ public class SingleResult extends Result {
      * @param aResultSet
      */
     public SingleResult(final long[] aResultSet) {
-        this(aResultSet, Perfidix.defaultMeter());
+        this(aResultSet, Perfidix.DEFAULTMETER);
     }
 
     /**

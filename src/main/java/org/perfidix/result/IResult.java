@@ -19,7 +19,7 @@
 
 package org.perfidix.result;
 
-import org.perfidix.IMeter;
+import org.perfidix.meter.IMeter;
 
 public interface IResult {
 

@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.Formatter;
 import java.util.Hashtable;
 
-import org.perfidix.IMeter;
+import org.perfidix.meter.IMeter;
 
 /**
  * <p>

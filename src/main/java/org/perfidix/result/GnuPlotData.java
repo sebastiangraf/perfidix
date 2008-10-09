@@ -27,7 +27,7 @@ import java.util.Date;
 import java.util.Hashtable;
 import java.util.Iterator;
 
-import org.perfidix.IMeter;
+import org.perfidix.meter.IMeter;
 
 /**
  * the gnu plot visitor parses the result into a gnu readable file.

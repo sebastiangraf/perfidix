@@ -28,6 +28,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.perfidix.annotation.Bench;
+import org.perfidix.meter.IMeter;
 import org.perfidix.result.IResult;
 import org.perfidix.result.NiceTable;
 
