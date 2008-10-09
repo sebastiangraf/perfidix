@@ -26,16 +26,17 @@ import java.util.regex.Pattern;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 public class MultiTimersSorted extends PerfidixTest {
 
+    @Override
     @Before
     public void setUp() throws Exception {
         super.setUp();
     }
 
+    @Override
     @After
     public void tearDown() throws Exception {
 
@@ -52,7 +53,7 @@ public class MultiTimersSorted extends PerfidixTest {
         bm.register(a);
         // System.out.println("running ... ");
         // startDebug();
-        Result r = bm.run(1);
+        IResult r = bm.run(1);
         String[] s =
                 {
                         "benchOne", "a", "ms", "summary for A", "ms", "a",

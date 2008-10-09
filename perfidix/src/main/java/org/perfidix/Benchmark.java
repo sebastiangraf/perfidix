@@ -33,8 +33,8 @@ import org.perfidix.exceptions.PerfidixMethodException;
 /**
  * This is the generic benchmark container.
  * 
- * @author Alexander Onea
- * @author Sebastian Graf
+ * @author Alexander Onea, neue Couch
+ * @author Sebastian Graf, University of Konstanz
  */
 public class Benchmark {
 
@@ -42,7 +42,10 @@ public class Benchmark {
     // Static variables
     // ////////////////////////////////////////////
 
-    private final static Log LOGGER = LogFactory.getLog("Benchmark");
+    /**
+     * Logger instance.
+     */
+    private static final Log LOGGER = LogFactory.getLog("Benchmark");
 
     /**
      * Defines how often the methods will be invoked when no invocation count is
@@ -60,37 +63,37 @@ public class Benchmark {
     // ////////////////////////////////////////////
 
     /**
-     * List with all objects to bench
+     * List with all objects to bench.
      */
     private final ArrayList<Object> children;
 
     /**
-     * name of this bench
+     * Name of this bench.
      */
     private String name = "";
 
     /**
-     * the array list of the meters. the first one is always the time meter.
+     * The array list of the meters. the first one is always the time meter.
      */
     private ArrayList<IMeter> meters = new ArrayList<IMeter>();
 
     /**
-     * index of the timer in the IMeter-arraylist
+     * Index of the timer in the IMeter-arraylist.
      */
     private final int timeMeterIndex = 0;
 
     /**
-     * boolean if the exceptions should be logged
+     * Boolean if the exceptions should be logged.
      */
     private boolean logger = true;
 
     /**
-     * boolean if any exception is thrown by the bench
+     * Boolean if any exception is thrown by the bench.
      */
     private boolean exceptionsThrown = false;
 
     /**
-     * boolean if exceptions of any kind should be thrown to the benched class.
+     * Boolean if exceptions of any kind should be thrown to the benched class.
      */
     private boolean shouldThrowException = true;
 
@@ -108,15 +111,15 @@ public class Benchmark {
     /**
      * Constructor, with name but without mem-benchmarking.
      * 
-     * @param name
+     * @param paramName
      *            name of benchmark
      */
-    public Benchmark(final String name) {
-        this(name, false);
+    public Benchmark(final String paramName) {
+        this(paramName, false);
     }
 
     /**
-     * Constructor, without name but with mem-benchmarking
+     * Constructor, without name but with mem-benchmarking.
      * 
      * @param useMemMeter
      *            should the mem be benchmarked
@@ -126,7 +129,7 @@ public class Benchmark {
     }
 
     /**
-     * Constructor, without name but with mem-benchmarking
+     * Constructor, without name but with mem-benchmarking.
      * 
      * @param useMemMeter
      *            should the mem be benchmarked
@@ -148,7 +151,7 @@ public class Benchmark {
      * @param obj
      *            the obj under bench.
      */
-    public void add(final Object obj) {
+    public final void add(final Object obj) {
 
         if (obj instanceof Class) {
             throw new IllegalArgumentException(
@@ -163,14 +166,14 @@ public class Benchmark {
     }
 
     /**
-     * Adds an object with a given name to the call stack via anotation
+     * Adds an object with a given name to the call stack via anotation.
      * 
      * @param obj
      *            the obj under bench
-     * @param name
+     * @param paramName
      *            name of the bench
      */
-    public void add(final Object obj, final String name) {
+    public final void add(final Object obj, final String paramName) {
 
         if (obj instanceof Class) {
             throw new IllegalArgumentException(
@@ -180,17 +183,17 @@ public class Benchmark {
             appendToLogger(SimpleLog.LOG_LEVEL_INFO, "Null object passed in");
             return;
         }
-        final Object[] newObject = { obj, name };
+        final Object[] newObject = { obj, paramName };
         children.add(newObject);
 
     }
 
     /**
-     * runs the benchmark with the default number of invocations.
+     * Runs the benchmark with the default number of invocations.
      * 
      * @return the result.
      */
-    public IResult run() {
+    public final IResult run() {
         return run(BM_DEFAULT_INVOCATION_COUNT);
     }
 
@@ -202,8 +205,7 @@ public class Benchmark {
      *            the number of runs.
      * @return the result.
      */
-    @SuppressWarnings("unchecked")
-    public Result run(final int numInvocations) {
+    public final IResult run(final int numInvocations) {
 
         ResultContainer myResult =
                 new ResultContainer.BenchmarkResult(this.getName());
@@ -221,18 +223,18 @@ public class Benchmark {
     }
 
     /**
-     * overloading our tiny little benchmark to invoke a method. the method has
+     * Overloading our tiny little benchmark to invoke a method. the method has
      * to be invokable, but since this method is private, there's no problem.
      * 
      * @param numInvocations
      *            the number of invocations.
      * @param m
      *            the method to run.
-     * @param rand
-     *            the randomizer to use
      * @param parent
      *            the class the method belongs to.
      * @return Result.
+     * @throws Exception
+     *             of any kind
      */
     private IResult.MethodResult doRunObject(
             final Method m, final int numInvocations, final Object parent)
@@ -297,6 +299,18 @@ public class Benchmark {
         }
     }
 
+    /**
+     * Method to execute before/after sourcecode.
+     * 
+     * @param objectToBench
+     *            object to bench
+     * @param method
+     *            method to be benched
+     * @param anno
+     *            annotation be checked
+     * @throws PerfidixMethodException
+     *             if a failure occurs
+     */
     private void executeBeforeAfter(
             final Object objectToBench, final Method method,
             final Class<? extends Annotation> anno)
@@ -388,11 +402,9 @@ public class Benchmark {
      *            the number of times one method is to be called.
      * @param obj
      *            the object under test.
-     * @return Result
-     * @param timer
-     *            the timer to use
-     * @param rand
-     *            the randomizer to use
+     * @return IResult to be returned
+     * @throws Exception
+     *             of any kind
      */
     private Result doRunObject(final Object obj, final int numInvocations)
             throws Exception {
@@ -436,7 +448,7 @@ public class Benchmark {
                                 BenchClass.class);
                 boolean runSet = false;
                 if (anno != null) {
-                    if (anno.runs() != Bench.DEFAULTRUNS) {
+                    if (anno.runs() != -1) {
                         if (anno.runs() < 0) {
                             throw new PerfidixMethodException(
                                     "Runs shall not be negative!");
@@ -446,7 +458,7 @@ public class Benchmark {
                     }
                 }
                 if (classAnno != null && !runSet) {
-                    if (classAnno.runs() != BenchClass.DEFAULTRUNS) {
+                    if (classAnno.runs() != -1) {
                         if (classAnno.runs() < 0) {
                             throw new PerfidixMethodException(
                                     "Runs shall not be negative!");
@@ -483,6 +495,15 @@ public class Benchmark {
     // ////////////////////////////////////////////
     // checkMethods
     // ////////////////////////////////////////////
+
+    /**
+     * Check if method is valid for beforeBench,afterBench and bench, that means
+     * void and param-free.
+     * 
+     * @param method
+     *            to be checked
+     * @return boolean if check was successful or not.
+     */
     private boolean checkMethod(final Method method) {
         if (method == null) {
             return false;
@@ -496,6 +517,13 @@ public class Benchmark {
         return true;
     }
 
+    /**
+     * Check if method is valid for bench.
+     * 
+     * @param method
+     *            to check
+     * @return booelean if check was successful or not
+     */
     private boolean checkMethodForBench(final Method method) {
         if (!checkMethod(method)) {
             return false;
@@ -528,7 +556,7 @@ public class Benchmark {
      * @return a string.
      */
     @Override
-    public String toString() {
+    public final String toString() {
         return toString(0);
     }
 
@@ -537,7 +565,7 @@ public class Benchmark {
      * 
      * @param value
      */
-    public void shouldThrowException(final boolean value) {
+    public final void shouldThrowException(final boolean value) {
         shouldThrowException = value;
     }
 

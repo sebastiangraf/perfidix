@@ -150,7 +150,7 @@ public class MultipleTimersResultTest extends PerfidixTest {
         assertEquals(3, breg.size());
         assertTrue(breg.containsAll(bregContains));
 
-        ArrayList<IMeter> creg = c.getRegisteredMeters();
+        SortedSet<IMeter> creg = c.getRegisteredMeters();
         assertEquals(3, creg.size());
         assertTrue(creg.containsAll(bregContains));
 
@@ -165,16 +165,17 @@ public class MultipleTimersResultTest extends PerfidixTest {
         Perfidix.createMeter("bla", "ding");
         rc.append(new IResult.SingleResult("aResult", new long[] {}, Perfidix
                 .getMeter("bla")));
-        ArrayList<IMeter> meters = rc.getRegisteredMeters();
+        SortedSet<IMeter> meters = rc.getRegisteredMeters();
         assertEquals(1, meters.size());
-        assertEquals("ding", meters.get(0).getUnit());
+        assertEquals("ding", meters.last().getUnit());
 
         rc.append(new IResult.SingleResult("bResult", new long[] {}, Perfidix
                 .defaultMeter()));
         meters = rc.getRegisteredMeters();
         assertEquals(2, meters.size());
-        assertEquals(Perfidix.defaultMeter().getUnit(), meters.get(0).getUnit());
-        assertEquals("ding", meters.get(1).getUnit());
+        assertEquals(Perfidix.defaultMeter().getUnit(), meters
+                .first().getUnit());
+        assertEquals("ding", meters.last().getUnit());
     }
 
     @Test
@@ -254,7 +255,7 @@ public class MultipleTimersResultTest extends PerfidixTest {
         bm.add(new B(a, b, c));
         // System.out.println("running ... ");
 
-        Result r = bm.run(3);
+        IResult r = bm.run(3);
         String[] s =
                 {
                         "benchOne", "a", "ms", "b", "benchSomeOtherMeter", "a",

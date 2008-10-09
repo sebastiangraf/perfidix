@@ -22,6 +22,7 @@ package org.perfidix.workloads;
 import org.perfidix.Bench;
 import org.perfidix.Benchmark;
 import org.perfidix.IMeter;
+import org.perfidix.IResult;
 import org.perfidix.Perfidix;
 import org.perfidix.Result;
 import org.perfidix.visitor.GnuPlotData;
@@ -193,9 +194,9 @@ public class PerfidixBenchTest {
 
         /**
          * @param aValue
-         *                str
+         *            str
          * @param unit
-         *                str
+         *            str
          */
         public SomeObj(final long aValue, final Unit unit) {
             this.value = aValue;
@@ -226,7 +227,7 @@ public class PerfidixBenchTest {
 
         /**
          * @param aKey
-         *                t
+         *            t
          */
         public Unit(final String aKey) {
             key = aKey;
@@ -238,6 +239,7 @@ public class PerfidixBenchTest {
          * @see java.lang.Object#toString
          * @return the representation
          */
+        @Override
         public String toString() {
             return key;
         }
@@ -245,7 +247,7 @@ public class PerfidixBenchTest {
 
     /**
      * @param args
-     *                nothing will be taken as input.
+     *            nothing will be taken as input.
      */
     public static void main(final String[] args) {
         Benchmark b = new Benchmark("hello world.");
@@ -256,13 +258,13 @@ public class PerfidixBenchTest {
             System.out.println("argh. could not add the PerfidixBenchTest.");
         }
         b.useNanoMeter();
-        Result r = b.run(10);
+        IResult r = b.run(10);
         System.out.println(r);
 
         Benchmark b2 = new Benchmark("EXAMPLE");
         b2.add(new PerfidixBenchTest().new SampleBenchmarkClass());
         // b2.useMilliMeter();
-        Result r2 = b2.run(10);
+        IResult r2 = b2.run(10);
         System.out.println(r2);
 
         GnuPlotData v = new GnuPlotData();

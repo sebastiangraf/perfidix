@@ -36,8 +36,6 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 public @interface BenchClass {
 
-    public static int DEFAULTRUNS = -1;
-
     /**
      * Parameter for the number of runs of this bench.
      */

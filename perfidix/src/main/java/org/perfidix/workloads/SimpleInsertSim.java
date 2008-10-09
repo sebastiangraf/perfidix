@@ -6,8 +6,8 @@ import org.perfidix.AfterLastBenchRun;
 import org.perfidix.Bench;
 import org.perfidix.Benchmark;
 import org.perfidix.IMeter;
+import org.perfidix.IResult;
 import org.perfidix.Perfidix;
-import org.perfidix.Result;
 
 public class SimpleInsertSim {
 
@@ -173,7 +173,7 @@ public class SimpleInsertSim {
 
             // Randomizer rand = new Randomizer();
 
-            final Result res = bench.run(RUNS);
+            final IResult res = bench.run(RUNS);
             System.out.println("\n");
             System.out.println("get: " + getMeter.getValue());
             System.out.println("hasSpace: " + hasSpaceMeter.getValue());

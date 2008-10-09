@@ -159,7 +159,7 @@ public class APITest extends PerfidixTest {
 
         FibTestClass ding = new FibTestClass();
         bm.add(ding);
-        Result r = bm.run(5);
+        IResult r = bm.run(5);
         getLog().info(r.toString());
     }
 
