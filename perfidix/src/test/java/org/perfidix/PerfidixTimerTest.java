@@ -22,6 +22,9 @@ package org.perfidix;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
+import org.perfidix.annotation.Bench;
+import org.perfidix.result.IResult;
+import org.perfidix.result.ResultContainer;
 
 public class PerfidixTimerTest extends PerfidixTest {
 

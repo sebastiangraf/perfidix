@@ -21,7 +21,8 @@ package org.perfidix;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.perfidix.visitor.GnuPlotData;
+import org.perfidix.result.GnuPlotData;
+import org.perfidix.result.IResult;
 
 public class GnuPlotVisitorTest extends PerfidixTest {
 

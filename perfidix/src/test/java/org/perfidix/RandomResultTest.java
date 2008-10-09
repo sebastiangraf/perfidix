@@ -24,6 +24,9 @@ import static org.junit.Assert.assertEquals;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.perfidix.result.IResult;
+import org.perfidix.result.Result;
+import org.perfidix.result.ResultContainer;
 
 /**
  * CHANGELOG: 1.12.2005: fixed standard deviation error.

@@ -17,7 +17,7 @@
  * 
  */
 
-package org.perfidix.visitor;
+package org.perfidix.result;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -33,9 +33,6 @@ import org.dom4j.Element;
 import org.dom4j.io.OutputFormat;
 import org.dom4j.io.XMLWriter;
 import org.perfidix.IMeter;
-import org.perfidix.IResult;
-import org.perfidix.NiceTable;
-import org.perfidix.Result;
 
 /**
  * this visitor allows the saving of the result.

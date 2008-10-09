@@ -17,7 +17,7 @@
  * 
  */
 
-package org.perfidix.visitor;
+package org.perfidix.result;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -28,9 +28,7 @@ import java.util.Hashtable;
 import java.util.Iterator;
 
 import org.perfidix.IMeter;
-import org.perfidix.IResult;
-import org.perfidix.NiceTable;
-import org.perfidix.IResult.MethodResult;
+import org.perfidix.result.IResult.MethodResult;
 
 /**
  * the gnu plot visitor parses the result into a gnu readable file.

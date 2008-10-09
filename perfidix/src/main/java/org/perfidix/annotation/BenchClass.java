@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  * 
- * $Id: AfterEachBenchRun.java 2624 2007-03-28 15:08:52Z kramis $
+ * $Id: BenchClass.java 2624 2007-03-28 15:08:52Z kramis $
  * 
  */
 
-package org.perfidix;
+package org.perfidix.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -25,12 +25,20 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Marks a tearDown-like behaviour for each run of each method.
+ * This Annotation marks a simple bench. Each Class annotated with
+ * <code>Bench</code> is executed by perfidix. Settings as parameters of this
+ * annotation are overriden by settings from extra annotated methods.
  * 
- * @author Sebastian Graf, University of Constance
+ * @author Sebastian Graf, University of Konstanz
  */
+
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.METHOD)
-public @interface AfterEachBenchRun {
+@Target(ElementType.TYPE)
+public @interface BenchClass {
+
+    /**
+     * Parameter for the number of runs of this bench.
+     */
+    int runs() default -1;
 
 }

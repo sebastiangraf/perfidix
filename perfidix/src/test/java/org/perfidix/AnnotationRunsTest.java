@@ -20,6 +20,9 @@
 package org.perfidix;
 
 import org.junit.Test;
+import org.perfidix.annotation.Bench;
+import org.perfidix.annotation.BenchClass;
+
 import static org.junit.Assert.assertEquals;
 
 public class AnnotationRunsTest {

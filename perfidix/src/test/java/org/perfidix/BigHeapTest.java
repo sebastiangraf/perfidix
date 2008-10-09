@@ -22,6 +22,7 @@ package org.perfidix;
 import java.util.Arrays;
 
 import org.junit.Test;
+import org.perfidix.annotation.Bench;
 
 import static org.junit.Assert.assertFalse;
 
