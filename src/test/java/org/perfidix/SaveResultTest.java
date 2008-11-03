@@ -19,18 +19,10 @@
 
 package org.perfidix;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
-import java.util.Hashtable;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.perfidix.annotation.Bench;
 import org.perfidix.meter.CountingMeter;
-import org.perfidix.meter.IMeter;
-import org.perfidix.meter.MilliMeter;
 import org.perfidix.result.IResult;
 import org.perfidix.result.ResultToXml;
 
@@ -59,81 +51,6 @@ public class SaveResultTest extends PerfidixTest {
         ResultToXml v = new ResultToXml("hello.xml");
         v.visit(r);
 
-    }
-
-    /**
-     * testing the behavior of equals etc.
-     * 
-     * @author onea
-     */
-    private class TreeMapObj {
-        private String theValue;
-
-        public TreeMapObj(final String value) {
-            theValue = value;
-        }
-
-        @Override
-        public boolean equals(final Object o) {
-            if (null == o) {
-                return false;
-            }
-            if (this == o) {
-                return true;
-            }
-            if (o.getClass() != getClass()) {
-                return false;
-            }
-            return ((TreeMapObj) o).theValue.equals(theValue);
-        }
-
-        @Override
-        public String toString() {
-            return theValue;
-        }
-
-        @Override
-        public int hashCode() {
-            int result = 17;
-            result = 37 * result + theValue.hashCode();
-            return result;
-        }
-    }
-
-    @Test
-    public void testTreeMapEquals() {
-        assertFalse(new TreeMapObj("bla").equals(new TreeMapObj("blu")));
-        assertTrue(new TreeMapObj("bla").equals(new TreeMapObj("bla")));
-    }
-
-    @Test
-    public void testTreeMapObjHashCode() {
-        assertEquals(
-                new TreeMapObj("world").hashCode(), new TreeMapObj("world")
-                        .hashCode());
-    }
-
-    @Test
-    public void testTreeHashing() {
-        Hashtable<TreeMapObj, String> t = new Hashtable<TreeMapObj, String>();
-        t.put(new TreeMapObj("hello"), "world");
-        t.put(new TreeMapObj("world"), "hello");
-        t.put(new TreeMapObj("hello"), "world");
-
-        assertEquals(2, t.size());
-
-    }
-
-    @Test
-    public void testTreeMap() {
-
-        Hashtable<IMeter, TreeMapObj> h = new Hashtable<IMeter, TreeMapObj>();
-        h.put(new MilliMeter(), new TreeMapObj("hello"));
-        h.put(new MilliMeter(), new TreeMapObj("hello"));
-        assertEquals(1, h.size());
-        assertTrue(new MilliMeter().equals(new MilliMeter()));
-        assertTrue(new MilliMeter().equals(new MilliMeter()));
-        assertTrue(h.containsKey(new MilliMeter()));
     }
 
     @Test
