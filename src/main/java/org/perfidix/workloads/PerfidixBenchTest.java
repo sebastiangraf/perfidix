@@ -22,7 +22,7 @@ package org.perfidix.workloads;
 import org.perfidix.Benchmark;
 import org.perfidix.Perfidix;
 import org.perfidix.annotation.Bench;
-import org.perfidix.meter.IMeter;
+import org.perfidix.meter.CountingMeter;
 import org.perfidix.result.GnuPlotData;
 import org.perfidix.result.IResult;
 import org.perfidix.result.Result;
@@ -154,14 +154,13 @@ public class PerfidixBenchTest {
 
         private static final int NUM = 50000;
 
-        private IMeter oMeter;
+        private CountingMeter oMeter;
 
         /**
          * default constructor.
          */
         public SampleBenchmarkClass() {
-            Perfidix.createMeter("object creations", "o");
-            oMeter = Perfidix.getMeter("object creations");
+            oMeter = Perfidix.createMeter("object creations", "o");
         }
 
         @Bench

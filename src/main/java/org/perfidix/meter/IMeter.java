@@ -19,7 +19,6 @@
 
 package org.perfidix.meter;
 
-
 /**
  * the public interface of perfidix meters. each meter consists of a scalar
  * value (e.g. 123) and a measurement unit, such as ns for nanoseconds, ms for
@@ -27,22 +26,7 @@ package org.perfidix.meter;
  * 
  * @author axo
  */
-public interface IMeter extends Comparable<IMeter> {
-
-    /**
-     * call this and the meter will increment its internal counter. most meters
-     * will simply increment their counter. main usage: long t1 =
-     * IMeter.getValue(); // do something... and call IMeter.tick(); ... as
-     * often as needed. long t2 = IMeter.getValue(); long ticksNeeded = t2 - t1.
-     */
-    public void tick();
-
-    /**
-     * ticks in num steps.
-     * 
-     * @param num
-     */
-    public void tick(final int num);
+public interface IMeter {
 
     /**
      * @return the current tick value.

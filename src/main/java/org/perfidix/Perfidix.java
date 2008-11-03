@@ -152,7 +152,8 @@ public final class Perfidix {
      * @return the meter created - if the meter already exists, the existing one
      *         will be returned.
      */
-    public static IMeter createMeter(final String meterName, final String unit) {
+    public static CountingMeter createMeter(
+            final String meterName, final String unit) {
         return Perfidix.createMeter(meterName, unit, 0, "");
     }
 
@@ -187,7 +188,7 @@ public final class Perfidix {
      *            the description of the meter.
      * @return an initialized custom meter.
      */
-    public static IMeter createMeter(
+    public static CountingMeter createMeter(
             final String meterName, final String unit, final int initialValue,
             final String description) {
         CountingMeter m = Perfidix.doCreateMeter(meterName, unit, initialValue);

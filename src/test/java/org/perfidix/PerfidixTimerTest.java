@@ -23,7 +23,7 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 import org.perfidix.annotation.Bench;
-import org.perfidix.meter.IMeter;
+import org.perfidix.meter.CountingMeter;
 import org.perfidix.result.IResult;
 import org.perfidix.result.MethodResult;
 import org.perfidix.result.ResultContainer;
@@ -63,7 +63,7 @@ public class PerfidixTimerTest extends PerfidixTest {
     public void testAPI3() {
         Perfidix.createMeter("myMeter", "ding");
         assertEquals(0l, Perfidix.getMeter("myMeter").getValue());
-        Perfidix.getMeter("myMeter").tick();
+        ((CountingMeter) Perfidix.getMeter("myMeter")).tick();
         assertEquals(1l, Perfidix.getMeter("myMeter").getValue());
     }
 
@@ -71,9 +71,9 @@ public class PerfidixTimerTest extends PerfidixTest {
     @SuppressWarnings("unchecked")
     public void testDoNotMixCarrotsWithPotatoes() {
         ResultContainer rc = new MethodResult("rabbit");
-        IMeter carrotCounter =
+        CountingMeter carrotCounter =
                 Perfidix.createMeter("carrotCounter", "vegetables");
-        IMeter potatoeCounter =
+        CountingMeter potatoeCounter =
                 Perfidix.createMeter("potatoeCounter", "vegetables");
         // startDebug();
         rc.append(new SingleResult("carrotEater", new long[] { 3 }, Perfidix
@@ -110,7 +110,7 @@ public class PerfidixTimerTest extends PerfidixTest {
 
         @Bench
         public void benchOne() {
-            IMeter m = Perfidix.getMeter("fileToucher");
+            CountingMeter m = (CountingMeter) Perfidix.getMeter("fileToucher");
             // IMeter m2 = Perfidix.getMeter("dongToucher");
             for (int i = 0; i < 1000; i++) {
                 Math.random();
