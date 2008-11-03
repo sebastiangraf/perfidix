@@ -37,7 +37,6 @@ import org.perfidix.annotation.BeforeFirstBenchRun;
 import org.perfidix.annotation.Bench;
 import org.perfidix.annotation.BenchClass;
 import org.perfidix.annotation.SkipBench;
-import org.perfidix.exceptions.PerfidixMethodException;
 import org.perfidix.meter.IMeter;
 import org.perfidix.meter.MemMeter;
 import org.perfidix.meter.MilliMeter;
@@ -309,7 +308,7 @@ public class Benchmark {
 
             return meterHelper.createMethodResult(result);
 
-        } catch (PerfidixMethodException e) {
+        } catch (Exception e) {
             appendToLogger(SimpleLog.LOG_LEVEL_FATAL, "" + e);
             if (exceptionsThrown) {
                 throw new IllegalStateException(e);
@@ -328,13 +327,10 @@ public class Benchmark {
      *            method to be benched
      * @param anno
      *            annotation be checked
-     * @throws PerfidixMethodException
-     *             if a failure occurs
      */
     private void executeBeforeAfter(
             final Object objectToBench, final Method method,
-            final Class<? extends Annotation> anno)
-            throws PerfidixMethodException {
+            final Class<? extends Annotation> anno) {
         Method toReturn = null;
         final Class<?>[] setUpParams = {};
         final Object[] methodParams = {};
@@ -383,8 +379,6 @@ public class Benchmark {
             if (exceptionsThrown) {
                 throw new IllegalStateException(e);
             }
-        } catch (PerfidixMethodException e) {
-            throw e;
         } catch (Exception e) {
             appendToLogger(SimpleLog.LOG_LEVEL_ERROR, "" + e);
             if (exceptionsThrown) {
@@ -394,8 +388,7 @@ public class Benchmark {
     }
 
     private Method getBeforeAfter(
-            final Object obj, final Class<? extends Annotation> anno)
-            throws PerfidixMethodException {
+            final Object obj, final Class<? extends Annotation> anno) {
         Method toReturn = null;
         final Method[] methods = obj.getClass().getMethods();
         boolean found = false;
@@ -405,7 +398,7 @@ public class Benchmark {
                     toReturn = methods[i];
                     found = true;
                 } else {
-                    throw new PerfidixMethodException("Use just one "
+                    throw new IllegalArgumentException("Use just one "
                             + anno.getName()
                             + " for every Bench Class!");
                 }
@@ -470,7 +463,7 @@ public class Benchmark {
                 if (anno != null) {
                     if (anno.runs() != -1) {
                         if (anno.runs() < 0) {
-                            throw new PerfidixMethodException(
+                            throw new IllegalArgumentException(
                                     "Runs shall not be negative!");
                         }
                         runs = anno.runs();
@@ -480,7 +473,7 @@ public class Benchmark {
                 if (classAnno != null && !runSet) {
                     if (classAnno.runs() != -1) {
                         if (classAnno.runs() < 0) {
-                            throw new PerfidixMethodException(
+                            throw new IllegalArgumentException(
                                     "Runs shall not be negative!");
                         }
                         runs = classAnno.runs();

@@ -22,7 +22,6 @@ package org.perfidix.result;
 import java.util.Arrays;
 
 import org.perfidix.Benchmark;
-import org.perfidix.exceptions.IntegerOverflowException;
 
 /**
  * a base class for result sets.
@@ -289,7 +288,7 @@ public abstract class Result implements IResult {
         for (int i = 0; i < resSet.length; i++) {
             s += Math.pow(resSet[i], 2);
             if (s >= Long.MAX_VALUE) {
-                throw new IntegerOverflowException();
+                throw new NumberFormatException();
             }
         }
         return s;
@@ -482,7 +481,7 @@ public abstract class Result implements IResult {
             }
             theSum += resSet[i];
             if (theSum < 0) {
-                throw new IntegerOverflowException(
+                throw new NumberFormatException(
                         "sum() computed negative values, which means that an integer"
                                 + " overflow occured. perhaps the meter you used to compute"
                                 + " the result is too exact.");
