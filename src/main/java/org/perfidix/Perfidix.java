@@ -21,8 +21,8 @@ package org.perfidix;
 
 import java.util.TreeMap;
 
+import org.perfidix.meter.AbstractMeter;
 import org.perfidix.meter.CountingMeter;
-import org.perfidix.meter.IMeter;
 import org.perfidix.meter.MilliMeter;
 import org.perfidix.meter.NanoMeter;
 import org.perfidix.result.IResult;
@@ -39,7 +39,8 @@ public final class Perfidix {
     /**
      * a hashtable of meters .
      */
-    private TreeMap<String, IMeter> meters = new TreeMap<String, IMeter>();
+    private TreeMap<String, AbstractMeter> meters =
+            new TreeMap<String, AbstractMeter>();
 
     private static Perfidix instance = new Perfidix();
 
@@ -113,7 +114,7 @@ public final class Perfidix {
      */
     public static final int HASHCODE_PRIME = 37;
 
-    public static final IMeter DEFAULTMETER = new MilliMeter();
+    public static final AbstractMeter DEFAULTMETER = new MilliMeter();
 
     /**
      * private constructor.
@@ -138,7 +139,7 @@ public final class Perfidix {
      * @param meter
      *            to register
      */
-    public static void registerMeter(final IMeter meter) {
+    public static void registerMeter(final AbstractMeter meter) {
         Perfidix.getInstance().meters.put(meter.getName(), meter);
     }
 
@@ -206,7 +207,7 @@ public final class Perfidix {
      * @return the meter assigned to. if it has not been created, null will be
      *         returned.
      */
-    public static IMeter getMeter(final String meterName) {
+    public static AbstractMeter getMeter(final String meterName) {
         Perfidix p = Perfidix.getInstance();
         if (!p.meters.containsKey(meterName)) {
             return null;
@@ -217,7 +218,7 @@ public final class Perfidix {
     /**
      * @return the registered meters.
      */
-    static TreeMap<String, IMeter> getRegisteredMeters() {
+    static TreeMap<String, AbstractMeter> getRegisteredMeters() {
         return Perfidix.getInstance().meters;
     }
 
@@ -235,7 +236,7 @@ public final class Perfidix {
      *            string
      * @return the IMeter
      */
-    public static final IMeter loadMeter(final String theUnit) {
+    public static final AbstractMeter loadMeter(final String theUnit) {
         String my = theUnit.toLowerCase();
         if (my.equals(Perfidix.MSEC_UNIT)) {
             return new MilliMeter();
@@ -251,7 +252,7 @@ public final class Perfidix {
     /**
      * @return the default meter.
      */
-    public static final IMeter defaultMeter() {
+    public static final AbstractMeter defaultMeter() {
         return new MilliMeter();
     }
 

@@ -19,7 +19,7 @@
 
 package org.perfidix.result;
 
-import org.perfidix.meter.IMeter;
+import org.perfidix.meter.AbstractMeter;
 
 public interface IResult {
 
@@ -29,7 +29,7 @@ public interface IResult {
      * 
      * @return the default meter
      */
-    public IMeter getDefaultMeter();
+    public AbstractMeter getDefaultMeter();
 
     /**
      * @return the result set of a benchmark.

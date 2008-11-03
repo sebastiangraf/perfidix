@@ -32,7 +32,7 @@ import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 import org.dom4j.io.OutputFormat;
 import org.dom4j.io.XMLWriter;
-import org.perfidix.meter.IMeter;
+import org.perfidix.meter.AbstractMeter;
 
 /**
  * this visitor allows the saving of the result.
@@ -173,7 +173,7 @@ public class ResultToXml extends ResultVisitor {
         Element singleResult = methodResult.addElement("result");
         singleResult.addAttribute("name", result.getName());
         Element meter = singleResult.addElement("meter");
-        IMeter theMeter = result.getDefaultMeter();
+        AbstractMeter theMeter = result.getDefaultMeter();
         addDefaultAttributes(result, meter);
         meter.addAttribute("unit", theMeter.getUnit());
         meter.addAttribute("description", theMeter.getUnit());

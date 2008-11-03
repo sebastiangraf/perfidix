@@ -27,7 +27,7 @@ import java.util.Set;
 
 import org.perfidix.Perfidix;
 import org.perfidix.meter.AbsTimeMeter;
-import org.perfidix.meter.IMeter;
+import org.perfidix.meter.AbstractMeter;
 
 /**
  * the result container contains more results. it is by definition recursive, so
@@ -43,8 +43,8 @@ public abstract class ResultContainer<ResultType extends Result> extends Result 
 
     private ArrayList<ResultType> children = new ArrayList<ResultType>();
 
-    private Hashtable<IMeter, ArrayList<SingleResult>> customChildren =
-            new Hashtable<IMeter, ArrayList<SingleResult>>();
+    private Hashtable<AbstractMeter, ArrayList<SingleResult>> customChildren =
+            new Hashtable<AbstractMeter, ArrayList<SingleResult>>();
 
     /**
      * default constructor.
@@ -92,7 +92,7 @@ public abstract class ResultContainer<ResultType extends Result> extends Result 
     private void appendToCustomMeterStack(final SingleResult res) {
         String logMessage = "";
 
-        IMeter resMeter = res.getMeter();
+        AbstractMeter resMeter = res.getMeter();
         if (!customChildren.containsKey(resMeter)) {
             logMessage += " new meter " + resMeter.getUnit();
             customChildren.put(resMeter, new ArrayList<SingleResult>());
@@ -138,7 +138,7 @@ public abstract class ResultContainer<ResultType extends Result> extends Result 
      *            the unique identifier for the meter involved.
      * @return the maximum value.
      */
-    public long max(final IMeter meterName) {
+    public long max(final AbstractMeter meterName) {
         return computeMax(getResultSet(meterName));
     }
 
@@ -147,7 +147,7 @@ public abstract class ResultContainer<ResultType extends Result> extends Result 
      *            the meter to fetch the result set for.
      * @return the result set allocated to the meter.
      */
-    private long[] getResultSet(final IMeter m) {
+    private long[] getResultSet(final AbstractMeter m) {
         if (null == m) {
             return new long[] {};
         }
@@ -168,7 +168,8 @@ public abstract class ResultContainer<ResultType extends Result> extends Result 
      * @return
      */
     @SuppressWarnings("unchecked")
-    private ArrayList<SingleResult> getSingleResultsFor(final IMeter meter) {
+    private ArrayList<SingleResult> getSingleResultsFor(
+            final AbstractMeter meter) {
         ArrayList<SingleResult> theList = new ArrayList<SingleResult>();
 
         if (customChildren.containsKey(meter)) {
@@ -215,7 +216,7 @@ public abstract class ResultContainer<ResultType extends Result> extends Result 
      *            the meter which is used.
      * @return the minimum value.
      */
-    public long min(final IMeter m) {
+    public long min(final AbstractMeter m) {
         return computeMin(getResultSet(m));
     }
 
@@ -226,7 +227,7 @@ public abstract class ResultContainer<ResultType extends Result> extends Result 
      *            the meter which is used.
      * @return the result.
      */
-    public double avg(final IMeter m) {
+    public double avg(final AbstractMeter m) {
         return computeMean(getResultSet(m));
     }
 
@@ -237,7 +238,7 @@ public abstract class ResultContainer<ResultType extends Result> extends Result 
      *            the meter.
      * @return the result.
      */
-    public double mean(final IMeter m) {
+    public double mean(final AbstractMeter m) {
         return computeMean(getResultSet(m));
     }
 
@@ -248,7 +249,7 @@ public abstract class ResultContainer<ResultType extends Result> extends Result 
      *            the meter name.
      * @return the result.
      */
-    public long squareSum(final IMeter m) {
+    public long squareSum(final AbstractMeter m) {
         return computeSquareSum(getResultSet(m));
     }
 
@@ -259,7 +260,7 @@ public abstract class ResultContainer<ResultType extends Result> extends Result 
      *            the meter.
      * @return the result.
      */
-    public int resultCount(final IMeter m) {
+    public int resultCount(final AbstractMeter m) {
         return getResultSet(m).length;
     }
 
@@ -270,7 +271,7 @@ public abstract class ResultContainer<ResultType extends Result> extends Result 
      *            the meter.
      * @return the result.
      */
-    public double variance(final IMeter m) {
+    public double variance(final AbstractMeter m) {
         return computeVariance(getResultSet(m));
     }
 
@@ -281,7 +282,7 @@ public abstract class ResultContainer<ResultType extends Result> extends Result 
      *            the meter name.
      * @return the result.
      */
-    public double median(final IMeter m) {
+    public double median(final AbstractMeter m) {
         return computeMedian(getResultSet(m));
     }
 
@@ -290,7 +291,7 @@ public abstract class ResultContainer<ResultType extends Result> extends Result 
      *            the meter name.
      * @return the sum.
      */
-    public long sum(final IMeter m) {
+    public long sum(final AbstractMeter m) {
         return computeSum(getResultSet(m));
     }
 
@@ -301,7 +302,7 @@ public abstract class ResultContainer<ResultType extends Result> extends Result 
      *            the meter name.
      * @return the result.
      */
-    public double getConf99(final IMeter meterName) {
+    public double getConf99(final AbstractMeter meterName) {
         return computeConf99(getResultSet(meterName));
     }
 
@@ -312,7 +313,7 @@ public abstract class ResultContainer<ResultType extends Result> extends Result 
      *            the meter name.
      * @return the result.
      */
-    public double getConf95(final IMeter meterName) {
+    public double getConf95(final AbstractMeter meterName) {
         return computeConf95(getResultSet(meterName));
     }
 
@@ -323,14 +324,14 @@ public abstract class ResultContainer<ResultType extends Result> extends Result 
      *            the meter name.
      * @return the result.
      */
-    public double getStandardDeviation(final IMeter meterName) {
+    public double getStandardDeviation(final AbstractMeter meterName) {
         return computeStandardDeviation(getResultSet(meterName));
     }
 
     /**
      * @return bla.
      */
-    public Hashtable<IMeter, ArrayList<SingleResult>> getCustomChildren() {
+    public Hashtable<AbstractMeter, ArrayList<SingleResult>> getCustomChildren() {
         return customChildren;
 
     }
@@ -340,8 +341,8 @@ public abstract class ResultContainer<ResultType extends Result> extends Result 
      * 
      * @return the meters
      */
-    public Set<IMeter> getRegisteredMeters() {
-        final Set<IMeter> meters = new HashSet<IMeter>();
+    public Set<AbstractMeter> getRegisteredMeters() {
+        final Set<AbstractMeter> meters = new HashSet<AbstractMeter>();
         for (final ResultType child : children) {
             if (child instanceof ResultContainer) {
                 meters.addAll(((ResultContainer) child).getRegisteredMeters());
@@ -350,7 +351,7 @@ public abstract class ResultContainer<ResultType extends Result> extends Result 
                 meters.add(((SingleResult) child).getMeter());
             }
         }
-        for (final IMeter meter : customChildren.keySet()) {
+        for (final AbstractMeter meter : customChildren.keySet()) {
             meters.add(meter);
         }
 
@@ -360,8 +361,8 @@ public abstract class ResultContainer<ResultType extends Result> extends Result 
     /**
      * {@inheritDoc}
      */
-    public IMeter getDefaultMeter() {
-        final Set<IMeter> meters = getRegisteredMeters();
+    public AbstractMeter getDefaultMeter() {
+        final Set<AbstractMeter> meters = getRegisteredMeters();
         if (meters.isEmpty()) {
             return Perfidix.DEFAULTMETER;
         }

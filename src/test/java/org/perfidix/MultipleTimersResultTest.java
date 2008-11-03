@@ -30,8 +30,8 @@ import java.util.regex.Pattern;
 
 import org.junit.Test;
 import org.perfidix.annotation.Bench;
+import org.perfidix.meter.AbstractMeter;
 import org.perfidix.meter.CountingMeter;
-import org.perfidix.meter.IMeter;
 import org.perfidix.result.BenchmarkResult;
 import org.perfidix.result.ClassResult;
 import org.perfidix.result.IResult;
@@ -43,9 +43,9 @@ public class MultipleTimersResultTest {
 
     @Test
     public void testCollectionSorting() {
-        IMeter a = Perfidix.createMeter("a", "a");
-        IMeter b = Perfidix.createMeter("b", "b");
-        ArrayList<IMeter> list = new ArrayList<IMeter>();
+        AbstractMeter a = Perfidix.createMeter("a", "a");
+        AbstractMeter b = Perfidix.createMeter("b", "b");
+        ArrayList<AbstractMeter> list = new ArrayList<AbstractMeter>();
         list.add(b);
         list.add(a);
         assertEquals(b, list.get(0));
@@ -62,8 +62,8 @@ public class MultipleTimersResultTest {
 
     @Test
     public void testResultsAreSorted() {
-        IMeter c = Perfidix.createMeter("hello", "cMeterMeter");
-        IMeter d = Perfidix.createMeter("bello", "dMeterMeter");
+        AbstractMeter c = Perfidix.createMeter("hello", "cMeterMeter");
+        AbstractMeter d = Perfidix.createMeter("bello", "dMeterMeter");
         SingleResult a = new SingleResult("a", new long[] {}, c);
         SingleResult b = new SingleResult("a", new long[] {}, d);
         MethodResult bla = new MethodResult("bla");
@@ -92,10 +92,10 @@ public class MultipleTimersResultTest {
         a.append(b);
         b.append(c);
 
-        IMeter ma = Perfidix.createMeter(getClass() + "ma", "mac");
-        IMeter mb = Perfidix.createMeter(getClass() + "mb", "mbc");
-        IMeter mc = Perfidix.createMeter(getClass() + "mc", "mcc");
-        IMeter tim = Perfidix.defaultMeter();
+        AbstractMeter ma = Perfidix.createMeter(getClass() + "ma", "mac");
+        AbstractMeter mb = Perfidix.createMeter(getClass() + "mb", "mbc");
+        AbstractMeter mc = Perfidix.createMeter(getClass() + "mc", "mcc");
+        AbstractMeter tim = Perfidix.defaultMeter();
         long[] data = new long[] { 1, 2, 3 };
         SingleResult r1 = new SingleResult("bl0", data, tim);
         SingleResult r2 = new SingleResult("bla", data, ma);
@@ -158,10 +158,11 @@ public class MultipleTimersResultTest {
         rc.append(new SingleResult("bResult", new long[] {}, Perfidix
                 .defaultMeter()));
 
-        final Iterator<IMeter> meters = rc.getRegisteredMeters().iterator();
+        final Iterator<AbstractMeter> meters =
+                rc.getRegisteredMeters().iterator();
 
-        final IMeter meter1 = meters.next();
-        final IMeter meter2 = meters.next();
+        final AbstractMeter meter1 = meters.next();
+        final AbstractMeter meter2 = meters.next();
 
         assertFalse(meters.hasNext());
 
@@ -180,7 +181,7 @@ public class MultipleTimersResultTest {
 
         ResultContainer mm = new MethodResult("cont");
         mm.append(rc);
-        IMeter blingbling = Perfidix.getMeter("blingbling");
+        AbstractMeter blingbling = Perfidix.getMeter("blingbling");
         // System.out.println(mm);
         assertEquals(6, mm.sum(blingbling));
         assertEquals(0, mm.min(blingbling));
@@ -190,8 +191,8 @@ public class MultipleTimersResultTest {
 
     @Test
     public void testTwo() {
-        IMeter a = Perfidix.createMeter("hello", "a");
-        IMeter b = Perfidix.createMeter("bello", "b");
+        AbstractMeter a = Perfidix.createMeter("hello", "a");
+        AbstractMeter b = Perfidix.createMeter("bello", "b");
 
         MethodResult method1 = new MethodResult("someNiceMethod");
         MethodResult method2 = new MethodResult("someNiceOtherMethod");

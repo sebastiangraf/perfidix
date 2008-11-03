@@ -23,7 +23,33 @@ package org.perfidix.meter;
 /**
  * @author onea
  */
-public abstract class AbstractMeter implements IMeter {
+public abstract class AbstractMeter {
+
+    /**
+     * @return the current tick value.
+     */
+    public abstract long getValue();
+
+    /**
+     * returns the unit in which this measure taker computes its results.
+     * 
+     * @return the unit.
+     */
+    public abstract String getUnit();
+
+    /**
+     * the long description of the unit. can be empty but if available, it
+     * should provide one or two words about the measure taker.
+     * 
+     * @return the long description of the unit in which measurement takes
+     *         place.
+     */
+    public abstract String getUnitDescription();
+
+    /**
+     * @return the name.
+     */
+    public abstract String getName();
 
     /**
      * @return a string representation of this meter.

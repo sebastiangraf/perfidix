@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.Formatter;
 import java.util.Hashtable;
 
-import org.perfidix.meter.IMeter;
+import org.perfidix.meter.AbstractMeter;
 
 /**
  * <p>
@@ -104,7 +104,7 @@ public class AsciiTable extends ResultVisitor {
      * @param m
      * @param res
      */
-    private void createSummary(final IMeter m, final ResultContainer res) {
+    private void createSummary(final AbstractMeter m, final ResultContainer res) {
         Formatter j = new Formatter();
         Object[] data =
                 {
@@ -146,7 +146,7 @@ public class AsciiTable extends ResultVisitor {
                 NiceTable.LEFT);
 
         for (Object meter : res.getRegisteredMeters()) {
-            createSummary((IMeter) meter, res);
+            createSummary((AbstractMeter) meter, res);
         }
 
         if (res instanceof BenchmarkResult) {
@@ -174,7 +174,7 @@ public class AsciiTable extends ResultVisitor {
      */
     private void visitMethodResults(final MethodResult res) {
 
-        final Hashtable<IMeter, ArrayList<SingleResult>> customChild =
+        final Hashtable<AbstractMeter, ArrayList<SingleResult>> customChild =
                 res.getCustomChildren();
 
         String theName;
@@ -185,7 +185,7 @@ public class AsciiTable extends ResultVisitor {
             theName = res.getName();
         }
 
-        for (final IMeter meter : customChild.keySet()) {
+        for (final AbstractMeter meter : customChild.keySet()) {
 
             for (final SingleResult singRes : customChild.get(meter)) {
                 visitSingleResult(singRes, theName);

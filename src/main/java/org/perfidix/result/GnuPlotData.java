@@ -27,7 +27,7 @@ import java.util.Date;
 import java.util.Hashtable;
 import java.util.Iterator;
 
-import org.perfidix.meter.IMeter;
+import org.perfidix.meter.AbstractMeter;
 
 /**
  * the gnu plot visitor parses the result into a gnu readable file.
@@ -60,7 +60,7 @@ public class GnuPlotData extends ResultVisitor {
     /**
      * the IMeter which was used.
      */
-    private IMeter meter = null;
+    private AbstractMeter meter = null;
 
     /**
      * the gnuplot visitor converts a perfidix result to a gnuplot file.
@@ -92,7 +92,7 @@ public class GnuPlotData extends ResultVisitor {
      * @param which
      *            the meter.
      */
-    public void setMeter(final IMeter which) {
+    public void setMeter(final AbstractMeter which) {
         meter = which;
     }
 
@@ -107,7 +107,7 @@ public class GnuPlotData extends ResultVisitor {
      *            the filename, whatever information.
      */
     public void configure(
-            final IMeter which, final String id, final String theFilename) {
+            final AbstractMeter which, final String id, final String theFilename) {
 
         setID(id);
         setFilename(theFilename);
@@ -152,7 +152,7 @@ public class GnuPlotData extends ResultVisitor {
 
     }
 
-    private String getAboutText(final IMeter m) {
+    private String getAboutText(final AbstractMeter m) {
         return "Perfidix gnuplot (.gpd) data output. Meter is "
                 + m.getUnitDescription();
     }
@@ -171,7 +171,8 @@ public class GnuPlotData extends ResultVisitor {
     }
 
     private void parseMethod(final MethodResult m) {
-        Hashtable<IMeter, ArrayList<SingleResult>> tree = m.getCustomChildren();
+        Hashtable<AbstractMeter, ArrayList<SingleResult>> tree =
+                m.getCustomChildren();
         if (!tree.containsKey(meter)) {
             return;
         }

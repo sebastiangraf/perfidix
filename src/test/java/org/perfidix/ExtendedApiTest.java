@@ -24,7 +24,7 @@ import static org.junit.Assert.assertEquals;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.perfidix.meter.IMeter;
+import org.perfidix.meter.AbstractMeter;
 import org.perfidix.result.MethodResult;
 import org.perfidix.result.ResultContainer;
 import org.perfidix.result.SingleResult;
@@ -38,9 +38,9 @@ public class ExtendedApiTest extends PerfidixTest {
 
     private ResultContainer<SingleResult> rc;
 
-    private IMeter carrots;
+    private AbstractMeter carrots;
 
-    private IMeter potatoes;
+    private AbstractMeter potatoes;
 
     /**
      * @throws Exception

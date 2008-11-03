@@ -37,11 +37,10 @@ import org.perfidix.annotation.BeforeFirstBenchRun;
 import org.perfidix.annotation.Bench;
 import org.perfidix.annotation.BenchClass;
 import org.perfidix.annotation.SkipBench;
-import org.perfidix.meter.IMeter;
+import org.perfidix.meter.AbstractMeter;
 import org.perfidix.meter.MemMeter;
 import org.perfidix.meter.MilliMeter;
 import org.perfidix.meter.NanoMeter;
-import org.perfidix.meter.SecondMeter;
 import org.perfidix.result.BenchmarkResult;
 import org.perfidix.result.ClassResult;
 import org.perfidix.result.IResult;
@@ -95,7 +94,7 @@ public class Benchmark {
     /**
      * The array list of the meters. the first one is always the time meter.
      */
-    private ArrayList<IMeter> meters = new ArrayList<IMeter>();
+    private ArrayList<AbstractMeter> meters = new ArrayList<AbstractMeter>();
 
     /**
      * Index of the timer in the IMeter-arraylist.
@@ -269,7 +268,7 @@ public class Benchmark {
         final long[] timeElapsed = new long[numInvocations];
         final Object[] results = new Object[numInvocations];
         final MeterHelper meterHelper = new MeterHelper(numInvocations, meters);
-        final IMeter timeMeter = meters.get(timeMeterIndex);
+        final AbstractMeter timeMeter = meters.get(timeMeterIndex);
 
         try {
 
@@ -625,20 +624,13 @@ public class Benchmark {
     }
 
     /**
-     * configures the benchmark to use the SecondTimer for time measurement.
-     */
-    public void useSecondMeter() {
-        meters.set(timeMeterIndex, new SecondMeter());
-    }
-
-    /**
      * registers some meter
      * 
      * @param someMeter
      *            a meter to register
      * @return boolean
      */
-    public boolean register(final IMeter someMeter) {
+    public boolean register(final AbstractMeter someMeter) {
         return meters.add(someMeter);
     }
 
@@ -716,14 +708,15 @@ public class Benchmark {
 
     private final class MeterHelper {
 
-        private ArrayList<IMeter> meters;
+        private ArrayList<AbstractMeter> meters;
 
         private boolean metersAvailable = false;
 
         private long[][] theResults;
 
         private MeterHelper(
-                final int numInvocations, final ArrayList<IMeter> theMeters) {
+                final int numInvocations,
+                final ArrayList<AbstractMeter> theMeters) {
             // check for arraymeter and set sizes correct.
             // if Arraymeter present,
             meters = theMeters;
@@ -738,7 +731,7 @@ public class Benchmark {
             assert (theResults.length == meters.size());
 
             int i = 0;
-            for (final IMeter meter : meters) {
+            for (final AbstractMeter meter : meters) {
                 if (meter instanceof MemMeter) {
                     theResults[i][invocationID] = meter.getValue();
                 } else {
@@ -789,10 +782,10 @@ public class Benchmark {
         }
 
         private void append(final ResultContainer<SingleResult> r) {
-            Iterator<IMeter> it = meters.iterator();
+            Iterator<AbstractMeter> it = meters.iterator();
             int i = 0;
             while (it.hasNext()) {
-                IMeter entry = it.next();
+                AbstractMeter entry = it.next();
                 SingleResult s =
                         new SingleResult(
                                 entry.getUnitDescription(), theResults[i],

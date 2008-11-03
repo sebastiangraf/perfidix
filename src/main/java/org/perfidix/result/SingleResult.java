@@ -22,7 +22,7 @@ package org.perfidix.result;
 
 import org.perfidix.Benchmark;
 import org.perfidix.Perfidix;
-import org.perfidix.meter.IMeter;
+import org.perfidix.meter.AbstractMeter;
 
 /**
  * contains the single result for anything. this is the 'leaf' result class,
@@ -40,7 +40,7 @@ public class SingleResult extends Result {
 
     private Object[] returnValues;
 
-    private IMeter theMeter;
+    private AbstractMeter theMeter;
 
     /**
      * convenience constructor.
@@ -59,7 +59,7 @@ public class SingleResult extends Result {
      * @param meter
      *            the meter with which measurement was taken.
      */
-    public SingleResult(final long[] aResultSet, final IMeter meter) {
+    public SingleResult(final long[] aResultSet, final AbstractMeter meter) {
         this(Result.DEFAULT_NAME, aResultSet, meter);
     }
 
@@ -68,7 +68,7 @@ public class SingleResult extends Result {
      * 
      * @return the meter
      */
-    public IMeter getDefaultMeter() {
+    public AbstractMeter getDefaultMeter() {
         return theMeter;
     }
 
@@ -111,7 +111,7 @@ public class SingleResult extends Result {
      */
     public SingleResult(
             final String aName, final long[] aResultSet,
-            final Object[] theReturnValues, final IMeter whichMeter) {
+            final Object[] theReturnValues, final AbstractMeter whichMeter) {
         this(aName, aResultSet, whichMeter);
         returnValues = theReturnValues;
 
@@ -128,7 +128,8 @@ public class SingleResult extends Result {
      *            the meter with which the calculations were done.
      */
     public SingleResult(
-            final String name, final long[] aResultSet, final IMeter whichMeter) {
+            final String name, final long[] aResultSet,
+            final AbstractMeter whichMeter) {
         super();
         setName(name);
         /*
@@ -231,7 +232,7 @@ public class SingleResult extends Result {
      * 
      * @return the meter.
      */
-    public IMeter getMeter() {
+    public AbstractMeter getMeter() {
         return theMeter;
     }
 
