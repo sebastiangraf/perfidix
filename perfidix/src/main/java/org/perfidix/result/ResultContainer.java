@@ -20,10 +20,10 @@
 package org.perfidix.result;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Iterator;
-import java.util.SortedSet;
-import java.util.TreeSet;
+import java.util.Set;
 
 import org.perfidix.Perfidix;
 import org.perfidix.meter.AbsTimeMeter;
@@ -340,8 +340,8 @@ public abstract class ResultContainer<ResultType extends Result> extends Result 
      * 
      * @return the meters
      */
-    public SortedSet<IMeter> getRegisteredMeters() {
-        final SortedSet<IMeter> meters = new TreeSet<IMeter>();
+    public Set<IMeter> getRegisteredMeters() {
+        final Set<IMeter> meters = new HashSet<IMeter>();
         for (final ResultType child : children) {
             if (child instanceof ResultContainer) {
                 meters.addAll(((ResultContainer) child).getRegisteredMeters());
@@ -361,11 +361,11 @@ public abstract class ResultContainer<ResultType extends Result> extends Result 
      * {@inheritDoc}
      */
     public IMeter getDefaultMeter() {
-        final SortedSet<IMeter> meters = getRegisteredMeters();
+        final Set<IMeter> meters = getRegisteredMeters();
         if (meters.isEmpty()) {
             return Perfidix.DEFAULTMETER;
         }
-        return meters.first();
+        return meters.iterator().next();
     }
 
     /**

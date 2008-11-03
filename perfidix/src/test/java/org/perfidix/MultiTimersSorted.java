@@ -28,7 +28,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.perfidix.annotation.Bench;
-import org.perfidix.meter.IMeter;
+import org.perfidix.meter.CountingMeter;
 import org.perfidix.result.IResult;
 import org.perfidix.result.NiceTable;
 
@@ -49,7 +49,7 @@ public class MultiTimersSorted extends PerfidixTest {
 
     @Test
     public void testOne() {
-        IMeter a = Perfidix.createMeter("someMeter", "a");
+        CountingMeter a = Perfidix.createMeter("someMeter", "a");
 
         Benchmark bm = new Benchmark("test benchmark");
         bm.useMilliMeter();
@@ -60,8 +60,8 @@ public class MultiTimersSorted extends PerfidixTest {
         IResult r = bm.run(1);
         String[] s =
                 {
-                        "benchOne", "a", "ms", "summary for A", "ms", "a",
-                        "summary for test benchmark", "ms", "a" };
+                        "benchOne", "ms", "a", "summary for A", "a", "ms",
+                        "summary for test benchmark", "a", "ms" };
         String pattern = ".*" + NiceTable.Util.implode(".*", s) + ".*";
         Pattern p = Pattern.compile(pattern, Pattern.DOTALL);
         Matcher m = p.matcher(r.toString());
@@ -70,9 +70,9 @@ public class MultiTimersSorted extends PerfidixTest {
     }
 
     public class A {
-        private IMeter a;
+        private CountingMeter a;
 
-        public A(final IMeter aa) {
+        public A(final CountingMeter aa) {
             a = aa;
         }
 

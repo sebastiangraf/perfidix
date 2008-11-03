@@ -6,12 +6,12 @@ import org.perfidix.Benchmark;
 import org.perfidix.Perfidix;
 import org.perfidix.annotation.AfterLastBenchRun;
 import org.perfidix.annotation.Bench;
-import org.perfidix.meter.IMeter;
+import org.perfidix.meter.CountingMeter;
 import org.perfidix.result.IResult;
 
 public class SimpleInsertSim {
 
-    private IMeter getMeter, hasSpaceMeter, updateMeter, allocateMeter;
+    private CountingMeter getMeter, hasSpaceMeter, updateMeter, allocateMeter;
 
     private short[] dataStructure;
 
@@ -30,8 +30,8 @@ public class SimpleInsertSim {
     private int allocationIndex = 0;
 
     public SimpleInsertSim(
-            final IMeter getMeter, final IMeter hasSpaceMeter,
-            final IMeter updateMeter, final IMeter allocateMeter) {
+            final CountingMeter getMeter, final CountingMeter hasSpaceMeter,
+            final CountingMeter updateMeter, final CountingMeter allocateMeter) {
 
         this.getMeter = getMeter;
         this.hasSpaceMeter = hasSpaceMeter;
@@ -158,13 +158,13 @@ public class SimpleInsertSim {
     public static void main(String[] args) {
 
         try {
-            IMeter getMeter =
+            CountingMeter getMeter =
                     Perfidix.createMeter("getMeter", "- no description -");
-            IMeter hasSpaceMeter =
+            CountingMeter hasSpaceMeter =
                     Perfidix.createMeter("hasSpaceMeter", "- no description -");
-            IMeter updateMeter =
+            CountingMeter updateMeter =
                     Perfidix.createMeter("updateMeter", "- no description -");
-            IMeter allocateMeter =
+            CountingMeter allocateMeter =
                     Perfidix.createMeter("allocateMeter", "- no description -");
 
             final Benchmark bench = new Benchmark();
