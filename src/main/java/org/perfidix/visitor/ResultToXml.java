@@ -17,7 +17,7 @@
  * 
  */
 
-package org.perfidix.result;
+package org.perfidix.visitor;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -33,6 +33,13 @@ import org.dom4j.Element;
 import org.dom4j.io.OutputFormat;
 import org.dom4j.io.XMLWriter;
 import org.perfidix.meter.AbstractMeter;
+import org.perfidix.result.AbstractResult;
+import org.perfidix.result.BenchmarkResult;
+import org.perfidix.result.ClassResult;
+import org.perfidix.result.MethodResult;
+import org.perfidix.result.NiceTable;
+import org.perfidix.result.SingleResult;
+import org.perfidix.result.NiceTable.Util;
 
 /**
  * this visitor allows the saving of the result.

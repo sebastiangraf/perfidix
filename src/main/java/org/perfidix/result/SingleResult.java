@@ -23,6 +23,7 @@ package org.perfidix.result;
 import org.perfidix.Benchmark;
 import org.perfidix.Perfidix;
 import org.perfidix.meter.AbstractMeter;
+import org.perfidix.visitor.ResultVisitor;
 
 /**
  * contains the single result for anything. this is the 'leaf' result class,

@@ -27,7 +27,7 @@ import org.junit.Test;
 import org.perfidix.result.MethodResult;
 import org.perfidix.result.AbstractResult;
 import org.perfidix.result.ResultContainer;
-import org.perfidix.result.ResultToXml;
+import org.perfidix.visitor.ResultToXml;
 
 public class XMLCreatorTest extends PerfidixTest {
 

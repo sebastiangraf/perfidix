@@ -24,7 +24,7 @@ import org.junit.Test;
 import org.perfidix.annotation.Bench;
 import org.perfidix.meter.CountingMeter;
 import org.perfidix.result.AbstractResult;
-import org.perfidix.result.ResultToXml;
+import org.perfidix.visitor.ResultToXml;
 
 /**
  * checks how the saveResultVisitor works.

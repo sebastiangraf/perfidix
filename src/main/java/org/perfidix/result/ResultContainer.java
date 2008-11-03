@@ -28,6 +28,7 @@ import java.util.Set;
 import org.perfidix.Perfidix;
 import org.perfidix.meter.AbsTimeMeter;
 import org.perfidix.meter.AbstractMeter;
+import org.perfidix.visitor.ResultVisitor;
 
 /**
  * the result container contains more results. it is by definition recursive, so

@@ -22,7 +22,7 @@ package org.perfidix;
 import org.junit.Before;
 import org.junit.Test;
 import org.perfidix.result.AbstractResult;
-import org.perfidix.result.GnuPlotData;
+import org.perfidix.visitor.GnuPlotData;
 
 public class GnuPlotVisitorTest extends PerfidixTest {
 

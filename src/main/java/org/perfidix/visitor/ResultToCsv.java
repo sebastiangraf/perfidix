@@ -1,12 +1,18 @@
 /**
  * 
  */
-package org.perfidix.result;
+package org.perfidix.visitor;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.util.HashMap;
 import java.util.Set;
+
+import org.perfidix.result.AbstractResult;
+import org.perfidix.result.BenchmarkResult;
+import org.perfidix.result.ClassResult;
+import org.perfidix.result.MethodResult;
+import org.perfidix.result.SingleResult;
 
 /**
  * Converts a result to comma separated values including column and row header
