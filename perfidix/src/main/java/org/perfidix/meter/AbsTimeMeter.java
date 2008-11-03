@@ -46,13 +46,6 @@ public abstract class AbsTimeMeter extends AbstractMeter {
     }
 
     /**
-     * does nothing. the timeMeters work on their own clock.
-     */
-    public final void tick() {
-        // do nothing.
-    }
-
-    /**
      * this is not a comment.
      * 
      * @see org.perfidix.meter.IMeter#getValue()

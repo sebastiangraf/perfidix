@@ -28,6 +28,7 @@ import java.util.Hashtable;
 import org.junit.Before;
 import org.junit.Test;
 import org.perfidix.annotation.Bench;
+import org.perfidix.meter.CountingMeter;
 import org.perfidix.meter.IMeter;
 import org.perfidix.meter.MilliMeter;
 import org.perfidix.result.IResult;
@@ -42,7 +43,7 @@ public class SaveResultTest extends PerfidixTest {
 
     private IResult r;
 
-    private IMeter theMeter;
+    private CountingMeter theMeter;
 
     @Override
     @Before
@@ -149,7 +150,7 @@ public class SaveResultTest extends PerfidixTest {
     }
 
     public class A {
-        private IMeter aMeter;
+        private CountingMeter aMeter;
 
         /**
          * constructor. getting a meter as a parameter
@@ -157,7 +158,7 @@ public class SaveResultTest extends PerfidixTest {
          * @param some
          *            the meter to use.
          */
-        public A(final IMeter some) {
+        public A(final CountingMeter some) {
             aMeter = some;
         }
 

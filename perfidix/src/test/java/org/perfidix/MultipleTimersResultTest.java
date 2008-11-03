@@ -20,11 +20,12 @@
 package org.perfidix;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.SortedSet;
+import java.util.Iterator;
+import java.util.Set;
 import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -33,6 +34,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.perfidix.annotation.Bench;
+import org.perfidix.meter.CountingMeter;
 import org.perfidix.meter.IMeter;
 import org.perfidix.result.BenchmarkResult;
 import org.perfidix.result.ClassResult;
@@ -66,9 +68,6 @@ public class MultipleTimersResultTest extends PerfidixTest {
         list.add(a);
         assertEquals(b, list.get(0));
         assertEquals(a, list.get(1));
-        Collections.sort(list);
-        assertEquals(a, list.get(0));
-        assertEquals(b, list.get(1));
     }
 
     @Test
@@ -138,8 +137,8 @@ public class MultipleTimersResultTest extends PerfidixTest {
          * ma, mb), no additionals. [blang] contains 4 meters: (ms, ma, mb, mc)
          */
 
-        final SortedSet<IMeter> areg = a.getRegisteredMeters();
-        final SortedSet<IMeter> aregContains = new TreeSet<IMeter>();
+        final Set<IMeter> areg = a.getRegisteredMeters();
+        final Set<IMeter> aregContains = new TreeSet<IMeter>();
         aregContains.add(tim);
         aregContains.add(ma);
         aregContains.add(mb);
@@ -148,8 +147,8 @@ public class MultipleTimersResultTest extends PerfidixTest {
         assertEquals(4, areg.size());
         assertTrue(areg.containsAll(aregContains));
 
-        final SortedSet<IMeter> breg = b.getRegisteredMeters();
-        final SortedSet<IMeter> bregContains = new TreeSet<IMeter>();
+        final Set<IMeter> breg = b.getRegisteredMeters();
+        final Set<IMeter> bregContains = new TreeSet<IMeter>();
         bregContains.add(tim);
         bregContains.add(ma);
         bregContains.add(mb);
@@ -157,7 +156,7 @@ public class MultipleTimersResultTest extends PerfidixTest {
         assertEquals(3, breg.size());
         assertTrue(breg.containsAll(bregContains));
 
-        SortedSet<IMeter> creg = c.getRegisteredMeters();
+        final Set<IMeter> creg = c.getRegisteredMeters();
         assertEquals(3, creg.size());
         assertTrue(creg.containsAll(bregContains));
 
@@ -168,21 +167,25 @@ public class MultipleTimersResultTest extends PerfidixTest {
      */
     @Test
     public void testGetRegisteredMeters() {
+
         ResultContainer rc = new MethodResult("hello");
+
         Perfidix.createMeter("bla", "ding");
         rc.append(new SingleResult("aResult", new long[] {}, Perfidix
                 .getMeter("bla")));
-        SortedSet<IMeter> meters = rc.getRegisteredMeters();
-        assertEquals(1, meters.size());
-        assertEquals("ding", meters.last().getUnit());
 
         rc.append(new SingleResult("bResult", new long[] {}, Perfidix
                 .defaultMeter()));
-        meters = rc.getRegisteredMeters();
-        assertEquals(2, meters.size());
-        assertEquals(Perfidix.defaultMeter().getUnit(), meters
-                .first().getUnit());
-        assertEquals("ding", meters.last().getUnit());
+
+        final Iterator<IMeter> meters = rc.getRegisteredMeters().iterator();
+
+        final IMeter meter1 = meters.next();
+        final IMeter meter2 = meters.next();
+
+        assertFalse(meters.hasNext());
+
+        assertEquals("ding", meter1.getUnit());
+        assertEquals(Perfidix.defaultMeter().getUnit(), meter2.getUnit());
     }
 
     @Test
@@ -242,10 +245,10 @@ public class MultipleTimersResultTest extends PerfidixTest {
      */
     @Test
     public void testOne() {
-        IMeter a = Perfidix.createMeter("someMeter", "a");
+        CountingMeter a = Perfidix.createMeter("someMeter", "a");
 
-        IMeter b = Perfidix.createMeter("someOtherMeter", "b");
-        IMeter c = Perfidix.createMeter("thirdMeter", "c");
+        CountingMeter b = Perfidix.createMeter("someOtherMeter", "b");
+        CountingMeter c = Perfidix.createMeter("thirdMeter", "c");
 
         Benchmark bm = new Benchmark("test benchmark");
         bm.useMilliMeter();
@@ -260,8 +263,8 @@ public class MultipleTimersResultTest extends PerfidixTest {
                 {
                         "benchOne", "a", "ms", "b", "benchSomeOtherMeter", "a",
                         "ms", "b", "benchSomeThird", "a", "ms", "b",
-                        "summary for A", "ms", "a", "b",
-                        "summary for test benchmark", "ms", "a", "b" };
+                        "summary for A", "b", "a", "ms",
+                        "summary for test benchmark", "b", "a", "ms" };
         String pattern = ".*" + NiceTable.Util.implode(".*", s) + ".*";
         Pattern p = Pattern.compile(pattern, Pattern.DOTALL);
         Matcher m = p.matcher(r.toString());
@@ -274,15 +277,15 @@ public class MultipleTimersResultTest extends PerfidixTest {
      * @author onea
      */
     public class A {
-        private IMeter a;
+        private CountingMeter a;
 
-        private IMeter b;
+        private CountingMeter b;
 
         /**
          * @param aa
          * @param bb
          */
-        public A(final IMeter aa, final IMeter bb) {
+        public A(final CountingMeter aa, final CountingMeter bb) {
             a = aa;
             b = bb;
 
@@ -319,9 +322,11 @@ public class MultipleTimersResultTest extends PerfidixTest {
     }
 
     public class B extends A {
-        private IMeter c;
+        private CountingMeter c;
 
-        public B(final IMeter aa, final IMeter bb, final IMeter cc) {
+        public B(
+                final CountingMeter aa, final CountingMeter bb,
+                final CountingMeter cc) {
             super(aa, bb);
             c = cc;
         }
