@@ -27,7 +27,7 @@ public class RawData extends ResultVisitor {
     }
 
     @Override
-    public void visit(IResult r) {
+    public void visit(AbstractResult r) {
         try {
             if (!(r instanceof BenchmarkResult)) {
                 throw new RuntimeException(

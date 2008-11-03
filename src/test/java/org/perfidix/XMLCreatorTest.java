@@ -25,7 +25,7 @@ import org.dom4j.Document;
 import org.junit.Before;
 import org.junit.Test;
 import org.perfidix.result.MethodResult;
-import org.perfidix.result.Result;
+import org.perfidix.result.AbstractResult;
 import org.perfidix.result.ResultContainer;
 import org.perfidix.result.ResultToXml;
 
@@ -33,7 +33,7 @@ public class XMLCreatorTest extends PerfidixTest {
 
     private ResultToXml v;
 
-    private Result s;
+    private AbstractResult s;
 
     private ResultContainer rc;
 

@@ -126,7 +126,7 @@ public class GnuPlotData extends ResultVisitor {
      *            BenchmarkResult and nothing else!
      */
     @Override
-    public void visit(final IResult r) {
+    public void visit(final AbstractResult r) {
 
         if (!(r instanceof BenchmarkResult)) {
             throw new RuntimeException("only benchmark results are supported!");

@@ -32,7 +32,7 @@ import org.perfidix.meter.AbstractMeter;
  * @author axo
  * @since 2005
  */
-public class SingleResult extends Result {
+public class SingleResult extends AbstractResult {
 
     private transient long[] resultSet;
 
@@ -60,7 +60,7 @@ public class SingleResult extends Result {
      *            the meter with which measurement was taken.
      */
     public SingleResult(final long[] aResultSet, final AbstractMeter meter) {
-        this(Result.DEFAULT_NAME, aResultSet, meter);
+        this(AbstractResult.DEFAULT_NAME, aResultSet, meter);
     }
 
     /**

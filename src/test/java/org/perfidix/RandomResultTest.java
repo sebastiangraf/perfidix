@@ -25,7 +25,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.perfidix.result.MethodResult;
-import org.perfidix.result.Result;
+import org.perfidix.result.AbstractResult;
 import org.perfidix.result.ResultContainer;
 import org.perfidix.result.SingleResult;
 
@@ -50,7 +50,7 @@ public class RandomResultTest extends PerfidixTest {
     public void testOne() {
 
         long[] data = { 1, Benchmark.LONG_NULLVALUE, 3 };
-        Result r = Perfidix.createSingleResult(data);
+        AbstractResult r = Perfidix.createSingleResult(data);
         assertEquals(4l, r.sum());
         assertEquals(10l, r.squareSum());
         assertEquals(2.0, r.avg(), 0);
@@ -90,7 +90,7 @@ public class RandomResultTest extends PerfidixTest {
         assertEquals(6l, container.max());
 
         long[] myResult = { 4, 5, 6 };
-        Result whatEver = Perfidix.createSingleResult(myResult);
+        AbstractResult whatEver = Perfidix.createSingleResult(myResult);
         assertEquals(whatEver.getStandardDeviation(), container
                 .getStandardDeviation(), 0);
 
@@ -101,8 +101,8 @@ public class RandomResultTest extends PerfidixTest {
 
         long[] data1 = { 1, 3 };
         long[] data2 = { 1, Benchmark.LONG_NULLVALUE, 3 };
-        Result r1 = Perfidix.createSingleResult("1,3", data1);
-        Result r2 = Perfidix.createSingleResult("1,null,3", data2);
+        AbstractResult r1 = Perfidix.createSingleResult("1,3", data1);
+        AbstractResult r2 = Perfidix.createSingleResult("1,null,3", data2);
         assertEquals(r1.sum(), r2.sum());
         assertEquals(r1.avg(), r2.avg(), 0);
         assertEquals(r1.getConf95(), r2.getConf95(), 0);

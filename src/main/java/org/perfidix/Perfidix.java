@@ -25,7 +25,7 @@ import org.perfidix.meter.AbstractMeter;
 import org.perfidix.meter.CountingMeter;
 import org.perfidix.meter.MilliMeter;
 import org.perfidix.meter.NanoMeter;
-import org.perfidix.result.IResult;
+import org.perfidix.result.AbstractResult;
 import org.perfidix.result.SingleResult;
 
 /**
@@ -279,7 +279,7 @@ public final class Perfidix {
         return r;
     }
 
-    public static IResult runBenchs(final String[] benchs) {
+    public static AbstractResult runBenchs(final String[] benchs) {
         Benchmark bench = new Benchmark();
         bench.setLogger(false);
         for (String each : benchs) {

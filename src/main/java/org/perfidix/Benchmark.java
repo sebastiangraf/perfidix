@@ -41,11 +41,10 @@ import org.perfidix.meter.AbstractMeter;
 import org.perfidix.meter.MemMeter;
 import org.perfidix.meter.MilliMeter;
 import org.perfidix.meter.NanoMeter;
+import org.perfidix.result.AbstractResult;
 import org.perfidix.result.BenchmarkResult;
 import org.perfidix.result.ClassResult;
-import org.perfidix.result.IResult;
 import org.perfidix.result.MethodResult;
-import org.perfidix.result.Result;
 import org.perfidix.result.ResultContainer;
 import org.perfidix.result.SingleResult;
 
@@ -212,7 +211,7 @@ public class Benchmark {
      * 
      * @return the result.
      */
-    public final IResult run() {
+    public final AbstractResult run() {
         return run(BM_DEFAULT_INVOCATION_COUNT);
     }
 
@@ -224,7 +223,7 @@ public class Benchmark {
      *            the number of runs.
      * @return the result.
      */
-    public final IResult run(final int numInvocations) {
+    public final AbstractResult run(final int numInvocations) {
 
         ResultContainer myResult = new BenchmarkResult(this.getName());
         for (Object obj : children) {
@@ -418,8 +417,8 @@ public class Benchmark {
      * @throws Exception
      *             of any kind
      */
-    private Result doRunObject(final Object obj, final int numInvocations)
-            throws Exception {
+    private AbstractResult doRunObject(
+            final Object obj, final int numInvocations) throws Exception {
 
         // getting all methods
         final Object[] params = {};

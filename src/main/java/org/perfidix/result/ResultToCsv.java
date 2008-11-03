@@ -35,7 +35,7 @@ public class ResultToCsv extends ResultVisitor {
      * @see org.perfidix.visitor.ResultVisitor#visit(org.perfidix.Result)
      */
     @Override
-    public void visit(IResult r) {
+    public void visit(AbstractResult r) {
         try {
             if (!(r instanceof BenchmarkResult)) {
                 throw new RuntimeException(

@@ -24,7 +24,7 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 import org.perfidix.annotation.Bench;
 import org.perfidix.meter.CountingMeter;
-import org.perfidix.result.IResult;
+import org.perfidix.result.AbstractResult;
 import org.perfidix.result.MethodResult;
 import org.perfidix.result.ResultContainer;
 import org.perfidix.result.SingleResult;
@@ -42,7 +42,7 @@ public class PerfidixTimerTest extends PerfidixTest {
         bm.add(new T());
         bm.useNanoMeter();
         Perfidix.createMeter("fileToucher", "ft");
-        IResult r = bm.run(numRuns);
+        AbstractResult r = bm.run(numRuns);
         r.toString(); // no debugging output.
 
         getLog().info(r.toString());
@@ -53,7 +53,7 @@ public class PerfidixTimerTest extends PerfidixTest {
         Benchmark bm = new Benchmark();
         bm.add(new T());
         bm.useMilliMeter();
-        IResult r = bm.run(numRuns);
+        AbstractResult r = bm.run(numRuns);
         // startDebug();
         getLog().info("\n\n" + r.toString());
         // stopDebug();

@@ -21,7 +21,6 @@ package org.perfidix.result;
 
 import java.util.Formatter;
 
-
 /**
  * the ResultVisitor is able to visit and view the results. mainly an iterator,
  * it can parse the results.
@@ -39,14 +38,14 @@ public abstract class ResultVisitor {
      * @param r
      *            the Result to visit.
      */
-    public abstract void visit(IResult r);
+    public abstract void visit(AbstractResult r);
 
     /**
      * @param res
      *            FIXME
      * @return FIXME
      */
-    protected double getConf95Min(final Result res) {
+    protected double getConf95Min(final AbstractResult res) {
         return Math.max(0, res.avg() - res.getConf95());
     }
 
@@ -55,15 +54,15 @@ public abstract class ResultVisitor {
      *            FIXME
      * @return FIXME
      */
-    protected double getConf95Max(final Result res) {
+    protected double getConf95Max(final AbstractResult res) {
         return res.avg() + res.getConf95();
     }
 
-    protected double getConf99Min(final Result res) {
+    protected double getConf99Min(final AbstractResult res) {
         return Math.max(0, res.avg() - res.getConf99());
     }
 
-    protected double getConf99Max(final Result res) {
+    protected double getConf99Max(final AbstractResult res) {
         return res.avg() + res.getConf99();
     }
 

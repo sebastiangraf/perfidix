@@ -112,7 +112,7 @@ public class ResultToXml extends ResultVisitor {
                         .addAttribute("id", "").addAttribute("date", "");
     }
 
-    private void addDefaultAttributes(final Result r, final Element e) {
+    private void addDefaultAttributes(final AbstractResult r, final Element e) {
         e.addAttribute("max", Long.toString(r.max()));
         e.addAttribute("min", Long.toString(r.min()));
         e.addAttribute("avg", Double.toString(r.avg()));
@@ -197,7 +197,7 @@ public class ResultToXml extends ResultVisitor {
      *            the result to visit.
      */
     @Override
-    public void visit(final IResult r) {
+    public void visit(final AbstractResult r) {
 
         if (r instanceof BenchmarkResult) {
             visit((BenchmarkResult) r);

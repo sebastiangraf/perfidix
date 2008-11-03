@@ -22,13 +22,13 @@ package org.perfidix;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
-import org.perfidix.result.Result;
+import org.perfidix.result.AbstractResult;
 
 public class EmptyMedianTest extends PerfidixTest {
 
     @Test
     public void testMedian() {
-        Result r = Perfidix.createSingleResult("hello world", new long[] {});
+        AbstractResult r = Perfidix.createSingleResult("hello world", new long[] {});
         assertEquals(0.0, r.median(), 0);
     }
 

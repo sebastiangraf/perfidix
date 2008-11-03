@@ -39,7 +39,7 @@ import org.perfidix.meter.AbstractMeter;
  * @param <ResultType>
  *            the type of the children.
  */
-public abstract class ResultContainer<ResultType extends Result> extends Result {
+public abstract class ResultContainer<ResultType extends AbstractResult> extends AbstractResult {
 
     private ArrayList<ResultType> children = new ArrayList<ResultType>();
 
@@ -50,7 +50,7 @@ public abstract class ResultContainer<ResultType extends Result> extends Result 
      * default constructor.
      */
     public ResultContainer() {
-        this(Result.DEFAULT_NAME);
+        this(AbstractResult.DEFAULT_NAME);
     }
 
     /**
@@ -179,7 +179,7 @@ public abstract class ResultContainer<ResultType extends Result> extends Result 
         }
 
         for (int i = 0; i < children.size(); i++) {
-            Result tmp = children.get(i);
+            AbstractResult tmp = children.get(i);
             if (tmp instanceof ResultContainer) {
                 theList.addAll(((ResultContainer) tmp)
                         .getSingleResultsFor(meter));

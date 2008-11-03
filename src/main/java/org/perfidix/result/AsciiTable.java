@@ -35,7 +35,7 @@ import org.perfidix.meter.AbstractMeter;
  * an ascii table
  * </p>
  * 
- * @see Result
+ * @see AbstractResult
  * @see ResultVisitor
  * @author axo
  */
@@ -162,7 +162,7 @@ public class AsciiTable extends ResultVisitor {
     private void visitSubcontainers(final ResultContainer res) {
         addHeader(res);
         for (Object res2 : res.getChildren()) {
-            visit((Result) res2);
+            visit((AbstractResult) res2);
         }
         addFooter(res);
     }
@@ -226,7 +226,7 @@ public class AsciiTable extends ResultVisitor {
      *            the result to look visit.
      */
     @Override
-    public void visit(final IResult res) {
+    public void visit(final AbstractResult res) {
 
         if (res instanceof SingleResult) {
             visitSingleResult((SingleResult) res, res.getName());

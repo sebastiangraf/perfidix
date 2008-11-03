@@ -22,6 +22,7 @@ package org.perfidix.result;
 import java.util.Arrays;
 
 import org.perfidix.Benchmark;
+import org.perfidix.meter.AbstractMeter;
 
 /**
  * a base class for result sets.
@@ -29,7 +30,7 @@ import org.perfidix.Benchmark;
  * @author axo
  * @since 10.12.2005
  */
-public abstract class Result implements IResult {
+public abstract class AbstractResult {
 
     /**
      * if any result computation overflows (as can happen with the nanometer on
@@ -79,28 +80,28 @@ public abstract class Result implements IResult {
      * percent with the computations. so i changed this to use the simplistic
      * but redundant approach of enumerated elements.
      */
-    private transient double mean = Result.DOUBLE_NOVALUE;
+    private transient double mean = AbstractResult.DOUBLE_NOVALUE;
 
-    private transient double variance = Result.DOUBLE_NOVALUE;
+    private transient double variance = AbstractResult.DOUBLE_NOVALUE;
 
-    private transient long min = Result.INTEGER_NOVALUE;
+    private transient long min = AbstractResult.INTEGER_NOVALUE;
 
-    private transient long max = Result.INTEGER_NOVALUE;
+    private transient long max = AbstractResult.INTEGER_NOVALUE;
 
-    private transient long squareSum = Result.INTEGER_NOVALUE;
+    private transient long squareSum = AbstractResult.INTEGER_NOVALUE;
 
-    private transient double median = Result.INTEGER_NOVALUE;
+    private transient double median = AbstractResult.INTEGER_NOVALUE;
 
-    private transient double standardDeviation = Result.DOUBLE_NOVALUE;
+    private transient double standardDeviation = AbstractResult.DOUBLE_NOVALUE;
 
-    private transient long resultCount = Result.INTEGER_NOVALUE;
+    private transient long resultCount = AbstractResult.INTEGER_NOVALUE;
 
-    private transient long sum = Result.INTEGER_NOVALUE;
+    private transient long sum = AbstractResult.INTEGER_NOVALUE;
 
     /**
      * default constructor.
      */
-    public Result() {
+    public AbstractResult() {
         init();
     }
 
@@ -108,15 +109,15 @@ public abstract class Result implements IResult {
      * initializes itself. needed for the xstream loading.
      */
     protected final void init() {
-        resultCount = Result.INTEGER_NOVALUE;
-        sum = Result.INTEGER_NOVALUE;
-        standardDeviation = Result.DOUBLE_NOVALUE;
-        median = Result.INTEGER_NOVALUE;
-        squareSum = Result.INTEGER_NOVALUE;
-        max = Result.INTEGER_NOVALUE;
-        min = Result.INTEGER_NOVALUE;
-        variance = Result.DOUBLE_NOVALUE;
-        mean = Result.DOUBLE_NOVALUE;
+        resultCount = AbstractResult.INTEGER_NOVALUE;
+        sum = AbstractResult.INTEGER_NOVALUE;
+        standardDeviation = AbstractResult.DOUBLE_NOVALUE;
+        median = AbstractResult.INTEGER_NOVALUE;
+        squareSum = AbstractResult.INTEGER_NOVALUE;
+        max = AbstractResult.INTEGER_NOVALUE;
+        min = AbstractResult.INTEGER_NOVALUE;
+        variance = AbstractResult.DOUBLE_NOVALUE;
+        mean = AbstractResult.DOUBLE_NOVALUE;
 
     }
 
@@ -129,6 +130,20 @@ public abstract class Result implements IResult {
         this.init();
         return this;
     }
+
+    /**
+     * computes the default meter, which will be used as a reference when
+     * calling methods without the IMeter parameter.
+     * 
+     * @return the default meter
+     */
+    public abstract AbstractMeter getDefaultMeter();
+
+    /**
+     * @return the result set of a benchmark.
+     */
+
+    public abstract long getNumberOfRuns();
 
     /**
      * simple getter.
@@ -171,7 +186,7 @@ public abstract class Result implements IResult {
      * @return number of data fields.
      */
     public final long resultCount() {
-        if (resultCount != Result.INTEGER_NOVALUE) {
+        if (resultCount != AbstractResult.INTEGER_NOVALUE) {
             return resultCount;
         }
         resultCount = getResultSet().length;
@@ -186,7 +201,7 @@ public abstract class Result implements IResult {
      * @return the mean values.
      */
     public final double mean() {
-        if (mean != Result.DOUBLE_NOVALUE) {
+        if (mean != AbstractResult.DOUBLE_NOVALUE) {
             return mean;
         }
 
@@ -200,7 +215,7 @@ public abstract class Result implements IResult {
      * @return double
      */
     public final double variance() {
-        if (variance != Result.DOUBLE_NOVALUE) {
+        if (variance != AbstractResult.DOUBLE_NOVALUE) {
             return variance;
         }
         variance = computeVariance();
@@ -228,7 +243,7 @@ public abstract class Result implements IResult {
      */
     public final double median() {
 
-        if (median != Result.INTEGER_NOVALUE) {
+        if (median != AbstractResult.INTEGER_NOVALUE) {
             return median;
         }
         median = computeMedian(getResultSet());
@@ -241,7 +256,7 @@ public abstract class Result implements IResult {
      * @return the square sum.
      */
     public final long squareSum() {
-        if (squareSum != Result.INTEGER_NOVALUE) {
+        if (squareSum != AbstractResult.INTEGER_NOVALUE) {
             return squareSum;
         }
         squareSum = computeSquareSum(getResultSet());
@@ -254,7 +269,7 @@ public abstract class Result implements IResult {
      * @return the standard deviation
      */
     public final double getStandardDeviation() {
-        if (standardDeviation != Result.DOUBLE_NOVALUE) {
+        if (standardDeviation != AbstractResult.DOUBLE_NOVALUE) {
             return standardDeviation;
         }
         standardDeviation = computeStandardDeviation(getResultSet());
@@ -347,7 +362,7 @@ public abstract class Result implements IResult {
      * @return bla.
      */
     protected double computeConf99(final long[] resSet) {
-        return computeConf(Result.CONF99_FACTOR, resSet);
+        return computeConf(AbstractResult.CONF99_FACTOR, resSet);
     }
 
     /**
@@ -358,7 +373,7 @@ public abstract class Result implements IResult {
      * @return bla.
      */
     protected double computeConf95(final long[] resSet) {
-        return computeConf(Result.CONF95_FACTOR, resSet);
+        return computeConf(AbstractResult.CONF95_FACTOR, resSet);
     }
 
     private double computeConf(final double staticFactor, final long[] resSet) {
@@ -382,7 +397,7 @@ public abstract class Result implements IResult {
      * @return the sum of all runs.
      */
     public final long sum() {
-        if (sum != Result.INTEGER_NOVALUE) {
+        if (sum != AbstractResult.INTEGER_NOVALUE) {
             return sum;
         }
         sum = computeSum(getResultSet());
@@ -395,7 +410,7 @@ public abstract class Result implements IResult {
      * @return the minimum result value.
      */
     public long min() {
-        if (min != Result.INTEGER_NOVALUE) {
+        if (min != AbstractResult.INTEGER_NOVALUE) {
             return min;
         }
         min = computeMin(getResultSet());
@@ -429,7 +444,7 @@ public abstract class Result implements IResult {
      * @return the maximum runtime
      */
     public final long max() {
-        if (max != Result.INTEGER_NOVALUE) {
+        if (max != AbstractResult.INTEGER_NOVALUE) {
             return max;
         }
         max = computeMax(getResultSet());
@@ -551,7 +566,7 @@ public abstract class Result implements IResult {
      * @param r
      *            the result to compare with
      */
-    public final boolean equals(final Result r) {
+    public final boolean equals(final AbstractResult r) {
 
         if (!r.name.equals(this.name)) {
             return false;

@@ -23,7 +23,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.perfidix.annotation.Bench;
 import org.perfidix.meter.CountingMeter;
-import org.perfidix.result.IResult;
+import org.perfidix.result.AbstractResult;
 import org.perfidix.result.ResultToXml;
 
 /**
@@ -33,7 +33,7 @@ import org.perfidix.result.ResultToXml;
  */
 public class SaveResultTest extends PerfidixTest {
 
-    private IResult r;
+    private AbstractResult r;
 
     private CountingMeter theMeter;
 

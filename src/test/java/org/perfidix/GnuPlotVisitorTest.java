@@ -21,8 +21,8 @@ package org.perfidix;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.perfidix.result.AbstractResult;
 import org.perfidix.result.GnuPlotData;
-import org.perfidix.result.IResult;
 
 public class GnuPlotVisitorTest extends PerfidixTest {
 
@@ -40,7 +40,7 @@ public class GnuPlotVisitorTest extends PerfidixTest {
 
         Benchmark b = new Benchmark();
         b.add(new PerfidixTest.BenchmarkableTestingStub());
-        IResult r = b.run(100);
+        AbstractResult r = b.run(100);
         v.visit(r);
         System.out.println(v.toString());
 

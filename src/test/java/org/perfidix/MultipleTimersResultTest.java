@@ -32,9 +32,9 @@ import org.junit.Test;
 import org.perfidix.annotation.Bench;
 import org.perfidix.meter.AbstractMeter;
 import org.perfidix.meter.CountingMeter;
+import org.perfidix.result.AbstractResult;
 import org.perfidix.result.BenchmarkResult;
 import org.perfidix.result.ClassResult;
-import org.perfidix.result.IResult;
 import org.perfidix.result.MethodResult;
 import org.perfidix.result.ResultContainer;
 import org.perfidix.result.SingleResult;
@@ -69,7 +69,7 @@ public class MultipleTimersResultTest {
         MethodResult bla = new MethodResult("bla");
         bla.append(a);
         bla.append(b);
-        IResult cls = new ClassResult("class");
+        AbstractResult cls = new ClassResult("class");
         // cls.append(bla);
 
         String result = cls.toString();
@@ -200,7 +200,7 @@ public class MultipleTimersResultTest {
         SingleResult bResult = new SingleResult(new long[] { 17, 19 }, b);
         SingleResult cResult = new SingleResult(new long[] { 23, 29 }, a);
         SingleResult dResult = new SingleResult(new long[] { 31, 37 }, b);
-        IResult cls = new ClassResult("C");
+        AbstractResult cls = new ClassResult("C");
         BenchmarkResult full = new BenchmarkResult("Benchmark A");
 
         method1.append(bResult);

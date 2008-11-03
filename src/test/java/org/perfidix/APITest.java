@@ -25,10 +25,9 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 import org.perfidix.annotation.Bench;
-import org.perfidix.result.IResult;
+import org.perfidix.result.AbstractResult;
 import org.perfidix.result.MethodResult;
 import org.perfidix.result.NiceTable;
-import org.perfidix.result.Result;
 import org.perfidix.result.ResultContainer;
 import org.perfidix.result.SingleResult;
 
@@ -165,7 +164,7 @@ public class APITest extends PerfidixTest {
 
         FibTestClass ding = new FibTestClass();
         bm.add(ding);
-        IResult r = bm.run(5);
+        AbstractResult r = bm.run(5);
         getLog().info(r.toString());
     }
 
@@ -173,7 +172,7 @@ public class APITest extends PerfidixTest {
     public void testTheResult() {
 
         long[] testResultSet = { 1, 2, 3 };
-        Result res = Perfidix.createSingleResult(testResultSet);
+        AbstractResult res = Perfidix.createSingleResult(testResultSet);
         assertEquals(3l, res.resultCount());
         assertEquals(2.0, res.median(), 0);
         assertEquals(2.0, res.avg(), 0);
@@ -187,7 +186,7 @@ public class APITest extends PerfidixTest {
 
         long[] testResultSet = { 3, 4, 3, 5, 20, 50 };
         // sorted: 3,3,4,5,20,50
-        Result res =
+        AbstractResult res =
                 new SingleResult("test", testResultSet, Perfidix.defaultMeter());
         assertEquals(0.5 * (4.0 + 5.0), res.median(), 0);
     }
@@ -199,7 +198,7 @@ public class APITest extends PerfidixTest {
     public void testAvg() {
 
         long[] testResultSet = { 7, 8, 9, 1, 2, 3, 6, 5, 4 };
-        Result res =
+        AbstractResult res =
                 new SingleResult("test", testResultSet, Perfidix.defaultMeter());
         assertEquals(5.0, res.avg(), 0);
 
@@ -232,12 +231,12 @@ public class APITest extends PerfidixTest {
     public void testMinMax() {
 
         long[] testResultSet = { 1, 2, 3 };
-        Result res = Perfidix.createSingleResult(testResultSet);
+        AbstractResult res = Perfidix.createSingleResult(testResultSet);
         assertEquals(1l, res.min());
         assertEquals(3l, res.max());
 
         long[] trS = {};
-        Result rs = Perfidix.createSingleResult(trS);
+        AbstractResult rs = Perfidix.createSingleResult(trS);
         assertEquals(0l, rs.min());
         assertEquals(0l, rs.max());
 
@@ -247,14 +246,14 @@ public class APITest extends PerfidixTest {
     public void testVariance() {
 
         long[] r = { 45, 23, 55, 32, 51, 91, 74, 53, 70, 84 };
-        Result res = Perfidix.createSingleResult(r);
+        AbstractResult res = Perfidix.createSingleResult(r);
         assertEquals(57.8, res.mean(), 0);
         double resVariance = res.variance();
         assertEquals(
                 "expecting 479.333, but receiving " + resVariance,
                 479.7333333333, resVariance, PerfidixTest.EPSILON);
         long[] r2 = { 64, 75, 95, 56, 44, 130, 106, 80, 87, 115 };
-        Result res2 = Perfidix.createSingleResult(r2);
+        AbstractResult res2 = Perfidix.createSingleResult(r2);
         assertEquals(85.2, res2.mean(), 0);
         double res2Variance = res2.variance();
         double res2Expected = 728.62222222;
@@ -268,13 +267,13 @@ public class APITest extends PerfidixTest {
     public void testSquareSum() {
 
         long[] r = { 1, 2, 3 };
-        Result res = Perfidix.createSingleResult(r);
+        AbstractResult res = Perfidix.createSingleResult(r);
         assertEquals(14l, res.squareSum());
         assertEquals(0.81649, res.getStandardDeviation(), 0.0001);
         assertEquals(1.0, res.variance(), 0);
 
         long[] r2 = { 1, 2, 2, 3, 4, 4 };
-        Result ra = Perfidix.createSingleResult(r2);
+        AbstractResult ra = Perfidix.createSingleResult(r2);
         assertEquals(2.666666, ra.avg(), PerfidixTest.EPSILON);
         assertEquals(50l, ra.squareSum());
         assertEquals(2.50, ra.median(), PerfidixTest.EPSILON);
@@ -292,7 +291,7 @@ public class APITest extends PerfidixTest {
     public void testConfidence() {
 
         long[] r = { 1, 2, 3 };
-        Result res = Perfidix.createSingleResult(r);
+        AbstractResult res = Perfidix.createSingleResult(r);
 
         double a = res.getConf99();
         double b = res.getConf95();
