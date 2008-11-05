@@ -20,8 +20,6 @@
  */
 package org.perfidix.meter;
 
-import org.perfidix.Perfidix;
-
 /**
  * Meter to bench the amount of memory used by the current Benchmark. Please
  * note that the results of this meter can only be seen as an approximation.
@@ -34,15 +32,17 @@ import org.perfidix.Perfidix;
  */
 public final class MemMeter extends AbstractMeter {
 
-    private long memUsed;
+    private final static String DEFAULTNAME = "MemoryMeter";
+
+    private long memAlreadyUsed;
+    private long lastMemoryUsed;
 
     /**
      * Constructor.
      */
     public MemMeter() {
-        final Runtime rt = Runtime.getRuntime();
-        memUsed = (rt.totalMemory() - rt.freeMemory()) * -1;
-        rt.gc();
+        memAlreadyUsed = 0;
+        lastMemoryUsed = 0;
     }
 
     /**
@@ -53,7 +53,8 @@ public final class MemMeter extends AbstractMeter {
     enum Memory {
 
         /** Enums for different sizes. */
-        Byte("B", "byte"), KiloByte("K", "kilobyte"), MegaByte("M", "megabyte");
+        Byte("B", "byte", 1), KibiByte("KiB", "kibiByte", 1024), Mebibyte(
+                "MiB", "mebibyte", 1048576);
 
         /**
          * The unit of one size.
@@ -66,6 +67,11 @@ public final class MemMeter extends AbstractMeter {
         private final String unitDescription;
 
         /**
+         * Number of bytes.
+         */
+        private final int numberOfBytes;
+
+        /**
          * The constructor for the memory sizes.
          * 
          * @param paramUnit
@@ -73,9 +79,21 @@ public final class MemMeter extends AbstractMeter {
          * @param paramUnitDesc
          *            to give
          */
-        private Memory(final String paramUnit, final String paramUnitDesc) {
+        private Memory(
+                final String paramUnit, final String paramUnitDesc,
+                final int paramNumberOfBytes) {
             unit = paramUnit;
             unitDescription = paramUnitDesc;
+            numberOfBytes = paramNumberOfBytes;
+        }
+
+        /**
+         * Getting the number of bytes.
+         * 
+         * @return the number of bytes
+         */
+        int getNumberOfBytes() {
+            return numberOfBytes;
         }
 
         /**
@@ -92,33 +110,58 @@ public final class MemMeter extends AbstractMeter {
          * 
          * @return the full unitname
          */
-        String getUniDescription() {
+        String getUnitDescription() {
             return unitDescription;
         }
 
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public final String getUnit() {
-        return Perfidix.MEM_UNIT;
+        if (lastMemoryUsed > Memory.Mebibyte.getNumberOfBytes()) {
+            return Memory.Mebibyte.getUnit();
+        } else if (lastMemoryUsed > Memory.KibiByte.getNumberOfBytes()) {
+            return Memory.KibiByte.getUnit();
+        } else {
+            return Memory.Byte.getUnit();
+        }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public String getUnitDescription() {
-        return Perfidix.MEM_DESCRIPTION;
+    public final String getUnitDescription() {
+        if (lastMemoryUsed > Memory.Mebibyte.getNumberOfBytes()) {
+            return Memory.Mebibyte.getUnitDescription();
+        } else if (lastMemoryUsed > Memory.KibiByte.getNumberOfBytes()) {
+            return Memory.KibiByte.getUnitDescription();
+        } else {
+            return Memory.Byte.getUnitDescription();
+        }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public long getValue() {
+    public final long getValue() {
         final Runtime rt = Runtime.getRuntime();
-        memUsed += rt.totalMemory() - rt.freeMemory();
         rt.gc();
-        return memUsed;
+        lastMemoryUsed = rt.totalMemory() - rt.freeMemory();
+        memAlreadyUsed = memAlreadyUsed + lastMemoryUsed;
+        return memAlreadyUsed;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public String getName() {
-        return Perfidix.MEM_DESCRIPTION;
+    public final String getName() {
+        return MemMeter.DEFAULTNAME;
     }
 
 }
