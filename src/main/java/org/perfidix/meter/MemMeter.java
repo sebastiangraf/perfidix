@@ -22,26 +22,101 @@ package org.perfidix.meter;
 
 import org.perfidix.Perfidix;
 
-public class MemMeter extends AbstractMeter {
+/**
+ * Meter to bench the amount of memory used by the current Benchmark. Please
+ * note that the results of this meter can only be seen as an approximation.
+ * Because Perfidix-processes are influencing the used memory as well, a small
+ * increasment of used memory is normal. However, because being based only on
+ * the Runtime-class of Java, no extraction of the perfidix processes themselves
+ * is possible.
+ * 
+ * @author Sebastian Graf, University of Kontanz
+ */
+public final class MemMeter extends AbstractMeter {
 
-    public String getUnit() {
+    private long memUsed;
+
+    /**
+     * Constructor.
+     */
+    public MemMeter() {
+        final Runtime rt = Runtime.getRuntime();
+        memUsed = (rt.totalMemory() - rt.freeMemory()) * -1;
+        rt.gc();
+    }
+
+    /**
+     * Small enum to store the different kinds of memories.
+     * 
+     * @author Sebastian Graf, University of Konstanz
+     */
+    enum Memory {
+
+        /** Enums for different sizes. */
+        Byte("B", "byte"), KiloByte("K", "kilobyte"), MegaByte("M", "megabyte");
+
+        /**
+         * The unit of one size.
+         */
+        private final String unit;
+
+        /**
+         * The description of one size.
+         */
+        private final String unitDescription;
+
+        /**
+         * The constructor for the memory sizes.
+         * 
+         * @param paramUnit
+         *            to give
+         * @param paramUnitDesc
+         *            to give
+         */
+        private Memory(final String paramUnit, final String paramUnitDesc) {
+            unit = paramUnit;
+            unitDescription = paramUnitDesc;
+        }
+
+        /**
+         * Getting the unit.
+         * 
+         * @return the unit
+         */
+        String getUnit() {
+            return unit;
+        }
+
+        /**
+         * Getting the full unitname.
+         * 
+         * @return the full unitname
+         */
+        String getUniDescription() {
+            return unitDescription;
+        }
+
+    }
+
+    @Override
+    public final String getUnit() {
         return Perfidix.MEM_UNIT;
     }
 
+    @Override
     public String getUnitDescription() {
         return Perfidix.MEM_DESCRIPTION;
     }
 
+    @Override
     public long getValue() {
         final Runtime rt = Runtime.getRuntime();
-        final long mem = rt.totalMemory() - rt.freeMemory();
+        memUsed += rt.totalMemory() - rt.freeMemory();
         rt.gc();
-        return mem;
+        return memUsed;
     }
 
-    public void tick() {
-    }
-
+    @Override
     public String getName() {
         return Perfidix.MEM_DESCRIPTION;
     }

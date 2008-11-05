@@ -69,6 +69,7 @@ public class SingleResult extends AbstractResult {
      * 
      * @return the meter
      */
+    @Override
     public AbstractMeter getDefaultMeter() {
         return theMeter;
     }
@@ -147,6 +148,7 @@ public class SingleResult extends AbstractResult {
      * 
      * @see org.perfidix.result.IResult#getNumberOfRuns()
      */
+    @Override
     public long getNumberOfRuns() {
         // debug System.out.println(getName() + " # " + resultSet.length);
         // the result set does not contain the ignored runs.

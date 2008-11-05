@@ -731,12 +731,12 @@ public class Benchmark {
 
             int i = 0;
             for (final AbstractMeter meter : meters) {
-                if (meter instanceof MemMeter) {
-                    theResults[i][invocationID] = meter.getValue();
-                } else {
-                    theResults[i][invocationID] =
-                            meter.getValue() - theResults[i][invocationID];
-                }
+                // if (meter instanceof MemMeter) {
+                // theResults[i][invocationID] = meter.getValue();
+                // } else {
+                theResults[i][invocationID] =
+                        meter.getValue() - theResults[i][invocationID];
+                // }
 
                 i++;
             }

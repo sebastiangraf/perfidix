@@ -21,7 +21,10 @@
 package org.perfidix.meter;
 
 /**
- * @author axo
+ * This class acts as a basement for all upcoming time meters.
+ * 
+ * @author Alexander Onea, neue Couch
+ * @author Sebastian Graf, University of Konstanz
  */
 public abstract class AbsTimeMeter extends AbstractMeter {
 
@@ -41,16 +44,18 @@ public abstract class AbsTimeMeter extends AbstractMeter {
      */
     public abstract long getTime();
 
-    public String getName() {
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public final String getName() {
         return "time";
     }
 
     /**
-     * this is not a comment.
-     * 
-     * @see org.perfidix.meter.IMeter#getValue()
-     * @return the time elapsed.
+     * {@inheritDoc}
      */
+    @Override
     public final long getValue() {
         return getTime();
     }

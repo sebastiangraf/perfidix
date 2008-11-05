@@ -42,7 +42,7 @@ public class SaveResultTest extends PerfidixTest {
     public void setUp() throws Exception {
         super.setUp();
         Benchmark b = new Benchmark("my benchmark");
-        theMeter = Perfidix.createMeter("hello", "world");
+        theMeter = new CountingMeter("hello", "world");
         b.useNanoMeter();
         b.register(theMeter);
         // b.add(new A( new IMeter.NanoMeter() ));

@@ -21,24 +21,31 @@
 package org.perfidix.meter;
 
 /**
- * @author onea
+ * For benchmarking in a widen sense, several different meters should be
+ * implemented. The first one is obviously the time. Nevertheless, besides the
+ * time, other meters for special purposes can be implemented with this method.
+ * 
+ * @author Alexander Onea, neue Couch
+ * @author Sebastian Graf, University of Konstanz
  */
 public abstract class AbstractMeter {
 
     /**
+     * Getting the current value for this meter.
+     * 
      * @return the current tick value.
      */
     public abstract long getValue();
 
     /**
-     * returns the unit in which this measure taker computes its results.
+     * Returns the unit in which this measure taker computes its results.
      * 
-     * @return the unit.
+     * @return the unit of this meter
      */
     public abstract String getUnit();
 
     /**
-     * the long description of the unit. can be empty but if available, it
+     * The long description of the unit. can be empty but if available, it
      * should provide one or two words about the measure taker.
      * 
      * @return the long description of the unit in which measurement takes
@@ -47,11 +54,15 @@ public abstract class AbstractMeter {
     public abstract String getUnitDescription();
 
     /**
+     * A short name of the meter.
+     * 
      * @return the name.
      */
     public abstract String getName();
 
     /**
+     * The String representation of this meter with its current value.
+     * 
      * @return a string representation of this meter.
      */
     @Override

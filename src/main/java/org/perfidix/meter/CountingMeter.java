@@ -20,135 +20,143 @@
  */
 package org.perfidix.meter;
 
-import org.perfidix.Perfidix;
-
 /**
- * @author axo
+ * Simple meter to count given ticks. The ticks are not resetted afterwards, the
+ * counting always continues.
+ * 
+ * @author Alexander Onea, neue Couch
+ * @author Sebastian Graf, University of Konstanz
  */
-// TODO TAKE A LOOK ON IT, public set method into constructor?
-public class CountingMeter extends AbstractMeter {
-
-    private transient long counter;
-
-    private String name;
-
-    private String unit = Perfidix.DEFAULT_UNIT;
-
-    private String unitDescription = Perfidix.DEFAULT_DESCRIPTION;
+public final class CountingMeter extends AbstractMeter {
 
     /**
-     * this is not a comment.
+     * Constant to store the default name.
+     */
+    private static final String DEFAULTNAME = "counting meter";
+
+    /**
+     * Constant to store the default unit.
+     */
+    private static final String DEFAULTUNIT = "ticks";
+
+    /**
+     * Constant to store the default unit description.
+     */
+    private static final String DEFAULTUNITDESC = "Simple ticks which counts";
+
+    /**
+     * Counter for ticks.
+     */
+    private long counter;
+
+    /**
+     * Name for this counting meter.
+     */
+    private final String name;
+
+    /**
+     * Unit for this counting meter.
+     */
+    private final String unit;
+
+    /**
+     * Short description for the unit.
+     */
+    private final String unitDescription;
+
+    /**
+     * Constructor, generates a simple CountingMeter.
      */
     public CountingMeter() {
-        this(Perfidix.DEFAULT_COUNTER_INITVALUE);
+        this(DEFAULTNAME, DEFAULTUNIT, DEFAULTUNITDESC);
     }
 
     /**
-     * this is not a comment.
+     * Constructor with a given name.
      * 
-     * @param initialValue
-     *            the initial value
+     * @param paramName
+     *            the name of this CountingMeter
      */
-    CountingMeter(final int initialValue) {
-        this(Perfidix.DEFAULT_COUNTER_NAME, initialValue);
+    public CountingMeter(final String paramName) {
+        this(paramName, DEFAULTUNIT, DEFAULTUNITDESC);
     }
 
     /**
-     * this is not a comment.
+     * Constructor with a given name and a given unit.
      * 
-     * @param meterName
-     *            the name.
+     * @param paramName
+     *            the name of this CountingMeter
+     * @param paramUnit
+     *            the unit of this CountingMeter
      */
-    CountingMeter(final String meterName) {
-        this(meterName, Perfidix.DEFAULT_COUNTER_INITVALUE);
+    public CountingMeter(final String paramName, final String paramUnit) {
+        this(paramName, paramUnit, DEFAULTUNITDESC);
     }
 
     /**
-     * this is not a comment.
+     * Constructor with a given name and a given unit and a given unit
+     * description.
      * 
-     * @param meterName
-     *            the name.
-     * @param initialValue
-     *            the initial value
+     * @param paramName
+     *            the name of this CountingMeter
+     * @param paramUnit
+     *            the unit of this CountingMeter
+     * @param paramUnitDescription
+     *            the description of this CountingMeter
      */
-    public CountingMeter(final String meterName, final long initialValue) {
-        name = meterName;
-        counter = initialValue;
-    }
-
-    private Object readResolve() {
-        counter = Perfidix.DEFAULT_COUNTER_INITVALUE;
-        return this;
+    public CountingMeter(
+            final String paramName, final String paramUnit,
+            final String paramUnitDescription) {
+        name = paramName;
+        unit = paramUnit;
+        unitDescription = paramUnitDescription;
     }
 
     /**
-     * returns the name.
+     * Getting the name of this CountingMeter.
      * 
-     * @return name
+     * @return the name of this CountingMeter
      */
-    public String getName() {
+    @Override
+    public final String getName() {
         return name;
     }
 
     /**
-     * this is not a comment.
-     * 
-     * @see org.perfidix.meter.IMeter#tick()
+     * The meter is ticking one forward.
      */
     public final void tick() {
         counter++;
     }
 
     /**
-     * this is not a comment.
+     * Getting the value of this CountingMeter.
      * 
-     * @see org.perfidix.meter.IMeter#getValue()
      * @return the counter's value.
      */
-    public long getValue() {
+    @Override
+    public final long getValue() {
         return counter;
     }
 
     /**
-     * returns the measurement unit attached to this meter. set this up with
-     * setUnit()
+     * Getting the name of this CountingMeter.
      * 
-     * @see #setUnit
-     * @return the unit.
+     * @return the unit of this CountingMeter
      */
-    public String getUnit() {
+    @Override
+    public final String getUnit() {
         return unit;
     }
 
     /**
-     * returns the unit description which was previously set with
-     * setUnitDescription() .
+     * Getting the description of this CountingMeter.
      * 
-     * @see #setUnitDescription
-     * @return the unit description.
+     * @return the description of this CountingMeter
      */
-    public String getUnitDescription() {
+    @Override
+    public final String getUnitDescription() {
         return unitDescription;
-    }
-
-    /**
-     * sets the unit.
-     * 
-     * @param theUnit
-     *            a unit to use.
-     */
-    public void setUnit(final String theUnit) {
-        unit = theUnit;
-    }
-
-    /**
-     * sets the unit description.
-     * 
-     * @param theUnitDescription
-     *            as a simple string.
-     */
-    public void setUnitDescription(final String theUnitDescription) {
-        unitDescription = theUnitDescription;
     }
 
 }

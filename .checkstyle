@@ -6,5 +6,7 @@
     <fileset name="Alle" enabled="true" check-config-name="Disy Checks" local="true">
         <file-match-pattern match-pattern="." include-pattern="true"/>
     </fileset>
-    <filter name="NonSrcDirs" enabled="true"/>
+    <filter name="FilesFromPackage" enabled="true">
+        <filter-data value="src/main/java"/>
+    </filter>
 </fileset-config>

@@ -22,9 +22,7 @@ package org.perfidix;
 import java.util.TreeMap;
 
 import org.perfidix.meter.AbstractMeter;
-import org.perfidix.meter.CountingMeter;
 import org.perfidix.meter.MilliMeter;
-import org.perfidix.meter.NanoMeter;
 import org.perfidix.result.AbstractResult;
 import org.perfidix.result.SingleResult;
 
@@ -144,61 +142,6 @@ public final class Perfidix {
     }
 
     /**
-     * creates a meter.
-     * 
-     * @param meterName
-     *            the name of the meter.
-     * @param unit
-     *            the unit of that meter.
-     * @return the meter created - if the meter already exists, the existing one
-     *         will be returned.
-     */
-    public static CountingMeter createMeter(
-            final String meterName, final String unit) {
-        return Perfidix.createMeter(meterName, unit, 0, "");
-    }
-
-    /**
-     * helper method to create a counting meter.
-     * 
-     * @param meterName
-     *            the name of the meter
-     * @param unit
-     *            the unit of the meter
-     * @param initValue
-     *            the initial value
-     * @return
-     */
-    private static CountingMeter doCreateMeter(
-            final String meterName, final String unit, final int initValue) {
-        CountingMeter c = new CountingMeter(meterName, initValue);
-        c.setUnit(unit);
-        return c;
-    }
-
-    /**
-     * creates a meter with a given initial value.
-     * 
-     * @param meterName
-     *            the name of the meter.
-     * @param unit
-     *            the unit to use
-     * @param initialValue
-     *            the initial value of the meter. normally 0
-     * @param description
-     *            the description of the meter.
-     * @return an initialized custom meter.
-     */
-    public static CountingMeter createMeter(
-            final String meterName, final String unit, final int initialValue,
-            final String description) {
-        CountingMeter m = Perfidix.doCreateMeter(meterName, unit, initialValue);
-        m.setUnitDescription(description);
-        Perfidix.getInstance().meters.put(meterName, m);
-        return m;
-    }
-
-    /**
      * returns the meter assigned to by name. if the meter does not exist, it
      * will be created.
      * 
@@ -227,26 +170,6 @@ public final class Perfidix {
      */
     public static Benchmark createBenchmark() {
         return new Benchmark();
-    }
-
-    /**
-     * loads a meter from a given unit.
-     * 
-     * @param theUnit
-     *            string
-     * @return the IMeter
-     */
-    public static final AbstractMeter loadMeter(final String theUnit) {
-        String my = theUnit.toLowerCase();
-        if (my.equals(Perfidix.MSEC_UNIT)) {
-            return new MilliMeter();
-        }
-        if (my.equals(Perfidix.NANO_UNIT)) {
-            return new NanoMeter();
-        }
-        CountingMeter c = new CountingMeter();
-        c.setUnit(theUnit);
-        return c;
     }
 
     /**
