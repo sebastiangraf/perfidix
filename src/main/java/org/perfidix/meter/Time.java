@@ -20,7 +20,6 @@
  */
 package org.perfidix.meter;
 
-import java.math.BigDecimal;
 
 /**
  * Small enum to store different times.
@@ -28,14 +27,15 @@ import java.math.BigDecimal;
  * @author Sebastian Graf, University of Konstanz
  */
 public enum Time {
+    
     /** Enum for nano seconds. */
-    NanoSeconds("ns", "nano seconds", 1),
+    NanoSeconds("ns", "nano seconds", 0.000001),
     /** Enum for milli seconds. */
-    MilliSeconds("ms", "milli seconds", 1000000),
+    MilliSeconds("ms", "milli seconds", 1),
     /** Enum for seconds. */
-    Seconds("s", "second", 1000000000),
+    Seconds("s", "second", 1000),
     /** Enum for minutes. */
-    Minutes("min", "minutes", 60000000);
+    Minutes("min", "minutes", 60000);
     ;
 
     /**
@@ -51,7 +51,7 @@ public enum Time {
     /**
      * Number of bytes.
      */
-    private final BigDecimal numberOfMilliSeconds;
+    private final double numberOfMilliSeconds;
 
     /**
      * The constructor for the memory sizes.
@@ -63,10 +63,10 @@ public enum Time {
      */
     private Time(
             final String paramUnit, final String paramUnitDesc,
-            final long paramNumberOfMilliSeconds) {
+            final double paramNumberOfMilliSeconds) {
         unit = paramUnit;
         unitDescription = paramUnitDesc;
-        numberOfMilliSeconds = new BigDecimal(paramNumberOfMilliSeconds);
+        numberOfMilliSeconds = paramNumberOfMilliSeconds;
     }
 
     /**
@@ -74,7 +74,7 @@ public enum Time {
      * 
      * @return the number of milli seconds
      */
-    public BigDecimal getNumberOfMilliSeconds() {
+    public double getNumberOfMilliSeconds() {
         return numberOfMilliSeconds;
     }
 

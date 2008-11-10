@@ -26,8 +26,8 @@ import java.util.Iterator;
 import java.util.Set;
 
 import org.perfidix.Perfidix;
-import org.perfidix.meter.AbsTimeMeter;
 import org.perfidix.meter.AbstractMeter;
+import org.perfidix.meter.TimeMeter;
 import org.perfidix.visitor.ResultVisitor;
 
 /**
@@ -113,7 +113,7 @@ public abstract class ResultContainer<ResultType extends AbstractResult>
         if (!(res instanceof SingleResult)) {
             return false;
         }
-        if (((SingleResult) res).getMeter() instanceof AbsTimeMeter) {
+        if (((SingleResult) res).getMeter() instanceof TimeMeter) {
             return false;
         }
         return true;

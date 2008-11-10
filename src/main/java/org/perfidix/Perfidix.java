@@ -22,7 +22,8 @@ package org.perfidix;
 import java.util.TreeMap;
 
 import org.perfidix.meter.AbstractMeter;
-import org.perfidix.meter.MilliMeter;
+import org.perfidix.meter.Time;
+import org.perfidix.meter.TimeMeter;
 import org.perfidix.result.AbstractResult;
 import org.perfidix.result.SingleResult;
 
@@ -112,7 +113,8 @@ public final class Perfidix {
      */
     public static final int HASHCODE_PRIME = 37;
 
-    public static final AbstractMeter DEFAULTMETER = new MilliMeter();
+    public static final AbstractMeter DEFAULTMETER =
+            new TimeMeter(Time.MilliSeconds);
 
     /**
      * private constructor.
@@ -176,7 +178,7 @@ public final class Perfidix {
      * @return the default meter.
      */
     public static final AbstractMeter defaultMeter() {
-        return new MilliMeter();
+        return new TimeMeter(Time.MilliSeconds);
     }
 
     /**

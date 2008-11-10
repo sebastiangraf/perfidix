@@ -40,8 +40,8 @@ import org.perfidix.annotation.SkipBench;
 import org.perfidix.meter.AbstractMeter;
 import org.perfidix.meter.MemMeter;
 import org.perfidix.meter.Memory;
-import org.perfidix.meter.MilliMeter;
-import org.perfidix.meter.NanoMeter;
+import org.perfidix.meter.Time;
+import org.perfidix.meter.TimeMeter;
 import org.perfidix.result.AbstractResult;
 import org.perfidix.result.BenchmarkResult;
 import org.perfidix.result.ClassResult;
@@ -158,7 +158,7 @@ public class Benchmark {
     public Benchmark(final String theName, final boolean useMemMeter) {
         this.name = theName;
         children = new ArrayList<Object>();
-        meters.add(timeMeterIndex, new MilliMeter());
+        meters.add(timeMeterIndex, new TimeMeter(Time.MilliSeconds));
         if (useMemMeter) {
             meters.add(new MemMeter(Memory.Byte));
         }
@@ -612,7 +612,7 @@ public class Benchmark {
      * configures the benchmark to use the NanoTimer for time measurement.
      */
     public void useNanoMeter() {
-        meters.set(timeMeterIndex, new NanoMeter());
+        meters.set(timeMeterIndex, new TimeMeter(Time.NanoSeconds));
     }
 
     /**
@@ -620,7 +620,7 @@ public class Benchmark {
      * time measurement.
      */
     public void useMilliMeter() {
-        meters.set(timeMeterIndex, new MilliMeter());
+        meters.set(timeMeterIndex, new TimeMeter(Time.MilliSeconds));
     }
 
     /**
