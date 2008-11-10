@@ -39,6 +39,7 @@ import org.perfidix.annotation.BenchClass;
 import org.perfidix.annotation.SkipBench;
 import org.perfidix.meter.AbstractMeter;
 import org.perfidix.meter.MemMeter;
+import org.perfidix.meter.Memory;
 import org.perfidix.meter.MilliMeter;
 import org.perfidix.meter.NanoMeter;
 import org.perfidix.result.AbstractResult;
@@ -159,7 +160,7 @@ public class Benchmark {
         children = new ArrayList<Object>();
         meters.add(timeMeterIndex, new MilliMeter());
         if (useMemMeter) {
-            meters.add(new MemMeter());
+            meters.add(new MemMeter(Memory.Byte));
         }
     }
 

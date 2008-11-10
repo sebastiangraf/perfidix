@@ -32,116 +32,21 @@ package org.perfidix.meter;
  */
 public final class MemMeter extends AbstractMeter {
 
-    private final static String DEFAULTNAME = "MemoryMeter";
+    private static final String NAME = "MemMeter";
 
     private long memAlreadyUsed;
-    private long lastMemoryUsed;
+
+    private final Memory scale;
 
     /**
      * Constructor.
-     */
-    public MemMeter() {
-        memAlreadyUsed = 0;
-        lastMemoryUsed = 0;
-    }
-
-    /**
-     * Small enum to store the different kinds of memories.
      * 
-     * @author Sebastian Graf, University of Konstanz
+     * @param paramScale
+     *            scale for this meter, can be any instance of Memory-enum
      */
-    enum Memory {
-
-        /** Enums for different sizes. */
-        Byte("B", "byte", 1), KibiByte("KiB", "kibiByte", 1024), Mebibyte(
-                "MiB", "mebibyte", 1048576);
-
-        /**
-         * The unit of one size.
-         */
-        private final String unit;
-
-        /**
-         * The description of one size.
-         */
-        private final String unitDescription;
-
-        /**
-         * Number of bytes.
-         */
-        private final int numberOfBytes;
-
-        /**
-         * The constructor for the memory sizes.
-         * 
-         * @param paramUnit
-         *            to give
-         * @param paramUnitDesc
-         *            to give
-         */
-        private Memory(
-                final String paramUnit, final String paramUnitDesc,
-                final int paramNumberOfBytes) {
-            unit = paramUnit;
-            unitDescription = paramUnitDesc;
-            numberOfBytes = paramNumberOfBytes;
-        }
-
-        /**
-         * Getting the number of bytes.
-         * 
-         * @return the number of bytes
-         */
-        int getNumberOfBytes() {
-            return numberOfBytes;
-        }
-
-        /**
-         * Getting the unit.
-         * 
-         * @return the unit
-         */
-        String getUnit() {
-            return unit;
-        }
-
-        /**
-         * Getting the full unitname.
-         * 
-         * @return the full unitname
-         */
-        String getUnitDescription() {
-            return unitDescription;
-        }
-
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public final String getUnit() {
-        if (lastMemoryUsed > Memory.Mebibyte.getNumberOfBytes()) {
-            return Memory.Mebibyte.getUnit();
-        } else if (lastMemoryUsed > Memory.KibiByte.getNumberOfBytes()) {
-            return Memory.KibiByte.getUnit();
-        } else {
-            return Memory.Byte.getUnit();
-        }
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public final String getUnitDescription() {
-        if (lastMemoryUsed > Memory.Mebibyte.getNumberOfBytes()) {
-            return Memory.Mebibyte.getUnitDescription();
-        } else if (lastMemoryUsed > Memory.KibiByte.getNumberOfBytes()) {
-            return Memory.KibiByte.getUnitDescription();
-        } else {
-            return Memory.Byte.getUnitDescription();
-        }
+    public MemMeter(final Memory paramScale) {
+        memAlreadyUsed = 0;
+        this.scale = paramScale;
     }
 
     /**
@@ -151,17 +56,26 @@ public final class MemMeter extends AbstractMeter {
     public final long getValue() {
         final Runtime rt = Runtime.getRuntime();
         rt.gc();
-        lastMemoryUsed = rt.totalMemory() - rt.freeMemory();
-        memAlreadyUsed = memAlreadyUsed + lastMemoryUsed;
-        return memAlreadyUsed;
+        memAlreadyUsed = memAlreadyUsed + rt.totalMemory() - rt.freeMemory();
+        return Math.round(memAlreadyUsed / scale.getNumberOfBytes());
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
-    public final String getName() {
-        return MemMeter.DEFAULTNAME;
+    public String getName() {
+        return NAME;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public String getUnit() {
+        return scale.getUnit();
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public String getUnitDescription() {
+        return scale.getUnitDescription();
     }
 
 }

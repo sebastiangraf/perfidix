@@ -22,16 +22,10 @@ package org.perfidix.meter;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-
-import java.util.Collection;
-import java.util.Random;
-import java.util.Vector;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.perfidix.meter.MemMeter.Memory;
 
 /**
  * Testcase for MemMeter.
@@ -51,9 +45,19 @@ public class MemMeterTest {
     private static final double SIZEFAKTOR = 3;
 
     /**
-     * Meter variable.
+     * Byte meter variable.
      */
-    private MemMeter meter;
+    private MemMeter byteMeter;
+
+    /**
+     * KibiByte meter variable.
+     */
+    private MemMeter kibiByteMeter;
+
+    /**
+     * MebiByte meter variable.
+     */
+    private MemMeter mebiByteMeter;
 
     /**
      * Simple setUp.
@@ -63,7 +67,9 @@ public class MemMeterTest {
      */
     @Before
     public final void setUp() throws Exception {
-        meter = new MemMeter();
+        byteMeter = new MemMeter(Memory.Byte);
+        kibiByteMeter = new MemMeter(Memory.KibiByte);
+        mebiByteMeter = new MemMeter(Memory.Mebibyte);
     }
 
     /**
@@ -74,7 +80,9 @@ public class MemMeterTest {
      */
     @After
     public final void tearDown() throws Exception {
-        meter = null;
+        byteMeter = null;
+        kibiByteMeter = null;
+        mebiByteMeter = null;
     }
 
     /**
@@ -82,41 +90,39 @@ public class MemMeterTest {
      */
     @Test
     public final void testGetValue() {
-        final long value = meter.getValue();
-        if (value < 0) {
-            fail("Meter should be greater than 0 at the beginning");
-        } else {
-            final long value2 = meter.getValue() - value;
-            if (Math.abs(value2 - value) > EPSILON) {
-                fail("Difference "
-                        + Math.abs(value2 - value)
-                        + " bigger and therefore bigger than EPSILON.");
-            }
-        }
+        final long dataB1 = byteMeter.getValue();
+        final long dataKB1 = kibiByteMeter.getValue();
+        final long dataMB1 = mebiByteMeter.getValue();
+
+        assertTrue(dataB1 >= (Math.round(EPSILON
+                / Memory.KibiByte.getNumberOfBytes())));
+        assertTrue(dataKB1 >= (Math.round(EPSILON
+                / Memory.KibiByte.getNumberOfBytes())));
+        assertTrue(dataMB1 >= (Math.round(EPSILON
+                / Memory.Mebibyte.getNumberOfBytes())));
     }
 
     /**
-     * Test method for {@link org.perfidix.meter.MemMeter#getUnit()} and
-     * {@link org.perfidix.meter.MemMeter#getUnitDescription()}.
+     * Test method for {@link org.perfidix.meter.MemMeter#getUnit()}.
      */
     @Test
-    public final void testGetUnitAndDescription() {
-        final Collection<Long> datas = new Vector<Long>(0);
-        final long dataB1 = meter.getValue();
-        final long dataB2 = meter.getValue() - dataB1;
-        assertTrue(Math.abs(dataB2 - dataB1) < Memory.Mebibyte
-                .getNumberOfBytes());
-        assertEquals(Memory.KibiByte.getUnit(), meter.getUnit());
-        assertEquals(Memory.KibiByte.getUnitDescription(), meter
+    public final void testGetUnit() {
+        assertEquals(Memory.Byte.getUnit(), byteMeter.getUnit());
+        assertEquals(Memory.KibiByte.getUnit(), kibiByteMeter.getUnit());
+        assertEquals(Memory.Mebibyte.getUnit(), mebiByteMeter.getUnit());
+    }
+
+    /**
+     * Test method for {@link org.perfidix.meter.MemMeter#getUnitDescription()}.
+     */
+    @Test
+    public final void testGetDescription() {
+        assertEquals(Memory.Byte.getUnitDescription(), byteMeter
                 .getUnitDescription());
-        for (int i = 0; i < EPSILON * SIZEFAKTOR; i++) {
-            datas.add(new Random().nextLong());
-        }
-        final long dataB3 = meter.getValue() - dataB2;
-        assertTrue(Math.abs(dataB3 - dataB2) >= Memory.Mebibyte
-                .getNumberOfBytes());
-        assertEquals(Memory.Mebibyte.getUnit(), meter.getUnit());
-        assertEquals(Memory.Mebibyte.getUnitDescription(), meter
+        assertEquals(Memory.KibiByte.getUnitDescription(), kibiByteMeter
                 .getUnitDescription());
+        assertEquals(Memory.Mebibyte.getUnitDescription(), mebiByteMeter
+                .getUnitDescription());
+
     }
 }
