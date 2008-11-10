@@ -42,7 +42,7 @@ public final class CountingMeter extends AbstractMeter {
     /**
      * Constant to store the default unit description.
      */
-    private static final String DEFAULTUNITDESC = "Simple ticks which counts";
+    private static final String DEFAULTUNITDESC = "Simple ticks for counting";
 
     /**
      * Counter for ticks.

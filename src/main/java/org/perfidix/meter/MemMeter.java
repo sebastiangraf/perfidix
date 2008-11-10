@@ -26,9 +26,12 @@ package org.perfidix.meter;
  * Because Perfidix-processes are influencing the used memory as well, a small
  * increasment of used memory is normal. However, because being based only on
  * the Runtime-class of Java, no extraction of the perfidix processes themselves
- * is possible.
+ * is possible. The MemMeter is only usable with an instance of the
+ * <code>Memory</code> enumeration for formatting purposes. This choose must be
+ * made by instantiation of the meter.
  * 
- * @author Sebastian Graf, University of Kontanz
+ * @see Memory
+ * @author Sebastian Graf, University of Konstanz
  */
 public final class MemMeter extends AbstractMeter {
 
