@@ -20,34 +20,38 @@
  */
 package org.perfidix.meter;
 
+import java.math.BigDecimal;
+
 /**
- * Small enum to store the different kinds of memories.
+ * Small enum to store different times.
  * 
  * @author Sebastian Graf, University of Konstanz
  */
-public enum Memory {
-
-    /** Enum for byte. */
-    Byte("B", "byte", 1),
-    /** Enum for KibiByte. */
-    KibiByte("KiB", "kibiByte", 1024),
-    /** Enum for MebiByte. */
-    Mebibyte("MiB", "mebibyte", 1048576);
+public enum Time {
+    /** Enum for nano seconds. */
+    NanoSeconds("ns", "nano seconds", 1),
+    /** Enum for milli seconds. */
+    MilliSeconds("ms", "milli seconds", 1000000),
+    /** Enum for seconds. */
+    Seconds("s", "second", 1000000000),
+    /** Enum for minutes. */
+    Minutes("min", "minutes", 60000000);
+    ;
 
     /**
-     * The unit of one size.
+     * The unit of the time.
      */
     private final String unit;
 
     /**
-     * The description of one size.
+     * The description of the time.
      */
     private final String unitDescription;
 
     /**
      * Number of bytes.
      */
-    private final double numberOfBytes;
+    private final BigDecimal numberOfMilliSeconds;
 
     /**
      * The constructor for the memory sizes.
@@ -57,21 +61,21 @@ public enum Memory {
      * @param paramUnitDesc
      *            to give
      */
-    private Memory(
+    private Time(
             final String paramUnit, final String paramUnitDesc,
-            final int paramNumberOfBytes) {
+            final long paramNumberOfMilliSeconds) {
         unit = paramUnit;
         unitDescription = paramUnitDesc;
-        numberOfBytes = paramNumberOfBytes;
+        numberOfMilliSeconds = new BigDecimal(paramNumberOfMilliSeconds);
     }
 
     /**
-     * Getting the number of bytes.
+     * Getting the number of milli seconds.
      * 
-     * @return the number of bytes
+     * @return the number of milli seconds
      */
-    public double getNumberOfBytes() {
-        return numberOfBytes;
+    public BigDecimal getNumberOfMilliSeconds() {
+        return numberOfMilliSeconds;
     }
 
     /**

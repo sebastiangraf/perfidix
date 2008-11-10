@@ -28,7 +28,8 @@ public class EmptyMedianTest extends PerfidixTest {
 
     @Test
     public void testMedian() {
-        AbstractResult r = Perfidix.createSingleResult("hello world", new long[] {});
+        AbstractResult r =
+                Perfidix.createSingleResult("hello world", new double[] {});
         assertEquals(0.0, r.median(), 0);
     }
 

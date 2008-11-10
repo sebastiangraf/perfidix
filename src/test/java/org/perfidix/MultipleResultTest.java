@@ -37,19 +37,19 @@ public class MultipleResultTest extends PerfidixTest {
     @Test
     public void testCalc() {
 
-        long[] r1Set = { 1, 2, 3 };
-        long[] r2Set = { 4, 5, 6 };
+        double[] r1Set = { 1, 2, 3 };
+        double[] r2Set = { 4, 5, 6 };
 
         SingleResult r1 = Perfidix.createSingleResult(r1Set);
         SingleResult r2 = Perfidix.createSingleResult(r2Set);
         assertEquals(2.0, r1.avg(), 0);
         assertEquals(5.0, r2.avg(), 0);
-        assertEquals(1l, r1.min());
-        assertEquals(4l, r2.min());
-        assertEquals(3l, r1.max());
-        assertEquals(6l, r2.max());
-        assertEquals(3l, r2.resultCount());
-        assertEquals(3l, r1.resultCount());
+        assertEquals(1.0, r1.min(), 0);
+        assertEquals(4.0, r2.min(), 0);
+        assertEquals(3.0, r1.max(), 0);
+        assertEquals(6.0, r2.max(), 0);
+        assertEquals(3, r2.resultCount());
+        assertEquals(3, r1.resultCount());
         assertEquals(2.0, r1.median(), 0);
         assertEquals(5.0, r2.median(), 0);
 
@@ -57,11 +57,11 @@ public class MultipleResultTest extends PerfidixTest {
                 new MethodResult("*** testing container ***");
         res.append(r1);
         res.append(r2);
-        assertEquals(2l, res.resultCount());
-        assertEquals(21l, res.sum());
+        assertEquals(2, res.resultCount());
+        assertEquals(21, res.sum());
         assertEquals(21.0 / 2.0, res.avg(), 0);
-        assertEquals(6l, res.min());
-        assertEquals(15l, res.max());
+        assertEquals(6, res.min(), PerfidixTest.EPSILON);
+        assertEquals(15, res.max(), PerfidixTest.EPSILON);
         assertEquals(10.5, res.median(), 0);
 
     }
@@ -70,7 +70,7 @@ public class MultipleResultTest extends PerfidixTest {
     public void testCalcTwo() {
 
         SingleResult r =
-                Perfidix.createSingleResult("just another test", new long[] {
+                Perfidix.createSingleResult("just another test", new double[] {
                         5, 6, 8, 9 });
 
         getLog().info("standardDeviation(): " + r.getStandardDeviation());

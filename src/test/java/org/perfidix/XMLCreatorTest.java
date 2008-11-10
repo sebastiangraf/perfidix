@@ -24,8 +24,8 @@ import java.util.List;
 import org.dom4j.Document;
 import org.junit.Before;
 import org.junit.Test;
-import org.perfidix.result.MethodResult;
 import org.perfidix.result.AbstractResult;
+import org.perfidix.result.MethodResult;
 import org.perfidix.result.ResultContainer;
 import org.perfidix.visitor.ResultToXml;
 
@@ -41,7 +41,7 @@ public class XMLCreatorTest extends PerfidixTest {
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        long[] simpleData = { 1, 2, 3 };
+        double[] simpleData = { 1, 2, 3 };
         v = new ResultToXml("output.xml");
         s = Perfidix.createSingleResult("singleResult", simpleData);
         rc = new MethodResult("testname");

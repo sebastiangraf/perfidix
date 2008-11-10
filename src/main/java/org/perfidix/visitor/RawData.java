@@ -82,7 +82,7 @@ public class RawData extends ResultVisitor {
                 } else {
                     timeOut = new FileWriter(currentFile, false);
                 }
-                final long data[] = result.getResultSet();
+                final double data[] = result.getResultSet();
                 for (int i = 0; i < data.length; i++) {
                     if (i == data.length - 1) {
                         timeOut.write(data[i] + " ");

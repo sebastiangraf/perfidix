@@ -20,6 +20,7 @@
  */
 package org.perfidix.meter;
 
+
 /**
  * For benchmarking in a widen sense, several different meters should be
  * implemented. The first one is obviously the time. Nevertheless, besides the
@@ -35,7 +36,7 @@ public abstract class AbstractMeter {
      * 
      * @return the current tick value.
      */
-    public abstract long getValue();
+    public abstract double getValue();
 
     /**
      * Returns the unit in which this measure taker computes its results.

@@ -99,7 +99,7 @@ public class NiceTable {
      * constructor. needs the number of columns to show.
      * 
      * @param numberOfColumns
-     *                the number of columns to display.
+     *            the number of columns to display.
      */
     public NiceTable(final int numberOfColumns) {
 
@@ -112,7 +112,7 @@ public class NiceTable {
      * returns the orientation of a column.
      * 
      * @param columnIndex
-     *                integer
+     *            integer
      */
     private int getOrientation(final int columnIndex) {
 
@@ -125,9 +125,9 @@ public class NiceTable {
      * the correct column index.
      * 
      * @param columnIndex
-     *                integer
+     *            integer
      * @param orientation
-     *                the orientation of the row content.
+     *            the orientation of the row content.
      */
     public void setOrientation(final int columnIndex, final int orientation) {
 
@@ -149,7 +149,7 @@ public class NiceTable {
      * returns the global column width at index columnIndex.
      * 
      * @param columnIndex
-     *                the index of the column for which to fetch the width.
+     *            the index of the column for which to fetch the width.
      * @return the width (in number of chars) for the column index.
      */
     private int getColumnWidth(final int columnIndex) {
@@ -195,7 +195,7 @@ public class NiceTable {
      * adds a header.
      * 
      * @param title
-     *                the text to display within the header
+     *            the text to display within the header
      */
     public void addHeader(final String title) {
 
@@ -213,11 +213,11 @@ public class NiceTable {
      * </pre>
      * 
      * @param title
-     *                the string to display as a header
+     *            the string to display as a header
      * @param mark
-     *                the mark to use for the rest of the column
+     *            the mark to use for the rest of the column
      * @param orientation
-     *                the orientation of the header column.
+     *            the orientation of the header column.
      */
     public void addHeader(
             final String title, final char mark, final int orientation) {
@@ -230,7 +230,7 @@ public class NiceTable {
      * adds the data as contents of a new row.
      * 
      * @param data
-     *                the data to add.
+     *            the data to add.
      */
     public void addRow(final Object[] data) {
         Row myRow = new Row(numColumns, this);
@@ -242,7 +242,7 @@ public class NiceTable {
      * tests whether any string contains a newline symbol.
      * 
      * @param data
-     *                the array to check.
+     *            the array to check.
      * @return whether any of the strings contains a newline symbol.
      */
     public boolean anyStringContainsNewLine(final String[] data) {
@@ -260,7 +260,7 @@ public class NiceTable {
      * because if so, it has to split them in order to make them fit the row.
      * 
      * @param data
-     *                the array of data.
+     *            the array of data.
      */
     public void addRow(final String[] data) {
         if (anyStringContainsNewLine(data)) {
@@ -281,7 +281,7 @@ public class NiceTable {
      * table.
      * 
      * @param fill
-     *                any character with which to draw the line.
+     *            any character with which to draw the line.
      */
     public void addLine(final char fill) {
 
@@ -292,7 +292,7 @@ public class NiceTable {
      * allows the setting of other data than Objects.
      * 
      * @param data
-     *                the data to display.
+     *            the data to display.
      */
     public void addRow(final long[] data) {
 
@@ -305,7 +305,7 @@ public class NiceTable {
      * adds a row with data in it.
      * 
      * @param data
-     *                the data to display.
+     *            the data to display.
      */
     public void addRow(final double[] data) {
 
@@ -355,9 +355,9 @@ public class NiceTable {
     }
 
     /**
-     * a header row is like a
-     * <th> element in HTML with colspan = totalNumberOfColumns. since we cannot
-     * do colspan right now, we'll have to make it some other way.
+     * a header row is like a <th>element in HTML with colspan =
+     * totalNumberOfColumns. since we cannot do colspan right now, we'll have to
+     * make it some other way.
      * 
      * @author axo
      * @since 21.10.2005
@@ -376,13 +376,13 @@ public class NiceTable {
          * the constructor.
          * 
          * @param contentToDisplay
-         *                the string to be present in the header row.
+         *            the string to be present in the header row.
          * @param theEnclosing
-         *                a char filling up the rest of the row.
+         *            a char filling up the rest of the row.
          * @param theOrientation
-         *                the orientation of the text
+         *            the orientation of the text
          * @param theTable
-         *                the parent table.
+         *            the parent table.
          */
         private Header(
                 final String contentToDisplay, final char theEnclosing,
@@ -483,7 +483,7 @@ public class NiceTable {
         /**
          * @param numberOfColumns
          * @param myParent
-         *                the parent pointer.
+         *            the parent pointer.
          */
         private Row(final int numberOfColumns, final NiceTable myParent) {
 
@@ -509,7 +509,7 @@ public class NiceTable {
          * has to have the same size as the available columns.
          * 
          * @param d
-         *                the data
+         *            the data
          */
         public final void setColumnData(final Object[] d) {
 
@@ -530,7 +530,7 @@ public class NiceTable {
          * tell me if there's a better way to do this.
          * 
          * @param d
-         *                the data
+         *            the data
          */
         public final void setColumnData(final double[] d) {
 
@@ -547,7 +547,7 @@ public class NiceTable {
          * now, and it works.
          * 
          * @param d
-         *                the data
+         *            the data
          */
         public final void setColumnData(final long[] d) {
 
@@ -627,13 +627,13 @@ public class NiceTable {
          * 
          * @return padded string
          * @param doPadWithThis
-         *                the string to pad the string with
+         *            the string to pad the string with
          * @param data
-         *                the data to pad
+         *            the data to pad
          * @param orientation
-         *                which orientation to take
+         *            which orientation to take
          * @param totalWidth
-         *                the total width of the result string
+         *            the total width of the result string
          */
         public static String pad(
                 final String data, final char doPadWithThis,
@@ -655,17 +655,16 @@ public class NiceTable {
          * concantenate a String array "what" with glue "glue".
          * 
          * @param what
-         *                the array of strings to concantenate
+         *            the array of strings to concantenate
          * @param glue
-         *                the glue string to use.
+         *            the glue string to use.
          * 
-         * <pre>
+         *            <pre>
          * String[] what = { &quot;a&quot;, &quot;b&quot;, &quot;c&quot; };
          * 
          * String s = Util.implode(&quot;-&quot;, what);
          * //result is &quot;a-b-c&quot;
          * </pre>
-         * 
          * @return String
          */
         public static String implode(final String glue, final String[] what) {
@@ -682,9 +681,9 @@ public class NiceTable {
 
         /**
          * @param glue
-         *                glue
+         *            glue
          * @param what
-         *                the list to print.
+         *            the list to print.
          * @return string.
          */
         public static String implode(final String glue, final ArrayList what) {
@@ -697,9 +696,9 @@ public class NiceTable {
 
         /**
          * @param glue
-         *                the string to implode with
+         *            the string to implode with
          * @param what
-         *                the object array to display.
+         *            the object array to display.
          * @return string.
          */
         public static String implode(final String glue, final Method[] what) {
@@ -714,9 +713,9 @@ public class NiceTable {
          * a str_repeat function.
          * 
          * @param s
-         *                the string to repeat
+         *            the string to repeat
          * @param numTimes
-         *                how many times to concantenate the string
+         *            how many times to concantenate the string
          * @return the repeated string.
          */
         public static String repeat(final String s, final int numTimes) {
@@ -734,12 +733,12 @@ public class NiceTable {
          * factored out in no time.
          * 
          * @param glue
-         *                bla
+         *            bla
          * @param what
-         *                bla
+         *            bla
          * @return the result
          */
-        public static String implode(final String glue, final long[] what) {
+        public static String implode(final String glue, final double[] what) {
 
             String s = "";
             for (int i = 0; i < what.length; i++) {
@@ -756,9 +755,9 @@ public class NiceTable {
          * 
          * @return an array
          * @param ch
-         *                bla
+         *            bla
          * @param s
-         *                bla
+         *            bla
          */
         public static String[] explode(final char ch, final String s) {
             return s.split("\\" + ch);
@@ -768,7 +767,7 @@ public class NiceTable {
          * returns how many new lines are in the string.
          * 
          * @param s
-         *                the string to look upon.
+         *            the string to look upon.
          * @return the number of occurences of NEWLINE in the string.
          */
         public static int numNewLines(final String s) {
@@ -797,7 +796,7 @@ public class NiceTable {
          * 
          * @return the matrix.
          * @param data
-         *                an array of row data
+         *            an array of row data
          */
         public static String[][] createMatrix(final String[] data) {
             int maxNewLines = 0;
@@ -823,7 +822,7 @@ public class NiceTable {
      * different contexts.
      * 
      * @param c
-     *                the border string.
+     *            the border string.
      */
     public void setColumnDelimiter(final String c) {
         theBORDER = c;

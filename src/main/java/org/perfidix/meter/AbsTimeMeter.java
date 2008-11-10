@@ -20,6 +20,7 @@
  */
 package org.perfidix.meter;
 
+
 /**
  * This class acts as a basement for all upcoming time meters.
  * 
@@ -56,7 +57,7 @@ public abstract class AbsTimeMeter extends AbstractMeter {
      * {@inheritDoc}
      */
     @Override
-    public final long getValue() {
+    public final double getValue() {
         return getTime();
     }
 

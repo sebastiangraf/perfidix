@@ -31,19 +31,20 @@ public class SortingTest extends PerfidixTest {
 
     @Test
     public void testSortingValuesReturnsSame() {
-        long data[] = { 3, 2, 1, 4 };
+        double data[] = { 3, 2, 1, 4 };
         SingleResult r = new SingleResult(data);
         r.min(); // run once to invoke sorting.
-        assertEquals("3214", NiceTable.Util.implode("", r.getResultSet()));
+        assertEquals("3.02.01.04.0", NiceTable.Util.implode("", r
+                .getResultSet()));
     }
 
     @Test
     public void testCopy() {
-        long a[] = { 3, 2, 4 };
-        long b[] = a.clone();
+        double a[] = { 3, 2, 4 };
+        double b[] = a.clone();
         assertEquals(3, b.length);
         Arrays.sort(a);
-        assertEquals("324", NiceTable.Util.implode("", b));
+        assertEquals("3.02.04.0", NiceTable.Util.implode("", b));
     }
 
 }

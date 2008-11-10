@@ -37,7 +37,7 @@ public class MemMeterTest {
     /**
      * Constant for epsilon for testCases. Memory can change...
      */
-    private static final double EPSILON = 16384d;
+    private static final double EPSILON = 16384;
 
     /**
      * Byte meter variable.
@@ -85,16 +85,13 @@ public class MemMeterTest {
      */
     @Test
     public final void testGetValue() {
-        final long dataB1 = byteMeter.getValue();
-        final long dataKB1 = kibiByteMeter.getValue();
-        final long dataMB1 = mebiByteMeter.getValue();
+        final double dataB1 = byteMeter.getValue();
+        final double dataKB1 = kibiByteMeter.getValue();
+        final double dataMB1 = mebiByteMeter.getValue();
 
-        assertTrue(dataB1 >= (Math.round(EPSILON
-                / Memory.KibiByte.getNumberOfBytes())));
-        assertTrue(dataKB1 >= (Math.round(EPSILON
-                / Memory.KibiByte.getNumberOfBytes())));
-        assertTrue(dataMB1 >= (Math.round(EPSILON
-                / Memory.Mebibyte.getNumberOfBytes())));
+        assertTrue(dataB1 > EPSILON / Memory.Byte.getNumberOfBytes());
+        assertTrue(dataKB1 > EPSILON / Memory.KibiByte.getNumberOfBytes());
+        assertTrue(dataMB1 > EPSILON / Memory.Mebibyte.getNumberOfBytes());
     }
 
     /**

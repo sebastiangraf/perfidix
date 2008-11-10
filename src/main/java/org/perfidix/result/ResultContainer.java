@@ -40,7 +40,8 @@ import org.perfidix.visitor.ResultVisitor;
  * @param <ResultType>
  *            the type of the children.
  */
-public abstract class ResultContainer<ResultType extends AbstractResult> extends AbstractResult {
+public abstract class ResultContainer<ResultType extends AbstractResult>
+        extends AbstractResult {
 
     private ArrayList<ResultType> children = new ArrayList<ResultType>();
 
@@ -125,9 +126,9 @@ public abstract class ResultContainer<ResultType extends AbstractResult> extends
      * @return the result set.
      */
     @Override
-    public long[] getResultSet() {
+    public double[] getResultSet() {
         int resultLength = children.size();
-        long[] theResult = new long[resultLength];
+        double[] theResult = new double[resultLength];
         for (int i = 0; i < resultLength; i++) {
             theResult[i] = children.get(i).sum();
         }
@@ -139,7 +140,7 @@ public abstract class ResultContainer<ResultType extends AbstractResult> extends
      *            the unique identifier for the meter involved.
      * @return the maximum value.
      */
-    public long max(final AbstractMeter meterName) {
+    public double max(final AbstractMeter meterName) {
         return computeMax(getResultSet(meterName));
     }
 
@@ -148,12 +149,12 @@ public abstract class ResultContainer<ResultType extends AbstractResult> extends
      *            the meter to fetch the result set for.
      * @return the result set allocated to the meter.
      */
-    private long[] getResultSet(final AbstractMeter m) {
+    private double[] getResultSet(final AbstractMeter m) {
         if (null == m) {
-            return new long[] {};
+            return new double[] {};
         }
         ArrayList<SingleResult> theSingleResults = getSingleResultsFor(m);
-        long[] theResult = new long[theSingleResults.size()];
+        double[] theResult = new double[theSingleResults.size()];
         for (int i = 0; i < theSingleResults.size(); i++) {
             theResult[i] = theSingleResults.get(i).sum();
         }
@@ -217,7 +218,7 @@ public abstract class ResultContainer<ResultType extends AbstractResult> extends
      *            the meter which is used.
      * @return the minimum value.
      */
-    public long min(final AbstractMeter m) {
+    public double min(final AbstractMeter m) {
         return computeMin(getResultSet(m));
     }
 
@@ -362,6 +363,7 @@ public abstract class ResultContainer<ResultType extends AbstractResult> extends
     /**
      * {@inheritDoc}
      */
+    @Override
     public AbstractMeter getDefaultMeter() {
         final Set<AbstractMeter> meters = getRegisteredMeters();
         if (meters.isEmpty()) {
@@ -373,6 +375,7 @@ public abstract class ResultContainer<ResultType extends AbstractResult> extends
     /**
      * {@inheritDoc}
      */
+    @Override
     public long getNumberOfRuns() {
         Iterator<ResultType> cust = getChildren().iterator();
         long numberOfRuns = 0;

@@ -20,6 +20,9 @@
  */
 package org.perfidix.meter;
 
+import java.math.BigDecimal;
+import java.math.MathContext;
+
 /**
  * Meter to bench the amount of memory used by the current Benchmark. Please
  * note that the results of this meter can only be seen as an approximation.
@@ -37,7 +40,7 @@ public final class MemMeter extends AbstractMeter {
 
     private static final String NAME = "MemMeter";
 
-    private long memAlreadyUsed;
+    private double memAlreadyUsed;
 
     private final Memory scale;
 
@@ -56,11 +59,13 @@ public final class MemMeter extends AbstractMeter {
      * {@inheritDoc}
      */
     @Override
-    public final long getValue() {
+    public final double getValue() {
         final Runtime rt = Runtime.getRuntime();
         rt.gc();
         memAlreadyUsed = memAlreadyUsed + rt.totalMemory() - rt.freeMemory();
-        return Math.round(memAlreadyUsed / scale.getNumberOfBytes());
+        return new BigDecimal(memAlreadyUsed, MathContext.DECIMAL128).divide(
+                new BigDecimal(scale.getNumberOfBytes()),
+                MathContext.DECIMAL128).doubleValue();
     }
 
     /** {@inheritDoc} */

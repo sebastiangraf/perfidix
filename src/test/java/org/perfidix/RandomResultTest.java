@@ -24,8 +24,8 @@ import static org.junit.Assert.assertEquals;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.perfidix.result.MethodResult;
 import org.perfidix.result.AbstractResult;
+import org.perfidix.result.MethodResult;
 import org.perfidix.result.ResultContainer;
 import org.perfidix.result.SingleResult;
 
@@ -49,7 +49,7 @@ public class RandomResultTest extends PerfidixTest {
     @Test
     public void testOne() {
 
-        long[] data = { 1, Benchmark.LONG_NULLVALUE, 3 };
+        double[] data = { 1, Benchmark.LONG_NULLVALUE, 3 };
         AbstractResult r = Perfidix.createSingleResult(data);
         assertEquals(4l, r.sum());
         assertEquals(10l, r.squareSum());
@@ -59,8 +59,8 @@ public class RandomResultTest extends PerfidixTest {
         assertEquals(
                 expectedDeviation, r.getStandardDeviation(),
                 PerfidixTest.EPSILON);
-        assertEquals(1l, r.min());
-        assertEquals(3l, r.max());
+        assertEquals(1, r.min(), PerfidixTest.EPSILON);
+        assertEquals(3, r.max(), PerfidixTest.EPSILON);
     }
 
     /**
@@ -70,9 +70,9 @@ public class RandomResultTest extends PerfidixTest {
     @Test
     public void testTwo() {
 
-        long[] data1 = { 1, Benchmark.LONG_NULLVALUE, 3 };
-        long[] data2 = { Benchmark.LONG_NULLVALUE, 2, 3 };
-        long[] data3 = { 1, 2, 3 };
+        double[] data1 = { 1, Benchmark.LONG_NULLVALUE, 3 };
+        double[] data2 = { Benchmark.LONG_NULLVALUE, 2, 3 };
+        double[] data3 = { 1, 2, 3 };
 
         ResultContainer<SingleResult> container =
                 new MethodResult("********BLA********");
@@ -85,11 +85,11 @@ public class RandomResultTest extends PerfidixTest {
 
         assertEquals(5.0, container.avg(), 0);
 
-        assertEquals(4l, container.min());
+        assertEquals(4, container.min(), PerfidixTest.EPSILON);
 
-        assertEquals(6l, container.max());
+        assertEquals(6, container.max(), PerfidixTest.EPSILON);
 
-        long[] myResult = { 4, 5, 6 };
+        double[] myResult = { 4, 5, 6 };
         AbstractResult whatEver = Perfidix.createSingleResult(myResult);
         assertEquals(whatEver.getStandardDeviation(), container
                 .getStandardDeviation(), 0);
@@ -99,8 +99,8 @@ public class RandomResultTest extends PerfidixTest {
     @Test
     public void testFour() {
 
-        long[] data1 = { 1, 3 };
-        long[] data2 = { 1, Benchmark.LONG_NULLVALUE, 3 };
+        double[] data1 = { 1, 3 };
+        double[] data2 = { 1, Benchmark.LONG_NULLVALUE, 3 };
         AbstractResult r1 = Perfidix.createSingleResult("1,3", data1);
         AbstractResult r2 = Perfidix.createSingleResult("1,null,3", data2);
         assertEquals(r1.sum(), r2.sum());
@@ -118,12 +118,12 @@ public class RandomResultTest extends PerfidixTest {
         ResultContainer rc;
 
         resultA = new MethodResult("class A");
-        resultA.append(Perfidix.createSingleResult("a", new long[] { 1, 1 }));
-        resultA.append(Perfidix.createSingleResult("b", new long[] { 1, 1 }));
+        resultA.append(Perfidix.createSingleResult("a", new double[] { 1, 1 }));
+        resultA.append(Perfidix.createSingleResult("b", new double[] { 1, 1 }));
 
         resultB = new MethodResult("class B");
-        resultB.append(Perfidix.createSingleResult("c", new long[] { 3, 1 }));
-        resultB.append(Perfidix.createSingleResult("d", new long[] { 1, 1 }));
+        resultB.append(Perfidix.createSingleResult("c", new double[] { 3, 1 }));
+        resultB.append(Perfidix.createSingleResult("d", new double[] { 1, 1 }));
 
         rc = new MethodResult("hellowho?");
         rc.append(resultA);

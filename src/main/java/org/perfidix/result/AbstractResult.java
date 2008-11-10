@@ -86,9 +86,9 @@ public abstract class AbstractResult {
 
     private transient double variance = AbstractResult.DOUBLE_NOVALUE;
 
-    private transient long min = AbstractResult.INTEGER_NOVALUE;
+    private transient double min = AbstractResult.INTEGER_NOVALUE;
 
-    private transient long max = AbstractResult.INTEGER_NOVALUE;
+    private transient double max = AbstractResult.INTEGER_NOVALUE;
 
     private transient long squareSum = AbstractResult.INTEGER_NOVALUE;
 
@@ -171,7 +171,7 @@ public abstract class AbstractResult {
      * 
      * @return the result set.
      */
-    public abstract long[] getResultSet();
+    public abstract double[] getResultSet();
 
     /**
      * tells the object to accept a visitor.
@@ -285,7 +285,7 @@ public abstract class AbstractResult {
      *            the data
      * @return bla.
      */
-    protected final double computeStandardDeviation(final long[] resSet) {
+    protected final double computeStandardDeviation(final double[] resSet) {
         if (resSet.length < 1) {
             return 0.0;
         }
@@ -300,7 +300,7 @@ public abstract class AbstractResult {
      *            the bla.
      * @return bla.
      */
-    protected final long computeSquareSum(final long[] resSet) {
+    protected final long computeSquareSum(final double[] resSet) {
         long s = 0;
         for (int i = 0; i < resSet.length; i++) {
             s += Math.pow(resSet[i], 2);
@@ -318,7 +318,7 @@ public abstract class AbstractResult {
      *            the bla.
      * @return bla.
      */
-    protected double computeVariance(final long[] resSet) {
+    protected double computeVariance(final double[] resSet) {
         if (resSet.length < 2) {
             return 0.0;
         }
@@ -341,11 +341,11 @@ public abstract class AbstractResult {
      *            the bla.
      * @return bla.
      */
-    protected double computeMedian(final long[] aesSet) {
+    protected double computeMedian(final double[] aesSet) {
         if (aesSet.length < 1) {
             return 0.0;
         }
-        long[] resSet = aesSet.clone();
+        double[] resSet = aesSet.clone();
         Arrays.sort(resSet);
 
         if (resSet.length % 2 == 1) {
@@ -363,7 +363,7 @@ public abstract class AbstractResult {
      *            the bla.
      * @return bla.
      */
-    protected double computeConf99(final long[] resSet) {
+    protected double computeConf99(final double[] resSet) {
         return computeConf(AbstractResult.CONF99_FACTOR, resSet);
     }
 
@@ -374,11 +374,11 @@ public abstract class AbstractResult {
      *            the bla.
      * @return bla.
      */
-    protected double computeConf95(final long[] resSet) {
+    protected double computeConf95(final double[] resSet) {
         return computeConf(AbstractResult.CONF95_FACTOR, resSet);
     }
 
-    private double computeConf(final double staticFactor, final long[] resSet) {
+    private double computeConf(final double staticFactor, final double[] resSet) {
         return staticFactor
                 * (computeStandardDeviation(resSet) / Math.sqrt(resSet.length));
     }
@@ -411,7 +411,7 @@ public abstract class AbstractResult {
      * 
      * @return the minimum result value.
      */
-    public long min() {
+    public double min() {
         if (min != AbstractResult.INTEGER_NOVALUE) {
             return min;
         }
@@ -445,7 +445,7 @@ public abstract class AbstractResult {
      * 
      * @return the maximum runtime
      */
-    public final long max() {
+    public final double max() {
         if (max != AbstractResult.INTEGER_NOVALUE) {
             return max;
         }
@@ -460,7 +460,7 @@ public abstract class AbstractResult {
      *            the array,
      * @return the result.
      */
-    protected final long computeMin(final long[] data) {
+    protected final double computeMin(final double[] data) {
         if (data.length < 1) {
             return 0;
         }
@@ -475,7 +475,7 @@ public abstract class AbstractResult {
      *            the array.
      * @return the maximum value.
      */
-    protected final long computeMax(final long[] data) {
+    protected final double computeMax(final double[] data) {
         if (data.length < 1) {
             return 0;
         }
@@ -490,7 +490,7 @@ public abstract class AbstractResult {
      *            the data.
      * @return the sum.
      */
-    protected final long computeSum(final long[] resSet) {
+    protected final long computeSum(final double[] resSet) {
         long theSum = 0;
         for (int i = 0; i < resSet.length; i++) {
             if (resSet[i] == Benchmark.LONG_NULLVALUE) {
@@ -516,11 +516,11 @@ public abstract class AbstractResult {
      *            array.
      * @return mean value.
      */
-    protected final double computeMean(final long[] resSet) {
+    protected final double computeMean(final double[] resSet) {
         if (resSet.length < 1) {
             return 0.0;
         }
-        return (double) computeSum(resSet) / (double) resSet.length;
+        return (double) computeSum(resSet) / resSet.length;
     }
 
     /**
@@ -573,8 +573,8 @@ public abstract class AbstractResult {
         if (!r.name.equals(this.name)) {
             return false;
         }
-        long[] resultSet = r.getResultSet();
-        long[] myResult = getResultSet();
+        double[] resultSet = r.getResultSet();
+        double[] myResult = getResultSet();
 
         if (resultSet.length != myResult.length) {
             return false;

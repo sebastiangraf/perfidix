@@ -40,7 +40,7 @@ public class APITest extends PerfidixTest {
     @Test
     public void testMultipleAvg() {
 
-        long[][] set = { { 1, 2, 3 }, { 2, 2, 2 }, };
+        double[][] set = { { 1, 2, 3 }, { 2, 2, 2 }, };
         SingleResult r1 =
                 Perfidix.createSingleResult("testMultipleAvg()A", set[0]);
         SingleResult r2 =
@@ -58,7 +58,7 @@ public class APITest extends PerfidixTest {
     @Test
     public void testMultipleMin() {
 
-        long[][] set = { { 1, 2, 3 }, { 1, 2, 3 }, { 1, 2, 3 } };
+        double[][] set = { { 1, 2, 3 }, { 1, 2, 3 }, { 1, 2, 3 } };
         SingleResult r1 = Perfidix.createSingleResult(set[0]);
         SingleResult r2 = Perfidix.createSingleResult(set[1]);
         SingleResult r3 = Perfidix.createSingleResult(set[2]);
@@ -72,16 +72,16 @@ public class APITest extends PerfidixTest {
 
         getLog().info("\n" + cnt);
 
-        long[] resultSet = cnt.getResultSet();
+        double[] resultSet = cnt.getResultSet();
         assertEquals(3, resultSet.length);
-        assertEquals(6l, resultSet[0]);
-        assertEquals(6l, resultSet[1]);
-        assertEquals(6l, resultSet[2]);
+        assertEquals(6, resultSet[0], PerfidixTest.EPSILON);
+        assertEquals(6, resultSet[1], PerfidixTest.EPSILON);
+        assertEquals(6, resultSet[2], PerfidixTest.EPSILON);
         getLog().info("\n" + cnt);
-        assertEquals(6l, cnt.min());
+        assertEquals(6, cnt.min(), PerfidixTest.EPSILON);
 
-        assertEquals(6l, cnt.max());
-        assertEquals(6.0, cnt.avg(), 0);
+        assertEquals(6, cnt.max(), PerfidixTest.EPSILON);
+        assertEquals(6.0, cnt.avg(), PerfidixTest.EPSILON);
     }
 
     @Test
@@ -171,7 +171,7 @@ public class APITest extends PerfidixTest {
     @Test
     public void testTheResult() {
 
-        long[] testResultSet = { 1, 2, 3 };
+        double[] testResultSet = { 1, 2, 3 };
         AbstractResult res = Perfidix.createSingleResult(testResultSet);
         assertEquals(3l, res.resultCount());
         assertEquals(2.0, res.median(), 0);
@@ -184,7 +184,7 @@ public class APITest extends PerfidixTest {
     @Test
     public void testAnotherMedian() {
 
-        long[] testResultSet = { 3, 4, 3, 5, 20, 50 };
+        double[] testResultSet = { 3, 4, 3, 5, 20, 50 };
         // sorted: 3,3,4,5,20,50
         AbstractResult res =
                 new SingleResult("test", testResultSet, Perfidix.defaultMeter());
@@ -197,7 +197,7 @@ public class APITest extends PerfidixTest {
     @Test
     public void testAvg() {
 
-        long[] testResultSet = { 7, 8, 9, 1, 2, 3, 6, 5, 4 };
+        double[] testResultSet = { 7, 8, 9, 1, 2, 3, 6, 5, 4 };
         AbstractResult res =
                 new SingleResult("test", testResultSet, Perfidix.defaultMeter());
         assertEquals(5.0, res.avg(), 0);
@@ -213,7 +213,7 @@ public class APITest extends PerfidixTest {
     @Test
     public void testAvgContainer() {
 
-        long[][] testResultSet = { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } };
+        double[][] testResultSet = { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } };
         ResultContainer<SingleResult> res = new MethodResult("test");
         for (int i = 0; i < testResultSet.length; i++) {
             res.append(new SingleResult("bla" + i, testResultSet[i], Perfidix
@@ -230,29 +230,29 @@ public class APITest extends PerfidixTest {
     @Test
     public void testMinMax() {
 
-        long[] testResultSet = { 1, 2, 3 };
+        double[] testResultSet = { 1, 2, 3 };
         AbstractResult res = Perfidix.createSingleResult(testResultSet);
-        assertEquals(1l, res.min());
-        assertEquals(3l, res.max());
+        assertEquals(1l, res.min(), PerfidixTest.EPSILON);
+        assertEquals(3l, res.max(), PerfidixTest.EPSILON);
 
-        long[] trS = {};
+        double[] trS = {};
         AbstractResult rs = Perfidix.createSingleResult(trS);
-        assertEquals(0l, rs.min());
-        assertEquals(0l, rs.max());
+        assertEquals(0, rs.min(), PerfidixTest.EPSILON);
+        assertEquals(0, rs.max(), PerfidixTest.EPSILON);
 
     }
 
     @Test
     public void testVariance() {
 
-        long[] r = { 45, 23, 55, 32, 51, 91, 74, 53, 70, 84 };
+        double[] r = { 45, 23, 55, 32, 51, 91, 74, 53, 70, 84 };
         AbstractResult res = Perfidix.createSingleResult(r);
         assertEquals(57.8, res.mean(), 0);
         double resVariance = res.variance();
         assertEquals(
                 "expecting 479.333, but receiving " + resVariance,
                 479.7333333333, resVariance, PerfidixTest.EPSILON);
-        long[] r2 = { 64, 75, 95, 56, 44, 130, 106, 80, 87, 115 };
+        double[] r2 = { 64, 75, 95, 56, 44, 130, 106, 80, 87, 115 };
         AbstractResult res2 = Perfidix.createSingleResult(r2);
         assertEquals(85.2, res2.mean(), 0);
         double res2Variance = res2.variance();
@@ -266,13 +266,13 @@ public class APITest extends PerfidixTest {
     @Test
     public void testSquareSum() {
 
-        long[] r = { 1, 2, 3 };
+        double[] r = { 1, 2, 3 };
         AbstractResult res = Perfidix.createSingleResult(r);
         assertEquals(14l, res.squareSum());
         assertEquals(0.81649, res.getStandardDeviation(), 0.0001);
         assertEquals(1.0, res.variance(), 0);
 
-        long[] r2 = { 1, 2, 2, 3, 4, 4 };
+        double[] r2 = { 1, 2, 2, 3, 4, 4 };
         AbstractResult ra = Perfidix.createSingleResult(r2);
         assertEquals(2.666666, ra.avg(), PerfidixTest.EPSILON);
         assertEquals(50l, ra.squareSum());
@@ -289,8 +289,7 @@ public class APITest extends PerfidixTest {
 
     @Test
     public void testConfidence() {
-
-        long[] r = { 1, 2, 3 };
+        double[] r = { 1, 2, 3 };
         AbstractResult res = Perfidix.createSingleResult(r);
 
         double a = res.getConf99();
@@ -310,8 +309,8 @@ public class APITest extends PerfidixTest {
     @Test
     public void testStddev() {
 
-        long[] r = { 1, 2, 3 };
-        long[] s = { 1, 2, 3 };
+        double[] r = { 1, 2, 3 };
+        double[] s = { 1, 2, 3 };
 
         double expStandardDeviation = Math.sqrt((14.0 / 3.0) - 4.0);
 
@@ -328,8 +327,8 @@ public class APITest extends PerfidixTest {
                 expStandardDeviation, b.getStandardDeviation(),
                 PerfidixTest.EPSILON);
 
-        assertEquals(6l, c.min());
-        assertEquals(6l, c.max());
+        assertEquals(6d, c.min(), PerfidixTest.EPSILON);
+        assertEquals(6d, c.max(), PerfidixTest.EPSILON);
     }
 
     /**

@@ -184,7 +184,7 @@ public final class Perfidix {
      *            the dataset.
      * @return the single result.
      */
-    public static final SingleResult createSingleResult(final long[] set) {
+    public static final SingleResult createSingleResult(final double[] set) {
         return new SingleResult(set, Perfidix.defaultMeter());
     }
 
@@ -196,7 +196,7 @@ public final class Perfidix {
      * @return a single result.
      */
     public static final SingleResult createSingleResult(
-            final String name, final long[] set) {
+            final String name, final double[] set) {
         SingleResult r = Perfidix.createSingleResult(set);
         // r.setName(name);
         return r;

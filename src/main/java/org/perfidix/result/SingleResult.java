@@ -35,7 +35,7 @@ import org.perfidix.visitor.ResultVisitor;
  */
 public class SingleResult extends AbstractResult {
 
-    private transient long[] resultSet;
+    private transient double[] resultSet;
 
     private String data;
 
@@ -48,7 +48,7 @@ public class SingleResult extends AbstractResult {
      * 
      * @param aResultSet
      */
-    public SingleResult(final long[] aResultSet) {
+    public SingleResult(final double[] aResultSet) {
         this(aResultSet, Perfidix.DEFAULTMETER);
     }
 
@@ -60,7 +60,7 @@ public class SingleResult extends AbstractResult {
      * @param meter
      *            the meter with which measurement was taken.
      */
-    public SingleResult(final long[] aResultSet, final AbstractMeter meter) {
+    public SingleResult(final double[] aResultSet, final AbstractMeter meter) {
         this(AbstractResult.DEFAULT_NAME, aResultSet, meter);
     }
 
@@ -83,7 +83,7 @@ public class SingleResult extends AbstractResult {
     protected Object readResolve() {
         super.readResolve();
         String[] longData = NiceTable.Util.explode(',', data);
-        resultSet = new long[longData.length];
+        resultSet = new double[longData.length];
         for (int i = 0; i < longData.length; i++) {
             resultSet[i] = Long.parseLong(longData[i]);
         }
@@ -112,7 +112,7 @@ public class SingleResult extends AbstractResult {
      *            the meter with which the calculations were done.
      */
     public SingleResult(
-            final String aName, final long[] aResultSet,
+            final String aName, final double[] aResultSet,
             final Object[] theReturnValues, final AbstractMeter whichMeter) {
         this(aName, aResultSet, whichMeter);
         returnValues = theReturnValues;
@@ -130,7 +130,7 @@ public class SingleResult extends AbstractResult {
      *            the meter with which the calculations were done.
      */
     public SingleResult(
-            final String name, final long[] aResultSet,
+            final String name, final double[] aResultSet,
             final AbstractMeter whichMeter) {
         super();
         setName(name);
@@ -170,7 +170,7 @@ public class SingleResult extends AbstractResult {
      * @param array
      * @return the filtered array.
      */
-    private long[] filterNullValues(final long[] array) {
+    private double[] filterNullValues(final double[] array) {
         int resultSetLength = 0;
 
         for (int i = 0; i < array.length; i++) {
@@ -190,7 +190,7 @@ public class SingleResult extends AbstractResult {
             return array;
         }
 
-        long[] res = new long[resultSetLength];
+        double[] res = new double[resultSetLength];
         int resultIdx = 0;
         for (int oldIdx = 0; oldIdx < array.length; oldIdx++) {
             if (array[oldIdx] == Benchmark.LONG_NULLVALUE) {
@@ -208,7 +208,7 @@ public class SingleResult extends AbstractResult {
      * @return the result set.
      */
     @Override
-    public long[] getResultSet() {
+    public double[] getResultSet() {
         return resultSet.clone();
     }
 

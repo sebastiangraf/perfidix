@@ -265,7 +265,7 @@ public class Benchmark {
                 + "(*"
                 + numInvocations
                 + "): ");
-        final long[] timeElapsed = new long[numInvocations];
+        final double[] timeElapsed = new double[numInvocations];
         final Object[] results = new Object[numInvocations];
         final MeterHelper meterHelper = new MeterHelper(numInvocations, meters);
         final AbstractMeter timeMeter = meters.get(timeMeterIndex);
@@ -285,9 +285,9 @@ public class Benchmark {
                 appendToLogger(
                         SimpleLog.LOG_LEVEL_INFO, "invoking bench for method "
                                 + m);
-                long time1 = timeMeter.getValue();
+                double time1 = timeMeter.getValue();
                 results[invocationID] = m.invoke(parent, args);
-                long time2 = timeMeter.getValue();
+                double time2 = timeMeter.getValue();
                 timeElapsed[invocationID] = time2 - time1;
 
                 meterHelper.stop(invocationID);
@@ -712,7 +712,7 @@ public class Benchmark {
 
         private boolean metersAvailable = false;
 
-        private long[][] theResults;
+        private double[][] theResults;
 
         private MeterHelper(
                 final int numInvocations,
@@ -722,7 +722,7 @@ public class Benchmark {
             meters = theMeters;
             int l = meters.size();
             metersAvailable = (l > 0);
-            theResults = new long[l][numInvocations];
+            theResults = new double[l][numInvocations];
         }
 
         // private void collectResults(final long[][] res, final int

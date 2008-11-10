@@ -39,7 +39,6 @@ import org.perfidix.result.ClassResult;
 import org.perfidix.result.MethodResult;
 import org.perfidix.result.NiceTable;
 import org.perfidix.result.SingleResult;
-import org.perfidix.result.NiceTable.Util;
 
 /**
  * this visitor allows the saving of the result.
@@ -120,8 +119,8 @@ public class ResultToXml extends ResultVisitor {
     }
 
     private void addDefaultAttributes(final AbstractResult r, final Element e) {
-        e.addAttribute("max", Long.toString(r.max()));
-        e.addAttribute("min", Long.toString(r.min()));
+        e.addAttribute("max", Double.toString(r.max()));
+        e.addAttribute("min", Double.toString(r.min()));
         e.addAttribute("avg", Double.toString(r.avg()));
         e.addAttribute("stddev", Double.toString(r.getStandardDeviation()));
         e.addAttribute("conf95", Double.toString(r.getConf95()));

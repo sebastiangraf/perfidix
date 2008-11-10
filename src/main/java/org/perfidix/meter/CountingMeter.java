@@ -20,6 +20,7 @@
  */
 package org.perfidix.meter;
 
+
 /**
  * Simple meter to count given ticks. The ticks are not resetted afterwards, the
  * counting always continues.
@@ -110,6 +111,7 @@ public final class CountingMeter extends AbstractMeter {
         name = paramName;
         unit = paramUnit;
         unitDescription = paramUnitDescription;
+        counter = 0;
     }
 
     /**
@@ -135,7 +137,7 @@ public final class CountingMeter extends AbstractMeter {
      * @return the counter's value.
      */
     @Override
-    public final long getValue() {
+    public final double getValue() {
         return counter;
     }
 

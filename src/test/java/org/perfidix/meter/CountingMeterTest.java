@@ -85,13 +85,13 @@ public class CountingMeterTest {
             meter.tick();
         }
 
-        assertEquals(meter.getValue(), firstRun);
+        assertEquals(meter.getValue(), firstRun, 0);
 
         for (int i = 0; i < secondRun; i++) {
             meter.tick();
         }
 
-        assertEquals(meter.getValue(), firstRun + secondRun);
+        assertEquals(meter.getValue(), firstRun + secondRun, 0);
 
     }
 }
