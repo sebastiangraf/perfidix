@@ -40,11 +40,6 @@ public class MemMeterTest {
     private static final double EPSILON = 16384d;
 
     /**
-     * Factor for different size levels for Kibibytes, Mebibytes, etc.
-     */
-    private static final double SIZEFAKTOR = 3;
-
-    /**
      * Byte meter variable.
      */
     private MemMeter byteMeter;
