@@ -103,48 +103,330 @@ public final class BenchmarkElement {
     }
 
     /**
-     * Method to execute a BeforeBenchClass or AfterBenchClass annotation (as
-     * set by the parameter). This method should be invoked just once for all
-     * methods. The corresponding class is searched after suitable methods and
-     * checks for integrity are made. If there are multiple
-     * BeforeBenchClass-annotated or AfterBenchClass-annotated method available,
-     * an exception is thrown.
+     * Method to find a <code>BeforeBenchClass</code> annotation (as set by the
+     * parameter). This method should be invoked just once for all methods. The
+     * corresponding class is searched after suitable methods and checks for
+     * integrity are made. If there are multiple <code>BeforeBenchClass</code>
+     * -annotated methods available, an exception is thrown.
      * 
      * @see BeforeBenchClass
-     * @see AfterBenchClass
-     * @param anno
-     *            to be checked, must be of type BeforeBenchClass or
-     *            AfterBenchClass
-     * @return Annotated method with BeforeBenchClass or AfterBenchClass
-     *         annotation, null of none exists
+     * @return Annotated method with BeforeBenchClass annotation, null of none
+     *         exists
      * @throws IllegalAccessException
      *             if integrity check of class and method fails.
      */
-    public final Method findAndCheckBeforeBenchClassOrAfterBenchClass(
-            final Class<? extends Annotation> anno)
-            throws IllegalAccessException {
-        // Check if param is valid
-        if (!anno.equals(BeforeBenchClass.class)
-                && !anno.equals(AfterBenchClass.class)) {
-            throw new IllegalArgumentException(
-                    "Anno should be of type BeforeBenchClass or AfterBenchClass");
+    public final Method findBeforeBenchClass() throws IllegalAccessException {
+
+        // Scanning the class file for the BeforeBenchClass-annotation
+        final Method method =
+                findAndCheckAnyMethodByAnnotation(BeforeBenchClass.class);
+
+        if (method != null) {
+            return method;
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * Method to find a <code>BeforeFirstRun</code> annotation. This method
+     * should be invoked for all methods. The corresponding class is searched
+     * after suitable methods and checks for integrity are made. If there are
+     * multiple <code>BeforeFirstRun</code>-annotated methods available, an
+     * exception is thrown. If there are designated special
+     * <code>BeforeFirstRun</code> methods as given in the parameter of the
+     * <code>Bench</code>-annotation, this method is taken with any further
+     * checking of the other methods in the class.
+     * 
+     * @see BeforeFirstRun
+     * @see Bench
+     * @return Annotated method with BeforeFirstRun annotation, null of none
+     *         exists
+     * @throws IllegalAccessException
+     *             if integrity check of class and method fails.
+     */
+    public final Method findBeforeFirstRun() throws IllegalAccessException {
+
+        Method method = null;
+
+        final Bench benchAnno = getMethodToBench().getAnnotation(Bench.class);
+        if (benchAnno != null && !benchAnno.beforeFirstRun().equals("")) {
+            try {
+                // variable to instantiate the method by name.
+                final Class<?>[] setUpParams = {};
+
+                // getting the method by name
+                method =
+                        getMethodToBench().getClass().getDeclaredMethod(
+                                benchAnno.beforeFirstRun(), setUpParams);
+            } catch (SecurityException e) {
+                throw new IllegalAccessException(new StringBuilder(benchAnno
+                        .beforeFirstRun())
+                        .append(" rises SecurityException: ").append(
+                                e.toString()).toString());
+            } catch (NoSuchMethodException e) {
+                throw new IllegalAccessException(new StringBuilder(benchAnno
+                        .beforeFirstRun())
+                        .append(" rises NoSuchMethodException: ").append(
+                                e.toString()).toString());
+            }
         }
 
+        // if there was no name, a scan over the class occurs, otherwise the
+        // designated method is checked.
+        if (method != null) {
+            if (isReflectedExecutable(method)) {
+                return method;
+            } else {
+                throw new IllegalAccessException(new StringBuilder(
+                        "BeforeFirstRun-annotated method ")
+                        .append(method).append(" is not executable.")
+                        .toString());
+            }
+        } else {
+            return findAndCheckAnyMethodByAnnotation(BeforeFirstRun.class);
+        }
+
+    }
+
+    /**
+     * Method to find a <code>BeforeEachRun</code> annotation. This method
+     * should be invoked for all methods. The corresponding class is searched
+     * after suitable methods and checks for integrity are made. If there are
+     * multiple <code>BeforeEachRun</code>-annotated methods available, an
+     * exception is thrown. If there are designated special
+     * <code>BeforeEachRun</code> methods as given in the parameter of the
+     * <code>Bench</code>-annotation, this method is taken with any further
+     * checking of the other methods in the class.
+     * 
+     * @see BeforeEachRun
+     * @see Bench
+     * @return Annotated method with BeforeEachRun annotation, null of none
+     *         exists
+     * @throws IllegalAccessException
+     *             if integrity check of class and method fails.
+     */
+    public final Method findBeforeEachRun() throws IllegalAccessException {
+
+        Method method = null;
+
+        final Bench benchAnno = getMethodToBench().getAnnotation(Bench.class);
+        if (benchAnno != null && !benchAnno.beforeEachRun().equals("")) {
+            try {
+                // variable to instantiate the method by name.
+                final Class<?>[] setUpParams = {};
+
+                // getting the method by name
+                method =
+                        getMethodToBench().getClass().getDeclaredMethod(
+                                benchAnno.beforeEachRun(), setUpParams);
+            } catch (SecurityException e) {
+                throw new IllegalAccessException(new StringBuilder(benchAnno
+                        .beforeEachRun())
+                        .append(" rises SecurityException: ").append(
+                                e.toString()).toString());
+            } catch (NoSuchMethodException e) {
+                throw new IllegalAccessException(new StringBuilder(benchAnno
+                        .beforeEachRun())
+                        .append(" rises NoSuchMethodException: ").append(
+                                e.toString()).toString());
+            }
+        }
+
+        // if there was no name, a scan over the class occurs, otherwise the
+        // designated method is checked.
+        if (method != null) {
+            if (isReflectedExecutable(method)) {
+                return method;
+            } else {
+                throw new IllegalAccessException(new StringBuilder(
+                        "BeforeEachRun-annotated method ")
+                        .append(method).append(" is not executable.")
+                        .toString());
+            }
+        } else {
+            return findAndCheckAnyMethodByAnnotation(BeforeEachRun.class);
+        }
+
+    }
+
+    /**
+     * Method to find a <code>AfterEachRun</code> annotation. This method should
+     * be invoked for all methods. The corresponding class is searched after
+     * suitable methods and checks for integrity are made. If there are multiple
+     * <code>AfterEachRun</code>-annotated methods available, an exception is
+     * thrown. If there are designated special <code>AfterEachRun</code> methods
+     * as given in the parameter of the <code>Bench</code>-annotation, this
+     * method is taken with any further checking of the other methods in the
+     * class.
+     * 
+     * @see AfterEachRun
+     * @see Bench
+     * @return Annotated method with AfterEachRun annotation, null of none
+     *         exists
+     * @throws IllegalAccessException
+     *             if integrity check of class and method fails.
+     */
+    public final Method findAfterEachRun() throws IllegalAccessException {
+
+        Method method = null;
+
+        final Bench benchAnno = getMethodToBench().getAnnotation(Bench.class);
+        if (benchAnno != null && !benchAnno.afterEachRun().equals("")) {
+            try {
+                // variable to instantiate the method by name.
+                final Class<?>[] setUpParams = {};
+
+                // getting the method by name
+                method =
+                        getMethodToBench().getClass().getDeclaredMethod(
+                                benchAnno.afterEachRun(), setUpParams);
+            } catch (SecurityException e) {
+                throw new IllegalAccessException(new StringBuilder(benchAnno
+                        .afterEachRun())
+                        .append(" rises SecurityException: ").append(
+                                e.toString()).toString());
+            } catch (NoSuchMethodException e) {
+                throw new IllegalAccessException(new StringBuilder(benchAnno
+                        .afterEachRun())
+                        .append(" rises NoSuchMethodException: ").append(
+                                e.toString()).toString());
+            }
+        }
+
+        // if there was no name, a scan over the class occurs, otherwise the
+        // designated method is checked.
+        if (method != null) {
+            if (isReflectedExecutable(method)) {
+                return method;
+            } else {
+                throw new IllegalAccessException(new StringBuilder(
+                        "AfterEachRun-annotated method ")
+                        .append(method).append(" is not executable.")
+                        .toString());
+            }
+        } else {
+            return findAndCheckAnyMethodByAnnotation(AfterEachRun.class);
+        }
+    }
+
+    /**
+     * Method to find a <code>AfterLastRun</code> annotation. This method should
+     * be invoked for all methods. The corresponding class is searched after
+     * suitable methods and checks for integrity are made. If there are multiple
+     * <code>AfterLastRun</code>-annotated methods available, an exception is
+     * thrown. If there are designated special <code>AfterLastRun</code> methods
+     * as given in the parameter of the <code>Bench</code>-annotation, this
+     * method is taken with any further checking of the other methods in the
+     * class.
+     * 
+     * @see AfterLastRun
+     * @see Bench
+     * @return Annotated method with AfterLastRun annotation, null of none
+     *         exists
+     * @throws IllegalAccessException
+     *             if integrity check of class and method fails.
+     */
+    public final Method findAfterLastRun() throws IllegalAccessException {
+
+        Method method = null;
+
+        final Bench benchAnno = getMethodToBench().getAnnotation(Bench.class);
+        if (benchAnno != null && !benchAnno.afterLastRun().equals("")) {
+            try {
+                // variable to instantiate the method by name.
+                final Class<?>[] setUpParams = {};
+
+                // getting the method by name
+                method =
+                        getMethodToBench().getClass().getDeclaredMethod(
+                                benchAnno.afterLastRun(), setUpParams);
+            } catch (SecurityException e) {
+                throw new IllegalAccessException(new StringBuilder(benchAnno
+                        .afterLastRun())
+                        .append(" rises SecurityException: ").append(
+                                e.toString()).toString());
+            } catch (NoSuchMethodException e) {
+                throw new IllegalAccessException(new StringBuilder(benchAnno
+                        .afterLastRun())
+                        .append(" rises NoSuchMethodException: ").append(
+                                e.toString()).toString());
+            }
+        }
+
+        // if there was no name, a scan over the class occurs, otherwise the
+        // designated method is checked.
+        if (method != null) {
+            if (isReflectedExecutable(method)) {
+                return method;
+            } else {
+                throw new IllegalAccessException(new StringBuilder(
+                        "AfterLastRun-annotated method ")
+                        .append(method).append(" is not executable.")
+                        .toString());
+            }
+        } else {
+            return findAndCheckAnyMethodByAnnotation(AfterLastRun.class);
+        }
+    }
+
+    /**
+     * Method to execute a AfterBenchClass annotation (as set by the parameter).
+     * This method should be invoked just once for all methods. The
+     * corresponding class is searched after suitable methods and checks for
+     * integrity are made. If there are multiple AfterBenchClass-annotated
+     * methods available, an exception is thrown.
+     * 
+     * @see AfterBenchClass
+     * @return Annotated method with AfterBenchClass annotation, null of none
+     *         exists
+     * @throws IllegalAccessException
+     *             if integrity check of class and method fails.
+     */
+    public final Method findAfterBenchClass() throws IllegalAccessException {
+
+        // Scanning the class file for the AfterBenchClass-annotation
+        final Method method =
+                findAndCheckAnyMethodByAnnotation(AfterBenchClass.class);
+
+        if (method != null) {
+            return method;
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * This class finds any method with a given annotation. The method is
+     * allowed to occure only once in the class and should match the
+     * requirements for Perfidix for an execution by reflection.
+     * 
+     * @param anno
+     *            of the method to be found
+     * @return a method annotated by the annotation given. The method occurs
+     *         only once in the class and matched the requirements of
+     *         perfidix-reflective-invocation.
+     * @throws IllegalAccessException
+     *             if these integrity checks fail
+     */
+    public final Method findAndCheckAnyMethodByAnnotation(
+            final Class<? extends Annotation> anno)
+            throws IllegalAccessException {
         // needed variables, one for check for duplicates
-        Method beforeOrAfterBenchClassMethod = null;
+        Method anyAnnotatedMethod = null;
 
         // Scanning all methods
-        final Method[] possibleBeforeOrAfterClassAnnos =
+        final Method[] possibleAnnotatedMethods =
                 getMethodToBench().getClass().getMethods();
-        for (final Method meth : possibleBeforeOrAfterClassAnnos) {
+        for (final Method meth : possibleAnnotatedMethods) {
             if (meth.getAnnotation(anno) != null) {
                 // Check if there are multiple annotated methods, throwing
                 // IllegalAccessException otherwise.
-                if (beforeOrAfterBenchClassMethod == null) {
+                if (anyAnnotatedMethod == null) {
                     // Check if method is valid (no param, no returnval,
                     // etc.), throwing IllegalAccessException otherwise.
                     if (isReflectedExecutable(meth)) {
-                        beforeOrAfterBenchClassMethod = meth;
+                        anyAnnotatedMethod = meth;
                     } else {
                         throw new IllegalAccessException(new StringBuilder(
                                 "BeforeBenchClass-annotated method ").append(
@@ -157,8 +439,8 @@ public final class BenchmarkElement {
             }
         }
 
-        if (beforeOrAfterBenchClassMethod != null) {
-            return beforeOrAfterBenchClassMethod;
+        if (anyAnnotatedMethod != null) {
+            return anyAnnotatedMethod;
         } else {
             return null;
         }
@@ -169,7 +451,7 @@ public final class BenchmarkElement {
      * 
      * @return the methodToBench
      */
-    public Method getMethodToBench() {
+    public final Method getMethodToBench() {
         return methodToBench;
     }
 
