@@ -24,10 +24,10 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.perfidix.annotation.AfterEachBenchRun;
-import org.perfidix.annotation.AfterLastBenchRun;
-import org.perfidix.annotation.BeforeEachBenchRun;
-import org.perfidix.annotation.BeforeFirstBenchRun;
+import org.perfidix.annotation.AfterEachRun;
+import org.perfidix.annotation.AfterLastRun;
+import org.perfidix.annotation.BeforeEachRun;
+import org.perfidix.annotation.BeforeFirstRun;
 import org.perfidix.annotation.Bench;
 
 public class SpecificSetUpTearDownTest {
@@ -112,22 +112,22 @@ public class SpecificSetUpTearDownTest {
 
     class Without {
 
-        @BeforeFirstBenchRun
+        @BeforeFirstRun
         public void firstRun() {
             firstRun = true;
         }
 
-        @BeforeEachBenchRun
+        @BeforeEachRun
         public void setUp() {
             setUp = true;
         }
 
-        @AfterEachBenchRun
+        @AfterEachRun
         public void tearDown() {
             tearDown = true;
         }
 
-        @AfterLastBenchRun
+        @AfterLastRun
         public void lastRun() {
             lastRun = true;
         }
@@ -155,22 +155,22 @@ public class SpecificSetUpTearDownTest {
     }
 
     class With {
-        @BeforeFirstBenchRun
+        @BeforeFirstRun
         public void firstRun() {
             firstRun = true;
         }
 
-        @BeforeEachBenchRun
+        @BeforeEachRun
         public void setUp() {
             setUp = true;
         }
 
-        @AfterEachBenchRun
+        @AfterEachRun
         public void tearDown() {
             tearDown = true;
         }
 
-        @AfterLastBenchRun
+        @AfterLastRun
         public void lastRun() {
             lastRun = true;
         }
@@ -191,7 +191,7 @@ public class SpecificSetUpTearDownTest {
             specialLastRun = true;
         }
 
-        @Bench(beforeEveryBenchRun = "specialSetUp", afterEveryBenchRun = "specialTearDown", beforeFirstBenchRun = "specialFirstRun", afterLastBenchRun = "specialLastRun")
+        @Bench(beforeEachRun = "specialSetUp", afterEachRun = "specialTearDown", beforeFirstRun = "specialFirstRun", afterLastRun = "specialLastRun")
         public void bench() {
             benchWith = true;
         }
@@ -209,7 +209,7 @@ public class SpecificSetUpTearDownTest {
             specialTearDown = true;
         }
 
-        @Bench(beforeEveryBenchRun = "specialSetUp", afterEveryBenchRun = "specialTearDown")
+        @Bench(beforeEachRun = "specialSetUp", afterEachRun = "specialTearDown")
         public void bench() {
             benchWith = true;
         }

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  * 
- * $Id: AfterEachBenchRun.java 2624 2007-03-28 15:08:52Z kramis $
+ * $Id: BeforeFirstBenchRun.java 2624 2007-03-28 15:08:52Z kramis $
  * 
  */
 
@@ -25,12 +25,12 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Marks a tearDown-like behaviour for each run of each method.
+ * Marks a general setUp for each method for all runs.
  * 
  * @author Sebastian Graf, University of Konstanz
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
-public @interface AfterEachBenchRun {
+public @interface BeforeFirstRun {
 
 }

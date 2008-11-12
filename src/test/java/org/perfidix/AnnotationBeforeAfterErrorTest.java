@@ -24,11 +24,11 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 import org.perfidix.annotation.AfterBenchClass;
-import org.perfidix.annotation.AfterEachBenchRun;
-import org.perfidix.annotation.AfterLastBenchRun;
+import org.perfidix.annotation.AfterEachRun;
+import org.perfidix.annotation.AfterLastRun;
 import org.perfidix.annotation.BeforeBenchClass;
-import org.perfidix.annotation.BeforeEachBenchRun;
-import org.perfidix.annotation.BeforeFirstBenchRun;
+import org.perfidix.annotation.BeforeEachRun;
+import org.perfidix.annotation.BeforeFirstRun;
 import org.perfidix.annotation.Bench;
 
 public class AnnotationBeforeAfterErrorTest {
@@ -184,11 +184,11 @@ public class AnnotationBeforeAfterErrorTest {
     }
 
     class DuplicateBefore {
-        @BeforeEachBenchRun
+        @BeforeEachRun
         public void setUp1() {
         }
 
-        @BeforeEachBenchRun
+        @BeforeEachRun
         public void setUp2() {
         }
 
@@ -202,11 +202,11 @@ public class AnnotationBeforeAfterErrorTest {
         public void bench() {
         }
 
-        @AfterEachBenchRun
+        @AfterEachRun
         public void tearDown1() {
         }
 
-        @AfterEachBenchRun
+        @AfterEachRun
         public void tearDown2() {
         }
     }
@@ -216,7 +216,7 @@ public class AnnotationBeforeAfterErrorTest {
         public void bench() {
         }
 
-        @AfterEachBenchRun
+        @AfterEachRun
         public Object tearDown() {
             return null;
         }
@@ -227,13 +227,13 @@ public class AnnotationBeforeAfterErrorTest {
         public void bench() {
         }
 
-        @AfterEachBenchRun
+        @AfterEachRun
         public void tearDown(Object obj) {
         }
     }
 
     class BeforeReturn {
-        @BeforeEachBenchRun
+        @BeforeEachRun
         public Object setUp() {
             return null;
         }
@@ -244,7 +244,7 @@ public class AnnotationBeforeAfterErrorTest {
     }
 
     class BeforeParam {
-        @BeforeEachBenchRun
+        @BeforeEachRun
         public void setUp(Object obj) {
         }
 
@@ -254,11 +254,11 @@ public class AnnotationBeforeAfterErrorTest {
     }
 
     class DuplicateBeforeMethod {
-        @BeforeFirstBenchRun
+        @BeforeFirstRun
         public void build1() {
         }
 
-        @BeforeFirstBenchRun
+        @BeforeFirstRun
         public void build2() {
         }
 
@@ -272,11 +272,11 @@ public class AnnotationBeforeAfterErrorTest {
         public void bench() {
         }
 
-        @AfterLastBenchRun
+        @AfterLastRun
         public void cleanUp1() {
         }
 
-        @AfterLastBenchRun
+        @AfterLastRun
         public void cleanUp2() {
         }
     }
@@ -286,7 +286,7 @@ public class AnnotationBeforeAfterErrorTest {
         public void bench() {
         }
 
-        @AfterLastBenchRun
+        @AfterLastRun
         public Object cleanUp() {
             return null;
         }
@@ -297,13 +297,13 @@ public class AnnotationBeforeAfterErrorTest {
         public void bench() {
         }
 
-        @AfterLastBenchRun
+        @AfterLastRun
         public void cleanUp(Object obj) {
         }
     }
 
     class BeforeMethodReturn {
-        @BeforeFirstBenchRun
+        @BeforeFirstRun
         public Object build() {
             return null;
         }
@@ -314,7 +314,7 @@ public class AnnotationBeforeAfterErrorTest {
     }
 
     class BeforeMethodParam {
-        @BeforeFirstBenchRun
+        @BeforeFirstRun
         public void build(Object obj) {
         }
 

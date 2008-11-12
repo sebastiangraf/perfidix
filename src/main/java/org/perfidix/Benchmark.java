@@ -29,11 +29,11 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.logging.impl.SimpleLog;
 import org.perfidix.annotation.AfterBenchClass;
-import org.perfidix.annotation.AfterEachBenchRun;
-import org.perfidix.annotation.AfterLastBenchRun;
+import org.perfidix.annotation.AfterEachRun;
+import org.perfidix.annotation.AfterLastRun;
 import org.perfidix.annotation.BeforeBenchClass;
-import org.perfidix.annotation.BeforeEachBenchRun;
-import org.perfidix.annotation.BeforeFirstBenchRun;
+import org.perfidix.annotation.BeforeEachRun;
+import org.perfidix.annotation.BeforeFirstRun;
 import org.perfidix.annotation.Bench;
 import org.perfidix.annotation.BenchClass;
 import org.perfidix.annotation.SkipBench;
@@ -274,12 +274,12 @@ public class Benchmark {
 
             appendToLogger(
                     SimpleLog.LOG_LEVEL_INFO, "invoking build for method " + m);
-            executeBeforeAfter(parent, m, BeforeFirstBenchRun.class);
+            executeBeforeAfter(parent, m, BeforeFirstRun.class);
             for (int invocationID = 0; invocationID < numInvocations; invocationID++) {
                 appendToLogger(
                         SimpleLog.LOG_LEVEL_INFO, "invoking setUp for method "
                                 + m);
-                executeBeforeAfter(parent, m, BeforeEachBenchRun.class);
+                executeBeforeAfter(parent, m, BeforeEachRun.class);
                 meterHelper.start(invocationID);
 
                 appendToLogger(
@@ -294,7 +294,7 @@ public class Benchmark {
                 appendToLogger(
                         SimpleLog.LOG_LEVEL_INFO,
                         "invoking tearDown for method " + m);
-                executeBeforeAfter(parent, m, AfterEachBenchRun.class);
+                executeBeforeAfter(parent, m, AfterEachRun.class);
             }
 
             final SingleResult result =
@@ -303,7 +303,7 @@ public class Benchmark {
             appendToLogger(
                     SimpleLog.LOG_LEVEL_INFO, "invoking cleanUp for method "
                             + m);
-            executeBeforeAfter(parent, m, AfterLastBenchRun.class);
+            executeBeforeAfter(parent, m, AfterLastRun.class);
 
             return meterHelper.createMethodResult(result);
 
@@ -336,29 +336,29 @@ public class Benchmark {
         try {
             final Bench benchAnno = method.getAnnotation(Bench.class);
             if (benchAnno != null
-                    && (anno.equals(BeforeFirstBenchRun.class) && !(benchAnno
-                            .beforeFirstBenchRun().equals("")))) {
+                    && (anno.equals(BeforeFirstRun.class) && !(benchAnno
+                            .beforeFirstRun().equals("")))) {
                 toReturn =
                         objectToBench.getClass().getDeclaredMethod(
-                                benchAnno.beforeFirstBenchRun(), setUpParams);
+                                benchAnno.beforeFirstRun(), setUpParams);
             } else if (benchAnno != null
-                    && (anno.equals(BeforeEachBenchRun.class) && !(benchAnno
-                            .beforeEveryBenchRun().equals("")))) {
+                    && (anno.equals(BeforeEachRun.class) && !(benchAnno
+                            .beforeEachRun().equals("")))) {
                 toReturn =
                         objectToBench.getClass().getDeclaredMethod(
-                                benchAnno.beforeEveryBenchRun(), setUpParams);
+                                benchAnno.beforeEachRun(), setUpParams);
             } else if (benchAnno != null
-                    && (anno.equals(AfterEachBenchRun.class) && !(benchAnno
-                            .afterEveryBenchRun().equals("")))) {
+                    && (anno.equals(AfterEachRun.class) && !(benchAnno
+                            .afterEachRun().equals("")))) {
                 toReturn =
                         objectToBench.getClass().getDeclaredMethod(
-                                benchAnno.afterEveryBenchRun(), setUpParams);
+                                benchAnno.afterEachRun(), setUpParams);
             } else if (benchAnno != null
-                    && (anno.equals(AfterLastBenchRun.class) && !(benchAnno
-                            .afterLastBenchRun().equals("")))) {
+                    && (anno.equals(AfterLastRun.class) && !(benchAnno
+                            .afterLastRun().equals("")))) {
                 toReturn =
                         objectToBench.getClass().getDeclaredMethod(
-                                benchAnno.afterLastBenchRun(), setUpParams);
+                                benchAnno.afterLastRun(), setUpParams);
             } else {
                 toReturn = getBeforeAfter(objectToBench, anno);
             }
@@ -548,10 +548,10 @@ public class Benchmark {
         if (method.getDeclaringClass().getAnnotation(BenchClass.class) != null) {
             if ((method.getAnnotation(Bench.class) == null)
                     && (method.getAnnotation(BeforeBenchClass.class) != null
-                            || method.getAnnotation(BeforeFirstBenchRun.class) != null
-                            || method.getAnnotation(BeforeEachBenchRun.class) != null
-                            || method.getAnnotation(AfterEachBenchRun.class) != null
-                            || method.getAnnotation(AfterLastBenchRun.class) != null || method
+                            || method.getAnnotation(BeforeFirstRun.class) != null
+                            || method.getAnnotation(BeforeEachRun.class) != null
+                            || method.getAnnotation(AfterEachRun.class) != null
+                            || method.getAnnotation(AfterLastRun.class) != null || method
                             .getAnnotation(AfterBenchClass.class) != null)) {
                 return false;
             }

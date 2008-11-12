@@ -39,25 +39,25 @@ public @interface Bench {
      * Parameter of the method which works as a setUp-like, but just once for
      * all runs. For more information to setUp, look at JUnit.
      */
-    String beforeFirstBenchRun() default "";
+    String beforeFirstRun() default "";
 
     /**
      * Parameter of the method which works as a tearDown-like, but just once for
      * all runs. For more information to setUp, look at JUnit.
      */
-    String afterLastBenchRun() default "";
+    String afterLastRun() default "";
 
     /**
      * Parameter of the method which works as a setUp-like. For more information
      * to setUp, look at JUnit.
      */
-    String beforeEveryBenchRun() default "";
+    String beforeEachRun() default "";
 
     /**
      * Parameter of the method which works as a tearDown-like. For more
      * information to setUp, look at JUnit.
      */
-    String afterEveryBenchRun() default "";
+    String afterEachRun() default "";
 
     /**
      * Parameter for the number of runs of this bench.

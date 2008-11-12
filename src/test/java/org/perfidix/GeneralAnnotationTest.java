@@ -24,11 +24,11 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 import org.perfidix.annotation.AfterBenchClass;
-import org.perfidix.annotation.AfterEachBenchRun;
-import org.perfidix.annotation.AfterLastBenchRun;
+import org.perfidix.annotation.AfterEachRun;
+import org.perfidix.annotation.AfterLastRun;
 import org.perfidix.annotation.BeforeBenchClass;
-import org.perfidix.annotation.BeforeEachBenchRun;
-import org.perfidix.annotation.BeforeFirstBenchRun;
+import org.perfidix.annotation.BeforeEachRun;
+import org.perfidix.annotation.BeforeFirstRun;
 import org.perfidix.annotation.Bench;
 import org.perfidix.annotation.BenchClass;
 
@@ -99,12 +99,12 @@ public class GeneralAnnotationTest {
             beforeClass++;
         }
 
-        @BeforeFirstBenchRun
+        @BeforeFirstRun
         public void beforeMethod() {
             beforeMethod++;
         }
 
-        @BeforeEachBenchRun
+        @BeforeEachRun
         public void setUp() {
             setUp++;
         }
@@ -119,12 +119,12 @@ public class GeneralAnnotationTest {
             bench2++;
         }
 
-        @AfterEachBenchRun
+        @AfterEachRun
         public void tearDown() {
             tearDown++;
         }
 
-        @AfterLastBenchRun
+        @AfterLastRun
         public void afterMethod() {
             afterMethod++;
         }
@@ -144,12 +144,12 @@ public class GeneralAnnotationTest {
             beforeClass++;
         }
 
-        @BeforeFirstBenchRun
+        @BeforeFirstRun
         public void beforeMethod() {
             beforeMethod++;
         }
 
-        @BeforeEachBenchRun
+        @BeforeEachRun
         public void setUp() {
             setUp++;
         }
@@ -162,12 +162,12 @@ public class GeneralAnnotationTest {
             bench2++;
         }
 
-        @AfterEachBenchRun
+        @AfterEachRun
         public void tearDown() {
             tearDown++;
         }
 
-        @AfterLastBenchRun
+        @AfterLastRun
         public void afterMethod() {
             afterMethod++;
         }

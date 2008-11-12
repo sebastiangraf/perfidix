@@ -5,11 +5,11 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 import org.perfidix.annotation.AfterBenchClass;
-import org.perfidix.annotation.AfterEachBenchRun;
-import org.perfidix.annotation.AfterLastBenchRun;
+import org.perfidix.annotation.AfterEachRun;
+import org.perfidix.annotation.AfterLastRun;
 import org.perfidix.annotation.BeforeBenchClass;
-import org.perfidix.annotation.BeforeEachBenchRun;
-import org.perfidix.annotation.BeforeFirstBenchRun;
+import org.perfidix.annotation.BeforeEachRun;
+import org.perfidix.annotation.BeforeFirstRun;
 import org.perfidix.annotation.Bench;
 import org.perfidix.annotation.BenchClass;
 import org.perfidix.annotation.SkipBench;
@@ -83,7 +83,7 @@ public class SkipBenchTest {
             setUp++;
         }
 
-        @Bench(beforeEveryBenchRun = "setUp", afterEveryBenchRun = "tearDown")
+        @Bench(beforeEachRun = "setUp", afterEachRun = "tearDown")
         public void bench2() {
             bench2++;
         }
@@ -102,13 +102,13 @@ public class SkipBenchTest {
             beforeClass++;
         }
 
-        @BeforeFirstBenchRun
+        @BeforeFirstRun
         @SkipBench
         public void beforeMethod() {
             beforeMethod++;
         }
 
-        @BeforeEachBenchRun
+        @BeforeEachRun
         @SkipBench
         public void setUp() {
             setUp++;
@@ -125,13 +125,13 @@ public class SkipBenchTest {
             bench2++;
         }
 
-        @AfterEachBenchRun
+        @AfterEachRun
         @SkipBench
         public void tearDown() {
             tearDown++;
         }
 
-        @AfterLastBenchRun
+        @AfterLastRun
         @SkipBench
         public void afterMethod() {
             afterMethod++;
