@@ -22,6 +22,7 @@ package org.perfidix.element;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 
 import org.perfidix.annotation.AfterBenchClass;
 import org.perfidix.annotation.AfterEachRun;
@@ -32,8 +33,6 @@ import org.perfidix.annotation.BeforeFirstRun;
 import org.perfidix.annotation.Bench;
 import org.perfidix.annotation.BenchClass;
 import org.perfidix.annotation.SkipBench;
-
-import com.sun.org.apache.bcel.internal.generic.Type;
 
 /**
  * Class to mark all elements which are possible benchmarkable. The method hold
@@ -76,7 +75,7 @@ public final class BenchmarkElement {
      * @return true if an instance of this interface is benchmarkable, false
      *         otherwise.
      */
-    public boolean checkThisAsBenchmarkable() {
+    public boolean checkThisMethodAsBenchmarkable() {
         // if method is annotated with SkipBench, the method is never
         // benchmarkable.
         final SkipBench skipBenchAnno =
@@ -119,7 +118,8 @@ public final class BenchmarkElement {
 
         // Scanning the class file for the BeforeBenchClass-annotation
         final Method method =
-                findAndCheckAnyMethodByAnnotation(BeforeBenchClass.class);
+                findAndCheckAnyMethodByAnnotation(
+                        this.getClass(), BeforeBenchClass.class);
 
         if (method != null) {
             return method;
@@ -157,8 +157,10 @@ public final class BenchmarkElement {
 
                 // getting the method by name
                 method =
-                        getMethodToBench().getClass().getDeclaredMethod(
-                                benchAnno.beforeFirstRun(), setUpParams);
+                        getMethodToBench()
+                                .getDeclaringClass()
+                                .getDeclaredMethod(
+                                        benchAnno.beforeFirstRun(), setUpParams);
             } catch (SecurityException e) {
                 throw new IllegalAccessException(new StringBuilder(benchAnno
                         .beforeFirstRun())
@@ -184,7 +186,8 @@ public final class BenchmarkElement {
                         .toString());
             }
         } else {
-            return findAndCheckAnyMethodByAnnotation(BeforeFirstRun.class);
+            return findAndCheckAnyMethodByAnnotation(getMethodToBench()
+                    .getDeclaringClass(), BeforeFirstRun.class);
         }
 
     }
@@ -218,8 +221,9 @@ public final class BenchmarkElement {
 
                 // getting the method by name
                 method =
-                        getMethodToBench().getClass().getDeclaredMethod(
-                                benchAnno.beforeEachRun(), setUpParams);
+                        getMethodToBench()
+                                .getDeclaringClass().getDeclaredMethod(
+                                        benchAnno.beforeEachRun(), setUpParams);
             } catch (SecurityException e) {
                 throw new IllegalAccessException(new StringBuilder(benchAnno
                         .beforeEachRun())
@@ -245,7 +249,8 @@ public final class BenchmarkElement {
                         .toString());
             }
         } else {
-            return findAndCheckAnyMethodByAnnotation(BeforeEachRun.class);
+            return findAndCheckAnyMethodByAnnotation(getMethodToBench()
+                    .getDeclaringClass(), BeforeEachRun.class);
         }
 
     }
@@ -279,8 +284,9 @@ public final class BenchmarkElement {
 
                 // getting the method by name
                 method =
-                        getMethodToBench().getClass().getDeclaredMethod(
-                                benchAnno.afterEachRun(), setUpParams);
+                        getMethodToBench()
+                                .getDeclaringClass().getDeclaredMethod(
+                                        benchAnno.afterEachRun(), setUpParams);
             } catch (SecurityException e) {
                 throw new IllegalAccessException(new StringBuilder(benchAnno
                         .afterEachRun())
@@ -306,7 +312,8 @@ public final class BenchmarkElement {
                         .toString());
             }
         } else {
-            return findAndCheckAnyMethodByAnnotation(AfterEachRun.class);
+            return findAndCheckAnyMethodByAnnotation(getMethodToBench()
+                    .getDeclaringClass(), AfterEachRun.class);
         }
     }
 
@@ -339,8 +346,9 @@ public final class BenchmarkElement {
 
                 // getting the method by name
                 method =
-                        getMethodToBench().getClass().getDeclaredMethod(
-                                benchAnno.afterLastRun(), setUpParams);
+                        getMethodToBench()
+                                .getDeclaringClass().getDeclaredMethod(
+                                        benchAnno.afterLastRun(), setUpParams);
             } catch (SecurityException e) {
                 throw new IllegalAccessException(new StringBuilder(benchAnno
                         .afterLastRun())
@@ -366,7 +374,8 @@ public final class BenchmarkElement {
                         .toString());
             }
         } else {
-            return findAndCheckAnyMethodByAnnotation(AfterLastRun.class);
+            return findAndCheckAnyMethodByAnnotation(getMethodToBench()
+                    .getDeclaringClass(), AfterLastRun.class);
         }
     }
 
@@ -387,60 +396,11 @@ public final class BenchmarkElement {
 
         // Scanning the class file for the AfterBenchClass-annotation
         final Method method =
-                findAndCheckAnyMethodByAnnotation(AfterBenchClass.class);
+                findAndCheckAnyMethodByAnnotation(
+                        this.getClass(), AfterBenchClass.class);
 
         if (method != null) {
             return method;
-        } else {
-            return null;
-        }
-    }
-
-    /**
-     * This class finds any method with a given annotation. The method is
-     * allowed to occure only once in the class and should match the
-     * requirements for Perfidix for an execution by reflection.
-     * 
-     * @param anno
-     *            of the method to be found
-     * @return a method annotated by the annotation given. The method occurs
-     *         only once in the class and matched the requirements of
-     *         perfidix-reflective-invocation.
-     * @throws IllegalAccessException
-     *             if these integrity checks fail
-     */
-    public final Method findAndCheckAnyMethodByAnnotation(
-            final Class<? extends Annotation> anno)
-            throws IllegalAccessException {
-        // needed variables, one for check for duplicates
-        Method anyAnnotatedMethod = null;
-
-        // Scanning all methods
-        final Method[] possibleAnnotatedMethods =
-                getMethodToBench().getClass().getMethods();
-        for (final Method meth : possibleAnnotatedMethods) {
-            if (meth.getAnnotation(anno) != null) {
-                // Check if there are multiple annotated methods, throwing
-                // IllegalAccessException otherwise.
-                if (anyAnnotatedMethod == null) {
-                    // Check if method is valid (no param, no returnval,
-                    // etc.), throwing IllegalAccessException otherwise.
-                    if (isReflectedExecutable(meth)) {
-                        anyAnnotatedMethod = meth;
-                    } else {
-                        throw new IllegalAccessException(new StringBuilder(
-                                "BeforeBenchClass-annotated method ").append(
-                                meth).append(" is not executable.").toString());
-                    }
-                } else {
-                    throw new IllegalAccessException(
-                            "Please use only one BeforeBenchClass annotation in one class.");
-                }
-            }
-        }
-
-        if (anyAnnotatedMethod != null) {
-            return anyAnnotatedMethod;
         } else {
             return null;
         }
@@ -453,6 +413,60 @@ public final class BenchmarkElement {
      */
     public final Method getMethodToBench() {
         return methodToBench;
+    }
+
+    /**
+     * This class finds any method with a given annotation. The method is
+     * allowed to occure only once in the class and should match the
+     * requirements for Perfidix for an execution by reflection.
+     * 
+     * @param anno
+     *            of the method to be found
+     * @param clazz
+     *            class to be searched
+     * @return a method annotated by the annotation given. The method occurs
+     *         only once in the class and matched the requirements of
+     *         perfidix-reflective-invocation.
+     * @throws IllegalAccessException
+     *             if these integrity checks fail
+     */
+    public static final Method findAndCheckAnyMethodByAnnotation(
+            final Class<?> clazz, final Class<? extends Annotation> anno)
+            throws IllegalAccessException {
+        // needed variables, one for check for duplicates
+        Method anyAnnotatedMethod = null;
+
+        // Scanning all methods
+        final Method[] possibleAnnotatedMethods = clazz.getDeclaredMethods();
+        for (final Method meth : possibleAnnotatedMethods) {
+            if (meth.getAnnotation(anno) != null) {
+                // Check if there are multiple annotated methods, throwing
+                // IllegalAccessException otherwise.
+                if (anyAnnotatedMethod == null) {
+                    // Check if method is valid (no param, no returnval,
+                    // etc.), throwing IllegalAccessException otherwise.
+                    if (isReflectedExecutable(meth)) {
+                        anyAnnotatedMethod = meth;
+                    } else {
+                        throw new IllegalAccessException(new StringBuilder(anno
+                                .toString())
+                                .append("-annotated method ").append(meth)
+                                .append(" is not executable.").toString());
+                    }
+                } else {
+                    throw new IllegalAccessException(new StringBuilder(
+                            "Please use only one ")
+                            .append(anno.toString()).append(
+                                    "-annotation in one class.").toString());
+                }
+            }
+        }
+
+        if (anyAnnotatedMethod != null) {
+            return anyAnnotatedMethod;
+        } else {
+            return null;
+        }
     }
 
     /**
@@ -469,10 +483,21 @@ public final class BenchmarkElement {
         if (meth.getGenericParameterTypes().length > 0) {
             return false;
         }
-
+        // if method is throwing exceptions, the method is never benchmarkable
+        if (meth.getGenericExceptionTypes().length > 0) {
+            return false;
+        }
+        // if method is static, the method is never benchmarkable
+        if (Modifier.isStatic(meth.getModifiers())) {
+            return false;
+        }
+        // if method is not public, the method is never benchmarkable
+        if (!Modifier.isPublic(meth.getModifiers())) {
+            return false;
+        }
         // if method has another returnValue than void, the method is never
         // benchmarkable
-        if (!meth.getGenericReturnType().equals(Type.VOID)) {
+        if (!meth.getGenericReturnType().equals(Void.TYPE)) {
             return false;
         }
 
