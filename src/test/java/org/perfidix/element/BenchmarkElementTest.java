@@ -21,6 +21,7 @@
 package org.perfidix.element;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.lang.annotation.ElementType;
@@ -37,6 +38,7 @@ import org.perfidix.annotation.AfterLastRun;
 import org.perfidix.annotation.BeforeEachRun;
 import org.perfidix.annotation.BeforeFirstRun;
 import org.perfidix.annotation.Bench;
+import org.perfidix.annotation.BenchClass;
 import org.perfidix.annotation.SkipBench;
 
 /**
@@ -440,6 +442,55 @@ public class BenchmarkElementTest {
         } catch (Exception e) {
             fail(e.toString());
         }
+    }
+
+    /**
+     * Test method for
+     * {@link org.perfidix.element.BenchmarkElement#getNumberOfRuns()}.
+     */
+    @Test
+    public void testRuns1() {
+        try {
+            currentClassToTest = new TestRuns();
+            final Method[] meths =
+                    currentClassToTest.getClass().getDeclaredMethods();
+            BenchmarkElement elem = null;
+            for (final Method meth : meths) {
+                elem = new BenchmarkElement(meth);
+                if (meth.getName().equals("bench1")) {
+                    assertEquals(10, elem.getNumberOfRuns());
+                } else if (meth.getName().equals("bench2")) {
+                    assertEquals(20, elem.getNumberOfRuns());
+                } else if (meth.getName().equals("bench3")) {
+                    try {
+                        elem.getNumberOfRuns();
+                        fail("Must throw IllegalStateException!");
+                    } catch (IllegalStateException e) {
+                        assertTrue(e.getMessage().startsWith("Method"));
+                    }
+                } else {
+                    fail("Should never occur!");
+                }
+            }
+        } catch (Exception e) {
+            fail("Should never fail in testRuns!");
+        }
+    }
+
+    @BenchClass(runs = 20)
+    class TestRuns {
+
+        @Bench(runs = 10)
+        public void bench1() {
+        }
+
+        public void bench2() {
+        }
+
+        public int bench3() {
+            return -1;
+        }
+
     }
 
     class TestAfterLastRun2 {

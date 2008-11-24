@@ -451,6 +451,35 @@ public final class BenchmarkElement {
     }
 
     /**
+     * Getting the number of runs corresponding to a given method. The method
+     * MUST be a benchmarkable method, otherwise an IllegalStateException
+     * exception arises. The number of runs of an annotated method is more
+     * powerful than the number of runs as denoted by the benchclass annotation.
+     * 
+     * @return the number of runs of this benchmarkable-method
+     * @throws IllegalStateException
+     *             if the given method is not benchmarkable.
+     */
+    public final int getNumberOfRuns() throws IllegalStateException {
+        if (checkThisMethodAsBenchmarkable()) {
+            final Bench benchAnno =
+                    getMethodToBench().getAnnotation(Bench.class);
+            final BenchClass benchClassAnno =
+                    getMethodToBench().getDeclaringClass().getAnnotation(
+                            BenchClass.class);
+            if (benchAnno != null) {
+                return benchAnno.runs();
+            } else {
+                return benchClassAnno.runs();
+            }
+        } else {
+            throw new IllegalStateException(new StringBuilder("Method ")
+                    .append(this.methodToBench.toString()).append(
+                            " is actually not benchmarkable!").toString());
+        }
+    }
+
+    /**
      * Simple getter for encapsulated method.
      * 
      * @return the methodToBench
