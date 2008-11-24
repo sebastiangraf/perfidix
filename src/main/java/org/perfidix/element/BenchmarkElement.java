@@ -76,6 +76,11 @@ public final class BenchmarkElement {
      *         otherwise.
      */
     public boolean checkThisMethodAsBenchmarkable() {
+
+        // Check if bench-anno is given. For testing purposes against
+        // before/after annos
+        final Bench benchAnno = getMethodToBench().getAnnotation(Bench.class);
+
         // if method is annotated with SkipBench, the method is never
         // benchmarkable.
         final SkipBench skipBenchAnno =
@@ -84,11 +89,50 @@ public final class BenchmarkElement {
             return false;
         }
 
+        // Check if method is defined as beforeClass, beforeFirstRun,
+        // beforeEachRun, afterEachRun, afterLastRun, afterClass.
+        final BeforeBenchClass beforeClass =
+                getMethodToBench().getAnnotation(BeforeBenchClass.class);
+        if (beforeClass != null && benchAnno == null) {
+            return false;
+        }
+
+        final BeforeFirstRun beforeFirstRun =
+                getMethodToBench().getAnnotation(BeforeFirstRun.class);
+        if (beforeFirstRun != null && benchAnno == null) {
+            return false;
+        }
+
+        final BeforeEachRun beforeEachRun =
+                getMethodToBench().getAnnotation(BeforeEachRun.class);
+        if (beforeEachRun != null && benchAnno == null) {
+            return false;
+        }
+
+        final AfterEachRun afterEachRun =
+                getMethodToBench().getAnnotation(AfterEachRun.class);
+        if (afterEachRun != null && benchAnno == null) {
+            return false;
+        }
+
+        final AfterLastRun afterLastRun =
+                getMethodToBench().getAnnotation(AfterLastRun.class);
+        if (afterLastRun != null && benchAnno == null) {
+            return false;
+        }
+
+        final AfterBenchClass afterClass =
+                getMethodToBench().getAnnotation(AfterBenchClass.class);
+        if (afterClass != null && benchAnno == null) {
+            return false;
+        }
+
         // if method is not annotated with Bench and class is not annotated with
         // BenchClass, the method is never benchmarkable.
-        final Bench benchAnno = getMethodToBench().getAnnotation(Bench.class);
+
         final BenchClass classBenchAnno =
-                getMethodToBench().getClass().getAnnotation(BenchClass.class);
+                getMethodToBench().getDeclaringClass().getAnnotation(
+                        BenchClass.class);
         if (benchAnno == null && classBenchAnno == null) {
             return false;
         }
@@ -118,8 +162,8 @@ public final class BenchmarkElement {
 
         // Scanning the class file for the BeforeBenchClass-annotation
         final Method method =
-                findAndCheckAnyMethodByAnnotation(
-                        this.getClass(), BeforeBenchClass.class);
+                findAndCheckAnyMethodByAnnotation(getMethodToBench()
+                        .getDeclaringClass(), BeforeBenchClass.class);
 
         if (method != null) {
             return method;
@@ -396,8 +440,8 @@ public final class BenchmarkElement {
 
         // Scanning the class file for the AfterBenchClass-annotation
         final Method method =
-                findAndCheckAnyMethodByAnnotation(
-                        this.getClass(), AfterBenchClass.class);
+                findAndCheckAnyMethodByAnnotation(getMethodToBench()
+                        .getDeclaringClass(), AfterBenchClass.class);
 
         if (method != null) {
             return method;

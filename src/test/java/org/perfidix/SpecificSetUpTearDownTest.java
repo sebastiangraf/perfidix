@@ -102,14 +102,6 @@ public class SpecificSetUpTearDownTest {
         assertTrue(benchWith);
     }
 
-    @Test(expected = IllegalStateException.class)
-    public void testException() {
-        final WithException test = new WithException();
-        final Benchmark benchMark = new Benchmark();
-        benchMark.add(test);
-        benchMark.run(1);
-    }
-
     class Without {
 
         @BeforeFirstRun
@@ -196,23 +188,6 @@ public class SpecificSetUpTearDownTest {
             benchWith = true;
         }
 
-    }
-
-    class WithException {
-
-        public Object specialSetUp() {
-            specialSetUp = true;
-            return null;
-        }
-
-        public void specialTearDown(Object test) {
-            specialTearDown = true;
-        }
-
-        @Bench(beforeEachRun = "specialSetUp", afterEachRun = "specialTearDown")
-        public void bench() {
-            benchWith = true;
-        }
     }
 
 }

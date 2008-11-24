@@ -19,24 +19,16 @@
 
 package org.perfidix;
 
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Iterator;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.logging.impl.SimpleLog;
-import org.perfidix.annotation.AfterBenchClass;
-import org.perfidix.annotation.AfterEachRun;
-import org.perfidix.annotation.AfterLastRun;
-import org.perfidix.annotation.BeforeBenchClass;
-import org.perfidix.annotation.BeforeEachRun;
-import org.perfidix.annotation.BeforeFirstRun;
 import org.perfidix.annotation.Bench;
 import org.perfidix.annotation.BenchClass;
-import org.perfidix.annotation.SkipBench;
+import org.perfidix.element.BenchmarkElement;
 import org.perfidix.meter.AbstractMeter;
 import org.perfidix.meter.MemMeter;
 import org.perfidix.meter.Memory;
@@ -105,16 +97,6 @@ public class Benchmark {
      * Boolean if the exceptions should be logged.
      */
     private boolean logger = true;
-
-    /**
-     * Boolean if any exception is thrown by the bench.
-     */
-    private boolean exceptionsThrown = false;
-
-    /**
-     * Boolean if exceptions of any kind should be thrown to the benched class.
-     */
-    private boolean shouldThrowException = true;
 
     // ////////////////////////////////////////////
     // Constructors
@@ -232,9 +214,7 @@ public class Benchmark {
                 myResult.append(doRunObject(obj, numInvocations));
             } catch (Exception e) {
                 appendToLogger(SimpleLog.LOG_LEVEL_ERROR, "" + e);
-                if (shouldThrowException) {
-                    throw new IllegalStateException(e);
-                }
+                throw new IllegalStateException(e);
             }
         }
         return myResult;
@@ -260,6 +240,7 @@ public class Benchmark {
         assert (parent != null);
         assert (numInvocations >= 0);
         final Object[] args = {};
+        final BenchmarkElement elem = new BenchmarkElement(m);
         appendToLogger(SimpleLog.LOG_LEVEL_DEBUG, "Running method "
                 + m.getName()
                 + "(*"
@@ -274,12 +255,20 @@ public class Benchmark {
 
             appendToLogger(
                     SimpleLog.LOG_LEVEL_INFO, "invoking build for method " + m);
-            executeBeforeAfter(parent, m, BeforeFirstRun.class);
+            final Method beforeFirstRun = elem.findBeforeFirstRun();
+            if (beforeFirstRun != null) {
+                beforeFirstRun.invoke(parent, args);
+            }
             for (int invocationID = 0; invocationID < numInvocations; invocationID++) {
                 appendToLogger(
                         SimpleLog.LOG_LEVEL_INFO, "invoking setUp for method "
                                 + m);
-                executeBeforeAfter(parent, m, BeforeEachRun.class);
+
+                final Method beforeEachRun = elem.findBeforeEachRun();
+                if (beforeEachRun != null) {
+                    beforeEachRun.invoke(parent, args);
+                }
+
                 meterHelper.start(invocationID);
 
                 appendToLogger(
@@ -294,7 +283,10 @@ public class Benchmark {
                 appendToLogger(
                         SimpleLog.LOG_LEVEL_INFO,
                         "invoking tearDown for method " + m);
-                executeBeforeAfter(parent, m, AfterEachRun.class);
+                final Method afterEachRun = elem.findAfterEachRun();
+                if (afterEachRun != null) {
+                    afterEachRun.invoke(parent, args);
+                }
             }
 
             final SingleResult result =
@@ -303,108 +295,17 @@ public class Benchmark {
             appendToLogger(
                     SimpleLog.LOG_LEVEL_INFO, "invoking cleanUp for method "
                             + m);
-            executeBeforeAfter(parent, m, AfterLastRun.class);
+            final Method afterLastRun = elem.findAfterLastRun();
+            if (afterLastRun != null) {
+                afterLastRun.invoke(parent, args);
+            }
 
             return meterHelper.createMethodResult(result);
 
         } catch (Exception e) {
             appendToLogger(SimpleLog.LOG_LEVEL_FATAL, "" + e);
-            if (exceptionsThrown) {
-                throw new IllegalStateException(e);
-            } else {
-                return null;
-            }
+            return null;
         }
-    }
-
-    /**
-     * Method to execute before/after sourcecode.
-     * 
-     * @param objectToBench
-     *            object to bench
-     * @param method
-     *            method to be benched
-     * @param anno
-     *            annotation be checked
-     */
-    private void executeBeforeAfter(
-            final Object objectToBench, final Method method,
-            final Class<? extends Annotation> anno) {
-        Method toReturn = null;
-        final Class<?>[] setUpParams = {};
-        final Object[] methodParams = {};
-        try {
-            final Bench benchAnno = method.getAnnotation(Bench.class);
-            if (benchAnno != null
-                    && (anno.equals(BeforeFirstRun.class) && !(benchAnno
-                            .beforeFirstRun().equals("")))) {
-                toReturn =
-                        objectToBench.getClass().getDeclaredMethod(
-                                benchAnno.beforeFirstRun(), setUpParams);
-            } else if (benchAnno != null
-                    && (anno.equals(BeforeEachRun.class) && !(benchAnno
-                            .beforeEachRun().equals("")))) {
-                toReturn =
-                        objectToBench.getClass().getDeclaredMethod(
-                                benchAnno.beforeEachRun(), setUpParams);
-            } else if (benchAnno != null
-                    && (anno.equals(AfterEachRun.class) && !(benchAnno
-                            .afterEachRun().equals("")))) {
-                toReturn =
-                        objectToBench.getClass().getDeclaredMethod(
-                                benchAnno.afterEachRun(), setUpParams);
-            } else if (benchAnno != null
-                    && (anno.equals(AfterLastRun.class) && !(benchAnno
-                            .afterLastRun().equals("")))) {
-                toReturn =
-                        objectToBench.getClass().getDeclaredMethod(
-                                benchAnno.afterLastRun(), setUpParams);
-            } else {
-                toReturn = getBeforeAfter(objectToBench, anno);
-            }
-
-            if (checkMethod(toReturn)) {
-                toReturn.invoke(objectToBench, methodParams);
-            } else {
-                if (toReturn != null) {
-                    throw new IllegalStateException("Method: "
-                            + toReturn.getName()
-                            + " was invalid because of Params or Returnval.");
-                }
-            }
-        } catch (NoSuchMethodException e) {
-            appendToLogger(SimpleLog.LOG_LEVEL_INFO, anno.getName()
-                    + " method not found or the method has params.");
-            if (exceptionsThrown) {
-                throw new IllegalStateException(e);
-            }
-        } catch (Exception e) {
-            appendToLogger(SimpleLog.LOG_LEVEL_ERROR, "" + e);
-            if (exceptionsThrown) {
-                throw new IllegalStateException(e);
-            }
-        }
-    }
-
-    private Method getBeforeAfter(
-            final Object obj, final Class<? extends Annotation> anno) {
-        Method toReturn = null;
-        final Method[] methods = obj.getClass().getMethods();
-        boolean found = false;
-        for (int i = 0; i < methods.length; i++) {
-            if (methods[i].getAnnotation(anno) != null) {
-                if (!found) {
-                    toReturn = methods[i];
-                    found = true;
-                } else {
-                    throw new IllegalArgumentException("Use just one "
-                            + anno.getName()
-                            + " for every Bench Class!");
-                }
-            }
-        }
-        return toReturn;
-
     }
 
     /**
@@ -439,25 +340,22 @@ public class Benchmark {
         }
         final Method[] methods = toExecute.getClass().getDeclaredMethods();
         final Method beforeClass =
-                getBeforeAfter(toExecute, BeforeBenchClass.class);
+                new BenchmarkElement(methods[0]).findBeforeBenchClass();
         if (beforeClass != null) {
-            if (checkMethod(beforeClass)) {
-                beforeClass.invoke(toExecute, params);
-            } else {
-                throw new IllegalStateException("Method: "
-                        + beforeClass.getName()
-                        + " was invalid because of Params or Returnval.");
-            }
+            beforeClass.invoke(obj, params);
         }
 
-        for (int i = 0; i < methods.length; i++) {
+        for (final Method meth : methods) {
+            final BenchmarkElement elem = new BenchmarkElement(meth);
             // checking of method is benchable.
-            if (checkMethodForBench(methods[i])) {
+            if (elem.checkThisMethodAsBenchmarkable()) {
                 int runs = -1;
-                final Bench anno = methods[i].getAnnotation(Bench.class);
+                final Bench anno =
+                        elem.getMethodToBench().getAnnotation(Bench.class);
                 final BenchClass classAnno =
-                        methods[i].getDeclaringClass().getAnnotation(
-                                BenchClass.class);
+                        elem
+                                .getMethodToBench().getDeclaringClass()
+                                .getAnnotation(BenchClass.class);
                 boolean runSet = false;
                 if (anno != null) {
                     if (anno.runs() != -1) {
@@ -483,80 +381,19 @@ public class Benchmark {
                     runs = numInvocations;
                 }
                 final MethodResult realResult =
-                        doRunObject(methods[i], runs, toExecute);
+                        doRunObject(elem.getMethodToBench(), runs, toExecute);
                 if (realResult != null) {
                     result.append(realResult);
                 }
             }
         }
         final Method afterClass =
-                getBeforeAfter(toExecute, AfterBenchClass.class);
+                new BenchmarkElement(methods[0]).findAfterBenchClass();
         if (afterClass != null) {
-            if (checkMethod(afterClass)) {
-                afterClass.invoke(toExecute, params);
-            } else {
-                throw new IllegalStateException("Method: "
-                        + afterClass.getName()
-                        + " was invalid because of Params or Returnval.");
-            }
+            afterClass.invoke(obj, params);
         }
 
         return result;
-    }
-
-    // ////////////////////////////////////////////
-    // checkMethods
-    // ////////////////////////////////////////////
-
-    /**
-     * Check if method is valid for beforeBench,afterBench and bench, that means
-     * void and param-free.
-     * 
-     * @param method
-     *            to be checked
-     * @return boolean if check was successful or not.
-     */
-    private boolean checkMethod(final Method method) {
-        if (method == null) {
-            return false;
-        }
-        final Type[] params = method.getGenericParameterTypes();
-        final Type returnType = method.getGenericReturnType();
-
-        if (params.length != 0 || returnType != Void.TYPE) {
-            return false;
-        }
-        return true;
-    }
-
-    /**
-     * Check if method is valid for bench.
-     * 
-     * @param method
-     *            to check
-     * @return booelean if check was successful or not
-     */
-    private boolean checkMethodForBench(final Method method) {
-        if (!checkMethod(method)) {
-            return false;
-        }
-        if ((method.getAnnotation(Bench.class) == null && method
-                .getDeclaringClass().getAnnotation(BenchClass.class) == null)
-                || method.getAnnotation(SkipBench.class) != null) {
-            return false;
-        }
-        if (method.getDeclaringClass().getAnnotation(BenchClass.class) != null) {
-            if ((method.getAnnotation(Bench.class) == null)
-                    && (method.getAnnotation(BeforeBenchClass.class) != null
-                            || method.getAnnotation(BeforeFirstRun.class) != null
-                            || method.getAnnotation(BeforeEachRun.class) != null
-                            || method.getAnnotation(AfterEachRun.class) != null
-                            || method.getAnnotation(AfterLastRun.class) != null || method
-                            .getAnnotation(AfterBenchClass.class) != null)) {
-                return false;
-            }
-        }
-        return true;
     }
 
     // ////////////////////////////////////////////
@@ -573,30 +410,12 @@ public class Benchmark {
     }
 
     /**
-     * Setter if you want to get all your thrown Exception to the benched class.
-     * 
-     * @param value
-     */
-    public final void shouldThrowException(final boolean value) {
-        shouldThrowException = value;
-    }
-
-    /**
      * getting the name
      * 
      * @return string
      */
     public String getName() {
         return name;
-    }
-
-    /**
-     * tells whether exceptions were thrown during the run.
-     * 
-     * @return boolean
-     */
-    public boolean exceptionsThrown() {
-        return exceptionsThrown;
     }
 
     /**
@@ -699,10 +518,6 @@ public class Benchmark {
             default:
                 LOGGER.error("Not known log level!");
             }
-        }
-        if (loglevel == SimpleLog.LOG_LEVEL_ERROR
-                || loglevel == SimpleLog.LOG_LEVEL_FATAL) {
-            exceptionsThrown = true;
         }
     }
 

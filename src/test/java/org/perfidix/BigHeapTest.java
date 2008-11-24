@@ -21,10 +21,7 @@ package org.perfidix;
 
 import java.util.Arrays;
 
-import org.junit.Test;
 import org.perfidix.annotation.Bench;
-
-import static org.junit.Assert.assertFalse;
 
 public class BigHeapTest extends PerfidixTest {
 
@@ -44,20 +41,6 @@ public class BigHeapTest extends PerfidixTest {
             // a java heap space error with 512 MB heap size
             Arrays.fill(arr, new String());
         }
-
-    }
-
-    @Test
-    public void testOne() {
-
-        Benchmark a = new Benchmark("my benchmark");
-        // SomeHeap h1 = new SomeHeap();
-        // SomeHeap h2 = new SomeHeap();
-        a.add(new SomeHeap());
-        a.add(new SomeHeap());
-        assertFalse(a.exceptionsThrown());
-        a.run(1);
-        assertFalse(a.exceptionsThrown());
 
     }
 

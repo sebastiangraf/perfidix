@@ -19,11 +19,11 @@
 
 package org.perfidix;
 
+import static org.junit.Assert.assertEquals;
+
 import org.junit.Test;
 import org.perfidix.annotation.Bench;
 import org.perfidix.annotation.BenchClass;
-
-import static org.junit.Assert.assertEquals;
 
 public class AnnotationRunsTest {
 
@@ -69,5 +69,4 @@ public class AnnotationRunsTest {
             bench3++;
         }
     }
-
 }
