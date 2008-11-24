@@ -56,7 +56,7 @@ public class BenchmarkElementTest {
      *             of any kind
      */
     @Before
-    public final void setUp() throws Exception {
+    public void setUp() throws Exception {
 
     }
 
@@ -67,7 +67,7 @@ public class BenchmarkElementTest {
      *             of any kind
      */
     @After
-    public final void tearDown() throws Exception {
+    public void tearDown() throws Exception {
         currentClassToTest = null;
     }
 
@@ -77,7 +77,7 @@ public class BenchmarkElementTest {
      * .
      */
     @Test
-    public final void testCheckThisMethodAsBenchmarkable1() {
+    public void testCheckThisMethodAsBenchmarkable1() {
 
         try {
             final Object[] param = {};
@@ -107,7 +107,7 @@ public class BenchmarkElementTest {
      * .
      */
     @Test
-    public final void testCheckThisMethodAsBenchmarkable2() {
+    public void testCheckThisMethodAsBenchmarkable2() {
 
         try {
             final Object[] param = {};
@@ -140,7 +140,7 @@ public class BenchmarkElementTest {
      *             should be thrown if something weird happen
      */
     @Test(expected = IllegalAccessException.class)
-    public final void testFindAndCheckAnyMethodByAnnotation()
+    public void testFindAndCheckAnyMethodByAnnotation()
             throws IllegalAccessException {
         try {
             currentClassToTest = new TestFindAndCheckBenchClass();
@@ -159,7 +159,7 @@ public class BenchmarkElementTest {
      * .
      */
     @Test
-    public final void testIsReflectedExecutable() {
+    public void testIsReflectedExecutable() {
         try {
             final Object[] param = {};
             currentClassToTest = new TestIsReflectedExecutable();
@@ -183,7 +183,7 @@ public class BenchmarkElementTest {
      * {@link org.perfidix.element.BenchmarkElement#findBeforeFirstRun()}.
      */
     @Test
-    public final void testFindBeforeFirstRun1() {
+    public void testFindBeforeFirstRun1() {
         try {
             final Object[] param = {};
 
@@ -216,7 +216,7 @@ public class BenchmarkElementTest {
      * {@link org.perfidix.element.BenchmarkElement#findBeforeFirstRun()}.
      */
     @Test
-    public final void testFindBeforeFirstRun2() {
+    public void testFindBeforeFirstRun2() {
         try {
             final Object[] param = {};
 
@@ -249,7 +249,7 @@ public class BenchmarkElementTest {
      * {@link org.perfidix.element.BenchmarkElement#findBeforeEachRun()}.
      */
     @Test
-    public final void testFindBeforeEachRun1() {
+    public void testFindBeforeEachRun1() {
         try {
             final Object[] param = {};
 
@@ -282,7 +282,7 @@ public class BenchmarkElementTest {
      * {@link org.perfidix.element.BenchmarkElement#findBeforeEachRun()}.
      */
     @Test
-    public final void testFindBeforeEachRun2() {
+    public void testFindBeforeEachRun2() {
         try {
             final Object[] param = {};
 
@@ -315,7 +315,7 @@ public class BenchmarkElementTest {
      * {@link org.perfidix.element.BenchmarkElement#findBeforeEachRun()}.
      */
     @Test
-    public final void testFindAfterEachRun1() {
+    public void testFindAfterEachRun1() {
         try {
             final Object[] param = {};
 
@@ -348,7 +348,7 @@ public class BenchmarkElementTest {
      * {@link org.perfidix.element.BenchmarkElement#findAfterEachRun()}.
      */
     @Test
-    public final void testFindAfterEachRun2() {
+    public void testFindAfterEachRun2() {
         try {
             final Object[] param = {};
 
@@ -381,7 +381,7 @@ public class BenchmarkElementTest {
      * {@link org.perfidix.element.BenchmarkElement#findAfterLastRun()}.
      */
     @Test
-    public final void testFindAfterLastRun1() {
+    public void testFindAfterLastRun1() {
         try {
             final Object[] param = {};
 
@@ -414,7 +414,7 @@ public class BenchmarkElementTest {
      * {@link org.perfidix.element.BenchmarkElement#findAfterLastRun()}.
      */
     @Test
-    public final void testFindAfterLastRun2() {
+    public void testFindAfterLastRun2() {
         try {
             final Object[] param = {};
 
@@ -442,172 +442,167 @@ public class BenchmarkElementTest {
         }
     }
 
-}
+    class TestAfterLastRun2 {
 
-class TestAfterLastRun2 {
+        @AfterLastRun
+        public final void afterLastRun() {
+        }
 
-    @AfterLastRun
-    public final void afterLastRun() {
+        @Bench
+        public final void bench() {
+        }
     }
 
-    @Bench
-    public final void bench() {
-    }
-}
+    class TestAfterLastRun1 {
 
-class TestAfterLastRun1 {
+        @AfterLastRun
+        public final void afterLastRunAnno() {
+            fail("Should be ignored!");
+        }
 
-    @AfterLastRun
-    public final void afterLastRunAnno() {
-        fail("Should be ignored!");
-    }
+        public final void afterLastRun() {
+        }
 
-    public final void afterLastRun() {
-    }
-
-    @Bench(afterLastRun = "afterLastRun")
-    public final void bench() {
-    }
-}
-
-class TestAfterEachRun2 {
-
-    @AfterEachRun
-    public final void afterEachRun() {
+        @Bench(afterLastRun = "afterLastRun")
+        public final void bench() {
+        }
     }
 
-    @Bench
-    public final void bench() {
-    }
-}
+    class TestAfterEachRun2 {
 
-class TestAfterEachRun1 {
+        @AfterEachRun
+        public final void afterEachRun() {
+        }
 
-    @AfterEachRun
-    public final void afterEachRunAnno() {
-        fail("Should be ignored!");
-    }
-
-    public final void afterEachRun() {
+        @Bench
+        public final void bench() {
+        }
     }
 
-    @Bench(afterEachRun = "afterEachRun")
-    public final void bench() {
-    }
-}
+    class TestAfterEachRun1 {
 
-class TestBeforeEachRun2 {
+        @AfterEachRun
+        public final void afterEachRunAnno() {
+            fail("Should be ignored!");
+        }
 
-    @BeforeEachRun
-    public final void beforeEachRun() {
-    }
+        public final void afterEachRun() {
+        }
 
-    @Bench
-    public final void bench() {
-    }
-}
-
-class TestBeforeEachRun1 {
-
-    @BeforeEachRun
-    public final void beforeEachRunAnno() {
-        fail("Should be ignored!");
+        @Bench(afterEachRun = "afterEachRun")
+        public final void bench() {
+        }
     }
 
-    public final void beforeEachRun() {
+    class TestBeforeEachRun2 {
+
+        @BeforeEachRun
+        public final void beforeEachRun() {
+        }
+
+        @Bench
+        public final void bench() {
+        }
     }
 
-    @Bench(beforeEachRun = "beforeEachRun")
-    public final void bench() {
-    }
-}
+    class TestBeforeEachRun1 {
 
-class TestBeforeFirstRun2 {
+        @BeforeEachRun
+        public final void beforeEachRunAnno() {
+            fail("Should be ignored!");
+        }
 
-    @BeforeFirstRun
-    public final void beforeFirstRun() {
-    }
+        public final void beforeEachRun() {
+        }
 
-    @Bench
-    public final void bench() {
-    }
-}
-
-class TestBeforeFirstRun1 {
-
-    @BeforeFirstRun
-    public final void beforeFirstRunAnno() {
-        fail("Should be ignored!");
+        @Bench(beforeEachRun = "beforeEachRun")
+        public final void bench() {
+        }
     }
 
-    public final void beforeFirstRun() {
+    class TestBeforeFirstRun2 {
+
+        @BeforeFirstRun
+        public final void beforeFirstRun() {
+        }
+
+        @Bench
+        public final void bench() {
+        }
     }
 
-    @Bench(beforeFirstRun = "beforeFirstRun")
-    public final void bench() {
-    }
-}
+    class TestBeforeFirstRun1 {
 
-class TestIsReflectedExecutable {
+        @BeforeFirstRun
+        public final void beforeFirstRunAnno() {
+            fail("Should be ignored!");
+        }
 
-    public final void paramMethod(final Object obj) {
-        fail("Only param-less methods allowed");
-    }
+        public final void beforeFirstRun() {
+        }
 
-    public final void exceptionMethod() throws Exception {
-        fail("Only methods without an exception allowed");
-    }
-
-    final void notPublicMethod() {
-        fail("Only methods with public identifier allowed");
+        @Bench(beforeFirstRun = "beforeFirstRun")
+        public final void bench() {
+        }
     }
 
-    public final static void notStaticMethod() {
-        fail("Only non-static methods allowed");
+    class TestIsReflectedExecutable {
+
+        public final void paramMethod(final Object obj) {
+            fail("Only param-less methods allowed");
+        }
+
+        public final void exceptionMethod() throws Exception {
+            fail("Only methods without an exception allowed");
+        }
+
+        final void notPublicMethod() {
+            fail("Only methods with public identifier allowed");
+        }
+
+        public final Object returnVal() {
+            fail("Only methods without a returnVal allowed");
+            return null;
+        }
+
+        public final void shouldBeInvoked() {
+
+        }
     }
 
-    public final Object returnVal() {
-        fail("Only methods without a returnVal allowed");
-        return null;
+    class TestFindAndCheckBenchClass {
+
+        @ShouldOccureOnce
+        public final void testBenchAnno1() {
+        }
+
+        @ShouldOccureOnce
+        public final void testBenchAnno2() {
+        }
     }
 
-    public final void shouldBeInvoked() {
+    class TestClassCheckThisMethodAsBenchmarkable1 {
+        @Bench
+        public final void testBenchAnno1() {
+        }
 
-    }
-}
-
-class TestFindAndCheckBenchClass {
-
-    @ShouldOccureOnce
-    public final void testBenchAnno1() {
-    }
-
-    @ShouldOccureOnce
-    public final void testBenchAnno2() {
-    }
-}
-
-class TestClassCheckThisMethodAsBenchmarkable1 {
-    @Bench
-    public final void testBenchAnno1() {
+        public final void testBenchAnno2() {
+            fail("Should not be benched!");
+        }
     }
 
-    public final void testBenchAnno2() {
-        fail("Should not be benched!");
+    class TestClassCheckThisMethodAsBenchmarkable2 {
+
+        @SkipBench
+        @Bench
+        public final void testBenchAnno3() {
+            fail("Should not be benched!");
+        }
     }
-}
 
-class TestClassCheckThisMethodAsBenchmarkable2 {
+    @Retention(RetentionPolicy.RUNTIME)
+    @Target(ElementType.METHOD)
+    @interface ShouldOccureOnce {
 
-    @SkipBench
-    @Bench
-    public final void testBenchAnno3() {
-        fail("Should not be benched!");
     }
-}
-
-@Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.METHOD)
-@interface ShouldOccureOnce {
-
 }
