@@ -17,7 +17,7 @@
  * 
  */
 
-package org.perfidix.result;
+package org.perfidix.visitor;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;

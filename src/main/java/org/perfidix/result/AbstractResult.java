@@ -24,6 +24,7 @@ import java.util.Arrays;
 import org.perfidix.Benchmark;
 import org.perfidix.meter.AbstractMeter;
 import org.perfidix.visitor.AsciiTable;
+import org.perfidix.visitor.NiceTable;
 import org.perfidix.visitor.ResultVisitor;
 
 /**

@@ -22,9 +22,9 @@ package org.perfidix;
 import org.junit.Before;
 import org.junit.Test;
 import org.perfidix.result.MethodResult;
-import org.perfidix.result.NiceTable;
 import org.perfidix.result.ResultContainer;
 import org.perfidix.result.SingleResult;
+import org.perfidix.visitor.NiceTable;
 
 /**
  * @author onea

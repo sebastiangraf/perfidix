@@ -27,9 +27,9 @@ import org.junit.Test;
 import org.perfidix.annotation.Bench;
 import org.perfidix.result.AbstractResult;
 import org.perfidix.result.MethodResult;
-import org.perfidix.result.NiceTable;
 import org.perfidix.result.ResultContainer;
 import org.perfidix.result.SingleResult;
+import org.perfidix.visitor.NiceTable;
 
 public class APITest extends PerfidixTest {
 

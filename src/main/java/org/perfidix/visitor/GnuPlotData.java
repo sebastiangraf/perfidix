@@ -32,9 +32,8 @@ import org.perfidix.result.AbstractResult;
 import org.perfidix.result.BenchmarkResult;
 import org.perfidix.result.ClassResult;
 import org.perfidix.result.MethodResult;
-import org.perfidix.result.NiceTable;
 import org.perfidix.result.SingleResult;
-import org.perfidix.result.NiceTable.Util;
+import org.perfidix.visitor.NiceTable.Util;
 
 /**
  * the gnu plot visitor parses the result into a gnu readable file.

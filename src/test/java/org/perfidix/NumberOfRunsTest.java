@@ -27,8 +27,8 @@ import org.junit.Test;
 import org.perfidix.result.BenchmarkResult;
 import org.perfidix.result.ClassResult;
 import org.perfidix.result.MethodResult;
-import org.perfidix.result.NiceTable;
 import org.perfidix.result.SingleResult;
+import org.perfidix.visitor.NiceTable;
 
 public class NumberOfRunsTest extends PerfidixTest {
 
