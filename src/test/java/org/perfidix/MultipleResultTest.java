@@ -58,7 +58,7 @@ public class MultipleResultTest extends PerfidixTest {
         res.append(r1);
         res.append(r2);
         assertEquals(2, res.resultCount());
-        assertEquals(21, res.sum());
+        assertEquals(21, res.sum(), PerfidixTest.EPSILON);
         assertEquals(21.0 / 2.0, res.avg(), 0);
         assertEquals(6, res.min(), PerfidixTest.EPSILON);
         assertEquals(15, res.max(), PerfidixTest.EPSILON);

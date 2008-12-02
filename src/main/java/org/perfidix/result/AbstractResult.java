@@ -47,7 +47,7 @@ public abstract class AbstractResult {
     /**
      * the name of the result.
      */
-    private String name;
+    private final String name;
 
     /**
      * an indicator that a cache value is not set.
@@ -75,53 +75,10 @@ public abstract class AbstractResult {
     private static final double CONF99_FACTOR = 2.576;
 
     /**
-     * temp cache. this 'caching' ist not implemented as it should be. the
-     * reason is that normally i should have implemented it with an ArrayList
-     * containing Number objects or by simply using a proxy Result which
-     * computes and stores the values. after a simple benchmark i saw that using
-     * objects like that would result in a performance loss of about 40-60
-     * percent with the computations. so i changed this to use the simplistic
-     * but redundant approach of enumerated elements.
-     */
-    private transient double mean = AbstractResult.DOUBLE_NOVALUE;
-
-    private transient double variance = AbstractResult.DOUBLE_NOVALUE;
-
-    private transient double min = AbstractResult.INTEGER_NOVALUE;
-
-    private transient double max = AbstractResult.INTEGER_NOVALUE;
-
-    private transient long squareSum = AbstractResult.INTEGER_NOVALUE;
-
-    private transient double median = AbstractResult.INTEGER_NOVALUE;
-
-    private transient double standardDeviation = AbstractResult.DOUBLE_NOVALUE;
-
-    private transient long resultCount = AbstractResult.INTEGER_NOVALUE;
-
-    private transient long sum = AbstractResult.INTEGER_NOVALUE;
-
-    /**
      * default constructor.
      */
-    public AbstractResult() {
-        init();
-    }
-
-    /**
-     * initializes itself. needed for the xstream loading.
-     */
-    protected final void init() {
-        resultCount = AbstractResult.INTEGER_NOVALUE;
-        sum = AbstractResult.INTEGER_NOVALUE;
-        standardDeviation = AbstractResult.DOUBLE_NOVALUE;
-        median = AbstractResult.INTEGER_NOVALUE;
-        squareSum = AbstractResult.INTEGER_NOVALUE;
-        max = AbstractResult.INTEGER_NOVALUE;
-        min = AbstractResult.INTEGER_NOVALUE;
-        variance = AbstractResult.DOUBLE_NOVALUE;
-        mean = AbstractResult.DOUBLE_NOVALUE;
-
+    public AbstractResult(final String paramName) {
+        name = paramName;
     }
 
     /**
@@ -148,16 +105,6 @@ public abstract class AbstractResult {
     }
 
     /**
-     * simple setter.
-     * 
-     * @param someName
-     *            to give the result a name.
-     */
-    protected final void setName(final String someName) {
-        this.name = someName;
-    }
-
-    /**
      * an array of all data items in the structure.
      * 
      * @return the result set.
@@ -179,10 +126,7 @@ public abstract class AbstractResult {
      * @return number of data fields.
      */
     public final long resultCount() {
-        if (resultCount != AbstractResult.INTEGER_NOVALUE) {
-            return resultCount;
-        }
-        resultCount = getResultSet().length;
+        final long resultCount = getResultSet().length;
         return resultCount;
     }
 
@@ -194,11 +138,8 @@ public abstract class AbstractResult {
      * @return the mean values.
      */
     public final double mean() {
-        if (mean != AbstractResult.DOUBLE_NOVALUE) {
-            return mean;
-        }
 
-        mean = computeMean(getResultSet());
+        final double mean = computeMean(getResultSet());
         return mean;
     }
 
@@ -208,10 +149,7 @@ public abstract class AbstractResult {
      * @return double
      */
     public final double variance() {
-        if (variance != AbstractResult.DOUBLE_NOVALUE) {
-            return variance;
-        }
-        variance = computeVariance();
+        final double variance = computeVariance();
         return variance;
     }
 
@@ -236,10 +174,7 @@ public abstract class AbstractResult {
      */
     public final double median() {
 
-        if (median != AbstractResult.INTEGER_NOVALUE) {
-            return median;
-        }
-        median = computeMedian(getResultSet());
+        final double median = computeMedian(getResultSet());
         return median;
     }
 
@@ -248,11 +183,8 @@ public abstract class AbstractResult {
      * 
      * @return the square sum.
      */
-    public final long squareSum() {
-        if (squareSum != AbstractResult.INTEGER_NOVALUE) {
-            return squareSum;
-        }
-        squareSum = computeSquareSum(getResultSet());
+    public final double squareSum() {
+        final double squareSum = computeSquareSum(getResultSet());
         return squareSum;
     }
 
@@ -262,10 +194,8 @@ public abstract class AbstractResult {
      * @return the standard deviation
      */
     public final double getStandardDeviation() {
-        if (standardDeviation != AbstractResult.DOUBLE_NOVALUE) {
-            return standardDeviation;
-        }
-        standardDeviation = computeStandardDeviation(getResultSet());
+        final double standardDeviation =
+                computeStandardDeviation(getResultSet());
         return standardDeviation;
     }
 
@@ -291,8 +221,8 @@ public abstract class AbstractResult {
      *            the bla.
      * @return bla.
      */
-    protected final long computeSquareSum(final double[] resSet) {
-        long s = 0;
+    protected final double computeSquareSum(final double[] resSet) {
+        double s = 0;
         for (int i = 0; i < resSet.length; i++) {
             s += Math.pow(resSet[i], 2);
             if (s >= Long.MAX_VALUE) {
@@ -389,11 +319,8 @@ public abstract class AbstractResult {
      * 
      * @return the sum of all runs.
      */
-    public final long sum() {
-        if (sum != AbstractResult.INTEGER_NOVALUE) {
-            return sum;
-        }
-        sum = computeSum(getResultSet());
+    public final double sum() {
+        final double sum = computeSum(getResultSet());
         return sum;
     }
 
@@ -403,10 +330,7 @@ public abstract class AbstractResult {
      * @return the minimum result value.
      */
     public double min() {
-        if (min != AbstractResult.INTEGER_NOVALUE) {
-            return min;
-        }
-        min = computeMin(getResultSet());
+        final double min = computeMin(getResultSet());
         return min;
     }
 
@@ -437,10 +361,7 @@ public abstract class AbstractResult {
      * @return the maximum runtime
      */
     public final double max() {
-        if (max != AbstractResult.INTEGER_NOVALUE) {
-            return max;
-        }
-        max = computeMax(getResultSet());
+        final double max = computeMax(getResultSet());
         return max;
     }
 
@@ -481,8 +402,8 @@ public abstract class AbstractResult {
      *            the data.
      * @return the sum.
      */
-    protected final long computeSum(final double[] resSet) {
-        long theSum = 0;
+    protected final double computeSum(final double[] resSet) {
+        double theSum = 0;
         for (int i = 0; i < resSet.length; i++) {
             if (resSet[i] == Benchmark.LONG_NULLVALUE) {
                 continue;
@@ -511,7 +432,7 @@ public abstract class AbstractResult {
         if (resSet.length < 1) {
             return 0.0;
         }
-        return (double) computeSum(resSet) / resSet.length;
+        return computeSum(resSet) / resSet.length;
     }
 
     /**

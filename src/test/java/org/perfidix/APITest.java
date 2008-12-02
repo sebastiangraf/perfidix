@@ -50,8 +50,8 @@ public class APITest extends PerfidixTest {
         cnt.append(r1);
         cnt.append(r2);
 
-        assertEquals(12l, cnt.sum());
-        assertEquals(6.0, cnt.avg(), 0);
+        assertEquals(12l, cnt.sum(), PerfidixTest.EPSILON);
+        assertEquals(6.0, cnt.avg(), PerfidixTest.EPSILON);
 
     }
 
@@ -220,7 +220,7 @@ public class APITest extends PerfidixTest {
                     .defaultMeter()));
         }
         assertEquals(3l, res.resultCount());
-        assertEquals(6l + 15l + 24l, res.sum());
+        assertEquals(6d + 15d + 24d, res.sum(), PerfidixTest.EPSILON);
         assertEquals(
                 (double) ((1l + 4l + 7l) + (2l + 5l + 8l) + (3l + 6l + 9l)) / 3l,
                 res.avg(), 0l);
@@ -268,14 +268,16 @@ public class APITest extends PerfidixTest {
 
         double[] r = { 1, 2, 3 };
         AbstractResult res = Perfidix.createSingleResult(r);
-        assertEquals(14l, res.squareSum());
-        assertEquals(0.81649, res.getStandardDeviation(), 0.0001);
-        assertEquals(1.0, res.variance(), 0);
+        assertEquals(14l, res.squareSum(), PerfidixTest.EPSILON);
+        assertEquals(
+                0.8164965809277257, res.getStandardDeviation(),
+                PerfidixTest.EPSILON);
+        assertEquals(1.0, res.variance(), PerfidixTest.EPSILON);
 
         double[] r2 = { 1, 2, 2, 3, 4, 4 };
         AbstractResult ra = Perfidix.createSingleResult(r2);
         assertEquals(2.666666, ra.avg(), PerfidixTest.EPSILON);
-        assertEquals(50l, ra.squareSum());
+        assertEquals(50d, ra.squareSum(), PerfidixTest.EPSILON);
         assertEquals(2.50, ra.median(), PerfidixTest.EPSILON);
         double expectedDeviation = Math.sqrt((50.0 / 6.0) - (64.0 / 9.0));
 

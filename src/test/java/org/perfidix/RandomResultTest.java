@@ -51,9 +51,9 @@ public class RandomResultTest extends PerfidixTest {
 
         double[] data = { 1, Benchmark.LONG_NULLVALUE, 3 };
         AbstractResult r = Perfidix.createSingleResult(data);
-        assertEquals(4l, r.sum());
-        assertEquals(10l, r.squareSum());
-        assertEquals(2.0, r.avg(), 0);
+        assertEquals(4l, r.sum(), PerfidixTest.EPSILON);
+        assertEquals(10l, r.squareSum(), PerfidixTest.EPSILON);
+        assertEquals(2.0, r.avg(), PerfidixTest.EPSILON);
         assertEquals(2l, r.resultCount());
         double expectedDeviation = Math.sqrt(5.0 - 4.0);
         assertEquals(
@@ -80,7 +80,7 @@ public class RandomResultTest extends PerfidixTest {
         container.append(Perfidix.createSingleResult("hoho", data2));
         container.append(Perfidix.createSingleResult("bla", data3));
 
-        assertEquals(15l, container.sum());
+        assertEquals(15l, container.sum(), PerfidixTest.EPSILON);
         assertEquals(3l, container.resultCount());
 
         assertEquals(5.0, container.avg(), 0);
@@ -103,7 +103,7 @@ public class RandomResultTest extends PerfidixTest {
         double[] data2 = { 1, Benchmark.LONG_NULLVALUE, 3 };
         AbstractResult r1 = Perfidix.createSingleResult("1,3", data1);
         AbstractResult r2 = Perfidix.createSingleResult("1,null,3", data2);
-        assertEquals(r1.sum(), r2.sum());
+        assertEquals(r1.sum(), r2.sum(), PerfidixTest.EPSILON);
         assertEquals(r1.avg(), r2.avg(), 0);
         assertEquals(r1.getConf95(), r2.getConf95(), 0);
         assertEquals(r1.getConf99(), r2.getConf99(), 0);
@@ -130,9 +130,10 @@ public class RandomResultTest extends PerfidixTest {
         rc.append(resultB);
         // startDebug();
 
-        assertEquals(4l, resultA.sum());
-        assertEquals(6l, resultB.sum());
-        assertEquals(resultA.sum() + resultB.sum(), rc.sum());
+        assertEquals(4l, resultA.sum(), PerfidixTest.EPSILON);
+        assertEquals(6l, resultB.sum(), PerfidixTest.EPSILON);
+        assertEquals(
+                resultA.sum() + resultB.sum(), rc.sum(), PerfidixTest.EPSILON);
 
     }
 

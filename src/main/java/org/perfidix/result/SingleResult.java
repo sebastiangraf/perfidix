@@ -117,8 +117,7 @@ public class SingleResult extends AbstractResult {
     public SingleResult(
             final String name, final double[] aResultSet,
             final AbstractMeter whichMeter) {
-        super();
-        setName(name);
+        super(name);
         /*
          * debug System.out.println(getName() + " " +
          * NiceTable.Util.implode(", ",aResultSet));

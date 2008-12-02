@@ -60,8 +60,7 @@ public abstract class ResultContainer<ResultType extends AbstractResult>
      *            the name of the result.
      */
     public ResultContainer(final String name) {
-        super();
-        setName(name);
+        super(name);
     }
 
     /**
@@ -251,7 +250,7 @@ public abstract class ResultContainer<ResultType extends AbstractResult>
      *            the meter name.
      * @return the result.
      */
-    public long squareSum(final AbstractMeter m) {
+    public double squareSum(final AbstractMeter m) {
         return computeSquareSum(getResultSet(m));
     }
 
@@ -293,7 +292,7 @@ public abstract class ResultContainer<ResultType extends AbstractResult>
      *            the meter name.
      * @return the sum.
      */
-    public long sum(final AbstractMeter m) {
+    public double sum(final AbstractMeter m) {
         return computeSum(getResultSet(m));
     }
 
