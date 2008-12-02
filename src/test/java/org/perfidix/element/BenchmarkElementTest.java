@@ -446,39 +446,80 @@ public class BenchmarkElementTest {
 
     /**
      * Test method for
-     * {@link org.perfidix.element.BenchmarkElement#getNumberOfRuns()}.
+     * {@link org.perfidix.element.BenchmarkElement#getNumberOfAnnotatedRuns()}.
      */
     @Test
-    public void testRuns1() {
+    public void testNumberOfAnnotatedRuns() {
         try {
-            currentClassToTest = new TestRuns();
+            currentClassToTest = new TestNumberOfAnnotatedRuns();
             final Method[] meths =
                     currentClassToTest.getClass().getDeclaredMethods();
-            BenchmarkElement elem = null;
-            for (final Method meth : meths) {
-                elem = new BenchmarkElement(meth);
-                if (meth.getName().equals("bench1")) {
-                    assertEquals(10, elem.getNumberOfRuns());
-                } else if (meth.getName().equals("bench2")) {
-                    assertEquals(20, elem.getNumberOfRuns());
-                } else if (meth.getName().equals("bench3")) {
-                    try {
-                        elem.getNumberOfRuns();
-                        fail("Must throw IllegalStateException!");
-                    } catch (IllegalStateException e) {
-                        assertTrue(e.getMessage().startsWith("Method"));
-                    }
-                } else {
-                    fail("Should never occur!");
-                }
+
+            assertEquals(3, meths.length);
+
+            assertEquals("bench1", meths[0].getName());
+            assertEquals(10, new BenchmarkElement(meths[0])
+                    .getNumberOfAnnotatedRuns());
+            assertEquals("bench2", meths[1].getName());
+            assertEquals(20, new BenchmarkElement(meths[1])
+                    .getNumberOfAnnotatedRuns());
+            assertEquals("bench3", meths[2].getName());
+            try {
+                new BenchmarkElement(meths[2]).getNumberOfAnnotatedRuns();
+                fail("Must throw IllegalStateException!");
+            } catch (IllegalStateException e) {
+                assertTrue(e.getMessage().startsWith("Method"));
             }
+
         } catch (Exception e) {
             fail("Should never fail in testRuns!");
         }
     }
 
+    /**
+     * Test method for
+     * {@link org.perfidix.element.BenchmarkElement#getMethodRunID()}.
+     */
+    @Test
+    public void testGetMethodRunID() {
+        try {
+            currentClassToTest = new TestMethodRunID();
+            final Method[] meths =
+                    currentClassToTest.getClass().getDeclaredMethods();
+
+            assertEquals(2, meths.length);
+
+            final BenchmarkElement bench11 = new BenchmarkElement(meths[0]);
+            final BenchmarkElement bench12 = new BenchmarkElement(meths[0]);
+
+            final BenchmarkElement bench21 = new BenchmarkElement(meths[1]);
+
+            assertEquals("bench1", bench11.getMethodToBench().getName());
+            assertEquals("bench1", bench12.getMethodToBench().getName());
+
+            assertEquals(0, bench11.getMethodRunID());
+            assertEquals(1, bench12.getMethodRunID());
+
+            assertEquals("bench2", bench21.getMethodToBench().getName());
+            assertEquals(0, bench21.getMethodRunID());
+
+        } catch (Exception e) {
+            fail("Should never fail in testRuns!");
+        }
+    }
+
+    class TestMethodRunID {
+
+        public void bench1() {
+        }
+
+        public void bench2() {
+        }
+
+    }
+
     @BenchClass(runs = 20)
-    class TestRuns {
+    class TestNumberOfAnnotatedRuns {
 
         @Bench(runs = 10)
         public void bench1() {

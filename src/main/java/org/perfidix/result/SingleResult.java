@@ -146,7 +146,7 @@ public class SingleResult extends AbstractResult {
     /**
      * this is not a comment.
      * 
-     * @see org.perfidix.result.IResult#getNumberOfRuns()
+     * @see org.perfidix.result.IResult#getNumberOfAnnotatedRuns()
      */
     @Override
     public long getNumberOfRuns() {

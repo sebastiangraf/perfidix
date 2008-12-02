@@ -23,6 +23,7 @@ package org.perfidix.element;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.util.Hashtable;
 
 import org.perfidix.annotation.AfterBenchClass;
 import org.perfidix.annotation.AfterEachRun;
@@ -53,10 +54,18 @@ import org.perfidix.annotation.SkipBench;
  */
 public final class BenchmarkElement {
 
+    private final static Hashtable<Method, Integer> usedIDs =
+            new Hashtable<Method, Integer>(0);
+
     /**
      * Method to be benched.
      */
     private final Method methodToBench;
+
+    /**
+     * ID of the run of this method
+     */
+    private final int methodRunID;
 
     /**
      * Constructor, with a possible method to bench.
@@ -66,6 +75,11 @@ public final class BenchmarkElement {
      */
     public BenchmarkElement(final Method paramMethodToBench) {
         methodToBench = paramMethodToBench;
+        if (!usedIDs.containsKey(methodToBench)) {
+            usedIDs.put(methodToBench, 0);
+        }
+        methodRunID = usedIDs.get(methodToBench);
+        usedIDs.put(methodToBench, methodRunID + 1);
     }
 
     /**
@@ -460,7 +474,7 @@ public final class BenchmarkElement {
      * @throws IllegalStateException
      *             if the given method is not benchmarkable.
      */
-    public final int getNumberOfRuns() throws IllegalStateException {
+    public final int getNumberOfAnnotatedRuns() throws IllegalStateException {
         if (checkThisMethodAsBenchmarkable()) {
             final Bench benchAnno =
                     getMethodToBench().getAnnotation(Bench.class);
@@ -486,6 +500,15 @@ public final class BenchmarkElement {
      */
     public final Method getMethodToBench() {
         return methodToBench;
+    }
+
+    /**
+     *Simple getter for encapsulated method.
+     * 
+     * @return the methodRunID
+     */
+    public final int getMethodRunID() {
+        return methodRunID;
     }
 
     /**
@@ -574,6 +597,40 @@ public final class BenchmarkElement {
             return false;
         }
 
+        return true;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + methodRunID;
+        result =
+                prime
+                        * result
+                        + ((methodToBench == null) ? 0 : methodToBench
+                                .hashCode());
+        return result;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        BenchmarkElement other = (BenchmarkElement) obj;
+        if (methodRunID != other.methodRunID)
+            return false;
+        if (methodToBench == null) {
+            if (other.methodToBench != null)
+                return false;
+        } else if (!methodToBench.equals(other.methodToBench))
+            return false;
         return true;
     }
 
