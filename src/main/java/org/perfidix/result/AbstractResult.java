@@ -50,16 +50,6 @@ public abstract class AbstractResult {
     private final String name;
 
     /**
-     * an indicator that a cache value is not set.
-     */
-    private static final int INTEGER_NOVALUE = -1;
-
-    /**
-     * the same indicator for doubles.
-     */
-    private static final double DOUBLE_NOVALUE = -1;
-
-    /**
      * the default name of a result.
      */
     public static final String DEFAULT_NAME = "<noNameDefined>";
@@ -453,16 +443,6 @@ public abstract class AbstractResult {
     }
 
     /**
-     * @param displayRawData
-     *            whether to display the raw results or not.
-     * @return string
-     */
-    public final String toString(final boolean displayRawData) {
-
-        return toString(-1, displayRawData);
-    }
-
-    /**
      * to string implementation.
      * 
      * @return the result.
@@ -471,43 +451,6 @@ public abstract class AbstractResult {
     public final String toString() {
         return toString(-1, false);
 
-    }
-
-    /**
-     * checks whether another result set equals the own one.
-     * 
-     * @return whether another object equals the current one.
-     * @param r
-     *            the result to compare with
-     */
-    public final boolean equals(final AbstractResult r) {
-
-        if (!r.name.equals(this.name)) {
-            return false;
-        }
-        double[] resultSet = r.getResultSet();
-        double[] myResult = getResultSet();
-
-        if (resultSet.length != myResult.length) {
-            return false;
-        }
-        for (int i = 0; i < resultSet.length; i++) {
-            if (resultSet[i] != myResult[i]) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    /**
-     * computes the hash code. only to override the original implementation,
-     * since it's not used here.
-     * 
-     * @return always 0
-     */
-    @Override
-    public final int hashCode() {
-        return 0;
     }
 
 }

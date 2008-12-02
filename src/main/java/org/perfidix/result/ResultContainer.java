@@ -225,17 +225,6 @@ public abstract class ResultContainer<ResultType extends AbstractResult>
      * this is not a comment.
      * 
      * @param m
-     *            the meter which is used.
-     * @return the result.
-     */
-    public double avg(final AbstractMeter m) {
-        return computeMean(getResultSet(m));
-    }
-
-    /**
-     * this is not a comment.
-     * 
-     * @param m
      *            the meter.
      * @return the result.
      */

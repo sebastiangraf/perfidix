@@ -119,13 +119,12 @@ public class AsciiTable extends ResultVisitor {
                         res.sum(m),
                         res.min(m),
                         res.max(m),
-                        format(res.avg(m)),
+                        format(res.mean(m)),
                         format(res.getStandardDeviation(m)),
                         j.format(
                                 "[" + floatFormat + "," + floatFormat + "]",
-                                Math.max(0, res.avg(m) - res.getConf95(m)), res
-                                        .avg(m)
-                                        + res.getConf95(m)),
+                                Math.max(0, res.mean(m) - res.getConf95(m)),
+                                res.mean(m) + res.getConf95(m)),
                         res.getNumberOfRuns(),
 
                 };
