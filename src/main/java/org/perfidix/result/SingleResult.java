@@ -76,22 +76,6 @@ public class SingleResult extends AbstractResult {
     }
 
     /**
-     * read resolve.
-     * 
-     * @return the resolved object.
-     */
-    @Override
-    protected Object readResolve() {
-        super.readResolve();
-        String[] longData = NiceTable.Util.explode(',', data);
-        resultSet = new double[longData.length];
-        for (int i = 0; i < longData.length; i++) {
-            resultSet[i] = Long.parseLong(longData[i]);
-        }
-        return this;
-    }
-
-    /**
      * returns the return values given as a parameter to the constructor.
      * 
      * @return just guess, dude.

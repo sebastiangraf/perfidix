@@ -125,16 +125,6 @@ public abstract class AbstractResult {
     }
 
     /**
-     * needed for the xstream implementation. obsolete
-     * 
-     * @return an initialized object instance.
-     */
-    protected Object readResolve() {
-        this.init();
-        return this;
-    }
-
-    /**
      * computes the default meter, which will be used as a reference when
      * calling methods without the IMeter parameter.
      * 
