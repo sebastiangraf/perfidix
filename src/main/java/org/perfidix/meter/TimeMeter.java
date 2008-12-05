@@ -83,4 +83,32 @@ public final class TimeMeter extends AbstractMeter {
         return currentTime.getUnitDescription();
     }
 
+    /** {@inheritDoc} */
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = prime;
+        result =
+                prime
+                        * result
+                        + ((currentTime == null) ? 0 : currentTime.hashCode());
+        return result;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (getClass() != obj.getClass())
+            return false;
+        TimeMeter other = (TimeMeter) obj;
+        if (currentTime == null) {
+            if (other.currentTime != null)
+                return false;
+        } else if (!currentTime.equals(other.currentTime))
+            return false;
+        return true;
+    }
+
 }

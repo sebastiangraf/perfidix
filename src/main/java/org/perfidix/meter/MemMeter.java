@@ -86,4 +86,35 @@ public final class MemMeter extends AbstractMeter {
         return scale.getUnitDescription();
     }
 
+    /** {@inheritDoc} */
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = prime;
+        long temp;
+        temp = Double.doubleToLongBits(memAlreadyUsed);
+        result = prime * result + (int) (temp ^ (temp >>> 32));
+        result = prime * result + ((scale == null) ? 0 : scale.hashCode());
+        return result;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (getClass() != obj.getClass())
+            return false;
+        MemMeter other = (MemMeter) obj;
+        if (Double.doubleToLongBits(memAlreadyUsed) != Double
+                .doubleToLongBits(other.memAlreadyUsed))
+            return false;
+        if (scale == null) {
+            if (other.scale != null)
+                return false;
+        } else if (!scale.equals(other.scale))
+            return false;
+        return true;
+    }
+
 }

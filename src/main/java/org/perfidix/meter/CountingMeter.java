@@ -20,7 +20,6 @@
  */
 package org.perfidix.meter;
 
-
 /**
  * Simple meter to count given ticks. The ticks are not resetted afterwards, the
  * counting always continues.
@@ -159,6 +158,50 @@ public final class CountingMeter extends AbstractMeter {
     @Override
     public final String getUnitDescription() {
         return unitDescription;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = prime;
+        result = prime * result + (int) (counter ^ (counter >>> 32));
+        result = prime * result + ((name == null) ? 0 : name.hashCode());
+        result = prime * result + ((unit == null) ? 0 : unit.hashCode());
+        result =
+                prime
+                        * result
+                        + ((unitDescription == null) ? 0 : unitDescription
+                                .hashCode());
+        return result;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (getClass() != obj.getClass())
+            return false;
+        CountingMeter other = (CountingMeter) obj;
+        if (counter != other.counter)
+            return false;
+        if (name == null) {
+            if (other.name != null)
+                return false;
+        } else if (!name.equals(other.name))
+            return false;
+        if (unit == null) {
+            if (other.unit != null)
+                return false;
+        } else if (!unit.equals(other.unit))
+            return false;
+        if (unitDescription == null) {
+            if (other.unitDescription != null)
+                return false;
+        } else if (!unitDescription.equals(other.unitDescription))
+            return false;
+        return true;
     }
 
 }

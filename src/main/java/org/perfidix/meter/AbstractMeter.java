@@ -20,7 +20,6 @@
  */
 package org.perfidix.meter;
 
-
 /**
  * For benchmarking in a widen sense, several different meters should be
  * implemented. The first one is obviously the time. Nevertheless, besides the
@@ -76,4 +75,16 @@ public abstract class AbstractMeter {
                 + ") "
                 + getUnitDescription();
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public abstract int hashCode();
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public abstract boolean equals(final Object obj);
 }
