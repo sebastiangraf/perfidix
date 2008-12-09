@@ -30,8 +30,8 @@ import java.math.MathContext;
  * increasment of used memory is normal. However, because being based only on
  * the Runtime-class of Java, no extraction of the perfidix processes themselves
  * is possible. The MemMeter is only usable with an instance of the
- * <code>Memory</code> enumeration for formatting purposes. This choose must be
- * made by instantiation of the meter.
+ * {@link Memory} enumeration for formatting purposes. This choose must be made
+ * by instantiation of the meter.
  * 
  * @see Memory
  * @author Sebastian Graf, University of Konstanz

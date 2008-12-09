@@ -25,8 +25,8 @@ import java.math.MathContext;
 
 /**
  * Meter to bench the amount of time used by the current Benchmark. The
- * TimeMeter is in need of an instance of the <code>Time</code> enumeration to
- * give back the suitable time.
+ * TimeMeter is in need of an instance of the {@link Time} enumeration to give
+ * back the suitable time.
  * 
  * @see Time
  * @author Sebastian Graf, University of Konstanz
