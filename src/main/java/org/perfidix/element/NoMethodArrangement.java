@@ -20,7 +20,9 @@
  */
 package org.perfidix.element;
 
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * This class does no arrangement for methods. That means that the order of the
@@ -35,24 +37,27 @@ public final class NoMethodArrangement extends AbstractMethodArrangement {
      * as an input is also given back as the output. The order is normally the
      * order of occurrence of methods in the class.
      * 
-     * @param classes
-     *            with potential benchmarkable elements.
+     * @param elements
+     *            with benchmarkable elements.
      */
-    protected NoMethodArrangement(final List<Class<?>> classes) {
-        super(classes);
+    protected NoMethodArrangement(final Set<BenchmarkElement> elements) {
+        super(elements);
     }
 
     /**
      * Not arranging the list in this case. That means normally that all
      * elements are occuring in the same order than defined in the class-file.
      * 
-     * @param methods
+     * @param elements
      *            to be arranged, or not in this case.
      * @return the input.
      */
     @Override
     protected final List<BenchmarkElement> arrangeList(
-            List<BenchmarkElement> methods) {
-        return methods;
+            Set<BenchmarkElement> elements) {
+        final List<BenchmarkElement> elementList =
+                new LinkedList<BenchmarkElement>();
+        elementList.addAll(elements);
+        return elementList;
     }
 }

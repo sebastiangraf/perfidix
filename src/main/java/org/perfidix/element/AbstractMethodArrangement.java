@@ -20,46 +20,46 @@
  */
 package org.perfidix.element;
 
-import java.lang.reflect.Method;
 import java.util.Collections;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 /**
- * This method defines an order for the execution of all methods. Potential
- * Classes which can contain benchmarkable methods are given and afterwards
- * ordered with the help of inheriting classes.
+ * This method defines an order for the execution of all methods. A collection
+ * with definitly benchmarkable methods is given in, shuffled in a way and
+ * returned as an iterator. The kind of shuffling is set by the enum
+ * {@link KindOfMethodArrangement}. ordered with the help of inheriting classes.
  * 
  * @author Sebastian Graf, University of Konstanz
  */
 public abstract class AbstractMethodArrangement
         implements Iterable<BenchmarkElement> {
 
-    /** Variable to hold all benchmarkable elements */
+    /**
+     * Enum for all implemented arrangements.
+     */
+    public static enum KindOfMethodArrangement {
+        /** no method arrangement. */
+        NoArrangement
+    };
+
+    /**
+     * List to hold all benchmarkable elements in the correct order as a base
+     * for the iterator.
+     */
     private final List<BenchmarkElement> elementList;
 
     /**
-     * Constructor which takes several classes and extract benchmarkable
-     * methods. These methods are afterwards shuffled with the help of the
-     * implementing class. Note that the elements are fix after the arrangement.
+     * Constructor which takes all benchmarkable methods. These methods are
+     * afterwards shuffled with the help of the implementing class. Note that
+     * the elements are fix after the arrangement.
      * 
-     * @param classes
-     *            potential benchmarkable objects.
+     * @param elements
+     *            definitly benchmarkable objects.
      */
-    protected AbstractMethodArrangement(final List<Class<?>> classes) {
-        final List<BenchmarkElement> elementList =
-                new LinkedList<BenchmarkElement>();
-        for (final Class<?> clazz : classes) {
-            for (final Method method : clazz.getDeclaredMethods()) {
-                final BenchmarkElement benchElement =
-                        new BenchmarkElement(method);
-                if (benchElement.checkThisMethodAsBenchmarkable()) {
-                    elementList.add(benchElement);
-                }
-            }
-        }
-        final List<BenchmarkElement> arrangedList = arrangeList(elementList);
+    protected AbstractMethodArrangement(final Set<BenchmarkElement> elements) {
+        final List<BenchmarkElement> arrangedList = arrangeList(elements);
         this.elementList = Collections.unmodifiableList(arrangedList);
     }
 
@@ -71,7 +71,7 @@ public abstract class AbstractMethodArrangement
      * @return the arranged methods.
      */
     protected abstract List<BenchmarkElement> arrangeList(
-            final List<BenchmarkElement> methods);
+            final Set<BenchmarkElement> methods);
 
     /** {@inheritDoc} */
     public final Iterator<BenchmarkElement> iterator() {
@@ -80,16 +80,26 @@ public abstract class AbstractMethodArrangement
 
     /**
      * Factory method to get the method arrangement for a given set of classes.
-     * At the moment, no arrangement is given, so the only parameter is the list
-     * of classes themselves.
+     * The kind of arrangement is set by an instance of the enum
+     * {@link KindOfMethodArrangement}.
      * 
-     * @param clazzes
+     * @param elements
      *            to be benched
+     * @param kind
+     *            for the method arrangement
      * @return the arrangement, mainly an iterator
      */
     public final static AbstractMethodArrangement getMethodArrangement(
-            final List<Class<?>> clazzes) {
-        return new NoMethodArrangement(clazzes);
+            final Set<BenchmarkElement> elements,
+            final KindOfMethodArrangement kind) {
+        switch (kind) {
+        case NoArrangement:
+            return new NoMethodArrangement(elements);
+        default:
+            throw new IllegalArgumentException("Kind not known!");
+
+        }
+
     }
 
 }

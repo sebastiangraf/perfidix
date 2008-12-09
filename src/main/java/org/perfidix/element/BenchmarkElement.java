@@ -38,11 +38,9 @@ import org.perfidix.annotation.SkipBench;
 /**
  * Class to mark all elements which are possible benchmarkable. The method hold
  * helping methods and additional functionality for benchmarkable methods like
- * returning possible <code>BeforeBenchClass</code>, <code>BeforeFirstRun</code>
- * , <code>BeforeEachRun</code>, <code>AfterEachRun</code>,
- * <code>AfterLastRun</code> and <code>AfterBenchClass</code> annotated related
- * methods. Implementing classes have to implement the Comparable-interface for
- * a designated order to execute.
+ * returning possible {@link BeforeBenchClass}, {@link BeforeFirstRun},
+ * {@link BeforeEachRun}, {@link AfterEachRun}, {@link AfterLastRun} and
+ * {@link AfterBenchClass} annotated related methods.
  * 
  * @see AfterBenchClass
  * @see AfterLastRun
@@ -65,16 +63,27 @@ public final class BenchmarkElement {
     /**
      * ID of the run of this method
      */
-    private final int methodRunID;
+    private int methodRunID;
 
     /**
-     * Constructor, with a possible method to bench.
+     * Constructor, with a definite method to bench. The method has to be
+     * checked with {@link BenchmarkElement#isBenchmarkable(Method)} first,
+     * otherwise an IllegalArgumentException could arise.
      * 
      * @param paramMethodToBench
      *            method to be benched (eventually)
+     * @throws IllegalArgumentException
+     *             if the method is not benchmarkable.
      */
     public BenchmarkElement(final Method paramMethodToBench) {
         methodToBench = paramMethodToBench;
+        if (!isBenchmarkable(methodToBench)) {
+            throw new IllegalArgumentException(new StringBuilder(
+                    "Only benchmarkable methods allowed but method ")
+                    .append(paramMethodToBench)
+                    .append(" is not benchmarkable.").toString());
+        }
+
         if (!usedIDs.containsKey(methodToBench)) {
             usedIDs.put(methodToBench, 0);
         }
@@ -83,87 +92,10 @@ public final class BenchmarkElement {
     }
 
     /**
-     * This method should act as a check to guarantee that only specific
-     * Benchmarkables are used for benching.
-     * 
-     * @return true if an instance of this interface is benchmarkable, false
-     *         otherwise.
-     */
-    public boolean checkThisMethodAsBenchmarkable() {
-
-        // Check if bench-anno is given. For testing purposes against
-        // before/after annos
-        final Bench benchAnno = getMethodToBench().getAnnotation(Bench.class);
-
-        // if method is annotated with SkipBench, the method is never
-        // benchmarkable.
-        final SkipBench skipBenchAnno =
-                getMethodToBench().getAnnotation(SkipBench.class);
-        if (skipBenchAnno != null) {
-            return false;
-        }
-
-        // Check if method is defined as beforeClass, beforeFirstRun,
-        // beforeEachRun, afterEachRun, afterLastRun, afterClass.
-        final BeforeBenchClass beforeClass =
-                getMethodToBench().getAnnotation(BeforeBenchClass.class);
-        if (beforeClass != null && benchAnno == null) {
-            return false;
-        }
-
-        final BeforeFirstRun beforeFirstRun =
-                getMethodToBench().getAnnotation(BeforeFirstRun.class);
-        if (beforeFirstRun != null && benchAnno == null) {
-            return false;
-        }
-
-        final BeforeEachRun beforeEachRun =
-                getMethodToBench().getAnnotation(BeforeEachRun.class);
-        if (beforeEachRun != null && benchAnno == null) {
-            return false;
-        }
-
-        final AfterEachRun afterEachRun =
-                getMethodToBench().getAnnotation(AfterEachRun.class);
-        if (afterEachRun != null && benchAnno == null) {
-            return false;
-        }
-
-        final AfterLastRun afterLastRun =
-                getMethodToBench().getAnnotation(AfterLastRun.class);
-        if (afterLastRun != null && benchAnno == null) {
-            return false;
-        }
-
-        final AfterBenchClass afterClass =
-                getMethodToBench().getAnnotation(AfterBenchClass.class);
-        if (afterClass != null && benchAnno == null) {
-            return false;
-        }
-
-        // if method is not annotated with Bench and class is not annotated with
-        // BenchClass, the method is never benchmarkable.
-
-        final BenchClass classBenchAnno =
-                getMethodToBench().getDeclaringClass().getAnnotation(
-                        BenchClass.class);
-        if (benchAnno == null && classBenchAnno == null) {
-            return false;
-        }
-
-        // check if method is executable for perfidix purposes.
-        if (!isReflectedExecutable(getMethodToBench())) {
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
-     * Method to find a <code>BeforeBenchClass</code> annotation (as set by the
+     * Method to find a {@link BeforeBenchClass} annotation (as set by the
      * parameter). This method should be invoked just once for all methods. The
      * corresponding class is searched after suitable methods and checks for
-     * integrity are made. If there are multiple <code>BeforeBenchClass</code>
+     * integrity are made. If there are multiple {@link BeforeBenchClass}
      * -annotated methods available, an exception is thrown.
      * 
      * @see BeforeBenchClass
@@ -187,14 +119,13 @@ public final class BenchmarkElement {
     }
 
     /**
-     * Method to find a <code>BeforeFirstRun</code> annotation. This method
-     * should be invoked for all methods. The corresponding class is searched
-     * after suitable methods and checks for integrity are made. If there are
-     * multiple <code>BeforeFirstRun</code>-annotated methods available, an
-     * exception is thrown. If there are designated special
-     * <code>BeforeFirstRun</code> methods as given in the parameter of the
-     * <code>Bench</code>-annotation, this method is taken with any further
-     * checking of the other methods in the class.
+     * Method to find a {@link BeforeFirstRun} annotation. This method should be
+     * invoked for all methods. The corresponding class is searched after
+     * suitable methods and checks for integrity are made. If there are multiple
+     * {@link BeforeFirstRun}-annotated methods available, an exception is
+     * thrown. If there are designated special {@link BeforeFirstRun} methods as
+     * given in the parameter of the {@link Bench}-annotation, this method is
+     * taken with any further checking of the other methods in the class.
      * 
      * @see BeforeFirstRun
      * @see Bench
@@ -251,14 +182,13 @@ public final class BenchmarkElement {
     }
 
     /**
-     * Method to find a <code>BeforeEachRun</code> annotation. This method
-     * should be invoked for all methods. The corresponding class is searched
-     * after suitable methods and checks for integrity are made. If there are
-     * multiple <code>BeforeEachRun</code>-annotated methods available, an
-     * exception is thrown. If there are designated special
-     * <code>BeforeEachRun</code> methods as given in the parameter of the
-     * <code>Bench</code>-annotation, this method is taken with any further
-     * checking of the other methods in the class.
+     * Method to find a {@link BeforeEachRun} annotation. This method should be
+     * invoked for all methods. The corresponding class is searched after
+     * suitable methods and checks for integrity are made. If there are multiple
+     * {@link BeforeEachRun}-annotated methods available, an exception is
+     * thrown. If there are designated special {@link BeforeEachRun} methods as
+     * given in the parameter of the {@link Bench}-annotation, this method is
+     * taken with any further checking of the other methods in the class.
      * 
      * @see BeforeEachRun
      * @see Bench
@@ -314,14 +244,13 @@ public final class BenchmarkElement {
     }
 
     /**
-     * Method to find a <code>AfterEachRun</code> annotation. This method should
-     * be invoked for all methods. The corresponding class is searched after
+     * Method to find a {@link AfterEachRun} annotation. This method should be
+     * invoked for all methods. The corresponding class is searched after
      * suitable methods and checks for integrity are made. If there are multiple
-     * <code>AfterEachRun</code>-annotated methods available, an exception is
-     * thrown. If there are designated special <code>AfterEachRun</code> methods
-     * as given in the parameter of the <code>Bench</code>-annotation, this
-     * method is taken with any further checking of the other methods in the
-     * class.
+     * {@link AfterEachRun}-annotated methods available, an exception is thrown.
+     * If there are designated special {@link AfterEachRun} methods as given in
+     * the parameter of the {@link Bench}-annotation, this method is taken with
+     * any further checking of the other methods in the class.
      * 
      * @see AfterEachRun
      * @see Bench
@@ -376,14 +305,13 @@ public final class BenchmarkElement {
     }
 
     /**
-     * Method to find a <code>AfterLastRun</code> annotation. This method should
-     * be invoked for all methods. The corresponding class is searched after
+     * Method to find a {@link AfterLastRun} annotation. This method should be
+     * invoked for all methods. The corresponding class is searched after
      * suitable methods and checks for integrity are made. If there are multiple
-     * <code>AfterLastRun</code>-annotated methods available, an exception is
-     * thrown. If there are designated special <code>AfterLastRun</code> methods
-     * as given in the parameter of the <code>Bench</code>-annotation, this
-     * method is taken with any further checking of the other methods in the
-     * class.
+     * {@link AfterLastRun}-annotated methods available, an exception is thrown.
+     * If there are designated special {@link AfterLastRun} methods as given in
+     * the parameter of the {@link Bench}-annotation, this method is taken with
+     * any further checking of the other methods in the class.
      * 
      * @see AfterLastRun
      * @see Bench
@@ -438,11 +366,11 @@ public final class BenchmarkElement {
     }
 
     /**
-     * Method to execute a AfterBenchClass annotation (as set by the parameter).
-     * This method should be invoked just once for all methods. The
+     * Method to execute a {@link AfterBenchClass} annotation (as set by the
+     * parameter). This method should be invoked just once for all methods. The
      * corresponding class is searched after suitable methods and checks for
-     * integrity are made. If there are multiple AfterBenchClass-annotated
-     * methods available, an exception is thrown.
+     * integrity are made. If there are multiple {@link AfterBenchClass}
+     * -annotated methods available, an exception is thrown.
      * 
      * @see AfterBenchClass
      * @return Annotated method with AfterBenchClass annotation, null of none
@@ -465,35 +393,6 @@ public final class BenchmarkElement {
     }
 
     /**
-     * Getting the number of runs corresponding to a given method. The method
-     * MUST be a benchmarkable method, otherwise an IllegalStateException
-     * exception arises. The number of runs of an annotated method is more
-     * powerful than the number of runs as denoted by the benchclass annotation.
-     * 
-     * @return the number of runs of this benchmarkable-method
-     * @throws IllegalStateException
-     *             if the given method is not benchmarkable.
-     */
-    public final int getNumberOfAnnotatedRuns() throws IllegalStateException {
-        if (checkThisMethodAsBenchmarkable()) {
-            final Bench benchAnno =
-                    getMethodToBench().getAnnotation(Bench.class);
-            final BenchClass benchClassAnno =
-                    getMethodToBench().getDeclaringClass().getAnnotation(
-                            BenchClass.class);
-            if (benchAnno != null) {
-                return benchAnno.runs();
-            } else {
-                return benchClassAnno.runs();
-            }
-        } else {
-            throw new IllegalStateException(new StringBuilder("Method ")
-                    .append(this.methodToBench.toString()).append(
-                            " is actually not benchmarkable!").toString());
-        }
-    }
-
-    /**
      * Simple getter for encapsulated method.
      * 
      * @return the methodToBench
@@ -512,6 +411,35 @@ public final class BenchmarkElement {
     }
 
     /**
+     * Getting the number of runs corresponding to a given method. The method
+     * MUST be a benchmarkable method, otherwise an IllegalStateException
+     * exception arises. The number of runs of an annotated method is more
+     * powerful than the number of runs as denoted by the benchclass annotation.
+     * 
+     * @param meth
+     *            to be checked
+     * @return the number of runs of this benchmarkable-method
+     * @throws IllegalStateException
+     *             if the given method is not benchmarkable.
+     */
+    public final static int getNumberOfAnnotatedRuns(final Method meth)
+            throws IllegalStateException {
+        if (!isBenchmarkable(meth)) {
+            throw new IllegalArgumentException(new StringBuilder("Method ")
+                    .append(meth).append(" must be a benchmarkable method.")
+                    .toString());
+        }
+        final Bench benchAnno = meth.getAnnotation(Bench.class);
+        final BenchClass benchClassAnno =
+                meth.getDeclaringClass().getAnnotation(BenchClass.class);
+        if (benchAnno != null) {
+            return benchAnno.runs();
+        } else {
+            return benchClassAnno.runs();
+        }
+    }
+
+    /**
      * This class finds any method with a given annotation. The method is
      * allowed to occure only once in the class and should match the
      * requirements for Perfidix for an execution by reflection.
@@ -526,7 +454,7 @@ public final class BenchmarkElement {
      * @throws IllegalAccessException
      *             if these integrity checks fail
      */
-    public static final Method findAndCheckAnyMethodByAnnotation(
+    public final static Method findAndCheckAnyMethodByAnnotation(
             final Class<?> clazz, final Class<? extends Annotation> anno)
             throws IllegalAccessException {
         // needed variables, one for check for duplicates
@@ -566,6 +494,85 @@ public final class BenchmarkElement {
     }
 
     /**
+     * This method should act as a check to guarantee that only specific
+     * Benchmarkables are used for benching.
+     * 
+     * @param meth
+     *            method to be checked.
+     * @return true if an instance of this interface is benchmarkable, false
+     *         otherwise.
+     */
+    public final static boolean isBenchmarkable(final Method meth) {
+        boolean returnVal = true;
+
+        // Check if bench-anno is given. For testing purposes against
+        // before/after annos
+        final Bench benchAnno = meth.getAnnotation(Bench.class);
+
+        // if method is annotated with SkipBench, the method is never
+        // benchmarkable.
+        final SkipBench skipBenchAnno = meth.getAnnotation(SkipBench.class);
+        if (skipBenchAnno != null) {
+            returnVal = false;
+        }
+
+        // Check if method is defined as beforeClass, beforeFirstRun,
+        // beforeEachRun, afterEachRun, afterLastRun, afterClass. A method can
+        // either be a before/after class or afterwards be benchmarkable through
+        // the BenchClass annotation.
+        final BeforeBenchClass beforeClass =
+                meth.getAnnotation(BeforeBenchClass.class);
+        if (beforeClass != null && benchAnno == null) {
+            returnVal = false;
+        }
+
+        final BeforeFirstRun beforeFirstRun =
+                meth.getAnnotation(BeforeFirstRun.class);
+        if (beforeFirstRun != null && benchAnno == null) {
+            returnVal = false;
+        }
+
+        final BeforeEachRun beforeEachRun =
+                meth.getAnnotation(BeforeEachRun.class);
+        if (beforeEachRun != null && benchAnno == null) {
+            returnVal = false;
+        }
+
+        final AfterEachRun afterEachRun =
+                meth.getAnnotation(AfterEachRun.class);
+        if (afterEachRun != null && benchAnno == null) {
+            returnVal = false;
+        }
+
+        final AfterLastRun afterLastRun =
+                meth.getAnnotation(AfterLastRun.class);
+        if (afterLastRun != null && benchAnno == null) {
+            returnVal = false;
+        }
+
+        final AfterBenchClass afterClass =
+                meth.getAnnotation(AfterBenchClass.class);
+        if (afterClass != null && benchAnno == null) {
+            returnVal = false;
+        }
+
+        // if method is not annotated with Bench and class is not annotated with
+        // BenchClass, the method is never benchmarkable.
+
+        final BenchClass classBenchAnno =
+                meth.getDeclaringClass().getAnnotation(BenchClass.class);
+        if (benchAnno == null && classBenchAnno == null) {
+            returnVal = false;
+        }
+
+        // check if method is executable for perfidix purposes.
+        if (!isReflectedExecutable(meth)) {
+            returnVal = false;
+        }
+        return returnVal;
+    }
+
+    /**
      * Checks if this method is executable via reflection for perfidix purposes.
      * That means that the method has no parameters, no return-value, is
      * non-static, is public and throws no exceptions.
@@ -574,24 +581,24 @@ public final class BenchmarkElement {
      *            method to be checked
      * @return true if method matches requirements.
      */
-    public static boolean isReflectedExecutable(final Method meth) {
-        // if method has parameters, the method is never benchmarkable
+    public final static boolean isReflectedExecutable(final Method meth) {
+        // if method has parameters, the method is not benchmarkable
         if (meth.getGenericParameterTypes().length > 0) {
             return false;
         }
-        // if method is throwing exceptions, the method is never benchmarkable
+        // if method is throwing exceptions, the method is not benchmarkable
         if (meth.getGenericExceptionTypes().length > 0) {
             return false;
         }
-        // if method is static, the method is never benchmarkable
+        // if method is static, the method is not benchmarkable
         if (Modifier.isStatic(meth.getModifiers())) {
             return false;
         }
-        // if method is not public, the method is never benchmarkable
+        // if method is not public, the method is not benchmarkable
         if (!Modifier.isPublic(meth.getModifiers())) {
             return false;
         }
-        // if method has another returnValue than void, the method is never
+        // if method has another returnValue than void, the method is not
         // benchmarkable
         if (!meth.getGenericReturnType().equals(Void.TYPE)) {
             return false;
@@ -602,7 +609,7 @@ public final class BenchmarkElement {
 
     /** {@inheritDoc} */
     @Override
-    public int hashCode() {
+    public final int hashCode() {
         final int prime = 31;
         int result = 1;
         result = prime * result + methodRunID;
@@ -616,7 +623,7 @@ public final class BenchmarkElement {
 
     /** {@inheritDoc} */
     @Override
-    public boolean equals(Object obj) {
+    public final boolean equals(Object obj) {
         if (this == obj)
             return true;
         if (obj == null)
