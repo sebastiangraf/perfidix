@@ -62,6 +62,6 @@ public @interface Bench {
     /**
      * Parameter for the number of runs of this bench.
      */
-    int runs() default -1;
+    int runs() default 1;
 
 }
