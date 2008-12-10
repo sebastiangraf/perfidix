@@ -75,8 +75,7 @@ public class BenchmarkElementTest {
 
     /**
      * Test method for
-     * {@link org.perfidix.element.BenchmarkElement#checkThisMethodAsBenchmarkable()}
-     * .
+     * {@link org.perfidix.element.BenchmarkElement#isBenchmarkable(Method)} .
      */
     @Test
     public void testCheckThisMethodAsBenchmarkable1() {
@@ -90,8 +89,8 @@ public class BenchmarkElementTest {
                     currentClassToTest.getClass().getDeclaredMethods();
             int numberOfFoundMethods = 0;
             for (final Method meth : meths) {
-                final BenchmarkElement elem = new BenchmarkElement(meth);
-                if (elem.checkThisMethodAsBenchmarkable()) {
+                if (BenchmarkElement.isBenchmarkable(meth)) {
+                    final BenchmarkElement elem = new BenchmarkElement(meth);
                     elem.getMethodToBench().invoke(currentClassToTest, param);
                     numberOfFoundMethods++;
                 }
@@ -105,8 +104,7 @@ public class BenchmarkElementTest {
 
     /**
      * Test method for
-     * {@link org.perfidix.element.BenchmarkElement#checkThisMethodAsBenchmarkable()}
-     * .
+     * {@link org.perfidix.element.BenchmarkElement#isBenchmarkable(Method)} .
      */
     @Test
     public void testCheckThisMethodAsBenchmarkable2() {
@@ -120,8 +118,8 @@ public class BenchmarkElementTest {
                     currentClassToTest.getClass().getDeclaredMethods();
             int numberOfFoundMethods = 0;
             for (final Method meth : meths) {
-                final BenchmarkElement elem = new BenchmarkElement(meth);
-                if (elem.checkThisMethodAsBenchmarkable()) {
+                if (BenchmarkElement.isBenchmarkable(meth)) {
+                    final BenchmarkElement elem = new BenchmarkElement(meth);
                     elem.getMethodToBench().invoke(currentClassToTest, param);
                     numberOfFoundMethods++;
                 }
@@ -195,8 +193,10 @@ public class BenchmarkElementTest {
                     currentClassToTest.getClass().getDeclaredMethods();
             BenchmarkElement elem = null;
             for (final Method meth : meths) {
-                final BenchmarkElement checkElem = new BenchmarkElement(meth);
-                if (checkElem.checkThisMethodAsBenchmarkable()) {
+                if (BenchmarkElement.isBenchmarkable(meth)) {
+                    final BenchmarkElement checkElem =
+                            new BenchmarkElement(meth);
+
                     if (elem == null) {
                         elem = checkElem;
                     } else {
@@ -228,8 +228,10 @@ public class BenchmarkElementTest {
                     currentClassToTest.getClass().getDeclaredMethods();
             BenchmarkElement elem = null;
             for (final Method meth : meths) {
-                final BenchmarkElement checkElem = new BenchmarkElement(meth);
-                if (checkElem.checkThisMethodAsBenchmarkable()) {
+                if (BenchmarkElement.isBenchmarkable(meth)) {
+                    final BenchmarkElement checkElem =
+                            new BenchmarkElement(meth);
+
                     if (elem == null) {
                         elem = checkElem;
                     } else {
@@ -261,8 +263,10 @@ public class BenchmarkElementTest {
                     currentClassToTest.getClass().getDeclaredMethods();
             BenchmarkElement elem = null;
             for (final Method meth : meths) {
-                final BenchmarkElement checkElem = new BenchmarkElement(meth);
-                if (checkElem.checkThisMethodAsBenchmarkable()) {
+                if (BenchmarkElement.isBenchmarkable(meth)) {
+                    final BenchmarkElement checkElem =
+                            new BenchmarkElement(meth);
+
                     if (elem == null) {
                         elem = checkElem;
                     } else {
@@ -294,8 +298,10 @@ public class BenchmarkElementTest {
                     currentClassToTest.getClass().getDeclaredMethods();
             BenchmarkElement elem = null;
             for (final Method meth : meths) {
-                final BenchmarkElement checkElem = new BenchmarkElement(meth);
-                if (checkElem.checkThisMethodAsBenchmarkable()) {
+                if (BenchmarkElement.isBenchmarkable(meth)) {
+                    final BenchmarkElement checkElem =
+                            new BenchmarkElement(meth);
+
                     if (elem == null) {
                         elem = checkElem;
                     } else {
@@ -327,8 +333,10 @@ public class BenchmarkElementTest {
                     currentClassToTest.getClass().getDeclaredMethods();
             BenchmarkElement elem = null;
             for (final Method meth : meths) {
-                final BenchmarkElement checkElem = new BenchmarkElement(meth);
-                if (checkElem.checkThisMethodAsBenchmarkable()) {
+                if (BenchmarkElement.isBenchmarkable(meth)) {
+                    final BenchmarkElement checkElem =
+                            new BenchmarkElement(meth);
+
                     if (elem == null) {
                         elem = checkElem;
                     } else {
@@ -360,8 +368,10 @@ public class BenchmarkElementTest {
                     currentClassToTest.getClass().getDeclaredMethods();
             BenchmarkElement elem = null;
             for (final Method meth : meths) {
-                final BenchmarkElement checkElem = new BenchmarkElement(meth);
-                if (checkElem.checkThisMethodAsBenchmarkable()) {
+                if (BenchmarkElement.isBenchmarkable(meth)) {
+                    final BenchmarkElement checkElem =
+                            new BenchmarkElement(meth);
+
                     if (elem == null) {
                         elem = checkElem;
                     } else {
@@ -393,8 +403,10 @@ public class BenchmarkElementTest {
                     currentClassToTest.getClass().getDeclaredMethods();
             BenchmarkElement elem = null;
             for (final Method meth : meths) {
-                final BenchmarkElement checkElem = new BenchmarkElement(meth);
-                if (checkElem.checkThisMethodAsBenchmarkable()) {
+                if (BenchmarkElement.isBenchmarkable(meth)) {
+                    final BenchmarkElement checkElem =
+                            new BenchmarkElement(meth);
+
                     if (elem == null) {
                         elem = checkElem;
                     } else {
@@ -426,8 +438,10 @@ public class BenchmarkElementTest {
                     currentClassToTest.getClass().getDeclaredMethods();
             BenchmarkElement elem = null;
             for (final Method meth : meths) {
-                final BenchmarkElement checkElem = new BenchmarkElement(meth);
-                if (checkElem.checkThisMethodAsBenchmarkable()) {
+                if (BenchmarkElement.isBenchmarkable(meth)) {
+                    final BenchmarkElement checkElem =
+                            new BenchmarkElement(meth);
+
                     if (elem == null) {
                         elem = checkElem;
                     } else {
@@ -446,7 +460,8 @@ public class BenchmarkElementTest {
 
     /**
      * Test method for
-     * {@link org.perfidix.element.BenchmarkElement#getNumberOfAnnotatedRuns()}.
+     * {@link org.perfidix.element.BenchmarkElement#getNumberOfAnnotatedRuns(Method)}
+     * .
      */
     @Test
     public void testNumberOfAnnotatedRuns() {
@@ -458,16 +473,16 @@ public class BenchmarkElementTest {
             assertEquals(3, meths.length);
 
             assertEquals("bench1", meths[0].getName());
-            assertEquals(10, new BenchmarkElement(meths[0])
-                    .getNumberOfAnnotatedRuns());
+            assertEquals(10, BenchmarkElement
+                    .getNumberOfAnnotatedRuns(meths[0]));
             assertEquals("bench2", meths[1].getName());
-            assertEquals(20, new BenchmarkElement(meths[1])
-                    .getNumberOfAnnotatedRuns());
+            assertEquals(20, BenchmarkElement
+                    .getNumberOfAnnotatedRuns(meths[1]));
             assertEquals("bench3", meths[2].getName());
             try {
-                new BenchmarkElement(meths[2]).getNumberOfAnnotatedRuns();
+                BenchmarkElement.getNumberOfAnnotatedRuns(meths[2]);
                 fail("Must throw IllegalStateException!");
-            } catch (IllegalStateException e) {
+            } catch (IllegalArgumentException e) {
                 assertTrue(e.getMessage().startsWith("Method"));
             }
 
@@ -510,9 +525,11 @@ public class BenchmarkElementTest {
 
     class TestMethodRunID {
 
+        @Bench
         public void bench1() {
         }
 
+        @Bench
         public void bench2() {
         }
 

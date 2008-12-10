@@ -422,8 +422,7 @@ public final class BenchmarkElement {
      * @throws IllegalStateException
      *             if the given method is not benchmarkable.
      */
-    public final static int getNumberOfAnnotatedRuns(final Method meth)
-            throws IllegalStateException {
+    public final static int getNumberOfAnnotatedRuns(final Method meth) {
         if (!isBenchmarkable(meth)) {
             throw new IllegalArgumentException(new StringBuilder("Method ")
                     .append(meth).append(" must be a benchmarkable method.")

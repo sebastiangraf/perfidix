@@ -24,10 +24,12 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.fail;
 
+import java.lang.reflect.Method;
+import java.util.HashSet;
 import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.Set;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.perfidix.annotation.Bench;
 
@@ -38,27 +40,42 @@ import org.perfidix.annotation.Bench;
  */
 public class NoMethodArrangementTest {
 
+    private Set<BenchmarkElement> elemSet;
+
+    /**
+     * Before method to setUp Benchmarkables.
+     */
+    @Before
+    public void setUp() {
+        elemSet = new HashSet<BenchmarkElement>();
+        final Class<?> testClazz = new TestBenchClass().getClass();
+        for (final Method meth : testClazz.getDeclaredMethods()) {
+            if (BenchmarkElement.isBenchmarkable(meth)) {
+                elemSet.add(new BenchmarkElement(meth));
+            }
+        }
+    }
+
     /**
      * Test method for {@link org.perfidix.element.NoMethodArrangement} .
      */
     @Test
     public void test() {
         try {
-            final List<Class<?>> clazzes = new LinkedList<Class<?>>();
-            clazzes.add(new TestBenchClass().getClass());
+
             final AbstractMethodArrangement arrangement =
-                    AbstractMethodArrangement.getMethodArrangement(clazzes);
+                    AbstractMethodArrangement
+                            .getMethodArrangement(
+                                    elemSet,
+                                    AbstractMethodArrangement.KindOfMethodArrangement.NoArrangement);
             final String[] expectedNames = { "bench1", "bench2", "bench4" };
             final Iterator<BenchmarkElement> iterBench = arrangement.iterator();
-            assertEquals(
-                    iterBench.next().getMethodToBench().getName(),
-                    expectedNames[0]);
-            assertEquals(
-                    iterBench.next().getMethodToBench().getName(),
-                    expectedNames[1]);
-            assertEquals(
-                    iterBench.next().getMethodToBench().getName(),
-                    expectedNames[2]);
+            assertEquals(expectedNames[1], iterBench
+                    .next().getMethodToBench().getName());
+            assertEquals(expectedNames[2], iterBench
+                    .next().getMethodToBench().getName());
+            assertEquals(expectedNames[0], iterBench
+                    .next().getMethodToBench().getName());
             assertFalse(iterBench.hasNext());
 
         } catch (final Exception e) {
