@@ -92,33 +92,6 @@ public final class BenchmarkElement {
     }
 
     /**
-     * Method to find a {@link BeforeBenchClass} annotation (as set by the
-     * parameter). This method should be invoked just once for all methods. The
-     * corresponding class is searched after suitable methods and checks for
-     * integrity are made. If there are multiple {@link BeforeBenchClass}
-     * -annotated methods available, an exception is thrown.
-     * 
-     * @see BeforeBenchClass
-     * @return Annotated method with BeforeBenchClass annotation, null of none
-     *         exists
-     * @throws IllegalAccessException
-     *             if integrity check of class and method fails.
-     */
-    public final Method findBeforeBenchClass() throws IllegalAccessException {
-
-        // Scanning the class file for the BeforeBenchClass-annotation
-        final Method method =
-                findAndCheckAnyMethodByAnnotation(getMethodToBench()
-                        .getDeclaringClass(), BeforeBenchClass.class);
-
-        if (method != null) {
-            return method;
-        } else {
-            return null;
-        }
-    }
-
-    /**
      * Method to find a {@link BeforeFirstRun} annotation. This method should be
      * invoked for all methods. The corresponding class is searched after
      * suitable methods and checks for integrity are made. If there are multiple
@@ -362,33 +335,6 @@ public final class BenchmarkElement {
         } else {
             return findAndCheckAnyMethodByAnnotation(getMethodToBench()
                     .getDeclaringClass(), AfterLastRun.class);
-        }
-    }
-
-    /**
-     * Method to execute a {@link AfterBenchClass} annotation (as set by the
-     * parameter). This method should be invoked just once for all methods. The
-     * corresponding class is searched after suitable methods and checks for
-     * integrity are made. If there are multiple {@link AfterBenchClass}
-     * -annotated methods available, an exception is thrown.
-     * 
-     * @see AfterBenchClass
-     * @return Annotated method with AfterBenchClass annotation, null of none
-     *         exists
-     * @throws IllegalAccessException
-     *             if integrity check of class and method fails.
-     */
-    public final Method findAfterBenchClass() throws IllegalAccessException {
-
-        // Scanning the class file for the AfterBenchClass-annotation
-        final Method method =
-                findAndCheckAnyMethodByAnnotation(getMethodToBench()
-                        .getDeclaringClass(), AfterBenchClass.class);
-
-        if (method != null) {
-            return method;
-        } else {
-            return null;
         }
     }
 

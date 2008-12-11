@@ -22,6 +22,7 @@ package org.perfidix.element;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.lang.reflect.Method;
 import java.util.HashSet;
@@ -41,7 +42,9 @@ import org.perfidix.meter.Time;
 import org.perfidix.meter.TimeMeter;
 
 /**
- * Test case for the BenchmarkExecutor.
+ * Test case for the BenchmarkExecutor. Note that all classes used in this
+ * testcase are not allowed to be internal classes because of the reflective
+ * invocation. This is not working with encapsulated classes.
  * 
  * @author Sebastian Graf, University of Konstanz
  */
@@ -81,8 +84,8 @@ public class BenchmarkExecutorTest {
      */
     @Test
     public void testGetExecutor1() {
-        final GetTestClass getClass = new GetTestClass();
-        final Method meth = getClass.getClass().getDeclaredMethods()[0];
+        final GetTestClass getInstanceClass = new GetTestClass();
+        final Method meth = getInstanceClass.getClass().getDeclaredMethods()[0];
 
         final BenchmarkElement elem1 = new BenchmarkElement(meth);
         final BenchmarkElement elem2 = new BenchmarkElement(meth);
@@ -175,12 +178,60 @@ public class BenchmarkExecutorTest {
         assertEquals(2, each);
     }
 
-    class GetTestClass {
+    /**
+     * Test method for
+     * {@link org.perfidix.element.BenchmarkExecutor#checkAndExecute(Object, Method)}
+     * 
+     * @throws Exception
+     *             of any kind because of reflection
+     */
+    @Test
+    public void testCheckAndExecute() throws Exception {
+        final Object falseObj = new Object();
+        final Object correctObj = new CheckAndExecuteTestClass();
 
-        @Bench
-        public void bench1() {
+        assertEquals(2, correctObj.getClass().getDeclaredMethods().length);
+
+        final Method correctMethod =
+                correctObj.getClass().getDeclaredMethods()[0];
+        final Method falseMethod =
+                correctObj.getClass().getDeclaredMethods()[1];
+
+        try {
+            BenchmarkExecutor.checkAndExecute(falseObj, correctMethod);
+            fail("Should throw IllegalStateException!");
+        } catch (Exception e) {
+            assertTrue(e instanceof IllegalStateException);
         }
 
+        try {
+            BenchmarkExecutor.checkAndExecute(correctObj, falseMethod);
+            fail("Should throw IllegalAccessException!");
+        } catch (Exception e) {
+            assertTrue(e instanceof IllegalAccessException);
+        }
+
+        BenchmarkExecutor.checkAndExecute(correctObj, correctMethod);
+        assertEquals(1, once);
+
+    }
+}
+
+class CheckAndExecuteTestClass {
+
+    public void correctMethod() {
+        BenchmarkExecutorTest.once++;
+    }
+
+    static void incorrectMeth(final boolean falseParameter) {
+    }
+
+}
+
+class GetTestClass {
+
+    @Bench
+    public void bench1() {
     }
 
 }

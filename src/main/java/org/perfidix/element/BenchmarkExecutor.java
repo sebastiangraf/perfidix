@@ -82,6 +82,7 @@ public final class BenchmarkExecutor {
         afterLastRunExecuted = false;
         element = paramElement;
         meters = paramMeters;
+
     }
 
     /**
@@ -201,7 +202,7 @@ public final class BenchmarkExecutor {
      * @throws IllegalAccessException
      *             if invocation fails
      */
-    private final void checkAndExecute(final Object obj, final Method meth)
+    public static final void checkAndExecute(final Object obj, final Method meth)
             throws IllegalAccessException {
         final Object[] args = {};
 
@@ -222,7 +223,7 @@ public final class BenchmarkExecutor {
 
         // check if the method is reflected executable
         if (!BenchmarkElement.isReflectedExecutable(meth)) {
-            throw new IllegalStateException(new StringBuilder(
+            throw new IllegalAccessException(new StringBuilder(
                     "Method to execute ").append(meth).append(
                     " is not reflected executable.").toString());
         }
