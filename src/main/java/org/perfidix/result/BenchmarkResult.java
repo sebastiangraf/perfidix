@@ -20,24 +20,35 @@
  */
 package org.perfidix.result;
 
+import java.util.Set;
+
+import org.perfidix.meter.AbstractMeter;
+
 /**
  * @author axo
  */
 public class BenchmarkResult extends ResultContainer<ClassResult> {
 
+    private final String name;
+
     /**
      * default constructor.
      */
-    public BenchmarkResult() {
-        this("");
+    public BenchmarkResult(
+            final Set<AbstractMeter> meters, final String paramName) {
+        super(meters);
+        this.name = paramName;
+    }
+
+    public BenchmarkResult(final Set<AbstractMeter> meters) {
+        this(meters, "");
     }
 
     /**
-     * @param theName
-     *            name
+     * @return the name
      */
-    public BenchmarkResult(final String theName) {
-        super(theName);
+    public final String getName() {
+        return name;
     }
 
 }

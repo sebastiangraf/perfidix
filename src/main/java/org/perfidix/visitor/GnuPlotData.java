@@ -22,18 +22,15 @@ package org.perfidix.visitor;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.Hashtable;
 import java.util.Iterator;
+import java.util.Set;
 
 import org.perfidix.meter.AbstractMeter;
 import org.perfidix.result.AbstractResult;
 import org.perfidix.result.BenchmarkResult;
 import org.perfidix.result.ClassResult;
 import org.perfidix.result.MethodResult;
-import org.perfidix.result.SingleResult;
-import org.perfidix.visitor.NiceTable.Util;
 
 /**
  * the gnu plot visitor parses the result into a gnu readable file.
@@ -66,13 +63,14 @@ public class GnuPlotData extends ResultVisitor {
     /**
      * the IMeter which was used.
      */
-    private AbstractMeter meter = null;
+    private final AbstractMeter meter;
 
     /**
      * the gnuplot visitor converts a perfidix result to a gnuplot file.
      */
-    public GnuPlotData() {
+    public GnuPlotData(final AbstractMeter meter) {
         super();
+        this.meter = meter;
     }
 
     /**
@@ -93,16 +91,6 @@ public class GnuPlotData extends ResultVisitor {
     }
 
     /**
-     * sets the meter to display the results for.
-     * 
-     * @param which
-     *            the meter.
-     */
-    public void setMeter(final AbstractMeter which) {
-        meter = which;
-    }
-
-    /**
      * allows a simpler configuration through a facade.
      * 
      * @param which
@@ -112,12 +100,10 @@ public class GnuPlotData extends ResultVisitor {
      * @param theFilename
      *            the filename, whatever information.
      */
-    public void configure(
-            final AbstractMeter which, final String id, final String theFilename) {
+    public void configure(final String id, final String theFilename) {
 
         setID(id);
         setFilename(theFilename);
-        setMeter(which);
 
     }
 
@@ -140,14 +126,10 @@ public class GnuPlotData extends ResultVisitor {
 
         reset();
 
-        if (null == meter) {
-            meter = r.getDefaultMeter();
-        }
-
         addHeaderComment("Id", theID);
         addHeaderComment("About", getAboutText(meter));
         addHeaderComment("Filename", theFileName);
-        addHeaderComment("Title", r.getName());
+        addHeaderComment("Title", "");
         addHeaderComment("Date", new Date(System.currentTimeMillis())
                 .toString());
         addHeaderComment("Unit", meter.getUnit());
@@ -176,35 +158,29 @@ public class GnuPlotData extends ResultVisitor {
         }
     }
 
-    private void parseMethod(final MethodResult m) {
-        Hashtable<AbstractMeter, ArrayList<SingleResult>> tree =
-                m.getCustomChildren();
-        if (!tree.containsKey(meter)) {
-            return;
+    private void parseMethod(final MethodResult method) {
+        final Set<AbstractMeter> meters = method.getRegisteredMeters();
+        for (final AbstractMeter meter : meters) {
+            String[] data =
+                    {
+                            "" + nextID,
+                            "" + method.min(meter),
+                            "" + method.max(meter),
+                            "" + format(method.mean(meter)),
+                            "" + format(method.getStandardDeviation(meter)),
+                            ""
+                                    + format(method.mean(meter)
+                                            - method.getConf95(meter)),
+                            ""
+                                    + format(method.mean(meter)
+                                            + method.getConf95(meter)),
+                            "" + method.getResultSet(meter).size(),
+                            "" + method.sum(meter), "", "\n", };
+
+            buffer += NiceTable.Util.implode("\t", data);
+            nextID++;
         }
 
-        Iterator<SingleResult> singleIt = tree.get(meter).iterator();
-        while (singleIt.hasNext()) {
-            parseSingleResult(singleIt.next(), m);
-        }
-
-    }
-
-    private void parseSingleResult(
-            final SingleResult single, final MethodResult m) {
-
-        String[] data =
-                {
-                        "" + nextID, "" + single.min(), "" + single.max(),
-                        "" + format(single.avg()),
-                        "" + format(single.getStandardDeviation()),
-                        "" + format(getConf95Min(single)),
-                        "" + format(getConf95Max(single)),
-                        "" + single.resultCount(), "" + single.sum(),
-                        m.getName(), "\n", };
-
-        buffer += NiceTable.Util.implode("\t", data);
-        nextID++;
     }
 
     private void addColumnComment() {

@@ -2,16 +2,15 @@ package org.perfidix.visitor;
 
 import java.io.File;
 import java.io.FileWriter;
-import java.util.ArrayList;
 import java.util.Collection;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.perfidix.meter.AbstractMeter;
 import org.perfidix.result.AbstractResult;
 import org.perfidix.result.BenchmarkResult;
 import org.perfidix.result.ClassResult;
 import org.perfidix.result.MethodResult;
-import org.perfidix.result.SingleResult;
 
 /**
  * Storing the raw data without any computation in single files. Per method, one
@@ -25,9 +24,12 @@ public class RawData extends ResultVisitor {
 
     private static final Log LOGGER = LogFactory.getLog(RawData.class);
 
-    public RawData(final String pathToFolder) {
+    private final AbstractMeter meter;
+
+    public RawData(final String pathToFolder, final AbstractMeter meter) {
 
         folder = new File(pathToFolder);
+        this.meter = meter;
 
     }
 
@@ -44,9 +46,9 @@ public class RawData extends ResultVisitor {
                     File timeFile =
                             new File(this.folder.getAbsolutePath()
                                     + File.separatorChar
-                                    + classRes.getName()
+                                    + classRes
                                     + "$"
-                                    + methodRes.getName()
+                                    + methodRes
                                     + ".csv");
                     getMethodResult(timeFile, methodRes);
                 }
@@ -60,43 +62,34 @@ public class RawData extends ResultVisitor {
             final File outputFile, final MethodResult methodRes) {
 
         try {
-            final ArrayList<SingleResult> singleTimes =
-                    new ArrayList<SingleResult>();
-            final Collection<ArrayList<SingleResult>> childs =
-                    methodRes.getCustomChildren().values();
-            for (final ArrayList<SingleResult> currentList : childs) {
-                singleTimes.addAll(currentList);
+            final File currentFile =
+                    new File(outputFile.getAbsoluteFile()
+                            + "$"
+                            + meter.getName());
+            // if (currentFile.exists()) {
+            // currentFile.delete();
+            // }
+            FileWriter timeOut;
+            if (currentFile.exists()) {
+                timeOut = new FileWriter(currentFile, true);
+                timeOut.write(",");
+            } else {
+                timeOut = new FileWriter(currentFile, false);
             }
-            for (final SingleResult result : singleTimes) {
-                final File currentFile =
-                        new File(outputFile.getAbsoluteFile()
-                                + "$"
-                                + result.getMeter().getName());
-                // if (currentFile.exists()) {
-                // currentFile.delete();
-                // }
-                FileWriter timeOut;
-                if (currentFile.exists()) {
-                    timeOut = new FileWriter(currentFile, true);
-                    timeOut.write(",");
+            final Collection<Double> data = methodRes.getResultSet(meter);
+            int i = 0;
+            for (Double d : data) {
+                if (i == data.size() - 1) {
+                    timeOut.write(d + " ");
                 } else {
-                    timeOut = new FileWriter(currentFile, false);
+                    timeOut.write(d + ",");
                 }
-                final double data[] = result.getResultSet();
-                for (int i = 0; i < data.length; i++) {
-                    if (i == data.length - 1) {
-                        timeOut.write(data[i] + " ");
-                    } else {
-                        timeOut.write(data[i] + ",");
-                    }
-                }
-                timeOut.flush();
-                timeOut.close();
             }
+            timeOut.flush();
+            timeOut.close();
 
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
 }

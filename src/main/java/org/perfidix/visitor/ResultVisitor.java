@@ -43,32 +43,6 @@ public abstract class ResultVisitor {
     public abstract void visit(AbstractResult r);
 
     /**
-     * @param res
-     *            FIXME
-     * @return FIXME
-     */
-    protected double getConf95Min(final AbstractResult res) {
-        return Math.max(0, res.avg() - res.getConf95());
-    }
-
-    /**
-     * @param res
-     *            FIXME
-     * @return FIXME
-     */
-    protected double getConf95Max(final AbstractResult res) {
-        return res.avg() + res.getConf95();
-    }
-
-    protected double getConf99Min(final AbstractResult res) {
-        return Math.max(0, res.avg() - res.getConf99());
-    }
-
-    protected double getConf99Max(final AbstractResult res) {
-        return res.avg() + res.getConf99();
-    }
-
-    /**
      * formats a double. if you want to change the output of the doubles, give
      * in the floatFormat through the alternative constructor.
      * 

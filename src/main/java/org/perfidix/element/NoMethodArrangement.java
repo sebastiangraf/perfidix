@@ -40,7 +40,7 @@ public final class NoMethodArrangement extends AbstractMethodArrangement {
      * @param elements
      *            with benchmarkable elements.
      */
-    protected NoMethodArrangement(final Set<BenchmarkMethod> elements) {
+    protected NoMethodArrangement(final Set<BenchmarkElement> elements) {
         super(elements);
     }
 
@@ -53,10 +53,10 @@ public final class NoMethodArrangement extends AbstractMethodArrangement {
      * @return the input.
      */
     @Override
-    protected final List<BenchmarkMethod> arrangeList(
-            Set<BenchmarkMethod> elements) {
-        final List<BenchmarkMethod> elementList =
-                new LinkedList<BenchmarkMethod>();
+    protected final List<BenchmarkElement> arrangeList(
+            Set<BenchmarkElement> elements) {
+        final List<BenchmarkElement> elementList =
+                new LinkedList<BenchmarkElement>();
         elementList.addAll(elements);
         return elementList;
     }

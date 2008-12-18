@@ -19,9 +19,7 @@
 
 package org.perfidix.visitor;
 
-import java.util.ArrayList;
 import java.util.Formatter;
-import java.util.Hashtable;
 
 import org.perfidix.meter.AbstractMeter;
 import org.perfidix.result.AbstractResult;
@@ -29,7 +27,6 @@ import org.perfidix.result.BenchmarkResult;
 import org.perfidix.result.ClassResult;
 import org.perfidix.result.MethodResult;
 import org.perfidix.result.ResultContainer;
-import org.perfidix.result.SingleResult;
 
 /**
  * <p>
@@ -88,9 +85,9 @@ public class AsciiTable extends ResultVisitor {
      * 
      * @param res
      */
-    private void addHeader(final ResultContainer res) {
+    private void addHeader(final ResultContainer<?> res) {
         if (res instanceof BenchmarkResult) {
-            table.addHeader(res.getName().toUpperCase());
+            table.addHeader("");
             table.addLine('*');
             table.addRow(header);
             table.addLine('=');
@@ -98,7 +95,7 @@ public class AsciiTable extends ResultVisitor {
         }
         if (res instanceof ClassResult) {
             table.addHeader(" ", ' ', NiceTable.LEFT);
-            table.addHeader(res.getName(), '.', NiceTable.LEFT);
+            table.addHeader("", '.', NiceTable.LEFT);
             return;
         }
         // other result containers don't need a header.
@@ -110,7 +107,8 @@ public class AsciiTable extends ResultVisitor {
      * @param m
      * @param res
      */
-    private void createSummary(final AbstractMeter m, final ResultContainer res) {
+    private void createSummary(
+            final AbstractMeter m, final ResultContainer<?> res) {
         Formatter j = new Formatter();
         Object[] data =
                 {
@@ -125,13 +123,13 @@ public class AsciiTable extends ResultVisitor {
                                 "[" + floatFormat + "," + floatFormat + "]",
                                 Math.max(0, res.mean(m) - res.getConf95(m)),
                                 res.mean(m) + res.getConf95(m)),
-                        res.getNumberOfRuns(),
+                        res.getResultSet(m).size(),
 
                 };
         table.addRow(data);
     }
 
-    private void addFooter(final ResultContainer res) {
+    private void addFooter(final ResultContainer<?> res) {
         char whichChar;
         String indent;
         if (res instanceof BenchmarkResult) {
@@ -147,7 +145,7 @@ public class AsciiTable extends ResultVisitor {
         }
 
         table.addHeader(
-                indent + "summary for " + res.getName() + indent, whichChar,
+                indent + "summary for " + "" + indent, whichChar,
                 NiceTable.LEFT);
 
         for (Object meter : res.getRegisteredMeters()) {
@@ -164,7 +162,7 @@ public class AsciiTable extends ResultVisitor {
 
     }
 
-    private void visitSubcontainers(final ResultContainer res) {
+    private void visitSubcontainers(final ResultContainer<?> res) {
         addHeader(res);
         for (Object res2 : res.getChildren()) {
             visit((AbstractResult) res2);
@@ -177,50 +175,23 @@ public class AsciiTable extends ResultVisitor {
      * 
      * @param res
      */
-    private void visitMethodResults(final MethodResult res) {
-
-        final Hashtable<AbstractMeter, ArrayList<SingleResult>> customChild =
-                res.getCustomChildren();
-
-        String theName;
-        if (customChild.size() > 1) {
-            table.addHeader("" + res.getName(), ' ', NiceTable.LEFT);
-            theName = "`";
-        } else {
-            theName = res.getName();
-        }
-
-        for (final AbstractMeter meter : customChild.keySet()) {
-
-            for (final SingleResult singRes : customChild.get(meter)) {
-                visitSingleResult(singRes, theName);
-            }
-        }
-    }
-
-    private void visitSingleResult(
-            final SingleResult res, final String nameToDisplay) {
-
-        if (res.getResultSet().length < 1) {
-            return;
-        }
-
+    private void visitMethodResults(
+            final MethodResult res, final AbstractMeter meter) {
         Object[] data =
                 {
-                        nameToDisplay,
-                        res.getUnit(),
-                        res.sum(),
-                        res.min(),
-                        res.max(),
-                        format(res.avg()),
-                        format(res.getStandardDeviation()),
+                        "",
+                        meter.getUnit(),
+                        res.sum(meter),
+                        res.min(meter),
+                        res.max(meter),
+                        format(res.mean(meter)),
+                        format(res.getStandardDeviation(meter)),
                         "["
-                                + format(getConf95Min(res))
+                                + format(res.mean(meter) - res.getConf95(meter))
                                 + ","
-                                + format(getConf95Max(res))
-                                + "]", res.getNumberOfRuns() };
+                                + format(res.mean(meter) - res.getConf95(meter))
+                                + "]", res.getResultSet(meter).size() };
         table.addRow(data);
-
     }
 
     /**
@@ -232,15 +203,13 @@ public class AsciiTable extends ResultVisitor {
      */
     @Override
     public void visit(final AbstractResult res) {
-
-        if (res instanceof SingleResult) {
-            visitSingleResult((SingleResult) res, res.getName());
-        } else if (res instanceof MethodResult) {
-            visitMethodResults((MethodResult) res);
-        } else {
-            visitSubcontainers((ResultContainer) res);
+        for (final AbstractMeter meter : res.getRegisteredMeters()) {
+            if (res instanceof MethodResult) {
+                visitMethodResults((MethodResult) res, meter);
+            } else {
+                visitSubcontainers((ResultContainer<?>) res);
+            }
         }
-
     }
 
     /**

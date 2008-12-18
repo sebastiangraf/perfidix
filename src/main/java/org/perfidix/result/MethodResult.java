@@ -20,47 +20,65 @@
  */
 package org.perfidix.result;
 
-import java.util.ArrayList;
-import java.util.Iterator;
+import java.lang.reflect.Method;
+import java.util.Set;
+
+import org.perfidix.meter.AbstractMeter;
 
 /**
- * @author onea
+ * Class to hold the result related to one method. That means that all
+ * information is inherited from the {@link ClassResult} plus the possibility to
+ * add additional datasets.
+ * 
+ * @author Sebastian Graf, University of Konstanz
+ * @author Alexander Onea, neue Couch
  */
-public class MethodResult extends ResultContainer<SingleResult> {
+public class MethodResult extends AbstractResult {
+
+    /** Method which corresponds to this result */
+    private final Method meth;
 
     /**
-     * @param theName
-     *            the name.
-     */
-    public MethodResult(final String theName) {
-        super(theName);
-    }
-
-    @Override
-    public long getNumberOfRuns() {
-        /*
-         * debug Iterator<SingleResult> it = getChildren().iterator(); while
-         * (it.hasNext()) { SingleResult s = it.next();
-         * System.out.println(getName() + " number of runs: " + s.getName() +
-         * " " + s.getNumberOfRuns()); }
-         */
-        return getChildren().get(0).getNumberOfRuns();
-    }
-
-    /**
-     * returns the children.
+     * Simple Constructor
      * 
-     * @return the children.
+     * @param paramMethod
+     *            , the method related to these results
+     * @param paramMeters
+     *            , the related meters to this results
      */
-    @Override
-    public ArrayList<SingleResult> getChildren() {
-        ArrayList<SingleResult> children = super.getChildren();
-        Iterator<ArrayList<SingleResult>> cust =
-                this.getCustomChildren().values().iterator();
-        while (cust.hasNext()) {
-            children.addAll(cust.next());
+    public MethodResult(
+            final Method paramMethod, final Set<AbstractMeter> paramMeters) {
+        super(paramMeters);
+        meth = paramMethod;
+
+    }
+
+    /**
+     * Adding a result to a given meter
+     * 
+     * @param meter
+     *            where the result should be stored to.
+     * @param data
+     *            to be stored.
+     */
+    public final void addResult(final AbstractMeter meter, final double data) {
+        if (!super.getRegisteredMeters().contains(meter)) {
+            throw new IllegalStateException(new StringBuilder(
+                    "Need to initialize the meter first! ")
+                    .append(meter).append(" was not initialized!").toString());
+        } else {
+            super.getResultSet(meter).add(data);
         }
-        return children;
+
+    }
+
+    /**
+     * Getter for the method.
+     * 
+     * @return the method of this result
+     */
+    public final Method getMeth() {
+        return meth;
     }
 
 }

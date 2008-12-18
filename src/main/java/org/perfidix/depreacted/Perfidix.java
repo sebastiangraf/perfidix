@@ -17,7 +17,7 @@
  * 
  */
 
-package org.perfidix;
+package org.perfidix.depreacted;
 
 import java.util.TreeMap;
 
@@ -25,7 +25,6 @@ import org.perfidix.meter.AbstractMeter;
 import org.perfidix.meter.Time;
 import org.perfidix.meter.TimeMeter;
 import org.perfidix.result.AbstractResult;
-import org.perfidix.result.SingleResult;
 
 /**
  * this is the main class, consisting of all the factory methods needed in order
@@ -181,32 +180,8 @@ public final class Perfidix {
         return new TimeMeter(Time.MilliSeconds);
     }
 
-    /**
-     * @param set
-     *            the dataset.
-     * @return the single result.
-     */
-    public static final SingleResult createSingleResult(final double[] set) {
-        return new SingleResult(set, Perfidix.defaultMeter());
-    }
-
-    /**
-     * @param name
-     *            the name.
-     * @param set
-     *            the result set.
-     * @return a single result.
-     */
-    public static final SingleResult createSingleResult(
-            final String name, final double[] set) {
-        SingleResult r = Perfidix.createSingleResult(set);
-        // r.setName(name);
-        return r;
-    }
-
     public static AbstractResult runBenchs(final String[] benchs) {
         Benchmark bench = new Benchmark();
-        bench.setLogger(false);
         for (String each : benchs) {
             try {
                 bench.add(Class.forName(each).newInstance());

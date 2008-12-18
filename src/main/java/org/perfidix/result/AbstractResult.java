@@ -19,410 +19,193 @@
 
 package org.perfidix.result;
 
-import java.util.Arrays;
+import java.util.Collection;
+import java.util.Hashtable;
+import java.util.LinkedList;
+import java.util.Map;
+import java.util.Set;
 
-import org.perfidix.Benchmark;
+import org.apache.commons.collections.primitives.adapters.CollectionDoubleCollection;
+import org.apache.commons.math.stat.descriptive.AbstractUnivariateStatistic;
+import org.apache.commons.math.stat.descriptive.moment.Mean;
+import org.apache.commons.math.stat.descriptive.moment.StandardDeviation;
+import org.apache.commons.math.stat.descriptive.rank.Max;
+import org.apache.commons.math.stat.descriptive.rank.Min;
+import org.apache.commons.math.stat.descriptive.rank.Percentile;
+import org.apache.commons.math.stat.descriptive.summary.Sum;
+import org.apache.commons.math.stat.descriptive.summary.SumOfSquares;
 import org.perfidix.meter.AbstractMeter;
 import org.perfidix.visitor.AsciiTable;
 import org.perfidix.visitor.NiceTable;
-import org.perfidix.visitor.ResultVisitor;
 
 /**
- * a base class for result sets.
+ * Results which are generated through the benchmark are stored in the inherted
+ * implementation of this class. The storage is done corresponding to the
+ * mapping of meters.
  * 
- * @author axo
- * @since 10.12.2005
+ * @author Sebastian Graf, University of Konstanz
+ * @author Alexander Onea, neue Couch
  */
 public abstract class AbstractResult {
 
     /**
-     * if any result computation overflows (as can happen with the nanometer on
-     * slow methods), this value will be taken as a response. i know that the
-     * correct way would be to throw an exception, but this means that i would
-     * have to perform try/catch routines on almost every bloody computation,
-     * and i am really too lazy to do this.
+     * Results mapped to the meters
      */
-    public static final double OVERFLOW = 0xDEAD;
+    private final Map<AbstractMeter, Collection<Double>> meterResults;
 
     /**
-     * the name of the result.
+     * Constructor with a given name.
      */
-    private final String name;
+    protected AbstractResult(final Set<AbstractMeter> meters) {
+        meterResults = new Hashtable<AbstractMeter, Collection<Double>>();
+        for (final AbstractMeter meter : meters) {
+            meterResults.put(meter, new LinkedList<Double>());
+        }
 
-    /**
-     * the default name of a result.
-     */
-    public static final String DEFAULT_NAME = "<noNameDefined>";
-
-    /**
-     * Factor of nearly 2 standardfailures
-     */
-    private static final double CONF95_FACTOR = 1.96;
-
-    /**
-     * Factor of 2 and a half standardfailures
-     */
-    private static final double CONF99_FACTOR = 2.576;
-
-    /**
-     * default constructor.
-     */
-    public AbstractResult(final String paramName) {
-        name = paramName;
-    }
-
-    /**
-     * computes the default meter, which will be used as a reference when
-     * calling methods without the IMeter parameter.
-     * 
-     * @return the default meter
-     */
-    public abstract AbstractMeter getDefaultMeter();
-
-    /**
-     * @return the result set of a benchmark.
-     */
-
-    public abstract long getNumberOfRuns();
-
-    /**
-     * simple getter.
-     * 
-     * @return the result name
-     */
-    public final String getName() {
-        return name;
     }
 
     /**
      * an array of all data items in the structure.
      * 
+     * @param meter
+     *            for the results wanted
      * @return the result set.
      */
-    public abstract double[] getResultSet();
-
-    /**
-     * tells the object to accept a visitor.
-     * 
-     * @param r
-     *            the visitor to accept.
-     */
-    public abstract void accept(ResultVisitor r);
-
-    /**
-     * computes the number of data fields available. this is the number of data
-     * items for non-skipped runs.
-     * 
-     * @return number of data fields.
-     */
-    public final long resultCount() {
-        final long resultCount = getResultSet().length;
-        return resultCount;
+    public final Collection<Double> getResultSet(final AbstractMeter meter) {
+        return this.meterResults.get(meter);
     }
 
     /**
-     * returns the artithmetic mean of the result set. avg() is an alias for
-     * this method.
+     * Getting all meters registered in this result.
      * 
-     * @see #avg
-     * @return the mean values.
+     * @return a set of all meters.
      */
-    public final double mean() {
-
-        final double mean = computeMean(getResultSet());
-        return mean;
+    public final Set<AbstractMeter> getRegisteredMeters() {
+        return this.meterResults.keySet();
     }
 
     /**
-     * computes the variance.
+     * Returns the arithmetic mean of the result set. avg() is an alias for this
+     * method.
      * 
-     * @return double
+     * @param meter
+     *            the meter of the mean
+     * @return the mean value.
      */
-    public final double variance() {
-        final double variance = computeVariance();
-        return variance;
+    public final double mean(final AbstractMeter meter) {
+        final AbstractUnivariateStatistic mean = new Mean();
+        final CollectionDoubleCollection doubleColl =
+                new CollectionDoubleCollection(this.meterResults.get(meter));
+        return mean.evaluate(
+                doubleColl.toArray(), 0, doubleColl.toArray().length);
     }
 
     /**
-     * the more exact computation of the variance.
+     * Computes the square sum of the elements.
      * 
-     * @return the variance of the data set.
-     */
-    private final double computeVariance() {
-        return computeVariance(getResultSet());
-
-    }
-
-    /**
-     * computes the middle value of the set distribution. the value of this
-     * median needs not necessarily be within the given resultSet length, but
-     * will be the computed absolute value. the result set values are sorted
-     * first, and if the result set is even, 0.5 * ( the two middle values) is
-     * being taken. if the result set is odd, the middle value is being taken.
-     * 
-     * @return the median
-     */
-    public final double median() {
-
-        final double median = computeMedian(getResultSet());
-        return median;
-    }
-
-    /**
-     * computes the square sum of the elements.
-     * 
+     * @param meter
+     *            the meter of the mean
      * @return the square sum.
      */
-    public final double squareSum() {
-        final double squareSum = computeSquareSum(getResultSet());
-        return squareSum;
+    public final double squareSum(final AbstractMeter meter) {
+        final AbstractUnivariateStatistic mean = new SumOfSquares();
+        final CollectionDoubleCollection doubleColl =
+                new CollectionDoubleCollection(this.meterResults.get(meter));
+        return mean.evaluate(
+                doubleColl.toArray(), 0, doubleColl.toArray().length);
     }
 
     /**
-     * computes the standard deviation.
+     * Computes the standard deviation.
      * 
+     * @param meter
+     *            the meter of the mean
      * @return the standard deviation
      */
-    public final double getStandardDeviation() {
-        final double standardDeviation =
-                computeStandardDeviation(getResultSet());
-        return standardDeviation;
+    public final double getStandardDeviation(final AbstractMeter meter) {
+        final AbstractUnivariateStatistic mean = new StandardDeviation();
+        final CollectionDoubleCollection doubleColl =
+                new CollectionDoubleCollection(this.meterResults.get(meter));
+        return mean.evaluate(
+                doubleColl.toArray(), 0, doubleColl.toArray().length);
     }
 
     /**
-     * bla.
+     * Computes the sum over all data items.
      * 
-     * @param resSet
-     *            the data
-     * @return bla.
-     */
-    protected final double computeStandardDeviation(final double[] resSet) {
-        if (resSet.length < 1) {
-            return 0.0;
-        }
-        return Math.sqrt((1.0 / resSet.length * computeSquareSum(resSet))
-                - Math.pow(computeMean(resSet), 2.0));
-    }
-
-    /**
-     * the bla.
-     * 
-     * @param resSet
-     *            the bla.
-     * @return bla.
-     */
-    protected final double computeSquareSum(final double[] resSet) {
-        double s = 0;
-        for (int i = 0; i < resSet.length; i++) {
-            s += Math.pow(resSet[i], 2);
-            if (s >= Long.MAX_VALUE) {
-                throw new NumberFormatException();
-            }
-        }
-        return s;
-    }
-
-    /**
-     * the bla.
-     * 
-     * @param resSet
-     *            the bla.
-     * @return bla.
-     */
-    protected double computeVariance(final double[] resSet) {
-        if (resSet.length < 2) {
-            return 0.0;
-        }
-        long n = 0;
-        double aS = 0.0;
-        double aMean = 0;
-        for (int i = 0; i < resSet.length; i++) {
-            n++;
-            double delta = resSet[i] - aMean;
-            aMean += delta / n;
-            aS += delta * (resSet[i] - aMean);
-        }
-        return (aS / (n - 1));
-    }
-
-    /**
-     * the bla.
-     * 
-     * @param resSet
-     *            the bla.
-     * @return bla.
-     */
-    protected double computeMedian(final double[] aesSet) {
-        if (aesSet.length < 1) {
-            return 0.0;
-        }
-        double[] resSet = aesSet.clone();
-        Arrays.sort(resSet);
-
-        if (resSet.length % 2 == 1) {
-            return resSet[resSet.length / 2];
-        }
-        int firstHalf = (resSet.length - 1) / 2;
-        int secondHalf = firstHalf + 1;
-        return (resSet[firstHalf] / 2.0 + resSet[secondHalf] / 2.0);
-    }
-
-    /**
-     * the bla.
-     * 
-     * @param resSet
-     *            the bla.
-     * @return bla.
-     */
-    protected double computeConf99(final double[] resSet) {
-        return computeConf(AbstractResult.CONF99_FACTOR, resSet);
-    }
-
-    /**
-     * the bla.
-     * 
-     * @param resSet
-     *            the bla.
-     * @return bla.
-     */
-    protected double computeConf95(final double[] resSet) {
-        return computeConf(AbstractResult.CONF95_FACTOR, resSet);
-    }
-
-    private double computeConf(final double staticFactor, final double[] resSet) {
-        return staticFactor
-                * (computeStandardDeviation(resSet) / Math.sqrt(resSet.length));
-    }
-
-    /**
-     * computes the average value of the data set. alias for mean().
-     * 
-     * @see #mean()
-     * @return the average runtime.
-     */
-    public final double avg() {
-        return mean();
-    }
-
-    /**
-     * computes the sum over all data items.
-     * 
+     * @param meter
+     *            the meter of the mean
      * @return the sum of all runs.
      */
-    public final double sum() {
-        final double sum = computeSum(getResultSet());
-        return sum;
+    public final double sum(final AbstractMeter meter) {
+        final AbstractUnivariateStatistic mean = new Sum();
+        final CollectionDoubleCollection doubleColl =
+                new CollectionDoubleCollection(this.meterResults.get(meter));
+        return mean.evaluate(
+                doubleColl.toArray(), 0, doubleColl.toArray().length);
     }
 
     /**
-     * computes the minimum.
+     * Computes the minimum.
      * 
+     * @param meter
+     *            the meter of the mean
      * @return the minimum result value.
      */
-    public double min() {
-        final double min = computeMin(getResultSet());
-        return min;
+    public double min(final AbstractMeter meter) {
+        final AbstractUnivariateStatistic mean = new Min();
+        final CollectionDoubleCollection doubleColl =
+                new CollectionDoubleCollection(this.meterResults.get(meter));
+        return mean.evaluate(
+                doubleColl.toArray(), 0, doubleColl.toArray().length);
     }
 
     /**
-     * returns the confidence 99 interval since it's a +/- thing, the first one
-     * is the "+" one, the second array value is the "-" one.
+     * Computes the confidence 99 interval-factor. This value has to be combined
+     * with the mean to get the confidence-interval.
      * 
+     * @param meter
+     *            the meter for the 99-confidence interval factor
      * @return the 99% confidence
      */
-    public final double getConf99() {
-
-        return computeConf99(getResultSet());
+    public final double getConf99(final AbstractMeter meter) {
+        final AbstractUnivariateStatistic mean = new Percentile(99.0);
+        final CollectionDoubleCollection doubleColl =
+                new CollectionDoubleCollection(this.meterResults.get(meter));
+        return mean.evaluate(
+                doubleColl.toArray(), 0, doubleColl.toArray().length);
 
     }
 
     /**
-     * the 95% confidence the "+" value is the first one.
+     * Computes the confidence 95 interval-factor. This value has to be combined
+     * with the mean to get the confidence-interval.
      * 
-     * @return the 95% confidence TODO enum implementation of CONF ?
+     * @param meter
+     *            the meter for the 95-confidence interval factor
+     * @return the 95% confidence
      */
-    public final double getConf95() {
-        return computeConf95(getResultSet());
+    public final double getConf95(final AbstractMeter meter) {
+        final AbstractUnivariateStatistic mean = new Percentile(95.0);
+        final CollectionDoubleCollection doubleColl =
+                new CollectionDoubleCollection(this.meterResults.get(meter));
+        return mean.evaluate(
+                doubleColl.toArray(), 0, doubleColl.toArray().length);
     }
 
     /**
-     * computes the maximum value of our data set.
+     * Computes the maximum.
      * 
-     * @return the maximum runtime
+     * @param meter
+     *            the meter of the mean
+     * @return the maximum result value.
      */
-    public final double max() {
-        final double max = computeMax(getResultSet());
-        return max;
-    }
-
-    /**
-     * computes the minimum value.
-     * 
-     * @param data
-     *            the array,
-     * @return the result.
-     */
-    protected final double computeMin(final double[] data) {
-        if (data.length < 1) {
-            return 0;
-        }
-        Arrays.sort(data);
-        return data[0];
-    }
-
-    /**
-     * computes the maximum from a given array.
-     * 
-     * @param data
-     *            the array.
-     * @return the maximum value.
-     */
-    protected final double computeMax(final double[] data) {
-        if (data.length < 1) {
-            return 0;
-        }
-        Arrays.sort(data);
-        return data[data.length - 1];
-    }
-
-    /**
-     * computes the sum, goddamn.
-     * 
-     * @param resSet
-     *            the data.
-     * @return the sum.
-     */
-    protected final double computeSum(final double[] resSet) {
-        double theSum = 0;
-        for (int i = 0; i < resSet.length; i++) {
-            if (resSet[i] == Benchmark.LONG_NULLVALUE) {
-                continue;
-            }
-            theSum += resSet[i];
-            if (theSum < 0) {
-                throw new NumberFormatException(
-                        "sum() computed negative values, which means that an integer"
-                                + " overflow occured. perhaps the meter you used to compute"
-                                + " the result is too exact.");
-
-            }
-        }
-
-        return theSum;
-    }
-
-    /**
-     * computes the mean of a given result set.
-     * 
-     * @param resSet
-     *            array.
-     * @return mean value.
-     */
-    protected final double computeMean(final double[] resSet) {
-        if (resSet.length < 1) {
-            return 0.0;
-        }
-        return computeSum(resSet) / resSet.length;
+    public final double max(final AbstractMeter meter) {
+        final AbstractUnivariateStatistic mean = new Max();
+        final CollectionDoubleCollection doubleColl =
+                new CollectionDoubleCollection(this.meterResults.get(meter));
+        return mean.evaluate(
+                doubleColl.toArray(), 0, doubleColl.toArray().length);
     }
 
     /**
@@ -432,14 +215,28 @@ public abstract class AbstractResult {
      *            whether to show the raw data also.
      * @return string
      */
-    protected final String toString(
-            final int indent, final boolean displayRawData) {
+    private final String toString(final int indent, final boolean displayRawData) {
 
-        AsciiTable v = new AsciiTable();
+        final AsciiTable v = new AsciiTable();
         v.visit(this);
-        return v.toString()
-                + (displayRawData ? "\n"
-                        + NiceTable.Util.implode(",", getResultSet()) : "");
+
+        if (displayRawData) {
+            String returnVal = "";
+            for (final AbstractMeter meter : this.meterResults.keySet()) {
+                final CollectionDoubleCollection doubleColl =
+                        new CollectionDoubleCollection(this.meterResults
+                                .get(meter));
+                returnVal =
+                        returnVal
+                                + NiceTable.Util.implode(",", doubleColl
+                                        .toArray())
+                                + "\n";
+            }
+            return returnVal;
+        } else {
+            return v.toString();
+        }
+
     }
 
     /**

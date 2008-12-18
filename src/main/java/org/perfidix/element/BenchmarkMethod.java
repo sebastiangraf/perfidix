@@ -35,7 +35,7 @@ import org.perfidix.annotation.BenchClass;
 import org.perfidix.annotation.SkipBench;
 
 /**
- * Class to mark all elements which are possible benchmarkable. The method hold
+ * Class to mark one method which are possible benchmarkable. The method hold
  * helping methods and additional functionality for benchmarkable methods like
  * returning possible {@link BeforeBenchClass}, {@link BeforeFirstRun},
  * {@link BeforeEachRun}, {@link AfterEachRun}, {@link AfterLastRun} and
@@ -550,7 +550,7 @@ public final class BenchmarkMethod {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        BenchmarkMethod other = (BenchmarkMethod) obj;
+        final BenchmarkMethod other = (BenchmarkMethod) obj;
         if (methodToBench == null) {
             if (other.methodToBench != null)
                 return false;

@@ -20,15 +20,9 @@
 package org.perfidix.result;
 
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Hashtable;
-import java.util.Iterator;
 import java.util.Set;
 
-import org.perfidix.Perfidix;
 import org.perfidix.meter.AbstractMeter;
-import org.perfidix.meter.TimeMeter;
-import org.perfidix.visitor.ResultVisitor;
 
 /**
  * the result container contains more results. it is by definition recursive, so
@@ -43,24 +37,13 @@ import org.perfidix.visitor.ResultVisitor;
 public abstract class ResultContainer<ResultType extends AbstractResult>
         extends AbstractResult {
 
-    private ArrayList<ResultType> children = new ArrayList<ResultType>();
-
-    private Hashtable<AbstractMeter, ArrayList<SingleResult>> customChildren =
-            new Hashtable<AbstractMeter, ArrayList<SingleResult>>();
+    private final ArrayList<ResultType> children;
 
     /**
-     * default constructor.
      */
-    public ResultContainer() {
-        this(AbstractResult.DEFAULT_NAME);
-    }
-
-    /**
-     * @param name
-     *            the name of the result.
-     */
-    public ResultContainer(final String name) {
-        super(name);
+    protected ResultContainer(final Set<AbstractMeter> meters) {
+        super(meters);
+        children = new ArrayList<ResultType>();
     }
 
     /**
@@ -69,124 +52,8 @@ public abstract class ResultContainer<ResultType extends AbstractResult>
      * @param res
      *            the result to append.
      */
-    public void append(final ResultType res) {
-
-        try {
-            String logMessage = "" + res.getName() + " ... ";
-
-            if (isCustomMeterResult(res)) {
-                appendToCustomMeterStack((SingleResult) res);
-                return;
-            }
-            logMessage += "" + res.getName() + " is a timed result.";
-            children.add(res);
-
-            if (res instanceof SingleResult) {
-                appendToCustomMeterStack((SingleResult) res);
-            }
-
-        } catch (Exception e) {
-            // do nothing.
-        }
-    }
-
-    private void appendToCustomMeterStack(final SingleResult res) {
-        String logMessage = "";
-
-        AbstractMeter resMeter = res.getMeter();
-        if (!customChildren.containsKey(resMeter)) {
-            logMessage += " new meter " + resMeter.getUnit();
-            customChildren.put(resMeter, new ArrayList<SingleResult>());
-        }
-        logMessage += " appending " + res.getName() + " ";
-        customChildren.get(resMeter).add(res);
-    }
-
-    /**
-     * checks whether it's a custom meter result or not.
-     * 
-     * @param res
-     * @return
-     */
-    private boolean isCustomMeterResult(final ResultType res) {
-        if (!(res instanceof SingleResult)) {
-            return false;
-        }
-        if (((SingleResult) res).getMeter() instanceof TimeMeter) {
-            return false;
-        }
-        return true;
-    }
-
-    /**
-     * returns the full result set on all children. this works recursively. the
-     * recursion takes place by calling each child's sum() operation.
-     * 
-     * @return the result set.
-     */
-    @Override
-    public double[] getResultSet() {
-        int resultLength = children.size();
-        double[] theResult = new double[resultLength];
-        for (int i = 0; i < resultLength; i++) {
-            theResult[i] = children.get(i).sum();
-        }
-        return theResult;
-    }
-
-    /**
-     * @param meterName
-     *            the unique identifier for the meter involved.
-     * @return the maximum value.
-     */
-    public double max(final AbstractMeter meterName) {
-        return computeMax(getResultSet(meterName));
-    }
-
-    /**
-     * @param m
-     *            the meter to fetch the result set for.
-     * @return the result set allocated to the meter.
-     */
-    private double[] getResultSet(final AbstractMeter m) {
-        if (null == m) {
-            return new double[] {};
-        }
-        ArrayList<SingleResult> theSingleResults = getSingleResultsFor(m);
-        double[] theResult = new double[theSingleResults.size()];
-        for (int i = 0; i < theSingleResults.size(); i++) {
-            theResult[i] = theSingleResults.get(i).sum();
-        }
-
-        return theResult;
-
-    }
-
-    /**
-     * yes, the casting may be unchecked.
-     * 
-     * @param meter
-     * @return
-     */
-    @SuppressWarnings("unchecked")
-    private ArrayList<SingleResult> getSingleResultsFor(
-            final AbstractMeter meter) {
-        ArrayList<SingleResult> theList = new ArrayList<SingleResult>();
-
-        if (customChildren.containsKey(meter)) {
-            theList.addAll(customChildren.get(meter));
-        } else {
-            // do nothing.
-        }
-
-        for (int i = 0; i < children.size(); i++) {
-            AbstractResult tmp = children.get(i);
-            if (tmp instanceof ResultContainer) {
-                theList.addAll(((ResultContainer) tmp)
-                        .getSingleResultsFor(meter));
-            }
-        }
-        return theList;
+    public final void append(final ResultType res) {
+        children.add(res);
     }
 
     /**
@@ -196,181 +63,6 @@ public abstract class ResultContainer<ResultType extends AbstractResult>
      */
     public ArrayList<ResultType> getChildren() {
         return children;
-    }
-
-    /**
-     * accepts a result visitor.
-     * 
-     * @param v
-     *            the visitor
-     */
-    @Override
-    public void accept(final ResultVisitor v) {
-        v.visit(this);
-
-    }
-
-    /**
-     * computes the minimum result for the given meter name.
-     * 
-     * @param m
-     *            the meter which is used.
-     * @return the minimum value.
-     */
-    public double min(final AbstractMeter m) {
-        return computeMin(getResultSet(m));
-    }
-
-    /**
-     * this is not a comment.
-     * 
-     * @param m
-     *            the meter.
-     * @return the result.
-     */
-    public double mean(final AbstractMeter m) {
-        return computeMean(getResultSet(m));
-    }
-
-    /**
-     * this is not a comment.
-     * 
-     * @param m
-     *            the meter name.
-     * @return the result.
-     */
-    public double squareSum(final AbstractMeter m) {
-        return computeSquareSum(getResultSet(m));
-    }
-
-    /**
-     * this is not a comment.
-     * 
-     * @param m
-     *            the meter.
-     * @return the result.
-     */
-    public int resultCount(final AbstractMeter m) {
-        return getResultSet(m).length;
-    }
-
-    /**
-     * this is not a comment.
-     * 
-     * @param m
-     *            the meter.
-     * @return the result.
-     */
-    public double variance(final AbstractMeter m) {
-        return computeVariance(getResultSet(m));
-    }
-
-    /**
-     * this is not a comment.
-     * 
-     * @param m
-     *            the meter name.
-     * @return the result.
-     */
-    public double median(final AbstractMeter m) {
-        return computeMedian(getResultSet(m));
-    }
-
-    /**
-     * @param m
-     *            the meter name.
-     * @return the sum.
-     */
-    public double sum(final AbstractMeter m) {
-        return computeSum(getResultSet(m));
-    }
-
-    /**
-     * this is not a comment.
-     * 
-     * @param meterName
-     *            the meter name.
-     * @return the result.
-     */
-    public double getConf99(final AbstractMeter meterName) {
-        return computeConf99(getResultSet(meterName));
-    }
-
-    /**
-     * this is not a comment.
-     * 
-     * @param meterName
-     *            the meter name.
-     * @return the result.
-     */
-    public double getConf95(final AbstractMeter meterName) {
-        return computeConf95(getResultSet(meterName));
-    }
-
-    /**
-     * this is not a comment.
-     * 
-     * @param meterName
-     *            the meter name.
-     * @return the result.
-     */
-    public double getStandardDeviation(final AbstractMeter meterName) {
-        return computeStandardDeviation(getResultSet(meterName));
-    }
-
-    /**
-     * @return bla.
-     */
-    public Hashtable<AbstractMeter, ArrayList<SingleResult>> getCustomChildren() {
-        return customChildren;
-
-    }
-
-    /**
-     * Returning all registered meters.
-     * 
-     * @return the meters
-     */
-    public Set<AbstractMeter> getRegisteredMeters() {
-        final Set<AbstractMeter> meters = new HashSet<AbstractMeter>();
-        for (final ResultType child : children) {
-            if (child instanceof ResultContainer) {
-                meters.addAll(((ResultContainer) child).getRegisteredMeters());
-            }
-            if (child instanceof SingleResult) {
-                meters.add(((SingleResult) child).getMeter());
-            }
-        }
-        for (final AbstractMeter meter : customChildren.keySet()) {
-            meters.add(meter);
-        }
-
-        return meters;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public AbstractMeter getDefaultMeter() {
-        final Set<AbstractMeter> meters = getRegisteredMeters();
-        if (meters.isEmpty()) {
-            return Perfidix.DEFAULTMETER;
-        }
-        return meters.iterator().next();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public long getNumberOfRuns() {
-        Iterator<ResultType> cust = getChildren().iterator();
-        long numberOfRuns = 0;
-        while (cust.hasNext()) {
-            numberOfRuns += cust.next().getNumberOfRuns();
-        }
-        return numberOfRuns;
     }
 
 }

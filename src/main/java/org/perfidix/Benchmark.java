@@ -1,616 +1,221 @@
 /*
- * Copyright 2007 University of Konstanz
+ * Copyright 2008 Distributed Systems Group, University of Konstanz
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
- * $Id: Benchmark.java 2624 2007-03-28 15:08:52Z kramis $
- * 
+ *
+ * $Revision$
+ * $Author$
+ * $Date$
+ *
  */
-
 package org.perfidix;
 
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.HashSet;
+import java.util.Hashtable;
+import java.util.Map;
+import java.util.Set;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.apache.commons.logging.impl.SimpleLog;
-import org.perfidix.annotation.Bench;
-import org.perfidix.annotation.BenchClass;
+import org.perfidix.annotation.AfterBenchClass;
+import org.perfidix.annotation.BeforeBenchClass;
+import org.perfidix.element.AbstractMethodArrangement;
 import org.perfidix.element.BenchmarkElement;
+import org.perfidix.element.BenchmarkExecutor;
+import org.perfidix.element.BenchmarkMethod;
+import org.perfidix.element.AbstractMethodArrangement.KindOfElementArrangement;
 import org.perfidix.meter.AbstractMeter;
-import org.perfidix.meter.MemMeter;
-import org.perfidix.meter.Memory;
 import org.perfidix.meter.Time;
 import org.perfidix.meter.TimeMeter;
-import org.perfidix.result.AbstractResult;
-import org.perfidix.result.BenchmarkResult;
-import org.perfidix.result.ClassResult;
-import org.perfidix.result.MethodResult;
-import org.perfidix.result.ResultContainer;
-import org.perfidix.result.SingleResult;
 
 /**
- * This is the generic benchmark container.
+ * Class to hold all classes which want to be benchmarked.
  * 
- * @author Alexander Onea, neue Couch
  * @author Sebastian Graf, University of Konstanz
  */
-public class Benchmark {
+public final class Benchmark {
 
-    // ////////////////////////////////////////////
-    // Static variables
-    // ////////////////////////////////////////////
+    /** Set with all registered meters. */
+    private final Set<AbstractMeter> meters;
 
-    /**
-     * Logger instance.
-     */
-    private static final Log LOGGER = LogFactory.getLog("Benchmark");
+    /** Set with all used classes */
+    private final Set<Class<?>> clazzes;
 
     /**
-     * Defines how often the methods will be invoked when no invocation count is
-     * given.
+     * Constructor with a fixed set of used meters.
+     * 
+     * @param paramMeters
+     *            meters to use.
      */
-    public static final int BM_DEFAULT_INVOCATION_COUNT = 1;
+    public Benchmark(final Set<AbstractMeter> paramMeters) {
+        this.meters = paramMeters;
+        this.clazzes = new HashSet<Class<?>>();
+    }
 
-    /**
-     * the null value of a long.
-     */
-    public static final long LONG_NULLVALUE = -1;
-
-    // ////////////////////////////////////////////
-    // Normal variables
-    // ////////////////////////////////////////////
-
-    /**
-     * List with all objects to bench.
-     */
-    private final ArrayList<Object> children;
-
-    /**
-     * Name of this bench.
-     */
-    private String name = "";
-
-    /**
-     * The array list of the meters. the first one is always the time meter.
-     */
-    private ArrayList<AbstractMeter> meters = new ArrayList<AbstractMeter>();
-
-    /**
-     * Index of the timer in the IMeter-arraylist.
-     */
-    private final int timeMeterIndex = 0;
-
-    /**
-     * Boolean if the exceptions should be logged.
-     */
-    private boolean logger = true;
-
-    // ////////////////////////////////////////////
-    // Constructors
-    // ////////////////////////////////////////////
-
-    /**
-     * Constructor, without name or mem-benchmarking.
-     */
+    /** Standard constructor. Only using a TimeMeter */
     public Benchmark() {
-        this(false);
+        this.meters = new HashSet<AbstractMeter>();
+        meters.add(new TimeMeter(Time.MilliSeconds));
+        this.clazzes = new HashSet<Class<?>>();
     }
 
     /**
-     * Constructor, with name but without mem-benchmarking.
+     * Adding a class to bench to this benchmark. This class should contain
+     * benchmarkable methods, otherwise it will be ignored.
      * 
-     * @param paramName
-     *            name of benchmark
+     * @param clazz
+     *            to be added.
      */
-    public Benchmark(final String paramName) {
-        this(paramName, false);
+    public void add(final Class<?> clazz) {
+        this.clazzes.add(clazz);
     }
 
     /**
-     * Constructor, without name but with mem-benchmarking.
+     * Running this benchmark with a given kind of arrangement. See @link
+     * {@link AbstractMethodArrangement.KindOfElementArrangement} for different
+     * kinds.
      * 
-     * @param useMemMeter
-     *            should the mem be benchmarked
+     * @param kind
+     *            of methodArrangement.
      */
-    public Benchmark(final boolean useMemMeter) {
-        this(Benchmark.class.toString(), useMemMeter);
-    }
+    public void run(final KindOfElementArrangement kind) {
 
-    /**
-     * Constructor, without name but with mem-benchmarking.
-     * 
-     * @param useMemMeter
-     *            should the mem be benchmarked
-     * @param theName
-     *            name of benchmark
-     */
-    public Benchmark(final String theName, final boolean useMemMeter) {
-        this.name = theName;
-        children = new ArrayList<Object>();
-        meters.add(timeMeterIndex, new TimeMeter(Time.MilliSeconds));
-        if (useMemMeter) {
-            meters.add(new MemMeter(Memory.Byte));
-        }
-    }
+        // getting Benchmarkables
+        final Set<BenchmarkElement> elements = getBenchmarkableMethods();
 
-    /**
-     * Adds an object to the call stack via annotation.
-     * 
-     * @param obj
-     *            the obj under bench.
-     */
-    public final void add(final Object obj) {
+        // arranging them
+        final AbstractMethodArrangement arrangement =
+                AbstractMethodArrangement.getMethodArrangement(elements, kind);
 
-        if (obj instanceof Class) {
-            throw new IllegalArgumentException(
-                    "Use a concrete Object, no Class!");
-        }
-        if (null == obj) {
-            appendToLogger(SimpleLog.LOG_LEVEL_INFO, "Null object passed in");
-            return;
-        }
-        children.add(obj);
+        // getting the mapping and executing beforemethod
+        final Map<Class<?>, Object> objectsToExecute = setUpObjectsToExecute();
 
-    }
+        // executing the bench for the arrangement
+        for (final BenchmarkElement elem : arrangement) {
+            final BenchmarkExecutor exec =
+                    BenchmarkExecutor.getExecutor(elem, meters);
 
-    /**
-     * Adds an object with a given name to the call stack via anotation.
-     * 
-     * @param obj
-     *            the obj under bench
-     * @param paramName
-     *            name of the bench
-     */
-    public final void add(final Object obj, final String paramName) {
+            final Object obj =
+                    objectsToExecute.get(elem
+                            .getMeth().getMethodToBench().getDeclaringClass());
 
-        if (obj instanceof Class) {
-            throw new IllegalArgumentException(
-                    "Use a concrete Object, no Class!");
-        }
-        if (null == obj) {
-            appendToLogger(SimpleLog.LOG_LEVEL_INFO, "Null object passed in");
-            return;
-        }
-        final Object[] newObject = { obj, paramName };
-        children.add(newObject);
-
-    }
-
-    /**
-     * Runs the benchmark with the default number of invocations.
-     * 
-     * @return the result.
-     */
-    public final AbstractResult run() {
-        return run(BM_DEFAULT_INVOCATION_COUNT);
-    }
-
-    /**
-     * runs a benchmark. give it the number of invocations to perform, and a
-     * benchtimer to calculate the time.
-     * 
-     * @param numInvocations
-     *            the number of runs.
-     * @return the result.
-     */
-    public final AbstractResult run(final int numInvocations) {
-
-        ResultContainer myResult = new BenchmarkResult(this.getName());
-        for (Object obj : children) {
             try {
-                myResult.append(doRunObject(obj, numInvocations));
-            } catch (Exception e) {
-                appendToLogger(SimpleLog.LOG_LEVEL_ERROR, "" + e);
-                throw new IllegalStateException(e);
+                exec.executeBeforeMethods(obj);
+                exec.executeBench(obj);
+                exec.executeAfterMethods(obj);
+            } catch (IllegalAccessException e) {
+
             }
+
         }
-        return myResult;
+
+        // cleaning up methods to benchmark
+        tearDownObjectsToExecute(objectsToExecute);
+
     }
 
     /**
-     * Overloading our tiny little benchmark to invoke a method. the method has
-     * to be invokable, but since this method is private, there's no problem.
+     * Setting up executable object for all registered classes and executing
+     * {@link BeforeBenchClass} annotated methods.
      * 
-     * @param numInvocations
-     *            the number of invocations.
-     * @param m
-     *            the method to run.
-     * @param parent
-     *            the class the method belongs to.
-     * @return Result.
-     * @throws Exception
-     *             of any kind
+     * @return a mapping with class->object for all registered classes-
+     * @throws IllegalAccessException
+     *             if the instantiation of a class fails
      */
-    private MethodResult doRunObject(
-            final Method m, final int numInvocations, final Object parent)
-            throws Exception {
-        assert (parent != null);
-        assert (numInvocations >= 0);
-        final Object[] args = {};
-        final BenchmarkElement elem = new BenchmarkElement(m);
-        appendToLogger(SimpleLog.LOG_LEVEL_DEBUG, "Running method "
-                + m.getName()
-                + "(*"
-                + numInvocations
-                + "): ");
-        final double[] timeElapsed = new double[numInvocations];
-        final Object[] results = new Object[numInvocations];
-        final MeterHelper meterHelper = new MeterHelper(numInvocations, meters);
-        final AbstractMeter timeMeter = meters.get(timeMeterIndex);
+    private final Map<Class<?>, Object> setUpObjectsToExecute() {
+        // datastructure initialization for all objects
+        final Map<Class<?>, Object> objectsToUse =
+                new Hashtable<Class<?>, Object>();
 
-        try {
+        // generating objects for each registered class
+        for (final Class<?> clazz : clazzes) {
+            Object objectToUse;
+            try {
+                objectToUse = clazz.newInstance();
 
-            appendToLogger(
-                    SimpleLog.LOG_LEVEL_INFO, "invoking build for method " + m);
-            final Method beforeFirstRun = elem.findBeforeFirstRun();
-            if (beforeFirstRun != null) {
-                beforeFirstRun.invoke(parent, args);
+                // executing the beforeBenchclass method
+                final Method beforeClassMeth =
+                        BenchmarkMethod.findAndCheckAnyMethodByAnnotation(
+                                clazz, BeforeBenchClass.class);
+                BenchmarkExecutor.checkAndExecute(objectToUse, beforeClassMeth);
+
+            } catch (InstantiationException e) {
+                objectToUse = e;
+            } catch (IllegalAccessException e) {
+                objectToUse = e;
             }
-            for (int invocationID = 0; invocationID < numInvocations; invocationID++) {
-                appendToLogger(
-                        SimpleLog.LOG_LEVEL_INFO, "invoking setUp for method "
-                                + m);
+            // putting the object to the mapping
+            objectsToUse.put(clazz, objectToUse);
 
-                final Method beforeEachRun = elem.findBeforeEachRun();
-                if (beforeEachRun != null) {
-                    beforeEachRun.invoke(parent, args);
-                }
+        }
+        return objectsToUse;
+    }
 
-                meterHelper.start(invocationID);
+    /**
+     * Tear down executable object for all registered classes and executing
+     * {@link AfterBenchClass} annotated methods.
+     * 
+     * @param objects
+     *            a mapping with class->object to be teared down
+     * @throws IllegalAccessException
+     *             if the tear down of a class fails
+     */
+    private final void tearDownObjectsToExecute(
+            final Map<Class<?>, Object> objects) {
 
-                appendToLogger(
-                        SimpleLog.LOG_LEVEL_INFO, "invoking bench for method "
-                                + m);
-                double time1 = timeMeter.getValue();
-                results[invocationID] = m.invoke(parent, args);
-                double time2 = timeMeter.getValue();
-                timeElapsed[invocationID] = time2 - time1;
+        // executing tearDown for all clazzes registered in given Map
+        for (final Class<?> clazz : objects.keySet()) {
+            final Object objectToUse = objects.get(clazz);
 
-                meterHelper.stop(invocationID);
-                appendToLogger(
-                        SimpleLog.LOG_LEVEL_INFO,
-                        "invoking tearDown for method " + m);
-                final Method afterEachRun = elem.findAfterEachRun();
-                if (afterEachRun != null) {
-                    afterEachRun.invoke(parent, args);
-                }
-            }
-
-            final SingleResult result =
-                    new SingleResult(
-                            m.getName(), timeElapsed, results, timeMeter);
-            appendToLogger(
-                    SimpleLog.LOG_LEVEL_INFO, "invoking cleanUp for method "
-                            + m);
-            final Method afterLastRun = elem.findAfterLastRun();
-            if (afterLastRun != null) {
-                afterLastRun.invoke(parent, args);
+            try {
+                // executing AfterClass for all objects.
+                final Method afterClassMeth =
+                        BenchmarkMethod.findAndCheckAnyMethodByAnnotation(
+                                clazz, AfterBenchClass.class);
+                BenchmarkExecutor.checkAndExecute(objectToUse, afterClassMeth);
+            } catch (IllegalAccessException e) {
+                // TODO think about exception handling
             }
 
-            return meterHelper.createMethodResult(result);
-
-        } catch (Exception e) {
-            appendToLogger(SimpleLog.LOG_LEVEL_FATAL, "" + e);
-            return null;
         }
     }
 
     /**
-     * runs the object. the internal implementation
+     * Getting all benchmarkable objects out of the registered classes with the
+     * annotated number of runs.
      * 
-     * @param numInvocations
-     *            the number of times one method is to be called.
-     * @param obj
-     *            the object under test.
-     * @return IResult to be returned
-     * @throws Exception
-     *             of any kind
+     * @return a Set with {@link BenchmarkMethod}
      */
-    private AbstractResult doRunObject(
-            final Object obj, final int numInvocations) throws Exception {
+    private final Set<BenchmarkElement> getBenchmarkableMethods() {
+        // Generating Set for returnVal
+        final Set<BenchmarkElement> elems = new HashSet<BenchmarkElement>();
+        // Getting all Methods and testing if its benchmarkable
+        for (final Class<?> clazz : clazzes) {
+            for (final Method meth : clazz.getDeclaredMethods()) {
+                // Check if benchmarkable, if so, insert to returnVal;
+                if (BenchmarkMethod.isBenchmarkable(meth)) {
+                    final int numberOfRuns =
+                            BenchmarkMethod.getNumberOfAnnotatedRuns(meth);
+                    final BenchmarkMethod benchmarkMeth =
+                            new BenchmarkMethod(meth);
 
-        // getting all methods
-        final Object[] params = {};
-        ResultContainer<MethodResult> result;
-        Object toExecute;
-        if (obj.getClass().isArray()) {
-            result =
-                    new ClassResult(
-                            ((Object[]) obj)[1].toString(), ((Object[]) obj)[1]
-                                    .toString());
-            toExecute = ((Object[]) obj)[0];
-        } else {
-            result =
-                    new ClassResult(obj.getClass().getSimpleName(), obj
-                            .getClass().getCanonicalName());
-            toExecute = obj;
-        }
-        final Method[] methods = toExecute.getClass().getDeclaredMethods();
-        final Method beforeClass =
-                new BenchmarkElement(methods[0]).findBeforeBenchClass();
-        if (beforeClass != null) {
-            beforeClass.invoke(obj, params);
-        }
-
-        for (final Method meth : methods) {
-            final BenchmarkElement elem = new BenchmarkElement(meth);
-            // checking of method is benchable.
-            if (elem.checkThisMethodAsBenchmarkable()) {
-                int runs = -1;
-                final Bench anno =
-                        elem.getMethodToBench().getAnnotation(Bench.class);
-                final BenchClass classAnno =
-                        elem
-                                .getMethodToBench().getDeclaringClass()
-                                .getAnnotation(BenchClass.class);
-                boolean runSet = false;
-                if (anno != null) {
-                    if (anno.runs() != -1) {
-                        if (anno.runs() < 0) {
-                            throw new IllegalArgumentException(
-                                    "Runs shall not be negative!");
-                        }
-                        runs = anno.runs();
-                        runSet = true;
+                    // getting the number of runs and adding this number of
+                    // elements to the set to be evaluated.
+                    for (int i = 0; i < numberOfRuns; i++) {
+                        elems.add(new BenchmarkElement(benchmarkMeth));
                     }
                 }
-                if (classAnno != null && !runSet) {
-                    if (classAnno.runs() != -1) {
-                        if (classAnno.runs() < 0) {
-                            throw new IllegalArgumentException(
-                                    "Runs shall not be negative!");
-                        }
-                        runs = classAnno.runs();
-                        runSet = true;
-                    }
-                }
-                if (!runSet) {
-                    runs = numInvocations;
-                }
-                final MethodResult realResult =
-                        doRunObject(elem.getMethodToBench(), runs, toExecute);
-                if (realResult != null) {
-                    result.append(realResult);
-                }
             }
         }
-        final Method afterClass =
-                new BenchmarkElement(methods[0]).findAfterBenchClass();
-        if (afterClass != null) {
-            afterClass.invoke(obj, params);
-        }
-
-        return result;
+        return elems;
     }
-
-    // ////////////////////////////////////////////
-    // simple access methods
-    // ////////////////////////////////////////////
-    /**
-     * toString implementation.
-     * 
-     * @return a string.
-     */
-    @Override
-    public final String toString() {
-        return toString(0);
-    }
-
-    /**
-     * getting the name
-     * 
-     * @return string
-     */
-    public String getName() {
-        return name;
-    }
-
-    /**
-     * sets the logger. If false, nothing will be logged.
-     * 
-     * @param boolean if logger should be set.
-     */
-    public void setLogger(final boolean logger) {
-        this.logger = logger;
-    }
-
-    /**
-     * configures the benchmark to use the NanoTimer for time measurement.
-     */
-    public void useNanoMeter() {
-        meters.set(timeMeterIndex, new TimeMeter(Time.NanoSeconds));
-    }
-
-    /**
-     * configures the benchmark such that it will use the MilliSecond timer for
-     * time measurement.
-     */
-    public void useMilliMeter() {
-        meters.set(timeMeterIndex, new TimeMeter(Time.MilliSeconds));
-    }
-
-    /**
-     * registers some meter
-     * 
-     * @param someMeter
-     *            a meter to register
-     * @return boolean
-     */
-    public boolean register(final AbstractMeter someMeter) {
-        return meters.add(someMeter);
-    }
-
-    // ////////////////////////////////////////////
-    // helper stuff
-    // ////////////////////////////////////////////
-    /**
-     * we're recursing often here, so i implement some indentation utilities in
-     * order to show the result properly.
-     * 
-     * @param indent
-     *            the number of indentations.
-     */
-    private String toString(final int indent) {
-
-        String ind = "";
-        for (int i = 0; i < indent; i++) {
-            ind += "\t";
-        }
-
-        if (children.size() < 1) {
-            return ind + "<>";
-        }
-        String foo = "";
-        for (int i = 0, m = children.size(); i < m; i++) {
-            foo += ind;
-            Object obj = children.get(i);
-            if (obj instanceof Benchmark) {
-                foo += ((Benchmark) obj).toString(indent + 1);
-            } else {
-                foo += obj.toString() + "\n";
-            }
-        }
-        return foo;
-    }
-
-    /**
-     * Central method for logging. Sets a boolean if an exception is fired!
-     * 
-     * @param loglevel
-     *            where the log should written
-     * @param message
-     *            to be written.
-     */
-    private void appendToLogger(final int loglevel, final String message) {
-        if (logger) {
-            switch (loglevel) {
-            case SimpleLog.LOG_LEVEL_TRACE:
-                LOGGER.trace(message);
-                break;
-            case SimpleLog.LOG_LEVEL_DEBUG:
-                LOGGER.debug(message);
-                break;
-            case SimpleLog.LOG_LEVEL_INFO:
-                LOGGER.info(message);
-                break;
-            case SimpleLog.LOG_LEVEL_WARN:
-                LOGGER.warn(message);
-                break;
-            case SimpleLog.LOG_LEVEL_ERROR:
-                LOGGER.error(message);
-                break;
-            case SimpleLog.LOG_LEVEL_FATAL:
-                LOGGER.fatal(message);
-                break;
-            default:
-                LOGGER.error("Not known log level!");
-            }
-        }
-    }
-
-    private final class MeterHelper {
-
-        private ArrayList<AbstractMeter> meters;
-
-        private boolean metersAvailable = false;
-
-        private double[][] theResults;
-
-        private MeterHelper(
-                final int numInvocations,
-                final ArrayList<AbstractMeter> theMeters) {
-            // check for arraymeter and set sizes correct.
-            // if Arraymeter present,
-            meters = theMeters;
-            int l = meters.size();
-            metersAvailable = (l > 0);
-            theResults = new double[l][numInvocations];
-        }
-
-        // private void collectResults(final long[][] res, final int
-        // invocationID) {
-        private void collectResults(final int invocationID) {
-            assert (theResults.length == meters.size());
-
-            int i = 0;
-            for (final AbstractMeter meter : meters) {
-                // if (meter instanceof MemMeter) {
-                // theResults[i][invocationID] = meter.getValue();
-                // } else {
-                theResults[i][invocationID] =
-                        meter.getValue() - theResults[i][invocationID];
-                // }
-
-                i++;
-            }
-        }
-
-        private void start(final int index) {
-            if (!metersAvailable) {
-                return;
-            }
-            // collectResults(theResults, index);
-            collectResults(index);
-        }
-
-        private void stop(final int index) {
-            if (!metersAvailable) {
-                return;
-            }
-            // collectResults(theResults, index);
-            collectResults(index);
-        }
-
-        private void skip(final int index) {
-            if (!metersAvailable) {
-                return;
-            }
-            int metersSize = meters.size();
-            assert (theResults.length == metersSize);
-            for (int k = 0; k < metersSize; k++) {
-                theResults[k][index] = Benchmark.LONG_NULLVALUE;
-            }
-        }
-
-        private MethodResult createMethodResult(final SingleResult timedResult) {
-            if (timedResult != null) {
-                MethodResult c = new MethodResult(timedResult.getName());
-                append(c);
-                return c;
-            } else {
-                return null;
-            }
-
-        }
-
-        private void append(final ResultContainer<SingleResult> r) {
-            Iterator<AbstractMeter> it = meters.iterator();
-            int i = 0;
-            while (it.hasNext()) {
-                AbstractMeter entry = it.next();
-                SingleResult s =
-                        new SingleResult(
-                                entry.getUnitDescription(), theResults[i],
-                                entry);
-                r.append(s);
-                i++;
-            }
-            System.out.println(r.toString());
-        }
-
-    }
-
 }

@@ -79,11 +79,11 @@ public class BenchmarkExecutorTest {
 
     /**
      * Test method for
-     * {@link org.perfidix.element.BenchmarkExecutor#getExecutor(org.perfidix.element.BenchmarkMethod, java.util.Set)}
+     * {@link org.perfidix.element.BenchmarkExecutor#getExecutor(org.perfidix.element.BenchmarkElement, java.util.Set)}
      * .
      */
     @Test
-    public void testGetExecutor1() {
+    public void testGetExecutor() {
         final GetTestClass getInstanceClass = new GetTestClass();
         final Method meth = getInstanceClass.getClass().getDeclaredMethods()[0];
 
@@ -91,30 +91,13 @@ public class BenchmarkExecutorTest {
         final BenchmarkMethod elem2 = new BenchmarkMethod(meth);
 
         final BenchmarkExecutor exec1 =
-                BenchmarkExecutor.getExecutor(elem1, meter);
+                BenchmarkExecutor.getExecutor(
+                        new BenchmarkElement(elem1), meter);
         final BenchmarkExecutor exec2 =
-                BenchmarkExecutor.getExecutor(elem2, meter);
+                BenchmarkExecutor.getExecutor(
+                        new BenchmarkElement(elem2), meter);
 
         assertTrue(exec1 == exec2);
-    }
-
-    /**
-     * Test method for
-     * {@link org.perfidix.element.BenchmarkExecutor#getExecutor(org.perfidix.element.BenchmarkMethod, java.util.Set)}
-     * .
-     */
-    @Test(expected = IllegalStateException.class)
-    public void testGetExecutor2() {
-        final Set<AbstractMeter> meter = new HashSet<AbstractMeter>();
-        meter.add(new TimeMeter(Time.MilliSeconds));
-        final GetTestClass getClass = new GetTestClass();
-        final Method meth = getClass.getClass().getDeclaredMethods()[0];
-
-        final BenchmarkMethod elem1 = new BenchmarkMethod(meth);
-        final BenchmarkMethod elem2 = new BenchmarkMethod(meth);
-
-        BenchmarkExecutor.getExecutor(elem1, this.meter);
-        BenchmarkExecutor.getExecutor(elem2, meter);
     }
 
     /**
@@ -134,7 +117,8 @@ public class BenchmarkExecutorTest {
         final BenchmarkMethod elem = new BenchmarkMethod(meth);
 
         final BenchmarkExecutor exec =
-                BenchmarkExecutor.getExecutor(elem, meter);
+                BenchmarkExecutor
+                        .getExecutor(new BenchmarkElement(elem), meter);
 
         exec.executeBeforeMethods(objToExecute);
         exec.executeBeforeMethods(objToExecute);
@@ -169,7 +153,8 @@ public class BenchmarkExecutorTest {
         final BenchmarkMethod elem = new BenchmarkMethod(meth);
 
         final BenchmarkExecutor exec =
-                BenchmarkExecutor.getExecutor(elem, meter);
+                BenchmarkExecutor
+                        .getExecutor(new BenchmarkElement(elem), meter);
 
         exec.executeAfterMethods(objToExecute);
         exec.executeAfterMethods(objToExecute);

@@ -23,12 +23,14 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.perfidix.annotation.AfterEachRun;
 import org.perfidix.annotation.AfterLastRun;
 import org.perfidix.annotation.BeforeEachRun;
 import org.perfidix.annotation.BeforeFirstRun;
 import org.perfidix.annotation.Bench;
+import org.perfidix.depreacted.Benchmark;
 
 public class SpecificSetUpTearDownTest {
 
@@ -67,6 +69,7 @@ public class SpecificSetUpTearDownTest {
     }
 
     @Test
+    @Ignore
     public void testWithout() {
         final Without test = new Without();
         final Benchmark benchMark = new Benchmark();
@@ -85,6 +88,7 @@ public class SpecificSetUpTearDownTest {
     }
 
     @Test
+    @Ignore
     public void testWith() {
         final With test = new With();
         final Benchmark benchMark = new Benchmark();

@@ -29,7 +29,7 @@ import java.util.regex.Pattern;
 import org.junit.Test;
 import org.perfidix.visitor.NiceTable;
 
-public class AsciiTableTest extends PerfidixTest {
+public class AsciiTableTest {
 
     /**
      * tests that the rows are aligned properly.
@@ -39,10 +39,6 @@ public class AsciiTableTest extends PerfidixTest {
         NiceTable a = new NiceTable(2);
         a.addRow(new String[] { "a\nb\nc", "a\nb" });
         a.addRow(new String[] { "d", "d" });
-
-        getLog().info("testRowAlignment start ...");
-        getLog().info(a.toString());
-        getLog().info("testRowAlignment finished. ...");
 
         String expected =
                 "| a | a |\n" + "| b | b |\n" + "| c |   |\n" + "| d | d |\n";
@@ -54,7 +50,6 @@ public class AsciiTableTest extends PerfidixTest {
 
         try {
             NiceTable a = new NiceTable(2);
-            getLog().info(a.toString());
             assertEquals("", a.toString());
         } catch (Exception e) {
             fail("should not reach here.");
@@ -91,7 +86,6 @@ public class AsciiTableTest extends PerfidixTest {
         ding.addHeader("h", '=', NiceTable.CENTER);
         ding.addRow(data);
         String result = ding.toString();
-        getLog().info(result);
         String expected = "";
         expected += "|==== h ====|\n";
         expected += "| 1 | 2 | 3 |\n";
@@ -106,7 +100,6 @@ public class AsciiTableTest extends PerfidixTest {
         ding.addHeader("h", '=', NiceTable.RIGHT);
         ding.addRow(data);
         String result = ding.toString();
-        getLog().info(result);
         String expected = "";
         expected += "|======= h =|\n";
         expected += "| 1 | 2 | 3 |\n";
@@ -121,7 +114,6 @@ public class AsciiTableTest extends PerfidixTest {
         ding.addHeader("h", '=', NiceTable.LEFT);
         ding.addRow(data);
         String result = ding.toString();
-        getLog().info(result);
         String expected = "";
         expected += "|= h =======|\n";
         expected += "| 1 | 2 | 3 |\n";
@@ -165,7 +157,6 @@ public class AsciiTableTest extends PerfidixTest {
         expected += "| aa |  a |\n";
         expected += "| a  | aa |\n";
         expected += "| a  |  a |\n";
-        getLog().info(t.toString());
         assertEquals(expected, t.toString());
     }
 
@@ -186,8 +177,6 @@ public class AsciiTableTest extends PerfidixTest {
         expected += "|  aaa  |\n";
         expected += "| aaaaa |\n";
 
-        getLog().info(t.toString());
-
         assertEquals(expected, t.toString());
 
     }
@@ -205,7 +194,6 @@ public class AsciiTableTest extends PerfidixTest {
         b.addRow(d);
         b.addLine('-');
         String result = b.toString();
-        getLog().info(result);
         String expected = "";
         expected += "--------------------------------------\n";
         expected += "| a           | b   | c | d   | e    |\n";
@@ -225,7 +213,6 @@ public class AsciiTableTest extends PerfidixTest {
         String expected = "| a | b | c | d |\n=================\n";
         b.addRow(s);
         b.addLine('=');
-        getLog().info(b.toString());
         assertEquals(expected, b.toString());
 
         String[] s2 = { "aa", "b", "c", "d" };
@@ -234,12 +221,10 @@ public class AsciiTableTest extends PerfidixTest {
         String expected2 = "| a  | b | c | d |\n==================\n";
         expected2 += "| aa | b | c | d |\n==================\n";
         assertEquals(expected2, b.toString());
-        getLog().info(b.toString());
         Number[] doubles = { 1, 2, 3.9, 5555 };
         b.addRow(doubles);
         b.addRow(doubles);
         b.addRow(doubles);
-        getLog().info(b.toString());
 
     }
 
@@ -283,7 +268,6 @@ public class AsciiTableTest extends PerfidixTest {
     @Test
     public void testNestedTables1() {
 
-        getLog().info("testing nested tables start ...");
         NiceTable t = new NiceTable(2);
         t.addHeader("ab");
         t.addRow(new String[] { "a\nb", "a" });
@@ -293,10 +277,7 @@ public class AsciiTableTest extends PerfidixTest {
         exp += "| b |   |\n";
 
         String myResult = t.toString();
-        getLog().info(myResult);
         assertEquals(exp, myResult);
-
-        getLog().info("testing nested tables end ...");
 
     }
 
@@ -319,24 +300,7 @@ public class AsciiTableTest extends PerfidixTest {
         assertEquals(1, result.length);
         assertEquals(2, result[0].length);
         assertEquals(0, a[0].compareTo(result[0][0]));
-        printMatrix(result);
 
-    }
-
-    /**
-     * i need this only for debugging purposes.
-     */
-    private void printMatrix(final String[][] m) {
-
-        getLog().info("------------------------------");
-        for (String[] row : m) {
-            getLog().info("");
-            for (String col : row) {
-                getLog().info(col + ", ");
-            }
-        }
-
-        getLog().info("------------------------------");
     }
 
     @Test
@@ -375,8 +339,6 @@ public class AsciiTableTest extends PerfidixTest {
         assertEquals(2, result.length);
         assertEquals(2, result[0].length);
         String my = NiceTable.Util.implode(",", result[0]);
-        getLog().info(my);
-        printMatrix(result);
         assertEquals(0, "a,b".compareTo(my));
         assertEquals(0, "c".compareTo(result[1][0]));
         assertEquals(0, "".compareTo(result[1][1]));
@@ -385,16 +347,13 @@ public class AsciiTableTest extends PerfidixTest {
     @Test
     public void testNestedTables() {
 
-        getLog().info("testing ... testNestedTables");
         String[] s = { "a", "b", "c" };
         NiceTable t = new NiceTable(s.length);
         t.addHeader("a");
         t.addRow(s);
-        getLog().info(t.toString());
         NiceTable q = new NiceTable(2);
         q.addHeader("nested header ");
         q.addRow(new String[] { new String("rowline"), t.toString() });
-        getLog().info(q.toString());
     }
 
 }

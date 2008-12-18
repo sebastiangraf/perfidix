@@ -49,8 +49,8 @@ public final class BenchmarkExecutor {
      * Static mapping for all methods to be executed because of the single-runs
      * before/after methods.
      */
-    private final static Map<Method, BenchmarkExecutor> executor =
-            new Hashtable<Method, BenchmarkExecutor>();
+    private final static Map<BenchmarkMethod, BenchmarkExecutor> executor =
+            new Hashtable<BenchmarkMethod, BenchmarkExecutor>();
 
     /** Boolean to be sure that the beforeFirstRun was not executed yet. */
     private boolean beforeFirstRunExecuted;
@@ -101,15 +101,15 @@ public final class BenchmarkExecutor {
      *         BenchmarkElement
      */
     public static final BenchmarkExecutor getExecutor(
-            final BenchmarkMethod meth, final Set<AbstractMeter> meters) {
+            final BenchmarkElement meth, final Set<AbstractMeter> meters) {
         // check if new instance needs to be created
-        if (!executor.containsKey(meth.getMethodToBench())) {
-            executor.put(meth.getMethodToBench(), new BenchmarkExecutor(
-                    meth, meters));
+        if (!executor.containsKey(meth.getMeth())) {
+            executor.put(meth.getMeth(), new BenchmarkExecutor(
+                    meth.getMeth(), meters));
         }
 
         // returning the executor
-        return executor.get(meth.getMethodToBench());
+        return executor.get(meth.getMeth());
 
     }
 

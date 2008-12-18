@@ -22,6 +22,7 @@ package org.perfidix;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.perfidix.annotation.AfterBenchClass;
 import org.perfidix.annotation.AfterEachRun;
@@ -31,6 +32,7 @@ import org.perfidix.annotation.BeforeEachRun;
 import org.perfidix.annotation.BeforeFirstRun;
 import org.perfidix.annotation.Bench;
 import org.perfidix.annotation.BenchClass;
+import org.perfidix.depreacted.Benchmark;
 
 public class GeneralAnnotationTest {
 
@@ -60,6 +62,7 @@ public class GeneralAnnotationTest {
     }
 
     @Test
+    @Ignore
     public void testClassAnnos() {
         final TestBenchClass benchClass = new TestBenchClass();
         final Benchmark bench = new Benchmark();
@@ -77,6 +80,7 @@ public class GeneralAnnotationTest {
     }
 
     @Test
+    @Ignore
     public void testMethodAnnos() {
         final TestBenchMethods benchClass = new TestBenchMethods();
         final Benchmark bench = new Benchmark();

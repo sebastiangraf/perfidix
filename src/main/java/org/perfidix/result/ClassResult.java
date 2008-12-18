@@ -20,38 +20,24 @@
  */
 package org.perfidix.result;
 
+import java.util.Set;
+
+import org.perfidix.meter.AbstractMeter;
+
 /**
  * @author axo
  */
 public class ClassResult extends ResultContainer<MethodResult> {
 
-    private String theClass;
+    private Class<?> theClass;
 
     /**
-     * @param theName
-     *            the name.
      * @param classUnderTest
      *            the class name which is benchmarked.
      */
-    public ClassResult(final String theName, final String classUnderTest) {
-        super(theName);
-        theClass = classUnderTest;
-    }
-
-    /**
-     * @param theName
-     *            only the name.
-     */
-    public ClassResult(final String theName) {
-        super(theName);
-        theClass = null;
-    }
-
-    /**
-     * @return the class under test. may be null!
-     */
-    public String getClassUnderTest() {
-        return theClass;
+    public ClassResult(final Class<?> clazz, final Set<AbstractMeter> meters) {
+        super(meters);
+        theClass = clazz;
     }
 
 }

@@ -40,18 +40,18 @@ import org.perfidix.annotation.Bench;
  */
 public class NoMethodArrangementTest {
 
-    private Set<BenchmarkMethod> elemSet;
+    private Set<BenchmarkElement> elemSet;
 
     /**
      * Before method to setUp Benchmarkables.
      */
     @Before
     public void setUp() {
-        elemSet = new HashSet<BenchmarkMethod>();
+        elemSet = new HashSet<BenchmarkElement>();
         final Class<?> testClazz = new TestBenchClass().getClass();
         for (final Method meth : testClazz.getDeclaredMethods()) {
             if (BenchmarkMethod.isBenchmarkable(meth)) {
-                elemSet.add(new BenchmarkMethod(meth));
+                elemSet.add(new BenchmarkElement(new BenchmarkMethod(meth)));
             }
         }
     }
@@ -67,15 +67,15 @@ public class NoMethodArrangementTest {
                     AbstractMethodArrangement
                             .getMethodArrangement(
                                     elemSet,
-                                    AbstractMethodArrangement.KindOfMethodArrangement.NoArrangement);
+                                    AbstractMethodArrangement.KindOfElementArrangement.NoArrangement);
             final String[] expectedNames = { "bench1", "bench2", "bench4" };
-            final Iterator<BenchmarkMethod> iterBench = arrangement.iterator();
+            final Iterator<BenchmarkElement> iterBench = arrangement.iterator();
             assertEquals(expectedNames[0], iterBench
-                    .next().getMethodToBench().getName());
+                    .next().getMeth().getMethodToBench().getName());
             assertEquals(expectedNames[1], iterBench
-                    .next().getMethodToBench().getName());
-            assertEquals(expectedNames[3], iterBench
-                    .next().getMethodToBench().getName());
+                    .next().getMeth().getMethodToBench().getName());
+            assertEquals(expectedNames[2], iterBench
+                    .next().getMeth().getMethodToBench().getName());
             assertFalse(iterBench.hasNext());
 
         } catch (final Exception e) {

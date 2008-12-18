@@ -29,17 +29,18 @@ import java.util.Set;
  * This method defines an order for the execution of all methods. A collection
  * with definitly benchmarkable methods is given in, shuffled in a way and
  * returned as an iterator. The kind of shuffling is set by the enum
- * {@link KindOfMethodArrangement}. ordered with the help of inheriting classes.
+ * {@link KindOfElementArrangement}. ordered with the help of inheriting
+ * classes.
  * 
  * @author Sebastian Graf, University of Konstanz
  */
 public abstract class AbstractMethodArrangement
-        implements Iterable<BenchmarkMethod> {
+        implements Iterable<BenchmarkElement> {
 
     /**
      * Enum for all implemented arrangements.
      */
-    public static enum KindOfMethodArrangement {
+    public static enum KindOfElementArrangement {
         /** no method arrangement. */
         NoArrangement
     };
@@ -48,7 +49,7 @@ public abstract class AbstractMethodArrangement
      * List to hold all benchmarkable elements in the correct order as a base
      * for the iterator.
      */
-    private final List<BenchmarkMethod> elementList;
+    private final List<BenchmarkElement> elementList;
 
     /**
      * Constructor which takes all benchmarkable methods. These methods are
@@ -58,8 +59,8 @@ public abstract class AbstractMethodArrangement
      * @param elements
      *            definitly benchmarkable objects.
      */
-    protected AbstractMethodArrangement(final Set<BenchmarkMethod> elements) {
-        final List<BenchmarkMethod> arrangedList = arrangeList(elements);
+    protected AbstractMethodArrangement(final Set<BenchmarkElement> elements) {
+        final List<BenchmarkElement> arrangedList = arrangeList(elements);
         this.elementList = Collections.unmodifiableList(arrangedList);
     }
 
@@ -70,18 +71,18 @@ public abstract class AbstractMethodArrangement
      *            to be arranged
      * @return the arranged methods.
      */
-    protected abstract List<BenchmarkMethod> arrangeList(
-            final Set<BenchmarkMethod> methods);
+    protected abstract List<BenchmarkElement> arrangeList(
+            final Set<BenchmarkElement> methods);
 
     /** {@inheritDoc} */
-    public final Iterator<BenchmarkMethod> iterator() {
+    public final Iterator<BenchmarkElement> iterator() {
         return this.elementList.iterator();
     }
 
     /**
      * Factory method to get the method arrangement for a given set of classes.
      * The kind of arrangement is set by an instance of the enum
-     * {@link KindOfMethodArrangement}.
+     * {@link KindOfElementArrangement}.
      * 
      * @param elements
      *            to be benched
@@ -90,8 +91,8 @@ public abstract class AbstractMethodArrangement
      * @return the arrangement, mainly an iterator
      */
     public final static AbstractMethodArrangement getMethodArrangement(
-            final Set<BenchmarkMethod> elements,
-            final KindOfMethodArrangement kind) {
+            final Set<BenchmarkElement> elements,
+            final KindOfElementArrangement kind) {
         switch (kind) {
         case NoArrangement:
             return new NoMethodArrangement(elements);
