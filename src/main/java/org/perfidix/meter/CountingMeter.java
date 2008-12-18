@@ -107,6 +107,7 @@ public final class CountingMeter extends AbstractMeter {
     public CountingMeter(
             final String paramName, final String paramUnit,
             final String paramUnitDescription) {
+        super(false);
         name = paramName;
         unit = paramUnit;
         unitDescription = paramUnitDescription;

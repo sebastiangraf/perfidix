@@ -48,6 +48,7 @@ public final class TimeMeter extends AbstractMeter {
      *            the time for the values.
      */
     public TimeMeter(final Time paramTime) {
+        super(true);
         currentTime = paramTime;
     }
 

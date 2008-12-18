@@ -51,6 +51,7 @@ public final class MemMeter extends AbstractMeter {
      *            scale for this meter, can be any instance of Memory-enum
      */
     public MemMeter(final Memory paramScale) {
+        super(true);
         memAlreadyUsed = 0;
         this.scale = paramScale;
     }

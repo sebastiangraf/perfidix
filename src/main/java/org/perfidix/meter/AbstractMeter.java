@@ -30,6 +30,19 @@ package org.perfidix.meter;
  */
 public abstract class AbstractMeter {
 
+    /** boolean if this meter is automatically ticking */
+    private final boolean automaticallyTicking;
+
+    /**
+     * Constructor
+     * 
+     * @param paramAutomaticallyTicking
+     *            , if this meter instance is automatically ticking
+     */
+    protected AbstractMeter(final boolean paramAutomaticallyTicking) {
+        this.automaticallyTicking = paramAutomaticallyTicking;
+    }
+
     /**
      * Getting the current value for this meter.
      * 
@@ -87,4 +100,14 @@ public abstract class AbstractMeter {
      */
     @Override
     public abstract boolean equals(final Object obj);
+
+    /**
+     * Is this meter automatically ticking?
+     * 
+     * @return the automaticallyTicking, true if no tick has to been made, false
+     *         otherwise.
+     */
+    public final boolean isAutomaticallyTicking() {
+        return automaticallyTicking;
+    }
 }
