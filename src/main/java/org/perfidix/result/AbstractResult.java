@@ -71,7 +71,7 @@ public abstract class AbstractResult {
      *            for the results wanted
      * @return the result set.
      */
-    public final Collection<Double> getResultSet(final AbstractMeter meter) {
+    protected final Collection<Double> getResultSet(final AbstractMeter meter) {
         return this.meterResults.get(meter);
     }
 

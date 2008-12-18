@@ -379,7 +379,7 @@ public class Benchmark {
                 final MethodResult realResult =
                         doRunObject(elem.getMethodToBench(), runs, toExecute);
                 if (realResult != null) {
-                    result.append(realResult);
+                    // result.append(realResult);
                 }
             }
         }

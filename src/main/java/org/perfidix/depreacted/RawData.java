@@ -9,7 +9,6 @@ import org.apache.commons.logging.LogFactory;
 import org.perfidix.meter.AbstractMeter;
 import org.perfidix.result.AbstractResult;
 import org.perfidix.result.BenchmarkResult;
-import org.perfidix.result.ClassResult;
 import org.perfidix.result.MethodResult;
 
 /**
@@ -41,18 +40,18 @@ public class RawData extends ResultVisitor {
                         "only benchmark results are supported!");
             }
             BenchmarkResult benchRes = (BenchmarkResult) r;
-            for (ClassResult classRes : benchRes.getChildren()) {
-                for (MethodResult methodRes : classRes.getChildren()) {
-                    File timeFile =
-                            new File(this.folder.getAbsolutePath()
-                                    + File.separatorChar
-                                    + classRes
-                                    + "$"
-                                    + methodRes
-                                    + ".csv");
-                    getMethodResult(timeFile, methodRes);
-                }
-            }
+            // for (ClassResult classRes : benchRes.getChildren()) {
+            // for (MethodResult methodRes : classRes.getChildren()) {
+            // File timeFile =
+            // new File(this.folder.getAbsolutePath()
+            // + File.separatorChar
+            // + classRes
+            // + "$"
+            // + methodRes
+            // + ".csv");
+            // getMethodResult(timeFile, methodRes);
+            // }
+            // }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -76,7 +75,7 @@ public class RawData extends ResultVisitor {
             } else {
                 timeOut = new FileWriter(currentFile, false);
             }
-            final Collection<Double> data = methodRes.getResultSet(meter);
+            final Collection<Double> data = null;// methodRes.getResultSet(meter);
             int i = 0;
             for (Double d : data) {
                 if (i == data.size() - 1) {

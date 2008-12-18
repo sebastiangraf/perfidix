@@ -25,19 +25,45 @@ import java.util.Set;
 import org.perfidix.meter.AbstractMeter;
 
 /**
- * @author axo
+ * This class holds all results related to a benchmarked class. That means that,
+ * given a Set with {@link MethodResult} objects, these objects are stored in
+ * this class plus the data is extracted from these {@link MethodResult} objects
+ * and stored in this class. So, every statistical analysis is made on the base
+ * of the overall benchmarked data.
+ * 
+ * @author Sebastian Graf, University of Konstanz
+ * @author Alexander Onea, neue Couch
  */
-public class ClassResult extends ResultContainer<MethodResult> {
+public final class ClassResult extends ResultContainer<MethodResult> {
 
-    private Class<?> theClass;
+    /** Reference to the class related to these results. */
+    private final Class<?> clazz;
 
     /**
-     * @param classUnderTest
-     *            the class name which is benchmarked.
+     * Constructor-
+     * 
+     * @param paramClass
+     *            class of these results
+     * @param paramMeters
+     *            the meters for these results
+     * @param paramMethodResults
+     *            the {@link MethodResult} which build up this result
      */
-    public ClassResult(final Class<?> clazz, final Set<AbstractMeter> meters) {
-        super(meters);
-        theClass = clazz;
+    public ClassResult(
+            final Class<?> paramClass, final Set<AbstractMeter> paramMeters,
+            final Set<MethodResult> paramMethodResults) {
+        super(paramMeters);
+        clazz = paramClass;
+        setUpContainer(paramMethodResults);
+    }
+
+    /**
+     * Getting the class related to these results.
+     * 
+     * @return the clazz related to these results
+     */
+    public final Class<?> getClazz() {
+        return clazz;
     }
 
 }

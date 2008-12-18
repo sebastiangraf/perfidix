@@ -33,7 +33,7 @@ import org.perfidix.meter.AbstractMeter;
  * @author Sebastian Graf, University of Konstanz
  * @author Alexander Onea, neue Couch
  */
-public class MethodResult extends AbstractResult {
+public final class MethodResult extends AbstractResult {
 
     /** Method which corresponds to this result */
     private final Method meth;

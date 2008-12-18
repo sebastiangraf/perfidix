@@ -123,7 +123,7 @@ public class AsciiTable extends ResultVisitor {
                                 "[" + floatFormat + "," + floatFormat + "]",
                                 Math.max(0, res.mean(m) - res.getConf95(m)),
                                 res.mean(m) + res.getConf95(m)),
-                        res.getResultSet(m).size(),
+                // res.getResultSet(m).size(),
 
                 };
         table.addRow(data);
@@ -164,9 +164,9 @@ public class AsciiTable extends ResultVisitor {
 
     private void visitSubcontainers(final ResultContainer<?> res) {
         addHeader(res);
-        for (Object res2 : res.getChildren()) {
-            visit((AbstractResult) res2);
-        }
+        // for (Object res2 : res.getChildren()) {
+        // visit((AbstractResult) res2);
+        // }
         addFooter(res);
     }
 
@@ -190,7 +190,7 @@ public class AsciiTable extends ResultVisitor {
                                 + format(res.mean(meter) - res.getConf95(meter))
                                 + ","
                                 + format(res.mean(meter) - res.getConf95(meter))
-                                + "]", res.getResultSet(meter).size() };
+                /* + "]", res.getResultSet(meter).size() */};
         table.addRow(data);
     }
 

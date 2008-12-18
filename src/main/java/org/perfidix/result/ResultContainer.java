@@ -19,7 +19,7 @@
 
 package org.perfidix.result;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Set;
 
 import org.perfidix.meter.AbstractMeter;
@@ -37,13 +37,13 @@ import org.perfidix.meter.AbstractMeter;
 public abstract class ResultContainer<ResultType extends AbstractResult>
         extends AbstractResult {
 
-    private final ArrayList<ResultType> children;
+    private final Set<ResultType> elements;
 
     /**
      */
     protected ResultContainer(final Set<AbstractMeter> meters) {
         super(meters);
-        children = new ArrayList<ResultType>();
+        elements = new HashSet<ResultType>();
     }
 
     /**
@@ -52,17 +52,13 @@ public abstract class ResultContainer<ResultType extends AbstractResult>
      * @param res
      *            the result to append.
      */
-    public final void append(final ResultType res) {
-        children.add(res);
-    }
-
-    /**
-     * returns all children.
-     * 
-     * @return the children being in this result container.
-     */
-    public ArrayList<ResultType> getChildren() {
-        return children;
+    public final void setUpContainer(final Set<ResultType> res) {
+        elements.clear();
+        for (final AbstractMeter meter : getRegisteredMeters()) {
+            for (final ResultType singleType : res) {
+                getResultSet(meter).addAll(singleType.getResultSet(meter));
+            }
+        }
     }
 
 }

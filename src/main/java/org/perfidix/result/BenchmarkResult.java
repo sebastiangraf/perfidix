@@ -25,30 +25,27 @@ import java.util.Set;
 import org.perfidix.meter.AbstractMeter;
 
 /**
- * @author axo
+ * This class holds the data of the whole benchmark in different
+ * {@link ClassResult} objects.
+ * 
+ * @author Sebastian Graf, University of Konstanz
+ * @author Alexander Onea, neue Couch
  */
-public class BenchmarkResult extends ResultContainer<ClassResult> {
-
-    private final String name;
+public final class BenchmarkResult extends ResultContainer<ClassResult> {
 
     /**
-     * default constructor.
+     * Constructor.
+     * 
+     * @param paramMeters
+     *            the meters for this benchmark
+     * @param paramClassResults
+     *            the results from the different {@link ClassResult} objects.
      */
     public BenchmarkResult(
-            final Set<AbstractMeter> meters, final String paramName) {
-        super(meters);
-        this.name = paramName;
-    }
-
-    public BenchmarkResult(final Set<AbstractMeter> meters) {
-        this(meters, "");
-    }
-
-    /**
-     * @return the name
-     */
-    public final String getName() {
-        return name;
+            final Set<AbstractMeter> paramMeters,
+            final Set<ClassResult> paramClassResults) {
+        super(paramMeters);
+        setUpContainer(paramClassResults);
     }
 
 }

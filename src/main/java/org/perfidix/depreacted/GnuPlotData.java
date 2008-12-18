@@ -23,13 +23,11 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.Set;
 
 import org.perfidix.meter.AbstractMeter;
 import org.perfidix.result.AbstractResult;
 import org.perfidix.result.BenchmarkResult;
-import org.perfidix.result.ClassResult;
 import org.perfidix.result.MethodResult;
 
 /**
@@ -149,13 +147,13 @@ public class GnuPlotData extends ResultVisitor {
      * @param r
      */
     private void parseMethods(final BenchmarkResult r) {
-        Iterator<ClassResult> it = r.getChildren().iterator();
-        while (it.hasNext()) {
-            Iterator<MethodResult> m = it.next().getChildren().iterator();
-            while (m.hasNext()) {
-                parseMethod(m.next());
-            }
-        }
+        // Iterator<ClassResult> it = r.getChildren().iterator();
+        // while (it.hasNext()) {
+        // Iterator<MethodResult> m = it.next().getChildren().iterator();
+        // while (m.hasNext()) {
+        // parseMethod(m.next());
+        // }
+        // }
     }
 
     private void parseMethod(final MethodResult method) {
@@ -174,7 +172,7 @@ public class GnuPlotData extends ResultVisitor {
                             ""
                                     + format(method.mean(meter)
                                             + method.getConf95(meter)),
-                            "" + method.getResultSet(meter).size(),
+                            // "" + method.getResultSet(meter).size(),
                             "" + method.sum(meter), "", "\n", };
 
             buffer += NiceTable.Util.implode("\t", data);

@@ -22,6 +22,7 @@ package org.perfidix.element;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Map;
 import java.util.Set;
@@ -31,6 +32,8 @@ import org.perfidix.annotation.AfterLastRun;
 import org.perfidix.annotation.BeforeEachRun;
 import org.perfidix.annotation.BeforeFirstRun;
 import org.perfidix.meter.AbstractMeter;
+import org.perfidix.result.BenchmarkResult;
+import org.perfidix.result.ClassResult;
 import org.perfidix.result.MethodResult;
 
 /**
@@ -275,4 +278,37 @@ public final class BenchmarkExecutor {
         return null;
     }
 
+    public static final BenchmarkResult getBenchmarkResult() {
+        final Map<Class<?>, Set<MethodResult>> classTempResults =
+                new Hashtable<Class<?>, Set<MethodResult>>();
+        Set<AbstractMeter> meters = null;
+        for (final BenchmarkExecutor exec : executor.values()) {
+            if (meters == null) {
+                meters = exec.methodRes.getRegisteredMeters();
+            } else {
+                if (meters != exec.methodRes.getRegisteredMeters()) {
+                    throw new IllegalStateException(new StringBuilder(meters
+                            .toString())
+                            .append(" is not equivalent to ").append(
+                                    exec.methodRes
+                                            .getRegisteredMeters().toString())
+                            .append("!").toString());
+                }
+            }
+
+            final Class<?> clazz = exec.methodRes.getMeth().getDeclaringClass();
+            if (!classTempResults.containsKey(clazz)) {
+                classTempResults.put(clazz, new HashSet<MethodResult>());
+            }
+            classTempResults.get(clazz).add(exec.methodRes);
+        }
+
+        final Set<ClassResult> classResults = new HashSet<ClassResult>();
+        for (final Class<?> clazz : classTempResults.keySet()) {
+            classResults.add(new ClassResult(clazz, meters, classTempResults
+                    .get(clazz)));
+        }
+
+        return new BenchmarkResult(meters, classResults);
+    }
 }
