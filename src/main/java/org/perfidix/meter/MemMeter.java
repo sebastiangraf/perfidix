@@ -51,7 +51,7 @@ public final class MemMeter extends AbstractMeter {
      *            scale for this meter, can be any instance of Memory-enum
      */
     public MemMeter(final Memory paramScale) {
-        super(true);
+        super();
         memAlreadyUsed = 0;
         this.scale = paramScale;
     }
@@ -71,25 +71,25 @@ public final class MemMeter extends AbstractMeter {
 
     /** {@inheritDoc} */
     @Override
-    public String getName() {
+    public final String getName() {
         return NAME;
     }
 
     /** {@inheritDoc} */
     @Override
-    public String getUnit() {
+    public final String getUnit() {
         return scale.getUnit();
     }
 
     /** {@inheritDoc} */
     @Override
-    public String getUnitDescription() {
+    public final String getUnitDescription() {
         return scale.getUnitDescription();
     }
 
     /** {@inheritDoc} */
     @Override
-    public int hashCode() {
+    public final int hashCode() {
         final int prime = 31;
         int result = prime;
         long temp;
@@ -101,7 +101,7 @@ public final class MemMeter extends AbstractMeter {
 
     /** {@inheritDoc} */
     @Override
-    public boolean equals(Object obj) {
+    public final boolean equals(Object obj) {
         if (this == obj)
             return true;
         if (getClass() != obj.getClass())

@@ -22,12 +22,15 @@ package org.perfidix.meter;
 
 /**
  * Simple meter to count given ticks. The ticks are not resetted afterwards, the
- * counting always continues.
+ * counting always continues. This meter implements the
+ * {@link NotAutomaticallyTicking} interface for getting the ticking
+ * functionality by hand.
  * 
  * @author Alexander Onea, neue Couch
  * @author Sebastian Graf, University of Konstanz
  */
-public final class CountingMeter extends AbstractMeter {
+public final class CountingMeter extends AbstractMeter
+        implements NotAutomaticallyTicking {
 
     /**
      * Constant to store the default name.
@@ -107,7 +110,7 @@ public final class CountingMeter extends AbstractMeter {
     public CountingMeter(
             final String paramName, final String paramUnit,
             final String paramUnitDescription) {
-        super(false);
+        super();
         name = paramName;
         unit = paramUnit;
         unitDescription = paramUnitDescription;
@@ -163,7 +166,7 @@ public final class CountingMeter extends AbstractMeter {
 
     /** {@inheritDoc} */
     @Override
-    public int hashCode() {
+    public final int hashCode() {
         final int prime = 31;
         int result = prime;
         result = prime * result + (int) (counter ^ (counter >>> 32));
@@ -179,7 +182,7 @@ public final class CountingMeter extends AbstractMeter {
 
     /** {@inheritDoc} */
     @Override
-    public boolean equals(Object obj) {
+    public final boolean equals(Object obj) {
         if (this == obj)
             return true;
         if (getClass() != obj.getClass())

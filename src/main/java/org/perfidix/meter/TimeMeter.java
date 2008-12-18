@@ -48,7 +48,7 @@ public final class TimeMeter extends AbstractMeter {
      *            the time for the values.
      */
     public TimeMeter(final Time paramTime) {
-        super(true);
+        super();
         currentTime = paramTime;
     }
 
@@ -68,25 +68,25 @@ public final class TimeMeter extends AbstractMeter {
 
     /** {@inheritDoc} */
     @Override
-    public String getName() {
+    public final String getName() {
         return NAME;
     }
 
     /** {@inheritDoc} */
     @Override
-    public String getUnit() {
+    public final String getUnit() {
         return currentTime.getUnit();
     }
 
     /** {@inheritDoc} */
     @Override
-    public String getUnitDescription() {
+    public final String getUnitDescription() {
         return currentTime.getUnitDescription();
     }
 
     /** {@inheritDoc} */
     @Override
-    public int hashCode() {
+    public final int hashCode() {
         final int prime = 31;
         int result = prime;
         result =
@@ -98,7 +98,7 @@ public final class TimeMeter extends AbstractMeter {
 
     /** {@inheritDoc} */
     @Override
-    public boolean equals(Object obj) {
+    public final boolean equals(Object obj) {
         if (this == obj)
             return true;
         if (getClass() != obj.getClass())
