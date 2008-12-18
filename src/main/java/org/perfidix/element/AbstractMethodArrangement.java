@@ -34,7 +34,7 @@ import java.util.Set;
  * @author Sebastian Graf, University of Konstanz
  */
 public abstract class AbstractMethodArrangement
-        implements Iterable<BenchmarkElement> {
+        implements Iterable<BenchmarkMethod> {
 
     /**
      * Enum for all implemented arrangements.
@@ -48,7 +48,7 @@ public abstract class AbstractMethodArrangement
      * List to hold all benchmarkable elements in the correct order as a base
      * for the iterator.
      */
-    private final List<BenchmarkElement> elementList;
+    private final List<BenchmarkMethod> elementList;
 
     /**
      * Constructor which takes all benchmarkable methods. These methods are
@@ -58,8 +58,8 @@ public abstract class AbstractMethodArrangement
      * @param elements
      *            definitly benchmarkable objects.
      */
-    protected AbstractMethodArrangement(final Set<BenchmarkElement> elements) {
-        final List<BenchmarkElement> arrangedList = arrangeList(elements);
+    protected AbstractMethodArrangement(final Set<BenchmarkMethod> elements) {
+        final List<BenchmarkMethod> arrangedList = arrangeList(elements);
         this.elementList = Collections.unmodifiableList(arrangedList);
     }
 
@@ -70,11 +70,11 @@ public abstract class AbstractMethodArrangement
      *            to be arranged
      * @return the arranged methods.
      */
-    protected abstract List<BenchmarkElement> arrangeList(
-            final Set<BenchmarkElement> methods);
+    protected abstract List<BenchmarkMethod> arrangeList(
+            final Set<BenchmarkMethod> methods);
 
     /** {@inheritDoc} */
-    public final Iterator<BenchmarkElement> iterator() {
+    public final Iterator<BenchmarkMethod> iterator() {
         return this.elementList.iterator();
     }
 
@@ -90,7 +90,7 @@ public abstract class AbstractMethodArrangement
      * @return the arrangement, mainly an iterator
      */
     public final static AbstractMethodArrangement getMethodArrangement(
-            final Set<BenchmarkElement> elements,
+            final Set<BenchmarkMethod> elements,
             final KindOfMethodArrangement kind) {
         switch (kind) {
         case NoArrangement:

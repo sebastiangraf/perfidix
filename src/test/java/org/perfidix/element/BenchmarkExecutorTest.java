@@ -79,7 +79,7 @@ public class BenchmarkExecutorTest {
 
     /**
      * Test method for
-     * {@link org.perfidix.element.BenchmarkExecutor#getExecutor(org.perfidix.element.BenchmarkElement, java.util.Set)}
+     * {@link org.perfidix.element.BenchmarkExecutor#getExecutor(org.perfidix.element.BenchmarkMethod, java.util.Set)}
      * .
      */
     @Test
@@ -87,8 +87,8 @@ public class BenchmarkExecutorTest {
         final GetTestClass getInstanceClass = new GetTestClass();
         final Method meth = getInstanceClass.getClass().getDeclaredMethods()[0];
 
-        final BenchmarkElement elem1 = new BenchmarkElement(meth);
-        final BenchmarkElement elem2 = new BenchmarkElement(meth);
+        final BenchmarkMethod elem1 = new BenchmarkMethod(meth);
+        final BenchmarkMethod elem2 = new BenchmarkMethod(meth);
 
         final BenchmarkExecutor exec1 =
                 BenchmarkExecutor.getExecutor(elem1, meter);
@@ -100,7 +100,7 @@ public class BenchmarkExecutorTest {
 
     /**
      * Test method for
-     * {@link org.perfidix.element.BenchmarkExecutor#getExecutor(org.perfidix.element.BenchmarkElement, java.util.Set)}
+     * {@link org.perfidix.element.BenchmarkExecutor#getExecutor(org.perfidix.element.BenchmarkMethod, java.util.Set)}
      * .
      */
     @Test(expected = IllegalStateException.class)
@@ -110,8 +110,8 @@ public class BenchmarkExecutorTest {
         final GetTestClass getClass = new GetTestClass();
         final Method meth = getClass.getClass().getDeclaredMethods()[0];
 
-        final BenchmarkElement elem1 = new BenchmarkElement(meth);
-        final BenchmarkElement elem2 = new BenchmarkElement(meth);
+        final BenchmarkMethod elem1 = new BenchmarkMethod(meth);
+        final BenchmarkMethod elem2 = new BenchmarkMethod(meth);
 
         BenchmarkExecutor.getExecutor(elem1, this.meter);
         BenchmarkExecutor.getExecutor(elem2, meter);
@@ -131,7 +131,7 @@ public class BenchmarkExecutorTest {
         final Method meth = getClass.getClass().getDeclaredMethods()[0];
         final Object objToExecute = getClass.getClass().newInstance();
 
-        final BenchmarkElement elem = new BenchmarkElement(meth);
+        final BenchmarkMethod elem = new BenchmarkMethod(meth);
 
         final BenchmarkExecutor exec =
                 BenchmarkExecutor.getExecutor(elem, meter);
@@ -166,7 +166,7 @@ public class BenchmarkExecutorTest {
         final Method meth = getClass.getClass().getDeclaredMethods()[0];
         final Object objToExecute = getClass.getClass().newInstance();
 
-        final BenchmarkElement elem = new BenchmarkElement(meth);
+        final BenchmarkMethod elem = new BenchmarkMethod(meth);
 
         final BenchmarkExecutor exec =
                 BenchmarkExecutor.getExecutor(elem, meter);
@@ -201,7 +201,7 @@ public class BenchmarkExecutorTest {
             BenchmarkExecutor.checkAndExecute(falseObj, correctMethod);
             fail("Should throw IllegalStateException!");
         } catch (Exception e) {
-            assertTrue(e instanceof IllegalStateException);
+            assertTrue(e instanceof IllegalAccessException);
         }
 
         try {

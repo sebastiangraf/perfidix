@@ -75,7 +75,7 @@ public class BenchmarkElementTest {
 
     /**
      * Test method for
-     * {@link org.perfidix.element.BenchmarkElement#isBenchmarkable(Method)} .
+     * {@link org.perfidix.element.BenchmarkMethod#isBenchmarkable(Method)} .
      */
     @Test
     public void testCheckThisMethodAsBenchmarkable1() {
@@ -89,8 +89,8 @@ public class BenchmarkElementTest {
                     currentClassToTest.getClass().getDeclaredMethods();
             int numberOfFoundMethods = 0;
             for (final Method meth : meths) {
-                if (BenchmarkElement.isBenchmarkable(meth)) {
-                    final BenchmarkElement elem = new BenchmarkElement(meth);
+                if (BenchmarkMethod.isBenchmarkable(meth)) {
+                    final BenchmarkMethod elem = new BenchmarkMethod(meth);
                     elem.getMethodToBench().invoke(currentClassToTest, param);
                     numberOfFoundMethods++;
                 }
@@ -104,7 +104,7 @@ public class BenchmarkElementTest {
 
     /**
      * Test method for
-     * {@link org.perfidix.element.BenchmarkElement#isBenchmarkable(Method)} .
+     * {@link org.perfidix.element.BenchmarkMethod#isBenchmarkable(Method)} .
      */
     @Test
     public void testCheckThisMethodAsBenchmarkable2() {
@@ -118,8 +118,8 @@ public class BenchmarkElementTest {
                     currentClassToTest.getClass().getDeclaredMethods();
             int numberOfFoundMethods = 0;
             for (final Method meth : meths) {
-                if (BenchmarkElement.isBenchmarkable(meth)) {
-                    final BenchmarkElement elem = new BenchmarkElement(meth);
+                if (BenchmarkMethod.isBenchmarkable(meth)) {
+                    final BenchmarkMethod elem = new BenchmarkMethod(meth);
                     elem.getMethodToBench().invoke(currentClassToTest, param);
                     numberOfFoundMethods++;
                 }
@@ -133,7 +133,7 @@ public class BenchmarkElementTest {
 
     /**
      * Test method for
-     * {@link org.perfidix.element.BenchmarkElement#findAndCheckAnyMethodByAnnotation(java.lang.Class,java.lang.Class)}
+     * {@link org.perfidix.element.BenchmarkMethod#findAndCheckAnyMethodByAnnotation(java.lang.Class,java.lang.Class)}
      * .
      * 
      * @throws IllegalAccessException
@@ -144,7 +144,7 @@ public class BenchmarkElementTest {
             throws IllegalAccessException {
         try {
             currentClassToTest = new TestFindAndCheckBenchClass();
-            BenchmarkElement.findAndCheckAnyMethodByAnnotation(
+            BenchmarkMethod.findAndCheckAnyMethodByAnnotation(
                     currentClassToTest.getClass(), ShouldOccureOnce.class);
         } catch (IllegalAccessException e) {
             throw e;
@@ -155,7 +155,7 @@ public class BenchmarkElementTest {
 
     /**
      * Test method for
-     * {@link org.perfidix.element.BenchmarkElement#isReflectedExecutable(java.lang.reflect.Method)}
+     * {@link org.perfidix.element.BenchmarkMethod#isReflectedExecutable(java.lang.reflect.Method)}
      * .
      */
     @Test
@@ -167,7 +167,7 @@ public class BenchmarkElementTest {
                     currentClassToTest.getClass().getDeclaredMethods();
             int numberOfInvokedMethods = 0;
             for (final Method meth : meths) {
-                if (BenchmarkElement.isReflectedExecutable(meth)) {
+                if (BenchmarkMethod.isReflectedExecutable(meth)) {
                     meth.invoke(currentClassToTest, param);
                     numberOfInvokedMethods++;
                 }
@@ -180,7 +180,7 @@ public class BenchmarkElementTest {
 
     /**
      * Test method for
-     * {@link org.perfidix.element.BenchmarkElement#findBeforeFirstRun()}.
+     * {@link org.perfidix.element.BenchmarkMethod#findBeforeFirstRun()}.
      */
     @Test
     public void testFindBeforeFirstRun1() {
@@ -191,11 +191,10 @@ public class BenchmarkElementTest {
             currentClassToTest = new TestBeforeFirstRun1();
             final Method[] meths =
                     currentClassToTest.getClass().getDeclaredMethods();
-            BenchmarkElement elem = null;
+            BenchmarkMethod elem = null;
             for (final Method meth : meths) {
-                if (BenchmarkElement.isBenchmarkable(meth)) {
-                    final BenchmarkElement checkElem =
-                            new BenchmarkElement(meth);
+                if (BenchmarkMethod.isBenchmarkable(meth)) {
+                    final BenchmarkMethod checkElem = new BenchmarkMethod(meth);
 
                     if (elem == null) {
                         elem = checkElem;
@@ -215,7 +214,7 @@ public class BenchmarkElementTest {
 
     /**
      * Test method for
-     * {@link org.perfidix.element.BenchmarkElement#findBeforeFirstRun()}.
+     * {@link org.perfidix.element.BenchmarkMethod#findBeforeFirstRun()}.
      */
     @Test
     public void testFindBeforeFirstRun2() {
@@ -226,11 +225,10 @@ public class BenchmarkElementTest {
             currentClassToTest = new TestBeforeFirstRun2();
             final Method[] meths =
                     currentClassToTest.getClass().getDeclaredMethods();
-            BenchmarkElement elem = null;
+            BenchmarkMethod elem = null;
             for (final Method meth : meths) {
-                if (BenchmarkElement.isBenchmarkable(meth)) {
-                    final BenchmarkElement checkElem =
-                            new BenchmarkElement(meth);
+                if (BenchmarkMethod.isBenchmarkable(meth)) {
+                    final BenchmarkMethod checkElem = new BenchmarkMethod(meth);
 
                     if (elem == null) {
                         elem = checkElem;
@@ -250,7 +248,7 @@ public class BenchmarkElementTest {
 
     /**
      * Test method for
-     * {@link org.perfidix.element.BenchmarkElement#findBeforeEachRun()}.
+     * {@link org.perfidix.element.BenchmarkMethod#findBeforeEachRun()}.
      */
     @Test
     public void testFindBeforeEachRun1() {
@@ -261,11 +259,10 @@ public class BenchmarkElementTest {
             currentClassToTest = new TestBeforeEachRun1();
             final Method[] meths =
                     currentClassToTest.getClass().getDeclaredMethods();
-            BenchmarkElement elem = null;
+            BenchmarkMethod elem = null;
             for (final Method meth : meths) {
-                if (BenchmarkElement.isBenchmarkable(meth)) {
-                    final BenchmarkElement checkElem =
-                            new BenchmarkElement(meth);
+                if (BenchmarkMethod.isBenchmarkable(meth)) {
+                    final BenchmarkMethod checkElem = new BenchmarkMethod(meth);
 
                     if (elem == null) {
                         elem = checkElem;
@@ -285,7 +282,7 @@ public class BenchmarkElementTest {
 
     /**
      * Test method for
-     * {@link org.perfidix.element.BenchmarkElement#findBeforeEachRun()}.
+     * {@link org.perfidix.element.BenchmarkMethod#findBeforeEachRun()}.
      */
     @Test
     public void testFindBeforeEachRun2() {
@@ -296,11 +293,10 @@ public class BenchmarkElementTest {
             currentClassToTest = new TestBeforeEachRun2();
             final Method[] meths =
                     currentClassToTest.getClass().getDeclaredMethods();
-            BenchmarkElement elem = null;
+            BenchmarkMethod elem = null;
             for (final Method meth : meths) {
-                if (BenchmarkElement.isBenchmarkable(meth)) {
-                    final BenchmarkElement checkElem =
-                            new BenchmarkElement(meth);
+                if (BenchmarkMethod.isBenchmarkable(meth)) {
+                    final BenchmarkMethod checkElem = new BenchmarkMethod(meth);
 
                     if (elem == null) {
                         elem = checkElem;
@@ -320,7 +316,7 @@ public class BenchmarkElementTest {
 
     /**
      * Test method for
-     * {@link org.perfidix.element.BenchmarkElement#findBeforeEachRun()}.
+     * {@link org.perfidix.element.BenchmarkMethod#findBeforeEachRun()}.
      */
     @Test
     public void testFindAfterEachRun1() {
@@ -331,11 +327,10 @@ public class BenchmarkElementTest {
             currentClassToTest = new TestAfterEachRun1();
             final Method[] meths =
                     currentClassToTest.getClass().getDeclaredMethods();
-            BenchmarkElement elem = null;
+            BenchmarkMethod elem = null;
             for (final Method meth : meths) {
-                if (BenchmarkElement.isBenchmarkable(meth)) {
-                    final BenchmarkElement checkElem =
-                            new BenchmarkElement(meth);
+                if (BenchmarkMethod.isBenchmarkable(meth)) {
+                    final BenchmarkMethod checkElem = new BenchmarkMethod(meth);
 
                     if (elem == null) {
                         elem = checkElem;
@@ -355,7 +350,7 @@ public class BenchmarkElementTest {
 
     /**
      * Test method for
-     * {@link org.perfidix.element.BenchmarkElement#findAfterEachRun()}.
+     * {@link org.perfidix.element.BenchmarkMethod#findAfterEachRun()}.
      */
     @Test
     public void testFindAfterEachRun2() {
@@ -366,11 +361,10 @@ public class BenchmarkElementTest {
             currentClassToTest = new TestAfterEachRun2();
             final Method[] meths =
                     currentClassToTest.getClass().getDeclaredMethods();
-            BenchmarkElement elem = null;
+            BenchmarkMethod elem = null;
             for (final Method meth : meths) {
-                if (BenchmarkElement.isBenchmarkable(meth)) {
-                    final BenchmarkElement checkElem =
-                            new BenchmarkElement(meth);
+                if (BenchmarkMethod.isBenchmarkable(meth)) {
+                    final BenchmarkMethod checkElem = new BenchmarkMethod(meth);
 
                     if (elem == null) {
                         elem = checkElem;
@@ -390,7 +384,7 @@ public class BenchmarkElementTest {
 
     /**
      * Test method for
-     * {@link org.perfidix.element.BenchmarkElement#findAfterLastRun()}.
+     * {@link org.perfidix.element.BenchmarkMethod#findAfterLastRun()}.
      */
     @Test
     public void testFindAfterLastRun1() {
@@ -401,11 +395,10 @@ public class BenchmarkElementTest {
             currentClassToTest = new TestAfterLastRun1();
             final Method[] meths =
                     currentClassToTest.getClass().getDeclaredMethods();
-            BenchmarkElement elem = null;
+            BenchmarkMethod elem = null;
             for (final Method meth : meths) {
-                if (BenchmarkElement.isBenchmarkable(meth)) {
-                    final BenchmarkElement checkElem =
-                            new BenchmarkElement(meth);
+                if (BenchmarkMethod.isBenchmarkable(meth)) {
+                    final BenchmarkMethod checkElem = new BenchmarkMethod(meth);
 
                     if (elem == null) {
                         elem = checkElem;
@@ -425,7 +418,7 @@ public class BenchmarkElementTest {
 
     /**
      * Test method for
-     * {@link org.perfidix.element.BenchmarkElement#findAfterLastRun()}.
+     * {@link org.perfidix.element.BenchmarkMethod#findAfterLastRun()}.
      */
     @Test
     public void testFindAfterLastRun2() {
@@ -436,11 +429,10 @@ public class BenchmarkElementTest {
             currentClassToTest = new TestAfterLastRun2();
             final Method[] meths =
                     currentClassToTest.getClass().getDeclaredMethods();
-            BenchmarkElement elem = null;
+            BenchmarkMethod elem = null;
             for (final Method meth : meths) {
-                if (BenchmarkElement.isBenchmarkable(meth)) {
-                    final BenchmarkElement checkElem =
-                            new BenchmarkElement(meth);
+                if (BenchmarkMethod.isBenchmarkable(meth)) {
+                    final BenchmarkMethod checkElem = new BenchmarkMethod(meth);
 
                     if (elem == null) {
                         elem = checkElem;
@@ -460,7 +452,7 @@ public class BenchmarkElementTest {
 
     /**
      * Test method for
-     * {@link org.perfidix.element.BenchmarkElement#getNumberOfAnnotatedRuns(Method)}
+     * {@link org.perfidix.element.BenchmarkMethod#getNumberOfAnnotatedRuns(Method)}
      * .
      */
     @Test
@@ -473,14 +465,12 @@ public class BenchmarkElementTest {
             assertEquals(3, meths.length);
 
             assertEquals("bench1", meths[0].getName());
-            assertEquals(10, BenchmarkElement
-                    .getNumberOfAnnotatedRuns(meths[0]));
+            assertEquals(10, BenchmarkMethod.getNumberOfAnnotatedRuns(meths[0]));
             assertEquals("bench2", meths[1].getName());
-            assertEquals(20, BenchmarkElement
-                    .getNumberOfAnnotatedRuns(meths[1]));
+            assertEquals(20, BenchmarkMethod.getNumberOfAnnotatedRuns(meths[1]));
             assertEquals("bench3", meths[2].getName());
             try {
-                BenchmarkElement.getNumberOfAnnotatedRuns(meths[2]);
+                BenchmarkMethod.getNumberOfAnnotatedRuns(meths[2]);
                 fail("Must throw IllegalStateException!");
             } catch (IllegalArgumentException e) {
                 assertTrue(e.getMessage().startsWith("Method"));
@@ -489,50 +479,6 @@ public class BenchmarkElementTest {
         } catch (Exception e) {
             fail("Should never fail in testRuns!");
         }
-    }
-
-    /**
-     * Test method for
-     * {@link org.perfidix.element.BenchmarkElement#getMethodRunID()}.
-     */
-    @Test
-    public void testGetMethodRunID() {
-        try {
-            currentClassToTest = new TestMethodRunID();
-            final Method[] meths =
-                    currentClassToTest.getClass().getDeclaredMethods();
-
-            assertEquals(2, meths.length);
-
-            final BenchmarkElement bench11 = new BenchmarkElement(meths[0]);
-            final BenchmarkElement bench12 = new BenchmarkElement(meths[0]);
-
-            final BenchmarkElement bench21 = new BenchmarkElement(meths[1]);
-
-            assertEquals("bench1", bench11.getMethodToBench().getName());
-            assertEquals("bench1", bench12.getMethodToBench().getName());
-
-            assertEquals(0, bench11.getMethodRunID());
-            assertEquals(1, bench12.getMethodRunID());
-
-            assertEquals("bench2", bench21.getMethodToBench().getName());
-            assertEquals(0, bench21.getMethodRunID());
-
-        } catch (Exception e) {
-            fail("Should never fail in testRuns!");
-        }
-    }
-
-    class TestMethodRunID {
-
-        @Bench
-        public void bench1() {
-        }
-
-        @Bench
-        public void bench2() {
-        }
-
     }
 
     @BenchClass(runs = 20)

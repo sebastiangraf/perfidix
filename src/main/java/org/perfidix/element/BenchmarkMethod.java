@@ -23,7 +23,6 @@ package org.perfidix.element;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-import java.util.Hashtable;
 
 import org.perfidix.annotation.AfterBenchClass;
 import org.perfidix.annotation.AfterEachRun;
@@ -50,10 +49,7 @@ import org.perfidix.annotation.SkipBench;
  * @see BeforeBenchClass
  * @author Sebastian Graf, University of Konstanz
  */
-public final class BenchmarkElement {
-
-    private final static Hashtable<Method, Integer> usedIDs =
-            new Hashtable<Method, Integer>(0);
+public final class BenchmarkMethod {
 
     /**
      * Method to be benched.
@@ -61,13 +57,8 @@ public final class BenchmarkElement {
     private final Method methodToBench;
 
     /**
-     * ID of the run of this method
-     */
-    private int methodRunID;
-
-    /**
      * Constructor, with a definite method to bench. The method has to be
-     * checked with {@link BenchmarkElement#isBenchmarkable(Method)} first,
+     * checked with {@link BenchmarkMethod#isBenchmarkable(Method)} first,
      * otherwise an IllegalArgumentException could arise.
      * 
      * @param paramMethodToBench
@@ -75,7 +66,7 @@ public final class BenchmarkElement {
      * @throws IllegalArgumentException
      *             if the method is not benchmarkable.
      */
-    public BenchmarkElement(final Method paramMethodToBench) {
+    public BenchmarkMethod(final Method paramMethodToBench) {
         methodToBench = paramMethodToBench;
         if (!isBenchmarkable(methodToBench)) {
             throw new IllegalArgumentException(new StringBuilder(
@@ -83,12 +74,6 @@ public final class BenchmarkElement {
                     .append(paramMethodToBench)
                     .append(" is not benchmarkable.").toString());
         }
-
-        if (!usedIDs.containsKey(methodToBench)) {
-            usedIDs.put(methodToBench, 0);
-        }
-        methodRunID = usedIDs.get(methodToBench);
-        usedIDs.put(methodToBench, methodRunID + 1);
     }
 
     /**
@@ -348,15 +333,6 @@ public final class BenchmarkElement {
     }
 
     /**
-     *Simple getter for encapsulated method.
-     * 
-     * @return the methodRunID
-     */
-    public final int getMethodRunID() {
-        return methodRunID;
-    }
-
-    /**
      * Getting the number of runs corresponding to a given method. The method
      * MUST be a benchmarkable method, otherwise an IllegalStateException
      * exception arises. The number of runs of an annotated method is more
@@ -557,7 +533,6 @@ public final class BenchmarkElement {
     public final int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + methodRunID;
         result =
                 prime
                         * result
@@ -575,9 +550,7 @@ public final class BenchmarkElement {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        BenchmarkElement other = (BenchmarkElement) obj;
-        if (methodRunID != other.methodRunID)
-            return false;
+        BenchmarkMethod other = (BenchmarkMethod) obj;
         if (methodToBench == null) {
             if (other.methodToBench != null)
                 return false;

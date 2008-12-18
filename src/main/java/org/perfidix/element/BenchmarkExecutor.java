@@ -31,6 +31,7 @@ import org.perfidix.annotation.AfterLastRun;
 import org.perfidix.annotation.BeforeEachRun;
 import org.perfidix.annotation.BeforeFirstRun;
 import org.perfidix.meter.AbstractMeter;
+import org.perfidix.result.MethodResult;
 
 /**
  * Corresponding to each method, an executor is launched to execute
@@ -38,7 +39,7 @@ import org.perfidix.meter.AbstractMeter;
  * {@link AfterLastRun} classes. To store the data if the single-execute before
  * classes have been executed, this class is implemented as a singleton to store
  * this information related to the method. All the data comes from the
- * {@link BenchmarkElement} class.
+ * {@link BenchmarkMethod} class.
  * 
  * @author Sebastian Graf, University of Konstanz
  */
@@ -60,10 +61,10 @@ public final class BenchmarkExecutor {
      * Corresponding BenchmarkElement of this executor to get the before/after
      * methods
      */
-    private final BenchmarkElement element;
+    private final BenchmarkMethod element;
 
-    /** Set with all relevant meter to be included in the execution. */
-    private final Set<AbstractMeter> meters;
+    /** Resultset for this method. */
+    private final MethodResult methodRes;
 
     /**
      * Private constructor, just setting the booleans and one element to get the
@@ -76,12 +77,12 @@ public final class BenchmarkExecutor {
      *              of the bench itself.
      */
     private BenchmarkExecutor(
-            final BenchmarkElement paramElement,
+            final BenchmarkMethod paramElement,
             final Set<AbstractMeter> paramMeters) {
         beforeFirstRunExecuted = false;
         afterLastRunExecuted = false;
         element = paramElement;
-        meters = paramMeters;
+        methodRes = new MethodResult(element.getMethodToBench(), paramMeters);
 
     }
 
@@ -100,29 +101,16 @@ public final class BenchmarkExecutor {
      *         BenchmarkElement
      */
     public static final BenchmarkExecutor getExecutor(
-            final BenchmarkElement meth, final Set<AbstractMeter> meters) {
+            final BenchmarkMethod meth, final Set<AbstractMeter> meters) {
         // check if new instance needs to be created
         if (!executor.containsKey(meth.getMethodToBench())) {
             executor.put(meth.getMethodToBench(), new BenchmarkExecutor(
                     meth, meters));
         }
 
-        // getting executor and check integrity for BenchmarkElement-instance
-        // and Method-instance
-        final BenchmarkExecutor exec = executor.get(meth.getMethodToBench());
-        if (!exec.meters.equals(meters)) {
-            throw new IllegalStateException(
-                    new StringBuilder(meters.toString())
-                            .append(" and ")
-                            .append(exec.meters.toString())
-                            .append(" differ. ")
-                            .append(
-                                    "The set has to be equal in the whole life cycle of this singleton")
-                            .toString());
-        }
-
         // returning the executor
-        return exec;
+        return executor.get(meth.getMethodToBench());
+
     }
 
     /**
@@ -161,10 +149,25 @@ public final class BenchmarkExecutor {
      */
     public final void executeBench(final Object objToExecute)
             throws IllegalAccessException {
+        final double[] meterResults =
+                new double[methodRes.getRegisteredMeters().size()];
 
-        // invoking the bench itself
         final Method meth = element.getMethodToBench();
-        checkAndExecute(objToExecute, meth);
+
+        int i = 0;
+        for (final AbstractMeter meter : methodRes.getRegisteredMeters()) {
+            meterResults[i] = meter.getValue();
+            i++;
+        }
+
+        invokeReflectiveExecutableMethod(objToExecute, meth);
+
+        i = 0;
+        for (final AbstractMeter meter : methodRes.getRegisteredMeters()) {
+            methodRes.addResult(meter, meterResults[i] - meter.getValue());
+            i++;
+        }
+
     }
 
     /**
@@ -204,8 +207,50 @@ public final class BenchmarkExecutor {
      */
     public static final void checkAndExecute(final Object obj, final Method meth)
             throws IllegalAccessException {
+        final Exception e = checkMethod(obj, meth);
+        if (e != null) {
+            throw new IllegalAccessException(e.toString());
+        } else {
+            invokeReflectiveExecutableMethod(obj, meth);
+        }
+    }
+
+    /**
+     * Method to invoke a reflective invokable method.
+     * 
+     * @param obj
+     *            to be executed
+     * @param meth
+     *            to be executed
+     * @throws IllegalAccessException
+     *             if something is going wrong
+     */
+    private static final void invokeReflectiveExecutableMethod(
+            final Object obj, final Method meth) throws IllegalAccessException {
         final Object[] args = {};
 
+        try {
+            meth.invoke(obj, args);
+        } catch (IllegalArgumentException e) {
+            new IllegalAccessException(e.toString());
+        } catch (InvocationTargetException e) {
+            new IllegalAccessException(e.toString());
+        }
+    }
+
+    /**
+     * Checking a method if it is reflective executable and if the mapping to
+     * the object fits.
+     * 
+     * @param obj
+     *            to be checked.
+     * @param meth
+     *            to be checked
+     * @return an Exception if something is wrong in the mapping, null
+     *         otherwise.
+     */
+    private static final Exception checkMethod(
+            final Object obj, final Method meth) {
         // check if the class of the object to be executed has the given method
         boolean correlationClassMethod = false;
         for (final Method methodOfClass : obj.getClass().getDeclaredMethods()) {
@@ -215,27 +260,19 @@ public final class BenchmarkExecutor {
         }
 
         if (!correlationClassMethod) {
-            throw new IllegalStateException(new StringBuilder(
+            return new IllegalStateException(new StringBuilder(
                     "Object to execute ")
                     .append(obj).append(" is not having a Method named ")
                     .append(meth).append(".").toString());
         }
 
         // check if the method is reflected executable
-        if (!BenchmarkElement.isReflectedExecutable(meth)) {
-            throw new IllegalAccessException(new StringBuilder(
+        if (!BenchmarkMethod.isReflectedExecutable(meth)) {
+            return new IllegalAccessException(new StringBuilder(
                     "Method to execute ").append(meth).append(
                     " is not reflected executable.").toString());
         }
-
-        // invoking the method
-        try {
-            meth.invoke(obj, args);
-        } catch (IllegalArgumentException e) {
-            new IllegalAccessException(e.getMessage());
-        } catch (InvocationTargetException e) {
-            new IllegalAccessException(e.toString());
-        }
-
+        return null;
     }
+
 }

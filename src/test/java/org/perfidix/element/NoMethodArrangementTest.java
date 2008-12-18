@@ -40,18 +40,18 @@ import org.perfidix.annotation.Bench;
  */
 public class NoMethodArrangementTest {
 
-    private Set<BenchmarkElement> elemSet;
+    private Set<BenchmarkMethod> elemSet;
 
     /**
      * Before method to setUp Benchmarkables.
      */
     @Before
     public void setUp() {
-        elemSet = new HashSet<BenchmarkElement>();
+        elemSet = new HashSet<BenchmarkMethod>();
         final Class<?> testClazz = new TestBenchClass().getClass();
         for (final Method meth : testClazz.getDeclaredMethods()) {
-            if (BenchmarkElement.isBenchmarkable(meth)) {
-                elemSet.add(new BenchmarkElement(meth));
+            if (BenchmarkMethod.isBenchmarkable(meth)) {
+                elemSet.add(new BenchmarkMethod(meth));
             }
         }
     }
@@ -69,12 +69,12 @@ public class NoMethodArrangementTest {
                                     elemSet,
                                     AbstractMethodArrangement.KindOfMethodArrangement.NoArrangement);
             final String[] expectedNames = { "bench1", "bench2", "bench4" };
-            final Iterator<BenchmarkElement> iterBench = arrangement.iterator();
+            final Iterator<BenchmarkMethod> iterBench = arrangement.iterator();
+            assertEquals(expectedNames[0], iterBench
+                    .next().getMethodToBench().getName());
             assertEquals(expectedNames[1], iterBench
                     .next().getMethodToBench().getName());
-            assertEquals(expectedNames[2], iterBench
-                    .next().getMethodToBench().getName());
-            assertEquals(expectedNames[0], iterBench
+            assertEquals(expectedNames[3], iterBench
                     .next().getMethodToBench().getName());
             assertFalse(iterBench.hasNext());
 
