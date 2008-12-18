@@ -1,4 +1,4 @@
-package org.perfidix.visitor;
+package org.perfidix.depreacted;
 
 import java.io.File;
 import java.io.FileWriter;

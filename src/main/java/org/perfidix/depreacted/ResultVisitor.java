@@ -17,7 +17,7 @@
  * 
  */
 
-package org.perfidix.visitor;
+package org.perfidix.depreacted;
 
 import java.util.Formatter;
 
@@ -30,7 +30,6 @@ import org.perfidix.result.AbstractResult;
 public abstract class ResultVisitor {
 
     /**
-     * FIXME: comment.
      */
     protected String floatFormat = "%05.2f";
 

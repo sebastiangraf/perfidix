@@ -69,7 +69,6 @@ public class MethodResult extends AbstractResult {
         } else {
             super.getResultSet(meter).add(data);
         }
-
     }
 
     /**

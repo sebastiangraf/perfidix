@@ -34,9 +34,9 @@ import org.apache.commons.math.stat.descriptive.rank.Min;
 import org.apache.commons.math.stat.descriptive.rank.Percentile;
 import org.apache.commons.math.stat.descriptive.summary.Sum;
 import org.apache.commons.math.stat.descriptive.summary.SumOfSquares;
+import org.perfidix.depreacted.AsciiTable;
+import org.perfidix.depreacted.NiceTable;
 import org.perfidix.meter.AbstractMeter;
-import org.perfidix.visitor.AsciiTable;
-import org.perfidix.visitor.NiceTable;
 
 /**
  * Results which are generated through the benchmark are stored in the inherted

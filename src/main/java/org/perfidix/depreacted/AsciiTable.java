@@ -17,7 +17,7 @@
  * 
  */
 
-package org.perfidix.visitor;
+package org.perfidix.depreacted;
 
 import java.util.Formatter;
 
