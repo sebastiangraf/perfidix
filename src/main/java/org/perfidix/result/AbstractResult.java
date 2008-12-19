@@ -102,10 +102,10 @@ public abstract class AbstractResult {
      * @return the square sum.
      */
     public final double squareSum(final AbstractMeter meter) {
-        final AbstractUnivariateStatistic mean = new SumOfSquares();
+        final AbstractUnivariateStatistic sqrSum = new SumOfSquares();
         final CollectionDoubleCollection doubleColl =
                 new CollectionDoubleCollection(this.meterResults.get(meter));
-        return mean.evaluate(
+        return sqrSum.evaluate(
                 doubleColl.toArray(), 0, doubleColl.toArray().length);
     }
 
@@ -117,10 +117,10 @@ public abstract class AbstractResult {
      * @return the standard deviation
      */
     public final double getStandardDeviation(final AbstractMeter meter) {
-        final AbstractUnivariateStatistic mean = new StandardDeviation();
+        final AbstractUnivariateStatistic stdDev = new StandardDeviation();
         final CollectionDoubleCollection doubleColl =
                 new CollectionDoubleCollection(this.meterResults.get(meter));
-        return mean.evaluate(
+        return stdDev.evaluate(
                 doubleColl.toArray(), 0, doubleColl.toArray().length);
     }
 
@@ -132,10 +132,10 @@ public abstract class AbstractResult {
      * @return the sum of all runs.
      */
     public final double sum(final AbstractMeter meter) {
-        final AbstractUnivariateStatistic mean = new Sum();
+        final AbstractUnivariateStatistic sum = new Sum();
         final CollectionDoubleCollection doubleColl =
                 new CollectionDoubleCollection(this.meterResults.get(meter));
-        return mean.evaluate(
+        return sum.evaluate(
                 doubleColl.toArray(), 0, doubleColl.toArray().length);
     }
 
@@ -147,10 +147,10 @@ public abstract class AbstractResult {
      * @return the minimum result value.
      */
     public double min(final AbstractMeter meter) {
-        final AbstractUnivariateStatistic mean = new Min();
+        final AbstractUnivariateStatistic min = new Min();
         final CollectionDoubleCollection doubleColl =
                 new CollectionDoubleCollection(this.meterResults.get(meter));
-        return mean.evaluate(
+        return min.evaluate(
                 doubleColl.toArray(), 0, doubleColl.toArray().length);
     }
 
@@ -163,10 +163,10 @@ public abstract class AbstractResult {
      * @return the 99% confidence
      */
     public final double getConf99(final AbstractMeter meter) {
-        final AbstractUnivariateStatistic mean = new Percentile(99.0);
+        final AbstractUnivariateStatistic conf99 = new Percentile(99.0);
         final CollectionDoubleCollection doubleColl =
                 new CollectionDoubleCollection(this.meterResults.get(meter));
-        return mean.evaluate(
+        return conf99.evaluate(
                 doubleColl.toArray(), 0, doubleColl.toArray().length);
 
     }
@@ -180,10 +180,10 @@ public abstract class AbstractResult {
      * @return the 95% confidence
      */
     public final double getConf95(final AbstractMeter meter) {
-        final AbstractUnivariateStatistic mean = new Percentile(95.0);
+        final AbstractUnivariateStatistic conf95 = new Percentile(95.0);
         final CollectionDoubleCollection doubleColl =
                 new CollectionDoubleCollection(this.meterResults.get(meter));
-        return mean.evaluate(
+        return conf95.evaluate(
                 doubleColl.toArray(), 0, doubleColl.toArray().length);
     }
 
@@ -195,10 +195,10 @@ public abstract class AbstractResult {
      * @return the maximum result value.
      */
     public final double max(final AbstractMeter meter) {
-        final AbstractUnivariateStatistic mean = new Max();
+        final AbstractUnivariateStatistic max = new Max();
         final CollectionDoubleCollection doubleColl =
                 new CollectionDoubleCollection(this.meterResults.get(meter));
-        return mean.evaluate(
+        return max.evaluate(
                 doubleColl.toArray(), 0, doubleColl.toArray().length);
     }
 

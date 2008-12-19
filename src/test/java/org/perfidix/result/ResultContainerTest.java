@@ -20,6 +20,7 @@
  */
 package org.perfidix.result;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 import org.junit.After;
@@ -62,14 +63,36 @@ public class ResultContainerTest {
 
     }
 
+    /**
+     * Test method for
+     * {@link org.perfidix.result.AbstractResult#mean(org.perfidix.meter.AbstractMeter)}
+     * ,
+     * {@link org.perfidix.result.AbstractResult#min(org.perfidix.meter.AbstractMeter)}
+     * ,
+     * {@link org.perfidix.result.AbstractResult#max(org.perfidix.meter.AbstractMeter)}
+     * ,
+     * {@link org.perfidix.result.AbstractResult#getConf95(org.perfidix.meter.AbstractMeter)}
+     * ,
+     * {@link org.perfidix.result.AbstractResult#getConf99(org.perfidix.meter.AbstractMeter)}
+     * ,
+     * {@link org.perfidix.result.AbstractResult#sum(org.perfidix.meter.AbstractMeter)}
+     * ,
+     * {@link org.perfidix.result.AbstractResult#squareSum(org.perfidix.meter.AbstractMeter)}
+     * .
+     */
     @Test
-    public void testMethodResult() {
+    public void testStatisticalMethods() {
         try {
-            System.out.println(methodRes.mean(meter));
-            System.out.println(methodRes.getConf95(meter));
-            System.out.println(methodRes.getConf99(meter));
-            System.out.println(methodRes.getStandardDeviation(meter));
-            System.out.println(methodRes.sum(meter));
+            assertEquals(5.5, methodRes.mean(meter), 0);
+            assertEquals(1.0, methodRes.min(meter), 0);
+            assertEquals(10.0, methodRes.max(meter), 0);
+            assertEquals(10.0, methodRes.getConf95(meter), 0);
+            assertEquals(10.0, methodRes.getConf99(meter), 0);
+            assertEquals(3.0276503540974917, methodRes
+                    .getStandardDeviation(meter), 0.000001);
+            assertEquals(55.0, methodRes.sum(meter), 0);
+            assertEquals(385.0, methodRes.squareSum(meter), 0);
+
         } catch (Exception e) {
             fail(e.toString());
         }
