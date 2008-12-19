@@ -50,6 +50,13 @@ public final class ClassResult extends ResultContainer<MethodResult> {
             final Set<MethodResult> paramMethodResults) {
         super();
         clazz = paramClass;
+        if (!checkMethodResultCorrelation(paramMethodResults)) {
+            throw new IllegalArgumentException(
+                    new StringBuilder("Correlation ")
+                            .append(paramMethodResults).append(
+                                    " doesn't correspond to class ").append(
+                                    clazz).toString());
+        }
         setUpContainer(paramMethodResults);
     }
 
@@ -62,4 +69,21 @@ public final class ClassResult extends ResultContainer<MethodResult> {
         return clazz;
     }
 
+    /**
+     * Method to check if the methodresults correspond to the class registered
+     * with this result.
+     * 
+     * @param methResults
+     *            results to check
+     * @return true if matched, false otherwise
+     */
+    private final boolean checkMethodResultCorrelation(
+            final Set<MethodResult> methResults) {
+        for (final MethodResult res : methResults) {
+            if (res.getMeth().getDeclaringClass() != clazz) {
+                return false;
+            }
+        }
+        return true;
+    }
 }

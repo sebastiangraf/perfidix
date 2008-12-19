@@ -20,6 +20,7 @@
 package org.perfidix.result;
 
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.Set;
 
 import org.perfidix.meter.AbstractMeter;
@@ -56,8 +57,12 @@ public abstract class ResultContainer<ResultType extends AbstractResult>
      */
     public final void setUpContainer(final Set<ResultType> res) {
         elements.clear();
-        for (final AbstractMeter meter : getRegisteredMeters()) {
-            for (final ResultType singleType : res) {
+        elements.addAll(res);
+        for (final ResultType singleType : res) {
+            for (final AbstractMeter meter : singleType.getRegisteredMeters()) {
+                if (!getRegisteredMeters().contains(meter)) {
+                    meterResults.put(meter, new LinkedList<Double>());
+                }
                 getResultSet(meter).addAll(singleType.getResultSet(meter));
             }
         }
