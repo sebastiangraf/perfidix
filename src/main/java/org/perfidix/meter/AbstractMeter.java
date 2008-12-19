@@ -69,21 +69,21 @@ public abstract class AbstractMeter {
      */
     public abstract String getName();
 
-    /**
-     * The String representation of this meter with its current value.
-     * 
-     * @return a string representation of this meter.
-     */
-    @Override
-    public final String toString() {
-        return getName()
-                + "["
-                + getUnit()
-                + "]: ("
-                + getValue()
-                + ") "
-                + getUnitDescription();
-    }
+    // /**
+    // * The String representation of this meter with its current value.
+    // *
+    // * @return a string representation of this meter.
+    // */
+    // @Override
+    // public final String toString() {
+    // return getName()
+    // + "["
+    // + getUnit()
+    // + "]: ("
+    // + getValue()
+    // + ") "
+    // + getUnitDescription();
+    // }
 
     /**
      * {@inheritDoc}

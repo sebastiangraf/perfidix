@@ -33,8 +33,6 @@ import org.apache.commons.math.stat.descriptive.rank.Min;
 import org.apache.commons.math.stat.descriptive.rank.Percentile;
 import org.apache.commons.math.stat.descriptive.summary.Sum;
 import org.apache.commons.math.stat.descriptive.summary.SumOfSquares;
-import org.perfidix.depreacted.AsciiTable;
-import org.perfidix.depreacted.NiceTable;
 import org.perfidix.meter.AbstractMeter;
 
 /**
@@ -204,46 +202,47 @@ public abstract class AbstractResult {
                 doubleColl.toArray(), 0, doubleColl.toArray().length);
     }
 
-    /**
-     * @param indent
-     *            the number of indentations to use.
-     * @param displayRawData
-     *            whether to show the raw data also.
-     * @return string
-     */
-    private final String toString(final int indent, final boolean displayRawData) {
-
-        final AsciiTable v = new AsciiTable();
-        v.visit(this);
-
-        if (displayRawData) {
-            String returnVal = "";
-            for (final AbstractMeter meter : this.meterResults.keySet()) {
-                final CollectionDoubleCollection doubleColl =
-                        new CollectionDoubleCollection(this.meterResults
-                                .get(meter));
-                returnVal =
-                        returnVal
-                                + NiceTable.Util.implode(",", doubleColl
-                                        .toArray())
-                                + "\n";
-            }
-            return returnVal;
-        } else {
-            return v.toString();
-        }
-
-    }
-
-    /**
-     * to string implementation.
-     * 
-     * @return the result.
-     */
-    @Override
-    public final String toString() {
-        return toString(-1, false);
-
-    }
+    // /**
+    // * @param indent
+    // * the number of indentations to use.
+    // * @param displayRawData
+    // * whether to show the raw data also.
+    // * @return string
+    // */
+    // private final String toString(final int indent, final boolean
+    // displayRawData) {
+    //
+    // final AsciiTable v = new AsciiTable();
+    // v.visit(this);
+    //
+    // if (displayRawData) {
+    // String returnVal = "";
+    // for (final AbstractMeter meter : this.meterResults.keySet()) {
+    // final CollectionDoubleCollection doubleColl =
+    // new CollectionDoubleCollection(this.meterResults
+    // .get(meter));
+    // returnVal =
+    // returnVal
+    // + NiceTable.Util.implode(",", doubleColl
+    // .toArray())
+    // + "\n";
+    // }
+    // return returnVal;
+    // } else {
+    // return v.toString();
+    // }
+    //
+    // }
+    //
+    // /**
+    // * to string implementation.
+    // *
+    // * @return the result.
+    // */
+    // @Override
+    // public final String toString() {
+    // return toString(-1, false);
+    //
+    // }
 
 }

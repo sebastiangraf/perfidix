@@ -169,7 +169,6 @@ public final class CountingMeter extends AbstractMeter
     public final int hashCode() {
         final int prime = 31;
         int result = prime;
-        result = prime * result + (int) (counter ^ (counter >>> 32));
         result = prime * result + ((name == null) ? 0 : name.hashCode());
         result = prime * result + ((unit == null) ? 0 : unit.hashCode());
         result =
@@ -188,8 +187,6 @@ public final class CountingMeter extends AbstractMeter
         if (getClass() != obj.getClass())
             return false;
         CountingMeter other = (CountingMeter) obj;
-        if (counter != other.counter)
-            return false;
         if (name == null) {
             if (other.name != null)
                 return false;

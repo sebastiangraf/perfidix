@@ -22,13 +22,9 @@ package org.perfidix.result;
 
 import static org.junit.Assert.fail;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.perfidix.meter.AbstractMeter;
 import org.perfidix.meter.CountingMeter;
 
 /**
@@ -40,14 +36,9 @@ public class ResultContainerTest {
 
     private final static int NUMBEROFTICKS = 10;
 
-    /** Used meters, single CountingMeter */
-    private Set<AbstractMeter> usedMeters;
+    private MethodResult methodRes;
 
-    private Class1 class1;
-
-    private Class2 class2;
-
-    private Class<?>[] args;
+    private CountingMeter meter;
 
     /**
      * Simple setUp.
@@ -56,34 +47,29 @@ public class ResultContainerTest {
      */
     @Before
     public void setUp() throws Exception {
-        usedMeters = new HashSet<AbstractMeter>();
-        final CountingMeter meter1 = new CountingMeter();
-        final CountingMeter meter2 = new CountingMeter();
-        for (int i = 0; i < NUMBEROFTICKS; i++) {
-            meter1.tick();
-        }
-        for (int i = 0; i < NUMBEROFTICKS; i++) {
-            meter2.tick();
-        }
-        usedMeters.add(meter1);
-        usedMeters.add(meter2);
+        final Class<?>[] args = {};
+        final Class1 class1 = new Class1();
+        meter = new CountingMeter();
 
-        class1 = new Class1();
-        class2 = new Class2();
+        methodRes =
+                new MethodResult(class1.getClass().getDeclaredMethod(
+                        "method", args));
 
-        args = new Class<?>[0];
+        for (int i = 0; i < NUMBEROFTICKS; i++) {
+            meter.tick();
+            methodRes.addResult(meter, meter.getValue());
+        }
+
     }
 
     @Test
     public void testMethodResult() {
         try {
-            final MethodResult res =
-                    new MethodResult(class1.getClass().getDeclaredMethod(
-                            "method", args));
-            for (final AbstractMeter meter : usedMeters) {
-                res.addResult(meter, meter.getValue());
-            }
-
+            System.out.println(methodRes.mean(meter));
+            System.out.println(methodRes.getConf95(meter));
+            System.out.println(methodRes.getConf99(meter));
+            System.out.println(methodRes.getStandardDeviation(meter));
+            System.out.println(methodRes.sum(meter));
         } catch (Exception e) {
             fail(e.toString());
         }
@@ -96,11 +82,8 @@ public class ResultContainerTest {
      */
     @After
     public void tearDown() throws Exception {
-        usedMeters.clear();
-        usedMeters = null;
-        class1 = null;
-        class2 = null;
-        args = null;
+        methodRes = null;
+        meter = null;
     }
 
     class Class1 {

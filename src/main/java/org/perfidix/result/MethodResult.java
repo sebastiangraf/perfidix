@@ -62,7 +62,7 @@ public final class MethodResult extends AbstractResult {
         if (!super.meterResults.containsKey(meter)) {
             super.meterResults.put(meter, new LinkedList<Double>());
         }
-        super.getResultSet(meter).add(meter.getValue());
+        super.getResultSet(meter).add(value);
     }
 
     /**

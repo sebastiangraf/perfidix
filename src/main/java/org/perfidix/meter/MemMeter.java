@@ -92,9 +92,6 @@ public final class MemMeter extends AbstractMeter {
     public final int hashCode() {
         final int prime = 31;
         int result = prime;
-        long temp;
-        temp = Double.doubleToLongBits(memAlreadyUsed);
-        result = prime * result + (int) (temp ^ (temp >>> 32));
         result = prime * result + ((scale == null) ? 0 : scale.hashCode());
         return result;
     }
@@ -107,9 +104,6 @@ public final class MemMeter extends AbstractMeter {
         if (getClass() != obj.getClass())
             return false;
         MemMeter other = (MemMeter) obj;
-        if (Double.doubleToLongBits(memAlreadyUsed) != Double
-                .doubleToLongBits(other.memAlreadyUsed))
-            return false;
         if (scale == null) {
             if (other.scale != null)
                 return false;
