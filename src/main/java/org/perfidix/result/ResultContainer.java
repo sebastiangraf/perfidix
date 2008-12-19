@@ -25,21 +25,25 @@ import java.util.Set;
 import org.perfidix.meter.AbstractMeter;
 
 /**
- * the result container contains more results. it is by definition recursive, so
+ * The result container contains more results. It is by definition recursive, so
  * it can handle as much diversity as possible
  * 
- * @author axo axo@axolander.de
- * @since 08-2005
- * @version 0.8
+ * @author Alexander Onea, neue Couch
+ * @author Sebastian Graf, University of Konstanz
  * @param <ResultType>
  *            the type of the children.
  */
 public abstract class ResultContainer<ResultType extends AbstractResult>
         extends AbstractResult {
 
+    /** Set of all elements */
     private final Set<ResultType> elements;
 
     /**
+     * Constructor.
+     * 
+     * @param meters
+     *            the meters of this result
      */
     protected ResultContainer(final Set<AbstractMeter> meters) {
         super(meters);
@@ -47,7 +51,8 @@ public abstract class ResultContainer<ResultType extends AbstractResult>
     }
 
     /**
-     * appends a result to the children.
+     * Clears the elements and appending the elements of the underlaying
+     * elements.
      * 
      * @param res
      *            the result to append.
