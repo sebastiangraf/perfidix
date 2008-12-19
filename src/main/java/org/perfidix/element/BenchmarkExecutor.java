@@ -32,6 +32,7 @@ import org.perfidix.annotation.AfterLastRun;
 import org.perfidix.annotation.BeforeEachRun;
 import org.perfidix.annotation.BeforeFirstRun;
 import org.perfidix.meter.AbstractMeter;
+import org.perfidix.meter.NotAutomaticallyTicking;
 import org.perfidix.result.BenchmarkResult;
 import org.perfidix.result.ClassResult;
 import org.perfidix.result.MethodResult;
@@ -69,6 +70,9 @@ public final class BenchmarkExecutor {
     /** Resultset for this method. */
     private final MethodResult methodRes;
 
+    /** Set with all meters to be benched automatically */
+    private final Set<AbstractMeter> metersToBench;
+
     /**
      * Private constructor, just setting the booleans and one element to get the
      * before/after methods.
@@ -85,7 +89,13 @@ public final class BenchmarkExecutor {
         beforeFirstRunExecuted = false;
         afterLastRunExecuted = false;
         element = paramElement;
-        methodRes = new MethodResult(element.getMethodToBench(), paramMeters);
+        methodRes = new MethodResult(element.getMethodToBench());
+        metersToBench = new HashSet<AbstractMeter>();
+        for (final AbstractMeter meter : paramMeters) {
+            if (!(meter instanceof NotAutomaticallyTicking)) {
+                metersToBench.add(meter);
+            }
+        }
 
     }
 
@@ -152,13 +162,13 @@ public final class BenchmarkExecutor {
      */
     public final void executeBench(final Object objToExecute)
             throws IllegalAccessException {
-        final double[] meterResults =
-                new double[methodRes.getRegisteredMeters().size()];
+
+        final double[] meterResults = new double[metersToBench.size()];
 
         final Method meth = element.getMethodToBench();
 
         int i = 0;
-        for (final AbstractMeter meter : methodRes.getRegisteredMeters()) {
+        for (final AbstractMeter meter : metersToBench) {
             meterResults[i] = meter.getValue();
             i++;
         }
@@ -166,7 +176,7 @@ public final class BenchmarkExecutor {
         invokeReflectiveExecutableMethod(objToExecute, meth);
 
         i = 0;
-        for (final AbstractMeter meter : methodRes.getRegisteredMeters()) {
+        for (final AbstractMeter meter : metersToBench) {
             methodRes.addResult(meter, meterResults[i] - meter.getValue());
             i++;
         }
@@ -281,20 +291,7 @@ public final class BenchmarkExecutor {
     public static final BenchmarkResult getBenchmarkResult() {
         final Map<Class<?>, Set<MethodResult>> classTempResults =
                 new Hashtable<Class<?>, Set<MethodResult>>();
-        Set<AbstractMeter> meters = null;
         for (final BenchmarkExecutor exec : executor.values()) {
-            if (meters == null) {
-                meters = exec.methodRes.getRegisteredMeters();
-            } else {
-                if (meters != exec.methodRes.getRegisteredMeters()) {
-                    throw new IllegalStateException(new StringBuilder(meters
-                            .toString())
-                            .append(" is not equivalent to ").append(
-                                    exec.methodRes
-                                            .getRegisteredMeters().toString())
-                            .append("!").toString());
-                }
-            }
 
             final Class<?> clazz = exec.methodRes.getMeth().getDeclaringClass();
             if (!classTempResults.containsKey(clazz)) {
@@ -305,10 +302,10 @@ public final class BenchmarkExecutor {
 
         final Set<ClassResult> classResults = new HashSet<ClassResult>();
         for (final Class<?> clazz : classTempResults.keySet()) {
-            classResults.add(new ClassResult(clazz, meters, classTempResults
-                    .get(clazz)));
+            classResults
+                    .add(new ClassResult(clazz, classTempResults.get(clazz)));
         }
 
-        return new BenchmarkResult(meters, classResults);
+        return new BenchmarkResult(classResults);
     }
 }

@@ -41,12 +41,9 @@ public abstract class ResultContainer<ResultType extends AbstractResult>
 
     /**
      * Constructor.
-     * 
-     * @param meters
-     *            the meters of this result
      */
-    protected ResultContainer(final Set<AbstractMeter> meters) {
-        super(meters);
+    protected ResultContainer() {
+        super();
         elements = new HashSet<ResultType>();
     }
 

@@ -21,7 +21,6 @@ package org.perfidix.result;
 
 import java.util.Collection;
 import java.util.Hashtable;
-import java.util.LinkedList;
 import java.util.Map;
 import java.util.Set;
 
@@ -51,16 +50,13 @@ public abstract class AbstractResult {
     /**
      * Results mapped to the meters
      */
-    private final Map<AbstractMeter, Collection<Double>> meterResults;
+    protected final Map<AbstractMeter, Collection<Double>> meterResults;
 
     /**
      * Constructor with a given name.
      */
-    protected AbstractResult(final Set<AbstractMeter> meters) {
+    protected AbstractResult() {
         meterResults = new Hashtable<AbstractMeter, Collection<Double>>();
-        for (final AbstractMeter meter : meters) {
-            meterResults.put(meter, new LinkedList<Double>());
-        }
 
     }
 

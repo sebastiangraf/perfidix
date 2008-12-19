@@ -22,8 +22,6 @@ package org.perfidix.result;
 
 import java.util.Set;
 
-import org.perfidix.meter.AbstractMeter;
-
 /**
  * This class holds all results related to a benchmarked class. That means that,
  * given a Set with {@link MethodResult} objects, these objects are stored in
@@ -44,15 +42,13 @@ public final class ClassResult extends ResultContainer<MethodResult> {
      * 
      * @param paramClass
      *            class of these results
-     * @param paramMeters
-     *            the meters for these results
      * @param paramMethodResults
      *            the {@link MethodResult} which build up this result
      */
     public ClassResult(
-            final Class<?> paramClass, final Set<AbstractMeter> paramMeters,
+            final Class<?> paramClass,
             final Set<MethodResult> paramMethodResults) {
-        super(paramMeters);
+        super();
         clazz = paramClass;
         setUpContainer(paramMethodResults);
     }

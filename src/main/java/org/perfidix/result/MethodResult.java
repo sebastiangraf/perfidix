@@ -21,7 +21,7 @@
 package org.perfidix.result;
 
 import java.lang.reflect.Method;
-import java.util.Set;
+import java.util.LinkedList;
 
 import org.perfidix.meter.AbstractMeter;
 
@@ -43,12 +43,9 @@ public final class MethodResult extends AbstractResult {
      * 
      * @param paramMethod
      *            , the method related to these results
-     * @param paramMeters
-     *            , the related meters to this results
      */
-    public MethodResult(
-            final Method paramMethod, final Set<AbstractMeter> paramMeters) {
-        super(paramMeters);
+    public MethodResult(final Method paramMethod) {
+        super();
         meth = paramMethod;
 
     }
@@ -57,18 +54,15 @@ public final class MethodResult extends AbstractResult {
      * Adding a result to a given meter
      * 
      * @param meter
-     *            where the result should be stored to.
-     * @param data
-     *            to be stored.
+     *            the meter to which the data is related to
+     * @param value
+     *            the value to be snapshot
      */
-    public final void addResult(final AbstractMeter meter, final double data) {
-        if (!super.getRegisteredMeters().contains(meter)) {
-            throw new IllegalStateException(new StringBuilder(
-                    "Need to initialize the meter first! ")
-                    .append(meter).append(" was not initialized!").toString());
-        } else {
-            super.getResultSet(meter).add(data);
+    public final void addResult(final AbstractMeter meter, final double value) {
+        if (!super.meterResults.containsKey(meter)) {
+            super.meterResults.put(meter, new LinkedList<Double>());
         }
+        super.getResultSet(meter).add(meter.getValue());
     }
 
     /**

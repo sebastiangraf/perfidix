@@ -22,8 +22,6 @@ package org.perfidix.result;
 
 import java.util.Set;
 
-import org.perfidix.meter.AbstractMeter;
-
 /**
  * This class holds the data of the whole benchmark in different
  * {@link ClassResult} objects.
@@ -36,15 +34,11 @@ public final class BenchmarkResult extends ResultContainer<ClassResult> {
     /**
      * Constructor.
      * 
-     * @param paramMeters
-     *            the meters for this benchmark
      * @param paramClassResults
      *            the results from the different {@link ClassResult} objects.
      */
-    public BenchmarkResult(
-            final Set<AbstractMeter> paramMeters,
-            final Set<ClassResult> paramClassResults) {
-        super(paramMeters);
+    public BenchmarkResult(final Set<ClassResult> paramClassResults) {
+        super();
         setUpContainer(paramClassResults);
     }
 
