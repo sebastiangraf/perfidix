@@ -21,12 +21,12 @@ package org.perfidix.ouput;
 
 import java.util.Formatter;
 
-import org.perfidix.result.ResultContainer;
+import org.perfidix.result.BenchmarkResult;
 
 /**
  * The ResultVisitor is able to visit and view the results. The idea is that
  * every implementing class can offer all results as long as they are a
- * {@link ResultContainer}. The implementing class should know how to handle
+ * {@link BenchmarkResult}. The implementing class should know how to handle
  * these results.
  * 
  * @author Alexander Onea, neue Couch
@@ -38,6 +38,14 @@ public abstract class ResultVisitor {
      * Constant to offer one fix format to display double-variables.
      */
     protected final static String FLOATFORMAT = "%05.2f";
+
+    /**
+     * Visiting the {@link BenchmarkResult} and doint something to get a string.
+     * 
+     * @param res
+     *            the {@link BenchmarkResult}
+     */
+    public abstract void visitBenchmark(final BenchmarkResult res);
 
     /**
      * Formats a double.

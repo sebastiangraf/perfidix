@@ -155,18 +155,18 @@ public abstract class AbstractResult {
     }
 
     /**
-     * Computes the confidence 99 interval-factor. This value has to be combined
+     * Computes the confidence 05 interval-factor. This value has to be combined
      * with the mean to get the confidence-interval.
      * 
      * @param meter
-     *            the meter for the 99-confidence interval factor
+     *            the meter for the 05-confidence interval factor
      * @return the 99% confidence
      */
-    public final double getConf99(final AbstractMeter meter) {
-        final AbstractUnivariateStatistic conf99 = new Percentile(99.0);
+    public final double getConf05(final AbstractMeter meter) {
+        final AbstractUnivariateStatistic conf05 = new Percentile(5.0);
         final CollectionDoubleCollection doubleColl =
                 new CollectionDoubleCollection(this.meterResults.get(meter));
-        return conf99.evaluate(
+        return conf05.evaluate(
                 doubleColl.toArray(), 0, doubleColl.toArray().length);
 
     }

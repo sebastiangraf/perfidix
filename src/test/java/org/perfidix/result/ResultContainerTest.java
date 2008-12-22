@@ -115,8 +115,9 @@ public class ResultContainerTest {
         assertEquals(5.5, methodRes11.mean(meter1), 0);
         assertEquals(1.0, methodRes11.min(meter1), 0);
         assertEquals(10.0, methodRes11.max(meter1), 0);
+        assertEquals(1.0, methodRes11.getConf05(meter1), 0);
         assertEquals(10.0, methodRes11.getConf95(meter1), 0);
-        assertEquals(10.0, methodRes11.getConf99(meter1), 0);
+
         assertEquals(3.0276503540974917, methodRes11
                 .getStandardDeviation(meter1), 0.000001);
         assertEquals(55.0, methodRes11.sum(meter1), 0);
@@ -125,8 +126,8 @@ public class ResultContainerTest {
         assertEquals(30.5, methodRes12.mean(meter1), 0);
         assertEquals(11.0, methodRes12.min(meter1), 0);
         assertEquals(50.0, methodRes12.max(meter1), 0);
+        assertEquals(12.05, methodRes12.getConf05(meter1), 0);
         assertEquals(48.95, methodRes12.getConf95(meter1), 0);
-        assertEquals(50.0, methodRes12.getConf99(meter1), 0);
         assertEquals(11.69045194450012, methodRes12
                 .getStandardDeviation(meter1), 0.000001);
         assertEquals(1220.0, methodRes12.sum(meter1), 0);
@@ -135,8 +136,8 @@ public class ResultContainerTest {
         assertEquals(10.5, methodRes21.mean(meter2), 0);
         assertEquals(1.0, methodRes21.min(meter2), 0);
         assertEquals(20.0, methodRes21.max(meter2), 0);
+        assertEquals(1.05, methodRes21.getConf05(meter2), 0);
         assertEquals(19.95, methodRes21.getConf95(meter2), 0);
-        assertEquals(20.0, methodRes21.getConf99(meter2), 0);
         assertEquals(5.916079783099616, methodRes21
                 .getStandardDeviation(meter2), 0.000001);
         assertEquals(210.0, methodRes21.sum(meter2), 0);
@@ -145,8 +146,8 @@ public class ResultContainerTest {
         assertEquals(60.5, methodRes22.mean(meter2), 0);
         assertEquals(21.0, methodRes22.min(meter2), 0);
         assertEquals(100.0, methodRes22.max(meter2), 0);
+        assertEquals(24.05, methodRes22.getConf05(meter2), 0);
         assertEquals(96.95, methodRes22.getConf95(meter2), 0);
-        assertEquals(100.0, methodRes22.getConf99(meter2), 0);
         assertEquals(
                 23.2379000772445, methodRes22.getStandardDeviation(meter2),
                 0.000001);
@@ -190,8 +191,8 @@ public class ResultContainerTest {
         assertEquals(25.5, classRes1.mean(meter1), 0);
         assertEquals(1.0, classRes1.min(meter1), 0);
         assertEquals(50.0, classRes1.max(meter1), 0);
+        assertEquals(2.55, classRes1.getConf05(meter1), 0);
         assertEquals(48.45, classRes1.getConf95(meter1), 0);
-        assertEquals(50.0, classRes1.getConf99(meter1), 0);
         assertEquals(
                 14.577379737113251, classRes1.getStandardDeviation(meter1),
                 0.000001);
@@ -201,8 +202,8 @@ public class ResultContainerTest {
         assertEquals(50.5, classRes2.mean(meter2), 0);
         assertEquals(1.0, classRes2.min(meter2), 0);
         assertEquals(100.0, classRes2.max(meter2), 0);
+        assertEquals(5.05, classRes2.getConf05(meter2), 0);
         assertEquals(95.95, classRes2.getConf95(meter2), 0);
-        assertEquals(99.99, classRes2.getConf99(meter2), 0);
         assertEquals(
                 29.011491975882016, classRes2.getStandardDeviation(meter2),
                 0.000001);
@@ -217,8 +218,8 @@ public class ResultContainerTest {
         assertEquals(25.5, benchRes.mean(meter1), 0);
         assertEquals(1.0, benchRes.min(meter1), 0);
         assertEquals(50.0, benchRes.max(meter1), 0);
+        assertEquals(2.55, benchRes.getConf05(meter1), 0);
         assertEquals(48.45, benchRes.getConf95(meter1), 0);
-        assertEquals(50.0, benchRes.getConf99(meter1), 0);
         assertEquals(
                 14.577379737113251, benchRes.getStandardDeviation(meter1),
                 0.000001);
@@ -228,8 +229,8 @@ public class ResultContainerTest {
         assertEquals(50.5, benchRes.mean(meter2), 0);
         assertEquals(1.0, benchRes.min(meter2), 0);
         assertEquals(100.0, benchRes.max(meter2), 0);
+        assertEquals(2.55, benchRes.getConf05(meter1), 0);
         assertEquals(95.95, benchRes.getConf95(meter2), 0);
-        assertEquals(99.99, benchRes.getConf99(meter2), 0);
         assertEquals(
                 29.011491975882016, benchRes.getStandardDeviation(meter2),
                 0.000001);
