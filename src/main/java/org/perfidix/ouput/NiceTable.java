@@ -247,7 +247,10 @@ public final class NiceTable {
             this.enclosing = theEnclosing;
 
             this.title =
-                      enclosing + SPACE + contentToDisplay + SPACE + enclosing;
+                    Util.combine(
+                            new String(new char[] { enclosing }).toString(),
+                            SPACE, contentToDisplay, SPACE, new String(
+                                    new char[] { enclosing }).toString());
 
         }
 
@@ -256,12 +259,8 @@ public final class NiceTable {
          */
         @Override
         final String draw() {
-            return border
-                    + Util.pad(
-                            title, enclosing, table.getTotalWidth() - 2,
-                            orientation)
-                    + border
-                    + NEWLINE;
+            return Util.combine(border, Util.pad(title, enclosing, table
+                    .getTotalWidth() - 2, orientation), border, NEWLINE);
 
         }
 
@@ -302,7 +301,8 @@ public final class NiceTable {
         @Override
         final String draw() {
 
-            return Util.repeat("" + content, table.getTotalWidth()) + NEWLINE;
+            return Util.combine(Util
+                    .repeat("" + content, table.getTotalWidth()), NEWLINE);
 
         }
 
