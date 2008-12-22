@@ -68,4 +68,15 @@ public abstract class ResultContainer<ResultType extends AbstractResult>
         }
     }
 
+    /**
+     * Getting all elements which are included in this result. That means:
+     * {@link BenchmarkResult} -> {@link ClassResult}; {@link ClassResult} ->
+     * {@link MethodResult};
+     * 
+     * @return a {@link Set} of the included results.
+     */
+    public final Set<ResultType> getIncludedResults() {
+        return elements;
+    }
+
 }

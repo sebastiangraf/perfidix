@@ -17,7 +17,7 @@
  * 
  */
 
-package org.perfidix;
+package org.perfidix.output;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -27,7 +27,7 @@ import static org.junit.Assert.fail;
 import java.util.regex.Pattern;
 
 import org.junit.Test;
-import org.perfidix.depreacted.NiceTable;
+import org.perfidix.ouput.NiceTable;
 
 public class AsciiTableTest {
 
@@ -48,12 +48,8 @@ public class AsciiTableTest {
     @Test
     public void testCreate() {
 
-        try {
-            NiceTable a = new NiceTable(2);
-            assertEquals("", a.toString());
-        } catch (Exception e) {
-            fail("should not reach here.");
-        }
+        NiceTable a = new NiceTable(2);
+        assertEquals("", a.toString());
 
     }
 
@@ -83,7 +79,7 @@ public class AsciiTableTest {
 
         NiceTable ding = new NiceTable(3);
         long[] data = { 1, 2, 3 };
-        ding.addHeader("h", '=', NiceTable.CENTER);
+        ding.addHeader("h", '=', NiceTable.Alignment.Center);
         ding.addRow(data);
         String result = ding.toString();
         String expected = "";
@@ -97,7 +93,7 @@ public class AsciiTableTest {
 
         NiceTable ding = new NiceTable(3);
         long[] data = { 1, 2, 3 };
-        ding.addHeader("h", '=', NiceTable.RIGHT);
+        ding.addHeader("h", '=', NiceTable.Alignment.Right);
         ding.addRow(data);
         String result = ding.toString();
         String expected = "";
@@ -111,7 +107,7 @@ public class AsciiTableTest {
 
         NiceTable ding = new NiceTable(3);
         long[] data = { 1, 2, 3 };
-        ding.addHeader("h", '=', NiceTable.LEFT);
+        ding.addHeader("h", '=', NiceTable.Alignment.Left);
         ding.addRow(data);
         String result = ding.toString();
         String expected = "";
@@ -134,50 +130,6 @@ public class AsciiTableTest {
         assertEquals("a", NiceTable.Util.repeat("a", 1));
         assertEquals("", NiceTable.Util.repeat("a", 0));
         assertEquals("", NiceTable.Util.repeat("a", -1));
-
-    }
-
-    /**
-     * tests whether the orientation parameters for the asciiTable work how they
-     * should.
-     */
-    @Test
-    public void testOrientation() {
-
-        String[] q = { "aa", "a" };
-        String[] r = { "a", "aa" };
-        String[] s = { "a", "a" };
-        NiceTable t = new NiceTable(2);
-        t.addRow(q);
-        t.addRow(r);
-        t.addRow(s);
-        t.setOrientation(0, NiceTable.LEFT);
-        t.setOrientation(1, NiceTable.RIGHT);
-        String expected = "";
-        expected += "| aa |  a |\n";
-        expected += "| a  | aa |\n";
-        expected += "| a  |  a |\n";
-        assertEquals(expected, t.toString());
-    }
-
-    @Test
-    public void testOrientationCenter() {
-
-        String[] a = { "a" };
-        String[] b = { "aaa" };
-        String[] c = { "aaaaa" };
-
-        NiceTable t = new NiceTable(1);
-        t.addRow(a);
-        t.addRow(b);
-        t.addRow(c);
-        t.setOrientation(0, NiceTable.CENTER);
-        String expected = "";
-        expected += "|   a   |\n";
-        expected += "|  aaa  |\n";
-        expected += "| aaaaa |\n";
-
-        assertEquals(expected, t.toString());
 
     }
 

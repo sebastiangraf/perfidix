@@ -17,178 +17,74 @@
  * 
  */
 
-package org.perfidix.depreacted;
+package org.perfidix.ouput;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 
 /**
- * ok, it needs a new name, but it's a table which allows formatting of data as
- * an ascii table. it takes care of automatically adjusting widths of the
- * tables. TODO a table could recursively contain other tables, this would
- * affect also the height of table rows. make this one truly 2-dimensional. a
- * word on the orientations: at the current point of development, the
- * orientation works on COLUMNS and NOT on ROWs. so you can set the orientation
- * of a full ROW, but you cannot set the orientation for each field[x][y] in the
- * table. CHANGELOG:
- * --------------------------------------------------------------------
- * 02-02-2006: tested the newline problems and made them work. it is now
- * possible to create tables like | a | b | | c | | with the definition of
- * String s = {"a\nc","b"} ; 08-02-2006: refactored the whole class in to get
- * rid of the formatter warnings. removed the numColumns variable.
+ * This class represents a table which allows formatting of data as an ascii
+ * table. it takes care of automatically adjusting widths of the tables. A word
+ * on the orientations: at the current point of development, the orientation
+ * works on COLUMNS and NOT on ROWs. so you can set the orientation of a full
+ * ROW, but you cannot set the orientation for each field[x][y] in the table.
  * 
- * @author axo
- * @since 2005-10-21
+ * @author Alexander Onea, neue Couch
+ * @author Sebastian Graf, University of Konstanz
  */
-public class NiceTable {
+public final class NiceTable {
 
-    /** an index for setting orientation of the column's values to align=left. */
-    public static final int LEFT = 999;
-
-    /** css-style: text-align: right. */
-    public static final int RIGHT = 998;
-
-    /** css-style: text-align: center. */
-    public static final int CENTER = 997;
-
-    /**
-     * the border symbol.
-     */
-    private String theBORDER = "|";
-
-    private static final int MAGIC_THREE = 3;
+    /** Alignment in the cells. */
+    public enum Alignment {
+        /** Left alignement */
+        Left,
+        /** Right alignement */
+        Right,
+        /** Center alignement */
+        Center
+    };
 
     /**
-     * the newline symbol to use.
+     * Constant for the newline-symbol.
      */
     public static final String NEWLINE = "\n";
 
     /**
-     * the space to use between borders and data.
+     * Constant for the space between data and border.
      */
     public static final String SPACE = " ";
 
     /**
-     * the container of the rows.
+     * Container for all rows.
      */
-    private ArrayList<Object> rows = new ArrayList<Object>();
+    private final ArrayList<TabluarComponent> rows;
 
     /**
-     * just now, the number of columns is final. that is not really necessary,
-     * since we could dynamically add more columns to it, but there needs to be
-     * implemented some more things about it, and since i'm not thinking of
-     * that, i make this one final.
+     * Storing the length of chars in the different columns
      */
-    private final int numColumns;
+    private final int[] columnLengths;
 
     /**
-     * data container for the column lengths.
-     * 
-     * @example: column a contains the string "a" in the first row. so the
-     *           column length for the first row is '1'. this gets updated
-     *           whenever there's a new row to insert.
+     * An array holding the orientations of columns.
      */
-    private int[] columnLengths;
+    private final Alignment[] orientations;
 
     /**
-     * an array holding the orientations of columns.
+     * Border symbol, can be changed in the runtime.
      */
-    private int[] orientations;
+    private String border = "|";
 
     /**
-     * constructor. needs the number of columns to show.
+     * Constructor. needs the number of columns to show.
      * 
      * @param numberOfColumns
      *            the number of columns to display.
      */
     public NiceTable(final int numberOfColumns) {
 
-        this.numColumns = numberOfColumns;
-        columnLengths = new int[numColumns];
-        orientations = new int[numColumns];
-    }
-
-    /**
-     * returns the orientation of a column.
-     * 
-     * @param columnIndex
-     *            integer
-     */
-    private int getOrientation(final int columnIndex) {
-
-        return orientations[columnIndex];
-    }
-
-    /**
-     * sets the orientation of the column with index i. available orientations
-     * are NiceTable.LEFT, NiceTable.RIGHT, NiceTable.CENTER take care to use
-     * the correct column index.
-     * 
-     * @param columnIndex
-     *            integer
-     * @param orientation
-     *            the orientation of the row content.
-     */
-    public void setOrientation(final int columnIndex, final int orientation) {
-
-        assert (columnIndex >= 0 && columnIndex <= numColumns);
-        switch (orientation) {
-        case RIGHT:
-            orientations[columnIndex] = RIGHT;
-            break;
-        case CENTER:
-            orientations[columnIndex] = CENTER;
-            break;
-        case LEFT:
-        default:
-            orientations[columnIndex] = LEFT;
-        }
-    }
-
-    /**
-     * returns the global column width at index columnIndex.
-     * 
-     * @param columnIndex
-     *            the index of the column for which to fetch the width.
-     * @return the width (in number of chars) for the column index.
-     */
-    private int getColumnWidth(final int columnIndex) {
-
-        assert (columnIndex < numColumns && columnIndex >= 0);
-        return columnLengths[columnIndex];
-    }
-
-    /**
-     * performs an update on the column lengths.
-     */
-    private void updateColumnWidth(final int index, final int newSize) {
-
-        columnLengths[index] = Math.max(columnLengths[index], newSize);
-    }
-
-    /**
-     * returns the actual number of columns this table has got.
-     * 
-     * @return the number of columns the table may contain.
-     */
-    public int numColumns() {
-        return numColumns;
-    }
-
-    /**
-     * returns the row width. this needs some refactoring.
-     */
-    private int getRowWidth() {
-
-        if (rows.size() < 1) {
-            return 0;
-        }
-        for (int i = 0; i < rows.size(); i++) {
-            if (rows.get(i) instanceof Row) {
-                return ((Row) rows.get(i)).getRowWidth();
-            }
-        }
-        return 1;
+        columnLengths = new int[numberOfColumns];
+        orientations = new Alignment[numberOfColumns];
+        rows = new ArrayList<TabluarComponent>();
     }
 
     /**
@@ -197,9 +93,9 @@ public class NiceTable {
      * @param title
      *            the text to display within the header
      */
-    public void addHeader(final String title) {
+    public final void addHeader(final String title) {
 
-        addHeader(title, '*', NiceTable.LEFT);
+        addHeader(title, '*', Alignment.Left);
     }
 
     /**
@@ -219,10 +115,10 @@ public class NiceTable {
      * @param orientation
      *            the orientation of the header column.
      */
-    public void addHeader(
-            final String title, final char mark, final int orientation) {
+    public final void addHeader(
+            final String title, final char mark, final Alignment orientation) {
 
-        Header h = new Header(title, mark, orientation, this);
+        final Header h = new Header(title, mark, orientation, this);
         rows.add(h);
     }
 
@@ -232,8 +128,8 @@ public class NiceTable {
      * @param data
      *            the data to add.
      */
-    public void addRow(final Object[] data) {
-        Row myRow = new Row(numColumns, this);
+    public final void addRow(final Object[] data) {
+        final Row myRow = new Row(this.columnLengths.length, this);
         rows.add(myRow);
         myRow.setColumnData(data);
     }
@@ -269,7 +165,7 @@ public class NiceTable {
                 addRow(theMatrix[i]);
             }
         } else {
-            Row myRow = new Row(numColumns, this);
+            Row myRow = new Row(this.columnLengths.length, this);
             myRow.setColumnData(data);
             rows.add(myRow);
         }
@@ -296,7 +192,7 @@ public class NiceTable {
      */
     public void addRow(final long[] data) {
 
-        Row myRow = new Row(numColumns, this);
+        Row myRow = new Row(this.columnLengths.length, this);
         rows.add(myRow);
         myRow.setColumnData(data);
     }
@@ -309,15 +205,9 @@ public class NiceTable {
      */
     public void addRow(final double[] data) {
 
-        Row myRow = new Row(numColumns, this);
+        Row myRow = new Row(this.columnLengths.length, this);
         rows.add(myRow);
         myRow.setColumnData(data);
-    }
-
-    private int getTotalWidth() {
-
-        return this.getRowWidth() + MAGIC_THREE * numColumns() + 1;
-
     }
 
     /**
@@ -331,27 +221,38 @@ public class NiceTable {
         String s = "";
 
         for (int i = 0; i < rows.size(); i++) {
-            Drawable myObj = (Drawable) rows.get(i);
+            TabluarComponent myObj = rows.get(i);
             s += myObj.draw();
         }
         return s;
     }
 
     /**
-     * an interface for drawable items.
+     * This abstract class represents all drawable items in this
+     * {@link NiceTable}.
      * 
-     * @author axo
-     * @since 2005-10-21
+     * @author Alexander Onea, neue Couch
      */
-    private interface Drawable {
+    private abstract class TabluarComponent {
+        protected final NiceTable table;
 
-        abstract String draw();
+        protected TabluarComponent(final NiceTable paramTable) {
+            table = paramTable;
+        }
 
         /**
-         * returns the minimum width required to display the contents. this has
-         * to be fetched from all rows at display time.
+         * Drawing this item.
+         * 
+         * @return a string representation to draw this line.
          */
-        abstract int minWidth();
+        protected abstract String draw();
+
+        /**
+         * Returns the minimum width required to display the contents.
+         * 
+         * @return minimal width
+         */
+        protected abstract int minWidth();
     }
 
     /**
@@ -362,15 +263,13 @@ public class NiceTable {
      * @author axo
      * @since 21.10.2005
      */
-    private final class Header implements Drawable {
-
-        private NiceTable table;
+    private final class Header extends TabluarComponent {
 
         private String title;
 
         private char enclosing;
 
-        private int orientation;
+        private Alignment orientation;
 
         /**
          * the constructor.
@@ -386,11 +285,11 @@ public class NiceTable {
          */
         private Header(
                 final String contentToDisplay, final char theEnclosing,
-                final int theOrientation, final NiceTable theTable) {
-
+                final Alignment theOrientation, final NiceTable theTable) {
+            super(theTable);
             this.orientation = theOrientation;
             this.enclosing = theEnclosing;
-            this.table = theTable;
+
             this.title =
                     enclosing + SPACE + contentToDisplay + SPACE + enclosing;
         }
@@ -398,13 +297,14 @@ public class NiceTable {
         /**
          * draws itself.
          */
+        @Override
         public String draw() {
 
-            return theBORDER
+            return border
                     + Util.pad(
                             title, enclosing, table.getTotalWidth() - 2,
                             orientation)
-                    + theBORDER
+                    + border
                     + NEWLINE;
         }
 
@@ -412,6 +312,7 @@ public class NiceTable {
          * returns the minimum width this one requires as a row. NiceTable needs
          * this in order to compute the row's total width.
          */
+        @Override
         public int minWidth() {
 
             return title.length();
@@ -424,24 +325,22 @@ public class NiceTable {
      * @author axo
      * @since 2005-10-20
      */
-    private final class DynamicLine implements Drawable {
+    private final class DynamicLine extends TabluarComponent {
 
         private char content;
-
-        private NiceTable table;
 
         /**
          * a dynamic line which draws itself.
          */
         private DynamicLine(final char theContent, final NiceTable theTable) {
-
+            super(theTable);
             this.content = theContent;
-            this.table = theTable;
         }
 
         /**
          * draws itself.
          */
+        @Override
         public String draw() {
 
             return Util.repeat("" + content, table.getTotalWidth()) + NEWLINE;
@@ -451,6 +350,7 @@ public class NiceTable {
          * the minimum width of a line is either 0 or 1 i have decided that it
          * should be 0.
          */
+        @Override
         public int minWidth() {
 
             return 0;
@@ -464,17 +364,12 @@ public class NiceTable {
      * @author axo
      * @since 2005-10-20
      */
-    public final class Row implements Drawable {
+    public final class Row extends TabluarComponent {
 
         /**
          * the data, converted to string.
          */
         private String[] data;
-
-        /**
-         * a reference to the parent.
-         */
-        private NiceTable table;
 
         /**
          * the number of columns.
@@ -486,10 +381,8 @@ public class NiceTable {
          *            the parent pointer.
          */
         private Row(final int numberOfColumns, final NiceTable myParent) {
-
-            this.table = myParent;
+            super(myParent);
             data = new String[numberOfColumns];
-            // this.numColumns = numberOfColumns;
         }
 
         /**
@@ -564,6 +457,7 @@ public class NiceTable {
          * 
          * @return the result
          */
+        @Override
         public String draw() {
 
             String[] row = new String[data.length];
@@ -573,11 +467,11 @@ public class NiceTable {
                                 .getOrientation(i));
 
             }
-            return theBORDER
+            return border
                     + SPACE
-                    + Util.implode(SPACE + theBORDER + SPACE, row)
+                    + Util.implode(SPACE + border + SPACE, row)
                     + SPACE
-                    + theBORDER
+                    + border
                     + NEWLINE;
         }
 
@@ -586,23 +480,16 @@ public class NiceTable {
          * 
          * @return the minimum width.
          */
+        @Override
         public int minWidth() {
             return 0;
         }
     }
 
     /**
-     * utilities for the ascii table.
-     * 
-     * @author axo
-     * @since 2005-10-20
+     * Utilities for the ascii table.
      */
     public static final class Util {
-
-        /**
-         * defines the NEWLINE character until i get it from the environment.
-         */
-        public static final char NEWLINE = '\n';
 
         /**
          * private constructor.
@@ -637,18 +524,18 @@ public class NiceTable {
          */
         public static String pad(
                 final String data, final char doPadWithThis,
-                final int totalWidth, final int orientation) {
+                final int totalWidth, final Alignment orientation) {
 
             String pad =
                     repeat("" + doPadWithThis, Math.max(0, totalWidth
                             - data.length()));
             int padLength = pad.length();
-            if (orientation == CENTER) {
+            if (orientation == Alignment.Center) {
                 return pad.substring(0, padLength / 2)
                         + data
                         + pad.substring(padLength / 2, padLength);
             }
-            return (orientation == RIGHT) ? pad + data : data + pad;
+            return (orientation == Alignment.Right) ? pad + data : data + pad;
         }
 
         /**
@@ -774,7 +661,7 @@ public class NiceTable {
             char[] arr = s.toCharArray();
             int result = 0;
             for (char ch : arr) {
-                if (Util.NEWLINE == ch) {
+                if (NiceTable.NEWLINE.equals(new String(new char[] { ch }))) {
                     result++;
                 }
             }
@@ -818,14 +705,81 @@ public class NiceTable {
     }
 
     /**
-     * sets the column delimiter, in order to allow different delimiters for
+     * Sets the column delimiter, in order to allow different delimiters for
      * different contexts.
      * 
      * @param c
      *            the border string.
      */
     public void setColumnDelimiter(final String c) {
-        theBORDER = c;
+        border = c;
+    }
+
+    /**
+     * Returns the global column width at index columnIndex.
+     * 
+     * @param columnIndex
+     *            the index of the column for which to fetch the width.
+     * @return the width (in number of chars) for the column index.
+     */
+    private final int getColumnWidth(final int columnIndex) {
+
+        return columnLengths[columnIndex];
+    }
+
+    /**
+     * Performs an update on the column lengths.
+     */
+    private final void updateColumnWidth(final int index, final int newSize) {
+
+        columnLengths[index] = Math.max(columnLengths[index], newSize);
+    }
+
+    /**
+     * Returns the actual number of columns this table has got.
+     * 
+     * @return the number of columns the table may contain.
+     */
+    private final int numColumns() {
+        return this.columnLengths.length;
+    }
+
+    /**
+     * Returns the orientation of a column.
+     * 
+     * @param columnIndex
+     *            integer
+     */
+    private final Alignment getOrientation(final int columnIndex) {
+
+        return orientations[columnIndex];
+    }
+
+    /**
+     * Returns the row width.
+     * 
+     * @return int the width of the row
+     */
+    private final int getRowWidth() {
+
+        if (rows.size() < 1) {
+            return 0;
+        }
+        for (int i = 0; i < rows.size(); i++) {
+            if (rows.get(i) instanceof Row) {
+                return ((Row) rows.get(i)).getRowWidth();
+            }
+        }
+        return 1;
+    }
+
+    /**
+     * Returns the total width of the table.
+     * 
+     * @return int the width of the table
+     */
+    private final int getTotalWidth() {
+        return this.getRowWidth() + 3 * numColumns() + 1;
     }
 
 }

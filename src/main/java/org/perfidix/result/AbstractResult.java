@@ -65,7 +65,7 @@ public abstract class AbstractResult {
      *            for the results wanted
      * @return the result set.
      */
-    protected final Collection<Double> getResultSet(final AbstractMeter meter) {
+    public final Collection<Double> getResultSet(final AbstractMeter meter) {
         return this.meterResults.get(meter);
     }
 
@@ -200,6 +200,17 @@ public abstract class AbstractResult {
                 new CollectionDoubleCollection(this.meterResults.get(meter));
         return max.evaluate(
                 doubleColl.toArray(), 0, doubleColl.toArray().length);
+    }
+
+    /**
+     * Returning the number of results for one specific meter.
+     * 
+     * @param meter
+     *            to get the number of results
+     * @return the number of results of one meter
+     */
+    public final int getNumberOfResult(final AbstractMeter meter) {
+        return meterResults.get(meter).size();
     }
 
     // /**
