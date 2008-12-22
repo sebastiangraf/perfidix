@@ -134,37 +134,10 @@ public final class NiceTable {
                 addRow(theMatrix[i]);
             }
         } else {
-            final Row myRow = new Row(this.columnLengths.length, this);
-            myRow.setColumnData(data);
+            final Row myRow = new Row(this.columnLengths.length, this, data);
             rows.add(myRow);
         }
 
-    }
-
-    /**
-     * allows the setting of other data than Objects.
-     * 
-     * @param data
-     *            the data to display.
-     */
-    public final void addRow(final long[] data) {
-
-        final Row myRow = new Row(this.columnLengths.length, this);
-        rows.add(myRow);
-        myRow.setColumnData(data);
-    }
-
-    /**
-     * adds a row with data in it.
-     * 
-     * @param data
-     *            the data to display.
-     */
-    public final void addRow(final double[] data) {
-
-        final Row myRow = new Row(this.columnLengths.length, this);
-        rows.add(myRow);
-        myRow.setColumnData(data);
     }
 
     /**
@@ -332,7 +305,7 @@ public final class NiceTable {
      * @author axo
      * @since 2005-10-20
      */
-    public final class Row extends TabluarComponent {
+    private final class Row extends TabluarComponent {
 
         /**
          * the data, converted to string.
@@ -348,9 +321,15 @@ public final class NiceTable {
          * @param myParent
          *            the parent pointer.
          */
-        private Row(final int numberOfColumns, final NiceTable myParent) {
+        private Row(
+                final int numberOfColumns, final NiceTable myParent,
+                final String[] paramData) {
             super(myParent);
-            data = new String[numberOfColumns];
+            data = paramData;
+            for (int i = 0; i < data.length; i++) {
+                table.updateColumnWidth(i, data[i].toString().length());
+                data[i] = data[i].toString().trim();
+            }
         }
 
         /**
@@ -363,61 +342,6 @@ public final class NiceTable {
                 k += table.getColumnWidth(i);
             }
             return k;
-        }
-
-        /**
-         * sets the column data to new values. take care that the inserted array
-         * has to have the same size as the available columns.
-         * 
-         * @param d
-         *            the data
-         */
-        public final void setColumnData(final Object[] d) {
-
-            assert (d.length == data.length);
-
-            for (int i = 0; i < data.length; i++) {
-
-                if (d[i].toString().matches("\n")) {
-                    System.err.println(d[i]);
-                }
-                table.updateColumnWidth(i, d[i].toString().length());
-                data[i] = d[i].toString().trim();
-            }
-        }
-
-        /**
-         * this is soooo redundant and i don't like it. but i need it. merde.
-         * tell me if there's a better way to do this.
-         * 
-         * @param d
-         *            the data
-         */
-        public final void setColumnData(final double[] d) {
-
-            assert (d.length == data.length);
-            String[] str = new String[d.length];
-            for (int i = 0; i < data.length; i++) {
-                str[i] = "" + (d[i]);
-            }
-            setColumnData(str);
-        }
-
-        /**
-         * this also i do not like. but i don't know how to make it better right
-         * now, and it works.
-         * 
-         * @param d
-         *            the data
-         */
-        public final void setColumnData(final long[] d) {
-
-            assert (d.length == data.length);
-            String[] str = new String[d.length];
-            for (int i = 0; i < data.length; i++) {
-                str[i] = "" + (d[i]);
-            }
-            setColumnData(str);
         }
 
         /**

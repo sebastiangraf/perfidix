@@ -78,7 +78,7 @@ public class AsciiTableTest {
     public void testAddHeaderCenter() {
 
         NiceTable ding = new NiceTable(3);
-        long[] data = { 1, 2, 3 };
+        final String[] data = { "1", "2", "3" };
         ding.addHeader("h", '=', NiceTable.Alignment.Center);
         ding.addRow(data);
         String result = ding.toString();
@@ -92,7 +92,7 @@ public class AsciiTableTest {
     public void testAddHeaderRight() {
 
         NiceTable ding = new NiceTable(3);
-        long[] data = { 1, 2, 3 };
+        final String[] data = { "1", "2", "3" };
         ding.addHeader("h", '=', NiceTable.Alignment.Right);
         ding.addRow(data);
         String result = ding.toString();
@@ -106,7 +106,7 @@ public class AsciiTableTest {
     public void testAddHeaderLeft() {
 
         NiceTable ding = new NiceTable(3);
-        long[] data = { 1, 2, 3 };
+        final String[] data = { "1", "2", "3" };
         ding.addHeader("h", '=', NiceTable.Alignment.Left);
         ding.addRow(data);
         String result = ding.toString();
