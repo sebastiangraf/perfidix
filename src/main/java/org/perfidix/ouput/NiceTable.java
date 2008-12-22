@@ -175,9 +175,17 @@ public final class NiceTable {
      * @author Alexander Onea, neue Couch
      */
     private abstract class TabluarComponent {
-        protected final NiceTable table;
 
-        protected TabluarComponent(final NiceTable paramTable) {
+        /** Instance to draw to. */
+        final NiceTable table;
+
+        /**
+         * Constructor.
+         * 
+         * @param paramTable
+         *            to be drawn
+         */
+        TabluarComponent(final NiceTable paramTable) {
             table = paramTable;
         }
 
@@ -186,34 +194,41 @@ public final class NiceTable {
          * 
          * @return a string representation to draw this line.
          */
-        protected abstract String draw();
+        abstract String draw();
 
         /**
          * Returns the minimum width required to display the contents.
          * 
          * @return minimal width
          */
-        protected abstract int minWidth();
+        abstract int minWidth();
     }
 
     /**
-     * a header row is like a <th>element in HTML with colspan =
-     * totalNumberOfColumns. since we cannot do colspan right now, we'll have to
-     * make it some other way.
+     * A header row is like a <th>element in HTML with colspan =
+     * totalNumberOfColumns.
      * 
-     * @author axo
-     * @since 21.10.2005
+     * @author Alexander Onea, neue Couch
      */
     private final class Header extends TabluarComponent {
 
-        private String title;
-
-        private char enclosing;
-
-        private Alignment orientation;
+        /**
+         * Title of the header.
+         */
+        private final String title;
 
         /**
-         * the constructor.
+         * Enclosed char of the header.
+         */
+        private final char enclosing;
+
+        /**
+         * Orientation of the title.
+         */
+        private final Alignment orientation;
+
+        /**
+         * Constructor.
          * 
          * @param contentToDisplay
          *            the string to be present in the header row.
@@ -232,46 +247,49 @@ public final class NiceTable {
             this.enclosing = theEnclosing;
 
             this.title =
-                    enclosing + SPACE + contentToDisplay + SPACE + enclosing;
+                      enclosing + SPACE + contentToDisplay + SPACE + enclosing;
+
         }
 
         /**
-         * draws itself.
+         * {@inheritDoc}
          */
         @Override
-        public String draw() {
-
+        final String draw() {
             return border
                     + Util.pad(
                             title, enclosing, table.getTotalWidth() - 2,
                             orientation)
                     + border
                     + NEWLINE;
+
         }
 
         /**
-         * returns the minimum width this one requires as a row. NiceTable needs
-         * this in order to compute the row's total width.
+         * {@inheritDoc}
          */
         @Override
-        public int minWidth() {
-
+        final int minWidth() {
             return title.length();
         }
     }
 
     /**
-     * a dynamic, extensible line.
+     * A dynamic, extensible line. Good as a row delemiter.
      * 
-     * @author axo
-     * @since 2005-10-20
+     * @author Alexander Onea, neue Couch
      */
     private final class DynamicLine extends TabluarComponent {
 
-        private char content;
+        private final char content;
 
         /**
-         * a dynamic line which draws itself.
+         * Constructor
+         * 
+         * @param theContent
+         *            where the row should be filled with.
+         * @param theTable
+         *            the table to be drawn to.
          */
         private DynamicLine(final char theContent, final NiceTable theTable) {
             super(theTable);
@@ -279,47 +297,46 @@ public final class NiceTable {
         }
 
         /**
-         * draws itself.
+         * {@inheritDoc}
          */
         @Override
-        public String draw() {
+        final String draw() {
 
             return Util.repeat("" + content, table.getTotalWidth()) + NEWLINE;
+
         }
 
         /**
-         * the minimum width of a line is either 0 or 1 i have decided that it
-         * should be 0.
+         * {@inheritDoc}
          */
         @Override
-        public int minWidth() {
-
+        final int minWidth() {
             return 0;
         }
     }
 
     /**
-     * a table's row contains the data, keeps a reference to its parent and
+     * A table's row contains the data, keeps a reference to its parent and
      * computes its own width.
      * 
-     * @author axo
-     * @since 2005-10-20
+     * @author Alexander Onea, neue Couch
      */
     private final class Row extends TabluarComponent {
 
         /**
          * the data, converted to string.
          */
-        private String[] data;
+        private final String[] data;
 
         /**
-         * the number of columns.
-         */
-        // private final int numColumns;
-        /**
+         * Constructor.
+         * 
          * @param numberOfColumns
+         *            of the table
          * @param myParent
-         *            the parent pointer.
+         *            table to be printed to
+         * @param paramData
+         *            data to be plotted
          */
         private Row(
                 final int numberOfColumns, final NiceTable myParent,
@@ -334,6 +351,8 @@ public final class NiceTable {
 
         /**
          * returns the row's total width.
+         * 
+         * @return the width of the row.
          */
         private final int getRowWidth() {
 
@@ -345,14 +364,12 @@ public final class NiceTable {
         }
 
         /**
-         * to string implementation. computes and formats everyting.
-         * 
-         * @return the result
+         * {@inheritDoc}
          */
         @Override
-        public String draw() {
+        final String draw() {
 
-            String[] row = new String[data.length];
+            final String[] row = new String[data.length];
             for (int i = 0; i < data.length; i++) {
                 row[i] =
                         Util.pad(data[i], ' ', table.getColumnWidth(i), table
@@ -388,6 +405,14 @@ public final class NiceTable {
          */
         private Util() {
             // do nothing.
+        }
+
+        public final static String combine(final String... args) {
+            final StringBuilder builder = new StringBuilder();
+            for (final String arg : args) {
+                builder.append(arg);
+            }
+            return builder.toString();
         }
 
         /**
