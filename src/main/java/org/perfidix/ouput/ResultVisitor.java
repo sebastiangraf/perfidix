@@ -19,13 +19,8 @@
 
 package org.perfidix.ouput;
 
-import java.io.OutputStream;
 import java.util.Formatter;
 
-import org.perfidix.result.AbstractResult;
-import org.perfidix.result.BenchmarkResult;
-import org.perfidix.result.ClassResult;
-import org.perfidix.result.MethodResult;
 import org.perfidix.result.ResultContainer;
 
 /**
@@ -39,62 +34,10 @@ import org.perfidix.result.ResultContainer;
  */
 public abstract class ResultVisitor {
 
-    private OutputStream currentBenchmarkOutputStream;
-
-    private OutputStream currentClassOutputStream;
-
-    private OutputStream currentMethodOutputStream;
-
     /**
      * Constant to offer one fix format to display double-variables.
      */
     protected final static String FLOATFORMAT = "%05.2f";
-
-    /**
-     * Visiting the results and invoking specific handling for elements.
-     * 
-     * @param benchRes
-     *            the Result to visit.
-     */
-    public final void visit(final BenchmarkResult benchRes) {
-        handleBenchmarkResult(benchRes);
-        for (final AbstractResult absResult1 : benchRes.getIncludedResults()) {
-            final ClassResult classRes = (ClassResult) absResult1;
-            handleClassResult(classRes);
-            for (final AbstractResult absResult2 : classRes
-                    .getIncludedResults()) {
-                final MethodResult methRes = (MethodResult) absResult2;
-                handleMethodResult(methRes);
-            }
-        }
-    }
-
-    /**
-     * Handling the {@link BenchmarkResult}. That means, printing out the name,
-     * conf-intervals, raw data, etc. of the benchmark.
-     * 
-     * @param benchRes
-     *            the benchresult to be evaluated.
-     */
-    protected abstract void handleBenchmarkResult(final BenchmarkResult benchRes);
-
-    /**
-     * Handling the {@link ClassResult}. That means, printing out the name,
-     * conf-intervals, raw data, etc. of a class.
-     * 
-     * @param classRes
-     *            the classResult to be evaluated.
-     */
-    protected abstract void handleClassResult(final ClassResult classRes);
-
-    /**
-     * Handling the {@link MethodResult}. That means, printing out the name,
-     * conf-intervals, raw data, etc. of a class.
-     * 
-     * @param methRes
-     *            the methResult to be evaluated.
-     */
-    protected abstract void handleMethodResult(final MethodResult methRes);
 
     /**
      * Formats a double.
@@ -106,66 +49,6 @@ public abstract class ResultVisitor {
      */
     protected final String format(final double i) {
         return new Formatter().format(FLOATFORMAT, i).toString();
-    }
-
-    /**
-     * Getter for currentBenchmarkOutputStream.
-     * 
-     * @return the currentBenchmarkOutputStream
-     */
-    protected final OutputStream getCurrentBenchmarkOutputStream() {
-        return currentBenchmarkOutputStream;
-    }
-
-    /**
-     * Setter for currentBenchmarkOutputStream.
-     * 
-     * @param currentBenchmarkOutputStream
-     *            the currentBenchmarkOutputStream to set
-     */
-    protected final void setCurrentBenchmarkOutputStream(
-            OutputStream currentBenchmarkOutputStream) {
-        this.currentBenchmarkOutputStream = currentBenchmarkOutputStream;
-    }
-
-    /**
-     * Getter for currentClassOutputStream.
-     * 
-     * @return the currentClassOutputStream
-     */
-    protected final OutputStream getCurrentClassOutputStream() {
-        return currentClassOutputStream;
-    }
-
-    /**
-     * Setter for currentClassOutputStream.
-     * 
-     * @param currentClassOutputStream
-     *            the currentClassOutputStream to set
-     */
-    protected final void setCurrentClassOutputStream(
-            OutputStream currentClassOutputStream) {
-        this.currentClassOutputStream = currentClassOutputStream;
-    }
-
-    /**
-     * Getter for currentMethodOutputStream.
-     * 
-     * @return the currentMethodOutputStream
-     */
-    protected final OutputStream getCurrentMethodOutputStream() {
-        return currentMethodOutputStream;
-    }
-
-    /**
-     * Setter for currentMethodOutputStream.
-     * 
-     * @param currentMethodOutputStream
-     *            the currentMethodOutputStream to set
-     */
-    protected final void setCurrentMethodOutputStream(
-            OutputStream currentMethodOutputStream) {
-        this.currentMethodOutputStream = currentMethodOutputStream;
     }
 
 }
