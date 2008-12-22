@@ -21,7 +21,6 @@ package org.perfidix.output;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import java.util.regex.Pattern;
 
@@ -117,23 +116,6 @@ public class AsciiTableTest {
     }
 
     @Test
-    public void testImplode() {
-
-        String[] s = { "a", "b" };
-        assertEquals("a-b", NiceTable.Util.implode("-", s));
-    }
-
-    @Test
-    public void testRepeat() {
-
-        assertEquals("aaa", NiceTable.Util.repeat("a", 3));
-        assertEquals("a", NiceTable.Util.repeat("a", 1));
-        assertEquals("", NiceTable.Util.repeat("a", 0));
-        assertEquals("", NiceTable.Util.repeat("a", -1));
-
-    }
-
-    @Test
     public void testDynamics() {
 
         String[] s = { "a", "b", "c", "d", "e" };
@@ -188,26 +170,6 @@ public class AsciiTableTest {
 
     }
 
-    /**
-     * tests the creation of a string matrix.
-     */
-    @Test
-    public void testCreateMatrixAgain() {
-        String[] s = { "a\nb", "a" };
-        String[][] exp = { { "a", "a" }, { "b", "" }, };
-        String[][] result = NiceTable.Util.createMatrix(s);
-        try {
-            for (int i = 0; i < result.length; i++) {
-                for (int k = 0; k < result[i].length; k++) {
-                    assertEquals(0, exp[i][k].compareTo(result[i][k]));
-                }
-            }
-        } catch (Exception e) {
-            fail("exp != result");
-        }
-
-    }
-
     @Test
     public void testNestedTables1() {
 
@@ -232,59 +194,6 @@ public class AsciiTableTest {
         assertEquals(2, res.length);
         assertTrue(res[0].equals("a"));
         assertTrue(res[1].equals("b"));
-    }
-
-    @Test
-    public void testCreateMatrix() {
-
-        // simplest form of the matrix.
-        String[] a = { "a", "b" };
-        String[][] result = NiceTable.Util.createMatrix(a);
-        assertEquals(1, result.length);
-        assertEquals(2, result[0].length);
-        assertEquals(0, a[0].compareTo(result[0][0]));
-
-    }
-
-    @Test
-    public void testCreateMatrix3() {
-        String[] s = { "abc", "\n", "a\nb", "a\nb\nc" };
-        int[] r = { 0, 1, 1, 2 };
-        for (int i = 0; i < s.length; i++) {
-            assertEquals(s[i], r[i], NiceTable.Util.numNewLines(s[i]));
-        }
-
-    }
-
-    @Test
-    public void testExplode() {
-        String s = "hello|world";
-        String[] exp = { "hello", "world" };
-        String[] res = NiceTable.Util.explode('|', s);
-        assertEquals(exp.length, res.length);
-        assertEquals(0, exp[0].compareTo(res[0]));
-        assertEquals(0, exp[1].compareTo(res[1]));
-
-        String another = "hello\nworld";
-        String[] result2 = NiceTable.Util.explode('\n', another);
-        assertEquals(exp.length, result2.length);
-        assertEquals(0, exp[0].compareTo(result2[0]));
-        assertEquals(0, exp[1].compareTo(result2[1]));
-
-    }
-
-    @Test
-    public void testCreateMatrix2() {
-
-        // more complicated example.
-        String[] b = { "a\nc", "b" };
-        String[][] result = NiceTable.Util.createMatrix(b);
-        assertEquals(2, result.length);
-        assertEquals(2, result[0].length);
-        String my = NiceTable.Util.implode(",", result[0]);
-        assertEquals(0, "a,b".compareTo(my));
-        assertEquals(0, "c".compareTo(result[1][0]));
-        assertEquals(0, "".compareTo(result[1][1]));
     }
 
     @Test

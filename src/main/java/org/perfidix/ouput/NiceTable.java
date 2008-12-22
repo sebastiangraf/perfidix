@@ -390,7 +390,7 @@ public final class NiceTable {
          *            multiple Strings
          * @return the combined string
          */
-        public final static String combine(final String... args) {
+        private final static String combine(final String... args) {
             final StringBuilder builder = new StringBuilder();
             for (final String arg : args) {
                 builder.append(arg);
@@ -421,7 +421,7 @@ public final class NiceTable {
          * @param totalWidth
          *            the total width of the result string
          */
-        public final static String pad(
+        private final static String pad(
                 final String data, final char doPadWithThis,
                 final int totalWidth, final Alignment orientation) {
 
@@ -452,7 +452,7 @@ public final class NiceTable {
          * </pre>
          * @return String
          */
-        public final static String implode(
+        private final static String implode(
                 final String glue, final String[] what) {
 
             final StringBuilder s = new StringBuilder();
@@ -474,7 +474,7 @@ public final class NiceTable {
          *            how many times to concantenate the string
          * @return the repeated string.
          */
-        public final static String repeat(final String s, final int numTimes) {
+        private final static String repeat(final String s, final int numTimes) {
             String str = "";
 
             for (int i = 0; i < numTimes; i++, str += s) {
@@ -492,7 +492,7 @@ public final class NiceTable {
          * @param s
          *            the string to be splitted
          */
-        public final static String[] explode(final char ch, final String s) {
+        private final static String[] explode(final char ch, final String s) {
             return s.split("\\" + ch);
         }
 
@@ -504,7 +504,7 @@ public final class NiceTable {
          * @return the number of occurences of {@link NiceTable#NEWLINE} in the
          *         string.
          */
-        public final static int numNewLines(final String s) {
+        private final static int numNewLines(final String s) {
             final char[] arr = s.toCharArray();
             int result = 0;
             for (char ch : arr) {
@@ -536,7 +536,7 @@ public final class NiceTable {
          * @param data
          *            an array of row data
          */
-        public final static String[][] createMatrix(final String[] data) {
+        private final static String[][] createMatrix(final String[] data) {
             int maxNewLines = 0;
             for (final String col : data) {
                 maxNewLines = Math.max(maxNewLines, Util.numNewLines(col));
@@ -562,7 +562,7 @@ public final class NiceTable {
      * @param c
      *            the border string.
      */
-    public void setColumnDelimiter(final String c) {
+    public final void setColumnDelimiter(final String c) {
         border = c;
     }
 
