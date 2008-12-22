@@ -71,7 +71,7 @@ public final class NiceTable {
     /**
      * Border symbol, can be changed in the runtime.
      */
-    private String border = "|";
+    private char border = '|';
 
     /**
      * Constructor. needs the number of columns to show.
@@ -252,8 +252,11 @@ public final class NiceTable {
          */
         @Override
         final String draw() {
-            return Util.combine(border, Util.pad(title, enclosing, table
-                    .getTotalWidth() - 2, orientation), border, NEWLINE);
+            return Util.combine(
+                    new String(new char[] { border }), Util.pad(
+                            title, enclosing, table.getTotalWidth() - 2,
+                            orientation), new String(new char[] { border }),
+                    NEWLINE);
 
         }
 
@@ -364,8 +367,12 @@ public final class NiceTable {
                                 .getOrientation(i));
 
             }
-            return Util.combine(border, SPACE, Util.implode(Util.combine(
-                    SPACE, border, SPACE), row), SPACE, border, NEWLINE);
+            return Util.combine(
+                    new String(new char[] { border }), SPACE, Util.implode(Util
+                            .combine(
+                                    SPACE, new String(new char[] { border }),
+                                    SPACE), row), SPACE, new String(
+                            new char[] { border }), NEWLINE);
 
         }
 
@@ -560,9 +567,9 @@ public final class NiceTable {
      * different contexts.
      * 
      * @param c
-     *            the border string.
+     *            the border char.
      */
-    public final void setColumnDelimiter(final String c) {
+    public final void setColumnDelimiter(final char c) {
         border = c;
     }
 
