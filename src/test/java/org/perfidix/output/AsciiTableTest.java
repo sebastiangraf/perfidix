@@ -20,7 +20,6 @@
 package org.perfidix.output;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -67,7 +66,8 @@ public class AsciiTableTest {
         two.addRow(new String[] { "c", "d" });
         three.addRow(new String[] { "e", "f" });
         t.setColumnDelimiter("-");
-        t.addRow(new Object[] { one, two, three });
+        t.addRow(new String[] {
+                one.toString(), two.toString(), three.toString() });
 
         String result = t.toString().trim();
         String expected = "- | a | b |  - | c | d |  - | e | f |  -";
@@ -143,7 +143,9 @@ public class AsciiTableTest {
         b.addLine('-');
         b.addRow(s);
         b.addLine('=');
-        b.addRow(d);
+        b.addRow(new String[] {
+                d[0].toString(), d[1].toString(), d[2].toString(),
+                d[3].toString(), d[4].toString() });
         b.addLine('-');
         String result = b.toString();
         String expected = "";
@@ -174,27 +176,16 @@ public class AsciiTableTest {
         expected2 += "| aa | b | c | d |\n==================\n";
         assertEquals(expected2, b.toString());
         Number[] doubles = { 1, 2, 3.9, 5555 };
-        b.addRow(doubles);
-        b.addRow(doubles);
-        b.addRow(doubles);
+        b.addRow(new String[] {
+                doubles[0].toString(), doubles[1].toString(),
+                doubles[2].toString(), doubles[3].toString() });
+        b.addRow(new String[] {
+                doubles[0].toString(), doubles[1].toString(),
+                doubles[2].toString(), doubles[3].toString() });
+        b.addRow(new String[] {
+                doubles[0].toString(), doubles[1].toString(),
+                doubles[2].toString(), doubles[3].toString() });
 
-    }
-
-    /**
-     * assures that the AnyStringContainsNewline method works as it should.
-     */
-    @Test
-    public void testAnyStringContainsNewline() {
-        NiceTable t = new NiceTable(0);
-        String[] s = { "a\n" };
-        assertFalse(t.anyStringContainsNewLine(s));
-
-        String[] s2 = { "a\nb" };
-        assertTrue(t.anyStringContainsNewLine(s2));
-        String[] s3 = { "a", "b" };
-        assertFalse(t.anyStringContainsNewLine(s3));
-        String[] s4 = { "a", "b\nc" };
-        assertTrue(t.anyStringContainsNewLine(s4));
     }
 
     /**

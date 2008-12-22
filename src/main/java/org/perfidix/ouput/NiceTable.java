@@ -88,18 +88,17 @@ public final class NiceTable {
     }
 
     /**
-     * adds a header.
+     * Adds a header.
      * 
      * @param title
      *            the text to display within the header
      */
     public final void addHeader(final String title) {
-
         addHeader(title, '*', Alignment.Left);
     }
 
     /**
-     * adds a header row to the table. can be used to give a table some title.
+     * Adds a header row to the table. can be used to give a table some title.
      * 
      * <pre>
      *  addHeader(&quot;hello&quot;,'.',NiceTable.LEFT)
@@ -117,71 +116,29 @@ public final class NiceTable {
      */
     public final void addHeader(
             final String title, final char mark, final Alignment orientation) {
-
         final Header h = new Header(title, mark, orientation, this);
         rows.add(h);
     }
 
     /**
-     * adds the data as contents of a new row.
-     * 
-     * @param data
-     *            the data to add.
-     */
-    public final void addRow(final Object[] data) {
-        final Row myRow = new Row(this.columnLengths.length, this);
-        rows.add(myRow);
-        myRow.setColumnData(data);
-    }
-
-    /**
-     * tests whether any string contains a newline symbol.
-     * 
-     * @param data
-     *            the array to check.
-     * @return whether any of the strings contains a newline symbol.
-     */
-    public boolean anyStringContainsNewLine(final String[] data) {
-
-        for (int i = 0; i < data.length; i++) {
-            if (NiceTable.Util.containsNewlines(data[i])) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * adds a string row. checks that the strings added do not contain newlines,
+     * Adds a string row. checks that the strings added do not contain newlines,
      * because if so, it has to split them in order to make them fit the row.
      * 
      * @param data
      *            the array of data.
      */
-    public void addRow(final String[] data) {
+    public final void addRow(final String[] data) {
         if (anyStringContainsNewLine(data)) {
-            String[][] theMatrix = NiceTable.Util.createMatrix(data);
+            final String[][] theMatrix = NiceTable.Util.createMatrix(data);
             for (int i = 0; i < theMatrix.length; i++) {
                 addRow(theMatrix[i]);
             }
         } else {
-            Row myRow = new Row(this.columnLengths.length, this);
+            final Row myRow = new Row(this.columnLengths.length, this);
             myRow.setColumnData(data);
             rows.add(myRow);
         }
 
-    }
-
-    /**
-     * allows the addition of lines. think of it as a horizontal rule in a
-     * table.
-     * 
-     * @param fill
-     *            any character with which to draw the line.
-     */
-    public void addLine(final char fill) {
-
-        rows.add(new DynamicLine(fill, this));
     }
 
     /**
@@ -190,9 +147,9 @@ public final class NiceTable {
      * @param data
      *            the data to display.
      */
-    public void addRow(final long[] data) {
+    public final void addRow(final long[] data) {
 
-        Row myRow = new Row(this.columnLengths.length, this);
+        final Row myRow = new Row(this.columnLengths.length, this);
         rows.add(myRow);
         myRow.setColumnData(data);
     }
@@ -203,11 +160,22 @@ public final class NiceTable {
      * @param data
      *            the data to display.
      */
-    public void addRow(final double[] data) {
+    public final void addRow(final double[] data) {
 
-        Row myRow = new Row(this.columnLengths.length, this);
+        final Row myRow = new Row(this.columnLengths.length, this);
         rows.add(myRow);
         myRow.setColumnData(data);
+    }
+
+    /**
+     * allows the addition of lines. think of it as a horizontal rule in a
+     * table.
+     * 
+     * @param fill
+     *            any character with which to draw the line.
+     */
+    public final void addLine(final char fill) {
+        rows.add(new DynamicLine(fill, this));
     }
 
     /**
@@ -216,15 +184,15 @@ public final class NiceTable {
      * @return the formatted table.
      */
     @Override
-    public String toString() {
+    public final String toString() {
 
-        String s = "";
+        final StringBuilder s = new StringBuilder();
 
         for (int i = 0; i < rows.size(); i++) {
-            TabluarComponent myObj = rows.get(i);
-            s += myObj.draw();
+            final TabluarComponent myObj = rows.get(i);
+            s.append(myObj.draw());
         }
-        return s;
+        return s.toString();
     }
 
     /**
@@ -780,6 +748,23 @@ public final class NiceTable {
      */
     private final int getTotalWidth() {
         return this.getRowWidth() + 3 * numColumns() + 1;
+    }
+
+    /**
+     * Tests whether any string contains a newline symbol.
+     * 
+     * @param data
+     *            the array to check.
+     * @return whether any of the strings contains a newline symbol.
+     */
+    private final boolean anyStringContainsNewLine(final String[] data) {
+
+        for (int i = 0; i < data.length; i++) {
+            if (NiceTable.Util.containsNewlines(data[i])) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }
