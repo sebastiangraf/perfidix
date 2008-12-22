@@ -19,7 +19,6 @@
 
 package org.perfidix.ouput;
 
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 
 /**
@@ -196,12 +195,6 @@ public final class NiceTable {
          */
         abstract String draw();
 
-        /**
-         * Returns the minimum width required to display the contents.
-         * 
-         * @return minimal width
-         */
-        abstract int minWidth();
     }
 
     /**
@@ -265,9 +258,10 @@ public final class NiceTable {
         }
 
         /**
-         * {@inheritDoc}
+         * Minimal width needed for displaying this element.
+         * 
+         * @return the minimal width
          */
-        @Override
         final int minWidth() {
             return title.length();
         }
@@ -280,6 +274,7 @@ public final class NiceTable {
      */
     private final class DynamicLine extends TabluarComponent {
 
+        /** Content for this dynamic line. */
         private final char content;
 
         /**
@@ -300,19 +295,12 @@ public final class NiceTable {
          */
         @Override
         final String draw() {
-
-            return Util.combine(Util
-                    .repeat("" + content, table.getTotalWidth()), NEWLINE);
+            return Util.combine(
+                    Util.repeat(new String(new char[] { content }), table
+                            .getTotalWidth()), NEWLINE);
 
         }
 
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        final int minWidth() {
-            return 0;
-        }
     }
 
     /**
@@ -324,7 +312,7 @@ public final class NiceTable {
     private final class Row extends TabluarComponent {
 
         /**
-         * the data, converted to string.
+         * The data, converted to string.
          */
         private final String[] data;
 
@@ -350,7 +338,7 @@ public final class NiceTable {
         }
 
         /**
-         * returns the row's total width.
+         * Returns the row's total width.
          * 
          * @return the width of the row.
          */
@@ -376,23 +364,11 @@ public final class NiceTable {
                                 .getOrientation(i));
 
             }
-            return border
-                    + SPACE
-                    + Util.implode(SPACE + border + SPACE, row)
-                    + SPACE
-                    + border
-                    + NEWLINE;
+            return Util.combine(border, SPACE, Util.implode(Util.combine(
+                    SPACE, border, SPACE), row), SPACE, border, NEWLINE);
+
         }
 
-        /**
-         * computes the own minimum width.
-         * 
-         * @return the minimum width.
-         */
-        @Override
-        public int minWidth() {
-            return 0;
-        }
     }
 
     /**
@@ -407,6 +383,13 @@ public final class NiceTable {
             // do nothing.
         }
 
+        /**
+         * Combines an unknown number of Strings to one String.
+         * 
+         * @param args
+         *            multiple Strings
+         * @return the combined string
+         */
         public final static String combine(final String... args) {
             final StringBuilder builder = new StringBuilder();
             for (final String arg : args) {
@@ -416,9 +399,8 @@ public final class NiceTable {
         }
 
         /**
-         * this is a nice one. i am not sure if pad is the correct name for this
-         * method, and i accept new proposals. an example will show what this
-         * one does.
+         * This method fills one char either on the right site of a given string
+         * or on the left site or on both sites. Refer to the example below.
          * 
          * <pre>
          *  pad (&quot;hello&quot;,'-',11,NiceTable.LEFT);
@@ -439,24 +421,23 @@ public final class NiceTable {
          * @param totalWidth
          *            the total width of the result string
          */
-        public static String pad(
+        public final static String pad(
                 final String data, final char doPadWithThis,
                 final int totalWidth, final Alignment orientation) {
 
-            String pad =
-                    repeat("" + doPadWithThis, Math.max(0, totalWidth
-                            - data.length()));
-            int padLength = pad.length();
+            final String pad =
+                    repeat(new String(new char[] { doPadWithThis }), Math.max(
+                            0, totalWidth - data.length()));
             if (orientation == Alignment.Center) {
-                return pad.substring(0, padLength / 2)
+                return pad.substring(0, pad.length() / 2)
                         + data
-                        + pad.substring(padLength / 2, padLength);
+                        + pad.substring(pad.length() / 2, pad.length());
             }
             return (orientation == Alignment.Right) ? pad + data : data + pad;
         }
 
         /**
-         * concantenate a String array "what" with glue "glue".
+         * Concantenate a String array "what" with glue "glue".
          * 
          * @param what
          *            the array of strings to concantenate
@@ -471,46 +452,17 @@ public final class NiceTable {
          * </pre>
          * @return String
          */
-        public static String implode(final String glue, final String[] what) {
+        public final static String implode(
+                final String glue, final String[] what) {
 
-            String s = "";
+            final StringBuilder s = new StringBuilder();
             for (int i = 0; i < what.length; i++) {
-                s += what[i];
+                s.append(what[i]);
                 if (i + 1 != what.length) {
-                    s += glue;
+                    s.append(glue);
                 }
             }
-            return s;
-        }
-
-        /**
-         * @param glue
-         *            glue
-         * @param what
-         *            the list to print.
-         * @return string.
-         */
-        public static String implode(final String glue, final ArrayList what) {
-            String[] th = new String[what.size()];
-            for (int i = 0; i < what.size(); i++) {
-                th[i] = what.get(i).toString();
-            }
-            return Util.implode(glue, th);
-        }
-
-        /**
-         * @param glue
-         *            the string to implode with
-         * @param what
-         *            the object array to display.
-         * @return string.
-         */
-        public static String implode(final String glue, final Method[] what) {
-            String[] result = new String[what.length];
-            for (int i = 0; i < what.length; i++) {
-                result[i] = what[i].getName();
-            }
-            return Util.implode(glue, result);
+            return s.toString();
         }
 
         /**
@@ -522,7 +474,7 @@ public final class NiceTable {
          *            how many times to concantenate the string
          * @return the repeated string.
          */
-        public static String repeat(final String s, final int numTimes) {
+        public final static String repeat(final String s, final int numTimes) {
             String str = "";
 
             for (int i = 0; i < numTimes; i++, str += s) {
@@ -532,50 +484,28 @@ public final class NiceTable {
         }
 
         /**
-         * there has to be a utility for this, but i could not find it, i am
-         * very sorry to say. if anyone finds the utility, tell me and it'll be
-         * factored out in no time.
+         * Splits a string with the help of a given char.
          * 
-         * @param glue
-         *            bla
-         * @param what
-         *            bla
-         * @return the result
-         */
-        public static String implode(final String glue, final double[] what) {
-
-            String s = "";
-            for (int i = 0; i < what.length; i++) {
-                s += what[i];
-                if (i + 1 != what.length) {
-                    s += glue;
-                }
-            }
-            return s;
-        }
-
-        /**
-         * splits a string.
-         * 
-         * @return an array
+         * @return an array of elements
          * @param ch
-         *            bla
+         *            the separator char
          * @param s
-         *            bla
+         *            the string to be splitted
          */
-        public static String[] explode(final char ch, final String s) {
+        public final static String[] explode(final char ch, final String s) {
             return s.split("\\" + ch);
         }
 
         /**
-         * returns how many new lines are in the string.
+         * Returns how many new lines are in the string.
          * 
          * @param s
          *            the string to look upon.
-         * @return the number of occurences of NEWLINE in the string.
+         * @return the number of occurences of {@link NiceTable#NEWLINE} in the
+         *         string.
          */
-        public static int numNewLines(final String s) {
-            char[] arr = s.toCharArray();
+        public final static int numNewLines(final String s) {
+            final char[] arr = s.toCharArray();
             int result = 0;
             for (char ch : arr) {
                 if (NiceTable.NEWLINE.equals(new String(new char[] { ch }))) {
@@ -586,11 +516,15 @@ public final class NiceTable {
         }
 
         /**
-         * tells us whether the string contains newlines. it's important to note
+         * Tells us whether the string contains newlines. it's important to note
          * that only newlines within the string are important, not the newlines
          * at the front or the end of the string.
+         * 
+         * @param s
+         *            to be checked
+         * @return boolean if the string contains newlines.
          */
-        private static boolean containsNewlines(final String s) {
+        private final static boolean containsNewlines(final String s) {
             return s.trim().contains(NiceTable.NEWLINE);
         }
 
@@ -602,14 +536,14 @@ public final class NiceTable {
          * @param data
          *            an array of row data
          */
-        public static String[][] createMatrix(final String[] data) {
+        public final static String[][] createMatrix(final String[] data) {
             int maxNewLines = 0;
-            for (String col : data) {
+            for (final String col : data) {
                 maxNewLines = Math.max(maxNewLines, Util.numNewLines(col));
             }
-            String[][] matrix = new String[maxNewLines + 1][data.length];
+            final String[][] matrix = new String[maxNewLines + 1][data.length];
             for (int col = 0; col < data.length; col++) {
-                String[] my = Util.explode('\n', data[col]);
+                final String[] my = Util.explode('\n', data[col]);
                 for (int row = 0; row < maxNewLines + 1; row++) {
                     matrix[row][col] = (my.length > row) ? my[row] : "";
                 }
