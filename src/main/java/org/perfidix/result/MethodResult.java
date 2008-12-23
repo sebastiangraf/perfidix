@@ -74,4 +74,10 @@ public final class MethodResult extends AbstractResult {
         return meth;
     }
 
+    /** {@inheritDoc} */
+    @Override
+    public final String getElementName() {
+        return meth.getName();
+    }
+
 }

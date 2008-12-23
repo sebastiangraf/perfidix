@@ -20,9 +20,14 @@
  */
 package org.perfidix.ouput;
 
-import java.io.OutputStream;
+import java.io.PrintStream;
 
+import org.perfidix.meter.AbstractMeter;
+import org.perfidix.ouput.NiceTable.Alignment;
+import org.perfidix.result.AbstractResult;
 import org.perfidix.result.BenchmarkResult;
+import org.perfidix.result.ClassResult;
+import org.perfidix.result.MethodResult;
 
 /**
  * Summary output using the {@link NiceTable} to format. Just giving an overview
@@ -32,15 +37,15 @@ import org.perfidix.result.BenchmarkResult;
  */
 public final class TabluarSummaryOutput extends ResultVisitor {
 
-    private final OutputStream out;
+    private final PrintStream out;
 
     /**
      * Constructor for piping the result to elsewhere.
      * 
      * @param paramOut
-     *            an {@link OutputStream} to pipe to.
+     *            an {@link PrintStream} to pipe to.
      */
-    public TabluarSummaryOutput(final OutputStream paramOut) {
+    public TabluarSummaryOutput(final PrintStream paramOut) {
         out = paramOut;
     }
 
@@ -53,13 +58,63 @@ public final class TabluarSummaryOutput extends ResultVisitor {
 
     /** {@inheritDoc} */
     @Override
-    public void visitBenchmark(final BenchmarkResult res) {
-        final NiceTable table = new NiceTable(9);
+    public void visitBenchmark(final BenchmarkResult benchRes) {
+        NiceTable table = new NiceTable(9);
+        table = generateHeader(table);
+        for (final AbstractMeter meter : benchRes.getRegisteredMeters()) {
+            table.addHeader(meter.getName(), '=', Alignment.Center);
+            for (final ClassResult classRes : benchRes.getIncludedResults()) {
+                table.addHeader(classRes.getElementName(), '.', Alignment.Left);
+                for (final MethodResult methRes : classRes.getIncludedResults()) {
+                    table =
+                            generateMeterResult(
+                                    methRes.getElementName(), meter, methRes,
+                                    table);
+                }
+                table.addHeader(
+                        new StringBuilder("Summary for ").append(
+                                classRes.getElementName()).toString(), '_',
+                        Alignment.Left);
+                table = generateMeterResult("", meter, classRes, table);
+                table.addLine('-');
+            }
+        }
+        table.addHeader(
+                "Summary for the whole benchmark", '*', Alignment.Center);
+        for (final AbstractMeter meter : benchRes.getRegisteredMeters()) {
+            table = generateMeterResult("", meter, benchRes, table);
+        }
+        table.addLine('=');
+        out.println(table.toString());
+    }
+
+    private final NiceTable generateMeterResult(
+            final String descColumn, final AbstractMeter meter,
+            final AbstractResult result, final NiceTable input) {
+        input.addRow(new String[] {
+                descColumn,
+                meter.getUnit(),
+                ResultVisitor.format(result.sum(meter)),
+                ResultVisitor.format(result.min(meter)),
+                ResultVisitor.format(result.max(meter)),
+                ResultVisitor.format(result.mean(meter)),
+                ResultVisitor.format(result.getStandardDeviation(meter)),
+                new StringBuilder("[").append(
+                        ResultVisitor.format(result.getConf05(meter))).append(
+                        "-").append(
+                        ResultVisitor.format(result.getConf95(meter))).append(
+                        "]").toString(),
+                ResultVisitor.format(result.getResultSet(meter).size()) });
+        return input;
+    }
+
+    private final NiceTable generateHeader(final NiceTable table) {
         table.addHeader("Benchmark");
         table.addLine('*');
         table.addRow(new String[] {
                 "-", "unit", "sum", "min", "max", "avg", "stddev", "conf95",
                 "runs" });
-
+        table.addLine('*');
+        return table;
     }
 }

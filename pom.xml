@@ -3,7 +3,7 @@
   <groupId>org</groupId>
   <artifactId>perfidix</artifactId>
   <name>Perfidix Project</name>
-  <version>1.0.0</version>
+  <version>3.0.0</version>
   <description>A Java Benchmarking tool</description>
   <url>http://www.perfidix.org</url>
   <organization>
@@ -13,8 +13,8 @@
   <build>
   	<sourceDirectory>src/main/java</sourceDirectory>
   	<testSourceDirectory>src/test/java</testSourceDirectory>
-  	<outputDirectory>target</outputDirectory>
-  	<testOutputDirectory>target</testOutputDirectory>
+  	<outputDirectory>target/classes/main</outputDirectory>
+  	<testOutputDirectory>target/classes/test</testOutputDirectory>
   	<testResources>
   	</testResources>
     <plugins>

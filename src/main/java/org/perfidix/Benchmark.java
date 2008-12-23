@@ -36,6 +36,7 @@ import org.perfidix.element.AbstractMethodArrangement.KindOfElementArrangement;
 import org.perfidix.meter.AbstractMeter;
 import org.perfidix.meter.Time;
 import org.perfidix.meter.TimeMeter;
+import org.perfidix.result.BenchmarkResult;
 
 /**
  * Class to hold all classes which want to be benchmarked.
@@ -121,6 +122,10 @@ public final class Benchmark {
         // cleaning up methods to benchmark
         tearDownObjectsToExecute(objectsToExecute);
 
+    }
+
+    public final BenchmarkResult getResult() {
+        return BenchmarkExecutor.getBenchmarkResult();
     }
 
     /**

@@ -55,7 +55,7 @@ public abstract class ResultVisitor {
      * @see java.util.Formatter for the documentation.
      * @return the formatted string.
      */
-    protected final String format(final double i) {
+    protected static final String format(final double i) {
         return new Formatter().format(FLOATFORMAT, i).toString();
     }
 

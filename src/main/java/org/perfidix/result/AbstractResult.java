@@ -59,6 +59,13 @@ public abstract class AbstractResult {
     }
 
     /**
+     * Returns the name of the related element where these results belong to.
+     * 
+     * @return the name as a String.
+     */
+    public abstract String getElementName();
+
+    /**
      * an array of all data items in the structure.
      * 
      * @param meter

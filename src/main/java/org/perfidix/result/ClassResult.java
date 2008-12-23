@@ -86,4 +86,10 @@ public final class ClassResult extends ResultContainer<MethodResult> {
         }
         return true;
     }
+
+    /** {@inheritDoc} */
+    @Override
+    public final String getElementName() {
+        return clazz.getSimpleName();
+    }
 }

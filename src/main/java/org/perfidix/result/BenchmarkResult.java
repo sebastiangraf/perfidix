@@ -42,4 +42,10 @@ public final class BenchmarkResult extends ResultContainer<ClassResult> {
         setUpContainer(paramClassResults);
     }
 
+    /** {@inheritDoc} */
+    @Override
+    public final String getElementName() {
+        return "Benchmark";
+    }
+
 }

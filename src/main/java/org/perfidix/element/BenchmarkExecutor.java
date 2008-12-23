@@ -177,7 +177,7 @@ public final class BenchmarkExecutor {
 
         i = 0;
         for (final AbstractMeter meter : metersToBench) {
-            methodRes.addResult(meter, meterResults[i] - meter.getValue());
+            methodRes.addResult(meter, meter.getValue() - meterResults[i]);
             i++;
         }
 
@@ -220,11 +220,13 @@ public final class BenchmarkExecutor {
      */
     public static final void checkAndExecute(final Object obj, final Method meth)
             throws IllegalAccessException {
-        final Exception e = checkMethod(obj, meth);
-        if (e != null) {
-            throw new IllegalAccessException(e.toString());
-        } else {
-            invokeReflectiveExecutableMethod(obj, meth);
+        if (meth != null) {
+            final Exception e = checkMethod(obj, meth);
+            if (e != null) {
+                throw new IllegalAccessException(e.toString());
+            } else {
+                invokeReflectiveExecutableMethod(obj, meth);
+            }
         }
     }
 
