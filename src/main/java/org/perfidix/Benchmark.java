@@ -21,8 +21,8 @@
 package org.perfidix;
 
 import java.lang.reflect.Method;
-import java.util.HashSet;
 import java.util.Hashtable;
+import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -33,7 +33,10 @@ import org.perfidix.element.BenchmarkElement;
 import org.perfidix.element.BenchmarkExecutor;
 import org.perfidix.element.BenchmarkMethod;
 import org.perfidix.element.AbstractMethodArrangement.KindOfElementArrangement;
+import org.perfidix.failureHandling.AbstractInvocationReturn;
+import org.perfidix.failureHandling.InvalidInvocationReturn;
 import org.perfidix.meter.AbstractMeter;
+import org.perfidix.meter.NotAutomaticallyTicking;
 import org.perfidix.meter.Time;
 import org.perfidix.meter.TimeMeter;
 import org.perfidix.result.BenchmarkResult;
@@ -46,7 +49,10 @@ import org.perfidix.result.BenchmarkResult;
 public final class Benchmark {
 
     /** Set with all registered meters. */
-    private final Set<AbstractMeter> meters;
+    private final LinkedHashSet<AbstractMeter> meters;
+
+    /** Set with meters which are ticking automatically. */
+    private final LinkedHashSet<AbstractMeter> automaticallyTickingMeters;
 
     /** Set with all used classes */
     private final Set<Class<?>> clazzes;
@@ -54,19 +60,28 @@ public final class Benchmark {
     /**
      * Constructor with a fixed set of used meters.
      * 
-     * @param paramMeters
+     * @param meters
      *            meters to use.
      */
-    public Benchmark(final Set<AbstractMeter> paramMeters) {
-        this.meters = paramMeters;
-        this.clazzes = new HashSet<Class<?>>();
+    public Benchmark(final AbstractMeter... meters) {
+        this.meters = new LinkedHashSet<AbstractMeter>();
+        this.clazzes = new LinkedHashSet<Class<?>>();
+
+        for (final AbstractMeter meter : meters) {
+            this.meters.add(meter);
+        }
+
+        this.automaticallyTickingMeters = new LinkedHashSet<AbstractMeter>();
+        for (final AbstractMeter meter : meters) {
+            if (!(meter instanceof NotAutomaticallyTicking)) {
+                this.automaticallyTickingMeters.add(meter);
+            }
+        }
     }
 
     /** Standard constructor. Only using a TimeMeter */
     public Benchmark() {
-        this.meters = new HashSet<AbstractMeter>();
-        meters.add(new TimeMeter(Time.MilliSeconds));
-        this.clazzes = new HashSet<Class<?>>();
+        this(new TimeMeter(Time.MilliSeconds));
     }
 
     /**
@@ -76,7 +91,7 @@ public final class Benchmark {
      * @param clazz
      *            to be added.
      */
-    public void add(final Class<?> clazz) {
+    public final void add(final Class<?> clazz) {
         this.clazzes.add(clazz);
     }
 
@@ -88,7 +103,7 @@ public final class Benchmark {
      * @param kind
      *            of methodArrangement.
      */
-    public void run(final KindOfElementArrangement kind) {
+    public final BenchmarkResult run(final KindOfElementArrangement kind) {
 
         // getting Benchmarkables
         final Set<BenchmarkElement> elements = getBenchmarkableMethods();
@@ -103,29 +118,41 @@ public final class Benchmark {
         // executing the bench for the arrangement
         for (final BenchmarkElement elem : arrangement) {
             final BenchmarkExecutor exec =
-                    BenchmarkExecutor.getExecutor(elem, meters);
+                    BenchmarkExecutor.getExecutor(
+                            elem, automaticallyTickingMeters);
 
             final Object obj =
                     objectsToExecute.get(elem
                             .getMeth().getMethodToBench().getDeclaringClass());
 
-            try {
-                exec.executeBeforeMethods(obj);
-                exec.executeBench(obj);
-                exec.executeAfterMethods(obj);
-            } catch (IllegalAccessException e) {
+            AbstractInvocationReturn beforeRets;
+            AbstractInvocationReturn benchRets;
+            AbstractInvocationReturn afterRets;
 
+            beforeRets = exec.executeBeforeMethods(obj);
+
+            if (validReturns(beforeRets)) {
+                benchRets = exec.executeBench(obj);
+                if (validReturns(benchRets)) {
+                    afterRets = exec.executeAfterMethods(obj);
+                }
             }
 
         }
 
         // cleaning up methods to benchmark
         tearDownObjectsToExecute(objectsToExecute);
-
+        return null;
     }
 
-    public final BenchmarkResult getResult() {
-        return BenchmarkExecutor.getBenchmarkResult();
+    private final boolean validReturns(
+            final AbstractInvocationReturn... abstractInvocationReturns) {
+        for (AbstractInvocationReturn returns : abstractInvocationReturns) {
+            if (returns instanceof InvalidInvocationReturn) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /**
@@ -143,21 +170,18 @@ public final class Benchmark {
 
         // generating objects for each registered class
         for (final Class<?> clazz : clazzes) {
-            Object objectToUse;
-            try {
-                objectToUse = clazz.newInstance();
+            final Object objectToUse = clazz.newInstance();
 
-                // executing the beforeBenchclass method
-                final Method beforeClassMeth =
-                        BenchmarkMethod.findAndCheckAnyMethodByAnnotation(
-                                clazz, BeforeBenchClass.class);
-                BenchmarkExecutor.checkAndExecute(objectToUse, beforeClassMeth);
+            // executing the beforeBenchclass method
+            final Method beforeClassMeth =
+                    BenchmarkMethod.findAndCheckAnyMethodByAnnotation(
+                            clazz, BeforeBenchClass.class);
 
-            } catch (InstantiationException e) {
-                objectToUse = e;
-            } catch (IllegalAccessException e) {
-                objectToUse = e;
-            }
+            final AbstractInvocationReturn beforeClass =
+                    BenchmarkExecutor.checkAndExecute(
+                            BeforeBenchClass.class, objectToUse,
+                            beforeClassMeth);
+
             // putting the object to the mapping
             objectsToUse.put(clazz, objectToUse);
 
@@ -202,7 +226,8 @@ public final class Benchmark {
      */
     private final Set<BenchmarkElement> getBenchmarkableMethods() {
         // Generating Set for returnVal
-        final Set<BenchmarkElement> elems = new HashSet<BenchmarkElement>();
+        final Set<BenchmarkElement> elems =
+                new LinkedHashSet<BenchmarkElement>();
         // Getting all Methods and testing if its benchmarkable
         for (final Class<?> clazz : clazzes) {
             for (final Method meth : clazz.getDeclaredMethods()) {

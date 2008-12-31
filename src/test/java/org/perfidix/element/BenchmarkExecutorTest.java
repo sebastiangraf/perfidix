@@ -36,6 +36,7 @@ import org.perfidix.annotation.AfterLastRun;
 import org.perfidix.annotation.BeforeEachRun;
 import org.perfidix.annotation.BeforeFirstRun;
 import org.perfidix.annotation.Bench;
+import org.perfidix.failureHandling.PerfidixMethodCheckException;
 import org.perfidix.meter.AbstractMeter;
 import org.perfidix.meter.CountingMeter;
 import org.perfidix.meter.Time;
@@ -186,14 +187,14 @@ public class BenchmarkExecutorTest {
             BenchmarkExecutor.checkAndExecute(falseObj, correctMethod);
             fail("Should throw IllegalStateException!");
         } catch (Exception e) {
-            assertTrue(e instanceof IllegalAccessException);
+            assertTrue(e instanceof PerfidixMethodCheckException);
         }
 
         try {
             BenchmarkExecutor.checkAndExecute(correctObj, falseMethod);
             fail("Should throw IllegalAccessException!");
         } catch (Exception e) {
-            assertTrue(e instanceof IllegalAccessException);
+            assertTrue(e instanceof PerfidixMethodCheckException);
         }
 
         BenchmarkExecutor.checkAndExecute(correctObj, correctMethod);

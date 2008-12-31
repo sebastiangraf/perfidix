@@ -20,7 +20,7 @@
  */
 package org.perfidix.element;
 
-import java.lang.reflect.InvocationTargetException;
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.HashSet;
 import java.util.Hashtable;
@@ -31,8 +31,12 @@ import org.perfidix.annotation.AfterEachRun;
 import org.perfidix.annotation.AfterLastRun;
 import org.perfidix.annotation.BeforeEachRun;
 import org.perfidix.annotation.BeforeFirstRun;
+import org.perfidix.annotation.Bench;
+import org.perfidix.failureHandling.AbstractInvocationReturn;
+import org.perfidix.failureHandling.InvalidInvocationReturn;
+import org.perfidix.failureHandling.PerfidixMethodCheckException;
+import org.perfidix.failureHandling.ValidInvocationReturn;
 import org.perfidix.meter.AbstractMeter;
-import org.perfidix.meter.NotAutomaticallyTicking;
 import org.perfidix.result.BenchmarkResult;
 import org.perfidix.result.ClassResult;
 import org.perfidix.result.MethodResult;
@@ -67,8 +71,8 @@ public final class BenchmarkExecutor {
      */
     private final BenchmarkMethod element;
 
-    /** Resultset for this method. */
-    private final MethodResult methodRes;
+    // /** Resultset for this method. */
+    // private final MethodResult methodRes;
 
     /** Set with all meters to be benched automatically */
     private final Set<AbstractMeter> metersToBench;
@@ -89,13 +93,8 @@ public final class BenchmarkExecutor {
         beforeFirstRunExecuted = false;
         afterLastRunExecuted = false;
         element = paramElement;
-        methodRes = new MethodResult(element.getMethodToBench());
-        metersToBench = new HashSet<AbstractMeter>();
-        for (final AbstractMeter meter : paramMeters) {
-            if (!(meter instanceof NotAutomaticallyTicking)) {
-                metersToBench.add(meter);
-            }
-        }
+        // methodRes = new MethodResult(element.getMethodToBench());
+        metersToBench = paramMeters;
 
     }
 
@@ -132,22 +131,49 @@ public final class BenchmarkExecutor {
      * 
      * @param objToExecute
      *            the object of the class where the bench runs currently in.
-     * @throws IllegalAccessException
-     *             if invocation fails
+     * @return a List containing {@link AbstractInvocationReturn} objects.
      */
-    public final void executeBeforeMethods(final Object objToExecute)
-            throws IllegalAccessException {
+    public final AbstractInvocationReturn executeBeforeMethods(
+            final Object objToExecute) {
 
         // invoking once the beforeFirstRun-method
         if (!beforeFirstRunExecuted) {
-            final Method meth = element.findBeforeFirstRun();
-            checkAndExecute(objToExecute, meth);
             beforeFirstRunExecuted = true;
+            try {
+                final Method beforeFirst = element.findBeforeFirstRun();
+                if (beforeFirst != null) {
+                    final AbstractInvocationReturn invoRes =
+                            checkAndExecute(
+                                    BeforeFirstRun.class, objToExecute,
+                                    beforeFirst);
+                    if (invoRes instanceof InvalidInvocationReturn) {
+                        return invoRes;
+                    }
+
+                }
+            } catch (final PerfidixMethodCheckException e) {
+                return new InvalidInvocationReturn(
+                        e, e.getMethod(), BeforeFirstRun.class);
+            }
+
         }
 
         // invoking the beforeEachRun-method
-        final Method meth = element.findBeforeEachRun();
-        checkAndExecute(objToExecute, meth);
+        try {
+            final Method beforeEach = element.findBeforeEachRun();
+            if (beforeEach != null) {
+                final AbstractInvocationReturn invoRes =
+                        checkAndExecute(
+                                BeforeEachRun.class, objToExecute, beforeEach);
+                return invoRes;
+            } else {
+                return new ValidInvocationReturn(null, BeforeEachRun.class);
+            }
+        } catch (final PerfidixMethodCheckException e) {
+            return new InvalidInvocationReturn(
+                    e, e.getMethod(), BeforeEachRun.class);
+        }
+
     }
 
     /**
@@ -157,11 +183,8 @@ public final class BenchmarkExecutor {
      * @param objToExecute
      *            the instance of the benchclass where the method should be
      *            executed with.
-     * @throws IllegalAccessException
-     *             if invocation fails
      */
-    public final void executeBench(final Object objToExecute)
-            throws IllegalAccessException {
+    public final AbstractInvocationReturn executeBench(final Object objToExecute) {
 
         final double[] meterResults = new double[metersToBench.size()];
 
@@ -173,12 +196,20 @@ public final class BenchmarkExecutor {
             i++;
         }
 
-        invokeReflectiveExecutableMethod(objToExecute, meth);
+        final AbstractInvocationReturn res =
+                invokeReflectiveExecutableMethod(
+                        objToExecute, meth, Bench.class);
 
         i = 0;
         for (final AbstractMeter meter : metersToBench) {
-            methodRes.addResult(meter, meter.getValue() - meterResults[i]);
+            meterResults[i] = meter.getValue() - meterResults[i];
             i++;
+        }
+
+        if (res instanceof InvalidInvocationReturn) {
+            return res;
+        } else {
+            return new ValidInvocationReturn(meth, Bench.class, meterResults);
         }
 
     }
@@ -189,45 +220,71 @@ public final class BenchmarkExecutor {
      * 
      * @param objToExecute
      *            the object of the class where the bench runs currently in.
-     * @throws IllegalAccessException
-     *             if invocation fails
      */
-    public final void executeAfterMethods(final Object objToExecute)
-            throws IllegalAccessException {
+    public final AbstractInvocationReturn executeAfterMethods(
+            final Object objToExecute) {
 
-        // invoking once the afterLastRun-method
+        // invoking once the beforeFirstRun-method
         if (!afterLastRunExecuted) {
-            final Method meth = element.findAfterLastRun();
-            checkAndExecute(objToExecute, meth);
             afterLastRunExecuted = true;
+            try {
+                final Method afterLast = element.findAfterLastRun();
+                if (afterLast != null) {
+                    final AbstractInvocationReturn invoRes =
+                            checkAndExecute(
+                                    AfterLastRun.class, objToExecute, afterLast);
+                    if (invoRes instanceof InvalidInvocationReturn) {
+                        return invoRes;
+                    }
+                }
+            } catch (final PerfidixMethodCheckException e) {
+                return new InvalidInvocationReturn(
+                        e, e.getMethod(), AfterLastRun.class);
+            }
+
         }
 
-        // invoking the afterEachRun-method
-        final Method meth = element.findAfterEachRun();
-        checkAndExecute(objToExecute, meth);
+        // invoking the beforeEachRun-method
+        try {
+            final Method afterEach = element.findAfterEachRun();
+            if (afterEach != null) {
+                final AbstractInvocationReturn invoRes =
+                        checkAndExecute(
+                                AfterEachRun.class, objToExecute, afterEach);
+                return invoRes;
+            } else {
+                return new ValidInvocationReturn(null, BeforeEachRun.class);
+            }
+        } catch (final PerfidixMethodCheckException e) {
+            return new InvalidInvocationReturn(
+                    e, e.getMethod(), AfterEachRun.class);
+        }
+
     }
 
     /**
      * Checking if the method and the object correlate to each other and execute
      * it
      * 
+     * @param relatedAnno
+     *            annotation to be related to
      * @param obj
      *            to be checked with the method
      * @param meth
      *            to be checked with the class
-     * @throws IllegalAccessException
-     *             if invocation fails
+     * @return {@link AbstractInvocationReturn} instance
      */
-    public static final void checkAndExecute(final Object obj, final Method meth)
-            throws IllegalAccessException {
-        if (meth != null) {
-            final Exception e = checkMethod(obj, meth);
-            if (e != null) {
-                throw new IllegalAccessException(e.toString());
-            } else {
-                invokeReflectiveExecutableMethod(obj, meth);
-            }
+    public static final AbstractInvocationReturn checkAndExecute(
+            final Class<? extends Annotation> relatedAnno, final Object obj,
+            final Method meth) {
+
+        final Exception e = checkMethod(obj, meth);
+        if (e != null) {
+            return new InvalidInvocationReturn(e, meth, relatedAnno);
+        } else {
+            return invokeReflectiveExecutableMethod(obj, meth, relatedAnno);
         }
+
     }
 
     /**
@@ -240,16 +297,16 @@ public final class BenchmarkExecutor {
      * @throws IllegalAccessException
      *             if something is going wrong
      */
-    private static final void invokeReflectiveExecutableMethod(
-            final Object obj, final Method meth) throws IllegalAccessException {
+    private static final AbstractInvocationReturn invokeReflectiveExecutableMethod(
+            final Object obj, final Method meth,
+            final Class<? extends Annotation> relatedAnno) {
         final Object[] args = {};
 
         try {
             meth.invoke(obj, args);
-        } catch (IllegalArgumentException e) {
-            new IllegalAccessException(e.toString());
-        } catch (InvocationTargetException e) {
-            new IllegalAccessException(e.toString());
+            return new ValidInvocationReturn(meth, relatedAnno);
+        } catch (Exception e) {
+            return new InvalidInvocationReturn(e, meth, relatedAnno);
         }
     }
 

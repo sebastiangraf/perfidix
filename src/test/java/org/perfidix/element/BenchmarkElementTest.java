@@ -40,6 +40,7 @@ import org.perfidix.annotation.BeforeFirstRun;
 import org.perfidix.annotation.Bench;
 import org.perfidix.annotation.BenchClass;
 import org.perfidix.annotation.SkipBench;
+import org.perfidix.failureHandling.PerfidixMethodCheckException;
 
 /**
  * This class acts as a testcase for the BenchmarkElement-class.
@@ -136,17 +137,17 @@ public class BenchmarkElementTest {
      * {@link org.perfidix.element.BenchmarkMethod#findAndCheckAnyMethodByAnnotation(java.lang.Class,java.lang.Class)}
      * .
      * 
-     * @throws IllegalAccessException
+     * @throws PerfidixMethodCheckException
      *             should be thrown if something weird happen
      */
-    @Test(expected = IllegalAccessException.class)
+    @Test(expected = PerfidixMethodCheckException.class)
     public void testFindAndCheckAnyMethodByAnnotation()
-            throws IllegalAccessException {
+            throws PerfidixMethodCheckException {
         try {
             currentClassToTest = new TestFindAndCheckBenchClass();
             BenchmarkMethod.findAndCheckAnyMethodByAnnotation(
                     currentClassToTest.getClass(), ShouldOccureOnce.class);
-        } catch (IllegalAccessException e) {
+        } catch (PerfidixMethodCheckException e) {
             throw e;
         } catch (Exception e) {
             fail(e.toString());
