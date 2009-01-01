@@ -21,9 +21,6 @@
 package org.perfidix.result;
 
 import java.lang.reflect.Method;
-import java.util.LinkedList;
-
-import org.perfidix.meter.AbstractMeter;
 
 /**
  * Class to hold the result related to one method. That means that all
@@ -35,9 +32,6 @@ import org.perfidix.meter.AbstractMeter;
  */
 public final class MethodResult extends AbstractResult {
 
-    /** Method which corresponds to this result */
-    private final Method meth;
-
     /**
      * Simple Constructor
      * 
@@ -45,39 +39,13 @@ public final class MethodResult extends AbstractResult {
      *            , the method related to these results
      */
     public MethodResult(final Method paramMethod) {
-        super();
-        meth = paramMethod;
-
-    }
-
-    /**
-     * Adding a result to a given meter
-     * 
-     * @param meter
-     *            the meter to which the data is related to
-     * @param value
-     *            the value to be snapshot
-     */
-    public final void addResult(final AbstractMeter meter, final double value) {
-        if (!super.meterResults.containsKey(meter)) {
-            super.meterResults.put(meter, new LinkedList<Double>());
-        }
-        super.getResultSet(meter).add(value);
-    }
-
-    /**
-     * Getter for the method.
-     * 
-     * @return the method of this result
-     */
-    public final Method getMeth() {
-        return meth;
+        super(paramMethod);
     }
 
     /** {@inheritDoc} */
     @Override
     public final String getElementName() {
-        return meth.getName();
+        return ((Method) getRelatedElement()).getName();
     }
 
 }

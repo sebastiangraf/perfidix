@@ -24,19 +24,17 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 
 /**
- * This class acts as container for all {@link Exception} types thrown while
- * checking if a method is reflective executable via the Perfidix framework.
- * 
  * @author Sebastian Graf, University of Konstanz
  */
-public class PerfidixMethodCheckException extends PerfidixMethodException {
+public final class PerfidixMethodInvocationException
+        extends PerfidixMethodException {
 
     /**
      * @param paramExec
      * @param paramMeth
      * @param paramAnnotation
      */
-    public PerfidixMethodCheckException(
+    public PerfidixMethodInvocationException(
             final Exception paramExec, final Method paramMeth,
             final Class<? extends Annotation> paramAnnotation) {
         super(paramExec, paramMeth, paramAnnotation);

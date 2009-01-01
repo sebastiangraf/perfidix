@@ -20,7 +20,9 @@
 package org.perfidix.result;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Hashtable;
+import java.util.LinkedList;
 import java.util.Map;
 import java.util.Set;
 
@@ -33,6 +35,7 @@ import org.apache.commons.math.stat.descriptive.rank.Min;
 import org.apache.commons.math.stat.descriptive.rank.Percentile;
 import org.apache.commons.math.stat.descriptive.summary.Sum;
 import org.apache.commons.math.stat.descriptive.summary.SumOfSquares;
+import org.perfidix.failureHandling.PerfidixMethodException;
 import org.perfidix.meter.AbstractMeter;
 
 /**
@@ -45,16 +48,24 @@ import org.perfidix.meter.AbstractMeter;
  */
 public abstract class AbstractResult {
 
+    /** Related element of this container. Can be a method or a class */
+    private final Object relatedElement;
+
+    /** All occured exceptions */
+    private final Set<PerfidixMethodException> exceptions;
+
     /**
      * Results mapped to the meters
      */
-    protected final Map<AbstractMeter, Collection<Double>> meterResults;
+    private final Map<AbstractMeter, Collection<Double>> meterResults;
 
     /**
      * Constructor with a given name.
      */
-    protected AbstractResult() {
-        meterResults = new Hashtable<AbstractMeter, Collection<Double>>();
+    protected AbstractResult(final Object paramRelatedElement) {
+        this.relatedElement = paramRelatedElement;
+        this.meterResults = new Hashtable<AbstractMeter, Collection<Double>>();
+        this.exceptions = new HashSet<PerfidixMethodException>();
 
     }
 
@@ -218,6 +229,26 @@ public abstract class AbstractResult {
      */
     public final int getNumberOfResult(final AbstractMeter meter) {
         return meterResults.get(meter).size();
+    }
+
+    /**
+     * Getter for the related element where this container corresponds to.
+     * 
+     * @return the relatedElement
+     */
+    public final Object getRelatedElement() {
+        return relatedElement;
+    }
+
+    public final void addException(final PerfidixMethodException exec) {
+        this.exceptions.add(exec);
+    }
+
+    public final void addData(final AbstractMeter meter, final double data) {
+        if (!meterResults.containsKey(meter)) {
+            meterResults.put(meter, new LinkedList<Double>());
+        }
+        meterResults.get(meter).add(data);
     }
 
     // /**

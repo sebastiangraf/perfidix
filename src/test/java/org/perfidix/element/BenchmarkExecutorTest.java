@@ -25,8 +25,7 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.lang.reflect.Method;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.LinkedHashSet;
 
 import org.junit.After;
 import org.junit.Before;
@@ -41,6 +40,7 @@ import org.perfidix.meter.AbstractMeter;
 import org.perfidix.meter.CountingMeter;
 import org.perfidix.meter.Time;
 import org.perfidix.meter.TimeMeter;
+import org.perfidix.result.BenchmarkResult;
 
 /**
  * Test case for the BenchmarkExecutor. Note that all classes used in this
@@ -51,7 +51,7 @@ import org.perfidix.meter.TimeMeter;
  */
 public class BenchmarkExecutorTest {
 
-    private Set<AbstractMeter> meter;
+    private LinkedHashSet<AbstractMeter> meter;
     /** static int to check the beforefirstcounter */
     public static int once;
     /** static int to check the beforeeachcounter */
@@ -62,11 +62,12 @@ public class BenchmarkExecutorTest {
      */
     @Before
     public void setUp() {
-        meter = new HashSet<AbstractMeter>();
+        meter = new LinkedHashSet<AbstractMeter>();
         meter.add(new TimeMeter(Time.MilliSeconds));
         meter.add(new CountingMeter());
         once = 0;
         each = 0;
+        BenchmarkExecutor.initialize(meter, new BenchmarkResult(null));
     }
 
     /**
@@ -80,7 +81,7 @@ public class BenchmarkExecutorTest {
 
     /**
      * Test method for
-     * {@link org.perfidix.element.BenchmarkExecutor#getExecutor(org.perfidix.element.BenchmarkElement, java.util.Set)}
+     * {@link org.perfidix.element.BenchmarkExecutor#getExecutor(org.perfidix.element.BenchmarkElement)}
      * .
      */
     @Test
@@ -92,11 +93,9 @@ public class BenchmarkExecutorTest {
         final BenchmarkMethod elem2 = new BenchmarkMethod(meth);
 
         final BenchmarkExecutor exec1 =
-                BenchmarkExecutor.getExecutor(
-                        new BenchmarkElement(elem1), meter);
+                BenchmarkExecutor.getExecutor(new BenchmarkElement(elem1));
         final BenchmarkExecutor exec2 =
-                BenchmarkExecutor.getExecutor(
-                        new BenchmarkElement(elem2), meter);
+                BenchmarkExecutor.getExecutor(new BenchmarkElement(elem2));
 
         assertTrue(exec1 == exec2);
     }
@@ -118,8 +117,7 @@ public class BenchmarkExecutorTest {
         final BenchmarkMethod elem = new BenchmarkMethod(meth);
 
         final BenchmarkExecutor exec =
-                BenchmarkExecutor
-                        .getExecutor(new BenchmarkElement(elem), meter);
+                BenchmarkExecutor.getExecutor(new BenchmarkElement(elem));
 
         exec.executeBeforeMethods(objToExecute);
         exec.executeBeforeMethods(objToExecute);
@@ -154,8 +152,7 @@ public class BenchmarkExecutorTest {
         final BenchmarkMethod elem = new BenchmarkMethod(meth);
 
         final BenchmarkExecutor exec =
-                BenchmarkExecutor
-                        .getExecutor(new BenchmarkElement(elem), meter);
+                BenchmarkExecutor.getExecutor(new BenchmarkElement(elem));
 
         exec.executeAfterMethods(objToExecute);
         exec.executeAfterMethods(objToExecute);

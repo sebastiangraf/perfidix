@@ -70,7 +70,7 @@ public class ResultContainerTest {
                         "method", args));
         for (int i = 0; i < NUMBEROFTICKS; i++) {
             meter1.tick();
-            methodRes11.addResult(meter1, meter1.getValue());
+            methodRes11.addData(meter1, meter1.getValue());
         }
 
         methodRes21 =
@@ -79,7 +79,7 @@ public class ResultContainerTest {
 
         for (int i = 0; i < NUMBEROFTICKS * TICKFACTOR; i++) {
             meter2.tick();
-            methodRes21.addResult(meter2, meter2.getValue());
+            methodRes21.addData(meter2, meter2.getValue());
         }
 
         methodRes12 =
@@ -89,7 +89,7 @@ public class ResultContainerTest {
 
         * TICKFACTOR; i++) {
             meter1.tick();
-            methodRes12.addResult(meter1, meter1.getValue());
+            methodRes12.addData(meter1, meter1.getValue());
         }
 
         methodRes22 =
@@ -100,7 +100,7 @@ public class ResultContainerTest {
 
         * TICKFACTOR * TICKFACTOR; i++) {
             meter2.tick();
-            methodRes22.addResult(meter2, meter2.getValue());
+            methodRes22.addData(meter2, meter2.getValue());
         }
 
     }
@@ -158,20 +158,7 @@ public class ResultContainerTest {
 
     /**
      * Test method for
-     * {@link org.perfidix.result.ClassResult#ClassResult(Class, Set)}
-     */
-    @Test(expected = IllegalArgumentException.class)
-    public void testResultContainer1() {
-        final Set<MethodResult> methRes = new HashSet<MethodResult>();
-        methRes.add(methodRes11);
-        methRes.add(methodRes21);
-
-        new ClassResult(class1.getClass(), methRes);
-    }
-
-    /**
-     * Test method for
-     * {@link org.perfidix.result.ClassResult#ClassResult(Class, Set)}
+     * {@link org.perfidix.result.ClassResult#ClassResult(Class)}
      */
     @Test
     public void testResultContainer2() {

@@ -110,10 +110,12 @@ public final class BenchmarkMethod {
                                 .getDeclaringClass()
                                 .getDeclaredMethod(
                                         benchAnno.beforeFirstRun(), setUpParams);
-            } catch (SecurityException e) {
-                throw new PerfidixMethodCheckException(e, method);
-            } catch (NoSuchMethodException e) {
-                throw new PerfidixMethodCheckException(e, method);
+            } catch (final SecurityException e) {
+                throw new PerfidixMethodCheckException(
+                        e, method, BeforeFirstRun.class);
+            } catch (final NoSuchMethodException e) {
+                throw new PerfidixMethodCheckException(
+                        e, method, BeforeFirstRun.class);
             }
         }
 
@@ -127,7 +129,7 @@ public final class BenchmarkMethod {
                         new IllegalAccessException(new StringBuilder(
                                 "BeforeFirstRun-annotated method ")
                                 .append(method).append(" is not executable.")
-                                .toString()), method);
+                                .toString()), method, BeforeFirstRun.class);
             }
         } else {
             return findAndCheckAnyMethodByAnnotation(getMethodToBench()
@@ -168,9 +170,11 @@ public final class BenchmarkMethod {
                                 .getDeclaringClass().getDeclaredMethod(
                                         benchAnno.beforeEachRun(), setUpParams);
             } catch (SecurityException e) {
-                throw new PerfidixMethodCheckException(e, method);
+                throw new PerfidixMethodCheckException(
+                        e, method, BeforeEachRun.class);
             } catch (NoSuchMethodException e) {
-                throw new PerfidixMethodCheckException(e, method);
+                throw new PerfidixMethodCheckException(
+                        e, method, BeforeEachRun.class);
             }
         }
 
@@ -184,7 +188,7 @@ public final class BenchmarkMethod {
                         new IllegalAccessException(new StringBuilder(
                                 "BeforeEachRun-annotated method ")
                                 .append(method).append(" is not executable.")
-                                .toString()), method);
+                                .toString()), method, BeforeEachRun.class);
             }
         } else {
             return findAndCheckAnyMethodByAnnotation(getMethodToBench()
@@ -225,9 +229,11 @@ public final class BenchmarkMethod {
                                 .getDeclaringClass().getDeclaredMethod(
                                         benchAnno.afterEachRun(), setUpParams);
             } catch (SecurityException e) {
-                throw new PerfidixMethodCheckException(e, method);
+                throw new PerfidixMethodCheckException(
+                        e, method, AfterEachRun.class);
             } catch (NoSuchMethodException e) {
-                throw new PerfidixMethodCheckException(e, method);
+                throw new PerfidixMethodCheckException(
+                        e, method, AfterEachRun.class);
             }
         }
 
@@ -241,7 +247,7 @@ public final class BenchmarkMethod {
                         new IllegalAccessException(new StringBuilder(
                                 "AfterEachRun-annotated method ")
                                 .append(method).append(" is not executable.")
-                                .toString()), method);
+                                .toString()), method, AfterEachRun.class);
             }
         } else {
             return findAndCheckAnyMethodByAnnotation(getMethodToBench()
@@ -281,9 +287,11 @@ public final class BenchmarkMethod {
                                 .getDeclaringClass().getDeclaredMethod(
                                         benchAnno.afterLastRun(), setUpParams);
             } catch (SecurityException e) {
-                throw new PerfidixMethodCheckException(e, method);
+                throw new PerfidixMethodCheckException(
+                        e, method, AfterLastRun.class);
             } catch (NoSuchMethodException e) {
-                throw new PerfidixMethodCheckException(e, method);
+                throw new PerfidixMethodCheckException(
+                        e, method, AfterLastRun.class);
             }
         }
 
@@ -297,7 +305,7 @@ public final class BenchmarkMethod {
                         new IllegalAccessException(new StringBuilder(
                                 "AfterLastRun-annotated method ")
                                 .append(method).append(" is not executable.")
-                                .toString()), method);
+                                .toString()), method, AfterLastRun.class);
             }
         } else {
             return findAndCheckAnyMethodByAnnotation(getMethodToBench()
@@ -379,7 +387,7 @@ public final class BenchmarkMethod {
                                         .append("-annotated method ").append(
                                                 meth).append(
                                                 " is not executable.")
-                                        .toString()), meth);
+                                        .toString()), meth, anno);
                     }
                 } else {
                     throw new PerfidixMethodCheckException(
@@ -387,7 +395,7 @@ public final class BenchmarkMethod {
                                     "Please use only one ").append(
                                     anno.toString()).append(
                                     "-annotation in one class.").toString()),
-                            meth);
+                            meth, anno);
                 }
             }
         }

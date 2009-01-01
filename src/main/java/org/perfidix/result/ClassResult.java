@@ -20,8 +20,6 @@
  */
 package org.perfidix.result;
 
-import java.util.Set;
-
 /**
  * This class holds all results related to a benchmarked class. That means that,
  * given a Set with {@link MethodResult} objects, these objects are stored in
@@ -34,62 +32,19 @@ import java.util.Set;
  */
 public final class ClassResult extends ResultContainer<MethodResult> {
 
-    /** Reference to the class related to these results. */
-    private final Class<?> clazz;
-
     /**
      * Constructor-
      * 
      * @param paramClass
      *            class of these results
-     * @param paramMethodResults
-     *            the {@link MethodResult} which build up this result
      */
-    public ClassResult(
-            final Class<?> paramClass,
-            final Set<MethodResult> paramMethodResults) {
-        super();
-        clazz = paramClass;
-        if (!checkMethodResultCorrelation(paramMethodResults)) {
-            throw new IllegalArgumentException(
-                    new StringBuilder("Correlation ")
-                            .append(paramMethodResults).append(
-                                    " doesn't correspond to class ").append(
-                                    clazz).toString());
-        }
-        setUpContainer(paramMethodResults);
-    }
-
-    /**
-     * Getting the class related to these results.
-     * 
-     * @return the clazz related to these results
-     */
-    public final Class<?> getClazz() {
-        return clazz;
-    }
-
-    /**
-     * Method to check if the methodresults correspond to the class registered
-     * with this result.
-     * 
-     * @param methResults
-     *            results to check
-     * @return true if matched, false otherwise
-     */
-    private final boolean checkMethodResultCorrelation(
-            final Set<MethodResult> methResults) {
-        for (final MethodResult res : methResults) {
-            if (res.getMeth().getDeclaringClass() != clazz) {
-                return false;
-            }
-        }
-        return true;
+    public ClassResult(final Class<?> paramClass) {
+        super(paramClass);
     }
 
     /** {@inheritDoc} */
     @Override
     public final String getElementName() {
-        return clazz.getSimpleName();
+        return ((Class<?>) getRelatedElement()).getSimpleName();
     }
 }

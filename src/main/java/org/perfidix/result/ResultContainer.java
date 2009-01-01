@@ -19,9 +19,9 @@
 
 package org.perfidix.result;
 
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.Set;
+import java.util.Collection;
+import java.util.Hashtable;
+import java.util.Map;
 
 import org.perfidix.meter.AbstractMeter;
 
@@ -37,35 +37,26 @@ import org.perfidix.meter.AbstractMeter;
 public abstract class ResultContainer<ResultType extends AbstractResult>
         extends AbstractResult {
 
-    /** Set of all elements */
-    private final Set<ResultType> elements;
+    /** Map of all elements with the Mapping Method/Class -> ResultType */
+    protected final Map<Object, ResultType> elements;
 
     /**
      * Constructor.
      */
-    protected ResultContainer() {
-        super();
-        elements = new HashSet<ResultType>();
+    protected ResultContainer(final Object paramRelatedElement) {
+        super(paramRelatedElement);
+        elements = new Hashtable<Object, ResultType>();
     }
 
     /**
-     * Clears the elements and appending the elements of the underlaying
+     * Updates the elements and appending the elements of the underlaying
      * elements.
-     * 
-     * @param res
-     *            the result to append.
      */
-    public final void setUpContainer(final Set<ResultType> res) {
-        elements.clear();
-        elements.addAll(res);
-        for (final ResultType singleType : res) {
-            for (final AbstractMeter meter : singleType.getRegisteredMeters()) {
-                if (!getRegisteredMeters().contains(meter)) {
-                    meterResults.put(meter, new LinkedList<Double>());
-                }
-                getResultSet(meter).addAll(singleType.getResultSet(meter));
-            }
-        }
+    public final void updateStructure(
+            final ResultType type, final AbstractMeter meter, final double data) {
+        type.addData(meter, data);
+        addData(meter, data);
+
     }
 
     /**
@@ -73,10 +64,10 @@ public abstract class ResultContainer<ResultType extends AbstractResult>
      * {@link BenchmarkResult} -> {@link ClassResult}; {@link ClassResult} ->
      * {@link MethodResult};
      * 
-     * @return a {@link Set} of the included results.
+     * @return a {@link Collection} of the included results.
      */
-    public final Set<ResultType> getIncludedResults() {
-        return elements;
+    public final Collection<ResultType> getIncludedResults() {
+        return elements.values();
     }
 
 }

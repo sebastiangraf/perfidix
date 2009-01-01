@@ -22,24 +22,19 @@ package org.perfidix.element;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
-import java.util.HashSet;
 import java.util.Hashtable;
+import java.util.LinkedHashSet;
 import java.util.Map;
-import java.util.Set;
 
 import org.perfidix.annotation.AfterEachRun;
 import org.perfidix.annotation.AfterLastRun;
 import org.perfidix.annotation.BeforeEachRun;
 import org.perfidix.annotation.BeforeFirstRun;
 import org.perfidix.annotation.Bench;
-import org.perfidix.failureHandling.AbstractInvocationReturn;
-import org.perfidix.failureHandling.InvalidInvocationReturn;
 import org.perfidix.failureHandling.PerfidixMethodCheckException;
-import org.perfidix.failureHandling.ValidInvocationReturn;
+import org.perfidix.failureHandling.PerfidixMethodInvocationException;
 import org.perfidix.meter.AbstractMeter;
 import org.perfidix.result.BenchmarkResult;
-import org.perfidix.result.ClassResult;
-import org.perfidix.result.MethodResult;
 
 /**
  * Corresponding to each method, an executor is launched to execute
@@ -60,8 +55,15 @@ public final class BenchmarkExecutor {
     private final static Map<BenchmarkMethod, BenchmarkExecutor> executor =
             new Hashtable<BenchmarkMethod, BenchmarkExecutor>();
 
+    /** Set with all meters to be benched automatically */
+    private static LinkedHashSet<AbstractMeter> metersToBench;
+
+    /** Result for all Benchmarks */
+    private static BenchmarkResult benchRes;
+
     /** Boolean to be sure that the beforeFirstRun was not executed yet. */
     private boolean beforeFirstRunExecuted;
+
     /** Boolean to be sure that the afterLastRun was not executed yet. */
     private boolean afterLastRunExecuted;
 
@@ -71,12 +73,6 @@ public final class BenchmarkExecutor {
      */
     private final BenchmarkMethod element;
 
-    // /** Resultset for this method. */
-    // private final MethodResult methodRes;
-
-    /** Set with all meters to be benched automatically */
-    private final Set<AbstractMeter> metersToBench;
-
     /**
      * Private constructor, just setting the booleans and one element to get the
      * before/after methods.
@@ -84,18 +80,11 @@ public final class BenchmarkExecutor {
      * @param paramElement
      *            BenchmarkElement to provide easy access to the before/after
      *            methods.
-     * @paramMeters All meters that should be included in the execution process
-     *              of the bench itself.
      */
-    private BenchmarkExecutor(
-            final BenchmarkMethod paramElement,
-            final Set<AbstractMeter> paramMeters) {
+    private BenchmarkExecutor(final BenchmarkMethod paramElement) {
         beforeFirstRunExecuted = false;
         afterLastRunExecuted = false;
         element = paramElement;
-        // methodRes = new MethodResult(element.getMethodToBench());
-        metersToBench = paramMeters;
-
     }
 
     /**
@@ -104,20 +93,14 @@ public final class BenchmarkExecutor {
      * @param meth
      *            for the executor. If the underlaying {@link Method} was not
      *            registered, a new mapping-entry will be created.
-     * @param meters
-     *            meters to be benched, note that this set has to be equal for
-     *            all executor-instance calls, that means the setup of the
-     *            meters is not allowed to change in meantime because of the
-     *            returnVal.
      * @return the BenchmarkExecutor corresponding to the Method of the
      *         BenchmarkElement
      */
     public static final BenchmarkExecutor getExecutor(
-            final BenchmarkElement meth, final Set<AbstractMeter> meters) {
+            final BenchmarkElement meth) {
         // check if new instance needs to be created
         if (!executor.containsKey(meth.getMeth())) {
-            executor.put(meth.getMeth(), new BenchmarkExecutor(
-                    meth.getMeth(), meters));
+            executor.put(meth.getMeth(), new BenchmarkExecutor(meth.getMeth()));
         }
 
         // returning the executor
@@ -126,52 +109,54 @@ public final class BenchmarkExecutor {
     }
 
     /**
+     * Initializing the executor.
+     * 
+     * @param meters
+     *            to be benched
+     * @param result
+     *            to be stored to
+     */
+    public static final void initialize(
+            final LinkedHashSet<AbstractMeter> meters,
+            final BenchmarkResult result) {
+        metersToBench = meters;
+        benchRes = result;
+    }
+
+    /**
      * Executing the {@link BeforeFirstRun}-annotated methods (if still wasn't)
      * and the {@link BeforeEachRun} methods.
      * 
-     * @param objToExecute
+     * @param obj
      *            the object of the class where the bench runs currently in.
-     * @return a List containing {@link AbstractInvocationReturn} objects.
      */
-    public final AbstractInvocationReturn executeBeforeMethods(
-            final Object objToExecute) {
+    public final void executeBeforeMethods(final Object obj) {
 
         // invoking once the beforeFirstRun-method
         if (!beforeFirstRunExecuted) {
             beforeFirstRunExecuted = true;
+
+            Method beforeFirst = null;
             try {
-                final Method beforeFirst = element.findBeforeFirstRun();
-                if (beforeFirst != null) {
-                    final AbstractInvocationReturn invoRes =
-                            checkAndExecute(
-                                    BeforeFirstRun.class, objToExecute,
-                                    beforeFirst);
-                    if (invoRes instanceof InvalidInvocationReturn) {
-                        return invoRes;
-                    }
-
-                }
+                beforeFirst = element.findBeforeFirstRun();
             } catch (final PerfidixMethodCheckException e) {
-                return new InvalidInvocationReturn(
-                        e, e.getMethod(), BeforeFirstRun.class);
+                benchRes.addException(e);
             }
-
+            if (beforeFirst != null) {
+                checkAndExectuteBeforeAfters(
+                        obj, beforeFirst, BeforeFirstRun.class);
+            }
         }
 
         // invoking the beforeEachRun-method
+        Method beforeEach = null;
         try {
-            final Method beforeEach = element.findBeforeEachRun();
-            if (beforeEach != null) {
-                final AbstractInvocationReturn invoRes =
-                        checkAndExecute(
-                                BeforeEachRun.class, objToExecute, beforeEach);
-                return invoRes;
-            } else {
-                return new ValidInvocationReturn(null, BeforeEachRun.class);
-            }
+            beforeEach = element.findBeforeEachRun();
         } catch (final PerfidixMethodCheckException e) {
-            return new InvalidInvocationReturn(
-                    e, e.getMethod(), BeforeEachRun.class);
+            benchRes.addException(e);
+        }
+        if (beforeEach != null) {
+            checkAndExectuteBeforeAfters(obj, beforeEach, BeforeEachRun.class);
         }
 
     }
@@ -184,7 +169,7 @@ public final class BenchmarkExecutor {
      *            the instance of the benchclass where the method should be
      *            executed with.
      */
-    public final AbstractInvocationReturn executeBench(final Object objToExecute) {
+    public final void executeBench(final Object objToExecute) {
 
         final double[] meterResults = new double[metersToBench.size()];
 
@@ -196,7 +181,7 @@ public final class BenchmarkExecutor {
             i++;
         }
 
-        final AbstractInvocationReturn res =
+        final PerfidixMethodInvocationException res =
                 invokeReflectiveExecutableMethod(
                         objToExecute, meth, Bench.class);
 
@@ -206,10 +191,14 @@ public final class BenchmarkExecutor {
             i++;
         }
 
-        if (res instanceof InvalidInvocationReturn) {
-            return res;
+        if (res != null) {
+            benchRes.addException(res);
         } else {
-            return new ValidInvocationReturn(meth, Bench.class, meterResults);
+            i = 0;
+            for (final AbstractMeter meter : metersToBench) {
+                benchRes.addData(
+                        element.getMethodToBench(), meter, meterResults[i]);
+            }
         }
 
     }
@@ -218,73 +207,54 @@ public final class BenchmarkExecutor {
      * Executing the {@link AfterLastRun}-annotated methods (if still wasn't)
      * and the {@link AfterEachRun} methods.
      * 
-     * @param objToExecute
+     * @param obj
      *            the object of the class where the bench runs currently in.
      */
-    public final AbstractInvocationReturn executeAfterMethods(
-            final Object objToExecute) {
+    public final void executeAfterMethods(final Object obj) {
 
         // invoking once the beforeFirstRun-method
         if (!afterLastRunExecuted) {
             afterLastRunExecuted = true;
+            Method afterLast = null;
             try {
-                final Method afterLast = element.findAfterLastRun();
-                if (afterLast != null) {
-                    final AbstractInvocationReturn invoRes =
-                            checkAndExecute(
-                                    AfterLastRun.class, objToExecute, afterLast);
-                    if (invoRes instanceof InvalidInvocationReturn) {
-                        return invoRes;
-                    }
-                }
+                afterLast = element.findAfterLastRun();
             } catch (final PerfidixMethodCheckException e) {
-                return new InvalidInvocationReturn(
-                        e, e.getMethod(), AfterLastRun.class);
+                benchRes.addException(e);
+            }
+            if (afterLast != null) {
+                checkAndExectuteBeforeAfters(obj, afterLast, AfterLastRun.class);
             }
 
         }
 
         // invoking the beforeEachRun-method
+        Method afterEach = null;
         try {
-            final Method afterEach = element.findAfterEachRun();
-            if (afterEach != null) {
-                final AbstractInvocationReturn invoRes =
-                        checkAndExecute(
-                                AfterEachRun.class, objToExecute, afterEach);
-                return invoRes;
-            } else {
-                return new ValidInvocationReturn(null, BeforeEachRun.class);
-            }
+            afterEach = element.findAfterEachRun();
         } catch (final PerfidixMethodCheckException e) {
-            return new InvalidInvocationReturn(
-                    e, e.getMethod(), AfterEachRun.class);
+            benchRes.addException(e);
+        }
+        if (afterEach != null) {
+            checkAndExectuteBeforeAfters(obj, afterEach, AfterEachRun.class);
         }
 
     }
 
-    /**
-     * Checking if the method and the object correlate to each other and execute
-     * it
-     * 
-     * @param relatedAnno
-     *            annotation to be related to
-     * @param obj
-     *            to be checked with the method
-     * @param meth
-     *            to be checked with the class
-     * @return {@link AbstractInvocationReturn} instance
-     */
-    public static final AbstractInvocationReturn checkAndExecute(
-            final Class<? extends Annotation> relatedAnno, final Object obj,
-            final Method meth) {
-
-        final Exception e = checkMethod(obj, meth);
-        if (e != null) {
-            return new InvalidInvocationReturn(e, meth, relatedAnno);
+    private final void checkAndExectuteBeforeAfters(
+            final Object obj, final Method meth,
+            final Class<? extends Annotation> anno) {
+        final PerfidixMethodCheckException checkExc =
+                checkReflectiveExecutableMethod(obj, meth, AfterLastRun.class);
+        if (checkExc != null) {
+            benchRes.addException(checkExc);
         } else {
-            return invokeReflectiveExecutableMethod(obj, meth, relatedAnno);
+            final PerfidixMethodInvocationException invoExc =
+                    invokeReflectiveExecutableMethod(
+                            obj, meth, AfterLastRun.class);
+            if (invoExc != null) {
+                benchRes.addException(invoExc);
+            }
         }
-
     }
 
     /**
@@ -294,19 +264,17 @@ public final class BenchmarkExecutor {
      *            to be executed
      * @param meth
      *            to be executed
-     * @throws IllegalAccessException
-     *             if something is going wrong
      */
-    private static final AbstractInvocationReturn invokeReflectiveExecutableMethod(
+    public static final PerfidixMethodInvocationException invokeReflectiveExecutableMethod(
             final Object obj, final Method meth,
             final Class<? extends Annotation> relatedAnno) {
         final Object[] args = {};
 
         try {
             meth.invoke(obj, args);
-            return new ValidInvocationReturn(meth, relatedAnno);
+            return null;
         } catch (Exception e) {
-            return new InvalidInvocationReturn(e, meth, relatedAnno);
+            return new PerfidixMethodInvocationException(e, meth, relatedAnno);
         }
     }
 
@@ -321,8 +289,9 @@ public final class BenchmarkExecutor {
      * @return an Exception if something is wrong in the mapping, null
      *         otherwise.
      */
-    private static final Exception checkMethod(
-            final Object obj, final Method meth) {
+    public static final PerfidixMethodCheckException checkReflectiveExecutableMethod(
+            final Object obj, final Method meth,
+            final Class<? extends Annotation> anno) {
         // check if the class of the object to be executed has the given method
         boolean correlationClassMethod = false;
         for (final Method methodOfClass : obj.getClass().getDeclaredMethods()) {
@@ -332,39 +301,42 @@ public final class BenchmarkExecutor {
         }
 
         if (!correlationClassMethod) {
-            return new IllegalStateException(new StringBuilder(
-                    "Object to execute ")
-                    .append(obj).append(" is not having a Method named ")
-                    .append(meth).append(".").toString());
+            return new PerfidixMethodCheckException(new IllegalStateException(
+                    new StringBuilder("Object to execute ")
+                            .append(obj).append(
+                                    " is not having a Method named ").append(
+                                    meth).append(".").toString()), meth, anno);
         }
 
         // check if the method is reflected executable
         if (!BenchmarkMethod.isReflectedExecutable(meth)) {
-            return new IllegalAccessException(new StringBuilder(
-                    "Method to execute ").append(meth).append(
-                    " is not reflected executable.").toString());
+            return new PerfidixMethodCheckException(
+                    new IllegalAccessException(new StringBuilder(
+                            "Method to execute ").append(meth).append(
+                            " is not reflected executable.").toString()), meth,
+                    anno);
         }
         return null;
     }
 
-    public static final BenchmarkResult getBenchmarkResult() {
-        final Map<Class<?>, Set<MethodResult>> classTempResults =
-                new Hashtable<Class<?>, Set<MethodResult>>();
-        for (final BenchmarkExecutor exec : executor.values()) {
-
-            final Class<?> clazz = exec.methodRes.getMeth().getDeclaringClass();
-            if (!classTempResults.containsKey(clazz)) {
-                classTempResults.put(clazz, new HashSet<MethodResult>());
-            }
-            classTempResults.get(clazz).add(exec.methodRes);
-        }
-
-        final Set<ClassResult> classResults = new HashSet<ClassResult>();
-        for (final Class<?> clazz : classTempResults.keySet()) {
-            classResults
-                    .add(new ClassResult(clazz, classTempResults.get(clazz)));
-        }
-
-        return new BenchmarkResult(classResults);
-    }
+    // public static final BenchmarkResult getBenchmarkResult() {
+    // final Map<Class<?>, Set<MethodResult>> classTempResults =
+    // new Hashtable<Class<?>, Set<MethodResult>>();
+    // for (final BenchmarkExecutor exec : executor.values()) {
+    //
+    // final Class<?> clazz = exec.methodRes.getMeth().getDeclaringClass();
+    // if (!classTempResults.containsKey(clazz)) {
+    // classTempResults.put(clazz, new HashSet<MethodResult>());
+    // }
+    // classTempResults.get(clazz).add(exec.methodRes);
+    // }
+    //
+    // final Set<ClassResult> classResults = new HashSet<ClassResult>();
+    // for (final Class<?> clazz : classTempResults.keySet()) {
+    // classResults
+    // .add(new ClassResult(clazz, classTempResults.get(clazz)));
+    // }
+    //
+    // return new BenchmarkResult(classResults);
+    // }
 }

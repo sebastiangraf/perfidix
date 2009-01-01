@@ -33,8 +33,8 @@ import org.perfidix.element.BenchmarkElement;
 import org.perfidix.element.BenchmarkExecutor;
 import org.perfidix.element.BenchmarkMethod;
 import org.perfidix.element.AbstractMethodArrangement.KindOfElementArrangement;
-import org.perfidix.failureHandling.AbstractInvocationReturn;
-import org.perfidix.failureHandling.InvalidInvocationReturn;
+import org.perfidix.failureHandling.PerfidixMethodCheckException;
+import org.perfidix.failureHandling.PerfidixMethodInvocationException;
 import org.perfidix.meter.AbstractMeter;
 import org.perfidix.meter.NotAutomaticallyTicking;
 import org.perfidix.meter.Time;
@@ -105,6 +105,9 @@ public final class Benchmark {
      */
     public final BenchmarkResult run(final KindOfElementArrangement kind) {
 
+        final BenchmarkResult res = new BenchmarkResult(this);
+        BenchmarkExecutor.initialize(automaticallyTickingMeters, res);
+
         // getting Benchmarkables
         final Set<BenchmarkElement> elements = getBenchmarkableMethods();
 
@@ -113,46 +116,26 @@ public final class Benchmark {
                 AbstractMethodArrangement.getMethodArrangement(elements, kind);
 
         // getting the mapping and executing beforemethod
-        final Map<Class<?>, Object> objectsToExecute = setUpObjectsToExecute();
+        final Map<Class<?>, Object> objectsToExecute =
+                setUpObjectsToExecute(res);
 
         // executing the bench for the arrangement
         for (final BenchmarkElement elem : arrangement) {
-            final BenchmarkExecutor exec =
-                    BenchmarkExecutor.getExecutor(
-                            elem, automaticallyTickingMeters);
+            final BenchmarkExecutor exec = BenchmarkExecutor.getExecutor(elem);
 
             final Object obj =
                     objectsToExecute.get(elem
                             .getMeth().getMethodToBench().getDeclaringClass());
 
-            AbstractInvocationReturn beforeRets;
-            AbstractInvocationReturn benchRets;
-            AbstractInvocationReturn afterRets;
-
-            beforeRets = exec.executeBeforeMethods(obj);
-
-            if (validReturns(beforeRets)) {
-                benchRets = exec.executeBench(obj);
-                if (validReturns(benchRets)) {
-                    afterRets = exec.executeAfterMethods(obj);
-                }
-            }
+            exec.executeBeforeMethods(obj);
+            exec.executeBench(obj);
+            exec.executeAfterMethods(obj);
 
         }
 
         // cleaning up methods to benchmark
-        tearDownObjectsToExecute(objectsToExecute);
+        tearDownObjectsToExecute(objectsToExecute, res);
         return null;
-    }
-
-    private final boolean validReturns(
-            final AbstractInvocationReturn... abstractInvocationReturns) {
-        for (AbstractInvocationReturn returns : abstractInvocationReturns) {
-            if (returns instanceof InvalidInvocationReturn) {
-                return false;
-            }
-        }
-        return true;
     }
 
     /**
@@ -163,27 +146,56 @@ public final class Benchmark {
      * @throws IllegalAccessException
      *             if the instantiation of a class fails
      */
-    private final Map<Class<?>, Object> setUpObjectsToExecute() {
+    private final Map<Class<?>, Object> setUpObjectsToExecute(
+            final BenchmarkResult res) {
         // datastructure initialization for all objects
         final Map<Class<?>, Object> objectsToUse =
                 new Hashtable<Class<?>, Object>();
 
         // generating objects for each registered class
         for (final Class<?> clazz : clazzes) {
-            final Object objectToUse = clazz.newInstance();
-
-            // executing the beforeBenchclass method
-            final Method beforeClassMeth =
-                    BenchmarkMethod.findAndCheckAnyMethodByAnnotation(
-                            clazz, BeforeBenchClass.class);
-
-            final AbstractInvocationReturn beforeClass =
-                    BenchmarkExecutor.checkAndExecute(
-                            BeforeBenchClass.class, objectToUse,
-                            beforeClassMeth);
-
-            // putting the object to the mapping
-            objectsToUse.put(clazz, objectToUse);
+            Object objectToUse = null;
+            try {
+                objectToUse = clazz.newInstance();
+            } catch (final InstantiationException e) {
+                res.addException(new PerfidixMethodInvocationException(
+                        e, null, BeforeBenchClass.class));
+            } catch (final IllegalAccessException e) {
+                res.addException(new PerfidixMethodInvocationException(
+                        e, null, BeforeBenchClass.class));
+            }
+            if (objectsToUse != null) {
+                // executing the beforeBenchclass method
+                Method beforeClassMeth = null;
+                try {
+                    beforeClassMeth =
+                            BenchmarkMethod.findAndCheckAnyMethodByAnnotation(
+                                    clazz, BeforeBenchClass.class);
+                } catch (final PerfidixMethodCheckException e) {
+                    res.addException(e);
+                }
+                if (beforeClassMeth != null) {
+                    final PerfidixMethodCheckException e =
+                            BenchmarkExecutor.checkReflectiveExecutableMethod(
+                                    objectToUse, beforeClassMeth,
+                                    BeforeBenchClass.class);
+                    if (e == null) {
+                        final PerfidixMethodInvocationException e2 =
+                                BenchmarkExecutor
+                                        .invokeReflectiveExecutableMethod(
+                                                objectToUse, beforeClassMeth,
+                                                BeforeBenchClass.class);
+                        if (e2 == null) {
+                            // putting the object to the mapping
+                            objectsToUse.put(clazz, objectToUse);
+                        } else {
+                            res.addException(e2);
+                        }
+                    } else {
+                        res.addException(e);
+                    }
+                }
+            }
 
         }
         return objectsToUse;
@@ -199,22 +211,38 @@ public final class Benchmark {
      *             if the tear down of a class fails
      */
     private final void tearDownObjectsToExecute(
-            final Map<Class<?>, Object> objects) {
+            final Map<Class<?>, Object> objects, final BenchmarkResult res) {
 
         // executing tearDown for all clazzes registered in given Map
         for (final Class<?> clazz : objects.keySet()) {
             final Object objectToUse = objects.get(clazz);
 
+            // executing AfterClass for all objects.
+            Method afterClassMeth = null;
             try {
-                // executing AfterClass for all objects.
-                final Method afterClassMeth =
+                afterClassMeth =
                         BenchmarkMethod.findAndCheckAnyMethodByAnnotation(
                                 clazz, AfterBenchClass.class);
-                BenchmarkExecutor.checkAndExecute(objectToUse, afterClassMeth);
-            } catch (IllegalAccessException e) {
-                // TODO think about exception handling
+            } catch (final PerfidixMethodCheckException e) {
+                res.addException(e);
             }
-
+            if (afterClassMeth != null) {
+                final PerfidixMethodCheckException e1 =
+                        BenchmarkExecutor.checkReflectiveExecutableMethod(
+                                objectToUse, afterClassMeth,
+                                AfterBenchClass.class);
+                if (e1 == null) {
+                    final PerfidixMethodInvocationException e2 =
+                            BenchmarkExecutor.invokeReflectiveExecutableMethod(
+                                    objectToUse, afterClassMeth,
+                                    AfterBenchClass.class);
+                    if (e2 != null) {
+                        res.addException(e2);
+                    }
+                } else {
+                    res.addException(e1);
+                }
+            }
         }
     }
 

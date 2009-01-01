@@ -20,7 +20,10 @@
  */
 package org.perfidix.result;
 
-import java.util.Set;
+import java.lang.reflect.Method;
+
+import org.perfidix.Benchmark;
+import org.perfidix.meter.AbstractMeter;
 
 /**
  * This class holds the data of the whole benchmark in different
@@ -34,12 +37,11 @@ public final class BenchmarkResult extends ResultContainer<ClassResult> {
     /**
      * Constructor.
      * 
-     * @param paramClassResults
-     *            the results from the different {@link ClassResult} objects.
+     * @param benchmark
+     *            related {@link Benchmark} instance for listener possibility
      */
-    public BenchmarkResult(final Set<ClassResult> paramClassResults) {
-        super();
-        setUpContainer(paramClassResults);
+    public BenchmarkResult(final Benchmark benchmark) {
+        super(benchmark);
     }
 
     /** {@inheritDoc} */
@@ -48,4 +50,24 @@ public final class BenchmarkResult extends ResultContainer<ClassResult> {
         return "Benchmark";
     }
 
+    public final void addData(
+            final Method meth, final AbstractMeter meter, final double data) {
+
+        final Class<?> clazz = meth.getDeclaringClass();
+        if (!elements.containsKey(clazz)) {
+            elements.put(clazz, new ClassResult(clazz));
+        }
+
+        final ClassResult clazzResult = elements.get(clazz);
+        if (!clazzResult.elements.containsKey(meth)) {
+            clazzResult.elements.put(meth, new MethodResult(meth));
+        }
+
+        final MethodResult methodResult = clazzResult.elements.get(meth);
+        methodResult.addData(meter, data);
+
+        clazzResult.updateStructure(methodResult, meter, data);
+        this.updateStructure(clazzResult, meter, data);
+
+    }
 }
