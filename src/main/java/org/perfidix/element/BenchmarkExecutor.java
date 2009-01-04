@@ -198,6 +198,7 @@ public final class BenchmarkExecutor {
             for (final AbstractMeter meter : metersToBench) {
                 benchRes.addData(
                         element.getMethodToBench(), meter, meterResults[i]);
+                i++;
             }
         }
 

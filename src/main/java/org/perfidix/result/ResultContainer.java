@@ -19,6 +19,7 @@
 
 package org.perfidix.result;
 
+import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.Hashtable;
 import java.util.Map;
@@ -70,6 +71,13 @@ public abstract class ResultContainer<ResultType extends AbstractResult>
         return elements.values();
     }
 
+    /**
+     * Getting the results for one object.
+     * 
+     * @param obj
+     *            the object, can be a {@link Class} or a {@link Method}
+     * @return the result for this object
+     */
     public final ResultType getResultForObject(final Object obj) {
         return elements.get(obj);
     }

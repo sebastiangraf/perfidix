@@ -153,35 +153,42 @@ public final class Benchmark {
                 res.addException(new PerfidixMethodInvocationException(
                         e, null, BeforeBenchClass.class));
             }
-            if (objectsToUse != null) {
+            if (objectToUse != null) {
                 // executing the beforeBenchclass method
                 Method beforeClassMeth = null;
+                boolean continueVal = true;
                 try {
                     beforeClassMeth =
                             BenchmarkMethod.findAndCheckAnyMethodByAnnotation(
                                     clazz, BeforeBenchClass.class);
                 } catch (final PerfidixMethodCheckException e) {
                     res.addException(e);
+                    continueVal = false;
                 }
-                if (beforeClassMeth != null) {
-                    final PerfidixMethodCheckException e =
-                            BenchmarkExecutor.checkReflectiveExecutableMethod(
-                                    objectToUse, beforeClassMeth,
-                                    BeforeBenchClass.class);
-                    if (e == null) {
-                        final PerfidixMethodInvocationException e2 =
+                if (continueVal) {
+                    if (beforeClassMeth != null) {
+                        final PerfidixMethodCheckException e =
                                 BenchmarkExecutor
-                                        .invokeReflectiveExecutableMethod(
+                                        .checkReflectiveExecutableMethod(
                                                 objectToUse, beforeClassMeth,
                                                 BeforeBenchClass.class);
-                        if (e2 == null) {
-                            // putting the object to the mapping
-                            objectsToUse.put(clazz, objectToUse);
+                        if (e == null) {
+                            final PerfidixMethodInvocationException e2 =
+                                    BenchmarkExecutor
+                                            .invokeReflectiveExecutableMethod(
+                                                    objectToUse,
+                                                    beforeClassMeth,
+                                                    BeforeBenchClass.class);
+                            if (e2 == null) {
+                                objectsToUse.put(clazz, objectToUse);
+                            } else {
+                                res.addException(e2);
+                            }
                         } else {
-                            res.addException(e2);
+                            res.addException(e);
                         }
                     } else {
-                        res.addException(e);
+                        objectsToUse.put(clazz, objectToUse);
                     }
                 }
             }

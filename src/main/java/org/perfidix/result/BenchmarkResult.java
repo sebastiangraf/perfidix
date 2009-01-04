@@ -50,6 +50,17 @@ public final class BenchmarkResult extends ResultContainer<ClassResult> {
         return "Benchmark";
     }
 
+    /**
+     * Adding a dataset to a given meter and adapting the underlaying result
+     * model
+     * 
+     * @param meth
+     *            where the result is corresponding to
+     * @param meter
+     *            where the result is corresponding to
+     * @param data
+     *            the data itself
+     */
     public final void addData(
             final Method meth, final AbstractMeter meter, final double data) {
 
