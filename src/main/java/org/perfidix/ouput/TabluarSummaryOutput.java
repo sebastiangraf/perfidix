@@ -37,6 +37,7 @@ import org.perfidix.result.MethodResult;
  */
 public final class TabluarSummaryOutput extends ResultVisitor {
 
+    /** Print stream where the result should end */
     private final PrintStream out;
 
     /**

@@ -84,6 +84,7 @@ public abstract class AbstractResult {
      * @return the result set.
      */
     public final Collection<Double> getResultSet(final AbstractMeter meter) {
+        checkIfMeterExists(meter);
         return this.meterResults.get(meter);
     }
 
@@ -105,6 +106,7 @@ public abstract class AbstractResult {
      * @return the mean value.
      */
     public final double mean(final AbstractMeter meter) {
+        checkIfMeterExists(meter);
         final AbstractUnivariateStatistic mean = new Mean();
         final CollectionDoubleCollection doubleColl =
                 new CollectionDoubleCollection(this.meterResults.get(meter));
@@ -120,6 +122,7 @@ public abstract class AbstractResult {
      * @return the square sum.
      */
     public final double squareSum(final AbstractMeter meter) {
+        checkIfMeterExists(meter);
         final AbstractUnivariateStatistic sqrSum = new SumOfSquares();
         final CollectionDoubleCollection doubleColl =
                 new CollectionDoubleCollection(this.meterResults.get(meter));
@@ -135,6 +138,7 @@ public abstract class AbstractResult {
      * @return the standard deviation
      */
     public final double getStandardDeviation(final AbstractMeter meter) {
+        checkIfMeterExists(meter);
         final AbstractUnivariateStatistic stdDev = new StandardDeviation();
         final CollectionDoubleCollection doubleColl =
                 new CollectionDoubleCollection(this.meterResults.get(meter));
@@ -150,6 +154,7 @@ public abstract class AbstractResult {
      * @return the sum of all runs.
      */
     public final double sum(final AbstractMeter meter) {
+        checkIfMeterExists(meter);
         final AbstractUnivariateStatistic sum = new Sum();
         final CollectionDoubleCollection doubleColl =
                 new CollectionDoubleCollection(this.meterResults.get(meter));
@@ -165,6 +170,7 @@ public abstract class AbstractResult {
      * @return the minimum result value.
      */
     public double min(final AbstractMeter meter) {
+        checkIfMeterExists(meter);
         final AbstractUnivariateStatistic min = new Min();
         final CollectionDoubleCollection doubleColl =
                 new CollectionDoubleCollection(this.meterResults.get(meter));
@@ -181,6 +187,7 @@ public abstract class AbstractResult {
      * @return the 99% confidence
      */
     public final double getConf05(final AbstractMeter meter) {
+        checkIfMeterExists(meter);
         final AbstractUnivariateStatistic conf05 = new Percentile(5.0);
         final CollectionDoubleCollection doubleColl =
                 new CollectionDoubleCollection(this.meterResults.get(meter));
@@ -198,6 +205,7 @@ public abstract class AbstractResult {
      * @return the 95% confidence
      */
     public final double getConf95(final AbstractMeter meter) {
+        checkIfMeterExists(meter);
         final AbstractUnivariateStatistic conf95 = new Percentile(95.0);
         final CollectionDoubleCollection doubleColl =
                 new CollectionDoubleCollection(this.meterResults.get(meter));
@@ -213,6 +221,7 @@ public abstract class AbstractResult {
      * @return the maximum result value.
      */
     public final double max(final AbstractMeter meter) {
+        checkIfMeterExists(meter);
         final AbstractUnivariateStatistic max = new Max();
         final CollectionDoubleCollection doubleColl =
                 new CollectionDoubleCollection(this.meterResults.get(meter));
@@ -228,6 +237,7 @@ public abstract class AbstractResult {
      * @return the number of results of one meter
      */
     public final int getNumberOfResult(final AbstractMeter meter) {
+        checkIfMeterExists(meter);
         return meterResults.get(meter).size();
     }
 
@@ -240,15 +250,40 @@ public abstract class AbstractResult {
         return relatedElement;
     }
 
+    /**
+     * Adding an exception to this result
+     * 
+     * @param exec
+     *            the exception stored to this result
+     */
     public final void addException(final PerfidixMethodException exec) {
         this.exceptions.add(exec);
     }
 
+    /**
+     * Adding a data to a meter
+     * 
+     * @param meter
+     *            the related meter
+     * @param data
+     *            the data to be added
+     */
     protected final void addData(final AbstractMeter meter, final double data) {
+        checkIfMeterExists(meter);
+        meterResults.get(meter).add(data);
+    }
+
+    /**
+     * Checking method if meter is registered, otherwise inserting a suitable
+     * data structure.
+     * 
+     * @param meter
+     *            to be checked
+     */
+    private final void checkIfMeterExists(final AbstractMeter meter) {
         if (!meterResults.containsKey(meter)) {
             meterResults.put(meter, new LinkedList<Double>());
         }
-        meterResults.get(meter).add(data);
     }
 
     // /**
