@@ -240,17 +240,26 @@ public final class BenchmarkExecutor {
 
     }
 
+    /**
+     * Checking and executing several before/after methods.
+     * 
+     * @param obj
+     *            on which the execution should take place
+     * @param meth
+     *            to be executed
+     * @param anno
+     *            the related annotation
+     */
     private final void checkAndExectuteBeforeAfters(
             final Object obj, final Method meth,
             final Class<? extends Annotation> anno) {
         final PerfidixMethodCheckException checkExc =
-                checkReflectiveExecutableMethod(obj, meth, AfterLastRun.class);
+                checkReflectiveExecutableMethod(obj, meth, anno);
         if (checkExc != null) {
             benchRes.addException(checkExc);
         } else {
             final PerfidixMethodInvocationException invoExc =
-                    invokeReflectiveExecutableMethod(
-                            obj, meth, AfterLastRun.class);
+                    invokeReflectiveExecutableMethod(obj, meth, anno);
             if (invoExc != null) {
                 benchRes.addException(invoExc);
             }
@@ -261,9 +270,13 @@ public final class BenchmarkExecutor {
      * Method to invoke a reflective invokable method.
      * 
      * @param obj
-     *            to be executed
+     *            on which the execution takes place
      * @param meth
      *            to be executed
+     * @param relatedAnno
+     *            related annotation for the execution
+     * @return {@link PerfidixMethodInvocationException} if invocation fails,
+     *         null otherwise.
      */
     public static final PerfidixMethodInvocationException invokeReflectiveExecutableMethod(
             final Object obj, final Method meth,
@@ -283,11 +296,13 @@ public final class BenchmarkExecutor {
      * the object fits.
      * 
      * @param obj
-     *            to be checked.
+     *            on which the execution takes place
      * @param meth
      *            to be checked
-     * @return an Exception if something is wrong in the mapping, null
-     *         otherwise.
+     * @param anno
+     *            the related annotation for the check
+     * @return {@link PerfidixMethodCheckException} if something is wrong in the
+     *         mapping, null otherwise.
      */
     public static final PerfidixMethodCheckException checkReflectiveExecutableMethod(
             final Object obj, final Method meth,
@@ -319,24 +334,4 @@ public final class BenchmarkExecutor {
         return null;
     }
 
-    // public static final BenchmarkResult getBenchmarkResult() {
-    // final Map<Class<?>, Set<MethodResult>> classTempResults =
-    // new Hashtable<Class<?>, Set<MethodResult>>();
-    // for (final BenchmarkExecutor exec : executor.values()) {
-    //
-    // final Class<?> clazz = exec.methodRes.getMeth().getDeclaringClass();
-    // if (!classTempResults.containsKey(clazz)) {
-    // classTempResults.put(clazz, new HashSet<MethodResult>());
-    // }
-    // classTempResults.get(clazz).add(exec.methodRes);
-    // }
-    //
-    // final Set<ClassResult> classResults = new HashSet<ClassResult>();
-    // for (final Class<?> clazz : classTempResults.keySet()) {
-    // classResults
-    // .add(new ClassResult(clazz, classTempResults.get(clazz)));
-    // }
-    //
-    // return new BenchmarkResult(classResults);
-    // }
 }

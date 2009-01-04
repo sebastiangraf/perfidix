@@ -130,12 +130,11 @@ public final class Benchmark {
             exec.executeBeforeMethods(obj);
             exec.executeBench(obj);
             exec.executeAfterMethods(obj);
-
         }
 
         // cleaning up methods to benchmark
         tearDownObjectsToExecute(objectsToExecute, res);
-        return null;
+        return res;
     }
 
     /**
