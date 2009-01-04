@@ -244,7 +244,7 @@ public abstract class AbstractResult {
         this.exceptions.add(exec);
     }
 
-    public final void addData(final AbstractMeter meter, final double data) {
+    protected final void addData(final AbstractMeter meter, final double data) {
         if (!meterResults.containsKey(meter)) {
             meterResults.put(meter, new LinkedList<Double>());
         }

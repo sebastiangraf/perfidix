@@ -52,7 +52,7 @@ public abstract class ResultContainer<ResultType extends AbstractResult>
      * Updates the elements and appending the elements of the underlaying
      * elements.
      */
-    public final void updateStructure(
+    protected final void updateStructure(
             final ResultType type, final AbstractMeter meter, final double data) {
         type.addData(meter, data);
         addData(meter, data);
@@ -68,6 +68,10 @@ public abstract class ResultContainer<ResultType extends AbstractResult>
      */
     public final Collection<ResultType> getIncludedResults() {
         return elements.values();
+    }
+
+    public final ResultType getResultForObject(final Object obj) {
+        return elements.get(obj);
     }
 
 }

@@ -22,7 +22,6 @@ package org.perfidix.element;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import java.lang.reflect.Method;
 import java.util.LinkedHashSet;
@@ -35,6 +34,7 @@ import org.perfidix.annotation.AfterLastRun;
 import org.perfidix.annotation.BeforeEachRun;
 import org.perfidix.annotation.BeforeFirstRun;
 import org.perfidix.annotation.Bench;
+import org.perfidix.annotation.SkipBench;
 import org.perfidix.failureHandling.PerfidixMethodCheckException;
 import org.perfidix.meter.AbstractMeter;
 import org.perfidix.meter.CountingMeter;
@@ -163,7 +163,9 @@ public class BenchmarkExecutorTest {
 
     /**
      * Test method for
-     * {@link org.perfidix.element.BenchmarkExecutor#checkAndExecute(Object, Method)}
+     * {@link org.perfidix.element.BenchmarkExecutor#checkReflectiveExecutableMethod(Object, Method, Class)}
+     * and
+     * {@link org.perfidix.element.BenchmarkExecutor#invokeReflectiveExecutableMethod(Object, Method, Class)}
      * 
      * @throws Exception
      *             of any kind because of reflection
@@ -180,21 +182,18 @@ public class BenchmarkExecutorTest {
         final Method falseMethod =
                 correctObj.getClass().getDeclaredMethods()[1];
 
-        try {
-            BenchmarkExecutor.checkAndExecute(falseObj, correctMethod);
-            fail("Should throw IllegalStateException!");
-        } catch (Exception e) {
-            assertTrue(e instanceof PerfidixMethodCheckException);
-        }
+        final PerfidixMethodCheckException e1 =
+                BenchmarkExecutor.checkReflectiveExecutableMethod(
+                        falseObj, correctMethod, SkipBench.class);
+        assertTrue(e1 != null);
 
-        try {
-            BenchmarkExecutor.checkAndExecute(correctObj, falseMethod);
-            fail("Should throw IllegalAccessException!");
-        } catch (Exception e) {
-            assertTrue(e instanceof PerfidixMethodCheckException);
-        }
+        final PerfidixMethodCheckException e2 =
+                BenchmarkExecutor.checkReflectiveExecutableMethod(
+                        correctObj, falseMethod, SkipBench.class);
+        assertTrue(e2 != null);
 
-        BenchmarkExecutor.checkAndExecute(correctObj, correctMethod);
+        BenchmarkExecutor.invokeReflectiveExecutableMethod(
+                correctObj, correctMethod, SkipBench.class);
         assertEquals(1, once);
 
     }
