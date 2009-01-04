@@ -24,6 +24,9 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 
 /**
+ * This class acts as a super exception for all exception thrown by the Perfidix
+ * framework while invoking methods.
+ * 
  * @author Sebastian Graf, University of Konstanz
  */
 public abstract class PerfidixMethodException extends Exception {
@@ -86,6 +89,48 @@ public abstract class PerfidixMethodException extends Exception {
      */
     public final Class<? extends Annotation> getRelatedAnno() {
         return relatedAnno;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((exec == null) ? 0 : exec.hashCode());
+        result = prime * result + ((meth == null) ? 0 : meth.hashCode());
+        result =
+                prime
+                        * result
+                        + ((relatedAnno == null) ? 0 : relatedAnno.hashCode());
+        return result;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        PerfidixMethodException other = (PerfidixMethodException) obj;
+        if (exec == null) {
+            if (other.exec != null)
+                return false;
+        } else if (!exec.equals(other.exec))
+            return false;
+        if (meth == null) {
+            if (other.meth != null)
+                return false;
+        } else if (!meth.equals(other.meth))
+            return false;
+        if (relatedAnno == null) {
+            if (other.relatedAnno != null)
+                return false;
+        } else if (!relatedAnno.equals(other.relatedAnno))
+            return false;
+        return true;
     }
 
 }

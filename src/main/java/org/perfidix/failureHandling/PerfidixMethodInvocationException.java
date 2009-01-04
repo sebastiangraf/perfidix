@@ -24,15 +24,26 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 
 /**
+ * This class acts as container for all {@link Exception} types thrown while
+ * invoking a method which is reflective executable via the Perfidix framework.
+ * 
  * @author Sebastian Graf, University of Konstanz
  */
 public final class PerfidixMethodInvocationException
         extends PerfidixMethodException {
 
+    /** serializable id */
+    private static final long serialVersionUID = 1L;
+
     /**
+     * Constructor.
+     * 
      * @param paramExec
+     *            encapsulated exception
      * @param paramMeth
+     *            the method where the error occured
      * @param paramAnnotation
+     *            the related annotation of the method
      */
     public PerfidixMethodInvocationException(
             final Exception paramExec, final Method paramMeth,

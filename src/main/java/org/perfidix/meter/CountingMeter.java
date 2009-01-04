@@ -22,15 +22,11 @@ package org.perfidix.meter;
 
 /**
  * Simple meter to count given ticks. The ticks are not resetted afterwards, the
- * counting always continues. This meter implements the
- * {@link NotAutomaticallyTicking} interface for getting the ticking
- * functionality by hand.
  * 
  * @author Alexander Onea, neue Couch
  * @author Sebastian Graf, University of Konstanz
  */
-public final class CountingMeter extends AbstractMeter
-        implements NotAutomaticallyTicking {
+public final class CountingMeter extends AbstractMeter {
 
     /**
      * Constant to store the default name.

@@ -36,7 +36,6 @@ import org.perfidix.element.AbstractMethodArrangement.KindOfElementArrangement;
 import org.perfidix.failureHandling.PerfidixMethodCheckException;
 import org.perfidix.failureHandling.PerfidixMethodInvocationException;
 import org.perfidix.meter.AbstractMeter;
-import org.perfidix.meter.NotAutomaticallyTicking;
 import org.perfidix.meter.Time;
 import org.perfidix.meter.TimeMeter;
 import org.perfidix.result.BenchmarkResult;
@@ -50,9 +49,6 @@ public final class Benchmark {
 
     /** Set with all registered meters. */
     private final LinkedHashSet<AbstractMeter> meters;
-
-    /** Set with meters which are ticking automatically. */
-    private final LinkedHashSet<AbstractMeter> automaticallyTickingMeters;
 
     /** Set with all used classes */
     private final Set<Class<?>> clazzes;
@@ -71,12 +67,6 @@ public final class Benchmark {
             this.meters.add(meter);
         }
 
-        this.automaticallyTickingMeters = new LinkedHashSet<AbstractMeter>();
-        for (final AbstractMeter meter : meters) {
-            if (!(meter instanceof NotAutomaticallyTicking)) {
-                this.automaticallyTickingMeters.add(meter);
-            }
-        }
     }
 
     /** Standard constructor. Only using a TimeMeter */
@@ -106,7 +96,7 @@ public final class Benchmark {
     public final BenchmarkResult run(final KindOfElementArrangement kind) {
 
         final BenchmarkResult res = new BenchmarkResult(this);
-        BenchmarkExecutor.initialize(automaticallyTickingMeters, res);
+        BenchmarkExecutor.initialize(meters, res);
 
         // getting Benchmarkables
         final Set<BenchmarkElement> elements = getBenchmarkableMethods();
