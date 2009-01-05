@@ -182,7 +182,6 @@ public final class CSVOutput extends AbstractOutput {
             final File toWriteTo = new File(folder, buildFileName(names));
             return new PrintStream(new FileOutputStream(toWriteTo, true));
         } else {
-            System.out.println();
             return System.out;
         }
     }
