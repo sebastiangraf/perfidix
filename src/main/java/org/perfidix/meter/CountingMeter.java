@@ -31,7 +31,7 @@ public final class CountingMeter extends AbstractMeter {
     /**
      * Constant to store the default name.
      */
-    private static final String DEFAULTNAME = "counting meter";
+    private static final String DEFAULTNAME = "CountingMeter";
 
     /**
      * Constant to store the default unit.

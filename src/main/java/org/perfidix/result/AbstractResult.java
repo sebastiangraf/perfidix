@@ -270,47 +270,16 @@ public abstract class AbstractResult {
         }
     }
 
-    // /**
-    // * @param indent
-    // * the number of indentations to use.
-    // * @param displayRawData
-    // * whether to show the raw data also.
-    // * @return string
-    // */
-    // private final String toString(final int indent, final boolean
-    // displayRawData) {
-    //
-    // final AsciiTable v = new AsciiTable();
-    // v.visit(this);
-    //
-    // if (displayRawData) {
-    // String returnVal = "";
-    // for (final AbstractMeter meter : this.meterResults.keySet()) {
-    // final CollectionDoubleCollection doubleColl =
-    // new CollectionDoubleCollection(this.meterResults
-    // .get(meter));
-    // returnVal =
-    // returnVal
-    // + NiceTable.Util.implode(",", doubleColl
-    // .toArray())
-    // + "\n";
-    // }
-    // return returnVal;
-    // } else {
-    // return v.toString();
-    // }
-    //
-    // }
-    //
-    // /**
-    // * to string implementation.
-    // *
-    // * @return the result.
-    // */
-    // @Override
-    // public final String toString() {
-    // return toString(-1, false);
-    //
-    // }
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public final String toString() {
+        final StringBuilder builder = new StringBuilder();
+        builder.append(getElementName()).append("\nmeters: ").append(
+                getRegisteredMeters()).append("\nresults: ").append(
+                meterResults);
+        return builder.toString();
+    }
 
 }

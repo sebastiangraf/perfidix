@@ -21,9 +21,11 @@
 package org.perfidix.element;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.lang.reflect.Method;
+import java.util.Iterator;
 import java.util.LinkedHashSet;
 
 import org.junit.After;
@@ -42,6 +44,8 @@ import org.perfidix.meter.CountingMeter;
 import org.perfidix.meter.Time;
 import org.perfidix.meter.TimeMeter;
 import org.perfidix.result.BenchmarkResult;
+import org.perfidix.result.ClassResult;
+import org.perfidix.result.MethodResult;
 
 /**
  * Test case for the BenchmarkExecutor. Note that all classes used in this
@@ -58,17 +62,20 @@ public class BenchmarkExecutorTest {
     /** static int to check the beforeeachcounter */
     public static int each;
 
+    private BenchmarkResult res;
+
     /**
      * Simple SetUp.
      */
     @Before
     public void setUp() {
+        res = new BenchmarkResult();
         meter = new LinkedHashSet<AbstractMeter>();
         meter.add(new TimeMeter(Time.MilliSeconds));
         meter.add(new CountingMeter());
         once = 0;
         each = 0;
-        BenchmarkExecutor.initialize(meter, new BenchmarkResult());
+        BenchmarkExecutor.initialize(meter, res);
     }
 
     /**
@@ -78,6 +85,7 @@ public class BenchmarkExecutorTest {
     public void tearDown() {
         meter.clear();
         meter = null;
+        res = null;
     }
 
     /**
@@ -89,7 +97,7 @@ public class BenchmarkExecutorTest {
      */
     @Test
     public void testGetExecutor() throws Exception {
-        final GetTestClass getInstanceClass = new GetTestClass();
+        final NormalTestClass getInstanceClass = new NormalTestClass();
         final Method meth = getInstanceClass.getClass().getMethod("bench");
 
         final BenchmarkMethod elem1 = new BenchmarkMethod(meth);
@@ -133,9 +141,40 @@ public class BenchmarkExecutorTest {
     /**
      * Test method for
      * {@link org.perfidix.element.BenchmarkExecutor#executeBench(Object)} .
+     * 
+     * @throws Exception
+     *             of any kind because reflection
      */
     @Test
-    public void testExecuteBench() {
+    public void testExecuteBench() throws Exception {
+        final NormalTestClass normalClass = new NormalTestClass();
+        final Method meth = normalClass.getClass().getMethod("bench");
+
+        final Object objToExecute = normalClass.getClass().newInstance();
+
+        final BenchmarkMethod elem = new BenchmarkMethod(meth);
+
+        final BenchmarkExecutor exec =
+                BenchmarkExecutor.getExecutor(new BenchmarkElement(elem));
+        exec.executeBench(objToExecute);
+
+        assertEquals(1, each);
+        assertEquals(meter, res.getRegisteredMeters());
+        final Iterator<ClassResult> classResIter =
+                res.getIncludedResults().iterator();
+        final ClassResult classRes = classResIter.next();
+        assertFalse(classResIter.hasNext());
+        assertEquals(meter, classRes.getRegisteredMeters());
+        assertEquals(objToExecute.getClass(), classRes.getRelatedElement());
+        assertEquals(normalClass.getClass(), classRes.getRelatedElement());
+
+        final Iterator<MethodResult> methResIter =
+                classRes.getIncludedResults().iterator();
+        final MethodResult methRes = methResIter.next();
+        assertFalse(methResIter.hasNext());
+        assertEquals(meter, methRes.getRegisteredMeters());
+        assertEquals(meth, methRes.getRelatedElement());
+
     }
 
     /**
@@ -221,10 +260,11 @@ class CheckAndExecuteTestClass {
 
 }
 
-class GetTestClass {
+class NormalTestClass {
 
     @Bench
     public void bench() {
+        BenchmarkExecutorTest.each++;
     }
 
 }

@@ -38,6 +38,10 @@ public final class BenchmarkElement {
     /** The unique id for this elements. */
     private final int id;
 
+    /**
+     * Static Mapping for BenchmarkMethod->Integer. Every BenchmarkMethod gains
+     * one unique id from this mapping.
+     */
     private final static Map<BenchmarkMethod, Integer> idMapping =
             new Hashtable<BenchmarkMethod, Integer>();
 
