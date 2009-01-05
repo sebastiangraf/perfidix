@@ -38,7 +38,7 @@ import org.perfidix.failureHandling.PerfidixMethodInvocationException;
 import org.perfidix.meter.AbstractMeter;
 import org.perfidix.meter.Time;
 import org.perfidix.meter.TimeMeter;
-import org.perfidix.ouput.BenchmarkListener;
+import org.perfidix.ouput.AbstractOutput;
 import org.perfidix.result.BenchmarkResult;
 
 /**
@@ -92,11 +92,17 @@ public final class Benchmark {
      * 
      * @param kind
      *            of methodArrangement.
+     * @param visitor
+     *            {@link AbstractOutput} instances which are listening to
+     *            upcoming results. Note that this is not an alternative for the
+     *            visit-functionality with the {@link BenchmarkResult} returnval
+     *            of the {@link AbstractOutput}
+     * @return {@link BenchmarkResult} the result in an {@link BenchmarkResult}
+     *         container.
      */
     public final BenchmarkResult run(
-            final KindOfArrangement kind, final BenchmarkListener... listener) {
-
-        final BenchmarkResult res = new BenchmarkResult(this);
+            final KindOfArrangement kind, final AbstractOutput... visitor) {
+        final BenchmarkResult res = new BenchmarkResult(visitor);
         BenchmarkExecutor.initialize(meters, res);
 
         // getting Benchmarkables

@@ -24,10 +24,9 @@ import java.lang.reflect.Method;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.perfidix.Benchmark;
 import org.perfidix.failureHandling.PerfidixMethodException;
 import org.perfidix.meter.AbstractMeter;
-import org.perfidix.ouput.BenchmarkListener;
+import org.perfidix.ouput.AbstractOutput;
 
 /**
  * This class holds the data of the whole benchmark in different
@@ -38,40 +37,22 @@ import org.perfidix.ouput.BenchmarkListener;
  */
 public final class BenchmarkResult extends ResultContainer<ClassResult> {
 
-    /**
-     * Used {@link BenchmarkListener} instance for getting notification about
-     * upcoming results.
-     */
-    private final BenchmarkListener listener;
-
     /** All occured exceptions */
     private final Set<PerfidixMethodException> exceptions;
 
-    /**
-     * Constructor.
-     * 
-     * @param benchmark
-     *            related {@link Benchmark} instance
-     * @param paramListener
-     *            bound {@link BenchmarkListener} instance
-     */
-    public BenchmarkResult(
-            final Benchmark benchmark, final BenchmarkListener paramListener) {
-        super(benchmark);
-        this.listener = paramListener;
-        this.exceptions = new HashSet<PerfidixMethodException>();
-    }
+    /** Outputs for listeners */
+    private final AbstractOutput[] outputs;
 
     /**
      * Constructor.
      * 
-     * @param benchmark
-     *            related {@link Benchmark} instance
+     * @param paramOutputs
+     *            {@link AbstractOutput} instances for listener
      */
-    public BenchmarkResult(final Benchmark benchmark) {
-        super(benchmark);
-        this.listener = new DummyListener();
+    public BenchmarkResult(final AbstractOutput... paramOutputs) {
+        super(null);
         this.exceptions = new HashSet<PerfidixMethodException>();
+        outputs = paramOutputs;
     }
 
     /** {@inheritDoc} */
@@ -110,7 +91,10 @@ public final class BenchmarkResult extends ResultContainer<ClassResult> {
         clazzResult.updateStructure(methodResult, meter, data);
         this.updateStructure(clazzResult, meter, data);
 
-        listener.notify(meth, meter, data);
+        for (final AbstractOutput output : outputs) {
+            output.listenToResultSet(meth, meter, data);
+        }
+
     }
 
     /**
@@ -120,26 +104,19 @@ public final class BenchmarkResult extends ResultContainer<ClassResult> {
      *            the exception stored to this result
      */
     public final void addException(final PerfidixMethodException exec) {
-        this.exceptions.add(exec);
-        listener.notifyException(exec);
+        this.getExceptions().add(exec);
+        for (final AbstractOutput output : outputs) {
+            output.listenToException(exec);
+        }
     }
 
     /**
-     * This class acts as a dummy for making nothing as a listener.
+     * Getter for member exceptions
      * 
-     * @author Sebastian Graf, University of Konstanz
+     * @return the exceptions
      */
-    private class DummyListener extends BenchmarkListener {
-
-        /** {@inheritDoc} */
-        @Override
-        public void notify(Method meth, AbstractMeter meter, double data) {
-        }
-
-        /** {@inheritDoc} */
-        @Override
-        public void notifyException(PerfidixMethodException exec) {
-        }
-
+    public final Set<PerfidixMethodException> getExceptions() {
+        return exceptions;
     }
+
 }

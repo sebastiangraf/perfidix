@@ -28,6 +28,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.perfidix.meter.CountingMeter;
+import org.perfidix.ouput.TabularSummaryOutput;
 
 /**
  * Test class for the whole package of the results.
@@ -60,7 +61,7 @@ public class ResultContainerTest {
     @Before
     public void setUp() throws Exception {
 
-        benchRes = new BenchmarkResult(null);
+        benchRes = new BenchmarkResult(new TabularSummaryOutput());
 
         final Class<?> class1 = new Class1().getClass();
         final Class<?> class2 = new Class2().getClass();

@@ -19,8 +19,11 @@
 
 package org.perfidix.ouput;
 
+import java.lang.reflect.Method;
 import java.util.Formatter;
 
+import org.perfidix.failureHandling.PerfidixMethodException;
+import org.perfidix.meter.AbstractMeter;
 import org.perfidix.result.BenchmarkResult;
 
 /**
@@ -32,7 +35,7 @@ import org.perfidix.result.BenchmarkResult;
  * @author Alexander Onea, neue Couch
  * @author Sebastian Graf, University of Konstanz
  */
-public abstract class ResultVisitor {
+public abstract class AbstractOutput {
 
     /**
      * Constant to offer one fix format to display double-variables.
@@ -46,6 +49,28 @@ public abstract class ResultVisitor {
      *            the {@link BenchmarkResult}
      */
     public abstract void visitBenchmark(final BenchmarkResult res);
+
+    /**
+     * Listening to a resultset
+     * 
+     * @param meth
+     *            the related {@link Method}
+     * @param meter
+     *            the corresponding {@link AbstractMeter} instance where the
+     *            result is related to
+     * @param data
+     *            the related data
+     */
+    public abstract void listenToResultSet(
+            final Method meth, final AbstractMeter meter, final double data);
+
+    /**
+     * Listening to an arised exception
+     * 
+     * @param exec
+     *            an {@link PerfidixMethodException} instance
+     */
+    public abstract void listenToException(final PerfidixMethodException exec);
 
     /**
      * Formats a double.

@@ -21,7 +21,9 @@
 package org.perfidix.ouput;
 
 import java.io.PrintStream;
+import java.lang.reflect.Method;
 
+import org.perfidix.failureHandling.PerfidixMethodException;
 import org.perfidix.meter.AbstractMeter;
 import org.perfidix.ouput.NiceTable.Alignment;
 import org.perfidix.result.AbstractResult;
@@ -35,7 +37,7 @@ import org.perfidix.result.MethodResult;
  * 
  * @author Sebastian Graf, University of Konstanz
  */
-public final class TabluarSummaryVisitor extends ResultVisitor {
+public final class TabularSummaryOutput extends AbstractOutput {
 
     /** Print stream where the result should end */
     private final PrintStream out;
@@ -46,14 +48,14 @@ public final class TabluarSummaryVisitor extends ResultVisitor {
      * @param paramOut
      *            an {@link PrintStream} to pipe to.
      */
-    public TabluarSummaryVisitor(final PrintStream paramOut) {
+    public TabularSummaryOutput(final PrintStream paramOut) {
         out = paramOut;
     }
 
     /**
      * Constructor, just giving out on the {@link System#out}.
      */
-    public TabluarSummaryVisitor() {
+    public TabularSummaryOutput() {
         this(System.out);
     }
 
@@ -89,26 +91,68 @@ public final class TabluarSummaryVisitor extends ResultVisitor {
         out.println(table.toString());
     }
 
+    /**
+     * Generating the results for a given table.
+     * 
+     * @param columnDesc
+     *            the description for the row
+     * @param meter
+     *            the corresponding {@link AbstractMeter} instance
+     * @param result
+     *            the corresponding {@link AbstractResult} instance
+     * @param input
+     *            the {@link NiceTable} to be print to
+     * @return the modified {@link NiceTable} instance
+     */
     private final NiceTable generateMeterResult(
-            final String descColumn, final AbstractMeter meter,
+            final String columnDesc, final AbstractMeter meter,
             final AbstractResult result, final NiceTable input) {
         input.addRow(new String[] {
-                descColumn,
+                columnDesc,
                 meter.getUnit(),
-                ResultVisitor.format(result.sum(meter)),
-                ResultVisitor.format(result.min(meter)),
-                ResultVisitor.format(result.max(meter)),
-                ResultVisitor.format(result.mean(meter)),
-                ResultVisitor.format(result.getStandardDeviation(meter)),
+                AbstractOutput.format(result.sum(meter)),
+                AbstractOutput.format(result.min(meter)),
+                AbstractOutput.format(result.max(meter)),
+                AbstractOutput.format(result.mean(meter)),
+                AbstractOutput.format(result.getStandardDeviation(meter)),
                 new StringBuilder("[").append(
-                        ResultVisitor.format(result.getConf05(meter))).append(
+                        AbstractOutput.format(result.getConf05(meter))).append(
                         "-").append(
-                        ResultVisitor.format(result.getConf95(meter))).append(
+                        AbstractOutput.format(result.getConf95(meter))).append(
                         "]").toString(),
-                ResultVisitor.format(result.getResultSet(meter).size()) });
+                AbstractOutput.format(result.getResultSet(meter).size()) });
         return input;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public final void listenToResultSet(
+            final Method meth, final AbstractMeter meter, final double data) {
+        final StringBuilder builder = new StringBuilder();
+        builder.append(meth.getDeclaringClass().getName()).append("$").append(
+                "Method: ").append(meth.getName()).append("\nMeter: ").append(
+                meter.getName()).append("\nData: ").append(data).append("\n");
+        out.println(builder.toString());
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public void listenToException(PerfidixMethodException exec) {
+        final StringBuilder builder = new StringBuilder();
+        builder.append(exec.getRelatedAnno()).append(": ").append(
+                exec.getExec().toString());
+        out.println(builder.toString());
+    }
+
+    /**
+     * Generating header for a given table
+     * 
+     * @param table
+     *            the table where the header should fit to
+     * @return another {@link NiceTable} instance
+     */
     private final NiceTable generateHeader(final NiceTable table) {
         table.addHeader("Benchmark");
         table.addLine('*');
@@ -118,4 +162,5 @@ public final class TabluarSummaryVisitor extends ResultVisitor {
         table.addLine('*');
         return table;
     }
+
 }
