@@ -35,7 +35,7 @@ import org.perfidix.result.MethodResult;
  * 
  * @author Sebastian Graf, University of Konstanz
  */
-public final class TabluarSummaryOutput extends ResultVisitor {
+public final class TabluarSummaryVisitor extends ResultVisitor {
 
     /** Print stream where the result should end */
     private final PrintStream out;
@@ -46,14 +46,14 @@ public final class TabluarSummaryOutput extends ResultVisitor {
      * @param paramOut
      *            an {@link PrintStream} to pipe to.
      */
-    public TabluarSummaryOutput(final PrintStream paramOut) {
+    public TabluarSummaryVisitor(final PrintStream paramOut) {
         out = paramOut;
     }
 
     /**
      * Constructor, just giving out on the {@link System#out}.
      */
-    public TabluarSummaryOutput() {
+    public TabluarSummaryVisitor() {
         this(System.out);
     }
 

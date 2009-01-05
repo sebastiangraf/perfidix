@@ -36,6 +36,7 @@ import org.perfidix.annotation.BeforeFirstRun;
 import org.perfidix.annotation.Bench;
 import org.perfidix.annotation.SkipBench;
 import org.perfidix.failureHandling.PerfidixMethodCheckException;
+import org.perfidix.failureHandling.PerfidixMethodInvocationException;
 import org.perfidix.meter.AbstractMeter;
 import org.perfidix.meter.CountingMeter;
 import org.perfidix.meter.Time;
@@ -82,12 +83,14 @@ public class BenchmarkExecutorTest {
     /**
      * Test method for
      * {@link org.perfidix.element.BenchmarkExecutor#getExecutor(org.perfidix.element.BenchmarkElement)}
-     * .
+     * 
+     * @throws Exception
+     *             of any kind because of reflection
      */
     @Test
-    public void testGetExecutor() {
+    public void testGetExecutor() throws Exception {
         final GetTestClass getInstanceClass = new GetTestClass();
-        final Method meth = getInstanceClass.getClass().getDeclaredMethods()[0];
+        final Method meth = getInstanceClass.getClass().getMethod("bench");
 
         final BenchmarkMethod elem1 = new BenchmarkMethod(meth);
         final BenchmarkMethod elem2 = new BenchmarkMethod(meth);
@@ -111,7 +114,7 @@ public class BenchmarkExecutorTest {
     public void testExecuteBeforeMethods() throws Exception {
 
         final BeforeTestClass getClass = new BeforeTestClass();
-        final Method meth = getClass.getClass().getDeclaredMethods()[0];
+        final Method meth = getClass.getClass().getMethod("bench");
         final Object objToExecute = getClass.getClass().newInstance();
 
         final BenchmarkMethod elem = new BenchmarkMethod(meth);
@@ -129,8 +132,7 @@ public class BenchmarkExecutorTest {
 
     /**
      * Test method for
-     * {@link org.perfidix.element.BenchmarkExecutor#executeBench(java.lang.Object)}
-     * .
+     * {@link org.perfidix.element.BenchmarkExecutor#executeBench(Object)} .
      */
     @Test
     public void testExecuteBench() {
@@ -146,7 +148,7 @@ public class BenchmarkExecutorTest {
     @Test
     public void testExecuteAfterMethods() throws Exception {
         final AfterTestClass getClass = new AfterTestClass();
-        final Method meth = getClass.getClass().getDeclaredMethods()[0];
+        final Method meth = getClass.getClass().getMethod("bench");
         final Object objToExecute = getClass.getClass().newInstance();
 
         final BenchmarkMethod elem = new BenchmarkMethod(meth);
@@ -178,9 +180,9 @@ public class BenchmarkExecutorTest {
         assertEquals(2, correctObj.getClass().getDeclaredMethods().length);
 
         final Method correctMethod =
-                correctObj.getClass().getDeclaredMethods()[0];
+                correctObj.getClass().getMethod("correctMethod");
         final Method falseMethod =
-                correctObj.getClass().getDeclaredMethods()[1];
+                correctObj.getClass().getMethod("incorrectMethod");
 
         final PerfidixMethodCheckException e1 =
                 BenchmarkExecutor.checkReflectiveExecutableMethod(
@@ -192,8 +194,16 @@ public class BenchmarkExecutorTest {
                         correctObj, falseMethod, SkipBench.class);
         assertTrue(e2 != null);
 
-        BenchmarkExecutor.invokeReflectiveExecutableMethod(
-                correctObj, correctMethod, SkipBench.class);
+        final PerfidixMethodCheckException e3 =
+                BenchmarkExecutor.checkReflectiveExecutableMethod(
+                        correctObj, correctMethod, SkipBench.class);
+        assertTrue(e3 == null);
+
+        final PerfidixMethodInvocationException e4 =
+                BenchmarkExecutor.invokeReflectiveExecutableMethod(
+                        correctObj, correctMethod, SkipBench.class);
+        assertTrue(e4 == null);
+
         assertEquals(1, once);
 
     }
@@ -205,7 +215,8 @@ class CheckAndExecuteTestClass {
         BenchmarkExecutorTest.once++;
     }
 
-    static void incorrectMeth(final boolean falseParameter) {
+    public Object incorrectMethod() {
+        return null;
     }
 
 }
@@ -213,7 +224,7 @@ class CheckAndExecuteTestClass {
 class GetTestClass {
 
     @Bench
-    public void bench1() {
+    public void bench() {
     }
 
 }

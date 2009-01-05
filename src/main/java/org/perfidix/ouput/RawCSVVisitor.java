@@ -33,7 +33,7 @@ import org.perfidix.result.MethodResult;
  * 
  * @author Sebastian Graf, University of Konstanz
  */
-public final class RawCSVOutput extends ResultVisitor {
+public final class RawCSVVisitor extends ResultVisitor {
 
     /**
      * Separator to distinguish between class, meter and method
@@ -49,7 +49,7 @@ public final class RawCSVOutput extends ResultVisitor {
      * @param paramFolder
      *            an {@link File} object which has to be a folder to write to
      */
-    public RawCSVOutput(final File paramFolder) {
+    public RawCSVVisitor(final File paramFolder) {
         folder = paramFolder;
         if (!folder.isDirectory()) {
             throw new IllegalStateException(new StringBuilder(paramFolder
@@ -69,7 +69,7 @@ public final class RawCSVOutput extends ResultVisitor {
                                             .getElementName(), meter));
                     try {
                         final FileWriter writer =
-                                new FileWriter(toWriteTo, false);
+                                new FileWriter(toWriteTo, true);
                         int i = 0;
                         for (final Double d : methRes.getResultSet(meter)) {
                             if (i == methRes.getResultSet(meter).size() - 1) {

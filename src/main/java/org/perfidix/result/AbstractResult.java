@@ -20,7 +20,6 @@
 package org.perfidix.result;
 
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.LinkedList;
 import java.util.Map;
@@ -35,7 +34,6 @@ import org.apache.commons.math.stat.descriptive.rank.Min;
 import org.apache.commons.math.stat.descriptive.rank.Percentile;
 import org.apache.commons.math.stat.descriptive.summary.Sum;
 import org.apache.commons.math.stat.descriptive.summary.SumOfSquares;
-import org.perfidix.failureHandling.PerfidixMethodException;
 import org.perfidix.meter.AbstractMeter;
 
 /**
@@ -51,9 +49,6 @@ public abstract class AbstractResult {
     /** Related element of this container. Can be a method or a class */
     private final Object relatedElement;
 
-    /** All occured exceptions */
-    private final Set<PerfidixMethodException> exceptions;
-
     /**
      * Results mapped to the meters
      */
@@ -65,7 +60,6 @@ public abstract class AbstractResult {
     protected AbstractResult(final Object paramRelatedElement) {
         this.relatedElement = paramRelatedElement;
         this.meterResults = new Hashtable<AbstractMeter, Collection<Double>>();
-        this.exceptions = new HashSet<PerfidixMethodException>();
 
     }
 
@@ -248,16 +242,6 @@ public abstract class AbstractResult {
      */
     public final Object getRelatedElement() {
         return relatedElement;
-    }
-
-    /**
-     * Adding an exception to this result
-     * 
-     * @param exec
-     *            the exception stored to this result
-     */
-    public final void addException(final PerfidixMethodException exec) {
-        this.exceptions.add(exec);
     }
 
     /**

@@ -32,12 +32,13 @@ import org.perfidix.element.AbstractMethodArrangement;
 import org.perfidix.element.BenchmarkElement;
 import org.perfidix.element.BenchmarkExecutor;
 import org.perfidix.element.BenchmarkMethod;
-import org.perfidix.element.AbstractMethodArrangement.KindOfElementArrangement;
+import org.perfidix.element.KindOfArrangement;
 import org.perfidix.failureHandling.PerfidixMethodCheckException;
 import org.perfidix.failureHandling.PerfidixMethodInvocationException;
 import org.perfidix.meter.AbstractMeter;
 import org.perfidix.meter.Time;
 import org.perfidix.meter.TimeMeter;
+import org.perfidix.ouput.BenchmarkListener;
 import org.perfidix.result.BenchmarkResult;
 
 /**
@@ -87,13 +88,13 @@ public final class Benchmark {
 
     /**
      * Running this benchmark with a given kind of arrangement. See @link
-     * {@link AbstractMethodArrangement.KindOfElementArrangement} for different
-     * kinds.
+     * {@link KindOfArrangement} for different kinds.
      * 
      * @param kind
      *            of methodArrangement.
      */
-    public final BenchmarkResult run(final KindOfElementArrangement kind) {
+    public final BenchmarkResult run(
+            final KindOfArrangement kind, final BenchmarkListener... listener) {
 
         final BenchmarkResult res = new BenchmarkResult(this);
         BenchmarkExecutor.initialize(meters, res);
@@ -129,11 +130,13 @@ public final class Benchmark {
 
     /**
      * Setting up executable object for all registered classes and executing
-     * {@link BeforeBenchClass} annotated methods.
+     * {@link BeforeBenchClass} annotated methods. If an {@link Exception}
+     * occurs, this failure will be stored in the {@link BenchmarkResult} and
+     * the class will not be instantiated
      * 
+     * @param res
+     *            {@link BenchmarkResult} for storing possible failures.
      * @return a mapping with class->object for all registered classes-
-     * @throws IllegalAccessException
-     *             if the instantiation of a class fails
      */
     private final Map<Class<?>, Object> setUpObjectsToExecute(
             final BenchmarkResult res) {
@@ -143,29 +146,38 @@ public final class Benchmark {
 
         // generating objects for each registered class
         for (final Class<?> clazz : clazzes) {
+            // generating a new instance on which the benchmark will be
+            // performed
             Object objectToUse = null;
             try {
                 objectToUse = clazz.newInstance();
-            } catch (final InstantiationException e) {
+            } // otherwise adding an exception to the result
+            catch (final InstantiationException e) {
                 res.addException(new PerfidixMethodInvocationException(
                         e, null, BeforeBenchClass.class));
             } catch (final IllegalAccessException e) {
                 res.addException(new PerfidixMethodInvocationException(
                         e, null, BeforeBenchClass.class));
             }
+            // if the instantiation was successful...
             if (objectToUse != null) {
-                // executing the beforeBenchclass method
+                // ..the search for the beforeClassMeth begins...
                 Method beforeClassMeth = null;
                 boolean continueVal = true;
                 try {
                     beforeClassMeth =
                             BenchmarkMethod.findAndCheckAnyMethodByAnnotation(
                                     clazz, BeforeBenchClass.class);
-                } catch (final PerfidixMethodCheckException e) {
+                }// ... and if this search is throwing an exception, the
+                // exception will be added and a flag is set to break up
+                catch (final PerfidixMethodCheckException e) {
                     res.addException(e);
                     continueVal = false;
                 }
+                // if everything worked well...
                 if (continueVal) {
+                    // ... either the beforeMethod will be executed and a
+                    // possible exception stored to the result...
                     if (beforeClassMeth != null) {
                         final PerfidixMethodCheckException e =
                                 BenchmarkExecutor
@@ -187,12 +199,14 @@ public final class Benchmark {
                         } else {
                             res.addException(e);
                         }
-                    } else {
+                    } else
+                    // ...or the object is directly mapped to the class for
+                    // executing the benches
+                    {
                         objectsToUse.put(clazz, objectToUse);
                     }
                 }
             }
-
         }
         return objectsToUse;
     }
@@ -203,8 +217,8 @@ public final class Benchmark {
      * 
      * @param objects
      *            a mapping with class->object to be teared down
-     * @throws IllegalAccessException
-     *             if the tear down of a class fails
+     * @param res
+     *            the {@link BenchmarkResult} for storing possible failures.
      */
     private final void tearDownObjectsToExecute(
             final Map<Class<?>, Object> objects, final BenchmarkResult res) {
@@ -222,6 +236,8 @@ public final class Benchmark {
             } catch (final PerfidixMethodCheckException e) {
                 res.addException(e);
             }
+            // if afterClassMethod exists, the method will be executed and
+            // possible failures will be stored in the BenchmarkResult
             if (afterClassMeth != null) {
                 final PerfidixMethodCheckException e1 =
                         BenchmarkExecutor.checkReflectiveExecutableMethod(

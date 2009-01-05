@@ -56,7 +56,8 @@ public final class BenchmarkExecutor {
             new Hashtable<BenchmarkMethod, BenchmarkExecutor>();
 
     /** Set with all meters to be benched automatically */
-    private static LinkedHashSet<AbstractMeter> metersToBench;
+    private final static LinkedHashSet<AbstractMeter> metersToBench =
+            new LinkedHashSet<AbstractMeter>();
 
     /** Result for all Benchmarks */
     private static BenchmarkResult benchRes;
@@ -98,6 +99,10 @@ public final class BenchmarkExecutor {
      */
     public static final BenchmarkExecutor getExecutor(
             final BenchmarkElement meth) {
+        if (benchRes == null) {
+            throw new IllegalStateException("Call initialize method first!");
+        }
+
         // check if new instance needs to be created
         if (!executor.containsKey(meth.getMeth())) {
             executor.put(meth.getMeth(), new BenchmarkExecutor(meth.getMeth()));
@@ -119,7 +124,7 @@ public final class BenchmarkExecutor {
     public static final void initialize(
             final LinkedHashSet<AbstractMeter> meters,
             final BenchmarkResult result) {
-        metersToBench = meters;
+        metersToBench.addAll(meters);
         benchRes = result;
     }
 

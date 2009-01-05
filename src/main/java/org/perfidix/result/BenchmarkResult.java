@@ -21,9 +21,13 @@
 package org.perfidix.result;
 
 import java.lang.reflect.Method;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.perfidix.Benchmark;
+import org.perfidix.failureHandling.PerfidixMethodException;
 import org.perfidix.meter.AbstractMeter;
+import org.perfidix.ouput.BenchmarkListener;
 
 /**
  * This class holds the data of the whole benchmark in different
@@ -35,13 +39,39 @@ import org.perfidix.meter.AbstractMeter;
 public final class BenchmarkResult extends ResultContainer<ClassResult> {
 
     /**
+     * Used {@link BenchmarkListener} instance for getting notification about
+     * upcoming results.
+     */
+    private final BenchmarkListener listener;
+
+    /** All occured exceptions */
+    private final Set<PerfidixMethodException> exceptions;
+
+    /**
      * Constructor.
      * 
      * @param benchmark
-     *            related {@link Benchmark} instance for listener possibility
+     *            related {@link Benchmark} instance
+     * @param paramListener
+     *            bound {@link BenchmarkListener} instance
+     */
+    public BenchmarkResult(
+            final Benchmark benchmark, final BenchmarkListener paramListener) {
+        super(benchmark);
+        this.listener = paramListener;
+        this.exceptions = new HashSet<PerfidixMethodException>();
+    }
+
+    /**
+     * Constructor.
+     * 
+     * @param benchmark
+     *            related {@link Benchmark} instance
      */
     public BenchmarkResult(final Benchmark benchmark) {
         super(benchmark);
+        this.listener = new DummyListener();
+        this.exceptions = new HashSet<PerfidixMethodException>();
     }
 
     /** {@inheritDoc} */
@@ -79,6 +109,37 @@ public final class BenchmarkResult extends ResultContainer<ClassResult> {
 
         clazzResult.updateStructure(methodResult, meter, data);
         this.updateStructure(clazzResult, meter, data);
+
+        listener.notify(meth, meter, data);
+    }
+
+    /**
+     * Adding an exception to this result
+     * 
+     * @param exec
+     *            the exception stored to this result
+     */
+    public final void addException(final PerfidixMethodException exec) {
+        this.exceptions.add(exec);
+        listener.notifyException(exec);
+    }
+
+    /**
+     * This class acts as a dummy for making nothing as a listener.
+     * 
+     * @author Sebastian Graf, University of Konstanz
+     */
+    private class DummyListener extends BenchmarkListener {
+
+        /** {@inheritDoc} */
+        @Override
+        public void notify(Method meth, AbstractMeter meter, double data) {
+        }
+
+        /** {@inheritDoc} */
+        @Override
+        public void notifyException(PerfidixMethodException exec) {
+        }
 
     }
 }
