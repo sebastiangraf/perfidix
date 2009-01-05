@@ -105,4 +105,13 @@ public final class BenchmarkElement {
         return true;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public final String toString() {
+        return new StringBuilder(meth.toString())
+                .append(":").append(id).toString();
+    }
+
 }

@@ -552,4 +552,11 @@ public final class BenchmarkMethod {
         return true;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public final String toString() {
+        return new StringBuilder(methodToBench.getName()).toString();
+    }
 }

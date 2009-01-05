@@ -29,21 +29,12 @@ import java.util.Set;
  * This method defines an order for the execution of all methods. A collection
  * with definitly benchmarkable methods is given in, shuffled in a way and
  * returned as an iterator. The kind of shuffling is set by the enum
- * {@link KindOfElementArrangement}. ordered with the help of inheriting
- * classes.
+ * {@link KindOfArrangement}. ordered with the help of inheriting classes.
  * 
  * @author Sebastian Graf, University of Konstanz
  */
 public abstract class AbstractMethodArrangement
         implements Iterable<BenchmarkElement> {
-
-    /**
-     * Enum for all implemented arrangements.
-     */
-    public static enum KindOfElementArrangement {
-        /** no method arrangement. */
-        NoArrangement
-    };
 
     /**
      * List to hold all benchmarkable elements in the correct order as a base
@@ -82,7 +73,7 @@ public abstract class AbstractMethodArrangement
     /**
      * Factory method to get the method arrangement for a given set of classes.
      * The kind of arrangement is set by an instance of the enum
-     * {@link KindOfElementArrangement}.
+     * {@link KindOfArrangement}.
      * 
      * @param elements
      *            to be benched
@@ -91,16 +82,16 @@ public abstract class AbstractMethodArrangement
      * @return the arrangement, mainly an iterator
      */
     public final static AbstractMethodArrangement getMethodArrangement(
-            final Set<BenchmarkElement> elements,
-            final KindOfElementArrangement kind) {
+            final Set<BenchmarkElement> elements, final KindOfArrangement kind) {
         switch (kind) {
         case NoArrangement:
             return new NoMethodArrangement(elements);
+        case ShuffleArrangement:
+            return new ShuffleMethodArrangement(elements);
         default:
             throw new IllegalArgumentException("Kind not known!");
 
         }
 
     }
-
 }

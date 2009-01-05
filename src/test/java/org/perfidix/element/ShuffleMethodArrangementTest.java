@@ -20,7 +20,6 @@
  */
 package org.perfidix.element;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.fail;
 
@@ -34,11 +33,11 @@ import org.junit.Test;
 import org.perfidix.annotation.Bench;
 
 /**
- * Testcase for no method arrangement.
+ * Testcase for shuffle method arrangement.
  * 
  * @author Sebastian Graf, University of Konstanz
  */
-public class NoMethodArrangementTest {
+public class ShuffleMethodArrangementTest {
 
     private Set<BenchmarkElement> elemSet;
 
@@ -57,7 +56,7 @@ public class NoMethodArrangementTest {
     }
 
     /**
-     * Test method for {@link org.perfidix.element.NoMethodArrangement} .
+     * Test method for {@link org.perfidix.element.ShuffleMethodArrangement} .
      */
     @Test
     public void test() {
@@ -65,15 +64,22 @@ public class NoMethodArrangementTest {
 
             final AbstractMethodArrangement arrangement =
                     AbstractMethodArrangement.getMethodArrangement(
-                            elemSet, KindOfArrangement.NoArrangement);
+                            elemSet, KindOfArrangement.ShuffleArrangement);
             final String[] expectedNames = { "bench1", "bench2", "bench4" };
             final Iterator<BenchmarkElement> iterBench = arrangement.iterator();
-            assertEquals(expectedNames[0], iterBench
-                    .next().getMeth().getMethodToBench().getName());
-            assertEquals(expectedNames[1], iterBench
-                    .next().getMeth().getMethodToBench().getName());
-            assertEquals(expectedNames[2], iterBench
-                    .next().getMeth().getMethodToBench().getName());
+            final BenchmarkElement elem1 = iterBench.next();
+            final BenchmarkElement elem2 = iterBench.next();
+            final BenchmarkElement elem3 = iterBench.next();
+            if (expectedNames[0].equals(elem1
+                    .getMeth().getMethodToBench().getName())) {
+                if (expectedNames[1].equals(elem2
+                        .getMeth().getMethodToBench().getName())) {
+                    if (expectedNames[2].equals(elem3
+                            .getMeth().getMethodToBench().getName())) {
+                        fail("Something has to be arranged in a different way!");
+                    }
+                }
+            }
             assertFalse(iterBench.hasNext());
 
         } catch (final Exception e) {
