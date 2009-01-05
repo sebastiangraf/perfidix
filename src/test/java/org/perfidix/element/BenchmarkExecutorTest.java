@@ -68,7 +68,7 @@ public class BenchmarkExecutorTest {
         meter.add(new CountingMeter());
         once = 0;
         each = 0;
-        BenchmarkExecutor.initialize(meter, new BenchmarkResult(null));
+        BenchmarkExecutor.initialize(meter, new BenchmarkResult());
     }
 
     /**
