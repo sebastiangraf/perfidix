@@ -30,10 +30,12 @@ import org.perfidix.result.BenchmarkResult;
  * The ResultVisitor is able to visit and view the results. The idea is that
  * every implementing class can offer all results as long as they are a
  * {@link BenchmarkResult}. The implementing class should know how to handle
- * these results.
+ * these results. Additionally to the visitor pattern, all inheriting class have
+ * to implement the listener pattern as well since every output class has to
+ * provide functionality to handle listener events as well.
  * 
- * @author Alexander Onea, neue Couch
  * @author Sebastian Graf, University of Konstanz
+ * @author Alexander Onea, neue Couch
  */
 public abstract class AbstractOutput {
 
@@ -43,7 +45,7 @@ public abstract class AbstractOutput {
     protected final static String FLOATFORMAT = "%05.2f";
 
     /**
-     * Visiting the {@link BenchmarkResult} and doint something to get a string.
+     * Visiting the {@link BenchmarkResult} and do something with the result
      * 
      * @param res
      *            the {@link BenchmarkResult}
@@ -51,7 +53,7 @@ public abstract class AbstractOutput {
     public abstract void visitBenchmark(final BenchmarkResult res);
 
     /**
-     * Listening to a resultset
+     * Listening to a resultset and handling the data
      * 
      * @param meth
      *            the related {@link Method}

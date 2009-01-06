@@ -25,6 +25,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
 import java.lang.reflect.Method;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.perfidix.failureHandling.PerfidixMethodException;
 import org.perfidix.meter.AbstractMeter;
@@ -58,6 +60,11 @@ public final class CSVOutput extends AbstractOutput {
     private boolean firstException;
 
     /**
+     * Set for deleting old files in the beginning
+     */
+    private final Set<File> usedFiles;
+
+    /**
      * Constructor for piping the result to elsewhere.
      * 
      * @param paramFolder
@@ -65,25 +72,20 @@ public final class CSVOutput extends AbstractOutput {
      */
     public CSVOutput(final File paramFolder) {
         folder = paramFolder;
-        if (!folder.isDirectory()) {
+        if (folder != null && !folder.isDirectory()) {
             throw new IllegalStateException(new StringBuilder(paramFolder
                     .toString()).append(" has to be a folder!").toString());
         }
-        final File[] childFiles = folder.listFiles();
-        for (File file : childFiles) {
-            file.delete();
-        }
         firstResult = true;
         firstException = true;
+        usedFiles = new HashSet<File>();
     }
 
     /**
      * Constructor for output to {@link System#out}
      */
     public CSVOutput() {
-        folder = null;
-        firstResult = true;
-
+        this(null);
     }
 
     /**
@@ -93,10 +95,11 @@ public final class CSVOutput extends AbstractOutput {
     public final void listenToResultSet(
             final Method meth, final AbstractMeter meter, final double data) {
         try {
+
             final PrintStream stream =
                     setUpNewPrintStream(
-                            meth.getDeclaringClass().getName(), meth.getName(),
-                            meter.getName());
+                            false, meth.getDeclaringClass().getName(), meth
+                                    .getName(), meter.getName());
             if (!firstResult) {
                 stream.append(",");
             }
@@ -113,15 +116,21 @@ public final class CSVOutput extends AbstractOutput {
     @Override
     public final void listenToException(PerfidixMethodException exec) {
         try {
-            final PrintStream currentWriter = setUpNewPrintStream("Exceptions");
+            final PrintStream currentWriter =
+                    setUpNewPrintStream(false, "Exceptions");
             if (!firstException) {
                 currentWriter.append(",");
             }
-            currentWriter.append(exec.getRelatedAnno().toString());
+            currentWriter.append(exec.getRelatedAnno().getCanonicalName());
             currentWriter.append(":");
-            exec.printStackTrace(currentWriter);
+            currentWriter.append(exec
+                    .getMethod().getDeclaringClass().getCanonicalName());
+            currentWriter.append("$");
+            currentWriter.append(exec.getMethod().getName());
+            currentWriter.append("\n");
+            exec.getExec().printStackTrace(currentWriter);
             currentWriter.flush();
-            firstException = true;
+            firstException = false;
         } catch (final Exception e) {
             e.printStackTrace();
         }
@@ -131,15 +140,15 @@ public final class CSVOutput extends AbstractOutput {
     /** {@inheritDoc} */
     @Override
     public final void visitBenchmark(final BenchmarkResult res) {
+        // Printing the data
         for (final ClassResult classRes : res.getIncludedResults()) {
             for (final MethodResult methRes : classRes.getIncludedResults()) {
                 for (final AbstractMeter meter : methRes.getRegisteredMeters()) {
                     try {
                         final PrintStream currentWriter =
-                                setUpNewPrintStream(
-                                        classRes.getElementName(), methRes
-                                                .getElementName(), meter
-                                                .getName());
+                                setUpNewPrintStream(true, classRes
+                                        .getElementName(), methRes
+                                        .getElementName(), meter.getName());
                         int i = 0;
                         for (final Double d : methRes.getResultSet(meter)) {
                             if (i == methRes.getResultSet(meter).size() - 1) {
@@ -148,6 +157,7 @@ public final class CSVOutput extends AbstractOutput {
                                 currentWriter.append(new StringBuilder(d
                                         .toString()).append(",").toString());
                             }
+                            i++;
                         }
 
                         currentWriter.flush();
@@ -159,13 +169,20 @@ public final class CSVOutput extends AbstractOutput {
             }
         }
 
+        // Printing the exceptions
         try {
-            final PrintStream currentWriter = setUpNewPrintStream("Exceptions");
+            final PrintStream currentWriter =
+                    setUpNewPrintStream(true, "Exceptions");
 
             for (final PerfidixMethodException exec : res.getExceptions()) {
-                currentWriter.append(exec.getRelatedAnno().toString());
+                currentWriter.append(exec.getRelatedAnno().getCanonicalName());
                 currentWriter.append(":");
-                exec.printStackTrace(currentWriter);
+                currentWriter.append(exec
+                        .getMethod().getDeclaringClass().getCanonicalName());
+                currentWriter.append("$");
+                currentWriter.append(exec.getMethod().getName());
+                currentWriter.append("\n");
+                exec.getExec().printStackTrace(currentWriter);
             }
 
             currentWriter.flush();
@@ -175,13 +192,33 @@ public final class CSVOutput extends AbstractOutput {
         }
     }
 
-    private final PrintStream setUpNewPrintStream(final String... names)
+    /**
+     * Setting up a new {@link PrintStream}
+     * 
+     * @param visitorStream
+     *            is the stream for the visitor? Because of line breaks after
+     *            the results.
+     * @param names
+     *            the elements of the filename
+     * @return a {@link PrintStream} instance
+     * @throws FileNotFoundException
+     *             if something goes wrong with the file
+     */
+    private final PrintStream setUpNewPrintStream(
+            final boolean visitorStream, final String... names)
             throws FileNotFoundException {
 
         if (folder != null) {
             final File toWriteTo = new File(folder, buildFileName(names));
+            if (!usedFiles.contains(toWriteTo)) {
+                toWriteTo.delete();
+                usedFiles.add(toWriteTo);
+            }
             return new PrintStream(new FileOutputStream(toWriteTo, true));
         } else {
+            if (visitorStream) {
+                System.out.println();
+            }
             return System.out;
         }
     }

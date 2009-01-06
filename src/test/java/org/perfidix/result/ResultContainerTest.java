@@ -21,12 +21,16 @@
 package org.perfidix.result;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
+import java.io.IOException;
 import java.lang.reflect.Method;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.perfidix.annotation.Bench;
+import org.perfidix.failureHandling.PerfidixMethodInvocationException;
 import org.perfidix.meter.CountingMeter;
 
 /**
@@ -52,6 +56,8 @@ public class ResultContainerTest {
 
     private CountingMeter meter;
 
+    private Exception testException;
+
     /**
      * Simple setUp.
      * 
@@ -61,6 +67,8 @@ public class ResultContainerTest {
     public void setUp() throws Exception {
 
         benchRes = new BenchmarkResult();
+
+        testException = new IOException();
 
         final Class<?> class1 = new Class1().getClass();
         final Class<?> class2 = new Class2().getClass();
@@ -106,6 +114,22 @@ public class ResultContainerTest {
         methodRes21 = classRes2.getResultForObject(meth21);
         methodRes22 = classRes2.getResultForObject(meth22);
 
+        benchRes.addException(new PerfidixMethodInvocationException(
+                testException, meth11, Bench.class));
+
+    }
+
+    /**
+     * Test method for
+     * {@link org.perfidix.result.BenchmarkResult#addException(org.perfidix.failureHandling.PerfidixMethodException)}
+     * and {@link org.perfidix.result.BenchmarkResult#getExceptions()} .
+     */
+    @Test
+    public void testResultWithException() {
+        assertTrue(benchRes.getExceptions().contains(
+                new PerfidixMethodInvocationException(
+                        testException,
+                        (Method) methodRes11.getRelatedElement(), Bench.class)));
     }
 
     /**
@@ -119,11 +143,10 @@ public class ResultContainerTest {
         assertEquals(10.0, methodRes11.max(meter), 0);
         assertEquals(1.0, methodRes11.getConf05(meter), 0);
         assertEquals(10.0, methodRes11.getConf95(meter), 0.00001);
-        assertEquals(
-                2.946898458772509, methodRes11.getStandardDeviation(meter),
-                0.000001);
-        assertEquals(110.0, methodRes11.sum(meter), 0);
-        assertEquals(770.0, methodRes11.squareSum(meter), 0);
+        assertEquals(3.0276503540974917, methodRes11
+                .getStandardDeviation(meter), 0.000001);
+        assertEquals(55.0, methodRes11.sum(meter), 0);
+        assertEquals(385.0, methodRes11.squareSum(meter), 0);
 
         assertEquals(20.5, methodRes12.mean(meter), 0);
         assertEquals(11.0, methodRes12.min(meter), 0);
@@ -131,10 +154,10 @@ public class ResultContainerTest {
         assertEquals(11.05, methodRes12.getConf05(meter), 0);
         assertEquals(29.95, methodRes12.getConf95(meter), 0.00001);
         assertEquals(
-                5.839740071489835, methodRes12.getStandardDeviation(meter),
+                5.916079783099616, methodRes12.getStandardDeviation(meter),
                 0.000001);
-        assertEquals(820.0, methodRes12.sum(meter), 0);
-        assertEquals(18140.0, methodRes12.squareSum(meter), 0);
+        assertEquals(410.0, methodRes12.sum(meter), 0);
+        assertEquals(9070.0, methodRes12.squareSum(meter), 0);
 
         assertEquals(50.5, methodRes21.mean(meter), 0);
         assertEquals(31.0, methodRes21.min(meter), 0);
@@ -142,20 +165,21 @@ public class ResultContainerTest {
         assertEquals(32.05, methodRes21.getConf05(meter), 0);
         assertEquals(68.95, methodRes21.getConf95(meter), 0);
         assertEquals(
-                11.6162261023432, methodRes21.getStandardDeviation(meter),
+                11.69045194450012, methodRes21.getStandardDeviation(meter),
                 0.000001);
-        assertEquals(4040.0, methodRes21.sum(meter), 0);
-        assertEquals(214680.0, methodRes21.squareSum(meter), 0);
+        assertEquals(2020.0, methodRes21.sum(meter), 0);
+        assertEquals(107340.0, methodRes21.squareSum(meter), 0);
 
         assertEquals(110.5, methodRes22.mean(meter), 0);
         assertEquals(71.0, methodRes22.min(meter), 0);
         assertEquals(150.0, methodRes22.max(meter), 0);
         assertEquals(74.05, methodRes22.getConf05(meter), 0);
         assertEquals(146.95, methodRes22.getConf95(meter), 0.00001);
-        assertEquals(23.164709658981387, methodRes22
-                .getStandardDeviation(meter), 0.000001);
-        assertEquals(17680.0, methodRes22.sum(meter), 0);
-        assertEquals(2038960.0, methodRes22.squareSum(meter), 0);
+        assertEquals(
+                23.2379000772445, methodRes22.getStandardDeviation(meter),
+                0.000001);
+        assertEquals(8840.0, methodRes22.sum(meter), 0);
+        assertEquals(1019480.0, methodRes22.squareSum(meter), 0);
 
     }
 
