@@ -20,8 +20,8 @@
  */
 package org.perfidix.output;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -34,9 +34,11 @@ import org.junit.Test;
 import org.perfidix.annotation.Bench;
 import org.perfidix.failureHandling.PerfidixMethodException;
 import org.perfidix.failureHandling.PerfidixMethodInvocationException;
+import org.perfidix.meter.AbstractMeter;
 import org.perfidix.meter.CountingMeter;
 import org.perfidix.ouput.TabularSummaryOutput;
 import org.perfidix.result.BenchmarkResult;
+import org.perfidix.result.MethodResult;
 
 /**
  * Test case for {@link TabularSummaryOutput}
@@ -147,10 +149,66 @@ public class TabularSummaryOutputTest {
      * Test method for
      * {@link org.perfidix.ouput.TabularSummaryOutput#listenToResultSet(java.lang.reflect.Method, org.perfidix.meter.AbstractMeter, double)}
      * .
+     * 
+     * @throws IOException
      */
     @Test
-    public final void testListenToResultSet() {
-        fail("Not yet implemented");
+    public final void testListenToResultSet() throws IOException {
+        final MethodResult methRes =
+                benchRes
+                        .getIncludedResults().iterator().next()
+                        .getIncludedResults().iterator().next();
+        final AbstractMeter meter =
+                methRes.getRegisteredMeters().iterator().next();
+        final TabularSummaryOutput output = new TabularSummaryOutput();
+        for (final double d : methRes.getResultSet(meter)) {
+            output.listenToResultSet(
+                    (Method) methRes.getRelatedElement(), meter, d);
+        }
+        final StringBuilder builder = new StringBuilder();
+
+        builder.append("Class: Class1#method1\n");
+        builder.append("Meter: Meter1\n");
+        builder.append("Data: 1.0\n");
+        builder.append("\n");
+        builder.append("Class: Class1#method1\n");
+        builder.append("Meter: Meter1\n");
+        builder.append("Data: 2.0\n");
+        builder.append("\n");
+        builder.append("Class: Class1#method1\n");
+        builder.append("Meter: Meter1\n");
+        builder.append("Data: 3.0\n");
+        builder.append("\n");
+        builder.append("Class: Class1#method1\n");
+        builder.append("Meter: Meter1\n");
+        builder.append("Data: 4.0\n");
+        builder.append("\n");
+        builder.append("Class: Class1#method1\n");
+        builder.append("Meter: Meter1\n");
+        builder.append("Data: 5.0\n");
+        builder.append("\n");
+        builder.append("Class: Class1#method1\n");
+        builder.append("Meter: Meter1\n");
+        builder.append("Data: 6.0\n");
+        builder.append("\n");
+        builder.append("Class: Class1#method1\n");
+        builder.append("Meter: Meter1\n");
+        builder.append("Data: 7.0\n");
+        builder.append("\n");
+        builder.append("Class: Class1#method1\n");
+        builder.append("Meter: Meter1\n");
+        builder.append("Data: 8.0\n");
+        builder.append("\n");
+        builder.append("Class: Class1#method1\n");
+        builder.append("Meter: Meter1\n");
+        builder.append("Data: 9.0\n");
+        builder.append("\n");
+        builder.append("Class: Class1#method1\n");
+        builder.append("Meter: Meter1\n");
+        builder.append("Data: 10.0\n");
+        builder.append("\n");
+
+        assertEquals(builder.toString(), bytes.toString());
     }
 
     /**
@@ -160,7 +218,16 @@ public class TabularSummaryOutputTest {
      */
     @Test
     public final void testListenToException() {
-        fail("Not yet implemented");
+        final TabularSummaryOutput output = new TabularSummaryOutput();
+        output.listenToException(testException);
+
+        final StringBuilder builder = new StringBuilder();
+        builder.append("Class: Class1#method1\n");
+        builder.append("Annotation: Bench\n");
+        builder
+                .append("Exception: PerfidixMethodInvocationException/java.io.IOException\n");
+        builder.append("java.io.IOException\n");
+        assertTrue(bytes.toString().startsWith(builder.toString()));
     }
 
     class Class1 {

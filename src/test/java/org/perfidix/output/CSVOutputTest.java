@@ -112,8 +112,7 @@ public class CSVOutputTest {
         output.visitBenchmark(benchRes);
         final StringBuilder builder = new StringBuilder();
         builder.append("\n1.0,2.0,3.0,4.0,5.0,6.0,7.0,8.0,9.0,10.0\n");
-        builder
-                .append("org.perfidix.annotation.Bench:org.perfidix.output.CSVOutputTest.Class1$method1\njava.io.IOException\n");
+        builder.append("Bench:Class1#method1\njava.io.IOException\n");
         assertTrue(bytes.toString().startsWith(builder.toString()));
     }
 
@@ -154,8 +153,7 @@ public class CSVOutputTest {
         final CSVOutput output = new CSVOutput();
         output.listenToException(testException);
         final String beginString =
-                new String(
-                        "org.perfidix.annotation.Bench:org.perfidix.output.CSVOutputTest.Class1$method1\njava.io.IOException\n");
+                new String("Bench,Class1#method1,java.io.IOException");
         assertTrue(bytes.toString().startsWith(beginString));
 
     }

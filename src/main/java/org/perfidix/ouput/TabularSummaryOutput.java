@@ -160,9 +160,11 @@ public final class TabularSummaryOutput extends AbstractOutput {
     public final void listenToResultSet(
             final Method meth, final AbstractMeter meter, final double data) {
         final StringBuilder builder = new StringBuilder();
-        builder.append(meth.getDeclaringClass().getName()).append("$").append(
-                "Method: ").append(meth.getName()).append("\nMeter: ").append(
-                meter.getName()).append("\nData: ").append(data).append("\n");
+        builder.append("Class: ").append(
+                meth.getDeclaringClass().getSimpleName()).append("#").append(
+                meth.getName());
+        builder.append("\nMeter: ").append(meter.getName());
+        builder.append("\nData: ").append(data).append("\n");
         out.println(builder.toString());
     }
 
@@ -170,9 +172,18 @@ public final class TabularSummaryOutput extends AbstractOutput {
     @Override
     public void listenToException(PerfidixMethodException exec) {
         final StringBuilder builder = new StringBuilder();
-        builder.append(exec.getRelatedAnno()).append(": ").append(
-                exec.getExec().toString());
+        builder.append("Class: ").append(
+                exec.getMethod().getDeclaringClass().getSimpleName()).append(
+                "#").append(exec.getMethod().getName());
+        builder.append("\nAnnotation: ").append(
+                exec.getRelatedAnno().getSimpleName());
+        builder
+                .append("\nException: ")
+                .append(exec.getClass().getSimpleName()).append("/").append(
+                        exec.getExec().toString());
         out.println(builder.toString());
+        exec.getExec().printStackTrace(out);
+
     }
 
     /**

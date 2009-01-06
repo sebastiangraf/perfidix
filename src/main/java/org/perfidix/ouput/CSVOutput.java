@@ -119,15 +119,15 @@ public final class CSVOutput extends AbstractOutput {
             final PrintStream currentWriter =
                     setUpNewPrintStream(false, "Exceptions");
             if (!firstException) {
-                currentWriter.append(",");
+                currentWriter.append("\n");
             }
-            currentWriter.append(exec.getRelatedAnno().getCanonicalName());
-            currentWriter.append(":");
+            currentWriter.append(exec.getRelatedAnno().getSimpleName());
+            currentWriter.append(",");
             currentWriter.append(exec
-                    .getMethod().getDeclaringClass().getCanonicalName());
-            currentWriter.append("$");
+                    .getMethod().getDeclaringClass().getSimpleName());
+            currentWriter.append("#");
             currentWriter.append(exec.getMethod().getName());
-            currentWriter.append("\n");
+            currentWriter.append(",");
             exec.getExec().printStackTrace(currentWriter);
             currentWriter.flush();
             firstException = false;
@@ -175,11 +175,11 @@ public final class CSVOutput extends AbstractOutput {
                     setUpNewPrintStream(true, "Exceptions");
 
             for (final PerfidixMethodException exec : res.getExceptions()) {
-                currentWriter.append(exec.getRelatedAnno().getCanonicalName());
+                currentWriter.append(exec.getRelatedAnno().getSimpleName());
                 currentWriter.append(":");
                 currentWriter.append(exec
-                        .getMethod().getDeclaringClass().getCanonicalName());
-                currentWriter.append("$");
+                        .getMethod().getDeclaringClass().getSimpleName());
+                currentWriter.append("#");
                 currentWriter.append(exec.getMethod().getName());
                 currentWriter.append("\n");
                 exec.getExec().printStackTrace(currentWriter);
