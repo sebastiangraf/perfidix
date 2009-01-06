@@ -21,6 +21,7 @@
 package org.perfidix.element;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Hashtable;
 import java.util.LinkedHashSet;
@@ -291,10 +292,15 @@ public final class BenchmarkExecutor {
 
         try {
             meth.invoke(obj, args);
-            return null;
-        } catch (Exception e) {
+        } catch (final IllegalArgumentException e) {
             return new PerfidixMethodInvocationException(e, meth, relatedAnno);
+        } catch (final IllegalAccessException e) {
+            return new PerfidixMethodInvocationException(e, meth, relatedAnno);
+        } catch (final InvocationTargetException e) {
+            return new PerfidixMethodInvocationException(
+                    e.getCause(), meth, relatedAnno);
         }
+        return null;
     }
 
     /**

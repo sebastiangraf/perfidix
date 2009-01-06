@@ -46,9 +46,23 @@ public final class PerfidixMethodInvocationException
      *            the related annotation of the method
      */
     public PerfidixMethodInvocationException(
-            final Exception paramExec, final Method paramMeth,
+            final Throwable paramExec, final Method paramMeth,
             final Class<? extends Annotation> paramAnnotation) {
         super(paramExec, paramMeth, paramAnnotation);
+    }
+
+    /**
+     * Constructor.
+     * 
+     * @param paramExec
+     *            encapsulated exception
+     * @param paramAnnotation
+     *            the related annotation of the method
+     */
+    public PerfidixMethodInvocationException(
+            final Throwable paramExec,
+            final Class<? extends Annotation> paramAnnotation) {
+        super(paramExec, null, paramAnnotation);
     }
 
 }

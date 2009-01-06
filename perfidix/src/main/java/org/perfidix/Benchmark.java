@@ -123,10 +123,12 @@ public final class Benchmark {
             final Object obj =
                     objectsToExecute.get(elem
                             .getMeth().getMethodToBench().getDeclaringClass());
-
-            exec.executeBeforeMethods(obj);
-            exec.executeBench(obj);
-            exec.executeAfterMethods(obj);
+            // check needed because of failed initalization of objects
+            if (obj != null) {
+                exec.executeBeforeMethods(obj);
+                exec.executeBench(obj);
+                exec.executeAfterMethods(obj);
+            }
         }
 
         // cleaning up methods to benchmark
@@ -160,10 +162,10 @@ public final class Benchmark {
             } // otherwise adding an exception to the result
             catch (final InstantiationException e) {
                 res.addException(new PerfidixMethodInvocationException(
-                        e, null, BeforeBenchClass.class));
+                        e, BeforeBenchClass.class));
             } catch (final IllegalAccessException e) {
                 res.addException(new PerfidixMethodInvocationException(
-                        e, null, BeforeBenchClass.class));
+                        e, BeforeBenchClass.class));
             }
             // if the instantiation was successful...
             if (objectToUse != null) {
@@ -232,33 +234,35 @@ public final class Benchmark {
         // executing tearDown for all clazzes registered in given Map
         for (final Class<?> clazz : objects.keySet()) {
             final Object objectToUse = objects.get(clazz);
-
-            // executing AfterClass for all objects.
-            Method afterClassMeth = null;
-            try {
-                afterClassMeth =
-                        BenchmarkMethod.findAndCheckAnyMethodByAnnotation(
-                                clazz, AfterBenchClass.class);
-            } catch (final PerfidixMethodCheckException e) {
-                res.addException(e);
-            }
-            // if afterClassMethod exists, the method will be executed and
-            // possible failures will be stored in the BenchmarkResult
-            if (afterClassMeth != null) {
-                final PerfidixMethodCheckException e1 =
-                        BenchmarkExecutor.checkReflectiveExecutableMethod(
-                                objectToUse, afterClassMeth,
-                                AfterBenchClass.class);
-                if (e1 == null) {
-                    final PerfidixMethodInvocationException e2 =
-                            BenchmarkExecutor.invokeReflectiveExecutableMethod(
+            if (objectToUse != null) {
+                // executing AfterClass for all objects.
+                Method afterClassMeth = null;
+                try {
+                    afterClassMeth =
+                            BenchmarkMethod.findAndCheckAnyMethodByAnnotation(
+                                    clazz, AfterBenchClass.class);
+                } catch (final PerfidixMethodCheckException e) {
+                    res.addException(e);
+                }
+                // if afterClassMethod exists, the method will be executed and
+                // possible failures will be stored in the BenchmarkResult
+                if (afterClassMeth != null) {
+                    final PerfidixMethodCheckException e1 =
+                            BenchmarkExecutor.checkReflectiveExecutableMethod(
                                     objectToUse, afterClassMeth,
                                     AfterBenchClass.class);
-                    if (e2 != null) {
-                        res.addException(e2);
+                    if (e1 == null) {
+                        final PerfidixMethodInvocationException e2 =
+                                BenchmarkExecutor
+                                        .invokeReflectiveExecutableMethod(
+                                                objectToUse, afterClassMeth,
+                                                AfterBenchClass.class);
+                        if (e2 != null) {
+                            res.addException(e2);
+                        }
+                    } else {
+                        res.addException(e1);
                     }
-                } else {
-                    res.addException(e1);
                 }
             }
         }
