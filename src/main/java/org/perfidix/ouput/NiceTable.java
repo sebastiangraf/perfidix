@@ -93,7 +93,7 @@ public final class NiceTable {
      *            the text to display within the header
      */
     public final void addHeader(final String title) {
-        addHeader(title, '*', Alignment.Left);
+        addHeader(title, '=', Alignment.Left);
     }
 
     /**
@@ -298,9 +298,10 @@ public final class NiceTable {
          */
         @Override
         final String draw() {
-            return Util.combine(
-                    Util.repeat(new String(new char[] { content }), table
-                            .getTotalWidth()), NEWLINE);
+            return Util.combine(new String(new char[] { border }), Util.repeat(
+                    new String(new char[] { content }),
+                    table.getTotalWidth() - 2), new String(
+                    new char[] { border }), NEWLINE);
 
         }
 

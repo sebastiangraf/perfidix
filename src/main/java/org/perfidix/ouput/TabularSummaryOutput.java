@@ -74,16 +74,19 @@ public final class TabularSummaryOutput extends AbstractOutput {
                                     methRes.getElementName(), meter, methRes,
                                     table);
                 }
+
                 table.addHeader(
                         new StringBuilder("Summary for ").append(
                                 classRes.getElementName()).toString(), '_',
                         Alignment.Left);
                 table = generateMeterResult("", meter, classRes, table);
                 table.addLine('-');
+
             }
         }
         table.addHeader(
-                "Summary for the whole benchmark", '*', Alignment.Center);
+                "Summary for the whole benchmark", '=', Alignment.Center);
+
         for (final AbstractMeter meter : benchRes.getRegisteredMeters()) {
             table = generateMeterResult("", meter, benchRes, table);
         }
@@ -155,11 +158,9 @@ public final class TabularSummaryOutput extends AbstractOutput {
      */
     private final NiceTable generateHeader(final NiceTable table) {
         table.addHeader("Benchmark");
-        table.addLine('*');
         table.addRow(new String[] {
                 "-", "unit", "sum", "min", "max", "avg", "stddev", "conf95",
                 "runs" });
-        table.addLine('*');
         return table;
     }
 

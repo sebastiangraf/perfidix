@@ -18,10 +18,10 @@
  * $Date$
  *
  */
-package org.perfidix.result;
+package org.perfidix.output;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -34,16 +34,16 @@ import org.junit.Test;
 import org.perfidix.annotation.Bench;
 import org.perfidix.failureHandling.PerfidixMethodException;
 import org.perfidix.failureHandling.PerfidixMethodInvocationException;
-import org.perfidix.meter.AbstractMeter;
 import org.perfidix.meter.CountingMeter;
-import org.perfidix.ouput.CSVOutput;
+import org.perfidix.ouput.TabularSummaryOutput;
+import org.perfidix.result.BenchmarkResult;
 
 /**
- * Testcase for CSVOutput.
+ * Test case for {@link TabularSummaryOutput}
  * 
  * @author Sebastian Graf, University of Konstanz
  */
-public class CSVOutputTest {
+public class TabularSummaryOutputTest {
 
     private final static int NUMBEROFTICKS = 10;
 
@@ -56,7 +56,7 @@ public class CSVOutputTest {
     private PerfidixMethodException testException;
 
     /**
-     * Simple setUp
+     * Simple Constructor.
      * 
      * @throws java.lang.Exception
      */
@@ -88,7 +88,7 @@ public class CSVOutputTest {
     }
 
     /**
-     * Simple tearDown
+     * Simple Constructor.
      * 
      * @throws java.lang.Exception
      */
@@ -100,62 +100,57 @@ public class CSVOutputTest {
 
     /**
      * Test method for
-     * {@link org.perfidix.ouput.CSVOutput#visitBenchmark(org.perfidix.result.BenchmarkResult)}
+     * {@link org.perfidix.ouput.TabularSummaryOutput#visitBenchmark(org.perfidix.result.BenchmarkResult)}
      * .
      */
     @Test
     public final void testVisitBenchmark() {
-
-        final CSVOutput output = new CSVOutput();
+        final TabularSummaryOutput output = new TabularSummaryOutput();
         output.visitBenchmark(benchRes);
         final StringBuilder builder = new StringBuilder();
-        builder.append("\n1.0,2.0,3.0,4.0,5.0,6.0,7.0,8.0,9.0,10.0\n");
         builder
-                .append("org.perfidix.annotation.Bench:org.perfidix.result.CSVOutputTest.Class1$method1\njava.io.IOException\n");
+                .append("|= Benchmark =======================================================================|\n");
+        builder
+                .append("| -       | unit  | sum    | min   | max   | avg   | stddev | conf95        | runs  |\n");
+        builder
+                .append("|===================================== Meter1 ======================================|\n");
+        builder
+                .append("|. Class1 ..........................................................................|\n");
+        builder
+                .append("| method1 | ticks | 55,00  | 01,00 | 10,00 | 05,50 | 03,03  | [01,00-10,00] | 10,00 |\n");
+        builder
+                .append("|_ Summary for Class1 ______________________________________________________________|\n");
+        builder
+                .append("|         | ticks | 110,00 | 01,00 | 10,00 | 05,50 | 02,95  | [01,00-10,00] | 20,00 |\n");
+        builder
+                .append("|-----------------------------------------------------------------------------------|\n");
+        builder
+                .append("|========================= Summary for the whole benchmark =========================|\n");
+        builder
+                .append("|         | ticks | 55,00  | 01,00 | 10,00 | 05,50 | 03,03  | [01,00-10,00] | 10,00 |\n");
+        builder
+                .append("|===================================================================================|\n");
         assertTrue(bytes.toString().startsWith(builder.toString()));
     }
 
     /**
      * Test method for
-     * {@link org.perfidix.ouput.CSVOutput#listenToResultSet(java.lang.reflect.Method, org.perfidix.meter.AbstractMeter, double)}
+     * {@link org.perfidix.ouput.TabularSummaryOutput#listenToResultSet(java.lang.reflect.Method, org.perfidix.meter.AbstractMeter, double)}
      * .
      */
     @Test
     public final void testListenToResultSet() {
-        final MethodResult methRes =
-                benchRes
-                        .getIncludedResults().iterator().next()
-                        .getIncludedResults().iterator().next();
-        final AbstractMeter meter =
-                methRes.getRegisteredMeters().iterator().next();
-        final CSVOutput output = new CSVOutput();
-        for (final double d : methRes.getResultSet(meter)) {
-            output.listenToResultSet(
-                    (Method) methRes.getRelatedElement(), meter, d);
-        }
-        final StringBuilder builder = new StringBuilder();
-        builder.append("1.0,2.0,3.0,4.0,5.0,6.0,7.0,8.0,9.0,10.0");
-        assertEquals(builder.toString(), bytes.toString());
+        fail("Not yet implemented");
     }
 
     /**
      * Test method for
-     * {@link org.perfidix.ouput.CSVOutput#listenToException(org.perfidix.failureHandling.PerfidixMethodException)}
+     * {@link org.perfidix.ouput.TabularSummaryOutput#listenToException(org.perfidix.failureHandling.PerfidixMethodException)}
      * .
-     * 
-     * @throws Exception
-     *             because of reflective invocation
      */
     @Test
-    public final void testListenToException() throws Exception {
-
-        final CSVOutput output = new CSVOutput();
-        output.listenToException(testException);
-        final String beginString =
-                new String(
-                        "org.perfidix.annotation.Bench:org.perfidix.result.CSVOutputTest.Class1$method1\njava.io.IOException\n");
-        assertTrue(bytes.toString().startsWith(beginString));
-
+    public final void testListenToException() {
+        fail("Not yet implemented");
     }
 
     class Class1 {

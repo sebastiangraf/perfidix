@@ -69,7 +69,7 @@ public class NiceTableTest {
     @Test
     public void testAddHeaderString() {
         table.addHeader("This is a test");
-        assertEquals("|* This is a test *************|\n", table.toString());
+        assertEquals("|= This is a test =============|\n", table.toString());
     }
 
     /**
@@ -113,7 +113,7 @@ public class NiceTableTest {
     @Test
     public void testAddLine() {
         table.addLine('*');
-        assertEquals("********************************\n", table.toString());
+        assertEquals("|******************************|\n", table.toString());
     }
 
     /**
@@ -126,7 +126,7 @@ public class NiceTableTest {
         table.addLine('-');
         table.addRow(new String[] { "This", "is", "another", "data" });
         assertEquals(
-                "|* This is a header ***************************|\n| This | is | one     | data |\n------------------------------------------------\n| This | is | another | data |\n",
+                "|= This is a header ===========================|\n| This | is | one     | data |\n|----------------------------------------------|\n| This | is | another | data |\n",
                 table.toString());
     }
 
@@ -142,7 +142,7 @@ public class NiceTableTest {
         table.setColumnDelimiter('-');
         table.addRow(new String[] { "This", "is", "another", "data" });
         final String expected =
-                "-* This is a header ***************************-\n- This - is - one     - data -\n------------------------------------------------\n- This - is - another - data -\n";
+                "-= This is a header ===========================-\n- This - is - one     - data -\n------------------------------------------------\n- This - is - another - data -\n";
         final String asIs = table.toString();
         assertEquals(expected, asIs);
 
@@ -203,11 +203,11 @@ public class NiceTableTest {
         b.addLine('-');
         final String result = b.toString();
         final StringBuilder expected = new StringBuilder();
-        expected.append("--------------------------------------\n");
+        expected.append("|------------------------------------|\n");
         expected.append("| a           | b   | c | d   | e    |\n");
-        expected.append("======================================\n");
+        expected.append("|====================================|\n");
         expected.append("| 1.222222222 | 3.0 | 4 | 5.0 | 4444 |\n");
-        expected.append("--------------------------------------\n");
+        expected.append("|------------------------------------|\n");
         assertEquals(expected.toString(), result);
 
     }
