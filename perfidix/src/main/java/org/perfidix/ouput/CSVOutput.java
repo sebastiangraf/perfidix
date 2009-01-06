@@ -114,7 +114,7 @@ public final class CSVOutput extends AbstractOutput {
 
     /** {@inheritDoc} */
     @Override
-    public final void listenToException(PerfidixMethodException exec) {
+    public final void listenToException(final PerfidixMethodException exec) {
         try {
             final PrintStream currentWriter =
                     setUpNewPrintStream(false, "Exceptions");
@@ -123,11 +123,13 @@ public final class CSVOutput extends AbstractOutput {
             }
             currentWriter.append(exec.getRelatedAnno().getSimpleName());
             currentWriter.append(",");
-            currentWriter.append(exec
-                    .getMethod().getDeclaringClass().getSimpleName());
-            currentWriter.append("#");
-            currentWriter.append(exec.getMethod().getName());
-            currentWriter.append(",");
+            if (exec.getMethod() != null) {
+                currentWriter.append(exec
+                        .getMethod().getDeclaringClass().getSimpleName());
+                currentWriter.append("#");
+                currentWriter.append(exec.getMethod().getName());
+                currentWriter.append(",");
+            }
             exec.getExec().printStackTrace(currentWriter);
             currentWriter.flush();
             firstException = false;
@@ -176,11 +178,13 @@ public final class CSVOutput extends AbstractOutput {
 
             for (final PerfidixMethodException exec : res.getExceptions()) {
                 currentWriter.append(exec.getRelatedAnno().getSimpleName());
-                currentWriter.append(":");
-                currentWriter.append(exec
-                        .getMethod().getDeclaringClass().getSimpleName());
-                currentWriter.append("#");
-                currentWriter.append(exec.getMethod().getName());
+                if (exec.getMethod() != null) {
+                    currentWriter.append(":");
+                    currentWriter.append(exec
+                            .getMethod().getDeclaringClass().getSimpleName());
+                    currentWriter.append("#");
+                    currentWriter.append(exec.getMethod().getName());
+                }
                 currentWriter.append("\n");
                 exec.getExec().printStackTrace(currentWriter);
             }

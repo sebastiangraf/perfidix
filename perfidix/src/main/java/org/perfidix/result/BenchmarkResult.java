@@ -118,4 +118,14 @@ public final class BenchmarkResult extends ResultContainer<ClassResult> {
         return exceptions;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public final String toString() {
+        final StringBuilder builder = new StringBuilder(super.toString());
+        builder.append("\nexceptions: ").append(getExceptions());
+        return builder.toString();
+    }
+
 }

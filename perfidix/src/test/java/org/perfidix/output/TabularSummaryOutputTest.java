@@ -133,11 +133,13 @@ public class TabularSummaryOutputTest {
         builder
                 .append("|=================================== Exceptions ====================================|\n");
         builder
-                .append("|  Related exception: java.io.IOException in method invocation                      |\n");
+                .append("|  Related exception: IOException                                                   |\n");
+        builder
+                .append("|  Related place: method invocation                                                 |\n");
         builder
                 .append("|  Related method: method1                                                          |\n");
         builder
-                .append("|  Related annotation: interface org.perfidix.annotation.Bench                      |\n");
+                .append("|  Related annotation: Bench                                                        |\n");
         builder
                 .append("|-----------------------------------------------------------------------------------|\n");
         builder

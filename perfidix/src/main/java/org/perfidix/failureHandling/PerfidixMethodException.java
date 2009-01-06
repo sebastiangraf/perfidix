@@ -36,7 +36,7 @@ public abstract class PerfidixMethodException extends Exception {
     /**
      * Encapsulated Exception.
      */
-    private final Exception exec;
+    private final Throwable exec;
 
     /**
      * Related method.
@@ -57,7 +57,7 @@ public abstract class PerfidixMethodException extends Exception {
      *            the related annotation to this method
      */
     public PerfidixMethodException(
-            final Exception paramExec, final Method paramMeth,
+            final Throwable paramExec, final Method paramMeth,
             final Class<? extends Annotation> paramAnnotation) {
         this.exec = paramExec;
         this.meth = paramMeth;
@@ -78,7 +78,7 @@ public abstract class PerfidixMethodException extends Exception {
      * 
      * @return the exec which is hold in this container.
      */
-    public final Exception getExec() {
+    public final Throwable getExec() {
         return exec;
     }
 
