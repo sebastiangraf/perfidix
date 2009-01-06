@@ -20,12 +20,15 @@
  */
 package org.perfidix;
 
+import static org.junit.Assert.assertEquals;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.perfidix.annotation.Bench;
+import org.perfidix.annotation.BeforeBenchClass;
+import org.perfidix.benchmarktestClasses.BeforeBenchClassError;
 import org.perfidix.element.KindOfArrangement;
-import org.perfidix.ouput.TabularSummaryOutput;
+import org.perfidix.failureHandling.PerfidixMethodException;
 import org.perfidix.result.BenchmarkResult;
 
 /**
@@ -67,19 +70,13 @@ public class BenchmarkTest {
         benchmark.add(BeforeBenchClassError.class);
         final BenchmarkResult benchRes =
                 benchmark.run(KindOfArrangement.NoArrangement);
-        new TabularSummaryOutput().visitBenchmark(benchRes);
-    }
-
-    public class BeforeBenchClassError {
-
-        public void beforeClass() {
-            throw new IllegalStateException("This must fail");
-        }
-
-        @Bench
-        public void bench() {
-
-        }
+        assertEquals(0, benchRes.getRegisteredMeters().size());
+        assertEquals(1, benchRes.getExceptions().size());
+        final PerfidixMethodException exec =
+                benchRes.getExceptions().iterator().next();
+        assertEquals(BeforeBenchClass.class, exec.getRelatedAnno());
+        assertEquals(IllegalStateException.class, exec.getExec().getClass());
 
     }
+
 }
