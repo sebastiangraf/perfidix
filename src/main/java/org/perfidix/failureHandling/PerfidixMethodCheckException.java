@@ -45,7 +45,7 @@ public final class PerfidixMethodCheckException extends PerfidixMethodException 
      *            the related annotation of the method
      */
     public PerfidixMethodCheckException(
-            final Exception paramExec, final Method paramMeth,
+            final Throwable paramExec, final Method paramMeth,
             final Class<? extends Annotation> paramAnnotation) {
         super(paramExec, paramMeth, paramAnnotation);
     }

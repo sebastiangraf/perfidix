@@ -274,7 +274,7 @@ public abstract class AbstractResult {
      * {@inheritDoc}
      */
     @Override
-    public final String toString() {
+    public String toString() {
         final StringBuilder builder = new StringBuilder();
         builder.append(getElementName()).append("\nmeters: ").append(
                 getRegisteredMeters()).append("\nresults: ").append(

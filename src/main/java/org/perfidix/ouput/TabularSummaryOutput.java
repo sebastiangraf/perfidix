@@ -62,7 +62,7 @@ public final class TabularSummaryOutput extends AbstractOutput {
 
     /** {@inheritDoc} */
     @Override
-    public void visitBenchmark(final BenchmarkResult benchRes) {
+    public final void visitBenchmark(final BenchmarkResult benchRes) {
         NiceTable table = new NiceTable(9);
         table = generateHeader(table);
         for (final AbstractMeter meter : benchRes.getRegisteredMeters()) {
@@ -94,24 +94,27 @@ public final class TabularSummaryOutput extends AbstractOutput {
 
         table.addHeader("Exceptions", '=', Alignment.Center);
         for (final PerfidixMethodException exec : benchRes.getExceptions()) {
+            final StringBuilder execBuilder0 = new StringBuilder();
+            execBuilder0.append("Related exception: ").append(
+                    exec.getExec().getClass().getSimpleName());
+            table.addHeader(execBuilder0.toString(), ' ', Alignment.Left);
+
             final StringBuilder execBuilder1 = new StringBuilder();
-            execBuilder1.append("Related exception: ").append(
-                    exec.getExec().toString());
             if (exec instanceof PerfidixMethodInvocationException) {
-                execBuilder1.append(" in method invocation");
+                execBuilder1.append("Related place: method invocation");
             } else {
-                execBuilder1.append(" in method check");
+                execBuilder1.append("Related place: method check");
             }
             table.addHeader(execBuilder1.toString(), ' ', Alignment.Left);
-
-            final StringBuilder execBuilder2 = new StringBuilder();
-            execBuilder2.append("Related method: ").append(
-                    exec.getMethod().getName());
-            table.addHeader(execBuilder2.toString(), ' ', Alignment.Left);
-
+            if (exec.getMethod() != null) {
+                final StringBuilder execBuilder2 = new StringBuilder();
+                execBuilder2.append("Related method: ").append(
+                        exec.getMethod().getName());
+                table.addHeader(execBuilder2.toString(), ' ', Alignment.Left);
+            }
             final StringBuilder execBuilder3 = new StringBuilder();
             execBuilder3.append("Related annotation: ").append(
-                    exec.getRelatedAnno().toString());
+                    exec.getRelatedAnno().getSimpleName());
             table.addHeader(execBuilder3.toString(), ' ', Alignment.Left);
             table.addLine('-');
 
@@ -170,12 +173,17 @@ public final class TabularSummaryOutput extends AbstractOutput {
 
     /** {@inheritDoc} */
     @Override
-    public void listenToException(PerfidixMethodException exec) {
+    public final void listenToException(final PerfidixMethodException exec) {
         final StringBuilder builder = new StringBuilder();
-        builder.append("Class: ").append(
-                exec.getMethod().getDeclaringClass().getSimpleName()).append(
-                "#").append(exec.getMethod().getName());
-        builder.append("\nAnnotation: ").append(
+        if (exec.getMethod() != null) {
+            builder
+                    .append("Class: ").append(
+                            exec
+                                    .getMethod().getDeclaringClass()
+                                    .getSimpleName()).append("#").append(
+                            exec.getMethod().getName()).append("\n");
+        }
+        builder.append("Annotation: ").append(
                 exec.getRelatedAnno().getSimpleName());
         builder
                 .append("\nException: ")
