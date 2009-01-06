@@ -24,6 +24,7 @@ import java.io.PrintStream;
 import java.lang.reflect.Method;
 
 import org.perfidix.failureHandling.PerfidixMethodException;
+import org.perfidix.failureHandling.PerfidixMethodInvocationException;
 import org.perfidix.meter.AbstractMeter;
 import org.perfidix.ouput.NiceTable.Alignment;
 import org.perfidix.result.AbstractResult;
@@ -89,6 +90,31 @@ public final class TabularSummaryOutput extends AbstractOutput {
 
         for (final AbstractMeter meter : benchRes.getRegisteredMeters()) {
             table = generateMeterResult("", meter, benchRes, table);
+        }
+
+        table.addHeader("Exceptions", '=', Alignment.Center);
+        for (final PerfidixMethodException exec : benchRes.getExceptions()) {
+            final StringBuilder execBuilder1 = new StringBuilder();
+            execBuilder1.append("Related exception: ").append(
+                    exec.getExec().toString());
+            if (exec instanceof PerfidixMethodInvocationException) {
+                execBuilder1.append(" in method invocation");
+            } else {
+                execBuilder1.append(" in method check");
+            }
+            table.addHeader(execBuilder1.toString(), ' ', Alignment.Left);
+
+            final StringBuilder execBuilder2 = new StringBuilder();
+            execBuilder2.append("Related method: ").append(
+                    exec.getMethod().getName());
+            table.addHeader(execBuilder2.toString(), ' ', Alignment.Left);
+
+            final StringBuilder execBuilder3 = new StringBuilder();
+            execBuilder3.append("Related annotation: ").append(
+                    exec.getRelatedAnno().toString());
+            table.addHeader(execBuilder3.toString(), ' ', Alignment.Left);
+            table.addLine('-');
+
         }
         table.addLine('=');
         out.println(table.toString());

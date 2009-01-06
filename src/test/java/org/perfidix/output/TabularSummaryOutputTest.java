@@ -129,6 +129,16 @@ public class TabularSummaryOutputTest {
         builder
                 .append("|         | ticks | 55,00  | 01,00 | 10,00 | 05,50 | 03,03  | [01,00-10,00] | 10,00 |\n");
         builder
+                .append("|=================================== Exceptions ====================================|\n");
+        builder
+                .append("|  Related exception: java.io.IOException in method invocation                      |\n");
+        builder
+                .append("|  Related method: method1                                                          |\n");
+        builder
+                .append("|  Related annotation: interface org.perfidix.annotation.Bench                      |\n");
+        builder
+                .append("|-----------------------------------------------------------------------------------|\n");
+        builder
                 .append("|===================================================================================|\n");
         assertTrue(bytes.toString().startsWith(builder.toString()));
     }
