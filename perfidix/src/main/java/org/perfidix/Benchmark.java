@@ -33,6 +33,7 @@ import org.perfidix.element.BenchmarkElement;
 import org.perfidix.element.BenchmarkExecutor;
 import org.perfidix.element.BenchmarkMethod;
 import org.perfidix.element.KindOfArrangement;
+import org.perfidix.element.NoMethodArrangement;
 import org.perfidix.failureHandling.PerfidixMethodCheckException;
 import org.perfidix.failureHandling.PerfidixMethodInvocationException;
 import org.perfidix.meter.AbstractMeter;
@@ -84,6 +85,18 @@ public final class Benchmark {
      */
     public final void add(final Class< ? > clazz) {
         this.clazzes.add(clazz);
+    }
+
+    /**
+     * Running this benchmark with no arrangement. Then the
+     * {@link NoMethodArrangement} is chosen.
+     * 
+     * @param visitor
+     *            possible visitors
+     * @return the result of the Benchmark
+     */
+    public final BenchmarkResult run(final AbstractOutput... visitor) {
+        return run(KindOfArrangement.NoArrangement, visitor);
     }
 
     /**
@@ -192,18 +205,14 @@ public final class Benchmark {
                     // possible exception stored to the result...
                     if (beforeClassMeth != null) {
                         final PerfidixMethodCheckException e =
-                                BenchmarkExecutor
-                                        .checkMethod(
-                                                objectToUse,
-                                                beforeClassMeth,
-                                                BeforeBenchClass.class);
+                                BenchmarkExecutor.checkMethod(
+                                        objectToUse, beforeClassMeth,
+                                        BeforeBenchClass.class);
                         if (e == null) {
                             final PerfidixMethodInvocationException e2 =
-                                    BenchmarkExecutor
-                                            .invokeMethod(
-                                                    objectToUse,
-                                                    beforeClassMeth,
-                                                    BeforeBenchClass.class);
+                                    BenchmarkExecutor.invokeMethod(
+                                            objectToUse, beforeClassMeth,
+                                            BeforeBenchClass.class);
                             if (e2 == null) {
                                 objectsToUse.put(clazz, objectToUse);
                             } else {
@@ -254,17 +263,14 @@ public final class Benchmark {
                 // possible failures will be stored in the BenchmarkResult
                 if (afterClassMeth != null) {
                     final PerfidixMethodCheckException e1 =
-                            BenchmarkExecutor
-                                    .checkMethod(
-                                            objectToUse, afterClassMeth,
-                                            AfterBenchClass.class);
+                            BenchmarkExecutor.checkMethod(
+                                    objectToUse, afterClassMeth,
+                                    AfterBenchClass.class);
                     if (e1 == null) {
                         final PerfidixMethodInvocationException e2 =
-                                BenchmarkExecutor
-                                        .invokeMethod(
-                                                objectToUse,
-                                                afterClassMeth,
-                                                AfterBenchClass.class);
+                                BenchmarkExecutor.invokeMethod(
+                                        objectToUse, afterClassMeth,
+                                        AfterBenchClass.class);
                         if (e2 != null) {
                             res.addException(e2);
                         }
