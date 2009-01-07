@@ -27,6 +27,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.perfidix.annotation.BeforeBenchClass;
 import org.perfidix.benchmarktestClasses.BeforeBenchClassError;
+import org.perfidix.benchmarktestClasses.NormalCompleteBench;
+import org.perfidix.benchmarktestClasses.NormalIncompleteBench;
 import org.perfidix.element.KindOfArrangement;
 import org.perfidix.failureHandling.PerfidixMethodException;
 import org.perfidix.result.BenchmarkResult;
@@ -76,6 +78,46 @@ public class BenchmarkTest {
                 benchRes.getExceptions().iterator().next();
         assertEquals(BeforeBenchClass.class, exec.getRelatedAnno());
         assertEquals(IllegalStateException.class, exec.getExec().getClass());
+
+    }
+
+    /**
+     * Test method for
+     * {@link org.perfidix.Benchmark#run(org.perfidix.element.KindOfArrangement, org.perfidix.ouput.AbstractOutput[])}
+     * .
+     */
+    @Test
+    public final void testNormalBenchrun() {
+        benchmark.add(NormalCompleteBench.class);
+        final BenchmarkResult benchRes =
+                benchmark.run(KindOfArrangement.NoArrangement);
+        assertEquals(1, benchRes.getRegisteredMeters().size());
+        assertEquals(0, benchRes.getExceptions().size());
+
+        assertEquals(1, NormalCompleteBench.getBeforeClassCounter());
+        assertEquals(1, NormalCompleteBench.getBeforeFirstRunCounter());
+        assertEquals(NormalCompleteBench.RUNS, NormalCompleteBench
+                .getBeforeEachRunCounter());
+        assertEquals(NormalCompleteBench.RUNS, NormalCompleteBench
+                .getBenchCounter());
+        assertEquals(NormalCompleteBench.RUNS, NormalCompleteBench
+                .getAfterEachRunCounter());
+        assertEquals(1, NormalCompleteBench.getAfterLastRunCounter());
+        assertEquals(1, NormalCompleteBench.getAfterClassCounter());
+    }
+
+    /**
+     * Test method for
+     * {@link org.perfidix.Benchmark#run(org.perfidix.element.KindOfArrangement, org.perfidix.ouput.AbstractOutput[])}
+     * .
+     */
+    @Test
+    public final void testIncompleteBenchrun() {
+        benchmark.add(NormalIncompleteBench.class);
+        final BenchmarkResult benchRes =
+                benchmark.run(KindOfArrangement.NoArrangement);
+        assertEquals(0, benchRes.getRegisteredMeters().size());
+        assertEquals(0, benchRes.getExceptions().size());
 
     }
 
