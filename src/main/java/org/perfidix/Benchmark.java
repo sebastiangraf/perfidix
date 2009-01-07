@@ -123,7 +123,7 @@ public final class Benchmark {
             final Object obj =
                     objectsToExecute.get(elem
                             .getMeth().getMethodToBench().getDeclaringClass());
-            // check needed because of failed initalization of objects
+            // check needed because of failed initialization of objects
             if (obj != null) {
                 exec.executeBeforeMethods(obj);
                 exec.executeBench(obj);
