@@ -54,7 +54,7 @@ public final class NoMethodArrangement extends AbstractMethodArrangement {
      */
     @Override
     protected final List<BenchmarkElement> arrangeList(
-            Set<BenchmarkElement> elements) {
+            final Set<BenchmarkElement> elements) {
         final List<BenchmarkElement> elementList =
                 new LinkedList<BenchmarkElement>();
         elementList.addAll(elements);

@@ -66,7 +66,7 @@ public class CSVOutputTest {
     public void setUp() throws Exception {
         benchRes = new BenchmarkResult();
 
-        final Class<?> class1 = new Class1().getClass();
+        final Class< ? > class1 = new Class1().getClass();
 
         final Method meth11 = class1.getDeclaredMethod("method1");
 

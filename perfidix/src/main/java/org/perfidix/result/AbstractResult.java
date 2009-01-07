@@ -46,20 +46,24 @@ import org.perfidix.meter.AbstractMeter;
  */
 public abstract class AbstractResult {
 
-    /** Related element of this container. Can be a method or a class */
+    /** Related element of this container. Can be a method or a class. */
     private final Object relatedElement;
 
     /**
-     * Results mapped to the meters
+     * Results mapped to the meters.
      */
     private final Map<AbstractMeter, Collection<Double>> meterResults;
 
     /**
      * Constructor with a given name.
+     * 
+     * @param paramRelatedElement
+     *            element to this result.
      */
     protected AbstractResult(final Object paramRelatedElement) {
         this.relatedElement = paramRelatedElement;
-        this.meterResults = new Hashtable<AbstractMeter, Collection<Double>>();
+        this.meterResults =
+                new Hashtable<AbstractMeter, Collection<Double>>();
 
     }
 
@@ -103,7 +107,8 @@ public abstract class AbstractResult {
         checkIfMeterExists(meter);
         final AbstractUnivariateStatistic mean = new Mean();
         final CollectionDoubleCollection doubleColl =
-                new CollectionDoubleCollection(this.meterResults.get(meter));
+                new CollectionDoubleCollection(this.meterResults
+                        .get(meter));
         return mean.evaluate(
                 doubleColl.toArray(), 0, doubleColl.toArray().length);
     }
@@ -119,9 +124,10 @@ public abstract class AbstractResult {
         checkIfMeterExists(meter);
         final AbstractUnivariateStatistic sqrSum = new SumOfSquares();
         final CollectionDoubleCollection doubleColl =
-                new CollectionDoubleCollection(this.meterResults.get(meter));
-        return sqrSum.evaluate(
-                doubleColl.toArray(), 0, doubleColl.toArray().length);
+                new CollectionDoubleCollection(this.meterResults
+                        .get(meter));
+        return sqrSum.evaluate(doubleColl.toArray(), 0, doubleColl
+                .toArray().length);
     }
 
     /**
@@ -135,9 +141,10 @@ public abstract class AbstractResult {
         checkIfMeterExists(meter);
         final AbstractUnivariateStatistic stdDev = new StandardDeviation();
         final CollectionDoubleCollection doubleColl =
-                new CollectionDoubleCollection(this.meterResults.get(meter));
-        return stdDev.evaluate(
-                doubleColl.toArray(), 0, doubleColl.toArray().length);
+                new CollectionDoubleCollection(this.meterResults
+                        .get(meter));
+        return stdDev.evaluate(doubleColl.toArray(), 0, doubleColl
+                .toArray().length);
     }
 
     /**
@@ -151,7 +158,8 @@ public abstract class AbstractResult {
         checkIfMeterExists(meter);
         final AbstractUnivariateStatistic sum = new Sum();
         final CollectionDoubleCollection doubleColl =
-                new CollectionDoubleCollection(this.meterResults.get(meter));
+                new CollectionDoubleCollection(this.meterResults
+                        .get(meter));
         return sum.evaluate(
                 doubleColl.toArray(), 0, doubleColl.toArray().length);
     }
@@ -163,11 +171,12 @@ public abstract class AbstractResult {
      *            the meter of the mean
      * @return the minimum result value.
      */
-    public double min(final AbstractMeter meter) {
+    public final double min(final AbstractMeter meter) {
         checkIfMeterExists(meter);
         final AbstractUnivariateStatistic min = new Min();
         final CollectionDoubleCollection doubleColl =
-                new CollectionDoubleCollection(this.meterResults.get(meter));
+                new CollectionDoubleCollection(this.meterResults
+                        .get(meter));
         return min.evaluate(
                 doubleColl.toArray(), 0, doubleColl.toArray().length);
     }
@@ -184,9 +193,10 @@ public abstract class AbstractResult {
         checkIfMeterExists(meter);
         final AbstractUnivariateStatistic conf05 = new Percentile(5.0);
         final CollectionDoubleCollection doubleColl =
-                new CollectionDoubleCollection(this.meterResults.get(meter));
-        return conf05.evaluate(
-                doubleColl.toArray(), 0, doubleColl.toArray().length);
+                new CollectionDoubleCollection(this.meterResults
+                        .get(meter));
+        return conf05.evaluate(doubleColl.toArray(), 0, doubleColl
+                .toArray().length);
 
     }
 
@@ -202,9 +212,10 @@ public abstract class AbstractResult {
         checkIfMeterExists(meter);
         final AbstractUnivariateStatistic conf95 = new Percentile(95.0);
         final CollectionDoubleCollection doubleColl =
-                new CollectionDoubleCollection(this.meterResults.get(meter));
-        return conf95.evaluate(
-                doubleColl.toArray(), 0, doubleColl.toArray().length);
+                new CollectionDoubleCollection(this.meterResults
+                        .get(meter));
+        return conf95.evaluate(doubleColl.toArray(), 0, doubleColl
+                .toArray().length);
     }
 
     /**
@@ -218,7 +229,8 @@ public abstract class AbstractResult {
         checkIfMeterExists(meter);
         final AbstractUnivariateStatistic max = new Max();
         final CollectionDoubleCollection doubleColl =
-                new CollectionDoubleCollection(this.meterResults.get(meter));
+                new CollectionDoubleCollection(this.meterResults
+                        .get(meter));
         return max.evaluate(
                 doubleColl.toArray(), 0, doubleColl.toArray().length);
     }
@@ -245,14 +257,15 @@ public abstract class AbstractResult {
     }
 
     /**
-     * Adding a data to a meter
+     * Adding a data to a meter.
      * 
      * @param meter
      *            the related meter
      * @param data
      *            the data to be added
      */
-    protected final void addData(final AbstractMeter meter, final double data) {
+    protected final void addData(
+            final AbstractMeter meter, final double data) {
         checkIfMeterExists(meter);
         meterResults.get(meter).add(data);
     }
@@ -264,7 +277,7 @@ public abstract class AbstractResult {
      * @param meter
      *            to be checked
      */
-    private final void checkIfMeterExists(final AbstractMeter meter) {
+    private void checkIfMeterExists(final AbstractMeter meter) {
         if (!meterResults.containsKey(meter)) {
             meterResults.put(meter, new LinkedList<Double>());
         }

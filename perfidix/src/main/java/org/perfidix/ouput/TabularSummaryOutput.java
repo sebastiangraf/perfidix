@@ -40,7 +40,7 @@ import org.perfidix.result.MethodResult;
  */
 public final class TabularSummaryOutput extends AbstractOutput {
 
-    /** Print stream where the result should end */
+    /** Print stream where the result should end. */
     private final PrintStream out;
 
     /**
@@ -63,23 +63,27 @@ public final class TabularSummaryOutput extends AbstractOutput {
     /** {@inheritDoc} */
     @Override
     public final void visitBenchmark(final BenchmarkResult benchRes) {
-        NiceTable table = new NiceTable(9);
+        final int numberOfColumns = 9;
+        NiceTable table = new NiceTable(numberOfColumns);
         table = generateHeader(table);
         for (final AbstractMeter meter : benchRes.getRegisteredMeters()) {
             table.addHeader(meter.getName(), '=', Alignment.Center);
-            for (final ClassResult classRes : benchRes.getIncludedResults()) {
-                table.addHeader(classRes.getElementName(), '.', Alignment.Left);
-                for (final MethodResult methRes : classRes.getIncludedResults()) {
+            for (final ClassResult classRes : benchRes
+                    .getIncludedResults()) {
+                table.addHeader(
+                        classRes.getElementName(), '.', Alignment.Left);
+                for (final MethodResult methRes : classRes
+                        .getIncludedResults()) {
                     table =
                             generateMeterResult(
-                                    methRes.getElementName(), meter, methRes,
-                                    table);
+                                    methRes.getElementName(), meter,
+                                    methRes, table);
                 }
 
                 table.addHeader(
                         new StringBuilder("Summary for ").append(
-                                classRes.getElementName()).toString(), '_',
-                        Alignment.Left);
+                                classRes.getElementName()).toString(),
+                        '_', Alignment.Left);
                 table = generateMeterResult("", meter, classRes, table);
                 table.addLine('-');
 
@@ -110,7 +114,8 @@ public final class TabularSummaryOutput extends AbstractOutput {
                 final StringBuilder execBuilder2 = new StringBuilder();
                 execBuilder2.append("Related method: ").append(
                         exec.getMethod().getName());
-                table.addHeader(execBuilder2.toString(), ' ', Alignment.Left);
+                table.addHeader(
+                        execBuilder2.toString(), ' ', Alignment.Left);
             }
             final StringBuilder execBuilder3 = new StringBuilder();
             execBuilder3.append("Related annotation: ").append(
@@ -139,20 +144,26 @@ public final class TabularSummaryOutput extends AbstractOutput {
     private final NiceTable generateMeterResult(
             final String columnDesc, final AbstractMeter meter,
             final AbstractResult result, final NiceTable input) {
-        input.addRow(new String[] {
-                columnDesc,
-                meter.getUnit(),
-                AbstractOutput.format(result.sum(meter)),
-                AbstractOutput.format(result.min(meter)),
-                AbstractOutput.format(result.max(meter)),
-                AbstractOutput.format(result.mean(meter)),
-                AbstractOutput.format(result.getStandardDeviation(meter)),
-                new StringBuilder("[").append(
-                        AbstractOutput.format(result.getConf05(meter))).append(
-                        "-").append(
-                        AbstractOutput.format(result.getConf95(meter))).append(
-                        "]").toString(),
-                AbstractOutput.format(result.getResultSet(meter).size()) });
+        input
+                .addRow(new String[] {
+                        columnDesc,
+                        meter.getUnit(),
+                        AbstractOutput.format(result.sum(meter)),
+                        AbstractOutput.format(result.min(meter)),
+                        AbstractOutput.format(result.max(meter)),
+                        AbstractOutput.format(result.mean(meter)),
+                        AbstractOutput.format(result
+                                .getStandardDeviation(meter)),
+                        new StringBuilder("[")
+                                .append(
+                                        AbstractOutput.format(result
+                                                .getConf05(meter)))
+                                .append("-").append(
+                                        AbstractOutput.format(result
+                                                .getConf95(meter)))
+                                .append("]").toString(),
+                        AbstractOutput.format(result
+                                .getResultSet(meter).size()) });
         return input;
     }
 
@@ -163,9 +174,10 @@ public final class TabularSummaryOutput extends AbstractOutput {
     public final void listenToResultSet(
             final Method meth, final AbstractMeter meter, final double data) {
         final StringBuilder builder = new StringBuilder();
-        builder.append("Class: ").append(
-                meth.getDeclaringClass().getSimpleName()).append("#").append(
-                meth.getName());
+        builder
+                .append("Class: ").append(
+                        meth.getDeclaringClass().getSimpleName()).append(
+                        "#").append(meth.getName());
         builder.append("\nMeter: ").append(meter.getName());
         builder.append("\nData: ").append(data).append("\n");
         out.println(builder.toString());
@@ -185,17 +197,16 @@ public final class TabularSummaryOutput extends AbstractOutput {
         }
         builder.append("Annotation: ").append(
                 exec.getRelatedAnno().getSimpleName());
-        builder
-                .append("\nException: ")
-                .append(exec.getClass().getSimpleName()).append("/").append(
-                        exec.getExec().toString());
+        builder.append("\nException: ").append(
+                exec.getClass().getSimpleName()).append("/").append(
+                exec.getExec().toString());
         out.println(builder.toString());
         exec.getExec().printStackTrace(out);
 
     }
 
     /**
-     * Generating header for a given table
+     * Generating header for a given table.
      * 
      * @param table
      *            the table where the header should fit to
@@ -204,8 +215,8 @@ public final class TabularSummaryOutput extends AbstractOutput {
     private final NiceTable generateHeader(final NiceTable table) {
         table.addHeader("Benchmark");
         table.addRow(new String[] {
-                "-", "unit", "sum", "min", "max", "avg", "stddev", "conf95",
-                "runs" });
+                "-", "unit", "sum", "min", "max", "avg", "stddev",
+                "conf95", "runs" });
         return table;
     }
 

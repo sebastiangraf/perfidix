@@ -47,10 +47,12 @@ public class ShuffleMethodArrangementTest {
     @Before
     public void setUp() {
         elemSet = new HashSet<BenchmarkElement>();
-        final Class<?> testClazz = new TestBenchClass().getClass();
+        final Class< ? > testClazz = new TestBenchClass().getClass();
         for (final Method meth : testClazz.getDeclaredMethods()) {
             if (BenchmarkMethod.isBenchmarkable(meth)) {
-                elemSet.add(new BenchmarkElement(new BenchmarkMethod(meth)));
+                elemSet
+                        .add(new BenchmarkElement(
+                                new BenchmarkMethod(meth)));
             }
         }
     }
@@ -65,8 +67,10 @@ public class ShuffleMethodArrangementTest {
             final AbstractMethodArrangement arrangement =
                     AbstractMethodArrangement.getMethodArrangement(
                             elemSet, KindOfArrangement.ShuffleArrangement);
-            final String[] expectedNames = { "bench1", "bench2", "bench4" };
-            final Iterator<BenchmarkElement> iterBench = arrangement.iterator();
+            final String[] expectedNames =
+                    { "bench1", "bench2", "bench4" };
+            final Iterator<BenchmarkElement> iterBench =
+                    arrangement.iterator();
             final BenchmarkElement elem1 = iterBench.next();
             final BenchmarkElement elem2 = iterBench.next();
             final BenchmarkElement elem3 = iterBench.next();

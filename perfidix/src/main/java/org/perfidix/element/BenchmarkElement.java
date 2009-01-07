@@ -42,7 +42,7 @@ public final class BenchmarkElement {
      * Static Mapping for BenchmarkMethod->Integer. Every BenchmarkMethod gains
      * one unique id from this mapping.
      */
-    private final static Map<BenchmarkMethod, Integer> idMapping =
+    private static final Map<BenchmarkMethod, Integer> ID_MAPPING =
             new Hashtable<BenchmarkMethod, Integer>();
 
     /**
@@ -53,11 +53,11 @@ public final class BenchmarkElement {
      */
     public BenchmarkElement(final BenchmarkMethod paramMeth) {
         meth = paramMeth;
-        if (!idMapping.containsKey(paramMeth)) {
-            idMapping.put(getMeth(), 0);
+        if (!ID_MAPPING.containsKey(paramMeth)) {
+            ID_MAPPING.put(getMeth(), 0);
         }
-        id = idMapping.get(getMeth()) + 1;
-        idMapping.put(getMeth(), getId());
+        id = ID_MAPPING.get(getMeth()) + 1;
+        ID_MAPPING.put(getMeth(), getId());
 
     }
 
@@ -85,27 +85,39 @@ public final class BenchmarkElement {
         final int prime = 31;
         int result = 1;
         result = prime * result + id;
-        result = prime * result + ((meth == null) ? 0 : meth.hashCode());
+        if (meth == null) {
+            result = prime * result;
+        } else {
+            result = prime * result + meth.hashCode();
+        }
         return result;
     }
 
     /** {@inheritDoc} */
     @Override
-    public final boolean equals(Object obj) {
-        if (this == obj)
+    public final boolean equals(final Object obj) {
+        if (this == obj) {
             return true;
-        if (obj == null)
+        }
+        if (obj == null) {
             return false;
-        if (getClass() != obj.getClass())
+        }
+        if (getClass() != obj.getClass()) {
             return false;
+        }
         final BenchmarkElement other = (BenchmarkElement) obj;
-        if (id != other.id)
+        if (id != other.id) {
             return false;
+        }
         if (meth == null) {
-            if (other.meth != null)
+            if (other.meth != null) {
                 return false;
-        } else if (!meth.equals(other.meth))
-            return false;
+            }
+        } else {
+            if (!meth.equals(other.meth)) {
+                return false;
+            }
+        }
         return true;
     }
 

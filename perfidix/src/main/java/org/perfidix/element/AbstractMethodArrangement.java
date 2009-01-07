@@ -50,7 +50,8 @@ public abstract class AbstractMethodArrangement
      * @param elements
      *            definitly benchmarkable objects.
      */
-    protected AbstractMethodArrangement(final Set<BenchmarkElement> elements) {
+    protected AbstractMethodArrangement(
+            final Set<BenchmarkElement> elements) {
         final List<BenchmarkElement> arrangedList = arrangeList(elements);
         this.elementList = Collections.unmodifiableList(arrangedList);
     }
@@ -81,8 +82,9 @@ public abstract class AbstractMethodArrangement
      *            for the method arrangement
      * @return the arrangement, mainly an iterator
      */
-    public final static AbstractMethodArrangement getMethodArrangement(
-            final Set<BenchmarkElement> elements, final KindOfArrangement kind) {
+    public static final AbstractMethodArrangement getMethodArrangement(
+            final Set<BenchmarkElement> elements,
+            final KindOfArrangement kind) {
         switch (kind) {
         case NoArrangement:
             return new NoMethodArrangement(elements);

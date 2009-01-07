@@ -35,32 +35,32 @@ import org.perfidix.result.ClassResult;
 import org.perfidix.result.MethodResult;
 
 /**
- * Getting out the raw-data as csv
+ * Getting out the raw-data as csv.
  * 
  * @author Sebastian Graf, University of Konstanz
  */
 public final class CSVOutput extends AbstractOutput {
 
     /**
-     * Separator to distinguish between class, meter and method
+     * Separator to distinguish between class, meter and method.
      */
     private static final String SEPARATOR = "$";
 
-    /** Print stream where the result should end */
+    /** Print stream where the result should end. */
     private final File folder;
 
     /**
-     * Flag for correct commata for results
+     * Flag for correct commata for results.
      */
     private boolean firstResult;
 
     /**
-     * Flag for correct commata for exceptions
+     * Flag for correct commata for exceptions.
      */
     private boolean firstException;
 
     /**
-     * Set for deleting old files in the beginning
+     * Set for deleting old files in the beginning.
      */
     private final Set<File> usedFiles;
 
@@ -82,7 +82,7 @@ public final class CSVOutput extends AbstractOutput {
     }
 
     /**
-     * Constructor for output to {@link System#out}
+     * Constructor for output to {@link System#out}.
      */
     public CSVOutput() {
         this(null);
@@ -98,8 +98,8 @@ public final class CSVOutput extends AbstractOutput {
 
             final PrintStream stream =
                     setUpNewPrintStream(
-                            false, meth.getDeclaringClass().getName(), meth
-                                    .getName(), meter.getName());
+                            false, meth.getDeclaringClass().getName(),
+                            meth.getName(), meter.getName());
             if (!firstResult) {
                 stream.append(",");
             }
@@ -144,8 +144,10 @@ public final class CSVOutput extends AbstractOutput {
     public final void visitBenchmark(final BenchmarkResult res) {
         // Printing the data
         for (final ClassResult classRes : res.getIncludedResults()) {
-            for (final MethodResult methRes : classRes.getIncludedResults()) {
-                for (final AbstractMeter meter : methRes.getRegisteredMeters()) {
+            for (final MethodResult methRes : classRes
+                    .getIncludedResults()) {
+                for (final AbstractMeter meter : methRes
+                        .getRegisteredMeters()) {
                     try {
                         final PrintStream currentWriter =
                                 setUpNewPrintStream(true, classRes
@@ -157,7 +159,8 @@ public final class CSVOutput extends AbstractOutput {
                                 currentWriter.append(d.toString());
                             } else {
                                 currentWriter.append(new StringBuilder(d
-                                        .toString()).append(",").toString());
+                                        .toString())
+                                        .append(",").toString());
                             }
                             i++;
                         }
@@ -177,11 +180,13 @@ public final class CSVOutput extends AbstractOutput {
                     setUpNewPrintStream(true, "Exceptions");
 
             for (final PerfidixMethodException exec : res.getExceptions()) {
-                currentWriter.append(exec.getRelatedAnno().getSimpleName());
+                currentWriter
+                        .append(exec.getRelatedAnno().getSimpleName());
                 if (exec.getMethod() != null) {
                     currentWriter.append(":");
                     currentWriter.append(exec
-                            .getMethod().getDeclaringClass().getSimpleName());
+                            .getMethod().getDeclaringClass()
+                            .getSimpleName());
                     currentWriter.append("#");
                     currentWriter.append(exec.getMethod().getName());
                 }
@@ -197,7 +202,7 @@ public final class CSVOutput extends AbstractOutput {
     }
 
     /**
-     * Setting up a new {@link PrintStream}
+     * Setting up a new {@link PrintStream}.
      * 
      * @param visitorStream
      *            is the stream for the visitor? Because of line breaks after
@@ -228,7 +233,7 @@ public final class CSVOutput extends AbstractOutput {
     }
 
     /**
-     * Helper method to build suitable fileNames
+     * Helper method to build suitable fileNames.
      * 
      * @param names
      *            different names to be combined
