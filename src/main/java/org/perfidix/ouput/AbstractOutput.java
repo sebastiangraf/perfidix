@@ -42,10 +42,10 @@ public abstract class AbstractOutput {
     /**
      * Constant to offer one fix format to display double-variables.
      */
-    protected final static String FLOATFORMAT = "%05.2f";
+    protected static final String FLOATFORMAT = "%05.2f";
 
     /**
-     * Visiting the {@link BenchmarkResult} and do something with the result
+     * Visiting the {@link BenchmarkResult} and do something with the result.
      * 
      * @param res
      *            the {@link BenchmarkResult}
@@ -53,7 +53,7 @@ public abstract class AbstractOutput {
     public abstract void visitBenchmark(final BenchmarkResult res);
 
     /**
-     * Listening to a resultset and handling the data
+     * Listening to a resultset and handling the data.
      * 
      * @param meth
      *            the related {@link Method}
@@ -67,12 +67,13 @@ public abstract class AbstractOutput {
             final Method meth, final AbstractMeter meter, final double data);
 
     /**
-     * Listening to an arised exception
+     * Listening to an arised exception.
      * 
      * @param exec
      *            an {@link PerfidixMethodException} instance
      */
-    public abstract void listenToException(final PerfidixMethodException exec);
+    public abstract void listenToException(
+            final PerfidixMethodException exec);
 
     /**
      * Formats a double.

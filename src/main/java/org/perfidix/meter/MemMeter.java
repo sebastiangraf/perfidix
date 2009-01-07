@@ -38,10 +38,13 @@ import java.math.MathContext;
  */
 public final class MemMeter extends AbstractMeter {
 
+    /** Name of the Meter. */
     private static final String NAME = "MemMeter";
 
+    /** Amount of already used memory. */
     private double memAlreadyUsed;
 
+    /** Scale of memory. */
     private final Memory scale;
 
     /**
@@ -63,10 +66,12 @@ public final class MemMeter extends AbstractMeter {
     public final double getValue() {
         final Runtime rt = Runtime.getRuntime();
         rt.gc();
-        memAlreadyUsed = memAlreadyUsed + rt.totalMemory() - rt.freeMemory();
-        return new BigDecimal(memAlreadyUsed, MathContext.DECIMAL128).divide(
-                new BigDecimal(scale.getNumberOfBytes()),
-                MathContext.DECIMAL128).doubleValue();
+        memAlreadyUsed =
+                memAlreadyUsed + rt.totalMemory() - rt.freeMemory();
+        return new BigDecimal(memAlreadyUsed, MathContext.DECIMAL128)
+                .divide(
+                        new BigDecimal(scale.getNumberOfBytes()),
+                        MathContext.DECIMAL128).doubleValue();
     }
 
     /** {@inheritDoc} */
@@ -92,23 +97,34 @@ public final class MemMeter extends AbstractMeter {
     public final int hashCode() {
         final int prime = 31;
         int result = prime;
-        result = prime * result + ((scale == null) ? 0 : scale.hashCode());
+        if (scale == null) {
+            result = prime * result;
+        } else {
+            result = prime * result + scale.hashCode();
+        }
+
         return result;
     }
 
     /** {@inheritDoc} */
     @Override
-    public final boolean equals(Object obj) {
-        if (this == obj)
+    public final boolean equals(final Object obj) {
+        if (this == obj) {
             return true;
-        if (getClass() != obj.getClass())
+        }
+        if (getClass() != obj.getClass()) {
             return false;
+        }
         MemMeter other = (MemMeter) obj;
         if (scale == null) {
-            if (other.scale != null)
+            if (other.scale != null) {
                 return false;
-        } else if (!scale.equals(other.scale))
-            return false;
+            }
+        } else {
+            if (!scale.equals(other.scale)) {
+                return false;
+            }
+        }
         return true;
     }
 

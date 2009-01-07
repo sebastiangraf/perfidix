@@ -37,10 +37,10 @@ import org.perfidix.ouput.AbstractOutput;
  */
 public final class BenchmarkResult extends ResultContainer<ClassResult> {
 
-    /** All occured exceptions */
+    /** All occured exceptions. */
     private final Set<PerfidixMethodException> exceptions;
 
-    /** Outputs for listeners */
+    /** Outputs for listeners. */
     private final AbstractOutput[] outputs;
 
     /**
@@ -63,7 +63,7 @@ public final class BenchmarkResult extends ResultContainer<ClassResult> {
 
     /**
      * Adding a dataset to a given meter and adapting the underlaying result
-     * model
+     * model.
      * 
      * @param meth
      *            where the result is corresponding to
@@ -75,7 +75,7 @@ public final class BenchmarkResult extends ResultContainer<ClassResult> {
     public final void addData(
             final Method meth, final AbstractMeter meter, final double data) {
 
-        final Class<?> clazz = meth.getDeclaringClass();
+        final Class< ? > clazz = meth.getDeclaringClass();
         if (!elements.containsKey(clazz)) {
             elements.put(clazz, new ClassResult(clazz));
         }
@@ -97,7 +97,7 @@ public final class BenchmarkResult extends ResultContainer<ClassResult> {
     }
 
     /**
-     * Adding an exception to this result
+     * Adding an exception to this result.
      * 
      * @param exec
      *            the exception stored to this result
@@ -110,7 +110,7 @@ public final class BenchmarkResult extends ResultContainer<ClassResult> {
     }
 
     /**
-     * Getter for member exceptions
+     * Getter for member exceptions.
      * 
      * @return the exceptions
      */

@@ -20,14 +20,13 @@
  */
 package org.perfidix.meter;
 
-
 /**
  * Small enum to store different times.
  * 
  * @author Sebastian Graf, University of Konstanz
  */
 public enum Time {
-    
+
     /** Enum for nano seconds. */
     NanoSeconds("ns", "nano seconds", 0.000001),
     /** Enum for milli seconds. */
@@ -36,7 +35,6 @@ public enum Time {
     Seconds("s", "second", 1000),
     /** Enum for minutes. */
     Minutes("min", "minutes", 60000);
-    ;
 
     /**
      * The unit of the time.
@@ -59,6 +57,8 @@ public enum Time {
      * @param paramUnit
      *            to give
      * @param paramUnitDesc
+     *            to give
+     * @param paramNumberOfMilliSeconds
      *            to give
      */
     private Time(

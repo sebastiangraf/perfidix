@@ -31,10 +31,7 @@ package org.perfidix.meter;
 public abstract class AbstractMeter {
 
     /**
-     * Constructor
-     * 
-     * @param paramAutomaticallyTicking
-     *            , if this meter instance is automatically ticking
+     * Constructor.
      */
     protected AbstractMeter() {
     }
@@ -78,7 +75,9 @@ public abstract class AbstractMeter {
     public final String toString() {
         final StringBuilder builder = new StringBuilder();
 
-        builder.append(getName()).append("[").append(getUnit()).append("]");
+        builder
+                .append(getName()).append("[").append(getUnit()).append(
+                        "]");
         return builder.toString();
     }
 

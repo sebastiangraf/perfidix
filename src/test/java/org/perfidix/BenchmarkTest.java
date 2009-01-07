@@ -77,7 +77,8 @@ public class BenchmarkTest {
         final PerfidixMethodException exec =
                 benchRes.getExceptions().iterator().next();
         assertEquals(BeforeBenchClass.class, exec.getRelatedAnno());
-        assertEquals(IllegalStateException.class, exec.getExec().getClass());
+        assertEquals(IllegalStateException.class, exec
+                .getExec().getClass());
 
     }
 

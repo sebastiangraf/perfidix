@@ -24,12 +24,15 @@ package org.perfidix.example;
  * <h1>FastLongStack</h1>
  * <p>
  * Unsynchronized stack optimized for long primitive type. Is significantly
- * faster than Stack<Integer>.
+ * faster than a normal Stack.
  * </p>
  * 
  * @author Marc Kramis, University of Konstanz / Seabix
  */
 public final class FastIntStack {
+
+    /** Constant for static int size. */
+    private static final int INIT_STACK_SIZE = 32;
 
     /** Internal array to store stack elements. */
     private int[] stack;
@@ -41,7 +44,7 @@ public final class FastIntStack {
      * Constructor.
      */
     public FastIntStack() {
-        stack = new int[32];
+        stack = new int[INIT_STACK_SIZE];
         size = 0;
     }
 

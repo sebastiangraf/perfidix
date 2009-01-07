@@ -35,11 +35,11 @@ public final class NiceTable {
 
     /** Alignment in the cells. */
     public enum Alignment {
-        /** Left alignement */
+        /** Left alignement. */
         Left,
-        /** Right alignement */
+        /** Right alignement. */
         Right,
-        /** Center alignement */
+        /** Center alignement. */
         Center
     };
 
@@ -59,7 +59,7 @@ public final class NiceTable {
     private final ArrayList<TabluarComponent> rows;
 
     /**
-     * Storing the length of chars in the different columns
+     * Storing the length of chars in the different columns.
      */
     private final int[] columnLengths;
 
@@ -114,7 +114,8 @@ public final class NiceTable {
      *            the orientation of the header column.
      */
     public final void addHeader(
-            final String title, final char mark, final Alignment orientation) {
+            final String title, final char mark,
+            final Alignment orientation) {
         final Header h = new Header(title, mark, orientation, this);
         rows.add(h);
     }
@@ -133,7 +134,8 @@ public final class NiceTable {
                 addRow(theMatrix[i]);
             }
         } else {
-            final Row myRow = new Row(this.columnLengths.length, this, data);
+            final Row myRow =
+                    new Row(this.columnLengths.length, this, data);
             rows.add(myRow);
         }
 
@@ -176,7 +178,7 @@ public final class NiceTable {
     private abstract class TabluarComponent {
 
         /** Instance to draw to. */
-        final NiceTable table;
+        private final NiceTable table;
 
         /**
          * Constructor.
@@ -194,6 +196,15 @@ public final class NiceTable {
          * @return a string representation to draw this line.
          */
         abstract String draw();
+
+        /**
+         * Getter for member table.
+         * 
+         * @return the table
+         */
+        public final NiceTable getTable() {
+            return table;
+        }
 
     }
 
@@ -241,9 +252,10 @@ public final class NiceTable {
 
             this.title =
                     Util.combine(
-                            new String(new char[] { enclosing }).toString(),
-                            SPACE, contentToDisplay, SPACE, new String(
-                                    new char[] { enclosing }).toString());
+                            new String(new char[] { enclosing })
+                                    .toString(), SPACE, contentToDisplay,
+                            SPACE, new String(new char[] { enclosing })
+                                    .toString());
 
         }
 
@@ -254,9 +266,9 @@ public final class NiceTable {
         final String draw() {
             return Util.combine(
                     new String(new char[] { border }), Util.pad(
-                            title, enclosing, table.getTotalWidth() - 2,
-                            orientation), new String(new char[] { border }),
-                    NEWLINE);
+                            title, enclosing,
+                            getTable().getTotalWidth() - 2, orientation),
+                    new String(new char[] { border }), NEWLINE);
 
         }
 
@@ -281,7 +293,7 @@ public final class NiceTable {
         private final char content;
 
         /**
-         * Constructor
+         * Constructor.
          * 
          * @param theContent
          *            where the row should be filled with.
@@ -298,9 +310,9 @@ public final class NiceTable {
          */
         @Override
         final String draw() {
-            return Util.combine(new String(new char[] { border }), Util.repeat(
-                    new String(new char[] { content }),
-                    table.getTotalWidth() - 2), new String(
+            return Util.combine(new String(new char[] { border }), Util
+                    .repeat(new String(new char[] { content }), getTable()
+                            .getTotalWidth() - 2), new String(
                     new char[] { border }), NEWLINE);
 
         }
@@ -336,7 +348,8 @@ public final class NiceTable {
             super(myParent);
             data = paramData;
             for (int i = 0; i < data.length; i++) {
-                table.updateColumnWidth(i, data[i].toString().length());
+                getTable().updateColumnWidth(
+                        i, data[i].toString().length());
                 data[i] = data[i].toString().trim();
             }
         }
@@ -350,7 +363,7 @@ public final class NiceTable {
 
             int k = 0;
             for (int i = 0; i < data.length; i++) {
-                k += table.getColumnWidth(i);
+                k += getTable().getColumnWidth(i);
             }
             return k;
         }
@@ -364,16 +377,16 @@ public final class NiceTable {
             final String[] row = new String[data.length];
             for (int i = 0; i < data.length; i++) {
                 row[i] =
-                        Util.pad(data[i], ' ', table.getColumnWidth(i), table
+                        Util.pad(data[i], ' ', getTable()
+                                .getColumnWidth(i), getTable()
                                 .getOrientation(i));
 
             }
             return Util.combine(
-                    new String(new char[] { border }), SPACE, Util.implode(Util
-                            .combine(
-                                    SPACE, new String(new char[] { border }),
-                                    SPACE), row), SPACE, new String(
-                            new char[] { border }), NEWLINE);
+                    new String(new char[] { border }), SPACE, Util
+                            .implode(Util.combine(SPACE, new String(
+                                    new char[] { border }), SPACE), row),
+                    SPACE, new String(new char[] { border }), NEWLINE);
 
         }
 
@@ -398,7 +411,7 @@ public final class NiceTable {
          *            multiple Strings
          * @return the combined string
          */
-        private final static String combine(final String... args) {
+        private static final String combine(final String... args) {
             final StringBuilder builder = new StringBuilder();
             for (final String arg : args) {
                 builder.append(arg);
@@ -429,19 +442,25 @@ public final class NiceTable {
          * @param totalWidth
          *            the total width of the result string
          */
-        private final static String pad(
+        private static final String pad(
                 final String data, final char doPadWithThis,
                 final int totalWidth, final Alignment orientation) {
 
             final String pad =
-                    repeat(new String(new char[] { doPadWithThis }), Math.max(
-                            0, totalWidth - data.length()));
+                    repeat(new String(new char[] { doPadWithThis }), Math
+                            .max(0, totalWidth - data.length()));
             if (orientation == Alignment.Center) {
                 return pad.substring(0, pad.length() / 2)
                         + data
                         + pad.substring(pad.length() / 2, pad.length());
             }
-            return (orientation == Alignment.Right) ? pad + data : data + pad;
+
+            if (orientation == Alignment.Right) {
+                return new StringBuilder(pad).append(data).toString();
+            } else {
+                return new StringBuilder(data).append(pad).toString();
+            }
+
         }
 
         /**
@@ -460,7 +479,7 @@ public final class NiceTable {
          * </pre>
          * @return String
          */
-        private final static String implode(
+        private static final String implode(
                 final String glue, final String[] what) {
 
             final StringBuilder s = new StringBuilder();
@@ -482,11 +501,12 @@ public final class NiceTable {
          *            how many times to concantenate the string
          * @return the repeated string.
          */
-        private final static String repeat(final String s, final int numTimes) {
+        private static final String repeat(
+                final String s, final int numTimes) {
             String str = "";
 
-            for (int i = 0; i < numTimes; i++, str += s) {
-                // yes, it's an empty implementation.
+            for (int i = 0; i < numTimes; i++) {
+                str += s;
             }
             return str;
         }
@@ -500,7 +520,7 @@ public final class NiceTable {
          * @param s
          *            the string to be splitted
          */
-        private final static String[] explode(final char ch, final String s) {
+        private static final String[] explode(final char ch, final String s) {
             return s.split("\\" + ch);
         }
 
@@ -512,11 +532,12 @@ public final class NiceTable {
          * @return the number of occurences of {@link NiceTable#NEWLINE} in the
          *         string.
          */
-        private final static int numNewLines(final String s) {
+        private static final int numNewLines(final String s) {
             final char[] arr = s.toCharArray();
             int result = 0;
             for (char ch : arr) {
-                if (NiceTable.NEWLINE.equals(new String(new char[] { ch }))) {
+                if (NiceTable.NEWLINE
+                        .equals(new String(new char[] { ch }))) {
                     result++;
                 }
             }
@@ -532,7 +553,7 @@ public final class NiceTable {
          *            to be checked
          * @return boolean if the string contains newlines.
          */
-        private final static boolean containsNewlines(final String s) {
+        private static final boolean containsNewlines(final String s) {
             return s.trim().contains(NiceTable.NEWLINE);
         }
 
@@ -544,16 +565,21 @@ public final class NiceTable {
          * @param data
          *            an array of row data
          */
-        private final static String[][] createMatrix(final String[] data) {
+        private static final String[][] createMatrix(final String[] data) {
             int maxNewLines = 0;
             for (final String col : data) {
                 maxNewLines = Math.max(maxNewLines, Util.numNewLines(col));
             }
-            final String[][] matrix = new String[maxNewLines + 1][data.length];
+            final String[][] matrix =
+                    new String[maxNewLines + 1][data.length];
             for (int col = 0; col < data.length; col++) {
                 final String[] my = Util.explode('\n', data[col]);
                 for (int row = 0; row < maxNewLines + 1; row++) {
-                    matrix[row][col] = (my.length > row) ? my[row] : "";
+                    if (my.length > row) {
+                        matrix[row][col] = my[row];
+                    } else {
+                        matrix[row][col] = "";
+                    }
                 }
             }
 
@@ -588,6 +614,11 @@ public final class NiceTable {
 
     /**
      * Performs an update on the column lengths.
+     * 
+     * @param index
+     *            the index of the column
+     * @param newSize
+     *            the new size of the column
      */
     private final void updateColumnWidth(final int index, final int newSize) {
 
@@ -608,6 +639,7 @@ public final class NiceTable {
      * 
      * @param columnIndex
      *            integer
+     * @return Alignment for the column
      */
     private final Alignment getOrientation(final int columnIndex) {
 
@@ -638,7 +670,12 @@ public final class NiceTable {
      * @return int the width of the table
      */
     private final int getTotalWidth() {
-        return this.getRowWidth() + 3 * numColumns() + 1;
+        final int widthFactor1 = 3;
+        final int widthFactor2 = 1;
+        return this.getRowWidth()
+                + widthFactor1
+                * numColumns()
+                + widthFactor2;
     }
 
     /**

@@ -19,7 +19,6 @@
 
 package org.perfidix.result;
 
-import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.Hashtable;
 import java.util.Map;
@@ -38,11 +37,14 @@ import org.perfidix.meter.AbstractMeter;
 public abstract class ResultContainer<ResultType extends AbstractResult>
         extends AbstractResult {
 
-    /** Map of all elements with the Mapping Method/Class -> ResultType */
+    /** Map of all elements with the Mapping Method/Class -> ResultType. */
     protected final Map<Object, ResultType> elements;
 
     /**
      * Constructor.
+     * 
+     * @param paramRelatedElement
+     *            related element
      */
     protected ResultContainer(final Object paramRelatedElement) {
         super(paramRelatedElement);
@@ -52,9 +54,17 @@ public abstract class ResultContainer<ResultType extends AbstractResult>
     /**
      * Updates the elements and appending the elements of the underlaying
      * elements.
+     * 
+     * @param type
+     *            the related type.
+     * @param meter
+     *            the related meter
+     * @param data
+     *            the corresponding data
      */
     protected final void updateStructure(
-            final ResultType type, final AbstractMeter meter, final double data) {
+            final ResultType type, final AbstractMeter meter,
+            final double data) {
         type.addData(meter, data);
         addData(meter, data);
 
@@ -75,7 +85,7 @@ public abstract class ResultContainer<ResultType extends AbstractResult>
      * Getting the results for one object.
      * 
      * @param obj
-     *            the object, can be a {@link Class} or a {@link Method}
+     *            the object, can be a Class or a Method
      * @return the result for this object
      */
     public final ResultType getResultForObject(final Object obj) {

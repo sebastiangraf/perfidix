@@ -64,16 +64,14 @@ public final class BenchmarkMethod {
      * 
      * @param paramMethodToBench
      *            method to be benched (eventually)
-     * @throws IllegalArgumentException
-     *             if the method is not benchmarkable.
      */
     public BenchmarkMethod(final Method paramMethodToBench) {
         methodToBench = paramMethodToBench;
         if (!isBenchmarkable(methodToBench)) {
             throw new IllegalArgumentException(new StringBuilder(
                     "Only benchmarkable methods allowed but method ")
-                    .append(paramMethodToBench)
-                    .append(" is not benchmarkable.").toString());
+                    .append(paramMethodToBench).append(
+                            " is not benchmarkable.").toString());
         }
     }
 
@@ -98,18 +96,19 @@ public final class BenchmarkMethod {
 
         Method method = null;
 
-        final Bench benchAnno = getMethodToBench().getAnnotation(Bench.class);
+        final Bench benchAnno =
+                getMethodToBench().getAnnotation(Bench.class);
         if (benchAnno != null && !benchAnno.beforeFirstRun().equals("")) {
             try {
                 // variable to instantiate the method by name.
-                final Class<?>[] setUpParams = {};
+                final Class< ? >[] setUpParams = {};
 
                 // getting the method by name
                 method =
                         getMethodToBench()
-                                .getDeclaringClass()
-                                .getDeclaredMethod(
-                                        benchAnno.beforeFirstRun(), setUpParams);
+                                .getDeclaringClass().getDeclaredMethod(
+                                        benchAnno.beforeFirstRun(),
+                                        setUpParams);
             } catch (final SecurityException e) {
                 throw new PerfidixMethodCheckException(
                         e, method, BeforeFirstRun.class);
@@ -128,8 +127,9 @@ public final class BenchmarkMethod {
                 throw new PerfidixMethodCheckException(
                         new IllegalAccessException(new StringBuilder(
                                 "BeforeFirstRun-annotated method ")
-                                .append(method).append(" is not executable.")
-                                .toString()), method, BeforeFirstRun.class);
+                                .append(method).append(
+                                        " is not executable.").toString()),
+                        method, BeforeFirstRun.class);
             }
         } else {
             return findAndCheckAnyMethodByAnnotation(getMethodToBench()
@@ -154,21 +154,24 @@ public final class BenchmarkMethod {
      * @throws PerfidixMethodCheckException
      *             if integrity check of class and method fails.
      */
-    public final Method findBeforeEachRun() throws PerfidixMethodCheckException {
+    public final Method findBeforeEachRun()
+            throws PerfidixMethodCheckException {
 
         Method method = null;
 
-        final Bench benchAnno = getMethodToBench().getAnnotation(Bench.class);
+        final Bench benchAnno =
+                getMethodToBench().getAnnotation(Bench.class);
         if (benchAnno != null && !benchAnno.beforeEachRun().equals("")) {
             try {
                 // variable to instantiate the method by name.
-                final Class<?>[] setUpParams = {};
+                final Class< ? >[] setUpParams = {};
 
                 // getting the method by name
                 method =
                         getMethodToBench()
                                 .getDeclaringClass().getDeclaredMethod(
-                                        benchAnno.beforeEachRun(), setUpParams);
+                                        benchAnno.beforeEachRun(),
+                                        setUpParams);
             } catch (SecurityException e) {
                 throw new PerfidixMethodCheckException(
                         e, method, BeforeEachRun.class);
@@ -187,8 +190,9 @@ public final class BenchmarkMethod {
                 throw new PerfidixMethodCheckException(
                         new IllegalAccessException(new StringBuilder(
                                 "BeforeEachRun-annotated method ")
-                                .append(method).append(" is not executable.")
-                                .toString()), method, BeforeEachRun.class);
+                                .append(method).append(
+                                        " is not executable.").toString()),
+                        method, BeforeEachRun.class);
             }
         } else {
             return findAndCheckAnyMethodByAnnotation(getMethodToBench()
@@ -213,21 +217,24 @@ public final class BenchmarkMethod {
      * @throws PerfidixMethodCheckException
      *             if integrity check of class and method fails.
      */
-    public final Method findAfterEachRun() throws PerfidixMethodCheckException {
+    public final Method findAfterEachRun()
+            throws PerfidixMethodCheckException {
 
         Method method = null;
 
-        final Bench benchAnno = getMethodToBench().getAnnotation(Bench.class);
+        final Bench benchAnno =
+                getMethodToBench().getAnnotation(Bench.class);
         if (benchAnno != null && !benchAnno.afterEachRun().equals("")) {
             try {
                 // variable to instantiate the method by name.
-                final Class<?>[] setUpParams = {};
+                final Class< ? >[] setUpParams = {};
 
                 // getting the method by name
                 method =
                         getMethodToBench()
                                 .getDeclaringClass().getDeclaredMethod(
-                                        benchAnno.afterEachRun(), setUpParams);
+                                        benchAnno.afterEachRun(),
+                                        setUpParams);
             } catch (SecurityException e) {
                 throw new PerfidixMethodCheckException(
                         e, method, AfterEachRun.class);
@@ -246,8 +253,9 @@ public final class BenchmarkMethod {
                 throw new PerfidixMethodCheckException(
                         new IllegalAccessException(new StringBuilder(
                                 "AfterEachRun-annotated method ")
-                                .append(method).append(" is not executable.")
-                                .toString()), method, AfterEachRun.class);
+                                .append(method).append(
+                                        " is not executable.").toString()),
+                        method, AfterEachRun.class);
             }
         } else {
             return findAndCheckAnyMethodByAnnotation(getMethodToBench()
@@ -271,21 +279,24 @@ public final class BenchmarkMethod {
      * @throws PerfidixMethodCheckException
      *             if integrity check of class and method fails.
      */
-    public final Method findAfterLastRun() throws PerfidixMethodCheckException {
+    public final Method findAfterLastRun()
+            throws PerfidixMethodCheckException {
 
         Method method = null;
 
-        final Bench benchAnno = getMethodToBench().getAnnotation(Bench.class);
+        final Bench benchAnno =
+                getMethodToBench().getAnnotation(Bench.class);
         if (benchAnno != null && !benchAnno.afterLastRun().equals("")) {
             try {
                 // variable to instantiate the method by name.
-                final Class<?>[] setUpParams = {};
+                final Class< ? >[] setUpParams = {};
 
                 // getting the method by name
                 method =
                         getMethodToBench()
                                 .getDeclaringClass().getDeclaredMethod(
-                                        benchAnno.afterLastRun(), setUpParams);
+                                        benchAnno.afterLastRun(),
+                                        setUpParams);
             } catch (SecurityException e) {
                 throw new PerfidixMethodCheckException(
                         e, method, AfterLastRun.class);
@@ -304,8 +315,9 @@ public final class BenchmarkMethod {
                 throw new PerfidixMethodCheckException(
                         new IllegalAccessException(new StringBuilder(
                                 "AfterLastRun-annotated method ")
-                                .append(method).append(" is not executable.")
-                                .toString()), method, AfterLastRun.class);
+                                .append(method).append(
+                                        " is not executable.").toString()),
+                        method, AfterLastRun.class);
             }
         } else {
             return findAndCheckAnyMethodByAnnotation(getMethodToBench()
@@ -332,11 +344,11 @@ public final class BenchmarkMethod {
      *            to be checked
      * @return the number of runs of this benchmarkable-method
      */
-    public final static int getNumberOfAnnotatedRuns(final Method meth) {
+    public static final int getNumberOfAnnotatedRuns(final Method meth) {
         if (!isBenchmarkable(meth)) {
-            throw new IllegalArgumentException(new StringBuilder("Method ")
-                    .append(meth).append(" must be a benchmarkable method.")
-                    .toString());
+            throw new IllegalArgumentException(
+                    new StringBuilder("Method ").append(meth).append(
+                            " must be a benchmarkable method.").toString());
         }
         final Bench benchAnno = meth.getAnnotation(Bench.class);
         final BenchClass benchClassAnno =
@@ -363,14 +375,15 @@ public final class BenchmarkMethod {
      * @throws PerfidixMethodCheckException
      *             if these integrity checks fail
      */
-    public final static Method findAndCheckAnyMethodByAnnotation(
-            final Class<?> clazz, final Class<? extends Annotation> anno)
+    public static final Method findAndCheckAnyMethodByAnnotation(
+            final Class< ? > clazz, final Class< ? extends Annotation> anno)
             throws PerfidixMethodCheckException {
         // needed variables, one for check for duplicates
         Method anyAnnotatedMethod = null;
 
         // Scanning all methods
-        final Method[] possibleAnnotatedMethods = clazz.getDeclaredMethods();
+        final Method[] possibleAnnotatedMethods =
+                clazz.getDeclaredMethods();
         for (final Method meth : possibleAnnotatedMethods) {
             if (meth.getAnnotation(anno) != null) {
                 // Check if there are multiple annotated methods, throwing
@@ -382,20 +395,22 @@ public final class BenchmarkMethod {
                         anyAnnotatedMethod = meth;
                     } else {
                         throw new PerfidixMethodCheckException(
-                                new IllegalAccessException(new StringBuilder(
-                                        anno.toString())
-                                        .append("-annotated method ").append(
-                                                meth).append(
-                                                " is not executable.")
-                                        .toString()), meth, anno);
+                                new IllegalAccessException(
+                                        new StringBuilder(anno.toString())
+                                                .append(
+                                                        "-annotated method ")
+                                                .append(meth)
+                                                .append(
+                                                        " is not executable.")
+                                                .toString()), meth, anno);
                     }
                 } else {
                     throw new PerfidixMethodCheckException(
                             new IllegalAccessException(new StringBuilder(
-                                    "Please use only one ").append(
-                                    anno.toString()).append(
-                                    "-annotation in one class.").toString()),
-                            meth, anno);
+                                    "Please use only one ")
+                                    .append(anno.toString()).append(
+                                            "-annotation in one class.")
+                                    .toString()), meth, anno);
                 }
             }
         }
@@ -416,7 +431,7 @@ public final class BenchmarkMethod {
      * @return true if an instance of this interface is benchmarkable, false
      *         otherwise.
      */
-    public final static boolean isBenchmarkable(final Method meth) {
+    public static final boolean isBenchmarkable(final Method meth) {
         boolean returnVal = true;
 
         // Check if bench-anno is given. For testing purposes against
@@ -425,7 +440,8 @@ public final class BenchmarkMethod {
 
         // if method is annotated with SkipBench, the method is never
         // benchmarkable.
-        final SkipBench skipBenchAnno = meth.getAnnotation(SkipBench.class);
+        final SkipBench skipBenchAnno =
+                meth.getAnnotation(SkipBench.class);
         if (skipBenchAnno != null) {
             returnVal = false;
         }
@@ -495,7 +511,7 @@ public final class BenchmarkMethod {
      *            method to be checked
      * @return true if method matches requirements.
      */
-    public final static boolean isReflectedExecutable(final Method meth) {
+    public static final boolean isReflectedExecutable(final Method meth) {
         // if method has parameters, the method is not benchmarkable
         if (meth.getGenericParameterTypes().length > 0) {
             return false;
@@ -526,29 +542,38 @@ public final class BenchmarkMethod {
     public final int hashCode() {
         final int prime = 31;
         int result = 1;
-        result =
-                prime
-                        * result
-                        + ((methodToBench == null) ? 0 : methodToBench
-                                .hashCode());
+        if (methodToBench == null) {
+            result = prime * result;
+        } else {
+            result = prime * result + methodToBench.hashCode();
+        }
+
         return result;
     }
 
     /** {@inheritDoc} */
     @Override
-    public final boolean equals(Object obj) {
-        if (this == obj)
+    public final boolean equals(final Object obj) {
+        if (this == obj) {
             return true;
-        if (obj == null)
+        }
+        if (obj == null) {
             return false;
-        if (getClass() != obj.getClass())
+        }
+        if (getClass() != obj.getClass()) {
             return false;
+        }
         final BenchmarkMethod other = (BenchmarkMethod) obj;
         if (methodToBench == null) {
-            if (other.methodToBench != null)
+            if (other.methodToBench != null) {
                 return false;
-        } else if (!methodToBench.equals(other.methodToBench))
-            return false;
+            }
+        } else {
+            if (!methodToBench.equals(other.methodToBench)) {
+                return false;
+
+            }
+        }
         return true;
     }
 

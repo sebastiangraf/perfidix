@@ -33,6 +33,7 @@ import java.math.MathContext;
  */
 public final class TimeMeter extends AbstractMeter {
 
+    /** Name of the Meter. */
     private static final String NAME = "TimeMeter";
 
     /**
@@ -62,8 +63,8 @@ public final class TimeMeter extends AbstractMeter {
                 .divide(
                         new BigDecimal(
                                 currentTime.getNumberOfMilliSeconds(),
-                                MathContext.DECIMAL128), MathContext.DECIMAL128)
-                .doubleValue();
+                                MathContext.DECIMAL128),
+                        MathContext.DECIMAL128).doubleValue();
     }
 
     /** {@inheritDoc} */
@@ -89,26 +90,34 @@ public final class TimeMeter extends AbstractMeter {
     public final int hashCode() {
         final int prime = 31;
         int result = prime;
-        result =
-                prime
-                        * result
-                        + ((currentTime == null) ? 0 : currentTime.hashCode());
+        if (currentTime == null) {
+            result = prime * result;
+        } else {
+            result = prime * result + currentTime.hashCode();
+        }
+
         return result;
     }
 
     /** {@inheritDoc} */
     @Override
-    public final boolean equals(Object obj) {
-        if (this == obj)
+    public final boolean equals(final Object obj) {
+        if (this == obj) {
             return true;
-        if (getClass() != obj.getClass())
+        }
+        if (getClass() != obj.getClass()) {
             return false;
+        }
         TimeMeter other = (TimeMeter) obj;
         if (currentTime == null) {
-            if (other.currentTime != null)
+            if (other.currentTime != null) {
                 return false;
-        } else if (!currentTime.equals(other.currentTime))
-            return false;
+            }
+        } else {
+            if (!currentTime.equals(other.currentTime)) {
+                return false;
+            }
+        }
         return true;
     }
 
