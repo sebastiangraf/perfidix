@@ -125,6 +125,7 @@ public final class BenchmarkExecutor {
     public static final void initialize(
             final LinkedHashSet<AbstractMeter> meters,
             final BenchmarkResult result) {
+        metersToBench.clear();
         metersToBench.addAll(meters);
         benchRes = result;
     }
