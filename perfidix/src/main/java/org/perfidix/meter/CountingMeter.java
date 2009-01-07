@@ -41,7 +41,8 @@ public final class CountingMeter extends AbstractMeter {
     /**
      * Constant to store the default unit description.
      */
-    private static final String DEFAULTUNITDESC = "Simple ticks for counting";
+    private static final String DEFAULTUNITDESC =
+            "Simple ticks for counting";
 
     /**
      * Counter for ticks.
@@ -165,39 +166,59 @@ public final class CountingMeter extends AbstractMeter {
     public final int hashCode() {
         final int prime = 31;
         int result = prime;
-        result = prime * result + ((name == null) ? 0 : name.hashCode());
-        result = prime * result + ((unit == null) ? 0 : unit.hashCode());
-        result =
-                prime
-                        * result
-                        + ((unitDescription == null) ? 0 : unitDescription
-                                .hashCode());
+        if (name == null) {
+            result = prime * result;
+        } else {
+            result = prime * result + name.hashCode();
+        }
+        if (unit == null) {
+            result = prime * result;
+        } else {
+            result = prime * result + unit.hashCode();
+        }
+        if (unitDescription == null) {
+            result = prime * result;
+        } else {
+            result = prime * result + unitDescription.hashCode();
+        }
         return result;
     }
 
     /** {@inheritDoc} */
     @Override
-    public final boolean equals(Object obj) {
-        if (this == obj)
+    public final boolean equals(final Object obj) {
+        if (this == obj) {
             return true;
-        if (getClass() != obj.getClass())
+        }
+        if (getClass() != obj.getClass()) {
             return false;
+        }
         CountingMeter other = (CountingMeter) obj;
         if (name == null) {
-            if (other.name != null)
+            if (other.name != null) {
                 return false;
-        } else if (!name.equals(other.name))
-            return false;
+            }
+        } else {
+            if (!name.equals(other.name)) {
+                return false;
+            }
+        }
         if (unit == null) {
-            if (other.unit != null)
+            if (other.unit != null) {
                 return false;
-        } else if (!unit.equals(other.unit))
+            }
+        } else if (!unit.equals(other.unit)) {
             return false;
+        }
         if (unitDescription == null) {
-            if (other.unitDescription != null)
+            if (other.unitDescription != null) {
                 return false;
-        } else if (!unitDescription.equals(other.unitDescription))
-            return false;
+            } else {
+                if (!unitDescription.equals(other.unitDescription)) {
+                    return false;
+                }
+            }
+        }
         return true;
     }
 

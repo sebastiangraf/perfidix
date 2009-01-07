@@ -19,7 +19,6 @@
 
 package org.perfidix.depreacted;
 
-
 /**
  * the gnu plot visitor parses the result into a gnu readable file.
  * 

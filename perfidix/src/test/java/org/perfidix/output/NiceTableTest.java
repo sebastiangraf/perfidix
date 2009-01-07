@@ -69,7 +69,8 @@ public class NiceTableTest {
     @Test
     public void testAddHeaderString() {
         table.addHeader("This is a test");
-        assertEquals("|= This is a test =============|\n", table.toString());
+        assertEquals("|= This is a test =============|\n", table
+                .toString());
     }
 
     /**
@@ -80,20 +81,23 @@ public class NiceTableTest {
     @Test
     public void testAddHeaderStringCharAlignment() {
         table.addHeader("This is a test", '-', Alignment.Left);
-        assertEquals("|- This is a test -------------|\n", table.toString());
+        assertEquals("|- This is a test -------------|\n", table
+                .toString());
 
         tearDown();
         setUp();
 
         table.addHeader("This is a test", '/', Alignment.Center);
-        assertEquals("|/////// This is a test ///////|\n", table.toString());
+        assertEquals("|/////// This is a test ///////|\n", table
+                .toString());
 
         tearDown();
         setUp();
 
         table.addHeader("This is a test", '\\', Alignment.Right);
-        assertEquals("|\\\\\\\\\\\\\\\\\\\\\\\\\\ This is a test \\|\n", table
-                .toString());
+        assertEquals(
+                "|\\\\\\\\\\\\\\\\\\\\\\\\\\ This is a test \\|\n", table
+                        .toString());
     }
 
     /**
@@ -113,7 +117,8 @@ public class NiceTableTest {
     @Test
     public void testAddLine() {
         table.addLine('*');
-        assertEquals("|******************************|\n", table.toString());
+        assertEquals("|******************************|\n", table
+                .toString());
     }
 
     /**
@@ -180,7 +185,10 @@ public class NiceTableTest {
         a.addRow(new String[] { "d", "d" });
 
         final String expected =
-                "| a | a |\n" + "| b | b |\n" + "| c |   |\n" + "| d | d |\n";
+                "| a | a |\n"
+                        + "| b | b |\n"
+                        + "| c |   |\n"
+                        + "| d | d |\n";
         assertEquals(expected, a.toString());
     }
 

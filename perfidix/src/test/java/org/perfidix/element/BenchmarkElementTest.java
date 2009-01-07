@@ -48,7 +48,7 @@ public class BenchmarkElementTest {
      */
     @Before
     public void setUp() throws Exception {
-        final Class<?> clazz = new BenchClass().getClass();
+        final Class< ? > clazz = new BenchClass().getClass();
         final Method meth = clazz.getMethod("bench");
         final BenchmarkMethod benchMeth = new BenchmarkMethod(meth);
 

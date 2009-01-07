@@ -42,16 +42,23 @@ import org.perfidix.result.BenchmarkResult;
  */
 public final class StackBenchmark {
 
-    /** Size of array to be tested */
+    /**
+     * Number of runs.
+     */
+    private static final int RUNS = 100;
+
+    /**
+     * Size of array to be tested.
+     */
     private static final int ARRAYSIZE = 100;
 
-    /** Data to be written and read */
+    /** Data to be written and read. */
     private int[] intData;
 
-    /** FastStack instance */
+    /** FastStack instance. */
     private FastIntStack fastInt;
 
-    /** Stack instance */
+    /** Stack instance. */
     private Stack<Integer> normalInt;
 
     /**
@@ -69,10 +76,10 @@ public final class StackBenchmark {
     }
 
     /**
-     * Bench for pushing the data to the {@link FastIntStack}
+     * Bench for pushing the data to the {@link FastIntStack}.
      */
-    @Bench(runs = 100)
-    public final void benchFastIntPush() {
+    @Bench(runs = RUNS)
+    public void benchFastIntPush() {
         fastInt = new FastIntStack();
         for (final int i : intData) {
             fastInt.push(i);
@@ -80,10 +87,10 @@ public final class StackBenchmark {
     }
 
     /**
-     * Bench for popping the data from the {@link FastIntStack}
+     * Bench for popping the data from the {@link FastIntStack}.
      */
-    @Bench(runs = 100, beforeEachRun = "benchFastIntPush")
-    public final void benchFastIntStackPop() {
+    @Bench(runs = RUNS, beforeEachRun = "benchFastIntPush")
+    public void benchFastIntStackPop() {
 
         while (fastInt.size() > 0) {
             fastInt.pop();
@@ -92,10 +99,10 @@ public final class StackBenchmark {
     }
 
     /**
-     * Bench for pushing the data to the {@link Stack}
+     * Bench for pushing the data to the {@link Stack}.
      */
-    @Bench(runs = 100)
-    public final void benchNormalIntPush() {
+    @Bench(runs = RUNS)
+    public void benchNormalIntPush() {
         normalInt = new Stack<Integer>();
         for (final int i : intData) {
             normalInt.push(i);
@@ -103,10 +110,10 @@ public final class StackBenchmark {
     }
 
     /**
-     * Bench for popping the data from the {@link Stack}
+     * Bench for popping the data from the {@link Stack}.
      */
-    @Bench(runs = 100, beforeEachRun = "benchNormalIntPush")
-    public final void benchNormalIntPop() {
+    @Bench(runs = RUNS, beforeEachRun = "benchNormalIntPush")
+    public void benchNormalIntPop() {
         while (normalInt.size() > 0) {
             normalInt.pop();
         }
@@ -123,8 +130,9 @@ public final class StackBenchmark {
      */
     public static void main(final String[] args) {
         final Benchmark bench =
-                new Benchmark(new TimeMeter(Time.MilliSeconds), new MemMeter(
-                        Memory.KibiByte));
+                new Benchmark(
+                        new TimeMeter(Time.MilliSeconds), new MemMeter(
+                                Memory.KibiByte));
         bench.add(StackBenchmark.class);
 
         final BenchmarkResult res =

@@ -29,9 +29,10 @@ import java.lang.reflect.Method;
  * 
  * @author Sebastian Graf, University of Konstanz
  */
-public final class PerfidixMethodCheckException extends PerfidixMethodException {
+public final class PerfidixMethodCheckException
+        extends PerfidixMethodException {
 
-    /** serializable id */
+    /** serializable id. */
     private static final long serialVersionUID = -2181496089750788312L;
 
     /**
@@ -46,7 +47,7 @@ public final class PerfidixMethodCheckException extends PerfidixMethodException 
      */
     public PerfidixMethodCheckException(
             final Throwable paramExec, final Method paramMeth,
-            final Class<? extends Annotation> paramAnnotation) {
+            final Class< ? extends Annotation> paramAnnotation) {
         super(paramExec, paramMeth, paramAnnotation);
     }
 

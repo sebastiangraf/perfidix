@@ -33,7 +33,7 @@ import java.lang.reflect.Method;
 public final class MethodResult extends AbstractResult {
 
     /**
-     * Simple Constructor
+     * Simple Constructor.
      * 
      * @param paramMethod
      *            , the method related to these results

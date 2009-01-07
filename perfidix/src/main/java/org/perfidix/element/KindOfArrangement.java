@@ -26,6 +26,6 @@ package org.perfidix.element;
 public enum KindOfArrangement {
     /** no method arrangement. */
     NoArrangement,
-    /** random shuffle arrangement */
+    /** random shuffle arrangement. */
     ShuffleArrangement
 }

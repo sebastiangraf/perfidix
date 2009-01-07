@@ -48,10 +48,12 @@ public class NoMethodArrangementTest {
     @Before
     public void setUp() {
         elemSet = new HashSet<BenchmarkElement>();
-        final Class<?> testClazz = new TestBenchClass().getClass();
+        final Class< ? > testClazz = new TestBenchClass().getClass();
         for (final Method meth : testClazz.getDeclaredMethods()) {
             if (BenchmarkMethod.isBenchmarkable(meth)) {
-                elemSet.add(new BenchmarkElement(new BenchmarkMethod(meth)));
+                elemSet
+                        .add(new BenchmarkElement(
+                                new BenchmarkMethod(meth)));
             }
         }
     }
@@ -66,8 +68,10 @@ public class NoMethodArrangementTest {
             final AbstractMethodArrangement arrangement =
                     AbstractMethodArrangement.getMethodArrangement(
                             elemSet, KindOfArrangement.NoArrangement);
-            final String[] expectedNames = { "bench1", "bench2", "bench4" };
-            final Iterator<BenchmarkElement> iterBench = arrangement.iterator();
+            final String[] expectedNames =
+                    { "bench1", "bench2", "bench4" };
+            final Iterator<BenchmarkElement> iterBench =
+                    arrangement.iterator();
             assertEquals(expectedNames[0], iterBench
                     .next().getMeth().getMethodToBench().getName());
             assertEquals(expectedNames[1], iterBench

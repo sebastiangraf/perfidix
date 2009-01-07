@@ -204,9 +204,9 @@ public class BenchmarkExecutorTest {
 
     /**
      * Test method for
-     * {@link org.perfidix.element.BenchmarkExecutor#checkReflectiveExecutableMethod(Object, Method, Class)}
+     * {@link org.perfidix.element.BenchmarkExecutor#checkMethod(Object, Method, Class)}
      * and
-     * {@link org.perfidix.element.BenchmarkExecutor#invokeReflectiveExecutableMethod(Object, Method, Class)}
+     * {@link org.perfidix.element.BenchmarkExecutor#invokeMethod(Object, Method, Class)}
      * 
      * @throws Exception
      *             of any kind because of reflection
@@ -224,22 +224,22 @@ public class BenchmarkExecutorTest {
                 correctObj.getClass().getMethod("incorrectMethod");
 
         final PerfidixMethodCheckException e1 =
-                BenchmarkExecutor.checkReflectiveExecutableMethod(
+                BenchmarkExecutor.checkMethod(
                         falseObj, correctMethod, SkipBench.class);
         assertTrue(e1 != null);
 
         final PerfidixMethodCheckException e2 =
-                BenchmarkExecutor.checkReflectiveExecutableMethod(
+                BenchmarkExecutor.checkMethod(
                         correctObj, falseMethod, SkipBench.class);
         assertTrue(e2 != null);
 
         final PerfidixMethodCheckException e3 =
-                BenchmarkExecutor.checkReflectiveExecutableMethod(
+                BenchmarkExecutor.checkMethod(
                         correctObj, correctMethod, SkipBench.class);
         assertTrue(e3 == null);
 
         final PerfidixMethodInvocationException e4 =
-                BenchmarkExecutor.invokeReflectiveExecutableMethod(
+                BenchmarkExecutor.invokeMethod(
                         correctObj, correctMethod, SkipBench.class);
         assertTrue(e4 == null);
 
