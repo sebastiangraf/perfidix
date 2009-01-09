@@ -119,7 +119,7 @@ public class CSVOutputTest {
      * .
      */
     @Test
-    public final void testVisitBenchmarkSystemOut() {
+    public final void testVisitSystemOut() {
 
         final CSVOutput output = new CSVOutput();
         output.visitBenchmark(benchRes);
@@ -144,7 +144,7 @@ public class CSVOutputTest {
      * .
      */
     @Test
-    public final void testListenToResultSetSystemOut() {
+    public final void testListenSystemOut() {
         final ClassResult classRes =
                 benchRes.getIncludedResults().iterator().next();
         final CSVOutput output = new CSVOutput();
@@ -177,7 +177,7 @@ public class CSVOutputTest {
      *             because of reflective invocation
      */
     @Test
-    public final void testListenToExceptionSystemOut() throws Exception {
+    public final void testListenExceptionSystemOut() throws Exception {
 
         final CSVOutput output = new CSVOutput();
         output.listenToException(testException);
@@ -193,7 +193,7 @@ public class CSVOutputTest {
      * .
      */
     @Test
-    public final void testVisitListenerOutputSystemOut() {
+    public final void testVisitListenSystemOut() {
         final CSVOutput output = new CSVOutput();
 
         final ClassResult classRes =
@@ -223,7 +223,7 @@ public class CSVOutputTest {
      *             of any kind
      */
     @Test
-    public final void testVisitListenerOutputFile() throws Exception {
+    public final void testVisitListenerFile() throws Exception {
         final CSVOutput output = new CSVOutput(TEST_FOLDER);
 
         final ClassResult classRes =
@@ -268,7 +268,7 @@ public class CSVOutputTest {
      *             of any kind .
      */
     @Test
-    public final void testVisitBenchmarkFile() throws Exception {
+    public final void testVisitFile() throws Exception {
 
         final CSVOutput output = new CSVOutput(TEST_FOLDER);
         output.visitBenchmark(benchRes);
