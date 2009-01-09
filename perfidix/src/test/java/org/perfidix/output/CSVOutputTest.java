@@ -20,6 +20,7 @@
  */
 package org.perfidix.output;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.io.BufferedReader;
@@ -297,6 +298,82 @@ public class CSVOutputTest {
                 .append("Bench:Class1#method1\njava.io.IOException");
         assertTrue(asIsData.toString().contains(
                 builderException.toString()));
+
+    }
+
+    /**
+     * Test method for
+     * {@link org.perfidix.ouput.CSVOutput#listenToResultSet(java.lang.reflect.Method, org.perfidix.meter.AbstractMeter, double)}
+     * .
+     * 
+     * @throws Exception
+     *             of any kind
+     */
+    @Test
+    public final void testListenFile() throws Exception {
+        final ClassResult classRes =
+                benchRes.getIncludedResults().iterator().next();
+        final CSVOutput output = new CSVOutput(TEST_FOLDER);
+
+        final AbstractMeter meter =
+                classRes.getRegisteredMeters().iterator().next();
+        for (final MethodResult methRes : classRes.getIncludedResults()) {
+
+            for (final double d : methRes.getResultSet(meter)) {
+                output.listenToResultSet((Method) methRes
+                        .getRelatedElement(), meter, d);
+            }
+        }
+
+        final StringBuilder asIsData = new StringBuilder();
+
+        for (final File file : TEST_FOLDER.listFiles()) {
+            final BufferedReader reader =
+                    new BufferedReader(new FileReader(file));
+            String line = null;
+            while ((line = reader.readLine()) != null) {
+                asIsData.append(line).append("\n");
+            }
+        }
+
+        final StringBuilder builderData1 = new StringBuilder();
+        builderData1.append("1.0,2.0,3.0,4.0,5.0,6.0,7.0,8.0,9.0,10.0\n");
+        assertTrue(asIsData.toString().contains(builderData1.toString()));
+
+        builderData1.append("0.5,1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0\n");
+        assertTrue(asIsData.toString().contains(builderData1.toString()));
+
+    }
+
+    /**
+     * Test method for
+     * {@link org.perfidix.ouput.CSVOutput#listenToException(org.perfidix.failureHandling.PerfidixMethodException)}
+     * .
+     * 
+     * @throws Exception
+     *             because of reflective invocation
+     */
+    @Test
+    public final void testListenExceptionFile() throws Exception {
+
+        final CSVOutput output = new CSVOutput(TEST_FOLDER);
+        output.listenToException(testException);
+        final String beginString =
+                new String("Bench,Class1#method1,java.io.IOException");
+
+        assertEquals(1, TEST_FOLDER.listFiles().length);
+
+        final StringBuilder asIsData = new StringBuilder();
+
+        final BufferedReader reader =
+                new BufferedReader(new FileReader(
+                        TEST_FOLDER.listFiles()[0]));
+        String line = null;
+        while ((line = reader.readLine()) != null) {
+            asIsData.append(line).append("\n");
+        }
+
+        assertTrue(asIsData.toString().startsWith(beginString));
 
     }
 
