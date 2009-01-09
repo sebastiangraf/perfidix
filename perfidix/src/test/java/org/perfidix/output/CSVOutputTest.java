@@ -20,10 +20,12 @@
  */
 package org.perfidix.output;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.lang.reflect.Method;
@@ -38,6 +40,7 @@ import org.perfidix.meter.AbstractMeter;
 import org.perfidix.meter.CountingMeter;
 import org.perfidix.ouput.CSVOutput;
 import org.perfidix.result.BenchmarkResult;
+import org.perfidix.result.ClassResult;
 import org.perfidix.result.MethodResult;
 
 /**
@@ -47,7 +50,7 @@ import org.perfidix.result.MethodResult;
  */
 public class CSVOutputTest {
 
-    private final static int NUMBEROFTICKS = 10;
+    private final static int NUMBER_OF_TICKS = 10;
 
     private BenchmarkResult benchRes;
 
@@ -56,6 +59,8 @@ public class CSVOutputTest {
     private ByteArrayOutputStream bytes;
 
     private PerfidixMethodException testException;
+
+    private final static File TEST_FOLDER = new File("benchTest");
 
     /**
      * Simple setUp
@@ -69,12 +74,14 @@ public class CSVOutputTest {
         final Class< ? > class1 = new Class1().getClass();
 
         final Method meth11 = class1.getDeclaredMethod("method1");
+        final Method meth12 = class1.getDeclaredMethod("method2");
 
         final CountingMeter meter = new CountingMeter("Meter1");
 
-        for (int i = 0; i < NUMBEROFTICKS; i++) {
+        for (int i = 0; i < NUMBER_OF_TICKS; i++) {
             meter.tick();
             benchRes.addData(meth11, meter, meter.getValue());
+            benchRes.addData(meth12, meter, meter.getValue() / 2);
         }
 
         testException =
@@ -87,6 +94,8 @@ public class CSVOutputTest {
         consoleOut = System.out;
         bytes = new ByteArrayOutputStream();
         System.setOut(new PrintStream(bytes));
+
+        TEST_FOLDER.mkdir();
     }
 
     /**
@@ -98,6 +107,10 @@ public class CSVOutputTest {
     public void tearDown() throws Exception {
         benchRes = null;
         System.setOut(consoleOut);
+        for (final File file : TEST_FOLDER.listFiles()) {
+            file.delete();
+        }
+        TEST_FOLDER.delete();
     }
 
     /**
@@ -106,14 +119,23 @@ public class CSVOutputTest {
      * .
      */
     @Test
-    public final void testVisitBenchmark() {
+    public final void testVisitBenchmarkSystemOut() {
 
         final CSVOutput output = new CSVOutput();
         output.visitBenchmark(benchRes);
-        final StringBuilder builder = new StringBuilder();
-        builder.append("\n1.0,2.0,3.0,4.0,5.0,6.0,7.0,8.0,9.0,10.0\n");
-        builder.append("Bench:Class1#method1\njava.io.IOException\n");
-        assertTrue(bytes.toString().startsWith(builder.toString()));
+        final StringBuilder builderData1 = new StringBuilder();
+        builderData1.append("1.0,2.0,3.0,4.0,5.0,6.0,7.0,8.0,9.0,10.0");
+        assertTrue(bytes.toString().contains(builderData1.toString()));
+
+        final StringBuilder builderData2 = new StringBuilder();
+        builderData2.append("0.5,1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0");
+        assertTrue(bytes.toString().contains(builderData2.toString()));
+
+        final StringBuilder builderException = new StringBuilder();
+        builderException
+                .append("Bench:Class1#method1\njava.io.IOException");
+        assertTrue(bytes.toString().contains(builderException.toString()));
+
     }
 
     /**
@@ -122,21 +144,28 @@ public class CSVOutputTest {
      * .
      */
     @Test
-    public final void testListenToResultSet() {
-        final MethodResult methRes =
-                benchRes
-                        .getIncludedResults().iterator().next()
-                        .getIncludedResults().iterator().next();
-        final AbstractMeter meter =
-                methRes.getRegisteredMeters().iterator().next();
+    public final void testListenToResultSetSystemOut() {
+        final ClassResult classRes =
+                benchRes.getIncludedResults().iterator().next();
         final CSVOutput output = new CSVOutput();
-        for (final double d : methRes.getResultSet(meter)) {
-            output.listenToResultSet(
-                    (Method) methRes.getRelatedElement(), meter, d);
+
+        final AbstractMeter meter =
+                classRes.getRegisteredMeters().iterator().next();
+        for (final MethodResult methRes : classRes.getIncludedResults()) {
+
+            for (final double d : methRes.getResultSet(meter)) {
+                output.listenToResultSet((Method) methRes
+                        .getRelatedElement(), meter, d);
+            }
         }
-        final StringBuilder builder = new StringBuilder();
-        builder.append("1.0,2.0,3.0,4.0,5.0,6.0,7.0,8.0,9.0,10.0");
-        assertEquals(builder.toString(), bytes.toString());
+        final StringBuilder builderData1 = new StringBuilder();
+        builderData1.append("1.0,2.0,3.0,4.0,5.0,6.0,7.0,8.0,9.0,10.0");
+        assertTrue(bytes.toString().contains(builderData1.toString()));
+
+        final StringBuilder builderData2 = new StringBuilder();
+        builderData2.append("0.5,1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0");
+        assertTrue(bytes.toString().contains(builderData2.toString()));
+
     }
 
     /**
@@ -148,7 +177,7 @@ public class CSVOutputTest {
      *             because of reflective invocation
      */
     @Test
-    public final void testListenToException() throws Exception {
+    public final void testListenToExceptionSystemOut() throws Exception {
 
         final CSVOutput output = new CSVOutput();
         output.listenToException(testException);
@@ -158,10 +187,125 @@ public class CSVOutputTest {
 
     }
 
+    /**
+     * Test method for
+     * {@link org.perfidix.ouput.CSVOutput#visitBenchmark(org.perfidix.result.BenchmarkResult)}
+     * .
+     */
+    @Test
+    public final void testVisitListenerOutputSystemOut() {
+        final CSVOutput output = new CSVOutput();
+
+        final ClassResult classRes =
+                benchRes.getIncludedResults().iterator().next();
+        final AbstractMeter meter =
+                classRes.getRegisteredMeters().iterator().next();
+        for (final MethodResult methRes : classRes.getIncludedResults()) {
+            for (final double d : methRes.getResultSet(meter)) {
+                output.listenToResultSet((Method) methRes
+                        .getRelatedElement(), meter, d);
+            }
+        }
+        output.visitBenchmark(benchRes);
+        final String data =
+                new String(
+                        "0.5,1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,1.0,2.0,3.0,4.0,5.0,6.0,7.0,8.0,9.0,10.0");
+        assertTrue(bytes.toString().contains(data));
+
+    }
+
+    /**
+     * Test method for
+     * {@link org.perfidix.ouput.CSVOutput#visitBenchmark(org.perfidix.result.BenchmarkResult)}
+     * .
+     * 
+     * @throws Exception
+     *             of any kind
+     */
+    @Test
+    public final void testVisitListenerOutputFile() throws Exception {
+        final CSVOutput output = new CSVOutput(TEST_FOLDER);
+
+        final ClassResult classRes =
+                benchRes.getIncludedResults().iterator().next();
+        final AbstractMeter meter =
+                classRes.getRegisteredMeters().iterator().next();
+        for (final MethodResult methRes : classRes.getIncludedResults()) {
+            for (final double d : methRes.getResultSet(meter)) {
+                output.listenToResultSet((Method) methRes
+                        .getRelatedElement(), meter, d);
+            }
+        }
+        output.visitBenchmark(benchRes);
+
+        final StringBuilder asIsData = new StringBuilder();
+        for (final File file : TEST_FOLDER.listFiles()) {
+            final BufferedReader reader =
+                    new BufferedReader(new FileReader(file));
+            String line = null;
+            while ((line = reader.readLine()) != null) {
+                asIsData.append(line).append("\n");
+            }
+        }
+
+        final StringBuilder builderData1 = new StringBuilder();
+        builderData1.append("1.0,2.0,3.0,4.0,5.0,6.0,7.0,8.0,9.0,10.0\n");
+        assertTrue(asIsData.toString().contains(builderData1.toString()));
+
+        builderData1.append("0.5,1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0\n");
+        assertTrue(asIsData.toString().contains(builderData1.toString()));
+
+        builderData1.append("Bench:Class1#method1\njava.io.IOException");
+        assertTrue(asIsData.toString().contains(builderData1.toString()));
+
+    }
+
+    /**
+     * Test method for
+     * {@link org.perfidix.ouput.CSVOutput#visitBenchmark(org.perfidix.result.BenchmarkResult)}
+     * 
+     * @throws Exception
+     *             of any kind .
+     */
+    @Test
+    public final void testVisitBenchmarkFile() throws Exception {
+
+        final CSVOutput output = new CSVOutput(TEST_FOLDER);
+        output.visitBenchmark(benchRes);
+
+        final StringBuilder asIsData = new StringBuilder();
+
+        for (final File file : TEST_FOLDER.listFiles()) {
+            final BufferedReader reader =
+                    new BufferedReader(new FileReader(file));
+            String line = null;
+            while ((line = reader.readLine()) != null) {
+                asIsData.append(line).append("\n");
+            }
+        }
+
+        final StringBuilder builderData1 = new StringBuilder();
+        builderData1.append("1.0,2.0,3.0,4.0,5.0,6.0,7.0,8.0,9.0,10.0");
+        assertTrue(asIsData.toString().contains(builderData1.toString()));
+
+        final StringBuilder builderData2 = new StringBuilder();
+        builderData2.append("0.5,1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0");
+        assertTrue(asIsData.toString().contains(builderData2.toString()));
+
+        final StringBuilder builderException = new StringBuilder();
+        builderException
+                .append("Bench:Class1#method1\njava.io.IOException");
+        assertTrue(asIsData.toString().contains(
+                builderException.toString()));
+
+    }
+
     class Class1 {
         public void method1() {
         }
 
+        public void method2() {
+        }
     }
 
 }

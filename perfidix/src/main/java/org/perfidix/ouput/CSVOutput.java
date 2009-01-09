@@ -97,9 +97,9 @@ public final class CSVOutput extends AbstractOutput {
         try {
 
             final PrintStream stream =
-                    setUpNewPrintStream(
-                            false, meth.getDeclaringClass().getName(),
-                            meth.getName(), meter.getName());
+                    setUpNewPrintStream(false, meth
+                            .getDeclaringClass().getSimpleName(), meth
+                            .getName(), meter.getName());
             if (!firstResult) {
                 stream.append(",");
             }
@@ -155,12 +155,13 @@ public final class CSVOutput extends AbstractOutput {
                                         .getElementName(), meter.getName());
                         int i = 0;
                         for (final Double d : methRes.getResultSet(meter)) {
-                            if (i == methRes.getResultSet(meter).size() - 1) {
+                            if (i == 0) {
                                 currentWriter.append(d.toString());
                             } else {
-                                currentWriter.append(new StringBuilder(d
-                                        .toString())
-                                        .append(",").toString());
+                                currentWriter
+                                        .append(new StringBuilder(",")
+                                                .append(d.toString())
+                                                .toString());
                             }
                             i++;
                         }
@@ -250,4 +251,5 @@ public final class CSVOutput extends AbstractOutput {
         builder.append(".").append("csv");
         return builder.toString();
     }
+
 }
