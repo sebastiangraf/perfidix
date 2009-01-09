@@ -223,6 +223,7 @@ public final class CSVOutput extends AbstractOutput {
             if (!usedFiles.contains(toWriteTo)) {
                 toWriteTo.delete();
                 usedFiles.add(toWriteTo);
+                firstResult = true;
             }
             return new PrintStream(new FileOutputStream(
                     toWriteTo, !visitorStream));
