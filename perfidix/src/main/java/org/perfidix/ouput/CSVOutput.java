@@ -224,7 +224,8 @@ public final class CSVOutput extends AbstractOutput {
                 toWriteTo.delete();
                 usedFiles.add(toWriteTo);
             }
-            return new PrintStream(new FileOutputStream(toWriteTo, true));
+            return new PrintStream(new FileOutputStream(
+                    toWriteTo, !visitorStream));
         } else {
             if (visitorStream) {
                 System.out.println();
