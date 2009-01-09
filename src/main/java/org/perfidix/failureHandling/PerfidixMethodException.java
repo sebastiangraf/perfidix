@@ -157,4 +157,20 @@ public abstract class PerfidixMethodException extends Exception {
         return true;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public final String toString() {
+        final StringBuilder builder = new StringBuilder();
+        builder.append(this.getClass().getSimpleName());
+        builder.append(":");
+        builder.append(this.exec.getClass().getSimpleName());
+        builder.append(":");
+        builder.append(this.relatedAnno.getClass().getSimpleName());
+        builder.append(":");
+        builder.append(this.meth.getName());
+        return builder.toString();
+    }
+
 }
