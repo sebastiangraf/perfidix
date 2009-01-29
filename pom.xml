@@ -6,15 +6,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
 	<artifactId>perfidix</artifactId>
 	<name>Perfidix Project</name>
 	<version>3.1.1</version>
-	<description>
-	Perfidix comes as a light-weight Java Benchmarking Tool 
-	which allows to make simple measurements of source code without intsalling 
-	heavy profilers or using special IDEs. Perfidix comes as a simple jar 
-	which has to be included in the classpath. Methods which should be benched 
-	are annotated similar to JUnit testcases. With these simple modifications 
-	fast evaluation and real-time measurements 	can be made with existing source 
-	code without adapting the program.
-	</description>
+	<description>Perfidix comes as a light-weight Java Benchmarking Tool which allows to make simple measurements of source code without intsalling heavy profilers or using special IDEs. Perfidix comes as a simple jar which has to be included in the classpath. Methods which should be benched are annotated similar to JUnit testcases. With these simple modifications  fast evaluation and real-time measurements can be made with existing source code without adapting the program.</description>
 	<url>http://www.perfidix.org</url>
 	<organization>
 		<name>University of Konstanz, Distributed Systems Lab</name>
@@ -34,7 +26,9 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
             <role>Project Manager</role>
             <role>Architect</role>
          </roles>
-         <organization>University of Konstanz</organization>
+         <url>http://www.informatik.uni-konstanz.de/arbeitsgruppen/Verteilte-Systeme/mitglieder/Sebastian-Graf</url>
+         <organization>University of Konstanz, Distributed Systems Lab</organization>
+         <organizationUrl>http://www.informatik.uni-konstanz.de/ags/disy/</organizationUrl>
          <timezone>+1</timezone>
        </developer>         
    </developers>
@@ -59,17 +53,22 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
       <developerConnection>scm:svn:https://perfidix.svn.sourceforge.net/svnroot/perfidix/</developerConnection>
       <url>https://perfidix.svn.sourceforge.net/svnroot/perfidix/</url>
    </scm> 
+   <licenses>
+	<license>
+	<name>The Apache Software License, Version 2.0</name>
+	<url>LICENSE</url>
+	</license>
+	</licenses>
+   
+   
    <reporting>
     <plugins>
       <plugin>
         <artifactId>maven-javadoc-plugin</artifactId>
       </plugin>  
       <plugin>
-        <artifactId>maven-surefire-plugin</artifactId>
+         <artifactId>maven-surefire-report-plugin</artifactId>
       </plugin>   
-       <plugin>
-        <artifactId>maven-clover-plugin</artifactId>
-      </plugin>
     </plugins>
   </reporting>
 	<build>
