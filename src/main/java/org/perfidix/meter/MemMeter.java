@@ -65,7 +65,6 @@ public final class MemMeter extends AbstractMeter {
     @Override
     public final double getValue() {
         final Runtime rt = Runtime.getRuntime();
-        rt.gc();
         memAlreadyUsed =
                 memAlreadyUsed + rt.totalMemory() - rt.freeMemory();
         return new BigDecimal(memAlreadyUsed, MathContext.DECIMAL128)
