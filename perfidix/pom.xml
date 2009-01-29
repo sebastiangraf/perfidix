@@ -6,13 +6,72 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
 	<artifactId>perfidix</artifactId>
 	<name>Perfidix Project</name>
 	<version>3.1.1</version>
-	<description>A Java Benchmarking tool</description>
+	<description>
+	Perfidix comes as a light-weight Java Benchmarking Tool 
+	which allows to make simple measurements of source code without intsalling 
+	heavy profilers or using special IDEs. Perfidix comes as a simple jar 
+	which has to be included in the classpath. Methods which should be benched 
+	are annotated similar to JUnit testcases. With these simple modifications 
+	fast evaluation and real-time measurements 	can be made with existing source 
+	code without adapting the program.
+	</description>
 	<url>http://www.perfidix.org</url>
 	<organization>
 		<name>University of Konstanz, Distributed Systems Lab</name>
 		<url>http://www.informatik.uni-konstanz.de/ags/disy/
 		</url>
 	</organization>
+	  <issueManagement>
+      <system>Sourceforge Tracker</system>
+      <url>https://sourceforge.net/tracker2/?group_id=187026</url>
+   </issueManagement>
+    <developers>
+      <developer>
+         <id>sebastiangraf</id>
+         <name>Sebastian Graf</name>
+         <email>Sebastian.Graf@uni-konstanz.de</email>
+         <roles>
+            <role>Project Manager</role>
+            <role>Architect</role>
+         </roles>
+         <organization>University of Konstanz</organization>
+         <timezone>+1</timezone>
+       </developer>         
+   </developers>
+   <mailingLists>
+     <mailingList>
+       <name>Perfidix Developers</name>
+       <subscribe>perfidix-developers-request@lists.sourceforge.net</subscribe>
+       <unsubscribe>perfidix-developers-request@lists.sourceforge.net</unsubscribe>
+      <post>perfidix-developers@lists.sourceforge.net</post>
+      <archive>https://sourceforge.net/mailarchive/forum.php?forum_name=perfidix-developers</archive>
+     </mailingList>
+     <mailingList>
+       <name>Perfidix Users</name>
+       <subscribe>perfidix-users-request@lists.sourceforge.net</subscribe>
+       <unsubscribe>perfidix-users-request@lists.sourceforge.net</unsubscribe>
+      <post>perfidix-users@lists.sourceforge.net</post>
+      <archive>https://sourceforge.net/mailarchive/forum.php?forum_name=perfidix-users</archive>
+     </mailingList>
+   </mailingLists>
+    <scm>
+      <connection>scm:svn:https://perfidix.svn.sourceforge.net/svnroot/perfidix/</connection>
+      <developerConnection>scm:svn:https://perfidix.svn.sourceforge.net/svnroot/perfidix/</developerConnection>
+      <url>https://perfidix.svn.sourceforge.net/svnroot/perfidix/</url>
+   </scm> 
+   <reporting>
+    <plugins>
+      <plugin>
+        <artifactId>maven-javadoc-plugin</artifactId>
+      </plugin>  
+      <plugin>
+        <artifactId>maven-surefire-plugin</artifactId>
+      </plugin>   
+       <plugin>
+        <artifactId>maven-clover-plugin</artifactId>
+      </plugin>
+    </plugins>
+  </reporting>
 	<build>
 		<plugins>
 			<plugin>
@@ -52,8 +111,4 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
 			<version>1.2</version>
 		</dependency>
 	</dependencies>
-	<reporting>
-		<plugins>
-		</plugins>
-	</reporting>
 </project>
