@@ -86,9 +86,9 @@ public final class BenchmarkResult extends ResultContainer<ClassResult> {
         }
 
         final MethodResult methodResult = clazzResult.elements.get(meth);
-
-        clazzResult.updateStructure(methodResult, meter, data);
-        this.updateStructure(clazzResult, meter, data);
+        methodResult.addData(meter, data);
+        clazzResult.addData(meter, data);
+        this.addData(meter, data);
 
         for (final AbstractOutput output : outputs) {
             output.listenToResultSet(meth, meter, data);

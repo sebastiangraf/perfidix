@@ -111,39 +111,39 @@ public class TabularSummaryOutputTest {
         output.visitBenchmark(benchRes);
         final StringBuilder builder = new StringBuilder();
         builder
-                .append("|= Benchmark =======================================================================|\n");
+                .append("|= Benchmark ======================================================================|\n");
         builder
-                .append("| -       | unit  | sum    | min   | max   | avg   | stddev | conf95        | runs  |\n");
+                .append("| -       | unit  | sum   | min   | max   | avg   | stddev | conf95        | runs  |\n");
         builder
-                .append("|===================================== Meter1 ======================================|\n");
+                .append("|===================================== Meter1 =====================================|\n");
         builder
-                .append("|. Class1 ..........................................................................|\n");
+                .append("|. Class1 .........................................................................|\n");
         builder
-                .append("| method1 | ticks | 55,00  | 01,00 | 10,00 | 05,50 | 03,03  | [01,00-10,00] | 10,00 |\n");
+                .append("| method1 | ticks | 55,00 | 01,00 | 10,00 | 05,50 | 03,03  | [01,00-10,00] | 10,00 |\n");
         builder
-                .append("|_ Summary for Class1 ______________________________________________________________|\n");
+                .append("|_ Summary for Class1 _____________________________________________________________|\n");
         builder
-                .append("|         | ticks | 110,00 | 01,00 | 10,00 | 05,50 | 02,95  | [01,00-10,00] | 20,00 |\n");
+                .append("|         | ticks | 55,00 | 01,00 | 10,00 | 05,50 | 03,03  | [01,00-10,00] | 10,00 |\n");
         builder
-                .append("|-----------------------------------------------------------------------------------|\n");
+                .append("|----------------------------------------------------------------------------------|\n");
         builder
-                .append("|========================= Summary for the whole benchmark =========================|\n");
+                .append("|======================== Summary for the whole benchmark =========================|\n");
         builder
-                .append("|         | ticks | 55,00  | 01,00 | 10,00 | 05,50 | 03,03  | [01,00-10,00] | 10,00 |\n");
+                .append("|         | ticks | 55,00 | 01,00 | 10,00 | 05,50 | 03,03  | [01,00-10,00] | 10,00 |\n");
         builder
-                .append("|=================================== Exceptions ====================================|\n");
+                .append("|=================================== Exceptions ===================================|\n");
         builder
-                .append("|  Related exception: IOException                                                   |\n");
+                .append("|  Related exception: IOException                                                  |\n");
         builder
-                .append("|  Related place: method invocation                                                 |\n");
+                .append("|  Related place: method invocation                                                |\n");
         builder
-                .append("|  Related method: method1                                                          |\n");
+                .append("|  Related method: method1                                                         |\n");
         builder
-                .append("|  Related annotation: Bench                                                        |\n");
+                .append("|  Related annotation: Bench                                                       |\n");
         builder
-                .append("|-----------------------------------------------------------------------------------|\n");
+                .append("|----------------------------------------------------------------------------------|\n");
         builder
-                .append("|===================================================================================|\n");
+                .append("|==================================================================================|\n");
         assertTrue(bytes.toString().startsWith(builder.toString()));
     }
 
