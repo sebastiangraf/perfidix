@@ -23,8 +23,6 @@ import java.util.Collection;
 import java.util.Hashtable;
 import java.util.Map;
 
-import org.perfidix.meter.AbstractMeter;
-
 /**
  * The result container contains more results. It is by definition recursive, so
  * it can handle as much diversity as possible
@@ -49,25 +47,6 @@ public abstract class ResultContainer<ResultType extends AbstractResult>
     protected ResultContainer(final Object paramRelatedElement) {
         super(paramRelatedElement);
         elements = new Hashtable<Object, ResultType>();
-    }
-
-    /**
-     * Updates the elements and appending the elements of the underlaying
-     * elements.
-     * 
-     * @param type
-     *            the related type.
-     * @param meter
-     *            the related meter
-     * @param data
-     *            the corresponding data
-     */
-    protected final void updateStructure(
-            final ResultType type, final AbstractMeter meter,
-            final double data) {
-        type.addData(meter, data);
-        addData(meter, data);
-
     }
 
     /**

@@ -147,6 +147,7 @@ public class ResultContainerTest {
                 .getStandardDeviation(meter), 0.000001);
         assertEquals(55.0, methodRes11.sum(meter), 0);
         assertEquals(385.0, methodRes11.squareSum(meter), 0);
+        assertEquals(10, methodRes11.getNumberOfResult(meter));
 
         assertEquals(20.5, methodRes12.mean(meter), 0);
         assertEquals(11.0, methodRes12.min(meter), 0);
@@ -157,6 +158,7 @@ public class ResultContainerTest {
                 .getStandardDeviation(meter), 0.000001);
         assertEquals(410.0, methodRes12.sum(meter), 0);
         assertEquals(9070.0, methodRes12.squareSum(meter), 0);
+        assertEquals(20, methodRes12.getNumberOfResult(meter));
 
         assertEquals(50.5, methodRes21.mean(meter), 0);
         assertEquals(31.0, methodRes21.min(meter), 0);
@@ -167,6 +169,7 @@ public class ResultContainerTest {
                 .getStandardDeviation(meter), 0.000001);
         assertEquals(2020.0, methodRes21.sum(meter), 0);
         assertEquals(107340.0, methodRes21.squareSum(meter), 0);
+        assertEquals(40, methodRes21.getNumberOfResult(meter));
 
         assertEquals(110.5, methodRes22.mean(meter), 0);
         assertEquals(71.0, methodRes22.min(meter), 0);
@@ -177,6 +180,7 @@ public class ResultContainerTest {
                 .getStandardDeviation(meter), 0.000001);
         assertEquals(8840.0, methodRes22.sum(meter), 0);
         assertEquals(1019480.0, methodRes22.squareSum(meter), 0);
+        assertEquals(80, methodRes22.getNumberOfResult(meter));
 
     }
 
@@ -188,22 +192,24 @@ public class ResultContainerTest {
         assertEquals(15.5, classRes1.mean(meter), 0);
         assertEquals(1.0, classRes1.min(meter), 0);
         assertEquals(30.0, classRes1.max(meter), 0);
-        assertEquals(2.0, classRes1.getConf05(meter), 0);
-        assertEquals(29.0, classRes1.getConf95(meter), 0);
-        assertEquals(8.728484443359346, classRes1
+        assertEquals(1.55, classRes1.getConf05(meter), 0);
+        assertEquals(29.45, classRes1.getConf95(meter), 0);
+        assertEquals(8.803408430829505, classRes1
                 .getStandardDeviation(meter), 0.000001);
-        assertEquals(930.0, classRes1.sum(meter), 0);
-        assertEquals(18910.0, classRes1.squareSum(meter), 0);
+        assertEquals(465.0, classRes1.sum(meter), 0);
+        assertEquals(9455.0, classRes1.squareSum(meter), 0);
+        assertEquals(30, classRes1.getNumberOfResult(meter), 0);
 
         assertEquals(90.5, classRes2.mean(meter), 0);
         assertEquals(31.0, classRes2.min(meter), 0);
         assertEquals(150.0, classRes2.max(meter), 0);
         assertEquals(36.05, classRes2.getConf05(meter), 0);
         assertEquals(144.95, classRes2.getConf95(meter), 0);
-        assertEquals(34.712205900716306, classRes2
+        assertEquals(34.785054261852174, classRes2
                 .getStandardDeviation(meter), 0.000001);
-        assertEquals(21720.0, classRes2.sum(meter), 0);
-        assertEquals(2253640.0, classRes2.squareSum(meter), 0);
+        assertEquals(10860.0, classRes2.sum(meter), 0);
+        assertEquals(1126820.0, classRes2.squareSum(meter), 0);
+        assertEquals(120, classRes2.getNumberOfResult(meter), 0);
     }
 
     /**
@@ -221,6 +227,8 @@ public class ResultContainerTest {
                 .getStandardDeviation(meter), 0.000001);
         assertEquals(11325.0, benchRes.sum(meter), 0);
         assertEquals(1136275.0, benchRes.squareSum(meter), 0);
+        assertEquals(150, benchRes.getNumberOfResult(meter));
+
     }
 
     /**
