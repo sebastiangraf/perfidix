@@ -28,13 +28,13 @@ package org.perfidix.meter;
 public enum Time {
 
     /** Enum for nano seconds. */
-    NanoSeconds("ns", "nano seconds", 0.000001),
+    NanoSeconds("ns", "nano seconds", 1),
     /** Enum for milli seconds. */
-    MilliSeconds("ms", "milli seconds", 1),
+    MilliSeconds("ms", "milli seconds", 1000000),
     /** Enum for seconds. */
-    Seconds("s", "second", 1000),
+    Seconds("s", "second", 1000000000),
     /** Enum for minutes. */
-    Minutes("min", "minutes", 60000);
+    Minutes("min", "minutes", 60000000000.0);
 
     /**
      * The unit of the time.

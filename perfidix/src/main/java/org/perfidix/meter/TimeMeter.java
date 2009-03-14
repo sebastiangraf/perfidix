@@ -58,8 +58,7 @@ public final class TimeMeter extends AbstractMeter {
      */
     @Override
     public final double getValue() {
-        return new BigDecimal(
-                System.currentTimeMillis(), MathContext.DECIMAL128)
+        return new BigDecimal(System.nanoTime(), MathContext.DECIMAL128)
                 .divide(
                         new BigDecimal(
                                 currentTime.getNumberOfMilliSeconds(),

@@ -95,8 +95,6 @@ public class TimeMeterTest {
         final double dataSecond1 = second.getValue();
         final double dataMinute1 = minute.getValue();
 
-        Thread.sleep((long) Time.MilliSeconds.getNumberOfMilliSeconds());
-
         final double dataNano2 = nano.getValue() - dataNano1;
         final double dataMilli2 = milli.getValue() - dataMilli1;
         final double dataSecond2 = second.getValue() - dataSecond1;
