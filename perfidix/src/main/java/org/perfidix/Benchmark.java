@@ -24,6 +24,7 @@ import java.lang.reflect.Method;
 import java.util.Hashtable;
 import java.util.LinkedHashSet;
 import java.util.Map;
+import java.util.Random;
 import java.util.Set;
 
 import org.perfidix.annotation.AfterBenchClass;
@@ -93,10 +94,40 @@ public final class Benchmark {
      * 
      * @param visitor
      *            possible visitors
+     * @param gcProb
+     *            probability to invoke gc
+     * @return the result of the Benchmark
+     */
+    public final BenchmarkResult run(
+            final double gcProb, final AbstractOutput... visitor) {
+        return run(gcProb, KindOfArrangement.NoArrangement, visitor);
+    }
+
+    /**
+     * Running this benchmark with no arrangement and gc invoking for every
+     * bench. The {@link NoMethodArrangement} is chosen.
+     * 
+     * @param visitor
+     *            possible visitors
      * @return the result of the Benchmark
      */
     public final BenchmarkResult run(final AbstractOutput... visitor) {
-        return run(KindOfArrangement.NoArrangement, visitor);
+        return run(1.0d, visitor);
+    }
+
+    /**
+     * Running this benchmark with a given arrangement and gc invoking for every
+     * bench.
+     * 
+     * @param visitor
+     *            possible visitors
+     * @param kind
+     *            of methodArrangement.
+     * @return the result of the Benchmark
+     */
+    public final BenchmarkResult run(
+            final KindOfArrangement kind, final AbstractOutput... visitor) {
+        return run(1.0d, kind, visitor);
     }
 
     /**
@@ -110,11 +141,15 @@ public final class Benchmark {
      *            upcoming results. Note that this is not an alternative for the
      *            visit-functionality with the {@link BenchmarkResult} returnval
      *            of the {@link AbstractOutput}
+     * @param gcProb
+     *            probability to invoke gc
      * @return {@link BenchmarkResult} the result in an {@link BenchmarkResult}
      *         container.
      */
     public final BenchmarkResult run(
-            final KindOfArrangement kind, final AbstractOutput... visitor) {
+            final double gcProb, final KindOfArrangement kind,
+            final AbstractOutput... visitor) {
+        final Random ran = new Random();
         final BenchmarkResult res = new BenchmarkResult(visitor);
         BenchmarkExecutor.initialize(meters, res);
 
@@ -142,6 +177,12 @@ public final class Benchmark {
             // check needed because of failed initialization of objects
             if (obj != null) {
                 exec.executeBeforeMethods(obj);
+
+                // invoking gc if possible
+                if (ran.nextDouble() < gcProb) {
+                    System.gc();
+                }
+
                 exec.executeBench(obj);
                 exec.executeAfterMethods(obj);
             }
