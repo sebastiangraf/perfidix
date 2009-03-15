@@ -136,9 +136,7 @@ public final class StackBenchmark {
         bench.add(StackBenchmark.class);
 
         final BenchmarkResult res =
-                bench.run(
-                        KindOfArrangement.ShuffleArrangement,
-                        new TabularSummaryOutput());
+                bench.run(1.0, KindOfArrangement.ShuffleArrangement);
         new TabularSummaryOutput().visitBenchmark(res);
     }
 

@@ -64,14 +64,14 @@ public class BenchmarkTest {
 
     /**
      * Test method for
-     * {@link org.perfidix.Benchmark#run(org.perfidix.element.KindOfArrangement, org.perfidix.ouput.AbstractOutput[])}
+     * {@link org.perfidix.Benchmark#run(double,org.perfidix.element.KindOfArrangement, org.perfidix.ouput.AbstractOutput[])}
      * .
      */
     @Test
     public final void testRunBeforeClassError() {
         benchmark.add(BeforeBenchClassError.class);
         final BenchmarkResult benchRes =
-                benchmark.run(KindOfArrangement.NoArrangement);
+                benchmark.run(1.0, KindOfArrangement.NoArrangement);
         assertEquals(0, benchRes.getRegisteredMeters().size());
         assertEquals(1, benchRes.getExceptions().size());
         final PerfidixMethodException exec =
@@ -84,14 +84,14 @@ public class BenchmarkTest {
 
     /**
      * Test method for
-     * {@link org.perfidix.Benchmark#run(org.perfidix.element.KindOfArrangement, org.perfidix.ouput.AbstractOutput[])}
+     * {@link org.perfidix.Benchmark#run(double,org.perfidix.element.KindOfArrangement, org.perfidix.ouput.AbstractOutput[])}
      * .
      */
     @Test
     public final void testNormalBenchrun() {
         benchmark.add(NormalCompleteBench.class);
         final BenchmarkResult benchRes =
-                benchmark.run(KindOfArrangement.NoArrangement);
+                benchmark.run(1.0, KindOfArrangement.NoArrangement);
         assertEquals(1, benchRes.getRegisteredMeters().size());
         assertEquals(0, benchRes.getExceptions().size());
 
@@ -109,14 +109,14 @@ public class BenchmarkTest {
 
     /**
      * Test method for
-     * {@link org.perfidix.Benchmark#run(org.perfidix.element.KindOfArrangement, org.perfidix.ouput.AbstractOutput[])}
+     * {@link org.perfidix.Benchmark#run(double,org.perfidix.element.KindOfArrangement, org.perfidix.ouput.AbstractOutput[])}
      * .
      */
     @Test
     public final void testIncompleteBenchrun() {
         benchmark.add(NormalIncompleteBench.class);
         final BenchmarkResult benchRes =
-                benchmark.run(KindOfArrangement.NoArrangement);
+                benchmark.run(1.0, KindOfArrangement.NoArrangement);
         assertEquals(0, benchRes.getRegisteredMeters().size());
         assertEquals(0, benchRes.getExceptions().size());
 
