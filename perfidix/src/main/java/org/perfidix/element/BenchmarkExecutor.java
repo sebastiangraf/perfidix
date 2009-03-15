@@ -185,8 +185,6 @@ public final class BenchmarkExecutor {
 
         final Method meth = element.getMethodToBench();
 
-        System.gc();
-
         int i = 0;
         int j = 0;
         for (final AbstractMeter meter : METERS_TO_BENCH) {
