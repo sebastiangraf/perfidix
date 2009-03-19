@@ -90,6 +90,8 @@ public abstract class AbstractMethodArrangement
             return new NoMethodArrangement(elements);
         case ShuffleArrangement:
             return new ShuffleMethodArrangement(elements);
+        case SingleMethodCallArrangement:
+            return new SingleMethodCallArrangement(elements);
         default:
             throw new IllegalArgumentException("Kind not known!");
 
