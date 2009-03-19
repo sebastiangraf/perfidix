@@ -27,5 +27,7 @@ public enum KindOfArrangement {
     /** no method arrangement. */
     NoArrangement,
     /** random shuffle arrangement. */
-    ShuffleArrangement
+    ShuffleArrangement,
+    /** Single method call arrangement */
+    SingleMethodCallArrangement
 }
