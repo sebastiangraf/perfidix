@@ -37,7 +37,7 @@ import org.perfidix.annotation.Bench;
  * 
  * @author Sebastian Graf, University of Konstanz
  */
-public class SingleMethodCallArrangementTest {
+public class SequentialMethodArrangementTest {
 
     private Set<BenchmarkElement> elemSet;
 
@@ -67,7 +67,7 @@ public class SingleMethodCallArrangementTest {
     }
 
     /**
-     * Test method for {@link org.perfidix.element.SingleMethodCallArrangement}
+     * Test method for {@link org.perfidix.element.SequentialMethodArrangement}
      * .
      */
     @Test
@@ -77,7 +77,7 @@ public class SingleMethodCallArrangementTest {
             final AbstractMethodArrangement arrangement =
                     AbstractMethodArrangement.getMethodArrangement(
                             elemSet,
-                            KindOfArrangement.SingleMethodCallArrangement);
+                            KindOfArrangement.SequentialMethodArrangement);
             final String[] expectedNames =
                     {
                             "bench2", "bench2", "bench2", "bench4",
