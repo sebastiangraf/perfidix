@@ -46,7 +46,7 @@ import java.util.Map.Entry;
  * bench1
  * </code>
  */
-public final class SingleMethodCallArrangement
+public final class SequentialMethodArrangement
         extends AbstractMethodArrangement {
 
     /**
@@ -54,7 +54,7 @@ public final class SingleMethodCallArrangement
      * 
      * @param elements
      */
-    protected SingleMethodCallArrangement(
+    protected SequentialMethodArrangement(
             final Set<BenchmarkElement> elements) {
         super(elements);
     }
