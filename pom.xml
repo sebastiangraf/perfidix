@@ -5,7 +5,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
 	<groupId>org</groupId>
 	<artifactId>perfidix</artifactId>
 	<name>Perfidix Project</name>
-	<version>3.2</version>
+	<version>3.2.1</version>
 	<description>Perfidix comes as a light-weight Java Benchmarking Tool which allows to make simple measurements of source code without intsalling heavy profilers or using special IDEs. Perfidix comes as a simple jar which has to be included in the classpath. Methods which should be benched are annotated similar to JUnit testcases. With these simple modifications  fast evaluation and real-time measurements can be made with existing source code without adapting the program.</description>
 	<url>http://www.perfidix.org</url>
 	<organization>
