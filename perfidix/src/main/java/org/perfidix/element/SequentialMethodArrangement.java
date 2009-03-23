@@ -87,7 +87,10 @@ public final class SequentialMethodArrangement
         final Set<Entry<BenchmarkMethod, ArrayList<BenchmarkElement>>> compareMethods =
                 new TreeSet<Entry<BenchmarkMethod, ArrayList<BenchmarkElement>>>(
                         new BenchmarkElementComparator());
-        compareMethods.addAll(table.entrySet());
+        for (final Entry<BenchmarkMethod, ArrayList<BenchmarkElement>> entry : table
+                .entrySet()) {
+            compareMethods.add(entry);
+        }
 
         final ArrayList<BenchmarkMethod> methods =
                 new ArrayList<BenchmarkMethod>();
@@ -130,8 +133,6 @@ public final class SequentialMethodArrangement
                 final Entry<BenchmarkMethod, ArrayList<BenchmarkElement>> o2) {
             if (o1.getValue().size() > o2.getValue().size()) {
                 return -1;
-            } else if (o1.getValue().size() == o2.getValue().size()) {
-                return 0;
             } else {
                 return 1;
             }
