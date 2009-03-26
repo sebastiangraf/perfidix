@@ -129,7 +129,9 @@ public final class BenchmarkExecutor {
             final BenchmarkResult result) {
         METERS_TO_BENCH.clear();
         METERS_TO_BENCH.addAll(meters);
+        EXECUTOR.clear();
         benchRes = result;
+
     }
 
     /**
