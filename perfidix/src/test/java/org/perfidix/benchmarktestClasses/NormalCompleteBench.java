@@ -103,6 +103,19 @@ public final class NormalCompleteBench {
     }
 
     /**
+     * Resetting everything
+     */
+    public static final void reset() {
+        beforeClassCounter = 0;
+        beforeEachRunCounter = 0;
+        beforeFirstRunCounter = 0;
+        benchCounter = 0;
+        afterClassCounter = 0;
+        afterEachRunCounter = 0;
+        afterLastRunCounter = 0;
+    }
+
+    /**
      * Getter for member beforeClassCounter
      * 
      * @return the beforeClassCounter
