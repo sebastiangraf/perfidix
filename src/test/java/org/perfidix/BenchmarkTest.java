@@ -27,6 +27,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.perfidix.annotation.BeforeBenchClass;
 import org.perfidix.benchmarktestClasses.BeforeBenchClassError;
+import org.perfidix.benchmarktestClasses.NormalBenchForClassAndObjectAdd;
 import org.perfidix.benchmarktestClasses.NormalCompleteBench;
 import org.perfidix.benchmarktestClasses.NormalIncompleteBench;
 import org.perfidix.element.KindOfArrangement;
@@ -59,6 +60,7 @@ public class BenchmarkTest {
      */
     @After
     public void tearDown() throws Exception {
+        NormalCompleteBench.reset();
         benchmark = null;
     }
 
@@ -67,7 +69,7 @@ public class BenchmarkTest {
      * {@link org.perfidix.Benchmark#run(double,org.perfidix.element.KindOfArrangement, org.perfidix.ouput.AbstractOutput[])}
      * .
      */
-    @Test
+    // @Test
     public final void testRunBeforeClassError() {
         benchmark.add(BeforeBenchClassError.class);
         final BenchmarkResult benchRes =
@@ -112,14 +114,83 @@ public class BenchmarkTest {
      * {@link org.perfidix.Benchmark#run(double,org.perfidix.element.KindOfArrangement, org.perfidix.ouput.AbstractOutput[])}
      * .
      */
-    @Test
+    // @Test
     public final void testIncompleteBenchrun() {
         benchmark.add(NormalIncompleteBench.class);
         final BenchmarkResult benchRes =
                 benchmark.run(1.0, KindOfArrangement.NoArrangement);
         assertEquals(0, benchRes.getRegisteredMeters().size());
         assertEquals(0, benchRes.getExceptions().size());
+    }
 
+    /**
+     * Test method for {@link org.perfidix.Benchmark#add(Class)} .
+     */
+    @Test
+    public final void testAddClazz() {
+        benchmark.add(NormalCompleteBench.class);
+        final BenchmarkResult benchRes =
+                benchmark.run(1.0, KindOfArrangement.NoArrangement);
+        assertEquals(1, benchRes.getRegisteredMeters().size());
+        assertEquals(0, benchRes.getExceptions().size());
+
+        assertEquals(1, NormalCompleteBench.getBeforeClassCounter());
+        assertEquals(1, NormalCompleteBench.getBeforeFirstRunCounter());
+        assertEquals(NormalCompleteBench.RUNS, NormalCompleteBench
+                .getBeforeEachRunCounter());
+        assertEquals(NormalCompleteBench.RUNS, NormalCompleteBench
+                .getBenchCounter());
+        assertEquals(NormalCompleteBench.RUNS, NormalCompleteBench
+                .getAfterEachRunCounter());
+        assertEquals(1, NormalCompleteBench.getAfterLastRunCounter());
+        assertEquals(1, NormalCompleteBench.getAfterClassCounter());
+    }
+
+    /**
+     * Test method for {@link org.perfidix.Benchmark#add(Object)} .
+     */
+    @Test
+    public final void testAddObject() {
+        final NormalCompleteBench obj = new NormalCompleteBench();
+        benchmark.add(obj);
+        final BenchmarkResult benchRes =
+                benchmark.run(1.0, KindOfArrangement.NoArrangement);
+        assertEquals(1, benchRes.getRegisteredMeters().size());
+        assertEquals(0, benchRes.getExceptions().size());
+
+        assertEquals(1, NormalCompleteBench.getBeforeClassCounter());
+        assertEquals(1, NormalCompleteBench.getBeforeFirstRunCounter());
+        assertEquals(NormalCompleteBench.RUNS, NormalCompleteBench
+                .getBeforeEachRunCounter());
+        assertEquals(NormalCompleteBench.RUNS, NormalCompleteBench
+                .getBenchCounter());
+        assertEquals(NormalCompleteBench.RUNS, NormalCompleteBench
+                .getAfterEachRunCounter());
+        assertEquals(1, NormalCompleteBench.getAfterLastRunCounter());
+        assertEquals(1, NormalCompleteBench.getAfterClassCounter());
+    }
+
+    /**
+     * Test method for {@link org.perfidix.Benchmark#add(Object)} and
+     * {@link org.perfidix.Benchmark#add(Class)}.
+     */
+    // @Test(expected = IllegalArgumentException.class)
+    public final void testAddObjectAndClass() {
+        final NormalCompleteBench obj = new NormalCompleteBench();
+        benchmark.add(obj);
+        benchmark.add(NormalCompleteBench.class);
+    }
+
+    /**
+     * Test method for {@link org.perfidix.Benchmark#add(Object)} and
+     * {@link org.perfidix.Benchmark#add(Class)}.
+     */
+    // @Test(expected = IllegalArgumentException.class)
+    public final void testAddObjectAndClassWithoutBefore() {
+        final NormalBenchForClassAndObjectAdd obj =
+                new NormalBenchForClassAndObjectAdd();
+        benchmark.add(obj);
+        benchmark.add(NormalBenchForClassAndObjectAdd.class);
     }
 
 }

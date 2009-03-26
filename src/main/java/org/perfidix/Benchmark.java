@@ -56,6 +56,9 @@ public final class Benchmark {
     /** Set with all used classes. */
     private final Set<Class< ? >> clazzes;
 
+    /** Already instantiated objects */
+    private final Set<Object> objects;
+
     /**
      * Constructor with a fixed set of used meters.
      * 
@@ -65,6 +68,7 @@ public final class Benchmark {
     public Benchmark(final AbstractMeter... paramMeters) {
         this.meters = new LinkedHashSet<AbstractMeter>();
         this.clazzes = new LinkedHashSet<Class< ? >>();
+        this.objects = new LinkedHashSet<Object>();
 
         for (final AbstractMeter meter : paramMeters) {
             this.meters.add(meter);
@@ -85,7 +89,32 @@ public final class Benchmark {
      *            to be added.
      */
     public final void add(final Class< ? > clazz) {
-        this.clazzes.add(clazz);
+        if (!this.clazzes.contains(clazz)) {
+            this.clazzes.add(clazz);
+        } else {
+            throw new IllegalArgumentException(
+                    "Only one class-instance per benchmark allowed");
+        }
+
+    }
+
+    /**
+     * Adding a already instantiated objects to benchmark. Per benchmark, only
+     * one objects of each class is allowed.
+     * 
+     * @param obj
+     *            to be added
+     */
+    public final void add(final Object obj) {
+        final Class< ? > clazz = obj.getClass();
+
+        if (!this.clazzes.contains(clazz)) {
+            this.clazzes.add(clazz);
+            this.objects.add(obj);
+        } else {
+            throw new IllegalArgumentException(
+                    "Only one class-instance per benchmark allowed");
+        }
     }
 
     /**
@@ -161,9 +190,13 @@ public final class Benchmark {
                 AbstractMethodArrangement.getMethodArrangement(
                         elements, kind);
 
+        // instantiate methods
+        final Map<Class< ? >, Object> instantiatedObj =
+                instantiateMethods(res);
+
         // getting the mapping and executing beforemethod
         final Map<Class< ? >, Object> objectsToExecute =
-                setUpObjectsToExecute(res);
+                executeBeforeBenchClass(instantiatedObj, res);
 
         // executing the bench for the arrangement
         for (final BenchmarkElement elem : arrangement) {
@@ -194,91 +227,125 @@ public final class Benchmark {
     }
 
     /**
-     * Setting up executable object for all registered classes and executing
+     * Setting up executable objects for all registered classes and executing
      * {@link BeforeBenchClass} annotated methods. If an {@link Exception}
      * occurs, this failure will be stored in the {@link BenchmarkResult} and
      * the class will not be instantiated
      * 
      * @param res
      *            {@link BenchmarkResult} for storing possible failures.
-     * @return a mapping with class->object for all registered classes-
+     * @return a mapping with class->objects for all registered classes-
      */
-    private final Map<Class< ? >, Object> setUpObjectsToExecute(
+    private final Map<Class< ? >, Object> instantiateMethods(
             final BenchmarkResult res) {
         // datastructure initialization for all objects
         final Map<Class< ? >, Object> objectsToUse =
                 new Hashtable<Class< ? >, Object>();
 
+        // generating including already instaniated objects
+        for (final Object obj : this.objects) {
+            final Class< ? > clazz = obj.getClass();
+            objectsToUse.put(clazz, obj);
+        }
+
         // generating objects for each registered class
         for (final Class< ? > clazz : clazzes) {
             // generating a new instance on which the benchmark will be
-            // performed
-            Object objectToUse = null;
-            try {
-                objectToUse = clazz.newInstance();
-                // otherwise adding an exception to the result
-            } catch (final InstantiationException e) {
-                res.addException(new PerfidixMethodInvocationException(
-                        e, BeforeBenchClass.class));
-            } catch (final IllegalAccessException e) {
-                res.addException(new PerfidixMethodInvocationException(
-                        e, BeforeBenchClass.class));
-            }
-            // if the instantiation was successful...
-            if (objectToUse != null) {
-                // ..the search for the beforeClassMeth begins...
-                Method beforeClassMeth = null;
-                boolean continueVal = true;
+            // performed if there isn't a user generated one
+            if (!objectsToUse.containsKey(clazz)) {
+                Object obj = null;
                 try {
-                    beforeClassMeth =
-                            BenchmarkMethod
-                                    .findAndCheckAnyMethodByAnnotation(
-                                            clazz, BeforeBenchClass.class);
-                    // ... and if this search is throwing an exception, the
-                    // exception will be added and a flag is set to break up
-                } catch (final PerfidixMethodCheckException e) {
-                    res.addException(e);
-                    continueVal = false;
+                    obj = clazz.newInstance();
+                    // otherwise adding an exception to the result
+                } catch (final InstantiationException e) {
+                    res
+                            .addException(new PerfidixMethodInvocationException(
+                                    e, BeforeBenchClass.class));
+                } catch (final IllegalAccessException e) {
+                    res
+                            .addException(new PerfidixMethodInvocationException(
+                                    e, BeforeBenchClass.class));
                 }
-                // if everything worked well...
-                if (continueVal) {
-                    // ... either the beforeMethod will be executed and a
-                    // possible exception stored to the result...
-                    if (beforeClassMeth != null) {
-                        final PerfidixMethodCheckException e =
-                                BenchmarkExecutor.checkMethod(
-                                        objectToUse, beforeClassMeth,
-                                        BeforeBenchClass.class);
-                        if (e == null) {
-                            final PerfidixMethodInvocationException e2 =
-                                    BenchmarkExecutor.invokeMethod(
-                                            objectToUse, beforeClassMeth,
-                                            BeforeBenchClass.class);
-                            if (e2 == null) {
-                                objectsToUse.put(clazz, objectToUse);
-                            } else {
-                                res.addException(e2);
-                            }
-                        } else {
-                            res.addException(e);
-                        }
-                    } else {
-                        // ...or the object is directly mapped to the class for
-                        // executing the benches
-                        objectsToUse.put(clazz, objectToUse);
-                    }
-                }
+                objectsToUse.put(clazz, obj);
             }
         }
+
         return objectsToUse;
     }
 
     /**
-     * Tear down executable object for all registered classes and executing
+     * Executing beforeBenchClass if present.
+     * 
+     * @param instantiatedObj
+     *            with the instantiatedObj;
+     * @param res
+     *            where the Exceptions should be stored to
+     * @return valid instances with valid beforeCall
+     */
+    private final Map<Class< ? >, Object> executeBeforeBenchClass(
+            final Map<Class< ? >, Object> instantiatedObj,
+            final BenchmarkResult res) {
+
+        final Map<Class< ? >, Object> returnVal =
+                new Hashtable<Class< ? >, Object>();
+
+        // invoking before bench class
+        for (final Class< ? > clazz : instantiatedObj.keySet()) {
+
+            final Object objectToUse = instantiatedObj.get(clazz);
+
+            // ..the search for the beforeClassMeth begins...
+            Method beforeClassMeth = null;
+            boolean continueVal = true;
+            try {
+                beforeClassMeth =
+                        BenchmarkMethod.findAndCheckAnyMethodByAnnotation(
+                                clazz, BeforeBenchClass.class);
+                // ... and if this search is throwing an exception, the
+                // exception will be added and a flag is set to break up
+            } catch (final PerfidixMethodCheckException e) {
+                res.addException(e);
+                continueVal = false;
+            }
+            // if everything worked well...
+            if (continueVal) {
+                // ... either the beforeMethod will be executed and a
+                // possible exception stored to the result...
+                if (beforeClassMeth != null) {
+                    final PerfidixMethodCheckException e =
+                            BenchmarkExecutor.checkMethod(
+                                    objectToUse, beforeClassMeth,
+                                    BeforeBenchClass.class);
+                    if (e == null) {
+                        final PerfidixMethodInvocationException e2 =
+                                BenchmarkExecutor.invokeMethod(
+                                        objectToUse, beforeClassMeth,
+                                        BeforeBenchClass.class);
+                        if (e2 == null) {
+                            returnVal.put(clazz, objectToUse);
+                        } else {
+                            res.addException(e2);
+                        }
+                    } else {
+                        res.addException(e);
+                    }
+                } else {
+                    // ...or the objects is directly mapped to the class
+                    // for
+                    // executing the benches
+                    returnVal.put(clazz, objectToUse);
+                }
+            }
+        }
+        return returnVal;
+    }
+
+    /**
+     * Tear down executable objects for all registered classes and executing
      * {@link AfterBenchClass} annotated methods.
      * 
      * @param objects
-     *            a mapping with class->object to be teared down
+     *            a mapping with class->objects to be teared down
      * @param res
      *            the {@link BenchmarkResult} for storing possible failures.
      */
@@ -333,6 +400,7 @@ public final class Benchmark {
         // Generating Set for returnVal
         final Set<BenchmarkElement> elems =
                 new LinkedHashSet<BenchmarkElement>();
+
         // Getting all Methods and testing if its benchmarkable
         for (final Class< ? > clazz : clazzes) {
             for (final Method meth : clazz.getDeclaredMethods()) {
