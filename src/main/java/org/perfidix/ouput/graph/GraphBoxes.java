@@ -67,7 +67,14 @@ class GraphBoxes extends GraphDiagram {
 
         // calculate diagram offsets
         int fh = fm.getHeight();
-        int offX = fm.stringWidth(getLabel(Math.pow(10, mx)));
+        int offX;
+        if (mx > 6 && mn < 7) {
+            // above 10^6, the values are written as 1.0E7, ...
+            // and need less space than 1000000
+            offX = fm.stringWidth(getLabel(Math.pow(10, 6)));
+        } else {
+            offX = fm.stringWidth(getLabel(Math.pow(10, mx)));
+        }
         offX =
                 Math.max(offX, fm.stringWidth(getLabel(Math.pow(10, mn)))) + 12;
         int offY = fh / 2;

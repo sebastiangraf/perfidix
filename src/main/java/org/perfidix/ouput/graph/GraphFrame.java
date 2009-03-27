@@ -71,11 +71,14 @@ class GraphFrame extends JPanel {
         int i = 0;
         int numVal = 0;
         double max = 0; // max of all values, used for determine the max range
+        double min = Double.MAX_VALUE; // min of all values
         for (Map<String, Double> clazz : data.values()) {
             this.data[i] = new double[clazz.values().size()];
             int j = 0;
             for (Double val : clazz.values()) {
                 double v = val.doubleValue();
+                if (v < min)
+                    min = v;
                 if (v > max)
                     max = v;
                 this.data[i][j++] = v;
@@ -101,9 +104,13 @@ class GraphFrame extends JPanel {
         graphFontStyle = propInt("font_style");
         graphOneline = propBool("oneline");
         graphDown = propBool("down");
-        graphMinRange = propInt("minimum_range");
+        if (propStr("minimum_range").equals("auto")) {
+            graphMinRange = (int) Math.floor(Math.log10(min));
+        } else {
+            graphMinRange = propInt("minimum_range");
+        }
         if (propStr("maximum_range").equals("auto")) {
-            graphMaxRange = (int) Math.ceil(Math.log10(max));
+            graphMaxRange = (int) Math.ceil(Math.log10(max)) + 1;
         } else {
             graphMaxRange = propInt("maximum_range");
         }
@@ -123,8 +130,9 @@ class GraphFrame extends JPanel {
             str.append(propStr("calculation_method"));
             str.append(", [");
             str.append(propStr("unit"));
-            str.append("])");
+            str.append("]");
         }
+        str.append(")");
         graphTitle = str.toString();
 
         setBorder(new EmptyBorder(20, 20, 20, 20));

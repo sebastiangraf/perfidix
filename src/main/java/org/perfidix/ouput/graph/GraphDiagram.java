@@ -42,9 +42,7 @@ abstract class GraphDiagram extends JPanel {
     GraphFrame frame;
     Color[] COLORS;
 
-    // int maxValues = 128;
     int off = 1;
-    // double[numLines -> methods][numValues -> classes]
     double min = Double.MAX_VALUE, max = 0.0000001;
 
     void init(GraphFrame frame) {
