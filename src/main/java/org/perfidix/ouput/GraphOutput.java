@@ -67,7 +67,8 @@ public class GraphOutput extends AbstractOutput {
      * if true, the legend is printed in a single line</li>
      * <li><code>down</code> = false ([true, false])</li>
      * <li><code>minimum_range</code> = 0 (<i>int</i>)</li>
-     * <li><code>maximum_range</code> = 4 (<i>int</i>)</li>
+     * <li><code>maximum_range</code> = auto ([auto, <i>int</i>])<br />
+     * the maximum y position is: 10^<code>maximum_range</code></li>
      * </ul>
      * </p>
      */
@@ -98,7 +99,7 @@ public class GraphOutput extends AbstractOutput {
         // 0 -> default, 1 -> bold, 2 -> italic
         defaults.setProperty("font_style", "0");
         defaults.setProperty("minimum_range", "0");
-        defaults.setProperty("maximum_range", "4");
+        defaults.setProperty("maximum_range", "auto");
         properties = new Properties(defaults);
     }
 

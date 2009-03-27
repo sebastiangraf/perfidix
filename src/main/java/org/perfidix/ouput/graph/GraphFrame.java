@@ -70,11 +70,15 @@ class GraphFrame extends JPanel {
         this.data = new double[desc.length][];
         int i = 0;
         int numVal = 0;
+        double max = 0; // max of all values, used for determine the max range
         for (Map<String, Double> clazz : data.values()) {
             this.data[i] = new double[clazz.values().size()];
             int j = 0;
             for (Double val : clazz.values()) {
-                this.data[i][j++] = val.doubleValue();
+                double v = val.doubleValue();
+                if (v > max)
+                    max = v;
+                this.data[i][j++] = v;
                 if (j > numVal)
                     numVal = j;
             }
@@ -98,7 +102,11 @@ class GraphFrame extends JPanel {
         graphOneline = propBool("oneline");
         graphDown = propBool("down");
         graphMinRange = propInt("minimum_range");
-        graphMaxRange = propInt("maximum_range");
+        if (propStr("maximum_range").equals("auto")) {
+            graphMaxRange = (int) Math.ceil(Math.log10(max));
+        } else {
+            graphMaxRange = propInt("maximum_range");
+        }
 
         StringBuilder str = new StringBuilder();
         str.append(propStr("title"));
@@ -108,14 +116,15 @@ class GraphFrame extends JPanel {
         if (!graphOneline) {
             str.append(" runs, method: ");
             str.append(propStr("calculation_method"));
-            str.append(", unit: [");
+            str.append(", unit: ");
+            str.append(propStr("unit"));
         } else {
             str.append(", ");
             str.append(propStr("calculation_method"));
             str.append(", [");
+            str.append(propStr("unit"));
+            str.append("])");
         }
-        str.append(propStr("unit"));
-        str.append("])");
         graphTitle = str.toString();
 
         setBorder(new EmptyBorder(20, 20, 20, 20));
