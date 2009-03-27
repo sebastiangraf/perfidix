@@ -156,7 +156,6 @@ public class GraphOutput extends AbstractOutput {
             numClasses++;
             for (MethodResult methRes : classRes.getIncludedResults()) {
                 String name = methRes.getElementName();
-                Map<String, Double> method;
                 if (!methodResults.containsKey(name)) {
                     methodResults.put(name, new TreeMap<String, Double>());
                 }
@@ -167,7 +166,7 @@ public class GraphOutput extends AbstractOutput {
                             .println("WARNING: number of RUNS should be the "
                                     + "same for all methods.");
                 }
-                method = methodResults.get(name);
+                Map<String, Double> method = methodResults.get(name);
                 Double result;
                 String valCalc =
                         properties.getProperty("calculation_method");
@@ -187,6 +186,16 @@ public class GraphOutput extends AbstractOutput {
                 }
                 method.put(classRes.getElementName(), result);
             }
+        }
+        int numLast = -1;
+        for (String method : methodResults.keySet()) {
+            if (numLast == -1)
+                numLast = methodResults.get(method).size();
+            else if (numLast != methodResults.get(method).size())
+                throw new IllegalArgumentException(
+                        "Unsupported BenchResult structure. All benchmark "
+                                + "classes have to contain exactly the same "
+                                + "methods!");
         }
         properties.setProperty("num_runs", String.valueOf(numRuns));
         return methodResults;
