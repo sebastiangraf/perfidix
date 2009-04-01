@@ -108,7 +108,9 @@ class GraphLines extends GraphDiagram {
         // draw diagram values
         g.setColor(Color.black);
         for (int i = 0; i < frame.nrValues; i++) {
-            String str = "" + (i + 1);
+            String str =
+                    frame.graphDrawNames ? frame.graphNames[i] : ""
+                            + (i + 1);
             int fw = fm.stringWidth(str);
             g.drawString(str, offX + (int) (i * ww + (ww - fw) / 2), offY
                     + h

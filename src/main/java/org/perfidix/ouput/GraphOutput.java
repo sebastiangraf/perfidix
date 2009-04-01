@@ -23,7 +23,10 @@ package org.perfidix.ouput;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.lang.reflect.Method;
 import java.util.Map;
 import java.util.Properties;
@@ -41,6 +44,14 @@ import org.perfidix.result.MethodResult;
  */
 public class GraphOutput extends AbstractOutput {
 
+    /**
+     * Constant for methodRename parameter in
+     * {@link #visitBenchmark(BenchmarkResult, Map)}. If set as value string for
+     * a method, the method will not be included in the graph.
+     */
+    public static final String SKIP_METHOD = "SKIP";
+
+    // TODO: testcases
     // TODO: include stdv, confidence intervals, ...
 
     /**
@@ -70,11 +81,17 @@ public class GraphOutput extends AbstractOutput {
      * <li><code>maximum_range</code> = auto ([auto, <i>int</i>])<br />
      * the minimum/maximum y position is: 10^<code>minimum_range</code> (10^
      * <code>maximum_range</code>) -> logarithmic scale</li>
+     * <li><code>class_names</code> = numbers ([numbers,
+     * {<i>String1</i>,<i>String2</i>,<i>String3</i>,...}])<br />
+     * instead of numbers below the diagram, you can set string values (as comma
+     * separated list).</li>
      * </ul>
      * </p>
      */
     public Properties properties;
 
+    private Map<AbstractMeter, Map<String, Map<String, Double>>> data =
+            null;
     private int numRuns = -1;
 
     /**
@@ -101,6 +118,7 @@ public class GraphOutput extends AbstractOutput {
         defaults.setProperty("font_style", "0");
         defaults.setProperty("minimum_range", "auto");
         defaults.setProperty("maximum_range", "auto");
+        defaults.setProperty("class_names", "numbers");
         properties = new Properties(defaults);
     }
 
@@ -139,15 +157,112 @@ public class GraphOutput extends AbstractOutput {
     /** {@inheritDoc} */
     @Override
     public void visitBenchmark(BenchmarkResult benchRes) {
-        for (AbstractMeter meter : benchRes.getRegisteredMeters()) {
+        addResults(benchRes, new TreeMap<String, String>());
+    }
+
+    /**
+     * Visiting the {@link BenchmarkResult} and do something with the result.
+     * 
+     * @param benchRes
+     *            the benchmark result.
+     * @param methodRename
+     *            the methods to rename and the corresponding new names.
+     */
+    public void visitBenchmark(
+            BenchmarkResult benchRes, Map<String, String> methodRename) {
+        addResults(benchRes, methodRename);
+    }
+
+    public void saveAsPDF() {
+        // TODO: implement
+    }
+
+    /**
+     * Save the benchmark data to a file. The data can later be retrieved and
+     * plotted by {@link #load(File)} and {@link #plot()}.
+     * 
+     * @param file
+     *            the file to write the data to.
+     * @throws IOException
+     *             if an error occurs while writing the data.
+     */
+    public void save(File file) throws IOException {
+        ObjectOutputStream oos =
+                new ObjectOutputStream(new FileOutputStream(file));
+        oos.writeObject(data);
+        oos.writeInt(numRuns);
+        oos.close();
+    }
+
+    /**
+     * Reads previously saved data from a file. The data can be plotted by
+     * {@link #plot()}.
+     * 
+     * @param file
+     *            the file to read the data from.
+     * @throws FileNotFoundException
+     *             if the file was not found.
+     * @throws IOException
+     *             if an error occurs while reading the data.
+     * @throws ClassNotFoundException
+     *             if the file contains wrong data.
+     */
+    @SuppressWarnings("unchecked")
+    public void load(File file)
+            throws FileNotFoundException, IOException,
+            ClassNotFoundException {
+        if (data != null)
+            throw new UnsupportedOperationException(
+                    "GraphOutput already contains data.");
+        ObjectInputStream ois =
+                new ObjectInputStream(new FileInputStream(file));
+        data =
+                (Map<AbstractMeter, Map<String, Map<String, Double>>>) ois
+                        .readObject();
+        numRuns = ois.readInt();
+    }
+
+    /**
+     * Plots the benchmark results. Before plotting you have to either run a
+     * perfidix benchmark and call {@link #visitBenchmark(BenchmarkResult)} or
+     * load a file with previously saved data ({@link #load(File)}).
+     */
+    public void plot() {
+        for (AbstractMeter meter : data.keySet()) {
+            properties.setProperty("num_runs", String.valueOf(numRuns));
             properties.setProperty("unit", meter.getUnit());
-            Graph.createGraph(getData(benchRes, meter), properties);
+            properties
+                    .setProperty("unit_desc", meter.getUnitDescription());
+            Graph.createGraph(data.get(meter), properties);
         }
     }
 
+    // private Map<String, Map<String, Double>> addResults(
+    // BenchmarkResult result, String[] methodNames) {
+    // //
+    // // Map<String, Map<String, Double>> methodResults =
+    // // new TreeMap<String, Map<String, Double>>();
+    //
+    // for (AbstractMeter meter : result.getRegisteredMeters()) {
+    // Map<String, Map<String, Double>> oldMethods, newMethods;
+    // newMethods = getData(result, meter);
+    // if (!data.containsKey(meter)) {
+    // data.put(meter, newMethods);
+    // } else {
+    // oldMethods = data.get(meter);
+    // for (String method : newMethods.keySet()) {
+    // if (!)
+    // }
+    // }
+    // }
+    // return null;
+    // }
+
+    @Deprecated
     private Map<String, Map<String, Double>> getData(
             BenchmarkResult benchRes, AbstractMeter meter) {
 
+        // method -> class -> value
         Map<String, Map<String, Double>> methodResults =
                 new TreeMap<String, Map<String, Double>>();
 
@@ -199,5 +314,73 @@ public class GraphOutput extends AbstractOutput {
         }
         properties.setProperty("num_runs", String.valueOf(numRuns));
         return methodResults;
+    }
+
+    private void addResults(
+            BenchmarkResult benchRes, Map<String, String> methodRename) {
+
+        if (data == null) {
+            data =
+                    new TreeMap<AbstractMeter, Map<String, Map<String, Double>>>();
+        }
+
+        for (AbstractMeter meter : benchRes.getRegisteredMeters()) {
+            int numClasses = 0;
+            if (!data.containsKey(meter))
+                data.put( //
+                        meter, new TreeMap<String, Map<String, Double>>());
+            Map<String, Map<String, Double>> methodResults =
+                    data.get(meter);
+            for (ClassResult classRes : benchRes.getIncludedResults()) {
+                numClasses++;
+                for (MethodResult methRes : classRes.getIncludedResults()) {
+                    String name = methRes.getElementName();
+                    if (methodRename.containsKey(name))
+                        name = methodRename.get(name);
+                    if (name == SKIP_METHOD)
+                        continue;
+                    if (!methodResults.containsKey(name)) {
+                        methodResults.put(
+                                name, new TreeMap<String, Double>());
+                    }
+                    if (numRuns == -1) {
+                        numRuns = methRes.getNumberOfResult(meter);
+                    } else if (numRuns != methRes.getNumberOfResult(meter)) {
+                        System.err
+                                .println("WARNING: number of RUNS should be the "
+                                        + "same for all methods.");
+                    }
+                    Map<String, Double> method = methodResults.get(name);
+                    Double result;
+                    String valCalc =
+                            properties.getProperty("calculation_method");
+                    if (valCalc.equals("minimum")) {
+                        result = methRes.min(meter);
+                    } else if (valCalc.equals("maximum")) {
+                        result = methRes.max(meter);
+                    } else if (valCalc.equals("mean")) {
+                        result = methRes.mean(meter);
+                    } else {
+                        throw new IllegalArgumentException("value \""
+                                + valCalc
+                                + "\" not allowed for property "
+                                + "\"value_calculation\". "
+                                + "Possible values are: \"minimum\", "
+                                + "\"maximum\" and \"mean\".");
+                    }
+                    method.put(classRes.getElementName(), result);
+                }
+            }
+            int numLast = -1;
+            for (String method : methodResults.keySet()) {
+                if (numLast == -1)
+                    numLast = methodResults.get(method).size();
+                else if (numLast != methodResults.get(method).size())
+                    throw new IllegalArgumentException(
+                            "Unsupported BenchResult structure. All benchmark "
+                                    + "classes have to contain exactly the same "
+                                    + "methods!");
+            }
+        }
     }
 }

@@ -24,6 +24,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.util.Map;
 import java.util.Properties;
+import java.util.StringTokenizer;
 
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -58,6 +59,8 @@ class GraphFrame extends JPanel {
     final boolean graphDown;
     final int graphMinRange;
     final int graphMaxRange;
+    final boolean graphDrawNames;
+    final String[] graphNames;
 
     final int nrFiles;
     final int nrValues;
@@ -71,7 +74,7 @@ class GraphFrame extends JPanel {
         int i = 0;
         int numVal = 0;
         double max = 0; // max of all values, used for determine the max range
-        double min = Double.MAX_VALUE; // min of all values
+        double min = Double.MAX_VALUE; // min of all values;
         for (Map<String, Double> clazz : data.values()) {
             this.data[i] = new double[clazz.values().size()];
             int j = 0;
@@ -114,6 +117,19 @@ class GraphFrame extends JPanel {
         } else {
             graphMaxRange = propInt("maximum_range");
         }
+        if (propStr("class_names").equals("numbers")) {
+            graphDrawNames = false;
+            graphNames = null;
+        } else {
+            graphDrawNames = true;
+            StringTokenizer tok =
+                    new StringTokenizer(propStr("class_names"), ",");
+            int numT = tok.countTokens();
+            graphNames = new String[numT];
+            for (i = 0; i < numT; i++) {
+                graphNames[i] = tok.nextToken();
+            }
+        }
 
         StringBuilder str = new StringBuilder();
         str.append(propStr("title"));
@@ -124,7 +140,7 @@ class GraphFrame extends JPanel {
             str.append(" runs, method: ");
             str.append(propStr("calculation_method"));
             str.append(", unit: ");
-            str.append(propStr("unit"));
+            str.append(propStr("unit_desc"));
         } else {
             str.append(", ");
             str.append(propStr("calculation_method"));
