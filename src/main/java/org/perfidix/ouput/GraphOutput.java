@@ -173,13 +173,17 @@ public class GraphOutput extends AbstractOutput {
         addResults(benchRes, methodRename);
     }
 
-    public void saveAsPDF() {
+    /**
+     * Save the graph(s) as pdf file.
+     */
+    @SuppressWarnings("unused")
+    private void saveAsPDF() {
         // TODO: implement
     }
 
     /**
      * Save the benchmark data to a file. The data can later be retrieved and
-     * plotted by {@link #load(File)} and {@link #plot()}.
+     * plotted by {@link #load(File, boolean)} and {@link #plot()}.
      * 
      * @param file
      *            the file to write the data to.
@@ -195,11 +199,53 @@ public class GraphOutput extends AbstractOutput {
     }
 
     /**
+     * Save the benchmark data of a single method to a file. The data can later
+     * be retrieved and plotted by {@link #load(File, boolean)} and
+     * {@link #plot()}.
+     * 
+     * @param file
+     * @param methodName
+     * @throws IOException
+     */
+    public void saveMethod(File file, String methodName)
+            throws IOException {
+        if (data == null)
+            throw new UnsupportedOperationException("No data available.");
+        Map<AbstractMeter, Map<String, Map<String, Double>>> methodData =
+                new TreeMap<AbstractMeter, Map<String, Map<String, Double>>>();
+        for (AbstractMeter meter : data.keySet()) {
+            if (!data.get(meter).containsKey(methodName))
+                throw new IllegalArgumentException(
+                        "No method with the name \""
+                                + methodName
+                                + "\" available.");
+            Map<String, Map<String, Double>> method =
+                    new TreeMap<String, Map<String, Double>>();
+            // the data to store for the method
+            Map<String, Double> md = new TreeMap<String, Double>();
+            md = data.get(meter).get(methodName);
+            method.put(methodName, md);
+            methodData.put(meter, method);
+        }
+        ObjectOutputStream oos =
+                new ObjectOutputStream(new FileOutputStream(file));
+        oos.writeObject(methodData);
+        oos.writeInt(numRuns);
+        oos.close();
+    }
+
+    /**
      * Reads previously saved data from a file. The data can be plotted by
      * {@link #plot()}.
      * 
      * @param file
      *            the file to read the data from.
+     * @param replaceExisting
+     *            if true, all benchmark data that was added by
+     *            {@link #visitBenchmark(BenchmarkResult)},
+     *            {@link #visitBenchmark(BenchmarkResult, Map)} or
+     *            {@link #load(File, boolean)} is deleted. If false, the "old"
+     *            data is kept and the new data is appended.
      * @throws FileNotFoundException
      *             if the file was not found.
      * @throws IOException
@@ -208,24 +254,59 @@ public class GraphOutput extends AbstractOutput {
      *             if the file contains wrong data.
      */
     @SuppressWarnings("unchecked")
-    public void load(File file)
+    public void load(File file, boolean replaceExisting)
             throws FileNotFoundException, IOException,
             ClassNotFoundException {
-        if (data != null)
-            throw new UnsupportedOperationException(
-                    "GraphOutput already contains data.");
+        Map<AbstractMeter, Map<String, Map<String, Double>>> newData;
         ObjectInputStream ois =
                 new ObjectInputStream(new FileInputStream(file));
-        data =
+        newData =
                 (Map<AbstractMeter, Map<String, Map<String, Double>>>) ois
                         .readObject();
-        numRuns = ois.readInt();
+        if (data == null || replaceExisting) {
+            numRuns = ois.readInt();
+            data = newData;
+        } else {
+            int newNumRuns = ois.readInt();
+            if (newNumRuns != numRuns)
+                System.err
+                        .println("WARNING: number of RUNS should be the "
+                                + "same for all methods.");
+            for (AbstractMeter meter : newData.keySet()) {
+                if (!data.containsKey(meter)) {
+                    data.put(meter, newData.get(meter));
+                } else {
+                    Map<String, Map<String, Double>> methods =
+                            data.get(meter);
+                    for (String newMethod : newData.get(meter).keySet()) {
+                        if (!methods.containsKey(newMethod)) {
+                            methods.put(newMethod, newData.get(meter).get(
+                                    newMethod));
+                        } else {
+                            System.err.println("WARNING: method \""
+                                    + newMethod
+                                    + "\" ignored. A method with the "
+                                    + "same name already exists.");
+                        }
+                    }
+                }
+            }
+        }
     }
 
     /**
-     * Plots the benchmark results. Before plotting you have to either run a
-     * perfidix benchmark and call {@link #visitBenchmark(BenchmarkResult)} or
-     * load a file with previously saved data ({@link #load(File)}).
+     * <p>
+     * Plots the benchmark results.
+     * </p>
+     * <p>
+     * Before plotting you have to either run a perfidix benchmark and call
+     * {@link #visitBenchmark(BenchmarkResult)} /
+     * {@link #visitBenchmark(BenchmarkResult, Map)} or load a file with
+     * previously saved data ({@link #load(File, boolean)}).
+     * </p>
+     * <p>
+     * For each of the registered meters an independent graph is plotted.
+     * </p>
      */
     public void plot() {
         for (AbstractMeter meter : data.keySet()) {
@@ -237,98 +318,71 @@ public class GraphOutput extends AbstractOutput {
         }
     }
 
-    // private Map<String, Map<String, Double>> addResults(
-    // BenchmarkResult result, String[] methodNames) {
-    // //
-    // // Map<String, Map<String, Double>> methodResults =
-    // // new TreeMap<String, Map<String, Double>>();
-    //
-    // for (AbstractMeter meter : result.getRegisteredMeters()) {
-    // Map<String, Map<String, Double>> oldMethods, newMethods;
-    // newMethods = getData(result, meter);
-    // if (!data.containsKey(meter)) {
-    // data.put(meter, newMethods);
-    // } else {
-    // oldMethods = data.get(meter);
-    // for (String method : newMethods.keySet()) {
-    // if (!)
-    // }
-    // }
-    // }
-    // return null;
-    // }
-
-    @Deprecated
-    private Map<String, Map<String, Double>> getData(
-            BenchmarkResult benchRes, AbstractMeter meter) {
-
-        // method -> class -> value
-        Map<String, Map<String, Double>> methodResults =
-                new TreeMap<String, Map<String, Double>>();
-
-        int numClasses = 0;
-        for (ClassResult classRes : benchRes.getIncludedResults()) {
-            numClasses++;
-            for (MethodResult methRes : classRes.getIncludedResults()) {
-                String name = methRes.getElementName();
-                if (!methodResults.containsKey(name)) {
-                    methodResults.put(name, new TreeMap<String, Double>());
-                }
-                if (numRuns == -1) {
-                    numRuns = methRes.getNumberOfResult(meter);
-                } else if (numRuns != methRes.getNumberOfResult(meter)) {
-                    System.err
-                            .println("WARNING: number of RUNS should be the "
-                                    + "same for all methods.");
-                }
-                Map<String, Double> method = methodResults.get(name);
-                Double result;
-                String valCalc =
-                        properties.getProperty("calculation_method");
-                if (valCalc.equals("minimum")) {
-                    result = methRes.min(meter);
-                } else if (valCalc.equals("maximum")) {
-                    result = methRes.max(meter);
-                } else if (valCalc.equals("mean")) {
-                    result = methRes.mean(meter);
-                } else {
-                    throw new IllegalArgumentException("value \""
-                            + valCalc
-                            + "\" not allowed for property "
-                            + "\"value_calculation\". "
-                            + "Possible values are: \"minimum\", "
-                            + "\"maximum\" and \"mean\".");
-                }
-                method.put(classRes.getElementName(), result);
-            }
-        }
-        int numLast = -1;
-        for (String method : methodResults.keySet()) {
-            if (numLast == -1)
-                numLast = methodResults.get(method).size();
-            else if (numLast != methodResults.get(method).size())
-                throw new IllegalArgumentException(
-                        "Unsupported BenchResult structure. All benchmark "
-                                + "classes have to contain exactly the same "
-                                + "methods!");
-        }
-        properties.setProperty("num_runs", String.valueOf(numRuns));
-        return methodResults;
-    }
-
+    /**
+     * <p>
+     * Read all results from the <code>benchRes</code> object and convert them
+     * to the {@link GraphOutput} internal format. The converted data is
+     * appended to possibly existing data that was added before or loaded from a
+     * file.
+     * </p>
+     * <p>
+     * Duplicate method names are not supported. If a method is to be added and
+     * a method with the same name already exists, it is ignored and a warning
+     * message is printed to stderr.
+     * </p>
+     * <p>
+     * Optionally, a string map for renaming benchmark methods can be set (can
+     * be empty or <code>null</code> if no renaming has to be done).
+     * </p>
+     * 
+     * @param benchRes
+     *            the benchmark result object to read the data from.
+     * @param methodRename
+     *            a string mapping (<i>old method name</i> -> <i>new method
+     *            name</i>) to rename methods from the {@link BenchmarkResult}
+     *            object.
+     */
     private void addResults(
             BenchmarkResult benchRes, Map<String, String> methodRename) {
 
-        if (data == null) {
+        // initialize the global GraphOutput data storage
+        if (data == null)
             data =
                     new TreeMap<AbstractMeter, Map<String, Map<String, Double>>>();
-        }
+        if (methodRename == null)
+            methodRename = new TreeMap<String, String>();
 
+        // layout of the GraphOutput data storage:
+        // meter -> method name -> class name -> value
+
+        /*
+         * The benchmark data in the BenchmarkResult object is stored in a
+         * different order (meter -> class -> method -> value) but in the
+         * current GraphOutput implementation, the classes are "contained" in
+         * the methods. The reason for this is the graph representation: _______
+         * _____________________________________________________________________
+         * A class represents a fixed benchmark environment that is equal for
+         * all methods. In the graph output each class describes one "x value"
+         * of the graph. _______________________________________________________
+         * Methods can be used to test e.g. different configurations of an
+         * implementation or different implementations against each other (with
+         * the same benchmark environment -> the same classes). With lines
+         * representation, each method describes one line in the graph. Each
+         * method "contains" a number of classes (all methods have to contain
+         * the same classes) which have assigned a "y value".
+         */
+
+        // loop over the meters. each meter gets an independent graph
         for (AbstractMeter meter : benchRes.getRegisteredMeters()) {
+
+            // count the number of classes for checking if all classes contains
+            // the same number of methods.
             int numClasses = 0;
             if (!data.containsKey(meter))
                 data.put( //
                         meter, new TreeMap<String, Map<String, Double>>());
+
+            // one "line" in the graph (with lines representation)
             Map<String, Map<String, Double>> methodResults =
                     data.get(meter);
             for (ClassResult classRes : benchRes.getIncludedResults()) {
@@ -339,10 +393,15 @@ public class GraphOutput extends AbstractOutput {
                         name = methodRename.get(name);
                     if (name == SKIP_METHOD)
                         continue;
-                    if (!methodResults.containsKey(name)) {
-                        methodResults.put(
-                                name, new TreeMap<String, Double>());
+                    if (methodResults.containsKey(name)) {
+                        System.err.println("WARNING: method \""
+                                + name
+                                + "\" ignored. A method with the "
+                                + "same name already exists.");
+                        continue; // skip method
                     }
+
+                    // check if all methods have the same number of runs
                     if (numRuns == -1) {
                         numRuns = methRes.getNumberOfResult(meter);
                     } else if (numRuns != methRes.getNumberOfResult(meter)) {
@@ -350,27 +409,32 @@ public class GraphOutput extends AbstractOutput {
                                 .println("WARNING: number of RUNS should be the "
                                         + "same for all methods.");
                     }
-                    Map<String, Double> method = methodResults.get(name);
+
+                    Map<String, Double> method =
+                            new TreeMap<String, Double>();
                     Double result;
-                    String valCalc =
+                    String calcMethod =
                             properties.getProperty("calculation_method");
-                    if (valCalc.equals("minimum")) {
+                    if (calcMethod.equals("minimum")) {
                         result = methRes.min(meter);
-                    } else if (valCalc.equals("maximum")) {
+                    } else if (calcMethod.equals("maximum")) {
                         result = methRes.max(meter);
-                    } else if (valCalc.equals("mean")) {
+                    } else if (calcMethod.equals("mean")) {
                         result = methRes.mean(meter);
                     } else {
                         throw new IllegalArgumentException("value \""
-                                + valCalc
+                                + calcMethod
                                 + "\" not allowed for property "
                                 + "\"value_calculation\". "
                                 + "Possible values are: \"minimum\", "
                                 + "\"maximum\" and \"mean\".");
                     }
                     method.put(classRes.getElementName(), result);
+                    methodResults.put(name, method);
                 }
             }
+
+            // iterate over all methods and check the number of classes
             int numLast = -1;
             for (String method : methodResults.keySet()) {
                 if (numLast == -1)
