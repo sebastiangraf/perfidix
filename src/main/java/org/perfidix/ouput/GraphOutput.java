@@ -81,10 +81,13 @@ public class GraphOutput extends AbstractOutput {
      * <li><code>maximum_range</code> = auto ([auto, <i>int</i>])<br />
      * the minimum/maximum y position is: 10^<code>minimum_range</code> (10^
      * <code>maximum_range</code>) -> logarithmic scale</li>
-     * <li><code>class_names</code> = numbers ([numbers,
-     * {<i>String1</i>,<i>String2</i>,<i>String3</i>,...}])<br />
-     * instead of numbers below the diagram, you can set string values (as comma
-     * separated list).</li>
+     * <li><code>class_names</code> = numbers ([numbers, names])<br />
+     * instead of numbers below the diagram, the names of the benchmark classes
+     * can be set.<br />
+     * If your class names are too long, you can set short names for each of
+     * them with a property of the following form (the class in the example is
+     * named "CLASS"):<br />
+     * <code>setProperty("CLASS_name", "short name")</code></li>
      * </ul>
      * </p>
      */
@@ -295,6 +298,37 @@ public class GraphOutput extends AbstractOutput {
     }
 
     /**
+     * Returns the names of all methods for the given {@link AbstractMeter}.
+     * 
+     * @param meter
+     *            the meter to get the method names for.
+     * @return array with the names of all methods.
+     */
+    public String[] getMethodNames(AbstractMeter meter) {
+        return data.get(meter).keySet().toArray(new String[0]);
+    }
+
+    /**
+     * Renames a single method if the method exists or does nothing otherwise.
+     * The method is renamed for all meters.
+     * 
+     * @param oldName
+     *            the old method name to be changed.
+     * @param newName
+     *            the new method name.
+     */
+    public void renameMethod(String oldName, String newName) {
+        for (AbstractMeter meter : data.keySet()) {
+            Map<String, Map<String, Double>> meterData = data.get(meter);
+            Map<String, Double> methodData = meterData.get(oldName);
+            if (methodData != null) {
+                meterData.remove(oldName);
+                meterData.put(newName, methodData);
+            }
+        }
+    }
+
+    /**
      * <p>
      * Plots the benchmark results.
      * </p>
@@ -310,6 +344,7 @@ public class GraphOutput extends AbstractOutput {
      */
     public void plot() {
         for (AbstractMeter meter : data.keySet()) {
+            properties.setProperty("meter_name", meter.getName());
             properties.setProperty("num_runs", String.valueOf(numRuns));
             properties.setProperty("unit", meter.getUnit());
             properties
@@ -393,13 +428,12 @@ public class GraphOutput extends AbstractOutput {
                         name = methodRename.get(name);
                     if (name == SKIP_METHOD)
                         continue;
-                    if (methodResults.containsKey(name)) {
-                        System.err.println("WARNING: method \""
-                                + name
-                                + "\" ignored. A method with the "
-                                + "same name already exists.");
-                        continue; // skip method
-                    }
+                    Map<String, Double> method;
+                    if (!methodResults.containsKey(name)) {
+                        method = new TreeMap<String, Double>();
+                        methodResults.put(name, method);
+                    } else
+                        method = methodResults.get(name);
 
                     // check if all methods have the same number of runs
                     if (numRuns == -1) {
@@ -410,8 +444,6 @@ public class GraphOutput extends AbstractOutput {
                                         + "same for all methods.");
                     }
 
-                    Map<String, Double> method =
-                            new TreeMap<String, Double>();
                     Double result;
                     String calcMethod =
                             properties.getProperty("calculation_method");
@@ -430,7 +462,6 @@ public class GraphOutput extends AbstractOutput {
                                 + "\"maximum\" and \"mean\".");
                     }
                     method.put(classRes.getElementName(), result);
-                    methodResults.put(name, method);
                 }
             }
 

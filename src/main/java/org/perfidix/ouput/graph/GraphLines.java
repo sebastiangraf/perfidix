@@ -112,6 +112,8 @@ class GraphLines extends GraphDiagram {
                     frame.graphDrawNames ? frame.graphNames[i] : ""
                             + (i + 1);
             int fw = fm.stringWidth(str);
+            if (fw > ww)
+                System.err.println("Class name too long: \"" + str + "\"");
             g.drawString(str, offX + (int) (i * ww + (ww - fw) / 2), offY
                     + h
                     + fh);

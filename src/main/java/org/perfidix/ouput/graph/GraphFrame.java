@@ -24,7 +24,6 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.util.Map;
 import java.util.Properties;
-import java.util.StringTokenizer;
 
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -75,8 +74,14 @@ class GraphFrame extends JPanel {
         int numVal = 0;
         double max = 0; // max of all values, used for determine the max range
         double min = Double.MAX_VALUE; // min of all values;
+        String[] classNames = null;
+        boolean first = true;
         for (Map<String, Double> clazz : data.values()) {
-            this.data[i] = new double[clazz.values().size()];
+            this.data[i] = new double[clazz.size()];
+            if (first) {
+                first = false;
+                classNames = clazz.keySet().toArray(new String[0]);
+            }
             int j = 0;
             for (Double val : clazz.values()) {
                 double v = val.doubleValue();
@@ -93,6 +98,13 @@ class GraphFrame extends JPanel {
         this.nrValues = numVal;
         this.nrFiles = this.desc.length;
         this.properties = properties;
+        // replace names with names from properties
+        int k = 0;
+        for (String n : classNames) {
+            if (properties.containsKey(n + "_name"))
+                classNames[k++] = propStr(n + "_name");
+        }
+        this.graphNames = classNames;
 
         // parse properties
         graphWidth = propInt("width");
@@ -117,19 +129,8 @@ class GraphFrame extends JPanel {
         } else {
             graphMaxRange = propInt("maximum_range");
         }
-        if (propStr("class_names").equals("numbers")) {
-            graphDrawNames = false;
-            graphNames = null;
-        } else {
-            graphDrawNames = true;
-            StringTokenizer tok =
-                    new StringTokenizer(propStr("class_names"), ",");
-            int numT = tok.countTokens();
-            graphNames = new String[numT];
-            for (i = 0; i < numT; i++) {
-                graphNames[i] = tok.nextToken();
-            }
-        }
+        graphDrawNames =
+                propStr("class_names").equals("names") ? true : false;
 
         StringBuilder str = new StringBuilder();
         str.append(propStr("title"));

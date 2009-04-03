@@ -65,7 +65,8 @@ public class Graph extends JFrame {
     }
 
     Graph(Map<String, Map<String, Double>> data, Properties properties) {
-        super("Performance Graph");
+        super("Performance Graph - "
+                + properties.getProperty("meter_name"));
         getContentPane().add(new GraphFrame(data, properties));
         pack();
         setVisible(true);
