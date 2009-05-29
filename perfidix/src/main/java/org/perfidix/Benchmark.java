@@ -183,7 +183,7 @@ public final class Benchmark {
         BenchmarkExecutor.initialize(meters, res);
 
         // getting Benchmarkables
-        final Set<BenchmarkElement> elements = getBenchmarkableMethods();
+        final Set<BenchmarkElement> elements = getBenchmarkElements();
 
         // arranging them
         final AbstractMethodArrangement arrangement =
@@ -396,7 +396,8 @@ public final class Benchmark {
      * 
      * @return a Set with {@link BenchmarkMethod}
      */
-    private final Set<BenchmarkElement> getBenchmarkableMethods() {
+    public final Set<BenchmarkElement> getBenchmarkElements() {
+
         // Generating Set for returnVal
         final Set<BenchmarkElement> elems =
                 new LinkedHashSet<BenchmarkElement>();
