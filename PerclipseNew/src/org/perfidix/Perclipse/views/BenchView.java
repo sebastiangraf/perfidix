@@ -1,20 +1,27 @@
 package org.perfidix.Perclipse.views;
 
 
-import org.eclipse.jdt.ui.ITypeHierarchyViewPart;
+import Display;
+import ILock;
+import IProgressMonitor;
+import IStatus;
+import IWorkbenchSiteProgressService;
+import Job;
+import TestRunnerViewPart;
+
+import org.eclipse.core.runtime.Status;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
-import org.eclipse.swt.custom.ViewForm;
 import org.eclipse.swt.dnd.Clipboard;
-import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Layout;
 import org.eclipse.ui.part.ViewPart;
+
+import TestRunnerViewPart.JUnitIsRunningJob;
+import TestRunnerViewPart.UpdateUIJob;
 
 public class BenchView extends ViewPart {
 
@@ -23,16 +30,21 @@ public class BenchView extends ViewPart {
 	private static final int VIEW_ORIENTATION_VERTICAL= 0;
 	private static final int VIEW_ORIENTATION_HORIZONTAL= 1;
 	private static final int VIEW_ORIENTATION_AUTOMATIC= 2;
+	private static final int REFRESH_INTERVAL=200;
 	private PerfidixProgressBar progressBar;
 	private BenchViewCounterPanel benchCounterPanel;
 	private BenchViewer benchViewer;
+	private UpdateUIJob updateJob;
+	private BenchIsRunningJob benchIsRunningJob;
 	private SashForm sashForm;
 	private Label label;
 	private Composite counterComposite;
 	private Composite parentComosite;
 	private Clipboard clipboard;
+	private org.eclipse.core.runtime.jobs.ILock benchIsRunningLock;
 	private int viewOrientation = VIEW_ORIENTATION_AUTOMATIC;
 	private int currentOrientation;
+	private boolean isDisposed=false;
 	
 
 	
@@ -143,6 +155,126 @@ public class BenchView extends ViewPart {
 //		        setCounterColumns(layout);
 //		        this.parentComosite.layout();
 //		    }
+	
+	private class UpdateUIJob extends org.eclipse.ui.progress.UIJob {
+		private boolean fRunning= true;
+
+		public UpdateUIJob(String name) {
+			super(name);
+			setSystem(true);
+		}
+
+		public void stop() {
+			fRunning= false;
+		}
+		public boolean shouldSchedule() {
+			return fRunning;
+		}
+		@Override
+		public org.eclipse.core.runtime.IStatus runInUIThread(
+				org.eclipse.core.runtime.IProgressMonitor monitor) {
+			 if (!isDisposed()) {
+			 processChangesInUI();
+			 }
+			 schedule(REFRESH_INTERVAL);
+			 return Status.OK_STATUS;
+			return null;
+		}
+	}
+	
+	private class BenchIsRunningJob extends org.eclipse.core.runtime.jobs.Job {
+		public BenchIsRunningJob(String name) {
+			super(name);
+			setSystem(true);
+		}
+
+		public boolean belongsTo(Object family) {
+			return family == new Object();
+		}
+		@Override
+		protected org.eclipse.core.runtime.IStatus run(
+				org.eclipse.core.runtime.IProgressMonitor arg0) {
+			benchIsRunningLock.acquire();
+			return Status.OK_STATUS;
+		}
+	}
+	
+	private void startUpdateJobs() {
+		postSyncProcessChanges();
+
+		if (updateJob != null) {
+			return;
+		}
+		benchIsRunningJob= new BenchIsRunningJob("wrapperJobName");
+		benchIsRunningLock= org.eclipse.core.runtime.jobs.Job.getJobManager().newLock();
+		// acquire lock while a test run is running
+		// the lock is released when the test run terminates
+		// the wrapper job will wait on this lock.
+		benchIsRunningLock.acquire();
+		getProgressService().schedule(benchIsRunningJob);
+
+		updateJob= new UpdateUIJob("jobName");
+		updateJob.schedule(REFRESH_INTERVAL);
+	}
+	
+	private org.eclipse.ui.progress.IWorkbenchSiteProgressService getProgressService() {
+		Object siteService= getSite().getAdapter(org.eclipse.ui.progress.IWorkbenchSiteProgressService.class);
+		if (siteService != null)
+			return (org.eclipse.ui.progress.IWorkbenchSiteProgressService) siteService;
+		return null;
+	}
+	
+	private void postSyncProcessChanges() {
+		postSyncRunnable(new Runnable() {
+			public void run() {
+				processChangesInUI();
+			}
+		});
+	}
+	
+	private void postSyncRunnable(Runnable r) {
+		if (!isDisposed())
+			getDisplay().syncExec(r);
+	}
+	
+	private boolean isDisposed() {
+		return isDisposed;
+	}
+
+	private org.eclipse.swt.widgets.Display getDisplay() {
+		return getViewSite().getShell().getDisplay();
+	}
+	
+	private void stopUpdateJobs() {
+		if (updateJob != null) {
+			updateJob.stop();
+			updateJob= null;
+		}
+		if (benchIsRunningJob != null && benchIsRunningLock != null) {
+			benchIsRunningLock.release();
+			benchIsRunningJob= null;
+		}
+		postSyncProcessChanges();
+	}
+
+	private void processChangesInUI() {
+		if (sashForm.isDisposed())
+			return;
+
+		doShowInfoMessage();
+		refreshCounters();
+
+		if (! fPartIsVisible)
+			updateViewTitleProgress();
+		else {
+			updateViewIcon();
+		}
+		boolean hasErrorsOrFailures= hasErrorsOrFailures();
+		fNextAction.setEnabled(hasErrorsOrFailures);
+		fPreviousAction.setEnabled(hasErrorsOrFailures);
+
+		fTestViewer.processChangesInUI();
+	}
 
 
 }
