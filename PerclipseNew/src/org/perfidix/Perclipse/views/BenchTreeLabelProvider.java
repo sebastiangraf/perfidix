@@ -4,7 +4,6 @@ package org.perfidix.Perclipse.views;
 
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.graphics.Image;
-import org.perfidix.Perclipse.viewTreeTestdaten.Person;
 import org.perfidix.Perclipse.viewTreeTestdaten.TreeDataProvider;
 
 
