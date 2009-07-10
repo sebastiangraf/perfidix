@@ -16,6 +16,6 @@ public class BenchTreeLabelProvider extends LabelProvider {
 
 	public String getText(Object element) {
 		TreeDataProvider treeData = (TreeDataProvider) element;
-		return treeData.toString();
+		return treeData.getParentElementName();
 	}
 }

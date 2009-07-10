@@ -51,7 +51,7 @@ public class TreeDataProvider {
 	}
 
 	public String toString() {
-		return this.parentElementName +" Benchs: 0/0";
+		return parentElementName;
 	}
 
 	public TreeDataProvider getParent() {
@@ -60,6 +60,10 @@ public class TreeDataProvider {
 
 	public TreeDataProvider[] getChildElements() {
 		return childElements;
+	}
+	
+	public String getParentElementName(){
+		return parentElementName;
 	}
 
 }

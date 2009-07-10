@@ -3,6 +3,10 @@ package org.perfidix.Perclipse.views;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.jdt.core.IJavaElement;
+import org.eclipse.jface.viewers.DoubleClickEvent;
+import org.eclipse.jface.viewers.IDoubleClickListener;
+import org.eclipse.jface.viewers.TreeSelection;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.dnd.Clipboard;
@@ -13,6 +17,7 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.part.PageBook;
 import org.perfidix.Perclipse.util.BenchRunSession;
+import org.perfidix.Perclipse.util.ShowJavaElementInJavaEditor;
 import org.perfidix.Perclipse.viewTreeTestdaten.TreeDataProvider;
 
 public class BenchViewer {
@@ -54,6 +59,15 @@ public class BenchViewer {
 		treeViewer = new TreeViewer(viewerBook, SWT.NONE);
 		treeViewer.setContentProvider(new BenchTreeContentProvider());
 		treeViewer.setLabelProvider(new BenchTreeLabelProvider());
+		treeViewer.addDoubleClickListener(new IDoubleClickListener(){
+			public void doubleClick(DoubleClickEvent event){
+				
+				TreeSelection treeSelection =(TreeSelection) event.getSelection();
+				//System.out.println(treeSelection.getFirstElement());
+				
+				ShowJavaElementInJavaEditor elementInJavaEditor = new ShowJavaElementInJavaEditor(treeSelection.getFirstElement());
+			}
+		});
 		treeViewer.setInput(null);
 		viewerBook.showPage(treeViewer.getTree());
 	}
