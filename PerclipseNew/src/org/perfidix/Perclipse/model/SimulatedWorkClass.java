@@ -1,15 +1,11 @@
 package org.perfidix.Perclipse.model;
 
-import org.perfidix.Perclipse.launcher.PerclipseActivator;
-import org.perfidix.Perclipse.util.BenchRunSession;
-import org.perfidix.Perclipse.views.BenchView;
 
-public class SimulatedWorkClass {
+public class SimulatedWorkClass{
 	
 	
 	private final int DURATION=10;
-	private BenchView benchView;
-	private BenchRunSession benchRunSession;
+	private BenchRunSessionListener benchRunSession;
 
 	public SimulatedWorkClass(){
 		
@@ -19,29 +15,26 @@ public class SimulatedWorkClass {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		this.benchView=PerclipseActivator.getDefault().getBenchView();
-		if(benchView!=null){
-			benchRunSession=BenchRunSession.getInstance();
-			benchRunSession.setBenchRunSession(0, 0, DURATION, 0);
 			simulateLongOperation();
-		}
+
 	}
 
 	public void simulateLongOperation(){
-		synchronized(this){
+		
+		benchRunSession = new BenchRunSessionListener();
+		benchRunSession.initTotalBenchProgress(0, DURATION, 0, null);
+	
 		for (int i = 0; i < DURATION; i++) {
 			try {
 				Thread.sleep(1000);
-				benchRunSession.setBenchRunSession(i+1, 0, DURATION, 0);
-				benchView.setBenchRunSession(benchRunSession);
-				benchView.startUpdateJobs();
+				benchRunSession.updateCurrentRun(i+1, "null");
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			
 		}
-		}
+		
 	}
 
 	

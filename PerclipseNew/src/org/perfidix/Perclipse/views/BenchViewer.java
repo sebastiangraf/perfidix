@@ -1,9 +1,7 @@
 package org.perfidix.Perclipse.views;
 
-import java.util.Iterator;
 import java.util.List;
 
-import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.TreeSelection;
@@ -16,7 +14,7 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.part.PageBook;
-import org.perfidix.Perclipse.util.BenchRunSession;
+import org.perfidix.Perclipse.model.BenchRunSession;
 import org.perfidix.Perclipse.util.ShowJavaElementInJavaEditor;
 import org.perfidix.Perclipse.viewTreeTestdaten.TreeDataProvider;
 
@@ -63,7 +61,6 @@ public class BenchViewer {
 			public void doubleClick(DoubleClickEvent event){
 				
 				TreeSelection treeSelection =(TreeSelection) event.getSelection();
-				//System.out.println(treeSelection.getFirstElement());
 				
 				ShowJavaElementInJavaEditor elementInJavaEditor = new ShowJavaElementInJavaEditor(treeSelection.getFirstElement());
 			}
@@ -91,53 +88,11 @@ public class BenchViewer {
 		}
 		treeViewer.setInput(dataProvider);
 
-		// testRoot= fTestRunSession.getTestRoot();
-		//
-		// StructuredViewer viewer= getActiveViewer();
-		// if (getActiveViewerNeedsRefresh()) {
-		// clearUpdateAndExpansion();
-		// setActiveViewerNeedsRefresh(false);
-		// viewer.setInput(testRoot);
-		//
-		// } else {
-		// Object[] toUpdate;
-		// synchronized (this) {
-		// toUpdate= fNeedUpdate.toArray();
-		// fNeedUpdate.clear();
-		// }
-		// if (! fTreeNeedsRefresh && toUpdate.length > 0) {
-		// if (fTreeHasFilter)
-		// for (int i= 0; i < toUpdate.length; i++)
-		// updateElementInTree((TestElement) toUpdate[i]);
-		// else {
-		// HashSet toUpdateWithParents= new HashSet();
-		// toUpdateWithParents.addAll(Arrays.asList(toUpdate));
-		// for (int i= 0; i < toUpdate.length; i++) {
-		// TestElement parent= ((TestElement) toUpdate[i]).getParent();
-		// while (parent != null) {
-		// toUpdateWithParents.add(parent);
-		// parent= parent.getParent();
-		// }
-		// }
-		// fTreeViewer.update(toUpdateWithParents.toArray(), null);
-		// }
-		// }
-		// if (! fTableNeedsRefresh && toUpdate.length > 0) {
-		// if (fTableHasFilter)
-		// for (int i= 0; i < toUpdate.length; i++)
-		// updateElementInTable((TestElement) toUpdate[i]);
-		// else
-		// fTableViewer.update(toUpdate, null);
-		// }
-		// }
-		// autoScrollInUI();
-
 	}
 
 	public synchronized void registerActiveSession(BenchRunSession runSession) {
 		benchRunSession = runSession;
-		// registerAutoScrollTarget(null);
-		// registerViewersRefresh();
+
 	}
 
 	private void disposeIcons() {

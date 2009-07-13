@@ -1,5 +1,6 @@
 package org.perfidix.Perclipse.launcher;
 
+import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.resource.ImageDescriptor;
@@ -152,6 +153,11 @@ public class PerclipseActivator extends AbstractUIPlugin {
 	
 	public BenchView getBenchView(){
 		return view;
+	}
+
+	public IWorkspace getWorkspace() {
+		// TODO Auto-generated method stub
+		return plugin.getWorkspace();
 	}
 
 }
