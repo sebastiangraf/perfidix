@@ -1,10 +1,8 @@
-package org.perfidix.Perclipse.util;
+package org.perfidix.Perclipse.model;
 
 import java.util.List;
 
-import org.eclipse.core.runtime.Assert;
 import org.eclipse.debug.core.ILaunch;
-import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.jdt.core.IJavaProject;
 
 /**
@@ -15,40 +13,28 @@ import org.eclipse.jdt.core.IJavaProject;
 public class BenchRunSession {
 
 	private int startedCount;
-	private int ignoredCount;
 	private int totalCount;
 	private int errorCount;
 	private boolean isStopped = false;
 	private boolean isRunning = false;
 	private List benchedClasses;
+	private String[] benchElements;
 	private ILaunch launch;
 	private IJavaProject project;
 	private String benchRunName;
 
+
 	private static BenchRunSession runSession;
+
 	
 	private BenchRunSession(){
 		//runSession=this;
 	}
 	
-	private BenchRunSession(ILaunch launch, IJavaProject project, int port){
-		Assert.isNotNull(launch);
-		
-		this.launch=launch;
-		this.project=project;
-		
-		ILaunchConfiguration configuration= launch.getLaunchConfiguration();
-		if(configuration!=null){
-			benchRunName=configuration.getName();
-			
-		}
-		
-	}
 
-	public void setBenchRunSession(int startedCount, int ignoredCount, int totalCount,
+	public void setBenchRunSession(int startedCount, int totalCount,
 			int errorCount) {
 		this.startedCount = startedCount;
-		this.ignoredCount = ignoredCount;
 		this.totalCount = totalCount;
 		this.errorCount = errorCount;
 
@@ -58,9 +44,6 @@ public class BenchRunSession {
 		return startedCount;
 	}
 
-	public int getIgnoredCount() {
-		return ignoredCount;
-	}
 
 	public int getTotalCount() {
 		return totalCount;
@@ -68,6 +51,11 @@ public class BenchRunSession {
 
 	public int getErrorCount() {
 		return errorCount;
+	}
+	
+	public void setCurrentRun(int run, String currentElement){
+		startedCount=run;
+		benchRunName=currentElement;
 	}
 
 
@@ -86,21 +74,7 @@ public class BenchRunSession {
 
 	}
 
-	public Object getLaunch() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public void swapOut() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public Object getBenchRunName() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
+	//Temporarly the arguments for launching perfidix - the java classes containing at least one bench
 	public void setBenchedClasses(List benchedClasses) {
 		this.benchedClasses = benchedClasses;
 	}
@@ -108,13 +82,27 @@ public class BenchRunSession {
 	public List getBenchedClasses() {
 		return benchedClasses;
 	}
-	
+
+	public void setBenchElements(String[] benchElements) {
+		this.benchElements = benchElements;
+	}
+
+	public String[] getBenchElements() {
+		return benchElements;
+	}
+
+	public void setError(int error) {
+		errorCount=error;
+		
+	}
+
 	public static BenchRunSession getInstance(){
 		if(runSession==null){
 			runSession=new BenchRunSession();
 		}
 		return runSession;
 	}
+
 
 
 	

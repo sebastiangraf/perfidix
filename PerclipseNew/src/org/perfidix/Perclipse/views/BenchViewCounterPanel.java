@@ -1,7 +1,5 @@
 package org.perfidix.Perclipse.views;
 
-import java.text.MessageFormat;
-
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
@@ -17,7 +15,6 @@ public class BenchViewCounterPanel extends Composite {
 	private Text benchRuns;
 	private Text benchErrors;
 	private int totalRuns;
-	private int ignoredRuns;
 
 	public BenchViewCounterPanel(Composite parent) {
 		super(parent, SWT.WRAP);
@@ -69,7 +66,7 @@ public class BenchViewCounterPanel extends Composite {
 	}
 
 	public void resetRuns() {
-		setBenchRuns(0, 0);
+		setBenchRuns(0);
 		setBenchErrors(0);
 		setTotalRuns(0);
 
@@ -84,26 +81,13 @@ public class BenchViewCounterPanel extends Composite {
 		
 	}
 
-	public void setBenchRuns(int benchRuns, int ignored) {
-		String runString;
-		if (ignored == 0) {
-			runString = MessageFormat.format("test", (Object[]) new String[] {
-					Integer.toString(benchRuns), Integer.toString(totalRuns) });
-		} else {
-			runString = MessageFormat.format("ignored",
-					(Object[]) new String[] { Integer.toString(benchRuns),
-							Integer.toString(totalRuns) });
-		}
-		this.benchRuns.setText(benchRuns+"/"+totalRuns+" ("+ignored+")");
+	public void setBenchRuns(int benchRuns) {
+
+		this.benchRuns.setText(benchRuns+"/"+totalRuns);
 		
-		if(ignoredRuns==0 && ignored> 0 || ignoredRuns != 0 && ignored==0){
-			layout();
-		}
-		else {
+
 		this.benchRuns.redraw();
-		redraw();
-		}
-		ignoredRuns = ignored;
+
 
 	}
 

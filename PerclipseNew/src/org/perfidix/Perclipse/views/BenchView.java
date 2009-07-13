@@ -10,15 +10,11 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.IMemento;
-import org.eclipse.ui.IPartListener2;
 import org.eclipse.ui.IViewSite;
-import org.eclipse.ui.IWorkbenchPartReference;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.part.ViewPart;
 import org.eclipse.ui.progress.IWorkbenchSiteProgressService;
-import org.perfidix.Perclipse.launcher.PerclipseActivator;
-import org.perfidix.Perclipse.model.SimulatedWorkClass;
-import org.perfidix.Perclipse.util.BenchRunSession;
+import org.perfidix.Perclipse.model.BenchRunSession;
 
 public class BenchView extends ViewPart {
 
@@ -44,38 +40,6 @@ public class BenchView extends ViewPart {
 	private int viewOrientation = VIEW_ORIENTATION_AUTOMATIC;
 	private int currentOrientation;
 	private boolean isDisposed = false;
-
-	private IPartListener2 partListener = new IPartListener2() {
-		public void partActivated(IWorkbenchPartReference ref) {
-		}
-
-		public void partBroughtToTop(IWorkbenchPartReference ref) {
-		}
-
-		public void partInputChanged(IWorkbenchPartReference ref) {
-		}
-
-		public void partClosed(IWorkbenchPartReference ref) {
-		}
-
-		public void partDeactivated(IWorkbenchPartReference ref) {
-		}
-
-		public void partOpened(IWorkbenchPartReference ref) {
-		}
-
-		public void partVisible(IWorkbenchPartReference ref) {
-			if (getSite().getId().equals(ref.getId())) {
-				partIsVisible = true;
-			}
-		}
-
-		public void partHidden(IWorkbenchPartReference ref) {
-			if (getSite().getId().equals(ref.getId())) {
-				partIsVisible = false;
-			}
-		}
-	};
 
 	protected boolean partIsVisible = false;
 
@@ -141,193 +105,6 @@ public class BenchView extends ViewPart {
 		return null;
 	}
 
-	// private void computeOrientation(){
-	// if(viewOrientation != VIEW_ORIENTATION_AUTOMATIC){
-	// currentOrientation=viewOrientation;
-	// setOrientation(currentOrientation);
-	// }
-	// else{
-	// Point size=this.parentComosite.getSize();
-	// if(size.x!=0 && size.y!=0){
-	// if(size.x>size.y){
-	// setOrientation(VIEW_ORIENTATION_HORIZONTAL);
-	// }
-	// else{
-	// setOrientation(VIEW_ORIENTATION_VERTICAL);
-	// }
-	// }
-	// }
-	// }
-
-	// private void setOrientation(int orientation) {
-	// if ((sashForm == null) || sashForm.isDisposed())
-	// return;
-	// boolean horizontal = orientation == VIEW_ORIENTATION_HORIZONTAL;
-	// sashForm.setOrientation(horizontal ? SWT.HORIZONTAL : SWT.VERTICAL);
-	// for (int i = 0; i < toggleOrientationActions.length; ++i)
-	// toggleOrientationActions[i].setChecked(viewOrientation ==
-	// toggleOrientationActions[i].getOrientation());
-	// currentOrientation = orientation;
-	// GridLayout layout= (GridLayout) this.counterComposite.getLayout();
-	// setCounterColumns(layout);
-	// this.parentComosite.layout();
-	// }
-
-//	private class BenchRunSessionListener implements IBenchRunSessionListener {
-//		public void sessionAdded(BenchRunSession runSession) {
-//			if (getSite().getWorkbenchWindow() == PerclipseActivator
-//					.getActiveWorkbenchWindow()) {
-//				BenchRunSession deactivatedSession = setActiveBenchRunSession(runSession);
-//				if (deactivatedSession != null)
-//					deactivatedSession.swapOut();
-//				// String testRunLabel=
-//				// BasicElementLabels.getJavaElementName(benchRunSession.getTestRunName());
-//				// String msg;
-//				// if (runSession.getLaunch() != null) {
-//				// msg=
-//				// Messages.format(JUnitMessages.TestRunnerViewPart_Launching,
-//				// new Object[]{ testRunLabel });
-//				// } else {
-//				// msg= testRunLabel;
-//				// }
-//				// setContentDescription(msg);
-//			}
-//		}
-
-//		public void sessionRemoved(BenchRunSession runSession) {
-//			if (runSession.equals(benchRunSession)) {
-//				List benchRunSessions = PerclipseActivator.getModel()
-//						.getTestRunSessions();
-//				BenchRunSession deactivatedSession;
-//				if (!benchRunSessions.isEmpty()) {
-//					deactivatedSession = setActiveBenchRunSession((BenchRunSession) benchRunSessions
-//							.get(0));
-//				} else {
-//					deactivatedSession = setActiveBenchRunSession(null);
-//				}
-//				if (deactivatedSession != null)
-//					deactivatedSession.swapOut();
-//			}
-//		}
-//	}
-
-//	private class BenchSessionListener implements IBenchSessionListener {
-//		public void sessionStarted() {
-//			fTestViewer.registerViewersRefresh();
-//			fShowOnErrorOnly = getShowOnErrorOnly();
-//
-//			startUpdateJobs();
-//
-//			fStopAction.setEnabled(true);
-//			fRerunLastTestAction.setEnabled(true);
-//		}
-//
-//		public void sessionEnded(long elapsedTime) {
-//			fTestViewer.registerAutoScrollTarget(null);
-//
-//			String[] keys = { elapsedTimeAsString(elapsedTime) };
-//			String msg = Messages.format(
-//					JUnitMessages.TestRunnerViewPart_message_finish, keys);
-//			registerInfoMessage(msg);
-//
-//			postSyncRunnable(new Runnable() {
-//				public void run() {
-//					if (isDisposed())
-//						return;
-//					fStopAction.setEnabled(lastLaunchIsKeptAlive());
-//					updateRerunFailedFirstAction();
-//					processChangesInUI();
-//					if (hasErrorsOrFailures()) {
-//						selectFirstFailure();
-//					}
-//					if (fDirtyListener == null) {
-//						fDirtyListener = new DirtyListener();
-//						JavaCore.addElementChangedListener(fDirtyListener);
-//					}
-//					warnOfContentChange();
-//				}
-//			});
-//			stopUpdateJobs();
-//		}
-//
-//		public void sessionStopped(final long elapsedTime) {
-//			fTestViewer.registerAutoScrollTarget(null);
-//
-//			registerInfoMessage(JUnitMessages.TestRunnerViewPart_message_stopped);
-//			handleStopped();
-//		}
-//
-//		public void sessionTerminated() {
-//			fTestViewer.registerAutoScrollTarget(null);
-//
-//			registerInfoMessage(JUnitMessages.TestRunnerViewPart_message_terminated);
-//			handleStopped();
-//		}
-//
-//		public void runningBegins() {
-//			if (!fShowOnErrorOnly)
-//				postShowTestResultsView();
-//		}
-//
-//		public void testStarted(TestCaseElement testCaseElement) {
-//			fTestViewer.registerAutoScrollTarget(testCaseElement);
-//			fTestViewer.registerViewerUpdate(testCaseElement);
-//
-//			String className = BasicElementLabels
-//					.getJavaElementName(testCaseElement.getClassName());
-//			String method = BasicElementLabels
-//					.getJavaElementName(testCaseElement.getTestMethodName());
-//			String status = Messages.format(
-//					JUnitMessages.TestRunnerViewPart_message_started,
-//					new String[] { className, method });
-//			registerInfoMessage(status);
-//		}
-//
-//		public void testFailed(TestElement testElement,
-//				TestElement.Status status, String trace, String expected,
-//				String actual) {
-//			if (isAutoScroll()) {
-//				fTestViewer.registerFailedForAutoScroll(testElement);
-//			}
-//			fTestViewer.registerViewerUpdate(testElement);
-//
-//			// show the view on the first error only
-//			if (fShowOnErrorOnly && (getErrorsPlusFailures() == 1))
-//				postShowTestResultsView();
-//
-//			// TODO:
-//			// [Bug 35590] JUnit window doesn't report errors from
-//			// junit.extensions.TestSetup [JUnit]
-//			// when a failure occurs in test setup then no test is running
-//			// to update the views we artificially signal the end of a test run
-//			// if (!fTestIsRunning) {
-//			// fTestIsRunning= false;
-//			// testEnded(testCaseElement);
-//			// }
-//		}
-//
-//		public void testEnded(TestCaseElement testCaseElement) {
-//			fTestViewer.registerViewerUpdate(testCaseElement);
-//		}
-//
-//		public void testReran(TestCaseElement testCaseElement,
-//				TestElement.Status status, String trace, String expectedResult,
-//				String actualResult) {
-//			fTestViewer.registerViewerUpdate(testCaseElement); // TODO:
-//																// autoExpand?
-//			postSyncProcessChanges();
-//			showFailure(testCaseElement);
-//		}
-//
-//		public void testAdded(TestElement testElement) {
-//			fTestViewer.registerTestAdded(testElement);
-//		}
-//
-//		public boolean acceptsSwapToDisk() {
-//			return false;
-//		}
-//	}
-
 	private class UpdateUIJob extends org.eclipse.ui.progress.UIJob {
 		private boolean fRunning = true;
 
@@ -377,7 +154,8 @@ public class BenchView extends ViewPart {
 		}
 	}
 
-	public void startUpdateJobs() {
+	public void startUpdateJobs(BenchRunSession benchRunSession) {
+		this.benchRunSession=benchRunSession;
 		postSyncProcessChanges();
 
 		if (updateJob != null) {
@@ -488,7 +266,6 @@ public class BenchView extends ViewPart {
 		// - improve components to only redraw on changes (once!).
 
 		int startedCount;
-		int ignoredCount;
 		int totalCount;
 		int errorCount;
 		boolean hasErrors;
@@ -498,7 +275,6 @@ public class BenchView extends ViewPart {
 		
 		if (benchRunSession != null) {
 			startedCount = benchRunSession.getStartedCount();
-			ignoredCount = benchRunSession.getIgnoredCount();
 			totalCount = benchRunSession.getTotalCount();
 			errorCount = benchRunSession.getErrorCount();
 			hasErrors = errorCount  > 0;
@@ -506,23 +282,20 @@ public class BenchView extends ViewPart {
 		} else {
 			
 			startedCount = 2;
-			ignoredCount = 2;
 			totalCount = 10;
 			errorCount = 0;
 			hasErrors = false;
 			stopped = false;
 			
 //			startedCount = 0;
-//			ignoredCount = 0;
 //			totalCount = 0;
 //			errorCount = 0;
-//			failureCount = 0;
 //			hasErrorsOrFailures = false;
 //			stopped = false;
 		}
 
 		benchCounterPanel.setTotalRuns(totalCount);
-		benchCounterPanel.setBenchRuns(startedCount, ignoredCount);
+		benchCounterPanel.setBenchRuns(startedCount);
 		benchCounterPanel.setBenchErrors(errorCount);
 
 
@@ -539,9 +312,9 @@ public class BenchView extends ViewPart {
 		progressBar.reset(hasErrors, stopped, ticksDone, totalCount);
 	}
 	
-	public void setBenchRunSession(BenchRunSession benchRunSession){
-		this.benchRunSession=benchRunSession;
-	}
+//	public void setBenchRunSession(BenchRunSession benchRunSession){
+//		this.benchRunSession=benchRunSession;
+//	}
 	
 	 public boolean isCreated() {
 		         return counterComposite != null;

@@ -59,6 +59,7 @@ public final class BenchModel {
 			if(javaProject==null){
 				return;
 			}
+			
 
 			//ToDo test wether the launch defines the attributes
 			
@@ -67,6 +68,8 @@ public final class BenchModel {
 					connectTestRunner(launch, javaProject);
 				}
 			});
+			
+			startSimulatorClass();
 			
 		}
 
@@ -143,6 +146,9 @@ public final class BenchModel {
 			
 			
 		}
+		
+		public void startSimulatorClass(){
+			new SimulatedWorkClass();
+		}
 	}
-
 }

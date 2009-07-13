@@ -17,8 +17,7 @@ import org.eclipse.jdt.launching.IJavaLaunchConfigurationConstants;
 import org.eclipse.jdt.launching.IVMInstall;
 import org.eclipse.jdt.launching.IVMRunner;
 import org.eclipse.jdt.launching.VMRunnerConfiguration;
-import org.perfidix.Perclipse.model.SimulatedWorkClass;
-import org.perfidix.Perclipse.util.BenchRunSession;
+import org.perfidix.Perclipse.model.BenchRunSession;
 import org.perfidix.Perclipse.util.BenchSearchEngine;
 
 /**
@@ -63,7 +62,7 @@ public class PerfidixLaunchConfiguration extends
 			VMRunnerConfiguration runConfig = launchTypes(configuration, mode,
 					searchResult);
 			runner.run(runConfig, launch, monitor);
-			new SimulatedWorkClass();
+			
 			
 
 
@@ -182,6 +181,9 @@ public class PerfidixLaunchConfiguration extends
 		benchRunSession.setBenchedClasses(argv);
 		String[] args = new String[argv.size()];
 		argv.copyInto(args);
+		for (int i = 0; i < args.length; i++) {
+			System.out.println("The arg of item "+i+": "+args[i]);
+		}
 		vmConfig.setProgramArguments(args);
 		return vmConfig;
 	}
