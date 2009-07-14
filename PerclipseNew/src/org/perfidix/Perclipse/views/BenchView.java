@@ -81,7 +81,7 @@ public class BenchView extends ViewPart {
 		Composite composite = new Composite(parent, SWT.NONE);
 		GridLayout layout = new GridLayout();
 		composite.setLayout(layout);
-		setCounterColumns(layout);
+
 
 		benchCounterPanel = new BenchViewCounterPanel(composite);
 		benchCounterPanel.setLayoutData(new GridData(GridData.GRAB_HORIZONTAL
@@ -93,12 +93,6 @@ public class BenchView extends ViewPart {
 		return composite;
 	}
 
-	private void setCounterColumns(GridLayout layout) {
-
-		// here you can modify the visualization if the orientation changes
-		// (horizontal vs vertical)
-
-	}
 
 	public static Image createImage(String string) {
 		// TODO Auto-generated method stub
@@ -106,7 +100,7 @@ public class BenchView extends ViewPart {
 	}
 
 	private class UpdateUIJob extends org.eclipse.ui.progress.UIJob {
-		private boolean fRunning = true;
+		private boolean running = true;
 
 		public UpdateUIJob(String name) {
 			super(name);
@@ -114,11 +108,11 @@ public class BenchView extends ViewPart {
 		}
 
 		public void stop() {
-			fRunning = false;
+			running = false;
 		}
 
 		public boolean shouldSchedule() {
-			return fRunning;
+			return running;
 		}
 
 		@Override
@@ -176,10 +170,10 @@ public class BenchView extends ViewPart {
 		updateJob.schedule(REFRESH_INTERVAL);
 	}
 
-	public BenchRunSession setActiveBenchRunSession(BenchRunSession runSession) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+//	public BenchRunSession setActiveBenchRunSession(BenchRunSession runSession) {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
 
 	public void init(IViewSite site, IMemento memento) throws PartInitException {
 		super.init(site, memento);
@@ -245,7 +239,7 @@ public class BenchView extends ViewPart {
 		// fNextAction.setEnabled(hasErrorsOrFailures);
 		// fPreviousAction.setEnabled(hasErrorsOrFailures);
 
-		benchViewer.processChangesInUI();
+		benchViewer.processChangesInUI(benchRunSession);
 	}
 
 	private boolean hasErrors() {
@@ -266,6 +260,7 @@ public class BenchView extends ViewPart {
 		// - improve components to only redraw on changes (once!).
 
 		int startedCount;
+		int currentCount;
 		int totalCount;
 		int errorCount;
 		boolean hasErrors;
@@ -275,6 +270,7 @@ public class BenchView extends ViewPart {
 		
 		if (benchRunSession != null) {
 			startedCount = benchRunSession.getStartedCount();
+			currentCount= benchRunSession.getCurrentCount();
 			totalCount = benchRunSession.getTotalCount();
 			errorCount = benchRunSession.getErrorCount();
 			hasErrors = errorCount  > 0;
@@ -282,6 +278,7 @@ public class BenchView extends ViewPart {
 		} else {
 			
 			startedCount = 2;
+			currentCount= 3;
 			totalCount = 10;
 			errorCount = 0;
 			hasErrors = false;
@@ -294,21 +291,24 @@ public class BenchView extends ViewPart {
 //			stopped = false;
 		}
 
-		benchCounterPanel.setTotalRuns(totalCount);
-		benchCounterPanel.setBenchRuns(startedCount);
-		benchCounterPanel.setBenchErrors(errorCount);
 
 
+//		int ticksDone;
+//		if (startedCount == 0)
+//			ticksDone = 0;
+//		// else if (startedCount == totalCount && ! benchRunSession.isRunning())
+//		else if (startedCount == totalCount)
+//			ticksDone = totalCount;
+//		else
+//			ticksDone = startedCount - 1;
 		int ticksDone;
-		if (startedCount == 0)
-			ticksDone = 0;
-		// else if (startedCount == totalCount && ! benchRunSession.isRunning())
-		else if (startedCount == totalCount)
-			ticksDone = totalCount;
-		else
-			ticksDone = startedCount - 1;
-		
+		if(startedCount==currentCount)
+			ticksDone=startedCount;
+		else ticksDone=currentCount;
 
+		benchCounterPanel.setTotalRuns(totalCount);
+		benchCounterPanel.setBenchRuns(ticksDone);
+		benchCounterPanel.setBenchErrors(errorCount);
 		progressBar.reset(hasErrors, stopped, ticksDone, totalCount);
 	}
 	
