@@ -1,16 +1,22 @@
 package org.perfidix.Perclipse.model;
 
+import org.eclipse.jdt.internal.core.ClassFile;
+import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.IWorkbenchPart;
+import org.perfidix.Perclipse.launcher.PerclipseActivator;
+
 
 public class SimulatedWorkClass{
 	
 	
 	private final int DURATION=10;
-	private BenchRunSessionListener benchRunSession;
+	private IBenchRunSessionListener benchRunSession;
 
 	public SimulatedWorkClass(){
 		
 		try {
-			Thread.sleep(100);
+			Thread.sleep(200);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -22,18 +28,20 @@ public class SimulatedWorkClass{
 	public void simulateLongOperation(){
 		
 		benchRunSession = new BenchRunSessionListener();
-		benchRunSession.initTotalBenchProgress(0, DURATION, 0, null);
+		benchRunSession.initTotalBenchProgress(DURATION, null);
 	
 		for (int i = 0; i < DURATION; i++) {
 			try {
 				Thread.sleep(1000);
-				benchRunSession.updateCurrentRun(i+1, "null");
+				benchRunSession.updateCurrentRun(null);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			
 		}
+		
+		
 		
 	}
 

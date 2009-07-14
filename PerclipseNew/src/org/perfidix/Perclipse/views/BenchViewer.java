@@ -69,9 +69,10 @@ public class BenchViewer {
 		viewerBook.showPage(treeViewer.getTree());
 	}
 
-	public void processChangesInUI() {
+	public void processChangesInUI(BenchRunSession benchRunSession) {
 
-		benchRunSession = BenchRunSession.getInstance();
+		//benchRunSession = BenchRunSession.getInstance();
+		this.benchRunSession=benchRunSession;
 
 		if (benchRunSession.getBenchedClasses() == null) {
 			treeViewer.setInput(null);
