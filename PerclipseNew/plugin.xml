@@ -87,7 +87,7 @@
    		<category name="Bench Category"	id="org.perfidix.Perclipse.BenchCategory">
 		</category>
 		<view
-        category="com.example.helloworld"
+        category="org.perfidix.Perclipse.BenchCategory"
         class="org.perfidix.Perclipse.views.BenchView"
         icon="icons/time.png"
         id="org.perfidix.Perclipse.views.BenchView"
