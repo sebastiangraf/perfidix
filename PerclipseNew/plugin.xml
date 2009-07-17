@@ -94,5 +94,32 @@
         name="Perfidix Bench">
 		</view>
    </extension>
+    <extension
+         id="org.perfidix.Perclipse.PERFIDIX_CONTAINER"
+         name="PerfidixContainer"
+         point="org.eclipse.jdt.core.classpathContainerInitializer">
+      <classpathContainerInitializer
+            class="org.perfidix.Perclipse.buildpath.PerfidixContainerInitializer"
+            id="org.perfidix.Perclipse.PERFIDIX_CONTAINER">
+      </classpathContainerInitializer>
+   </extension>
+   <extension
+         id="org.perfidix.Perclipse.PERFIDIX_VAR_INIT"
+         name="PerfidixVar"
+         point="org.eclipse.jdt.core.classpathVariableInitializer">
+      <classpathVariableInitializer
+            class="org.perfidix.Perclipse.buildpath.PerfidixVariableInitializer"
+            variable="PERFIDIX_HOME">
+      </classpathVariableInitializer>
+   </extension>
+   <extension
+         point="org.eclipse.jdt.ui.quickFixProcessors">
+      <quickFixProcessor
+            class="org.perfidix.Perclipse.buildpath.Quickfixprocessor"
+            id="org.perfidix.Perclipse.buildpath.quickfixprocessor"
+            name="Perfidix Quickfix Processor">
+      </quickFixProcessor>
+   </extension>
+   
 
 </plugin>
