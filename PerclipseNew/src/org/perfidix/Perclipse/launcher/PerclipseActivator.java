@@ -2,13 +2,17 @@ package org.perfidix.Perclipse.launcher;
 
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
+import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
+import org.osgi.framework.ServiceReference;
+import org.osgi.service.packageadmin.PackageAdmin;
 import org.perfidix.Perclipse.model.BenchModel;
 import org.perfidix.Perclipse.views.BenchView;
 
@@ -25,7 +29,13 @@ public class PerclipseActivator extends AbstractUIPlugin {
 	
 	private final static BenchModel benchModel= new BenchModel();
 
+	public static final String PERFIDIX_HOME = "PERFIDIX_HOME";
+	
+	public static final String PERFIDIX_SRC_HOME="PERFIDIX_SRC_HOME";
+
 	private BenchView view;
+	
+	private BundleContext bundleContext;
 
 	/**
 	 * The constructor
@@ -45,6 +55,7 @@ public class PerclipseActivator extends AbstractUIPlugin {
 	public void start(BundleContext context) throws Exception {
 		plugin=this;
 		super.start(context);
+		bundleContext=context;
 		
 		benchModel.start();
 	}
@@ -64,7 +75,7 @@ public class PerclipseActivator extends AbstractUIPlugin {
 		finally{
 			super.stop(context);		
 		}
-		
+		bundleContext=null;
 	}
 
 	/**
@@ -158,6 +169,28 @@ public class PerclipseActivator extends AbstractUIPlugin {
 	public IWorkspace getWorkspace() {
 		// TODO Auto-generated method stub
 		return plugin.getWorkspace();
+	}
+
+	public Bundle[] getBundles(String bundleID, String version) {
+		Bundle[] bundles=Platform.getBundles(bundleID, version);
+		if(bundles!=null){
+			return bundles;
+		}
+		ServiceReference serviceRef=bundleContext.getServiceReference(PackageAdmin.class.getName());
+		PackageAdmin admin= (PackageAdmin)bundleContext.getService(serviceRef);
+		bundles=admin.getBundles(bundleID, version);
+		if(bundles!=null && bundles.length>0){
+			return bundles;
+		}
+		return null;
+	}
+
+	public Bundle getBundle(String bundleName) {
+		Bundle[] bundles= getBundles(bundleName, null);
+		if(bundles!=null && bundles.length>0){
+			return bundles[0];
+		}
+		return null;
 	}
 
 }
