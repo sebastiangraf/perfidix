@@ -1,10 +1,7 @@
 package org.perfidix.Perclipse.model;
 
-import org.eclipse.jdt.internal.core.ClassFile;
-import org.eclipse.ui.IEditorPart;
-import org.eclipse.ui.IWorkbenchPage;
-import org.eclipse.ui.IWorkbenchPart;
-import org.perfidix.Perclipse.launcher.PerclipseActivator;
+import org.perfidix.Perfidix;
+
 
 
 public class SimulatedWorkClass{
@@ -40,10 +37,13 @@ public class SimulatedWorkClass{
 			}
 			
 		}
-		
-		
+		System.out.println("Vor Perfausgabe");
+		System.out.println("The PerfKlasse: "+Perfidix.class);
+
 		
 	}
+	
+	
 
 	
 }

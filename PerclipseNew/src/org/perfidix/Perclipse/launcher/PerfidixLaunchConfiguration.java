@@ -5,7 +5,12 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 import java.util.Vector;
 
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IWorkspace;
+import org.eclipse.core.resources.IWorkspaceRoot;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.debug.core.ILaunch;
 import org.eclipse.debug.core.ILaunchConfiguration;
@@ -17,6 +22,7 @@ import org.eclipse.jdt.launching.IJavaLaunchConfigurationConstants;
 import org.eclipse.jdt.launching.IVMInstall;
 import org.eclipse.jdt.launching.IVMRunner;
 import org.eclipse.jdt.launching.VMRunnerConfiguration;
+import org.perfidix.Perfidix;
 import org.perfidix.Perclipse.model.BenchRunSession;
 import org.perfidix.Perclipse.util.BenchSearchEngine;
 
@@ -185,6 +191,24 @@ public class PerfidixLaunchConfiguration extends
 			System.out.println("The arg of item "+i+": "+args[i]);
 		}
 		vmConfig.setProgramArguments(args);
+		
+		IWorkspace workspace = ResourcesPlugin.getWorkspace();
+		IWorkspaceRoot root =  workspace.getRoot();
+		IPath location= root.getLocation();
+		IProject project = workspace.getRoot().getProject("TestProjekt");
+
+//		try {
+//			Perfidix.main(args);
+//		} catch (Exception e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+		
+		for (String string : classPath) {
+
+			System.out.println(string);
+		}
+		
 		return vmConfig;
 	}
 
