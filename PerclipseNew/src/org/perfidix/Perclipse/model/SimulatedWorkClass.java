@@ -1,6 +1,5 @@
 package org.perfidix.Perclipse.model;
 
-import org.perfidix.Perfidix;
 
 
 
@@ -37,8 +36,7 @@ public class SimulatedWorkClass{
 			}
 			
 		}
-		System.out.println("Vor Perfausgabe");
-		System.out.println("The PerfKlasse: "+Perfidix.class);
+		
 
 		
 	}

@@ -62,11 +62,11 @@ public class BuildPathSupport {
 		if(bundle==null){
 			return null;
 		}
-		System.out.println("Bundle: "+bundle);
+		
 		URL local=null;
 		try {
 			local=FileLocator.toFileURL(bundle.getEntry("/"));
-			System.out.println("local b: "+local);
+		
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

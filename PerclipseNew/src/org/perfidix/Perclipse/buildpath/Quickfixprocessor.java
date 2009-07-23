@@ -41,12 +41,14 @@ public class Quickfixprocessor implements IQuickFixProcessor {
 			IInvocationContext context, IProblemLocation problem,
 			ArrayList arraylist) {
 		
+		ArrayList<String> allowedAnnotations=getInitAllowedAnnotation();
+		
 		ICompilationUnit unit=context.getCompilationUnit();
 		int res=0;
 		String s;
 		try {
 			s = unit.getBuffer().getText(problem.getOffset(), problem.getLength());
-			if(s.equals("Bench") || s.equals("BenchClass")){
+			if(allowedAnnotations.contains(s)){
 				ASTNode node = problem.getCoveredNode(context.getASTRoot());
 				if(node!=null && node.getLocationInParent()==MarkerAnnotation.TYPE_NAME_PROPERTY){
 					
@@ -66,5 +68,19 @@ public class Quickfixprocessor implements IQuickFixProcessor {
 		}
 		
 		return arraylist;
+	}
+
+
+	private ArrayList<String> getInitAllowedAnnotation() {
+		ArrayList<String> allowed= new ArrayList<String>();
+		allowed.add("Bench");
+		allowed.add("BenchClass");
+		allowed.add("AfterBenchClass");
+		allowed.add("AfterEachRun");
+		allowed.add("BeforeBenchClass");
+		allowed.add("BeforeEachRun");
+		allowed.add("BeforeFirstRun");
+		allowed.add("SkipBench");
+		return allowed;
 	}
 }

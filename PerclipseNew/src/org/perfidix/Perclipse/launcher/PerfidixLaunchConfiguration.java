@@ -1,29 +1,35 @@
 package org.perfidix.Perclipse.launcher;
 
 import java.io.File;
+import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.net.URLClassLoader;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Vector;
+import java.util.regex.Pattern;
 
-import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IWorkspace;
-import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.debug.core.ILaunch;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IType;
+import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.launching.AbstractJavaLaunchConfigurationDelegate;
 import org.eclipse.jdt.launching.ExecutionArguments;
 import org.eclipse.jdt.launching.IJavaLaunchConfigurationConstants;
 import org.eclipse.jdt.launching.IVMInstall;
 import org.eclipse.jdt.launching.IVMRunner;
+import org.eclipse.jdt.launching.SocketUtil;
 import org.eclipse.jdt.launching.VMRunnerConfiguration;
+import org.eclipse.osgi.framework.launcher.Launcher;
 import org.perfidix.Perfidix;
 import org.perfidix.Perclipse.model.BenchRunSession;
+import org.perfidix.Perclipse.model.PerclipseViewSkeleton;
 import org.perfidix.Perclipse.util.BenchSearchEngine;
 
 /**
@@ -60,20 +66,17 @@ public class PerfidixLaunchConfiguration extends
 	 */
 	public void launch(ILaunchConfiguration configuration, String mode,
 			ILaunch launch, IProgressMonitor monitor) throws CoreException {
-		
+
 		IVMInstall vm = verifyVMInstall(configuration);
 		IVMRunner runner = vm.getVMRunner(mode);
 		try {
 			BenchSearchResult searchResult = findBenchTypes(configuration);
+			int port= SocketUtil.findFreePort();
+//			new PerclipseViewSkeleton(port);
 			VMRunnerConfiguration runConfig = launchTypes(configuration, mode,
-					searchResult);
+					searchResult, port);
 			runner.run(runConfig, launch, monitor);
-			
-			
 
-
-			
-			
 		} catch (Exception e) {
 			// TODO message in the application that file has been removed and
 			// configuration isn't valid any more
@@ -110,7 +113,8 @@ public class PerfidixLaunchConfiguration extends
 		if (containerHandle.length() != 0) {
 			// benching an entire project/package
 			types = BenchSearchEngine.findBenchs(new Object[] { javaProject });
-			System.out.println("Benchin entire project/package: " + javaProject.getElementName());
+			System.out.println("Benchin entire project/package: "
+					+ javaProject.getElementName());
 			PerclipseActivator.logInfo("Benching an entire project/package");
 		} else {
 			// benching a single class
@@ -122,8 +126,6 @@ public class PerfidixLaunchConfiguration extends
 			System.out.println("Benching class: " + benchTypeName);
 			PerclipseActivator.logInfo("Benching class " + benchTypeName);
 		}
-		
-		
 
 		BenchSearchResult result = new BenchSearchResult(types);
 		return result;
@@ -135,12 +137,13 @@ public class PerfidixLaunchConfiguration extends
 	 * @param configuration
 	 * @param mode
 	 * @param benchs
+	 * @param port 
 	 * @return
 	 * @throws CoreException
 	 */
 	private VMRunnerConfiguration launchTypes(
 			ILaunchConfiguration configuration, String mode,
-			BenchSearchResult benchs) throws CoreException {
+			BenchSearchResult benchs, int port) throws CoreException {
 		File workingDir = verifyWorkingDirectory(configuration);
 		String workingDirName = null;
 		if (workingDir != null)
@@ -152,7 +155,7 @@ public class PerfidixLaunchConfiguration extends
 		String[] envp = getEnvironment(configuration);
 
 		VMRunnerConfiguration runConfig = createVMRunner(configuration, benchs,
-				mode);
+				mode, port);
 		runConfig.setVMArguments(execArgs.getVMArgumentsArray());
 		runConfig.setWorkingDirectory(workingDirName);
 		runConfig.setEnvironment(envp);
@@ -170,45 +173,28 @@ public class PerfidixLaunchConfiguration extends
 	 * @param configuration
 	 * @param benchTypes
 	 * @param runMode
+	 * @param port 
 	 * @return
 	 * @throws CoreException
 	 */
 	protected VMRunnerConfiguration createVMRunner(
 			ILaunchConfiguration configuration, BenchSearchResult benchTypes,
-			String runMode) throws CoreException {
+			String runMode, int port) throws CoreException {
 		// String[] classPath = createClassPath(configuration,
 		// benchTypes.getTestKind());
 		String[] classPath = getClasspath(configuration);
 
 		VMRunnerConfiguration vmConfig = new VMRunnerConfiguration(
 				"org.perfidix.Perfidix", classPath); //$NON-NLS-1$
-		Vector argv = getVMArgs(configuration, benchTypes, runMode);
+		Vector argv = getVMArgs(configuration, benchTypes, runMode, port);
 		BenchRunSession benchRunSession = BenchRunSession.getInstance();
 		benchRunSession.setBenchedClasses(argv);
 		String[] args = new String[argv.size()];
 		argv.copyInto(args);
-		for (int i = 0; i < args.length; i++) {
-			System.out.println("The arg of item "+i+": "+args[i]);
-		}
+
 		vmConfig.setProgramArguments(args);
-		
-		IWorkspace workspace = ResourcesPlugin.getWorkspace();
-		IWorkspaceRoot root =  workspace.getRoot();
-		IPath location= root.getLocation();
-		IProject project = workspace.getRoot().getProject("TestProjekt");
 
-//		try {
-//			Perfidix.main(args);
-//		} catch (Exception e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-		
-		for (String string : classPath) {
 
-			System.out.println(string);
-		}
-		
 		return vmConfig;
 	}
 
@@ -216,11 +202,12 @@ public class PerfidixLaunchConfiguration extends
 	 * @param configuration
 	 * @param result
 	 * @param runMode
+	 * @param port 
 	 * @return
 	 * @throws CoreException
 	 */
 	public Vector getVMArgs(ILaunchConfiguration configuration,
-			BenchSearchResult result, String runMode) throws CoreException {
+			BenchSearchResult result, String runMode, int port) throws CoreException {
 		String progArgs = getProgramArguments(configuration);
 
 		// insert the program arguments
@@ -234,13 +221,14 @@ public class PerfidixLaunchConfiguration extends
 		}
 
 		IType[] benchTypes = result.getTypes();
-
-
-
+		
 		for (int i = 0; i < benchTypes.length; i++) {
 			argv.add(benchTypes[i].getFullyQualifiedName());
-
 		}
+		
+//		argv.add("-Port");
+//		String stringPort=Integer.toString(port);
+//		argv.add(stringPort);
 
 		return argv;
 	}
