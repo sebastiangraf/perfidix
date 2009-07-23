@@ -20,9 +20,6 @@ public class BenchView extends ViewPart {
 
 	public final static String MY_VIEW_ID = "org.perfidix.Perclipse.views.BenchView";
 	public final static int LAYOUT_HIERARCHICAL = 1;
-	private static final int VIEW_ORIENTATION_VERTICAL = 0;
-	private static final int VIEW_ORIENTATION_HORIZONTAL = 1;
-	private static final int VIEW_ORIENTATION_AUTOMATIC = 2;
 	private static final int REFRESH_INTERVAL = 20000;
 	private PerfidixProgressBar progressBar;
 	private BenchViewCounterPanel benchCounterPanel;
@@ -37,8 +34,6 @@ public class BenchView extends ViewPart {
 	private Clipboard clipboard;
 	private IMemento memento;
 	private org.eclipse.core.runtime.jobs.ILock benchIsRunningLock;
-	private int viewOrientation = VIEW_ORIENTATION_AUTOMATIC;
-	private int currentOrientation;
 	private boolean isDisposed = false;
 
 	protected boolean partIsVisible = false;

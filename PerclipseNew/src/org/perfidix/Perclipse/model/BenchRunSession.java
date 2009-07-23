@@ -57,7 +57,7 @@ public class BenchRunSession {
 		return currentCount;
 	}
 
-	public void setCurrentRun(IJavaElement currentElement) {
+	public void setCurrentRun(String currentElement) {
 		
 		/** Dummy ******/
 		currentCount=currentCount+1;
@@ -111,7 +111,7 @@ public class BenchRunSession {
 		return benchElements;
 	}
 
-	public void updateError(IJavaElement errorInElement) {
+	public void updateError(String errorInElement) {
 		errorCount = errorCount + 1;
 
 	}
