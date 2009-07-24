@@ -1,24 +1,16 @@
 package org.perfidix.Perclipse.launcher;
 
 import java.io.File;
-import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.net.URLClassLoader;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import java.util.Vector;
-import java.util.regex.Pattern;
 
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.debug.core.ILaunch;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IType;
-import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.launching.AbstractJavaLaunchConfigurationDelegate;
 import org.eclipse.jdt.launching.ExecutionArguments;
 import org.eclipse.jdt.launching.IJavaLaunchConfigurationConstants;
@@ -26,8 +18,6 @@ import org.eclipse.jdt.launching.IVMInstall;
 import org.eclipse.jdt.launching.IVMRunner;
 import org.eclipse.jdt.launching.SocketUtil;
 import org.eclipse.jdt.launching.VMRunnerConfiguration;
-import org.eclipse.osgi.framework.launcher.Launcher;
-import org.perfidix.Perfidix;
 import org.perfidix.Perclipse.model.BenchRunSession;
 import org.perfidix.Perclipse.model.PerclipseViewSkeleton;
 import org.perfidix.Perclipse.util.BenchSearchEngine;
@@ -72,7 +62,7 @@ public class PerfidixLaunchConfiguration extends
 		try {
 			BenchSearchResult searchResult = findBenchTypes(configuration);
 			int port= SocketUtil.findFreePort();
-//			new PerclipseViewSkeleton(port);
+			new PerclipseViewSkeleton(port).start();
 			VMRunnerConfiguration runConfig = launchTypes(configuration, mode,
 					searchResult, port);
 			runner.run(runConfig, launch, monitor);
@@ -226,9 +216,9 @@ public class PerfidixLaunchConfiguration extends
 			argv.add(benchTypes[i].getFullyQualifiedName());
 		}
 		
-//		argv.add("-Port");
-//		String stringPort=Integer.toString(port);
-//		argv.add(stringPort);
+		argv.add("-Port");
+		String stringPort=Integer.toString(port);
+		argv.add(stringPort);
 
 		return argv;
 	}
