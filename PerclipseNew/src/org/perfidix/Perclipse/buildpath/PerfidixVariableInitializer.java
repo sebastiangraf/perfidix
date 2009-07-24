@@ -25,7 +25,7 @@ public class PerfidixVariableInitializer extends ClasspathVariableInitializer {
 			JavaCore.removeClasspathVariable(PerclipseActivator.PERFIDIX_HOME, null);
 			return;
 		}
-		URL installLocation = bundle.getEntry("/lib/perfidix-3.3-jar-with-dependencies.jar"); //$NON-NLS-1$
+		URL installLocation = bundle.getEntry("/lib/".concat(BuildPathSupport.JAR_NAME)); //$NON-NLS-1$
 //		URL local=null;
 //		try {
 //			local = Platform.asLocalURL(installLocation);

@@ -9,7 +9,6 @@ import java.net.Socket;
 public class PerclipseViewSkeleton extends Thread {
 	IBenchRunSessionListener sessionListener;
 	ServerSocket serverSocket;
-	Socket socket;
 	int serverPort;
 	//private ObjectOutputStream out;
 	private ObjectInputStream in;
@@ -20,9 +19,6 @@ public class PerclipseViewSkeleton extends Thread {
 		try {
 			System.out.println("Creating server socket: " + serverPort);
 			serverSocket = new ServerSocket(serverPort);
-			socket=serverSocket.accept();
-			//out= new ObjectOutputStream(socket.getOutputStream());
-			in= new ObjectInputStream(socket.getInputStream());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -31,6 +27,16 @@ public class PerclipseViewSkeleton extends Thread {
 
 	public void run() {
 
+		Socket socket;
+		try {
+			socket = serverSocket.accept();
+			System.out.println("Got connection!");
+			//out= new ObjectOutputStream(socket.getOutputStream());
+			in= new ObjectInputStream(socket.getInputStream());
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		boolean finished=false;
 		while(!finished){
 			try {
@@ -39,7 +45,7 @@ public class PerclipseViewSkeleton extends Thread {
 				if("init".equals(command)){
 					System.out.println("init");
 					int total=(Integer) in.readObject();
-					String[] elements= (String[]) in.readObject();
+					Object[] elements= (Object[]) in.readObject();
 					sessionListener.initTotalBenchProgress(total, elements);
 				}
 				else if("updateCurrentRun".equals(command)){

@@ -68,7 +68,7 @@ public final class BenchModel {
 					connectTestRunner(launch, javaProject);
 				}
 			});
-			startSimulatorClass();
+//			startSimulatorClass();
 			
 			
 		}
