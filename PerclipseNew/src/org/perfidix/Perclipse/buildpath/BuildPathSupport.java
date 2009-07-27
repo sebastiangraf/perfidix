@@ -18,131 +18,140 @@ import org.osgi.framework.Version;
 import org.perfidix.Perclipse.launcher.PerclipseActivator;
 
 public class BuildPathSupport {
-	 public final static String JAR_NAME="perfidix-3.3-jar-with-dependencies.jar";
-//	public final static String JAR_NAME = "perfidix-3.3.jar";
+    public final static String JAR_NAME =
+            "perfidix-3.3-jar-with-dependencies.jar";
 
-	public static class PerfidixPluginDescription {
-		private final String bundleID;
-		private final VersionRange versionRange;
-		private final boolean isOrbitBundle;
+    // public final static String JAR_NAME = "perfidix-3.3.jar";
 
-		public PerfidixPluginDescription(String bundleID,
-				VersionRange versionRange, boolean isOrbitBundle) {
-			this.bundleID = bundleID;
-			this.versionRange = versionRange;
-			this.isOrbitBundle = isOrbitBundle;
-		}
+    public static class PerfidixPluginDescription {
+        private final String bundleID;
+        private final VersionRange versionRange;
+        private final boolean isOrbitBundle;
 
-		public Bundle getBundle() {
-			Bundle[] bundles = PerclipseActivator.getDefault().getBundles(
-					bundleID, null);
-			if (bundles != null) {
-				for (Bundle bundle : bundles) {
-					Bundle curr = bundle;
-					String version = (String) curr.getHeaders().get(
-							Constants.BUNDLE_VERSION);
-					if (versionRange.isIncluded(Version.parseVersion(version))) {
-						return curr;
-					}
-				}
-			}
+        public PerfidixPluginDescription(
+                String bundleID, VersionRange versionRange,
+                boolean isOrbitBundle) {
+            this.bundleID = bundleID;
+            this.versionRange = versionRange;
+            this.isOrbitBundle = isOrbitBundle;
+        }
 
-			return null;
-		}
+        public Bundle getBundle() {
+            Bundle[] bundles =
+                    PerclipseActivator.getDefault().getBundles(bundleID, null);
+            if (bundles != null) {
+                for (Bundle bundle : bundles) {
+                    Bundle curr = bundle;
+                    String version =
+                            (String) curr.getHeaders().get(
+                                    Constants.BUNDLE_VERSION);
+                    if (versionRange.isIncluded(Version.parseVersion(version))) {
+                        return curr;
+                    }
+                }
+            }
 
-		public String getBundleID() {
-			return bundleID;
-		}
+            return null;
+        }
 
-		public boolean isOrbitBundle() {
-			return isOrbitBundle;
-		}
+        public String getBundleID() {
+            return bundleID;
+        }
 
-	}
+        public boolean isOrbitBundle() {
+            return isOrbitBundle;
+        }
 
-	public static final PerfidixPluginDescription PERFIDIX_PLUGIN = new PerfidixPluginDescription(
-			PerclipseActivator.PERFIDIX_HOME,
-			new VersionRange("[1.0.0,4.4.0)"), false);
+    }
 
-	public static IPath getBundleLocation(
-			PerfidixPluginDescription pluginDescription) {
-		Bundle bundle = PerclipseActivator.getDefault().getBundle();
-		if (bundle == null) {
-			return null;
-		}
+    public static final PerfidixPluginDescription PERFIDIX_PLUGIN =
+            new PerfidixPluginDescription(
+                    PerclipseActivator.PERFIDIX_HOME, new VersionRange(
+                            "[1.0.0,4.4.0)"), false);
 
-		URL local = null;
-		try {
-			local = FileLocator.toFileURL(bundle.getEntry("/"));
+    public static IPath getBundleLocation(
+            PerfidixPluginDescription pluginDescription) {
+        Bundle bundle = PerclipseActivator.getDefault().getBundle();
+        if (bundle == null) {
+            return null;
+        }
 
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return null;
-		}
-		String fullPath = new File(local.getPath()).getAbsolutePath();
-		return Path.fromOSString(fullPath);
-	}
+        URL local = null;
+        try {
+            local = FileLocator.toFileURL(bundle.getEntry("/"));
 
-	// public static IPath getSourceLocation(PerfidixPluginDescription
-	// pluginDescription){
-	// Bundle bundle=pluginDescription.getBundle();
-	// if(bundle==null){
-	// return null;
-	// }
-	// String version =(String)
-	// bundle.getHeaders().get(Constants.BUNDLE_VERSION);
-	// if(version==null){
-	// return null;
-	// }
-	// Bundle sourceBundle=null;
-	// if(pluginDescription.isOrbitBundle()){
-	// //I dont know
-	// }
-	// else{
-	// sourceBundle=PerclipseActivator.getDefault().getBundle("org.perfidix.jdt.source");
-	// }
-	// if(sourceBundle==null){
-	// return null;
-	// }
-	// URL local=null;
-	// try {
-	// local=FileLocator.toFileURL(sourceBundle.getEntry("/"));
-	// } catch (IOException e) {
-	// // TODO Auto-generated catch block
-	// return null;
-	// }
-	// String fullPath = new File(local.getPath()).getAbsolutePath() +
-	// File.separator+"src"+File.separator+pluginDescription.getBundleID()+"_"+version;
-	// return Path.fromOSString(fullPath);
-	// }
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            return null;
+        }
+        String fullPath = new File(local.getPath()).getAbsolutePath();
+        return Path.fromOSString(fullPath);
+    }
 
-	public static IClasspathEntry getPerfidixClasspathEntry() {
-		return JavaCore
-				.newContainerEntry(PerfidixContainerInitializer.PERFIDIX_PATH);
-	}
+    // public static IPath getSourceLocation(PerfidixPluginDescription
+    // pluginDescription){
+    // Bundle bundle=pluginDescription.getBundle();
+    // if(bundle==null){
+    // return null;
+    // }
+    // String version =(String)
+    // bundle.getHeaders().get(Constants.BUNDLE_VERSION);
+    // if(version==null){
+    // return null;
+    // }
+    // Bundle sourceBundle=null;
+    // if(pluginDescription.isOrbitBundle()){
+    // //I dont know
+    // }
+    // else{
+    // sourceBundle=PerclipseActivator.getDefault().getBundle("org.perfidix.jdt.source");
+    // }
+    // if(sourceBundle==null){
+    // return null;
+    // }
+    // URL local=null;
+    // try {
+    // local=FileLocator.toFileURL(sourceBundle.getEntry("/"));
+    // } catch (IOException e) {
+    // // TODO Auto-generated catch block
+    // return null;
+    // }
+    // String fullPath = new File(local.getPath()).getAbsolutePath() +
+    // File.separator+"src"+File.separator+pluginDescription.getBundleID()+"_"+version;
+    // return Path.fromOSString(fullPath);
+    // }
 
-	public static IClasspathEntry getPerfidixLibraryEntry() {
-		IPath bundleBase = getBundleLocation(PERFIDIX_PLUGIN);
-		if (bundleBase != null) {
-			IPath jarLocation = bundleBase.append("/lib/".concat(BuildPathSupport.JAR_NAME));
-			// IPath sourceBase= getSourceLocation(PERFIDIX_PLUGIN);
-			// IPath srcLocation= sourceBase!=null ?
-			// sourceBase.append("perfidixsrc.zip") : null;
-			IAccessRule[] accessRule = {};
-			String javadocLocation = PerclipseActivator.getDefault()
-					.getPreferenceStore().getString(
-							"This is the Perfidix JavaDoc");
-			IClasspathAttribute[] attributes = { JavaCore
-					.newClasspathAttribute(
-							IClasspathAttribute.JAVADOC_LOCATION_ATTRIBUTE_NAME,
-							javadocLocation) };
-			return JavaCore.newLibraryEntry(jarLocation, null, null,
-					accessRule, attributes, false);
+    public static IClasspathEntry getPerfidixClasspathEntry() {
+        return JavaCore
+                .newContainerEntry(PerfidixContainerInitializer.PERFIDIX_PATH);
+    }
 
-		}
-		return null;
+    public static IClasspathEntry getPerfidixLibraryEntry() {
+        IPath bundleBase = getBundleLocation(PERFIDIX_PLUGIN);
+        if (bundleBase != null) {
+            IPath jarLocation =
+                    bundleBase
+                            .append("/lib/".concat(BuildPathSupport.JAR_NAME));
+            // IPath sourceBase= getSourceLocation(PERFIDIX_PLUGIN);
+            // IPath srcLocation= sourceBase!=null ?
+            // sourceBase.append("perfidixsrc.zip") : null;
+            IAccessRule[] accessRule = {};
+            String javadocLocation =
+                    PerclipseActivator
+                            .getDefault().getPreferenceStore().getString(
+                                    "This is the Perfidix JavaDoc");
+            IClasspathAttribute[] attributes =
+                    { JavaCore
+                            .newClasspathAttribute(
+                                    IClasspathAttribute.JAVADOC_LOCATION_ATTRIBUTE_NAME,
+                                    javadocLocation) };
+            return JavaCore.newLibraryEntry(
+                    jarLocation, null, null, accessRule, attributes, false);
 
-	}
+        }
+        return null;
+
+    }
 
 }

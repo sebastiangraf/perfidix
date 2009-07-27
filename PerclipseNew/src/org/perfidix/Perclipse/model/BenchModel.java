@@ -22,133 +22,130 @@ import org.perfidix.Perclipse.launcher.PerclipseActivator;
 import org.perfidix.Perclipse.views.BenchView;
 
 public final class BenchModel {
-	
-	private final LinkedList benchRunSessionList = new LinkedList();
-	private final ILaunchListener launchListener = new BenchLaunchListener();
-	
-	public void start(){
-		ILaunchManager launchManager = DebugPlugin.getDefault().getLaunchManager();
-		launchManager.addLaunchListener(launchListener);
-		
-	}
-	
-	public void stop(){
-		ILaunchManager launchManager=DebugPlugin.getDefault().getLaunchManager();
-		launchManager.removeLaunchListener(launchListener);
-	}
-	
-	
-	private final class BenchLaunchListener implements ILaunchListener {
 
-		private HashSet trackedLaunches = new HashSet(20);
+    private final LinkedList benchRunSessionList = new LinkedList();
+    private final ILaunchListener launchListener = new BenchLaunchListener();
 
-		public void launchAdded(ILaunch launch) {
-			trackedLaunches.add(launch);
+    public void start() {
+        ILaunchManager launchManager =
+                DebugPlugin.getDefault().getLaunchManager();
+        launchManager.addLaunchListener(launchListener);
 
-		}
+    }
 
-		public void launchChanged(final ILaunch launch) {
-			if(!trackedLaunches.contains(launch)){
-				return;
-			}
-			ILaunchConfiguration config=launch.getLaunchConfiguration();
-			if(config==null){
-				return;
-			}
-			final IJavaProject javaProject= getJavaProject(config);
-			if(javaProject==null){
-				return;
-			}
-			
+    public void stop() {
+        ILaunchManager launchManager =
+                DebugPlugin.getDefault().getLaunchManager();
+        launchManager.removeLaunchListener(launchListener);
+    }
 
-			//ToDo test wether the launch defines the attributes
-			
-			getDisplay().asyncExec(new Runnable(){
-				public void run(){
-					connectTestRunner(launch, javaProject);
-				}
-			});
-//			startSimulatorClass();
-			
-			
-		}
+    private final class BenchLaunchListener implements ILaunchListener {
 
+        private HashSet trackedLaunches = new HashSet(20);
 
-		public void launchRemoved(ILaunch launch) {
-			trackedLaunches.remove(launch);
+        public void launchAdded(ILaunch launch) {
+            trackedLaunches.add(launch);
 
-		}
+        }
 
-		private BenchView showBenchViewInActivePage(BenchView benchView) {
-			IWorkbenchPart activePart = null;
-			IWorkbenchPage page = null;
-			page = PerclipseActivator.getActivePage();
+        public void launchChanged(final ILaunch launch) {
+            if (!trackedLaunches.contains(launch)) {
+                return;
+            }
+            ILaunchConfiguration config = launch.getLaunchConfiguration();
+            if (config == null) {
+                return;
+            }
+            final IJavaProject javaProject = getJavaProject(config);
+            if (javaProject == null) {
+                return;
+            }
 
-			if (benchView != null && benchView.isCreated()) {
-				page.activate(benchView);
-				return benchView;
+            // ToDo test wether the launch defines the attributes
 
-			}
-			if (page == null) {
-				return null;
-			}
-			activePart = page.getActivePart();
-			try {
-				IViewPart viewPart =page.showView(BenchView.MY_VIEW_ID);
-				BenchView view =(BenchView) viewPart;
-				page.activate(viewPart);
-				return view;
-			} catch (PartInitException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				return null;
-			} 
+            getDisplay().asyncExec(new Runnable() {
+                public void run() {
+                    connectTestRunner(launch, javaProject);
+                }
+            });
+            
 
-		}
-		
+        }
 
-		private BenchView findBenchViewInActivePage() {
-			IWorkbenchPage page = PerclipseActivator.getActivePage();
-			if (page == null) {
-				return null;
-			}
-			return (BenchView) page.findView(BenchView.MY_VIEW_ID);
-		}
+        public void launchRemoved(ILaunch launch) {
+            trackedLaunches.remove(launch);
 
-		private IJavaProject getJavaProject(
-				ILaunchConfiguration configuration) {
-			try {
-				String projectName = configuration.getAttribute(
-						IJavaLaunchConfigurationConstants.ATTR_PROJECT_NAME,
-						(String) null);
-				if (projectName != null && projectName.length() > 0) {
-					return JavaCore.create(ResourcesPlugin.getWorkspace()
-							.getRoot().getProject(projectName));
-				}
-			} catch (CoreException e) {
-			}
-			return null;
-		}
-		
-		private Display getDisplay(){
-			Display display = Display.getCurrent();
-			if(display==null){
-				display=Display.getDefault();
-			}
-			return display;
-			
-		}
+        }
 
-		public void connectTestRunner(ILaunch launch,
-				IJavaProject javaProject) {
-			BenchView benchView=showBenchViewInActivePage(findBenchViewInActivePage());
-			PerclipseActivator.getDefault().setBenchView(benchView);
-			
-			
-		}
-		
-		public void startSimulatorClass(){
-			new SimulatedWorkClass();
-		}
-	}
+        private BenchView showBenchViewInActivePage(BenchView benchView) {
+            IWorkbenchPart activePart = null;
+            IWorkbenchPage page = null;
+            page = PerclipseActivator.getActivePage();
+
+            if (benchView != null && benchView.isCreated()) {
+                page.activate(benchView);
+                return benchView;
+
+            }
+            if (page == null) {
+                return null;
+            }
+            activePart = page.getActivePart();
+            try {
+                IViewPart viewPart = page.showView(BenchView.MY_VIEW_ID);
+                BenchView view = (BenchView) viewPart;
+                page.activate(viewPart);
+                return view;
+            } catch (PartInitException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+                return null;
+            }
+
+        }
+
+        private BenchView findBenchViewInActivePage() {
+            IWorkbenchPage page = PerclipseActivator.getActivePage();
+            if (page == null) {
+                return null;
+            }
+            return (BenchView) page.findView(BenchView.MY_VIEW_ID);
+        }
+
+        private IJavaProject getJavaProject(ILaunchConfiguration configuration) {
+            try {
+                String projectName =
+                        configuration
+                                .getAttribute(
+                                        IJavaLaunchConfigurationConstants.ATTR_PROJECT_NAME,
+                                        (String) null);
+                if (projectName != null && projectName.length() > 0) {
+                    return JavaCore.create(ResourcesPlugin
+                            .getWorkspace().getRoot().getProject(projectName));
+                }
+            } catch (CoreException e) {
+            }
+            return null;
+        }
+
+        private Display getDisplay() {
+            Display display = Display.getCurrent();
+            if (display == null) {
+                display = Display.getDefault();
+            }
+            return display;
+
+        }
+
+        public void connectTestRunner(ILaunch launch, IJavaProject javaProject) {
+            BenchView benchView =
+                    showBenchViewInActivePage(findBenchViewInActivePage());
+            PerclipseActivator.getDefault().setBenchView(benchView);
+
+        }
+
+        public void startSimulatorClass() {
+            new SimulatedWorkClass();
+        }
+    }
 }

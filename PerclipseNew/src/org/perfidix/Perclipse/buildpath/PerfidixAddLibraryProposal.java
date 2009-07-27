@@ -27,151 +27,158 @@ import org.perfidix.Perclipse.launcher.PerclipseActivator;
 
 public class PerfidixAddLibraryProposal implements IJavaCompletionProposal {
 
-	private final IInvocationContext context;
-	private final boolean isPerfidix;
-	private final int relevance;
+    private final IInvocationContext context;
+    private final boolean isPerfidix;
+    private final int relevance;
 
-	public PerfidixAddLibraryProposal(boolean isPerfidix,
-			IInvocationContext context, int relevance) {
-		this.isPerfidix = isPerfidix;
-		this.context = context;
-		this.relevance = relevance;
-	}
+    public PerfidixAddLibraryProposal(
+            boolean isPerfidix, IInvocationContext context, int relevance) {
+        this.isPerfidix = isPerfidix;
+        this.context = context;
+        this.relevance = relevance;
+    }
 
-	public int getRelevance() {
-		// TODO Auto-generated method stub
-		return relevance;
-	}
+    public int getRelevance() {
+        // TODO Auto-generated method stub
+        return relevance;
+    }
 
-	public void apply(IDocument document) {
-		IJavaProject project = context.getCompilationUnit().getJavaProject();
-		Shell shell = PerclipseActivator.getActivePage().getWorkbenchWindow()
-				.getShell();
-		try {
-			IClasspathEntry entry = null;
-			if (isPerfidix) {
-				entry = BuildPathSupport.getPerfidixClasspathEntry();
-			}
-			if (entry != null) {
-				addToClasspath(shell, project, entry,
-						new BusyIndicatorRunnableContext());
-			}
-			int offset = context.getSelectionOffset();
-			int length = context.getSelectionLength();
-			String str;
-			str = document.get(offset, length);
-			
-			document.replace(offset, length, str);
-			
-		} catch (BadLocationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (JavaModelException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+    public void apply(IDocument document) {
+        IJavaProject project = context.getCompilationUnit().getJavaProject();
+        Shell shell =
+                PerclipseActivator
+                        .getActivePage().getWorkbenchWindow().getShell();
+        try {
+            IClasspathEntry entry = null;
+            if (isPerfidix) {
+                entry = BuildPathSupport.getPerfidixClasspathEntry();
+            }
+            if (entry != null) {
+                addToClasspath(
+                        shell, project, entry,
+                        new BusyIndicatorRunnableContext());
+            }
+            int offset = context.getSelectionOffset();
+            int length = context.getSelectionLength();
+            String str;
+            str = document.get(offset, length);
 
-	}
+            document.replace(offset, length, str);
 
-	private static boolean addToClasspath(Shell shell, final IJavaProject project,
-			IClasspathEntry entry,
-			IRunnableContext context) throws JavaModelException {
-		
-		IClasspathEntry[] oldEntries = project.getRawClasspath();
-		ArrayList newEntries = new ArrayList(oldEntries.length + 1);
-		boolean added = false;
-		for (int i = 0; i < oldEntries.length; i++) {
-			IClasspathEntry current = oldEntries[i];
-			if (current.getEntryKind() == IClasspathEntry.CPE_CONTAINER) {
-				IPath path = current.getPath();
-				
-				if (path.equals(entry.getPath())) {
-					System.out.println("true");
-					return true;
-				} else if (path.matchingFirstSegments(entry.getPath()) > 0) {
-					if (!added) {
-						current = entry;
-					} else {
-						current = null;
-					}
-				}
+        } catch (BadLocationException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (JavaModelException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
 
-			} else if (current.getEntryKind() == IClasspathEntry.CPE_VARIABLE) {
-				IPath path = current.getPath();
-				if (path.segmentCount() > 0
-						&& PerclipseActivator.PERFIDIX_HOME.equals(path
-								.segment(0))) {
-					if (!added) {
-						current = entry;
-					} else {
-						current = null;
-					}
-				}
-			}
-			if(current!=null){
-				newEntries.add(current);
-			}
-			
-		}
-		if(!added){
-			newEntries.add(entry);
-		}
-		final IClasspathEntry[] newCPEntries= (IClasspathEntry[]) newEntries.toArray(new IClasspathEntry[newEntries.size()]);
-		
-		try {
-			context.run(true, false, new IRunnableWithProgress(){
-				public void run(IProgressMonitor monitor){
-					try {
-						project.setRawClasspath(newCPEntries, monitor);
-					} catch (JavaModelException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
-			});
-			return true;
-		} catch (InvocationTargetException e) {
-			Throwable t= e.getTargetException();
-			if(t instanceof CoreException){
-				ErrorDialog.openError(shell, "Add Perfidix library to the build path", "Cannot Add", ((CoreException)t).getStatus());
-			}
-			return false;
-		} catch (InterruptedException e) {
-			return false;
-		}
-		
+    }
 
-	}
+    private static boolean addToClasspath(
+            Shell shell, final IJavaProject project, IClasspathEntry entry,
+            IRunnableContext context) throws JavaModelException {
 
-	public String getAdditionalProposalInfo() {
-		
-		if(isPerfidix){
-			return "Adds the Perfidix jar library to the build path";
-		}
-		
-		return null;
-	}
+        IClasspathEntry[] oldEntries = project.getRawClasspath();
+        ArrayList newEntries = new ArrayList(oldEntries.length + 1);
+        boolean added = false;
+        for (int i = 0; i < oldEntries.length; i++) {
+            IClasspathEntry current = oldEntries[i];
+            if (current.getEntryKind() == IClasspathEntry.CPE_CONTAINER) {
+                IPath path = current.getPath();
 
-	public IContextInformation getContextInformation() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+                if (path.equals(entry.getPath())) {
+                    System.out.println("true");
+                    return true;
+                } else if (path.matchingFirstSegments(entry.getPath()) > 0) {
+                    if (!added) {
+                        current = entry;
+                    } else {
+                        current = null;
+                    }
+                }
 
-	public String getDisplayString() {
-		if(isPerfidix){
-			return "Add Perfidix library to the build path";
-		}
-		return null;
-	}
+            } else if (current.getEntryKind() == IClasspathEntry.CPE_VARIABLE) {
+                IPath path = current.getPath();
+                if (path.segmentCount() > 0
+                        && PerclipseActivator.PERFIDIX_HOME.equals(path
+                                .segment(0))) {
+                    if (!added) {
+                        current = entry;
+                    } else {
+                        current = null;
+                    }
+                }
+            }
+            if (current != null) {
+                newEntries.add(current);
+            }
 
-	public Image getImage() {
-		// TODO Auto-generated method stub
-		return JavaUI.getSharedImages().getImage(ISharedImages.IMG_OBJS_LIBRARY);
-	}
+        }
+        if (!added) {
+            newEntries.add(entry);
+        }
+        final IClasspathEntry[] newCPEntries =
+                (IClasspathEntry[]) newEntries
+                        .toArray(new IClasspathEntry[newEntries.size()]);
 
-	public Point getSelection(IDocument arg0) {
-		// TODO Auto-generated method stub
-		return new Point(context.getSelectionOffset(), context.getSelectionLength());
-	}
+        try {
+            context.run(true, false, new IRunnableWithProgress() {
+                public void run(IProgressMonitor monitor) {
+                    try {
+                        project.setRawClasspath(newCPEntries, monitor);
+                    } catch (JavaModelException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
+                }
+            });
+            return true;
+        } catch (InvocationTargetException e) {
+            Throwable t = e.getTargetException();
+            if (t instanceof CoreException) {
+                ErrorDialog.openError(
+                        shell, "Add Perfidix library to the build path",
+                        "Cannot Add", ((CoreException) t).getStatus());
+            }
+            return false;
+        } catch (InterruptedException e) {
+            return false;
+        }
+
+    }
+
+    public String getAdditionalProposalInfo() {
+
+        if (isPerfidix) {
+            return "Adds the Perfidix jar library to the build path";
+        }
+
+        return null;
+    }
+
+    public IContextInformation getContextInformation() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    public String getDisplayString() {
+        if (isPerfidix) {
+            return "Add Perfidix library to the build path";
+        }
+        return null;
+    }
+
+    public Image getImage() {
+        // TODO Auto-generated method stub
+        return JavaUI
+                .getSharedImages().getImage(ISharedImages.IMG_OBJS_LIBRARY);
+    }
+
+    public Point getSelection(IDocument arg0) {
+        // TODO Auto-generated method stub
+        return new Point(context.getSelectionOffset(), context
+                .getSelectionLength());
+    }
 
 }

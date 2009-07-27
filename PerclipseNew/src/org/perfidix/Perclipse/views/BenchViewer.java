@@ -15,89 +15,95 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.part.PageBook;
 import org.perfidix.Perclipse.model.BenchRunSession;
+import org.perfidix.Perclipse.model.JavaElementsWithTotalRuns;
 import org.perfidix.Perclipse.util.ShowJavaElementInJavaEditor;
 import org.perfidix.Perclipse.viewTreeTestdaten.TreeDataProvider;
 
 public class BenchViewer {
 
-	private BenchView benchView;
-	private BenchRunSession benchRunSession;
+    private BenchView benchView;
+    private BenchRunSession benchRunSession;
 
-	private Clipboard clipboard;
-	private Image hierarchyIcon;
-	private PageBook viewerBook;
-	private TreeViewer treeViewer;
+    private Clipboard clipboard;
+    private Image hierarchyIcon;
+    private PageBook viewerBook;
+    private TreeViewer treeViewer;
 
-	private int layoutMode;
+    private int layoutMode;
 
-	public BenchViewer(Composite parent, Clipboard clipboard, BenchView runner) {
-		benchView = runner;
-		this.clipboard = clipboard;
+    public BenchViewer(Composite parent, Clipboard clipboard, BenchView runner) {
+        benchView = runner;
+        this.clipboard = clipboard;
 
-		hierarchyIcon = BenchView.createImage("icons/time.png"); //$NON-NLS-1$
-		parent.addDisposeListener(new DisposeListener() {
-			public void widgetDisposed(DisposeEvent e) {
-				disposeIcons();
-			}
+        hierarchyIcon = BenchView.createImage("icons/time.png"); //$NON-NLS-1$
+        parent.addDisposeListener(new DisposeListener() {
+            public void widgetDisposed(DisposeEvent e) {
+                disposeIcons();
+            }
 
-		});
+        });
 
-		layoutMode = BenchView.LAYOUT_HIERARCHICAL;
+        layoutMode = BenchView.LAYOUT_HIERARCHICAL;
 
-		createBenchViewers(parent);
+        createBenchViewers(parent);
 
-		// registerViewersRefresh();
+        // registerViewersRefresh();
 
-		// initContextMenu();
-	}
+        // initContextMenu();
+    }
 
-	private void createBenchViewers(Composite parent) {
-		viewerBook = new PageBook(parent, SWT.NONE | SWT.BORDER);
-		viewerBook.setLayoutData(new GridData(GridData.FILL_BOTH));
-		treeViewer = new TreeViewer(viewerBook, SWT.NONE);
-		treeViewer.setContentProvider(new BenchTreeContentProvider());
-		treeViewer.setLabelProvider(new BenchTreeLabelProvider());
-		treeViewer.addDoubleClickListener(new IDoubleClickListener(){
-			public void doubleClick(DoubleClickEvent event){
-				
-				TreeSelection treeSelection =(TreeSelection) event.getSelection();
-				
-				ShowJavaElementInJavaEditor elementInJavaEditor = new ShowJavaElementInJavaEditor(treeSelection.getFirstElement());
-			}
-		});
-		treeViewer.setInput(null);
-		viewerBook.showPage(treeViewer.getTree());
-	}
+    private void createBenchViewers(Composite parent) {
+        viewerBook = new PageBook(parent, SWT.NONE | SWT.BORDER);
+        viewerBook.setLayoutData(new GridData(GridData.FILL_BOTH));
+        treeViewer = new TreeViewer(viewerBook, SWT.NONE);
+        treeViewer.setContentProvider(new BenchTreeContentProvider());
+        treeViewer.setLabelProvider(new BenchTreeLabelProvider());
+        treeViewer.addDoubleClickListener(new IDoubleClickListener() {
+            public void doubleClick(DoubleClickEvent event) {
 
-	public void processChangesInUI(BenchRunSession benchRunSession) {
+                TreeSelection treeSelection =
+                        (TreeSelection) event.getSelection();
 
-		//benchRunSession = BenchRunSession.getInstance();
-		this.benchRunSession=benchRunSession;
+                ShowJavaElementInJavaEditor elementInJavaEditor =
+                        new ShowJavaElementInJavaEditor(treeSelection
+                                .getFirstElement());
+            }
+        });
+        treeViewer.setInput(null);
+        viewerBook.showPage(treeViewer.getTree());
+    }
 
-		if (benchRunSession.getBenchedClasses() == null) {
-			treeViewer.setInput(null);
+    public void processChangesInUI(BenchRunSession benchRunSession) {
 
-			return;
-		}
 
-		List classList = benchRunSession.getBenchedClasses();
-		TreeDataProvider dataProvider[] = new TreeDataProvider[classList.size()];
-		for (Object treeDataProvider : classList) {
-			dataProvider[classList.indexOf(treeDataProvider)] = new TreeDataProvider(
-					treeDataProvider.toString());
+        this.benchRunSession = benchRunSession;
 
-		}
-		treeViewer.setInput(dataProvider);
+        if (benchRunSession.getBenchElements() == null) {
+            treeViewer.setInput(null);
 
-	}
+            return;
+        }
 
-	public synchronized void registerActiveSession(BenchRunSession runSession) {
-		benchRunSession = runSession;
+        List<?> classList = benchRunSession.getBenchElements();
+        TreeDataProvider dataProvider[] =
+                new TreeDataProvider[classList.size()];
+        for (Object treeDataProvider : classList) {
+            dataProvider[classList.indexOf(treeDataProvider)] =
+                    new TreeDataProvider(((JavaElementsWithTotalRuns)treeDataProvider).getJavaElement()
+                            , ((JavaElementsWithTotalRuns)treeDataProvider).getTotalRuns(), ((JavaElementsWithTotalRuns)treeDataProvider).getCurrentRun());
 
-	}
+        }
+        treeViewer.setInput(dataProvider);
 
-	private void disposeIcons() {
-		hierarchyIcon.dispose();
-	}
+    }
+
+    public synchronized void registerActiveSession(BenchRunSession runSession) {
+        benchRunSession = runSession;
+
+    }
+
+    private void disposeIcons() {
+        hierarchyIcon.dispose();
+    }
 
 }
