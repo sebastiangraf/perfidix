@@ -16,42 +16,39 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
 import org.perfidix.Perclipse.launcher.PerclipseActivator;
 
-
-
 public class ShowJavaElementInJavaEditor {
 
-	public ShowJavaElementInJavaEditor(Object object) {
-	
-		//ToDo: when the object was double clicked, opens the java element in the java editor
-		
-		System.out.println(object);
-		
-		openJavaEditor(object.toString());
+    public ShowJavaElementInJavaEditor(Object object) {
 
-		
-	}
-	
-	private void openJavaEditor(String editname){
-		
-		System.out.println("in openJavaEditor");
-		
-		IWorkspace workspace = ResourcesPlugin.getWorkspace();
-		
-		System.out.println(workspace);
-		
-		IWorkspaceRoot workspaceRoot = workspace.getRoot();
-		IPath path = workspaceRoot.getLocation();
+        // ToDo: when the object was double clicked, opens the java element in
+        // the java editor
 
-		
-		
-//		IWorkbenchPart activePart = null;
-//		IWorkbenchPage page = null;
-//		page = PerclipseActivator.getActivePage();
-//		activePart=page.getActivePart();
-//		
-//		IEditorDescriptor desc = PlatformUI.getWorkbench().getEditorRegistry().getDefaultEditor(editname);
-//		page.openEditor(new FileEditorInput(file), desc.getId());
-		
-	}
+        System.out.println(object);
+
+        openJavaEditor(object.toString());
+
+    }
+
+    private void openJavaEditor(String editname) {
+
+        System.out.println("in openJavaEditor");
+
+        IWorkspace workspace = ResourcesPlugin.getWorkspace();
+
+        System.out.println(workspace);
+
+        IWorkspaceRoot workspaceRoot = workspace.getRoot();
+        IPath path = workspaceRoot.getLocation();
+
+        // IWorkbenchPart activePart = null;
+        // IWorkbenchPage page = null;
+        // page = PerclipseActivator.getActivePage();
+        // activePart=page.getActivePart();
+        //		
+        // IEditorDescriptor desc =
+        // PlatformUI.getWorkbench().getEditorRegistry().getDefaultEditor(editname);
+        // page.openEditor(new FileEditorInput(file), desc.getId());
+
+    }
 
 }

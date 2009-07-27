@@ -6,19 +6,21 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 
 public class PerclipseViewStub implements IBenchRunSessionListener {
-    private String host;
-    private int viewListenerPort;
+
     private String command;
     private Socket socket;
     private ObjectOutputStream outputStream;
+    private String host;
 
     public PerclipseViewStub(String host, int viewListenerPort) {
-        this.host = host;
-        this.viewListenerPort = viewListenerPort;
+        if (host == null) {
+            this.host = "localhost";
+        } else {
+            this.host = host;
+        }
         try {
-            socket = new Socket(host, viewListenerPort);
-            outputStream =
-                    new ObjectOutputStream(socket.getOutputStream());
+            socket = new Socket(this.host, viewListenerPort);
+            outputStream = new ObjectOutputStream(socket.getOutputStream());
         } catch (UnknownHostException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

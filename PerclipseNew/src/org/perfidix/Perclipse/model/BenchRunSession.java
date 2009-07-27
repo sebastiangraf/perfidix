@@ -13,114 +13,114 @@ import org.eclipse.jdt.core.IJavaProject;
 
 public class BenchRunSession {
 
-	private int startedCount;
-	private int currentCount;
-	private int totalCount;
-	private int errorCount;
-	private boolean isStopped = false;
-	private boolean isRunning = false;
-	private List benchedClasses;
-	private List<JavaElementsWithTotalRuns> benchElements;
-	private ILaunch launch;
-	private IJavaProject project;
-	private String benchRunName;
+    private int startedCount;
+    private int currentCount;
+    private int totalCount;
+    private int errorCount;
+    private boolean isStopped = false;
+    private boolean isRunning = false;
+    private List benchedClasses;
+    private List<JavaElementsWithTotalRuns> benchElements;
+    private ILaunch launch;
+    private IJavaProject project;
+    private String benchRunName;
 
-	private static BenchRunSession runSession;
+    private static BenchRunSession runSession;
 
-	private BenchRunSession() {
-		// runSession=this;
-	}
+    private BenchRunSession() {
+        // runSession=this;
+    }
 
-	public void setBenchRunSession(int totalCount,
-			List<JavaElementsWithTotalRuns> completeList) {
-		this.totalCount = totalCount;
-		startedCount = 0;
-		errorCount = 0;
-		currentCount = 0;
-		benchElements = completeList;
+    public void setBenchRunSession(
+            int totalCount, List<JavaElementsWithTotalRuns> completeList) {
+        this.totalCount = totalCount;
+        startedCount = 0;
+        errorCount = 0;
+        currentCount = 0;
+        benchElements = completeList;
 
-	}
+    }
 
-	public int getStartedCount() {
-		return startedCount;
-	}
+    public int getStartedCount() {
+        return startedCount;
+    }
 
-	public int getTotalCount() {
-		return totalCount;
-	}
+    public int getTotalCount() {
+        return totalCount;
+    }
 
-	public int getErrorCount() {
-		return errorCount;
-	}
+    public int getErrorCount() {
+        return errorCount;
+    }
 
-	public int getCurrentCount() {
-		return currentCount;
-	}
+    public int getCurrentCount() {
+        return currentCount;
+    }
 
-	public void setCurrentRun(String currentElement) {
-		
-		/** Dummy ******/
-		currentCount=currentCount+1;
-		/** Dummy end *****/
-		
-		if (benchElements != null) {
-			for(JavaElementsWithTotalRuns listElement : benchElements){
-				if(listElement.getJavaElement().equals(currentElement)){
-					listElement.updateCurrentRun();
-					currentCount=currentCount+1;
-				}
-			}
+    public void setCurrentRun(String currentElement) {
 
-		}
-	}
+        /** Dummy ******/
+        currentCount = currentCount + 1;
+        /** Dummy end *****/
 
-	public boolean isStopped() {
-		return isStopped;
-	}
+        if (benchElements != null) {
+            for (JavaElementsWithTotalRuns listElement : benchElements) {
+                if (listElement.getJavaElement().equals(currentElement)) {
+                    listElement.updateCurrentRun();
+                    currentCount = currentCount + 1;
+                }
+            }
 
-	public boolean isRunning() {
-		return isRunning;
-	}
+        }
+    }
 
-	public void reset() {
-		startedCount = 0;
-		totalCount = 0;
-		errorCount = 0;
-		currentCount = 0;
+    public boolean isStopped() {
+        return isStopped;
+    }
 
-	}
+    public boolean isRunning() {
+        return isRunning;
+    }
 
-	/*********************************/
-	// Temporarly the arguments for launching perfidix - the java classes
-	// containing at least one bench
-	public void setBenchedClasses(List benchedClasses) {
-		this.benchedClasses = benchedClasses;
-	}
+    public void reset() {
+        startedCount = 0;
+        totalCount = 0;
+        errorCount = 0;
+        currentCount = 0;
 
-	public List getBenchedClasses() {
-		return benchedClasses;
-	}
+    }
 
-	/*********************************/
+    /*********************************/
+    // Temporarly the arguments for launching perfidix - the java classes
+    // containing at least one bench
+    public void setBenchedClasses(List benchedClasses) {
+        this.benchedClasses = benchedClasses;
+    }
 
-	public void setBenchElements(List<JavaElementsWithTotalRuns> elementsList) {
-		this.benchElements = elementsList;
-	}
+    public List getBenchedClasses() {
+        return benchedClasses;
+    }
 
-	public List<JavaElementsWithTotalRuns> getBenchElements() {
-		return benchElements;
-	}
+    /*********************************/
 
-	public void updateError(String errorInElement) {
-		errorCount = errorCount + 1;
+    public void setBenchElements(List<JavaElementsWithTotalRuns> elementsList) {
+        this.benchElements = elementsList;
+    }
 
-	}
+    public List<JavaElementsWithTotalRuns> getBenchElements() {
+        return benchElements;
+    }
 
-	public static BenchRunSession getInstance() {
-		if (runSession == null) {
-			runSession = new BenchRunSession();
-		}
-		return runSession;
-	}
+    public void updateError(String errorInElement) {
+        errorCount = errorCount + 1;
+
+    }
+
+    public static BenchRunSession getInstance() {
+        if (runSession == null) {
+            runSession = new BenchRunSession();
+        }
+        return runSession;
+    }
 
 }

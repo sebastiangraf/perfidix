@@ -21,7 +21,7 @@ public class PerclipseViewProgressUpdater {
     }
 
     public void initProgressView(
-            int totalRuns, List< ? > elementNameAndTotalBenchs) {
+            int totalRuns, List<?> elementNameAndTotalBenchs) {
         if (elementNameAndTotalBenchs != null) {
             Object[] elementArray = elementNameAndTotalBenchs.toArray();
             viewStub.initTotalBenchProgress(totalRuns, elementArray);

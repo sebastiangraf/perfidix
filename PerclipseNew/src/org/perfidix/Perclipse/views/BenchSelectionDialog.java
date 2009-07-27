@@ -10,7 +10,6 @@
  *******************************************************************************/
 package org.perfidix.Perclipse.views;
 
- 
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Shell;
 
@@ -21,66 +20,78 @@ import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.ui.JavaElementLabelProvider;
 
 /**
- * This class represent the dialog which opens when the User clicks on the "search"-Button in the @{link PerclipseMainTab}. The user can choose classes from a specified project and add them to the launch configuration.
+ * This class represent the dialog which opens when the User clicks on the
+ * "search"-Button in the @{link PerclipseMainTab}. The user can choose classes
+ * from a specified project and add them to the launch configuration.
  * 
- * @author Graf S., Lewandowski L. 
- *
+ * @author Graf S., Lewandowski L.
  */
 public class BenchSelectionDialog extends TwoPaneElementSelector {
 
-	private final IType[] fTypes;
-	
-	/**
-	 * @author Graf S.
-	 *
-	 */
-	private static class PackageRenderer extends JavaElementLabelProvider {
-		/**
-		 * This constructor calls the super constructor with the below {@link JavaElementLabelProvider} parameters. 
-		 */
-		public PackageRenderer() {
-			super(JavaElementLabelProvider.SHOW_PARAMETERS | JavaElementLabelProvider.SHOW_POST_QUALIFIED | JavaElementLabelProvider.SHOW_ROOT);	
-		}
+    private final IType[] fTypes;
 
-		/* (non-Javadoc)
-		 * @see org.eclipse.jdt.ui.JavaElementLabelProvider#getImage(java.lang.Object)
-		 */
-		public Image getImage(Object element) {
-			return super.getImage(((IType)element).getPackageFragment());
-		}
-		
-		/* (non-Javadoc)
-		 * @see org.eclipse.jdt.ui.JavaElementLabelProvider#getText(java.lang.Object)
-		 */
-		public String getText(Object element) {
-			return super.getText(((IType)element).getPackageFragment());
-		}
-	}
-	
-	/**
-	 * @param shell
-	 * @param types
-	 */
-	public BenchSelectionDialog(Shell shell, IType[] types) {
-		super(shell, new JavaElementLabelProvider(JavaElementLabelProvider.SHOW_BASICS | JavaElementLabelProvider.SHOW_OVERLAY_ICONS), 
-				new PackageRenderer());
-		fTypes= types;
-	}
+    /**
+     * @author Graf S.
+     */
+    private static class PackageRenderer extends JavaElementLabelProvider {
+        /**
+         * This constructor calls the super constructor with the below
+         * {@link JavaElementLabelProvider} parameters.
+         */
+        public PackageRenderer() {
+            super(JavaElementLabelProvider.SHOW_PARAMETERS
+                    | JavaElementLabelProvider.SHOW_POST_QUALIFIED
+                    | JavaElementLabelProvider.SHOW_ROOT);
+        }
 
-	/**
-	 * @see org.eclipse.jface.window.Window#configureShell(Shell)
-	 */
-	protected void configureShell(Shell newShell) {
-		super.configureShell(newShell);
-		//PlatformUI.getWorkbench().getHelpSystem().setHelp(newShell, new Object[] { IJavaHelpContextIds.MAINTYPE_SELECTION_DIALOG });
-	}
+        /*
+         * (non-Javadoc)
+         * @see
+         * org.eclipse.jdt.ui.JavaElementLabelProvider#getImage(java.lang.Object
+         * )
+         */
+        public Image getImage(Object element) {
+            return super.getImage(((IType) element).getPackageFragment());
+        }
 
-	/*
-	 * @see Window#open()
-	 */
-	public int open() {
-		setElements(fTypes);
-		return super.open();
-	}
-	
+        /*
+         * (non-Javadoc)
+         * @see
+         * org.eclipse.jdt.ui.JavaElementLabelProvider#getText(java.lang.Object)
+         */
+        public String getText(Object element) {
+            return super.getText(((IType) element).getPackageFragment());
+        }
+    }
+
+    /**
+     * @param shell
+     * @param types
+     */
+    public BenchSelectionDialog(Shell shell, IType[] types) {
+        super(
+                shell, new JavaElementLabelProvider(
+                        JavaElementLabelProvider.SHOW_BASICS
+                                | JavaElementLabelProvider.SHOW_OVERLAY_ICONS),
+                new PackageRenderer());
+        fTypes = types;
+    }
+
+    /**
+     * @see org.eclipse.jface.window.Window#configureShell(Shell)
+     */
+    protected void configureShell(Shell newShell) {
+        super.configureShell(newShell);
+        // PlatformUI.getWorkbench().getHelpSystem().setHelp(newShell, new
+        // Object[] { IJavaHelpContextIds.MAINTYPE_SELECTION_DIALOG });
+    }
+
+    /*
+     * @see Window#open()
+     */
+    public int open() {
+        setElements(fTypes);
+        return super.open();
+    }
+
 }
