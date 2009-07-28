@@ -52,7 +52,9 @@ public final class PerclipseListener extends AbstractOutput {
     /** {@inheritDoc} */
     @Override
     public void listenToException(PerfidixMethodException exec) {
-        // TODO to be implemented
+        view.updateErrorInElement((exec
+                .getMethod().getDeclaringClass().getName()
+                + "." + exec.getMethod().getName()));
 
     }
 
