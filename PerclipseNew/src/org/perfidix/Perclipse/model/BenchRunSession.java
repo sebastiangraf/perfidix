@@ -2,13 +2,8 @@ package org.perfidix.Perclipse.model;
 
 import java.util.List;
 
-import org.eclipse.debug.core.ILaunch;
-import org.eclipse.jdt.core.IJavaElement;
-import org.eclipse.jdt.core.IJavaProject;
-
 /**
- * A bench run session holds all information about a bench run. (launch
- * configuratoin, launch, bench tree including results)
+ * A bench run session holds all information about a bench run.
  */
 
 public class BenchRunSession {
@@ -19,17 +14,7 @@ public class BenchRunSession {
     private int errorCount;
     private boolean isStopped = false;
     private boolean isRunning = false;
-    private List benchedClasses;
     private List<JavaElementsWithTotalRuns> benchElements;
-    private ILaunch launch;
-    private IJavaProject project;
-    private String benchRunName;
-
-    private static BenchRunSession runSession;
-
-    private BenchRunSession() {
-        // runSession=this;
-    }
 
     public void setBenchRunSession(
             int totalCount, List<JavaElementsWithTotalRuns> completeList) {
@@ -86,19 +71,6 @@ public class BenchRunSession {
 
     }
 
-    /*********************************/
-    // Temporarly the arguments for launching perfidix - the java classes
-    // containing at least one bench
-    public void setBenchedClasses(List benchedClasses) {
-        this.benchedClasses = benchedClasses;
-    }
-
-    public List getBenchedClasses() {
-        return benchedClasses;
-    }
-
-    /*********************************/
-
     public void setBenchElements(List<JavaElementsWithTotalRuns> elementsList) {
         this.benchElements = elementsList;
     }
@@ -110,13 +82,6 @@ public class BenchRunSession {
     public void updateError(String errorInElement) {
         errorCount = errorCount + 1;
 
-    }
-
-    public static BenchRunSession getInstance() {
-        if (runSession == null) {
-            runSession = new BenchRunSession();
-        }
-        return runSession;
     }
 
 }

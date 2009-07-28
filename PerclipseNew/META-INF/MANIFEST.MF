@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Perfidix Plug-in
-Bundle-SymbolicName: org.perfidix.Perclipse2;singleton:=true
+Bundle-SymbolicName: org.perfidix.Perclipse;singleton:=true
 Bundle-Version: 1.0.0
 Bundle-Activator: org.perfidix.Perclipse.launcher.PerclipseActivator
 Bundle-Vendor: University of Konstanz, DiSy Group
@@ -20,3 +20,9 @@ Bundle-ActivationPolicy: lazy
 Import-Package: org.eclipse.jface.text,
  org.eclipse.jface.text.contentassist
 Bundle-ClassPath: .
+Export-Package: org.perfidix.Perclipse.buildpath,
+ org.perfidix.Perclipse.launcher,
+ org.perfidix.Perclipse.model,
+ org.perfidix.Perclipse.util,
+ org.perfidix.Perclipse.viewTreeData,
+ org.perfidix.Perclipse.views

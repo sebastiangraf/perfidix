@@ -17,7 +17,7 @@ import org.eclipse.ui.part.PageBook;
 import org.perfidix.Perclipse.model.BenchRunSession;
 import org.perfidix.Perclipse.model.JavaElementsWithTotalRuns;
 import org.perfidix.Perclipse.util.ShowJavaElementInJavaEditor;
-import org.perfidix.Perclipse.viewTreeTestdaten.TreeDataProvider;
+import org.perfidix.Perclipse.viewTreeData.TreeDataProvider;
 
 public class BenchViewer {
 
@@ -75,7 +75,6 @@ public class BenchViewer {
 
     public void processChangesInUI(BenchRunSession benchRunSession) {
 
-
         this.benchRunSession = benchRunSession;
 
         if (benchRunSession.getBenchElements() == null) {
@@ -89,8 +88,13 @@ public class BenchViewer {
                 new TreeDataProvider[classList.size()];
         for (Object treeDataProvider : classList) {
             dataProvider[classList.indexOf(treeDataProvider)] =
-                    new TreeDataProvider(((JavaElementsWithTotalRuns)treeDataProvider).getJavaElement()
-                            , ((JavaElementsWithTotalRuns)treeDataProvider).getTotalRuns(), ((JavaElementsWithTotalRuns)treeDataProvider).getCurrentRun());
+                    new TreeDataProvider(
+                            ((JavaElementsWithTotalRuns) treeDataProvider)
+                                    .getJavaElement(),
+                            ((JavaElementsWithTotalRuns) treeDataProvider)
+                                    .getTotalRuns(),
+                            ((JavaElementsWithTotalRuns) treeDataProvider)
+                                    .getCurrentRun());
 
         }
         treeViewer.setInput(dataProvider);

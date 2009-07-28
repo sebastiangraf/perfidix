@@ -68,7 +68,6 @@ public final class BenchModel {
                     connectTestRunner(launch, javaProject);
                 }
             });
-            
 
         }
 
@@ -144,8 +143,5 @@ public final class BenchModel {
 
         }
 
-        public void startSimulatorClass() {
-            new SimulatedWorkClass();
-        }
     }
 }
