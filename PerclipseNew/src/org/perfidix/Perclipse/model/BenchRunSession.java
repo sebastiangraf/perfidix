@@ -59,10 +59,6 @@ public class BenchRunSession {
 
     public void setCurrentRun(String currentElement) {
 
-        /** Dummy ******/
-        currentCount = currentCount + 1;
-        /** Dummy end *****/
-
         if (benchElements != null) {
             for (JavaElementsWithTotalRuns listElement : benchElements) {
                 if (listElement.getJavaElement().equals(currentElement)) {
