@@ -272,14 +272,6 @@ public final class NiceTable {
 
         }
 
-        /**
-         * Minimal width needed for displaying this element.
-         * 
-         * @return the minimal width
-         */
-        final int minWidth() {
-            return title.length();
-        }
     }
 
     /**

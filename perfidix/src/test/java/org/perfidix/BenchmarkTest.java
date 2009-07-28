@@ -21,6 +21,9 @@
 package org.perfidix;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
+import java.util.Map;
 
 import org.junit.After;
 import org.junit.Before;
@@ -30,6 +33,7 @@ import org.perfidix.benchmarktestClasses.BeforeBenchClassError;
 import org.perfidix.benchmarktestClasses.NormalBenchForClassAndObjectAdd;
 import org.perfidix.benchmarktestClasses.NormalCompleteBench;
 import org.perfidix.benchmarktestClasses.NormalIncompleteBench;
+import org.perfidix.element.BenchmarkMethod;
 import org.perfidix.element.KindOfArrangement;
 import org.perfidix.failureHandling.PerfidixMethodException;
 import org.perfidix.result.BenchmarkResult;
@@ -92,6 +96,10 @@ public class BenchmarkTest {
     @Test
     public final void testNormalBenchrun() {
         benchmark.add(NormalCompleteBench.class);
+        final Map<BenchmarkMethod, Integer> mapping =
+                benchmark.getNumberOfMethodsAndRuns();
+        assertEquals(1, mapping.size());
+        assertTrue(mapping.values().contains(NormalCompleteBench.RUNS));
         final BenchmarkResult benchRes =
                 benchmark.run(1.0, KindOfArrangement.NoArrangement);
         assertEquals(1, benchRes.getRegisteredMeters().size());
