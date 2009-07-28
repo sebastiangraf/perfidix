@@ -63,7 +63,6 @@ public class PerclipseViewProgressUpdater {
     public void initProgressView(
             final Map<BenchmarkMethod, Integer> mapping) {
         if (mapping != null) {
-            System.out.println("Methodsize of mapping: " + mapping.size());
             Set<BenchmarkMethod> methodSet = mapping.keySet();
 
             HashMap<String, Integer> finalMap =
