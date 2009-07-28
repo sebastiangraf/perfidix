@@ -20,7 +20,9 @@
  */
 package org.perfidix.perclipseAdapter;
 
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import org.perfidix.element.BenchmarkMethod;
 
@@ -60,12 +62,21 @@ public class PerclipseViewProgressUpdater {
      */
     public void initProgressView(
             final Map<BenchmarkMethod, Integer> mapping) {
-        // if (elementNameAndTotalBenchs != null) {
-        // Object[] elementArray =
-        // new Object[elementNameAndTotalBenchs.size()];
-        // elementArray = elementNameAndTotalBenchs.toArray();
-        // viewStub.initTotalBenchProgress(totalRuns, elementArray);
-        // }
+        if (mapping != null) {
+            System.out.println("Methodsize of mapping: " + mapping.size());
+            Set<BenchmarkMethod> methodSet = mapping.keySet();
+
+            HashMap<String, Integer> finalMap =
+                    new HashMap<String, Integer>();
+            for (BenchmarkMethod benchmarkMethod : methodSet) {
+
+                finalMap.put(
+                        benchmarkMethod.getMethodWithClassName(), mapping
+                                .get(benchmarkMethod));
+            }
+
+            viewStub.initTotalBenchProgress(finalMap);
+        }
     }
 
     /**

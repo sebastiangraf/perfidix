@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.HashMap;
 
 /**
  * This class creates the connection to the eclipse view, which depict the
@@ -72,11 +73,10 @@ public class PerclipseViewStub implements IBenchRunSessionListener {
 
     /** {@inheritDoc} */
     public void initTotalBenchProgress(
-            int totalRun, Object[] benchElementsWithTotalBench) {
+            HashMap<String, Integer> benchElementsWithTotalBench) {
         command = "init";
         try {
             outputStream.writeObject(command);
-            outputStream.writeObject(totalRun);
             outputStream.writeObject(benchElementsWithTotalBench);
         } catch (IOException e) {
             // TODO Auto-generated catch block

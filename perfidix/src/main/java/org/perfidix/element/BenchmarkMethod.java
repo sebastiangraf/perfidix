@@ -584,4 +584,19 @@ public final class BenchmarkMethod {
     public final String toString() {
         return new StringBuilder(methodToBench.getName()).toString();
     }
+
+    /**
+     * This method returns the fully qualified name consisting of its own name
+     * and its class name
+     * 
+     * @return the {@link String} name von the bench method consisting of fully
+     *         qualified name of its class and its own name
+     */
+    public final String getMethodWithClassName() {
+
+        return new StringBuilder(methodToBench
+                .getDeclaringClass().getName()
+                + "."
+                + methodToBench.getName()).toString();
+    }
 }
