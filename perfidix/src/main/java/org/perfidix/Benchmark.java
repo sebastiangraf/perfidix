@@ -21,6 +21,7 @@
 package org.perfidix;
 
 import java.lang.reflect.Method;
+import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.LinkedHashSet;
 import java.util.Map;
@@ -95,7 +96,6 @@ public final class Benchmark {
             throw new IllegalArgumentException(
                     "Only one class-instance per benchmark allowed");
         }
-
     }
 
     /**
@@ -157,6 +157,22 @@ public final class Benchmark {
     public final BenchmarkResult run(
             final KindOfArrangement kind, final AbstractOutput... visitor) {
         return run(1.0d, kind, visitor);
+    }
+
+    /**
+     * Getting the number of all methods and all runs
+     * 
+     * @return a map with all methods and the runs.
+     */
+    public final Map<BenchmarkMethod, Integer> getNumberOfMethodsAndRuns() {
+        final Map<BenchmarkMethod, Integer> returnVal =
+                new HashMap<BenchmarkMethod, Integer>();
+        final Set<BenchmarkMethod> meths = getBenchmarkMethods();
+        for (final BenchmarkMethod meth : meths) {
+            returnVal.put(meth, BenchmarkMethod
+                    .getNumberOfAnnotatedRuns(meth.getMethodToBench()));
+        }
+        return returnVal;
     }
 
     /**
@@ -391,6 +407,29 @@ public final class Benchmark {
     }
 
     /**
+     * Getting all Benchmarkable methods out of the registered class.
+     * 
+     * @return a Set with {@link BenchmarkMethod}
+     */
+    public final Set<BenchmarkMethod> getBenchmarkMethods() {
+        // Generating Set for returnVal
+        final Set<BenchmarkMethod> elems =
+                new LinkedHashSet<BenchmarkMethod>();
+        // Getting all Methods and testing if its benchmarkable
+        for (final Class< ? > clazz : clazzes) {
+            for (final Method meth : clazz.getDeclaredMethods()) {
+                // Check if benchmarkable, if so, insert to returnVal;
+                if (BenchmarkMethod.isBenchmarkable(meth)) {
+                    final BenchmarkMethod benchmarkMeth =
+                            new BenchmarkMethod(meth);
+                    elems.add(benchmarkMeth);
+                }
+            }
+        }
+        return elems;
+    }
+
+    /**
      * Getting all benchmarkable objects out of the registered classes with the
      * annotated number of runs.
      * 
@@ -402,24 +441,20 @@ public final class Benchmark {
         final Set<BenchmarkElement> elems =
                 new LinkedHashSet<BenchmarkElement>();
 
-        // Getting all Methods and testing if its benchmarkable
-        for (final Class< ? > clazz : clazzes) {
-            for (final Method meth : clazz.getDeclaredMethods()) {
-                // Check if benchmarkable, if so, insert to returnVal;
-                if (BenchmarkMethod.isBenchmarkable(meth)) {
-                    final int numberOfRuns =
-                            BenchmarkMethod.getNumberOfAnnotatedRuns(meth);
-                    final BenchmarkMethod benchmarkMeth =
-                            new BenchmarkMethod(meth);
+        final Set<BenchmarkMethod> meths = getBenchmarkMethods();
 
-                    // getting the number of runs and adding this number of
-                    // elements to the set to be evaluated.
-                    for (int i = 0; i < numberOfRuns; i++) {
-                        elems.add(new BenchmarkElement(benchmarkMeth));
-                    }
-                }
+        for (final BenchmarkMethod meth : meths) {
+            final int numberOfRuns =
+                    BenchmarkMethod.getNumberOfAnnotatedRuns(meth
+                            .getMethodToBench());
+
+            // getting the number of runs and adding this number of
+            // elements to the set to be evaluated.
+            for (int i = 0; i < numberOfRuns; i++) {
+                elems.add(new BenchmarkElement(meth));
             }
         }
+
         return elems;
     }
 }
