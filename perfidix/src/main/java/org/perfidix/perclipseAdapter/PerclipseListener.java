@@ -60,7 +60,8 @@ public final class PerclipseListener extends AbstractOutput {
     @Override
     public void listenToResultSet(
             Method meth, AbstractMeter meter, double data) {
-        view.updateCurrentElement(meth.getName());
+        view.updateCurrentElement((meth.getDeclaringClass().getName()
+                + "." + meth.getName()));
     }
 
     /** {@inheritDoc} */
