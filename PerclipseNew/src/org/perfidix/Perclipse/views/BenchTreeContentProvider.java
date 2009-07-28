@@ -2,7 +2,7 @@ package org.perfidix.Perclipse.views;
 
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ITreeContentProvider;
-import org.perfidix.Perclipse.viewTreeTestdaten.TreeDataProvider;
+import org.perfidix.Perclipse.viewTreeData.TreeDataProvider;
 
 public class BenchTreeContentProvider extends ArrayContentProvider
         implements ITreeContentProvider {

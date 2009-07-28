@@ -11,7 +11,7 @@ public class JavaElementsWithTotalRuns {
         this.javaElement = javaElement;
         this.totalRuns = totalRuns;
         currentRun = 0;
-        errorCount=0;
+        errorCount = 0;
     }
 
     public int getCurrentRun() {
@@ -31,7 +31,7 @@ public class JavaElementsWithTotalRuns {
     }
 
     public void updateErrorCount() {
-        errorCount=errorCount+1;
+        errorCount = errorCount + 1;
     }
 
     public int getErrorCount() {

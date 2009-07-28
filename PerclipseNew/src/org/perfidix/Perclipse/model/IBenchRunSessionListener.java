@@ -1,10 +1,10 @@
 package org.perfidix.Perclipse.model;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 
 public interface IBenchRunSessionListener {
     public void initTotalBenchProgress(
-            int totalRun, Object[] benchElementsWithTotalBench);
+            HashMap<String, Integer> benchElementsWithTotalBench);
 
     public void updateCurrentRun(String currentElement);
 

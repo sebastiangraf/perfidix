@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.HashMap;
 
 public class PerclipseViewSkeleton extends Thread {
     IBenchRunSessionListener sessionListener;
@@ -35,14 +36,14 @@ public class PerclipseViewSkeleton extends Thread {
         }
         boolean finished = false;
         String command;
-        while (finished==false) {
+        while (finished == false) {
             try {
                 command = (String) in.readObject();
                 if ("init".equals(command)) {
                     System.out.println("init");
-                    int total = (Integer) in.readObject();
-                    Object[] elements = (Object[]) in.readObject();
-                    sessionListener.initTotalBenchProgress(total, elements);
+                    HashMap<String, Integer> elements =
+                            (HashMap<String, Integer>) in.readObject();
+                    sessionListener.initTotalBenchProgress(elements);
                 } else if ("updateCurrentRun".equals(command)) {
                     System.out.println("updateCurrentRun");
                     String currentElement = (String) in.readObject();
@@ -61,11 +62,11 @@ public class PerclipseViewSkeleton extends Thread {
             } catch (IOException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
-                finished=true;
+                finished = true;
             } catch (ClassNotFoundException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
-                finished=true;
+                finished = true;
             }
 
         }

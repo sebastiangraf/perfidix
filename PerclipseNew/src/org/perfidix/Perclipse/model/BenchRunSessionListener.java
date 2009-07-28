@@ -1,9 +1,9 @@
 package org.perfidix.Perclipse.model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-
-import org.eclipse.jdt.core.IJavaElement;
+import java.util.Set;
 
 public class BenchRunSessionListener implements IBenchRunSessionListener {
 
@@ -12,20 +12,23 @@ public class BenchRunSessionListener implements IBenchRunSessionListener {
     private boolean finished = false;
 
     public BenchRunSessionListener() {
-        runSession = BenchRunSession.getInstance();
+        runSession = new BenchRunSession();
         viewUpdater = new BenchRunViewUpdater();
     }
 
     public void initTotalBenchProgress(
-            int totalRun, Object[] benchElementsWithTotalBench) {
+            HashMap<String, Integer> benchElementsWithTotalBench) {
+        int totalRun = 0;
         List<JavaElementsWithTotalRuns> list =
                 new ArrayList<JavaElementsWithTotalRuns>();
         if (benchElementsWithTotalBench != null) {
-            for (int i = 0; i < benchElementsWithTotalBench.length; i = i + 2) {
+            Set<String> theSet = benchElementsWithTotalBench.keySet();
+            for (String elementName : theSet) {
                 list.add(new JavaElementsWithTotalRuns(
-                        (String) benchElementsWithTotalBench[i],
-                        (Integer) benchElementsWithTotalBench[i + 1]));
-
+                        elementName, benchElementsWithTotalBench
+                                .get(elementName)));
+                totalRun =
+                        totalRun + benchElementsWithTotalBench.get(elementName);
             }
         }
         runSession.setBenchRunSession(totalRun, list);

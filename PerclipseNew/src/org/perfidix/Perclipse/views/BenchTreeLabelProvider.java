@@ -2,7 +2,7 @@ package org.perfidix.Perclipse.views;
 
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.graphics.Image;
-import org.perfidix.Perclipse.viewTreeTestdaten.TreeDataProvider;
+import org.perfidix.Perclipse.viewTreeData.TreeDataProvider;
 
 public class BenchTreeLabelProvider extends LabelProvider {
 
@@ -12,6 +12,11 @@ public class BenchTreeLabelProvider extends LabelProvider {
 
     public String getText(Object element) {
         TreeDataProvider treeData = (TreeDataProvider) element;
-        return treeData.getParentElementName()+" "+treeData.getCurrentBench()+"/"+treeData.getNumberOfBenchsForElement();
+        return treeData.getParentElementName()
+                + "  ("
+                + treeData.getCurrentBench()
+                + "/"
+                + treeData.getNumberOfBenchsForElement()
+                + ")";
     }
 }
