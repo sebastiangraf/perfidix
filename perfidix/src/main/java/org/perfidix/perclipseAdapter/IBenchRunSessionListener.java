@@ -34,7 +34,7 @@ public interface IBenchRunSessionListener {
      * view. This param represent the sum value of all runs to be executed.
      * 
      * @param benchElementsWithTotalBench
-     *            This param is an array which consists of each java element
+     *            This param is an HashMap which consists of each java element
      *            name with its total bench runs value.
      */
     public void initTotalBenchProgress(
