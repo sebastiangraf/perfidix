@@ -2,34 +2,40 @@ package org.perfidix.Perclipse.views;
 
 import org.eclipse.core.runtime.Status;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.dnd.Clipboard;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.IMemento;
 import org.eclipse.ui.IViewSite;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.part.ViewPart;
 import org.eclipse.ui.progress.IWorkbenchSiteProgressService;
+import org.eclipse.ui.progress.UIJob;
 import org.perfidix.Perclipse.model.BenchRunSession;
 
+/**
+ * This class BenchView is our eclipse view that opens when a bench run is
+ * started. It shows the progress of the perfidix bench process with a counter
+ * panel,a progress bar and a bench viewer.
+ * 
+ * @author Lewandowski Lukas, DiSy, University of Konstanz
+ */
 public class BenchView extends ViewPart {
 
+    /**
+     * The view id, responsible for the view extensions point.
+     */
     public final static String MY_VIEW_ID =
             "org.perfidix.Perclipse.views.BenchView";
-    public final static int LAYOUT_HIERARCHICAL = 1;
-    private static final int REFRESH_INTERVAL = 20000;
+    private static final int REFRESH_INTERVAL = 2000;
     private PerfidixProgressBar progressBar;
     private BenchViewCounterPanel benchCounterPanel;
     private BenchViewer benchViewer;
     private BenchRunSession benchRunSession;
     private UpdateUIJob updateJob;
     private BenchIsRunningJob benchIsRunningJob;
-    private SashForm sashForm;
-    private Label label;
     private Composite counterComposite;
     private Composite parentComosite;
     private Clipboard clipboard;
@@ -37,12 +43,19 @@ public class BenchView extends ViewPart {
     private org.eclipse.core.runtime.jobs.ILock benchIsRunningLock;
     private boolean isDisposed = false;
 
-    protected boolean partIsVisible = false;
-
+    /**
+     * A must constructor that do nothing.
+     */
     public BenchView() {
 
     }
 
+    /**
+     * This method creates every intern part of the view, like progress bar or
+     * the bench viewer.
+     * 
+     * @see org.eclipse.ui.part.WorkbenchPart#createPartControl(org.eclipse.swt.widgets.Composite)
+     */
     @Override
     public void createPartControl(Composite parent) {
         parentComosite = parent;
@@ -58,10 +71,14 @@ public class BenchView extends ViewPart {
         counterComposite.setLayoutData(new GridData(GridData.GRAB_HORIZONTAL
                 | GridData.FILL_BOTH));
 
-        benchViewer = new BenchViewer(counterComposite, clipboard, this);
+        benchViewer = new BenchViewer(counterComposite);
 
     }
 
+    /*
+     * (non-Javadoc)
+     * @see org.eclipse.ui.part.WorkbenchPart#setFocus()
+     */
     @Override
     public void setFocus() {
         // TODO Auto-generated method stub
@@ -70,6 +87,14 @@ public class BenchView extends ViewPart {
 
     }
 
+    /**
+     * This method creates a counter panel within the bench view.
+     * 
+     * @param parent
+     *            This param represents the composite of the view, in which the
+     *            counter panel should be created.
+     * @return It returns a modified composite.
+     */
     protected Composite createProgressCountPanel(Composite parent) {
         Composite composite = new Composite(parent, SWT.NONE);
         GridLayout layout = new GridLayout();
@@ -85,27 +110,59 @@ public class BenchView extends ViewPart {
         return composite;
     }
 
+    /**
+     * This method is responsible for creation an image within the view.
+     * 
+     * @param string
+     *            The String name/path of the image.
+     * @return It retruns the created image.
+     */
     public static Image createImage(String string) {
-        // TODO Auto-generated method stub
+        // Currently not used
         return null;
     }
 
+    /**
+     * This class is responsible for updating the created view within an ui job.
+     * It extends {@link UIJob}
+     * 
+     * @author Lewandowski Lukas, DiSy, University of Konstanz
+     */
     private class UpdateUIJob extends org.eclipse.ui.progress.UIJob {
         private boolean running = true;
 
+        /**
+         * The constructor sets an update ui job for a given name.
+         * 
+         * @param name
+         *            The given ui job name.
+         */
         public UpdateUIJob(String name) {
             super(name);
             setSystem(true);
         }
 
+        /**
+         * This method is called when an ui job stop
+         */
         public void stop() {
             running = false;
         }
 
+        /*
+         * (non-Javadoc)
+         * @see org.eclipse.core.runtime.jobs.Job#shouldSchedule()
+         */
         public boolean shouldSchedule() {
             return running;
         }
 
+        /*
+         * (non-Javadoc)
+         * @see
+         * org.eclipse.ui.progress.UIJob#runInUIThread(org.eclipse.core.runtime
+         * .IProgressMonitor)
+         */
         @Override
         public org.eclipse.core.runtime.IStatus runInUIThread(
                 org.eclipse.core.runtime.IProgressMonitor monitor) {
@@ -119,16 +176,37 @@ public class BenchView extends ViewPart {
         }
     }
 
+    /**
+     * This class is responsible for updating of data in the displayed view. It
+     * extends {@link org.eclipse.core.runtime.jobs.Job}.
+     * 
+     * @author Lewandowski Lukas, DiSy, University of Konstanz
+     */
     private class BenchIsRunningJob extends org.eclipse.core.runtime.jobs.Job {
+        /**
+         * The constructor sets a job with a given name.
+         * 
+         * @param name
+         *            The given name for a job registration.
+         */
         public BenchIsRunningJob(String name) {
             super(name);
             setSystem(true);
         }
 
+        /*
+         * (non-Javadoc)
+         * @see org.eclipse.core.runtime.jobs.Job#belongsTo(java.lang.Object)
+         */
         public boolean belongsTo(Object family) {
             return family == new Object();
         }
 
+        /*
+         * (non-Javadoc)
+         * @seeorg.eclipse.core.runtime.jobs.Job#run(org.eclipse.core.runtime.
+         * IProgressMonitor)
+         */
         @Override
         protected org.eclipse.core.runtime.IStatus run(
                 org.eclipse.core.runtime.IProgressMonitor arg0) {
@@ -137,6 +215,13 @@ public class BenchView extends ViewPart {
         }
     }
 
+    /**
+     * This method starts to update the view with the data of a given bench run
+     * session.
+     * 
+     * @param benchRunSession
+     *            The given bench run session.
+     */
     public void startUpdateJobs(BenchRunSession benchRunSession) {
         this.benchRunSession = benchRunSession;
         postSyncProcessChanges();
@@ -145,26 +230,15 @@ public class BenchView extends ViewPart {
             return;
         }
 
-        // benchIsRunningJob = new BenchIsRunningJob("wrapperJobName");
-        // benchIsRunningLock =
-        // org.eclipse.core.runtime.jobs.Job.getJobManager()
-        // .newLock();
-        // // acquire lock while a test run is running
-        // // the lock is released when the test run terminates
-        // // the wrapper job will wait on this lock.
-        // benchIsRunningLock.acquire();
-        // getProgressService().schedule(benchIsRunningJob);
-        //
         updateJob = new UpdateUIJob("jobName");
         updateJob.schedule(REFRESH_INTERVAL);
     }
 
-    // public BenchRunSession setActiveBenchRunSession(BenchRunSession
-    // runSession) {
-    // // TODO Auto-generated method stub
-    // return null;
-    // }
-
+    /*
+     * (non-Javadoc)
+     * @see org.eclipse.ui.part.ViewPart#init(org.eclipse.ui.IViewSite,
+     * org.eclipse.ui.IMemento)
+     */
     public void init(IViewSite site, IMemento memento) throws PartInitException {
         super.init(site, memento);
         this.memento = memento;
@@ -173,6 +247,11 @@ public class BenchView extends ViewPart {
             progressService.showBusyForFamily(new Object());
     }
 
+    /**
+     * This method returns the ProgressService or null.
+     * 
+     * @return This method returns the ProgressService or null.
+     */
     private org.eclipse.ui.progress.IWorkbenchSiteProgressService getProgressService() {
         Object siteService =
                 getSite()
@@ -183,6 +262,9 @@ public class BenchView extends ViewPart {
         return null;
     }
 
+    /**
+     * This method updates the process data with an ui thread.
+     */
     private void postSyncProcessChanges() {
         postSyncRunnable(new Runnable() {
             public void run() {
@@ -191,20 +273,36 @@ public class BenchView extends ViewPart {
         });
     }
 
+    /**
+     * This method updates the process data with an ui thread.
+     * 
+     * @param r
+     *            This param is a custom runnable.
+     */
     private void postSyncRunnable(Runnable r) {
         if (!isDisposed())
             getDisplay().syncExec(r);
     }
 
+    /**
+     * @return This method returns a boolean value if an object is disposed or
+     *         not.
+     */
     private boolean isDisposed() {
         return isDisposed;
     }
 
+    /**
+     * @return This method returns the current display.
+     */
     private org.eclipse.swt.widgets.Display getDisplay() {
         return getViewSite().getShell().getDisplay();
     }
 
-    private void stopUpdateJobs() {
+    /**
+     * This method is called when a update job has to stop.
+     */
+    public void stopUpdateJobs() {
         if (updateJob != null) {
             updateJob.stop();
             updateJob = null;
@@ -216,28 +314,21 @@ public class BenchView extends ViewPart {
         postSyncProcessChanges();
     }
 
+    /**
+     * This method changes the values of the view's data. It is used for
+     * updating the view.
+     */
     private void processChangesInUI() {
         if (counterComposite.isDisposed())
             return;
-
         refreshCounters();
-
-        // if (!fPartIsVisible)
-        // updateViewTitleProgress();
-        // else {
-        // updateViewIcon();
-        // }
-        // boolean hasErrorsOrFailures = hasErrorsOrFailures();
-        // fNextAction.setEnabled(hasErrorsOrFailures);
-        // fPreviousAction.setEnabled(hasErrorsOrFailures);
-
         benchViewer.processChangesInUI(benchRunSession);
     }
 
-    private boolean hasErrors() {
-        return getErrors() > 0;
-    }
-
+    /**
+     * @return This method returns the amount of occurred errors during the
+     *         benching process of a java element.
+     */
     private int getErrors() {
         if (benchRunSession == null) {
             return 0;
@@ -246,11 +337,11 @@ public class BenchView extends ViewPart {
         }
     }
 
+    /**
+     * This method updates the progress in the view. It is responsible for
+     * updating the counters.
+     */
     private void refreshCounters() {
-        // TODO: Inefficient. Either
-        // - keep a boolean fHasTestRun and update only on changes, or
-        // - improve components to only redraw on changes (once!).
-
         int startedCount;
         int currentCount;
         int totalCount;
@@ -267,29 +358,14 @@ public class BenchView extends ViewPart {
             stopped = benchRunSession.isStopped();
         } else {
 
-            startedCount = 2;
-            currentCount = 3;
-            totalCount = 10;
+            startedCount = 0;
+            currentCount = 0;
+            totalCount = 0;
             errorCount = 0;
             hasErrors = false;
             stopped = false;
-
-            // startedCount = 0;
-            // totalCount = 0;
-            // errorCount = 0;
-            // hasErrorsOrFailures = false;
-            // stopped = false;
         }
 
-        // int ticksDone;
-        // if (startedCount == 0)
-        // ticksDone = 0;
-        // // else if (startedCount == totalCount && !
-        // benchRunSession.isRunning())
-        // else if (startedCount == totalCount)
-        // ticksDone = totalCount;
-        // else
-        // ticksDone = startedCount - 1;
         int ticksDone;
         if (startedCount == currentCount)
             ticksDone = startedCount;
@@ -302,10 +378,9 @@ public class BenchView extends ViewPart {
         progressBar.reset(hasErrors, stopped, ticksDone, totalCount);
     }
 
-    // public void setBenchRunSession(BenchRunSession benchRunSession){
-    // this.benchRunSession=benchRunSession;
-    // }
-
+    /**
+     * @return Returns true if the composite is created. Otherwise false.
+     */
     public boolean isCreated() {
         return counterComposite != null;
     }

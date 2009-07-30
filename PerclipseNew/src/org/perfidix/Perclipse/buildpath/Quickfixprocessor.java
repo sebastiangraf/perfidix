@@ -14,13 +14,25 @@ import org.eclipse.jdt.ui.text.java.IJavaCompletionProposal;
 import org.eclipse.jdt.ui.text.java.IProblemLocation;
 import org.eclipse.jdt.ui.text.java.IQuickFixProcessor;
 
+/**
+ * This class is responsible for adding proposals to the QuickFix view within
+ * eclipse.
+ * 
+ * @author Lewandowski Lukas, DiSy, University of Konstanz
+ */
 public class Quickfixprocessor implements IQuickFixProcessor {
 
+    /**
+     * This method provides the proposals for a given context and location.
+     * 
+     * @see org.eclipse.jdt.ui.text.java.IQuickFixProcessor#getCorrections(org.eclipse.jdt.ui.text.java.IInvocationContext,
+     *      org.eclipse.jdt.ui.text.java.IProblemLocation[])
+     */
     public IJavaCompletionProposal[] getCorrections(
             IInvocationContext context, IProblemLocation[] locations)
             throws CoreException {
 
-        ArrayList arraylist = null;
+        ArrayList<PerfidixAddLibraryProposal> arraylist = null;
         for (IProblemLocation problemLocation : locations) {
             IProblemLocation problem = problemLocation;
             int id = problem.getProblemId();
@@ -36,14 +48,31 @@ public class Quickfixprocessor implements IQuickFixProcessor {
                 .toArray(new IJavaCompletionProposal[arraylist.size()]);
     }
 
+    /**
+     * Defines which problemId refers to our proposal.
+     * 
+     * @see org.eclipse.jdt.ui.text.java.IQuickFixProcessor#hasCorrections(org.eclipse.jdt.core.ICompilationUnit,
+     *      int)
+     */
     public boolean hasCorrections(ICompilationUnit unit, int problemId) {
         return problemId == IProblem.UndefinedType
                 || problemId == IProblem.ImportNotFound;
     }
 
-    private ArrayList getPerfidixAddLibraryProposals(
+    /**
+     * This method provides our proposals for the adding of our jar library.
+     * 
+     * @param context
+     *            The context where the quick fix occurred.
+     * @param problem
+     *            The location of the coming problem.
+     * @param arraylist
+     *            The ArrayList of our proposals.
+     * @return The ArrayList of our modified proposals.
+     */
+    private ArrayList<PerfidixAddLibraryProposal> getPerfidixAddLibraryProposals(
             IInvocationContext context, IProblemLocation problem,
-            ArrayList arraylist) {
+            ArrayList<PerfidixAddLibraryProposal> arraylist) {
 
         ArrayList<String> allowedAnnotations = getInitAllowedAnnotation();
 
@@ -61,7 +90,7 @@ public class Quickfixprocessor implements IQuickFixProcessor {
 
                     IJavaProject javaProject = unit.getJavaProject();
                     if (arraylist == null) {
-                        arraylist = new ArrayList();
+                        arraylist = new ArrayList<PerfidixAddLibraryProposal>();
 
                     }
                     arraylist.add(new PerfidixAddLibraryProposal(
@@ -78,6 +107,13 @@ public class Quickfixprocessor implements IQuickFixProcessor {
         return arraylist;
     }
 
+    /**
+     * This method provides the allowed annotations to invoke our proposals for
+     * the QuickFix processor.
+     * 
+     * @return Returns an ArrayList containing the allowed annotations for our
+     *         proposal support.
+     */
     private ArrayList<String> getInitAllowedAnnotation() {
         ArrayList<String> allowed = new ArrayList<String>();
         allowed.add("Bench");

@@ -18,47 +18,95 @@ import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.perfidix.Perclipse.launcher.PerclipseActivator;
 
+/**
+ * This class is responsible for initializing the custom perfidix container.
+ * 
+ * @author Lewandowski Lukas, DiSy, University of Konstanz
+ */
 public class PerfidixContainerInitializer extends ClasspathContainerInitializer {
+    /**
+     * This field specifies the container id, needed by the corresponding
+     * extension point.
+     */
     public static final String BENCH_CONTAINER_ID =
             "org.perfidix.Perclipse.PERFIDIX_CONTAINER";
+    /**
+     * This field provides the custom status "not supported".
+     */
     public static final IStatus NOT_SUPPORTED =
             new Status(
                     IStatus.ERROR, PerclipseActivator.PLUGIN_ID,
                     ClasspathContainerInitializer.ATTRIBUTE_NOT_SUPPORTED,
                     new String(), null);
+    /**
+     * This field provides the custom status READ_ONLY with corresponding
+     * attributes with read only functions of the classpath container.
+     */
     public static final IStatus READ_ONLY =
             new Status(
                     IStatus.ERROR, PerclipseActivator.PLUGIN_ID,
                     ClasspathContainerInitializer.ATTRIBUTE_READ_ONLY,
                     new String(), null);
 
+    /**
+     * This field sets the Perfidix path with the bench container id.
+     */
     public static final IPath PERFIDIX_PATH = new Path(BENCH_CONTAINER_ID);
 
+    /**
+     * This inner class collects information about the classpath container
+     * entry.
+     * 
+     * @author Lewandowski Lukas, DiSy, University of Konstanz
+     */
     private static class PerfidixContainer implements IClasspathContainer {
 
         private final IClasspathEntry[] entries;
         private final IPath path;
 
+        /**
+         * The constructor sets the path and the classpath entries.
+         * 
+         * @param path
+         * @param entries
+         */
         public PerfidixContainer(IPath path, IClasspathEntry[] entries) {
             this.path = path;
             this.entries = entries;
         }
 
+        /*
+         * (non-Javadoc)
+         * @see org.eclipse.jdt.core.IClasspathContainer#getClasspathEntries()
+         */
         public IClasspathEntry[] getClasspathEntries() {
 
             return entries;
         }
 
+        /**
+         * This method supports the description of the custom classpath entry.
+         * 
+         * @see org.eclipse.jdt.core.IClasspathContainer#getDescription()
+         */
         public String getDescription() {
 
             return "Perfidix Library";
         }
 
+        /*
+         * (non-Javadoc)
+         * @see org.eclipse.jdt.core.IClasspathContainer#getKind()
+         */
         public int getKind() {
 
             return IClasspathContainer.K_APPLICATION;
         }
 
+        /*
+         * (non-Javadoc)
+         * @see org.eclipse.jdt.core.IClasspathContainer#getPath()
+         */
         public IPath getPath() {
 
             return path;
@@ -66,10 +114,20 @@ public class PerfidixContainerInitializer extends ClasspathContainerInitializer 
 
     }
 
+    /**
+     * The empty constructor, needed by the corresponding extension point.
+     */
     public PerfidixContainerInitializer() {
 
     }
 
+    /**
+     * This method initializes the custom classpath container with the
+     * PerfidixContainer
+     * 
+     * @see org.eclipse.jdt.core.ClasspathContainerInitializer#initialize(org.eclipse.core.runtime.IPath,
+     *      org.eclipse.jdt.core.IJavaProject)
+     */
     @Override
     public void initialize(IPath cpath, IJavaProject project)
             throws CoreException {
@@ -82,6 +140,14 @@ public class PerfidixContainerInitializer extends ClasspathContainerInitializer 
 
     }
 
+    /**
+     * This method generates an new custom container with our perfidix library
+     * entry.
+     * 
+     * @param cpath
+     *            The classpath of the launched project.
+     * @return Returns the custom Perfidix container.
+     */
     private PerfidixContainer getNewContainer(IPath cpath) {
 
         IClasspathEntry entry = null;
@@ -97,26 +163,57 @@ public class PerfidixContainerInitializer extends ClasspathContainerInitializer 
         return new PerfidixContainer(cpath, entries);
     }
 
+    /**
+     * This method checks if the entered class path is valid.
+     * 
+     * @param cpath
+     *            The app path.
+     * @return Return true if valid otherwise false.
+     */
     private boolean isValidPerfidixContainerPath(IPath cpath) {
 
         return cpath != null && BENCH_CONTAINER_ID.equals(cpath.segment(0));
     }
 
+    /*
+     * (non-Javadoc)
+     * @seeorg.eclipse.jdt.core.ClasspathContainerInitializer#
+     * canUpdateClasspathContainer(org.eclipse.core.runtime.IPath,
+     * org.eclipse.jdt.core.IJavaProject)
+     */
     public boolean canUpdateClasspathContainer(
             IPath containerPath, IJavaProject project) {
         return true;
     }
 
+    /*
+     * (non-Javadoc)
+     * @see
+     * org.eclipse.jdt.core.ClasspathContainerInitializer#getAccessRulesStatus
+     * (org.eclipse.core.runtime.IPath, org.eclipse.jdt.core.IJavaProject)
+     */
     public IStatus getAccessRulesStatus(
             IPath containerPath, IJavaProject project) {
         return NOT_SUPPORTED;
     }
 
+    /**
+     * SourceAttachmentStatus returns only READ_ONLY status.
+     * 
+     * @see org.eclipse.jdt.core.ClasspathContainerInitializer#getSourceAttachmentStatus(org.eclipse.core.runtime.IPath,
+     *      org.eclipse.jdt.core.IJavaProject)
+     */
     public IStatus getSourceAttachmentStatus(
             IPath containerPath, IJavaProject project) {
         return READ_ONLY;
     }
 
+    /**
+     * This method returns the status of the attributes.
+     * 
+     * @see org.eclipse.jdt.core.ClasspathContainerInitializer#getAttributeStatus(org.eclipse.core.runtime.IPath,
+     *      org.eclipse.jdt.core.IJavaProject, java.lang.String)
+     */
     public IStatus getAttributeStatus(
             IPath containerPath, IJavaProject project, String attributeKey) {
         if (attributeKey
@@ -126,6 +223,13 @@ public class PerfidixContainerInitializer extends ClasspathContainerInitializer 
         return NOT_SUPPORTED;
     }
 
+    /*
+     * (non-Javadoc)
+     * @seeorg.eclipse.jdt.core.ClasspathContainerInitializer#
+     * requestClasspathContainerUpdate(org.eclipse.core.runtime.IPath,
+     * org.eclipse.jdt.core.IJavaProject,
+     * org.eclipse.jdt.core.IClasspathContainer)
+     */
     public void requestClasspathContainerUpdate(
             IPath containerPath, IJavaProject project,
             IClasspathContainer containerSuggestion) {
@@ -154,10 +258,17 @@ public class PerfidixContainerInitializer extends ClasspathContainerInitializer 
         }
     }
 
+    /**
+     * Rebinds the classpath entries to the effected projects.
+     * 
+     * @param javaModel
+     * @param containerPath
+     * @throws JavaModelException
+     */
     private void rebindClasspathEntries(
             IJavaModel javaModel, IPath containerPath)
             throws JavaModelException {
-        ArrayList affectedProject = new ArrayList();
+        ArrayList<IJavaProject> affectedProject = new ArrayList<IJavaProject>();
         IJavaProject[] projects = javaModel.getJavaProjects();
         for (int i = 0; i < projects.length; i++) {
             IJavaProject javaProject = projects[i];
@@ -187,6 +298,12 @@ public class PerfidixContainerInitializer extends ClasspathContainerInitializer 
 
     }
 
+    /**
+     * This method shows the description for the valid container path.
+     * 
+     * @see org.eclipse.jdt.core.ClasspathContainerInitializer#getDescription(org.eclipse.core.runtime.IPath,
+     *      org.eclipse.jdt.core.IJavaProject)
+     */
     public String getDescription(IPath containerPath, IJavaProject project) {
         if (isValidPerfidixContainerPath(containerPath)) {
             return "Bench Container Init Description";
@@ -194,6 +311,12 @@ public class PerfidixContainerInitializer extends ClasspathContainerInitializer 
         return "Unresolved";
     }
 
+    /*
+     * (non-Javadoc)
+     * @see
+     * org.eclipse.jdt.core.ClasspathContainerInitializer#getComparisonID(org
+     * .eclipse.core.runtime.IPath, org.eclipse.jdt.core.IJavaProject)
+     */
     public Object getComparisonID(IPath containerPath, IJavaProject project) {
         return containerPath;
     }

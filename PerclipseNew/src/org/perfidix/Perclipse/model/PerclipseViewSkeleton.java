@@ -6,13 +6,27 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.HashMap;
 
+/**
+ * The PerclipseViewSkeleton class is responsible for creating our ServerSocket.
+ * At this point we are waiting for current progress information from our
+ * Perfidix bench process.
+ * 
+ * @author Lewandowski Lukas, DiSy, University of Konstanz
+ */
 public class PerclipseViewSkeleton extends Thread {
-    IBenchRunSessionListener sessionListener;
-    ServerSocket serverSocket;
-    int serverPort;
-    // private ObjectOutputStream out;
+    private IBenchRunSessionListener sessionListener;
+    private ServerSocket serverSocket;
+    private int serverPort;
     private ObjectInputStream in;
 
+    /**
+     * The constructor gets a given free port and initializes the bench run
+     * session listener. Afterwards it creates a servers socket with the given
+     * port number.
+     * 
+     * @param port
+     *            The given free port number.
+     */
     public PerclipseViewSkeleton(int port) {
         sessionListener = new BenchRunSessionListener();
         serverPort = port;
@@ -24,6 +38,13 @@ public class PerclipseViewSkeleton extends Thread {
         }
     }
 
+    /**
+     * This method is our Thread method. It is responsible for receiving data
+     * from our perfidix bench process. When a message is received, it delegates
+     * the data to the bench run session listener.
+     * 
+     * @see java.lang.Thread#run()
+     */
     public void run() {
 
         Socket socket;

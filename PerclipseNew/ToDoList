@@ -1,8 +1,9 @@
-To Do - List (updated 28.07.2009)
+To Do - List (updated 29.07.2009)
 - Error updater should be finished and e.g. display the exception type
 - The result output, which is currently displayed on console, should be depicted in an eclipse view
 - In the progress view the user should be able to double-click a method and then the method would be open in an editor (like junit)
 - Maybe we could display further information in the progress view, e.g. meters
+- The Perclipse progress view is styled for vertical use and not optimized for horizontal use. So we could offer a orientation function, that chooses the right style mode.
 - Currently the plug-in is tested on eclipse 3.4 Ganymede. We should it test on the latest eclipse version 3.5 alias Galileo
 - We should produce the first release
 - The plug-in should be offered online as an eclipse update-site

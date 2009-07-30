@@ -27,7 +27,7 @@ import org.eclipse.jdt.debug.core.IJavaClassType;
  * the finding of our Perfidix annotations. It searches the given sources
  * depending on their type for existing Perfidix annotations.
  * 
- * @author lewandow
+ * @author Graf S.
  */
 public final class BenchFinder {
 

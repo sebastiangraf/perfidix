@@ -22,6 +22,9 @@ import org.perfidix.Perclipse.views.BenchView;
 public class PerclipseActivator extends AbstractUIPlugin {
 
     // The plug-in ID
+    /**
+     * The plugin-id
+     */
     public static final String PLUGIN_ID = "org.perfidix.Perclipse";
 
     // The shared instance
@@ -29,8 +32,14 @@ public class PerclipseActivator extends AbstractUIPlugin {
 
     private final static BenchModel benchModel = new BenchModel();
 
+    /**
+     * The Perfidix home variable for building purposes
+     */
     public static final String PERFIDIX_HOME = "PERFIDIX_HOME";
 
+    /**
+     * The Perfidix source home variable for building purposes
+     */
     public static final String PERFIDIX_SRC_HOME = "PERFIDIX_SRC_HOME";
 
     private BenchView view;

@@ -20,7 +20,7 @@ import org.eclipse.ui.IFileEditorInput;
  * plugin. It uses the class {@link BenchFinder} to find the in the source
  * contained benchs.
  * 
- * @author lewandow
+ * @author Graf S.
  */
 public class BenchSearchEngine {
 

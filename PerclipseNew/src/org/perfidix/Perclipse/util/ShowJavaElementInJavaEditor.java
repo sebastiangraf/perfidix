@@ -1,27 +1,30 @@
 package org.perfidix.Perclipse.util;
 
-import java.lang.reflect.Constructor;
-
-import javax.sql.rowset.BaseRowSet;
-
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IPath;
-import org.eclipse.jdt.core.IClasspathContainer;
-import org.eclipse.jdt.internal.core.search.matching.IntersectingPattern;
-import org.eclipse.jdt.internal.ui.packageview.ClassPathContainer;
-import org.eclipse.jdt.launching.sourcelookup.containers.ClasspathContainerSourceContainer;
-import org.eclipse.ui.IWorkbenchPage;
-import org.eclipse.ui.IWorkbenchPart;
-import org.perfidix.Perclipse.launcher.PerclipseActivator;
 
+/**
+ * This Class is responsible for displaying a clicked benched java element item
+ * from the Perclipse view in a java editor.
+ * 
+ * @author Lewandowski Lukas, DiSy, University of Konstanz
+ */
 public class ShowJavaElementInJavaEditor {
 
+    /**
+     * This constructor opens a given object in an java editor.
+     * 
+     * @param object
+     *            This param is a given object that should be opened in an
+     *            editor.
+     */
     public ShowJavaElementInJavaEditor(Object object) {
 
         // ToDo: when the object was double clicked, opens the java element in
         // the java editor
+        // This class and methods are still in development!
 
         System.out.println(object);
 
@@ -29,7 +32,15 @@ public class ShowJavaElementInJavaEditor {
 
     }
 
+    /**
+     * This private method is responsible for opening an object in the java
+     * editor. Its a worker method.
+     * 
+     * @param editname
+     */
     private void openJavaEditor(String editname) {
+
+        // This class and methods are still in development!
 
         System.out.println("in openJavaEditor");
 
