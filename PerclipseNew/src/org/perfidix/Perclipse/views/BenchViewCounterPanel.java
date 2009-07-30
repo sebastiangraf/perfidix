@@ -10,12 +10,26 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
+/**
+ * This class is responsible for the counter panel in the eclipse view of
+ * Perclipse. It updates the counter (runs, errors) which are sended by the
+ * perfidix benching process.
+ * 
+ * @author Lewandowski Lukas, DiSy, University of Konstanz
+ */
 public class BenchViewCounterPanel extends Composite {
 
     private Text benchRuns;
     private Text benchErrors;
     private int totalRuns;
 
+    /**
+     * The constructor creates the counter panel for the BenchView.
+     * 
+     * @param parent
+     *            This param is the composite in which the panel has to be
+     *            created. In our case it is the BenchView.
+     */
     public BenchViewCounterPanel(Composite parent) {
         super(parent, SWT.WRAP);
         GridLayout gridLayout = new GridLayout();
@@ -35,11 +49,15 @@ public class BenchViewCounterPanel extends Composite {
 
     }
 
-    private void disposeIcons() {
-        // here you have to dispose used images
-
-    }
-
+    /**
+     * This method is responsible for creating a label.
+     * 
+     * @param labelName
+     * @param image
+     * @param initValue
+     * @return This method returns the Text widget containing the labeling and
+     *         additional stuff.
+     */
     private Text createLabel(String labelName, Image image, String initValue) {
 
         Label label = new Label(this, SWT.NONE);
@@ -64,6 +82,9 @@ public class BenchViewCounterPanel extends Composite {
         return text;
     }
 
+    /**
+     * This method resets the values of the counter labels.
+     */
     public void resetRuns() {
         setBenchRuns(0);
         setBenchErrors(0);
@@ -71,15 +92,31 @@ public class BenchViewCounterPanel extends Composite {
 
     }
 
+    /**
+     * This method returns the totalRuns value.
+     * 
+     * @return the total runs.
+     */
     public int getTotalRuns() {
         return totalRuns;
     }
 
+    /**
+     * Setter of total runs for the label in the view.
+     * 
+     * @param totalRuns
+     */
     public void setTotalRuns(int totalRuns) {
         this.totalRuns = totalRuns;
 
     }
 
+    /**
+     * Setter of the current run value of the label in the view.
+     * 
+     * @param benchRuns
+     *            This param contains the value of the current bench run.
+     */
     public void setBenchRuns(int benchRuns) {
 
         this.benchRuns.setText(benchRuns + "/" + totalRuns);
@@ -88,9 +125,21 @@ public class BenchViewCounterPanel extends Composite {
 
     }
 
+    /**
+     * Setter of occurred errors.
+     * 
+     * @param benchErrors
+     */
     public void setBenchErrors(int benchErrors) {
         this.benchErrors.setText(Integer.toString(benchErrors));
         redraw();
     }
 
+    /**
+     * This method is responsible for disposing of used icons.
+     */
+    private void disposeIcons() {
+        // here you have to dispose used images
+
+    }
 }

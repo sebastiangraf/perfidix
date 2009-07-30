@@ -1,24 +1,37 @@
 package org.perfidix.Perclipse.buildpath;
 
 import java.io.File;
-import java.io.IOException;
 import java.net.URL;
 
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.jdt.core.ClasspathVariableInitializer;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
-import org.eclipse.ui.internal.PartPluginAction;
 import org.osgi.framework.Bundle;
 import org.perfidix.Perclipse.launcher.PerclipseActivator;
 
+/**
+ * This class is responsible for the classpath variable initialization within
+ * eclipse - java - build path - classpath variable.
+ * 
+ * @author Lewandowski Lukas, DiSy, University of Konstanz
+ */
 public class PerfidixVariableInitializer extends ClasspathVariableInitializer {
 
+    /**
+     * This field specifies the variable id, needed by the corresponding
+     * extension point.
+     */
     public final static String PERFIDIX_VARIABLE_INIT =
             "org.perfidix.Perclipse.PERFIDIX_VAR_INIT";
 
+    /**
+     * This method is responisble for initialization of the classpath variable
+     * within eclipse for our perfidix libs.
+     * 
+     * @see org.eclipse.jdt.core.ClasspathVariableInitializer#initialize(java.lang.String)
+     */
     @Override
     public void initialize(String variable) {
         Bundle bundle = PerclipseActivator.getDefault().getBundle(); //$NON-NLS-1$
@@ -29,22 +42,11 @@ public class PerfidixVariableInitializer extends ClasspathVariableInitializer {
         }
         URL installLocation =
                 bundle.getEntry("/lib/".concat(BuildPathSupport.JAR_NAME)); //$NON-NLS-1$
-        // URL local=null;
-        // try {
-        // local = Platform.asLocalURL(installLocation);
-        // System.out.println(local);
-        // } catch (IOException e) {
-        // JavaCore.removeClasspathVariable(PerclipseActivator.PERFIDIX_HOME,
-        // null);
-        // System.out.println("Fehler");;
-        // }
+
         try {
-            System.out.println("instlallLocation url: " + installLocation);
             String fullPath =
                     new File(installLocation.getPath()).getAbsolutePath();
-            System.out.println("Fullpath string :" + fullPath);
             IPath path = Path.fromOSString(fullPath);
-            System.out.println(path);
             JavaCore.setClasspathVariable(
                     PerclipseActivator.PERFIDIX_HOME, path, null);
 

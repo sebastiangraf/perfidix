@@ -21,8 +21,9 @@ import org.eclipse.jdt.ui.JavaElementLabelProvider;
 
 /**
  * This class represent the dialog which opens when the User clicks on the
- * "search"-Button in the @{link PerclipseMainTab}. The user can choose classes
- * from a specified project and add them to the launch configuration.
+ * "search"-Button in the @{link PerclipseMainTab} in the launch configuration
+ * within eclipse. The user can choose classes from a specified project and add
+ * them to the launch configuration.
  * 
  * @author Graf S., Lewandowski L.
  */
@@ -31,6 +32,8 @@ public class BenchSelectionDialog extends TwoPaneElementSelector {
     private final IType[] fTypes;
 
     /**
+     * This inner class is responsible for rendering of java packages.
+     * 
      * @author Graf S.
      */
     private static class PackageRenderer extends JavaElementLabelProvider {
@@ -65,6 +68,9 @@ public class BenchSelectionDialog extends TwoPaneElementSelector {
     }
 
     /**
+     * The constructor initializes the types which contains the necessary
+     * benches and calls the super constructor.
+     * 
      * @param shell
      * @param types
      */
@@ -78,6 +84,9 @@ public class BenchSelectionDialog extends TwoPaneElementSelector {
     }
 
     /**
+     * This method is responsible for configuring the shell. It delegates the
+     * topics to the super class {@link TwoPaneElementSelector}.
+     * 
      * @see org.eclipse.jface.window.Window#configureShell(Shell)
      */
     protected void configureShell(Shell newShell) {

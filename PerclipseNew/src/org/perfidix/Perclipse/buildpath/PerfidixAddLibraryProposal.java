@@ -25,12 +25,30 @@ import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Shell;
 import org.perfidix.Perclipse.launcher.PerclipseActivator;
 
+/**
+ * This class is responsible for adding the proposal for adding our perfidix jar
+ * (perfidix library) to the classpath.
+ * 
+ * @author Lewandowski Lukas, DiSy, University of Konstanz
+ */
 public class PerfidixAddLibraryProposal implements IJavaCompletionProposal {
 
     private final IInvocationContext context;
     private final boolean isPerfidix;
     private final int relevance;
 
+    /**
+     * The constructor sets the proposal arguments isPerfidix, the adding
+     * context and the relevance (ranking within proposal).
+     * 
+     * @param isPerfidix
+     *            The param that says if it is our Perfidix proposal.
+     * @param context
+     *            The context for our proposal.
+     * @param relevance
+     *            The {@link Integer} relevance value for the ranking of our
+     *            proposal (on top).
+     */
     public PerfidixAddLibraryProposal(
             boolean isPerfidix, IInvocationContext context, int relevance) {
         this.isPerfidix = isPerfidix;
@@ -38,11 +56,20 @@ public class PerfidixAddLibraryProposal implements IJavaCompletionProposal {
         this.relevance = relevance;
     }
 
+    /*
+     * (non-Javadoc)
+     * @see org.eclipse.jdt.ui.text.java.IJavaCompletionProposal#getRelevance()
+     */
     public int getRelevance() {
         // TODO Auto-generated method stub
         return relevance;
     }
 
+    /**
+     * This method inserts our proposal - jar library - into classpath.
+     * 
+     * @see org.eclipse.jface.text.contentassist.ICompletionProposal#apply(org.eclipse.jface.text.IDocument)
+     */
     public void apply(IDocument document) {
         IJavaProject project = context.getCompilationUnit().getJavaProject();
         Shell shell =
@@ -75,6 +102,21 @@ public class PerfidixAddLibraryProposal implements IJavaCompletionProposal {
 
     }
 
+    /**
+     * This method inserts our jar library into the corresponding classpath.
+     * 
+     * @param shell
+     *            The corresponding shell of the plug-in.
+     * @param project
+     *            The project where the proposal should work.
+     * @param entry
+     *            The classpath entry of our library.
+     * @param context
+     *            The context of the selection.
+     * @return The result of this process, if the library has been successful
+     *         added.
+     * @throws JavaModelException
+     */
     private static boolean addToClasspath(
             Shell shell, final IJavaProject project, IClasspathEntry entry,
             IRunnableContext context) throws JavaModelException {
@@ -148,20 +190,37 @@ public class PerfidixAddLibraryProposal implements IJavaCompletionProposal {
 
     }
 
+    /**
+     * This method provides additional information for the proposal in a small
+     * window.
+     * 
+     * @see org.eclipse.jface.text.contentassist.ICompletionProposal#getAdditionalProposalInfo()
+     */
     public String getAdditionalProposalInfo() {
 
         if (isPerfidix) {
-            return "Adds the Perfidix jar library to the build path";
+            return "Adds the Perfidix jar library to the build path. The jar was delivered with the Perclipse Plugin: "
+                    .concat(PerclipseActivator.PLUGIN_ID);
         }
 
         return null;
     }
 
+    /*
+     * (non-Javadoc)
+     * @seeorg.eclipse.jface.text.contentassist.ICompletionProposal#
+     * getContextInformation()
+     */
     public IContextInformation getContextInformation() {
         // TODO Auto-generated method stub
         return null;
     }
 
+    /**
+     * This method provides the label within the proposal.
+     * 
+     * @see org.eclipse.jface.text.contentassist.ICompletionProposal#getDisplayString()
+     */
     public String getDisplayString() {
         if (isPerfidix) {
             return "Add Perfidix library to the build path";
@@ -169,12 +228,22 @@ public class PerfidixAddLibraryProposal implements IJavaCompletionProposal {
         return null;
     }
 
+    /*
+     * (non-Javadoc)
+     * @see org.eclipse.jface.text.contentassist.ICompletionProposal#getImage()
+     */
     public Image getImage() {
         // TODO Auto-generated method stub
         return JavaUI
                 .getSharedImages().getImage(ISharedImages.IMG_OBJS_LIBRARY);
     }
 
+    /*
+     * (non-Javadoc)
+     * @see
+     * org.eclipse.jface.text.contentassist.ICompletionProposal#getSelection
+     * (org.eclipse.jface.text.IDocument)
+     */
     public Point getSelection(IDocument arg0) {
         // TODO Auto-generated method stub
         return new Point(context.getSelectionOffset(), context
