@@ -17,6 +17,7 @@ public class BenchRunSession {
     private boolean isStopped = false;
     private boolean isRunning = false;
     private List<JavaElementsWithTotalRuns> benchElements;
+    private JavaElementsWithTotalRuns currentRunElement;
 
     /**
      * This method initializes the bench run session.
@@ -80,11 +81,19 @@ public class BenchRunSession {
             for (JavaElementsWithTotalRuns listElement : benchElements) {
                 if (listElement.getJavaElement().equals(currentElement)) {
                     listElement.updateCurrentRun();
+                    currentRunElement=listElement;
                     currentCount = currentCount + 1;
                 }
             }
 
         }
+    }
+    
+    /**
+     * @return The current element.
+     */
+    public JavaElementsWithTotalRuns getCurrentRunElement(){
+        return currentRunElement;
     }
 
     /**

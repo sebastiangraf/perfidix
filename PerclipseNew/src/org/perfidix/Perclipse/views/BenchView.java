@@ -14,6 +14,7 @@ import org.eclipse.ui.part.ViewPart;
 import org.eclipse.ui.progress.IWorkbenchSiteProgressService;
 import org.eclipse.ui.progress.UIJob;
 import org.perfidix.Perclipse.model.BenchRunSession;
+import org.perfidix.Perclipse.viewTreeData.TreeDataProvider;
 
 /**
  * This class BenchView is our eclipse view that opens when a bench run is
@@ -71,7 +72,7 @@ public class BenchView extends ViewPart {
         counterComposite.setLayoutData(new GridData(GridData.GRAB_HORIZONTAL
                 | GridData.FILL_BOTH));
 
-        benchViewer = new BenchViewer(counterComposite);
+        benchViewer = new BenchViewer(counterComposite, this);
 
     }
 
@@ -230,8 +231,8 @@ public class BenchView extends ViewPart {
             return;
         }
 
-        updateJob = new UpdateUIJob("jobName");
-        updateJob.schedule(REFRESH_INTERVAL);
+//        updateJob = new UpdateUIJob("jobName");
+//        updateJob.schedule(REFRESH_INTERVAL);
     }
 
     /*
@@ -379,10 +380,32 @@ public class BenchView extends ViewPart {
     }
 
     /**
+     * This method handles the action that will be executed when an element has been selected in the tree viewer.
+     * 
+     * @param element The String value of the element in the tree view.
+     */
+    public void handleBenchSelection(TreeDataProvider element) {
+        
+        showBench(element);
+        
+    }
+    private void showBench(TreeDataProvider element) {
+       postSyncRunnable(new Runnable(){
+           public void run(){
+               if(!isDisposed()){
+                   System.out.println("Selection");
+               }
+           }
+       });
+        
+    }
+
+    /**
      * @return Returns true if the composite is created. Otherwise false.
      */
     public boolean isCreated() {
         return counterComposite != null;
     }
+
 
 }
