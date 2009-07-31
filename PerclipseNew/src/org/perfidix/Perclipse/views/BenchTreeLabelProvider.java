@@ -25,12 +25,15 @@ public class BenchTreeLabelProvider extends LabelProvider {
      * @see org.eclipse.jface.viewers.LabelProvider#getText(java.lang.Object)
      */
     public String getText(Object element) {
-        TreeDataProvider treeData = (TreeDataProvider) element;
-        return treeData.getParentElementName()
-                + "  ("
-                + treeData.getCurrentBench()
-                + "/"
-                + treeData.getNumberOfBenchsForElement()
-                + ")";
+        if (element != null) {
+            TreeDataProvider treeData = (TreeDataProvider) element;
+            return treeData.getParentElementName()
+                    + "  ("
+                    + treeData.getCurrentBench()
+                    + "/"
+                    + treeData.getNumberOfBenchsForElement()
+                    + ")";
+        }
+        return null;
     }
 }

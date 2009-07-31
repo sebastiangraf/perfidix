@@ -2,20 +2,23 @@ package org.perfidix.Perclipse.views;
 
 import java.util.List;
 
-import org.eclipse.jface.viewers.DoubleClickEvent;
-import org.eclipse.jface.viewers.IDoubleClickListener;
-import org.eclipse.jface.viewers.TreeSelection;
+import org.eclipse.jdt.internal.ui.viewsupport.SelectionProviderMediator;
+import org.eclipse.jface.viewers.ISelectionChangedListener;
+import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.jface.viewers.StructuredViewer;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.part.PageBook;
 import org.perfidix.Perclipse.model.BenchRunSession;
 import org.perfidix.Perclipse.model.JavaElementsWithTotalRuns;
-import org.perfidix.Perclipse.util.ShowJavaElementInJavaEditor;
 import org.perfidix.Perclipse.viewTreeData.TreeDataProvider;
 
 /**
@@ -27,10 +30,30 @@ import org.perfidix.Perclipse.viewTreeData.TreeDataProvider;
  */
 public class BenchViewer {
 
+    private final class BenchSelectionListener
+            implements ISelectionChangedListener {
+        public void selectionChanged(SelectionChangedEvent event) {
+            handleSelected();
+        }
+    }
+
+    private final class BenchOpenListener extends SelectionAdapter {
+        public void widgetDefaultSelected(SelectionEvent e) {
+            handleDefaultSelected();
+        }
+    }
+
     private BenchRunSession benchRunSession;
     private Image hierarchyIcon;
     private PageBook viewerBook;
     private TreeViewer treeViewer;
+    private SelectionProviderMediator selectionProvider;
+    private BenchView view;
+    private TreeDataProvider dataProvider[];
+    private boolean dataFilled=false;
+    private int sameLaunch=0;
+    private List<?> classList;
+    
 
     /**
      * The constructor gets the parents composite and creates the BenchViewer.
@@ -40,8 +63,10 @@ public class BenchViewer {
      * @param parent
      *            This param represents the composite of the parent, which is
      *            declared in the BenchView.
+     * @param view
+     *            The bench view.
      */
-    public BenchViewer(Composite parent) {
+    public BenchViewer(Composite parent, BenchView view) {
         hierarchyIcon = BenchView.createImage("icons/time.png"); //$NON-NLS-1$
         parent.addDisposeListener(new DisposeListener() {
             public void widgetDisposed(DisposeEvent e) {
@@ -49,6 +74,7 @@ public class BenchViewer {
             }
 
         });
+        this.view = view;
         createBenchViewers(parent);
     }
 
@@ -66,19 +92,14 @@ public class BenchViewer {
         treeViewer = new TreeViewer(viewerBook, SWT.NONE);
         treeViewer.setContentProvider(new BenchTreeContentProvider());
         treeViewer.setLabelProvider(new BenchTreeLabelProvider());
-        treeViewer.addDoubleClickListener(new IDoubleClickListener() {
-            public void doubleClick(DoubleClickEvent event) {
+        selectionProvider =
+                new SelectionProviderMediator(
+                        new StructuredViewer[] { treeViewer }, treeViewer);
+        selectionProvider
+                .addSelectionChangedListener(new BenchSelectionListener());
+        BenchOpenListener openListener = new BenchOpenListener();
+        treeViewer.getTree().addSelectionListener(openListener);
 
-                TreeSelection treeSelection =
-                        (TreeSelection) event.getSelection();
-
-                // It just for testing purposes
-                ShowJavaElementInJavaEditor elementInJavaEditor =
-                        new ShowJavaElementInJavaEditor(treeSelection
-                                .getFirstElement());
-            }
-        });
-        treeViewer.setInput(null);
         viewerBook.showPage(treeViewer.getTree());
     }
 
@@ -95,27 +116,87 @@ public class BenchViewer {
 
         benchRunSession = benchRunSessionParam;
 
-        if (benchRunSession.getBenchElements() == null) {
+        List<JavaElementsWithTotalRuns> treeDataRunnin=benchRunSession.getBenchElements();
+        if (treeDataRunnin == null) {
+
             treeViewer.setInput(null);
 
             return;
         }
-
-        List<?> classList = benchRunSession.getBenchElements();
-        TreeDataProvider dataProvider[] =
-                new TreeDataProvider[classList.size()];
-        for (Object treeDataProvider : classList) {
-            dataProvider[classList.indexOf(treeDataProvider)] =
-                    new TreeDataProvider(
-                            ((JavaElementsWithTotalRuns) treeDataProvider)
-                                    .getJavaElement(),
-                            ((JavaElementsWithTotalRuns) treeDataProvider)
-                                    .getTotalRuns(),
-                            ((JavaElementsWithTotalRuns) treeDataProvider)
-                                    .getCurrentRun());
-
+        
+        int launchHash=treeDataRunnin.hashCode();
+      
+        if(dataFilled==false || sameLaunch!=launchHash){
+            initData(launchHash);
+        }else{
+            
+            updateCountersInTree(benchRunSession.getCurrentRunElement());
+            
         }
-        treeViewer.setInput(dataProvider);
+
+    }
+    
+    /**
+     * This method updates each counter in the tree view of our benched java elements.
+     * @param javaElementsWithTotalRuns The data of the running session.
+     */
+    private void updateCountersInTree(JavaElementsWithTotalRuns javaElementsWithTotalRuns) {
+       TreeDataProvider searchedItem = null;
+        for (Object item : dataProvider) {
+            if(item instanceof TreeDataProvider){
+                if((((TreeDataProvider) item).getParentElementName()).equals(javaElementsWithTotalRuns.getJavaElement())){
+                   searchedItem=(TreeDataProvider) item;
+                   break;
+                }
+            }
+        }
+        searchedItem.updateCurrentBench();
+        treeViewer.update(searchedItem, null);
+
+        
+    }
+
+    /**
+     * This method initializes the tree data.
+     * @param launchHash The hash value of our current launch.
+     */
+    private void initData(int launchHash){
+        if(treeViewer.getTree()!=null){
+            treeViewer.getTree().removeAll();
+        }
+        sameLaunch=launchHash;
+        classList = benchRunSession.getBenchElements();
+
+            dataProvider = new TreeDataProvider[classList.size()];
+            for (Object treeDataProvider : classList) {
+                dataProvider[classList.indexOf(treeDataProvider)] =
+                        new TreeDataProvider(
+                                ((JavaElementsWithTotalRuns) treeDataProvider)
+                                        .getJavaElement(),
+                                ((JavaElementsWithTotalRuns) treeDataProvider)
+                                        .getTotalRuns(),
+                                ((JavaElementsWithTotalRuns) treeDataProvider)
+                                        .getCurrentRun());
+
+            }
+            treeViewer.setInput(dataProvider);
+            dataFilled=true;
+        
+    }
+
+    /**
+     * This method handles the selection within the tree viewer.
+     */
+    public void handleSelected() {
+        IStructuredSelection selection =
+                (IStructuredSelection) selectionProvider.getSelection();
+        TreeDataProvider element = null;
+        if (selection.size() == 1) {
+            System.out.println(selection.getFirstElement());
+            element = (TreeDataProvider) selection.getFirstElement();
+            System.out.println("element: " + element);
+        }
+        view.handleBenchSelection(element);
 
     }
 
@@ -126,4 +207,21 @@ public class BenchViewer {
         hierarchyIcon.dispose();
     }
 
+    /**
+     * This method handle the event for the open action of the editor.
+     */
+    public void handleDefaultSelected() {
+        IStructuredSelection structuredSelection =
+                (IStructuredSelection) selectionProvider.getSelection();
+        if (structuredSelection.size() != 1) {
+            return;
+        }
+        TreeDataProvider elementName =
+                (TreeDataProvider) structuredSelection.getFirstElement();
+        // I Do nothing
+        System.out.println("I did it");
+    }
+    
+    
+   
 }
