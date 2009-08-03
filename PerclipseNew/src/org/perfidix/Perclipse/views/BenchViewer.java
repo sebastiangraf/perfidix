@@ -50,10 +50,9 @@ public class BenchViewer {
     private SelectionProviderMediator selectionProvider;
     private BenchView view;
     private TreeDataProvider dataProvider[];
-    private boolean dataFilled=false;
-    private int sameLaunch=0;
+    private boolean dataFilled = false;
+    private int sameLaunch = 0;
     private List<?> classList;
-    
 
     /**
      * The constructor gets the parents composite and creates the BenchViewer.
@@ -116,72 +115,79 @@ public class BenchViewer {
 
         benchRunSession = benchRunSessionParam;
 
-        List<JavaElementsWithTotalRuns> treeDataRunnin=benchRunSession.getBenchElements();
+        List<JavaElementsWithTotalRuns> treeDataRunnin =
+                benchRunSession.getBenchElements();
         if (treeDataRunnin == null) {
 
             treeViewer.setInput(null);
 
             return;
         }
-        
-        int launchHash=treeDataRunnin.hashCode();
-      
-        if(dataFilled==false || sameLaunch!=launchHash){
+
+        int launchHash = treeDataRunnin.hashCode();
+
+        if (dataFilled == false || sameLaunch != launchHash) {
             initData(launchHash);
-        }else{
-            
+        } else {
+
             updateCountersInTree(benchRunSession.getCurrentRunElement());
-            
+
         }
 
     }
-    
+
     /**
-     * This method updates each counter in the tree view of our benched java elements.
-     * @param javaElementsWithTotalRuns The data of the running session.
+     * This method updates each counter in the tree view of our benched java
+     * elements.
+     * 
+     * @param javaElementsWithTotalRuns
+     *            The data of the running session.
      */
-    private void updateCountersInTree(JavaElementsWithTotalRuns javaElementsWithTotalRuns) {
-       TreeDataProvider searchedItem = null;
+    private void updateCountersInTree(
+            JavaElementsWithTotalRuns javaElementsWithTotalRuns) {
+        TreeDataProvider searchedItem = null;
         for (Object item : dataProvider) {
-            if(item instanceof TreeDataProvider){
-                if((((TreeDataProvider) item).getParentElementName()).equals(javaElementsWithTotalRuns.getJavaElement())){
-                   searchedItem=(TreeDataProvider) item;
-                   break;
+            if (item instanceof TreeDataProvider) {
+                if ((((TreeDataProvider) item).getParentElementName())
+                        .equals(javaElementsWithTotalRuns.getJavaElement())) {
+                    searchedItem = (TreeDataProvider) item;
+                    break;
                 }
             }
         }
         searchedItem.updateCurrentBench();
         treeViewer.update(searchedItem, null);
 
-        
     }
 
     /**
      * This method initializes the tree data.
-     * @param launchHash The hash value of our current launch.
+     * 
+     * @param launchHash
+     *            The hash value of our current launch.
      */
-    private void initData(int launchHash){
-        if(treeViewer.getTree()!=null){
+    private void initData(int launchHash) {
+        if (treeViewer.getTree() != null) {
             treeViewer.getTree().removeAll();
         }
-        sameLaunch=launchHash;
+        sameLaunch = launchHash;
         classList = benchRunSession.getBenchElements();
 
-            dataProvider = new TreeDataProvider[classList.size()];
-            for (Object treeDataProvider : classList) {
-                dataProvider[classList.indexOf(treeDataProvider)] =
-                        new TreeDataProvider(
-                                ((JavaElementsWithTotalRuns) treeDataProvider)
-                                        .getJavaElement(),
-                                ((JavaElementsWithTotalRuns) treeDataProvider)
-                                        .getTotalRuns(),
-                                ((JavaElementsWithTotalRuns) treeDataProvider)
-                                        .getCurrentRun());
+        dataProvider = new TreeDataProvider[classList.size()];
+        for (Object treeDataProvider : classList) {
+            dataProvider[classList.indexOf(treeDataProvider)] =
+                    new TreeDataProvider(
+                            ((JavaElementsWithTotalRuns) treeDataProvider)
+                                    .getJavaElement(),
+                            ((JavaElementsWithTotalRuns) treeDataProvider)
+                                    .getTotalRuns(),
+                            ((JavaElementsWithTotalRuns) treeDataProvider)
+                                    .getCurrentRun());
 
-            }
-            treeViewer.setInput(dataProvider);
-            dataFilled=true;
-        
+        }
+        treeViewer.setInput(dataProvider);
+        dataFilled = true;
+
     }
 
     /**
@@ -221,7 +227,5 @@ public class BenchViewer {
         // I Do nothing
         System.out.println("I did it");
     }
-    
-    
-   
+
 }

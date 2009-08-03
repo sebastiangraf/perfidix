@@ -132,9 +132,11 @@ public class PerfidixLaunchShortcut implements ILaunchShortcut {
 
             }
         } catch (InterruptedException e) {
+            PerclipseActivator.log(e);
             // TODO Do something real fancy here if exceptions were thrown
             return;
         } catch (InvocationTargetException e) {
+            PerclipseActivator.log(e);
             // TODO Do something real fancy here if exceptions were thrown
             return;
         }
@@ -153,6 +155,7 @@ public class PerfidixLaunchShortcut implements ILaunchShortcut {
             try {
                 launch(mode, describeTypeLaunch(type));
             } catch (LaunchCancelledByUserException e) {
+                PerclipseActivator.log(e);
                 // OK, silently move on
             }
         }

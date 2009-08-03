@@ -62,10 +62,10 @@ public class TreeDataProvider {
     /**
      * Counts the currentBench;
      */
-    public void updateCurrentBench(){
-        currentBench=currentBench+1;
+    public void updateCurrentBench() {
+        currentBench = currentBench + 1;
     }
-    
+
     /**
      * @return This method returns the current bench run of the java element.
      */

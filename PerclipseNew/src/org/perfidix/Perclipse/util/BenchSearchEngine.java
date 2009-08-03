@@ -14,6 +14,7 @@ import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jface.operation.IRunnableContext;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.ui.IFileEditorInput;
+import org.perfidix.Perclipse.launcher.PerclipseActivator;
 
 /**
  * This class is responsible for the bench search options of our Perfidix
@@ -113,6 +114,7 @@ public class BenchSearchEngine {
         try {
             return javaProject.findType("org.perfidix.Benchmark"); //$NON-NLS-1$
         } catch (JavaModelException e) {
+            PerclipseActivator.log(e);
             return null;
         }
     }

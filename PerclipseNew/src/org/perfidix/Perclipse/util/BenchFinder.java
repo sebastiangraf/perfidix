@@ -21,6 +21,7 @@ import org.eclipse.jdt.core.compiler.IScanner;
 import org.eclipse.jdt.core.compiler.ITerminalSymbols;
 import org.eclipse.jdt.core.compiler.InvalidInputException;
 import org.eclipse.jdt.debug.core.IJavaClassType;
+import org.perfidix.Perclipse.launcher.PerclipseActivator;
 
 /**
  * The class BenchFinder with its included Annotation class is responisble for
@@ -69,7 +70,7 @@ public final class BenchFinder {
                 }
             }
         } catch (JavaModelException e) {
-            // do nothing
+            PerclipseActivator.log(e);
         }
     }
 
@@ -238,6 +239,7 @@ public final class BenchFinder {
                     }
                 } while (tok != ITerminalSymbols.TokenNameEOF);
             } catch (InvalidInputException e) {
+                PerclipseActivator.log(e);
                 return false;
             }
             return false;

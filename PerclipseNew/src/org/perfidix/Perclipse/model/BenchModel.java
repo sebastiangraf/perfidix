@@ -1,10 +1,12 @@
 package org.perfidix.Perclipse.model;
 
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedList;
 
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.debug.core.DebugException;
 import org.eclipse.debug.core.DebugPlugin;
 import org.eclipse.debug.core.ILaunch;
 import org.eclipse.debug.core.ILaunchConfiguration;
@@ -16,7 +18,6 @@ import org.eclipse.jdt.launching.IJavaLaunchConfigurationConstants;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.IWorkbenchPage;
-import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PartInitException;
 import org.perfidix.Perclipse.launcher.PerclipseActivator;
 import org.perfidix.Perclipse.views.BenchView;
@@ -29,8 +30,9 @@ import org.perfidix.Perclipse.views.BenchView;
  */
 public final class BenchModel {
 
-    private final LinkedList<?> benchRunSessionList = new LinkedList();
     private final ILaunchListener launchListener = new BenchLaunchListener();
+    private LinkedList<PerclipseViewSkeleton> skeleton =
+            new LinkedList<PerclipseViewSkeleton>();
 
     /**
      * This method gets the current LaunchManager and adds our
@@ -62,7 +64,8 @@ public final class BenchModel {
      */
     private final class BenchLaunchListener implements ILaunchListener {
 
-        private final HashSet trackedLaunches = new HashSet(20);
+        private final HashSet<ILaunch> trackedLaunches =
+                new HashSet<ILaunch>(20);
 
         /**
          * This method adds a new launch to a HashSet of tracked Launches.
@@ -70,6 +73,23 @@ public final class BenchModel {
          * @see org.eclipse.debug.core.ILaunchListener#launchAdded(org.eclipse.debug.core.ILaunch)
          */
         public void launchAdded(final ILaunch launch) {
+
+            // We don't allow several benches process at the same time. So if a
+            // new run event occurs, the current benching process will be
+            // killed.
+            if (trackedLaunches.size() > 0) {
+                Iterator<ILaunch> iterator = trackedLaunches.iterator();
+                while (iterator.hasNext()) {
+                    try {
+                        ILaunch oldLaunch = ((ILaunch) iterator.next());
+                        oldLaunch.terminate();
+                        trackedLaunches.remove(oldLaunch);
+                    } catch (DebugException e) {
+                        PerclipseActivator.log(e);
+                        e.printStackTrace();
+                    }
+                }
+            }
             trackedLaunches.add(launch);
 
         }
@@ -126,7 +146,6 @@ public final class BenchModel {
          * @return It returns the displayed view.
          */
         private BenchView showBenchViewInActivePage(final BenchView benchView) {
-            IWorkbenchPart activePart = null;
             IWorkbenchPage page = null;
             page = PerclipseActivator.getActivePage();
 
@@ -138,14 +157,13 @@ public final class BenchModel {
             if (page == null) {
                 return null;
             }
-            activePart = page.getActivePart();
             try {
                 final IViewPart viewPart = page.showView(BenchView.MY_VIEW_ID);
                 final BenchView view = (BenchView) viewPart;
                 page.activate(viewPart);
                 return view;
             } catch (final PartInitException e) {
-                // TODO Auto-generated catch block
+                PerclipseActivator.log(e);
                 e.printStackTrace();
                 return null;
             }
@@ -179,6 +197,7 @@ public final class BenchModel {
                             .getWorkspace().getRoot().getProject(projectName));
                 }
             } catch (final CoreException e) {
+                PerclipseActivator.log(e);
             }
             return null;
         }

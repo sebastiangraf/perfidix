@@ -28,7 +28,7 @@ import org.perfidix.Perclipse.util.BenchSearchEngine;
  * LaunchConfigurationDelegate. It contains the necessary configurations for our
  * plugin.
  * 
- * @author lewandow
+ * @author Graf S., Lewandowski L., DiSy, University of Konstanz
  */
 public class PerfidixLaunchConfiguration
         extends AbstractJavaLaunchConfigurationDelegate {
@@ -38,9 +38,6 @@ public class PerfidixLaunchConfiguration
 
     public static final String BENCH_NAME_ATTR =
             PerclipseActivator.PLUGIN_ID + ".BENCHNAME";
-
-    // public static final String LAUNCH_CONTAINER_ATT =
-    // PerclipseActivator.PLUGIN_ID + ".CONTAINER";
 
     public static final String ID_PERFIDIX_APPLICATION =
             "org.perfidix.configureBench";
@@ -62,12 +59,14 @@ public class PerfidixLaunchConfiguration
         try {
             BenchSearchResult searchResult = findBenchTypes(configuration);
             int port = SocketUtil.findFreePort();
-            new PerclipseViewSkeleton(port).start();
+            PerclipseViewSkeleton skeleton = new PerclipseViewSkeleton(port);
+            skeleton.start();
             VMRunnerConfiguration runConfig =
                     launchTypes(configuration, mode, searchResult, port);
             runner.run(runConfig, launch, monitor);
 
         } catch (Exception e) {
+            PerclipseActivator.log(e);
             // TODO message in the application that file has been removed and
             // configuration isn't valid any more
             // e.printStackTrace();

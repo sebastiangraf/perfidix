@@ -130,6 +130,7 @@ public class PerclipseMainTab extends AbstractLaunchConfigurationTab {
                             PerfidixLaunchConfiguration.LAUNCH_CONTAINER_ATTR,
                             ""); //$NON-NLS-1$
         } catch (CoreException ce) {
+            PerclipseActivator.log(ce);
         }
 
         if (containerHandle.length() > 0) {
@@ -293,7 +294,9 @@ public class PerclipseMainTab extends AbstractLaunchConfigurationTab {
                 name = types[0].getFullyQualifiedName();
             }
         } catch (InterruptedException ie) {
+            PerclipseActivator.log(ie);
         } catch (InvocationTargetException ite) {
+            PerclipseActivator.log(ite);
         }
         if (name == null)
             name = ""; //$NON-NLS-1$
@@ -338,6 +341,7 @@ public class PerclipseMainTab extends AbstractLaunchConfigurationTab {
                     config.getAttribute(
                             PerfidixLaunchConfiguration.BENCH_NAME_ATTR, ""); //$NON-NLS-1$
         } catch (CoreException ce) {
+            PerclipseActivator.log(ce);
         }
         fSingleBenchRadioButton.setSelection(true);
         setEnableSingleBenchGroup(true);
@@ -365,6 +369,7 @@ public class PerclipseMainTab extends AbstractLaunchConfigurationTab {
                                     ""); //$NON-NLS-1$
 
         } catch (CoreException ce) {
+            PerclipseActivator.log(ce);
             ce.printStackTrace();
         }
         fProjText.setText(projectName);
@@ -536,6 +541,7 @@ public class PerclipseMainTab extends AbstractLaunchConfigurationTab {
                             getLaunchConfigurationDialog(),
                             new Object[] { javaProject });
         } catch (InterruptedException e) {
+            PerclipseActivator.log(e);
             setErrorMessage(e.getMessage());
             return;
         } catch (InvocationTargetException e) {
@@ -576,6 +582,7 @@ public class PerclipseMainTab extends AbstractLaunchConfigurationTab {
         try {
             projects = JavaCore.create(getWorkspaceRoot()).getJavaProjects();
         } catch (JavaModelException e) {
+            PerclipseActivator.log(e);
             projects = new IJavaProject[0];
         }
 
@@ -718,6 +725,7 @@ public class PerclipseMainTab extends AbstractLaunchConfigurationTab {
                 return;
             }
         } catch (Exception e) {
+            PerclipseActivator.log(e);
         }
         IJavaProject javaProject = JavaCore.create(project);
         validateJavaProject(javaProject);
@@ -909,6 +917,7 @@ public class PerclipseMainTab extends AbstractLaunchConfigurationTab {
                 containerElement = JavaCore.create(containerHandle);
             }
         } catch (CoreException ce) {
+            PerclipseActivator.log(ce);
         }
         if (containerElement != null)
             fContainerElement = containerElement;

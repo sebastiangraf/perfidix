@@ -20,10 +20,10 @@ public class BenchTreeContentProvider extends ArrayContentProvider
      * Object)
      */
     public Object[] getChildren(Object parentElement) {
-        if(parentElement!=null){
-        TreeDataProvider treeData = (TreeDataProvider) parentElement;
-        return treeData.getChildElements();
-        } 
+        if (parentElement != null) {
+            TreeDataProvider treeData = (TreeDataProvider) parentElement;
+            return treeData.getChildElements();
+        }
         return null;
     }
 
@@ -34,9 +34,9 @@ public class BenchTreeContentProvider extends ArrayContentProvider
      * )
      */
     public Object getParent(Object element) {
-        if(element!=null){
-        TreeDataProvider treeData = (TreeDataProvider) element;
-        return treeData.getParent();
+        if (element != null) {
+            TreeDataProvider treeData = (TreeDataProvider) element;
+            return treeData.getParent();
         }
         return null;
     }
@@ -48,9 +48,9 @@ public class BenchTreeContentProvider extends ArrayContentProvider
      * Object)
      */
     public boolean hasChildren(Object element) {
-        if(element!=null){
-        TreeDataProvider treeData = (TreeDataProvider) element;
-        return treeData.getChildElements().length > 0;
+        if (element != null) {
+            TreeDataProvider treeData = (TreeDataProvider) element;
+            return treeData.getChildElements().length > 0;
         }
         return false;
 
