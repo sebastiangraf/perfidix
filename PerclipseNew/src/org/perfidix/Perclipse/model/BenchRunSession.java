@@ -81,18 +81,18 @@ public class BenchRunSession {
             for (JavaElementsWithTotalRuns listElement : benchElements) {
                 if (listElement.getJavaElement().equals(currentElement)) {
                     listElement.updateCurrentRun();
-                    currentRunElement=listElement;
+                    currentRunElement = listElement;
                     currentCount = currentCount + 1;
                 }
             }
 
         }
     }
-    
+
     /**
      * @return The current element.
      */
-    public JavaElementsWithTotalRuns getCurrentRunElement(){
+    public JavaElementsWithTotalRuns getCurrentRunElement() {
         return currentRunElement;
     }
 

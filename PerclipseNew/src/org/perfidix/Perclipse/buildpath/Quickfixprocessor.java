@@ -13,6 +13,7 @@ import org.eclipse.jdt.ui.text.java.IInvocationContext;
 import org.eclipse.jdt.ui.text.java.IJavaCompletionProposal;
 import org.eclipse.jdt.ui.text.java.IProblemLocation;
 import org.eclipse.jdt.ui.text.java.IQuickFixProcessor;
+import org.perfidix.Perclipse.launcher.PerclipseActivator;
 
 /**
  * This class is responsible for adding proposals to the QuickFix view within
@@ -100,7 +101,7 @@ public class Quickfixprocessor implements IQuickFixProcessor {
 
             }
         } catch (JavaModelException e) {
-            // TODO Auto-generated catch block
+            PerclipseActivator.log(e);
             e.printStackTrace();
         }
 

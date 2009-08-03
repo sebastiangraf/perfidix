@@ -252,7 +252,7 @@ public class PerfidixContainerInitializer extends ClasspathContainerInitializer 
             try {
                 rebindClasspathEntries(project.getJavaModel(), containerPath);
             } catch (JavaModelException e) {
-                // TODO Auto-generated catch block
+                PerclipseActivator.log(e);
                 e.printStackTrace();
             }
         }

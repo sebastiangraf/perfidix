@@ -1,10 +1,13 @@
 package org.perfidix.Perclipse.model;
 
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.HashMap;
+
+import org.perfidix.Perclipse.launcher.PerclipseActivator;
 
 /**
  * The PerclipseViewSkeleton class is responsible for creating our ServerSocket.
@@ -16,7 +19,9 @@ import java.util.HashMap;
 public class PerclipseViewSkeleton extends Thread {
     private IBenchRunSessionListener sessionListener;
     private ServerSocket serverSocket;
+    private Socket socket = null;
     private int serverPort;
+    boolean finished = false;
     private ObjectInputStream in;
 
     /**
@@ -33,7 +38,7 @@ public class PerclipseViewSkeleton extends Thread {
         try {
             serverSocket = new ServerSocket(serverPort);
         } catch (IOException e) {
-            // TODO Auto-generated catch block
+            PerclipseActivator.log(e);
             e.printStackTrace();
         }
     }
@@ -47,15 +52,15 @@ public class PerclipseViewSkeleton extends Thread {
      */
     public void run() {
 
-        Socket socket;
         try {
             socket = serverSocket.accept();
+
             in = new ObjectInputStream(socket.getInputStream());
         } catch (IOException e1) {
-            // TODO Auto-generated catch block
+            PerclipseActivator.log(e1);
             e1.printStackTrace();
         }
-        boolean finished = false;
+
         String command;
         while (finished == false) {
             try {
@@ -81,23 +86,37 @@ public class PerclipseViewSkeleton extends Thread {
                     throw new RuntimeException("unknown command:" + command);
                 }
             } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+                if (e instanceof EOFException) {
+                    System.out
+                            .println("Connection has been interrupted. ServerSocket will close..");
+                } else {
+                    e.printStackTrace();
+                }
+                PerclipseActivator.log(e);
                 finished = true;
             } catch (ClassNotFoundException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
                 finished = true;
+                PerclipseActivator.log(e);
+                e.printStackTrace();
             }
 
         }
         try {
+            if (socket.isConnected())
+                socket.close();
             serverSocket.close();
         } catch (IOException e) {
-            // TODO Auto-generated catch block
+            PerclipseActivator.log(e);
             e.printStackTrace();
         }
 
+    }
+
+    /**
+     * This method will be called when the socket connection has to be closed.
+     */
+    public void killSocket() {
+        finished = true;
     }
 
 }

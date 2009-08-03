@@ -44,6 +44,7 @@ public class BuildPathSupport {
             local = FileLocator.toFileURL(bundle.getEntry("/"));
 
         } catch (IOException e) {
+            PerclipseActivator.log(e);
             e.printStackTrace();
             return null;
         }

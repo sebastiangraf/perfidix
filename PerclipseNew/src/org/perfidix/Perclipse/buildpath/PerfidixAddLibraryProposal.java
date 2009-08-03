@@ -93,10 +93,10 @@ public class PerfidixAddLibraryProposal implements IJavaCompletionProposal {
             document.replace(offset, length, str);
 
         } catch (BadLocationException e) {
-            // TODO Auto-generated catch block
+            PerclipseActivator.log(e);
             e.printStackTrace();
         } catch (JavaModelException e) {
-            // TODO Auto-generated catch block
+            PerclipseActivator.log(e);
             e.printStackTrace();
         }
 
@@ -170,13 +170,14 @@ public class PerfidixAddLibraryProposal implements IJavaCompletionProposal {
                     try {
                         project.setRawClasspath(newCPEntries, monitor);
                     } catch (JavaModelException e) {
-                        // TODO Auto-generated catch block
+                        PerclipseActivator.log(e);
                         e.printStackTrace();
                     }
                 }
             });
             return true;
         } catch (InvocationTargetException e) {
+            PerclipseActivator.log(e);
             Throwable t = e.getTargetException();
             if (t instanceof CoreException) {
                 ErrorDialog.openError(
@@ -185,6 +186,7 @@ public class PerfidixAddLibraryProposal implements IJavaCompletionProposal {
             }
             return false;
         } catch (InterruptedException e) {
+            PerclipseActivator.log(e);
             return false;
         }
 

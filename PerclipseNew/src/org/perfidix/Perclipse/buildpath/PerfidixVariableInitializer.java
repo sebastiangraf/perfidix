@@ -51,6 +51,7 @@ public class PerfidixVariableInitializer extends ClasspathVariableInitializer {
                     PerclipseActivator.PERFIDIX_HOME, path, null);
 
         } catch (JavaModelException e1) {
+            PerclipseActivator.log(e1);
             JavaCore.removeClasspathVariable(
                     PerclipseActivator.PERFIDIX_HOME, null);
         }

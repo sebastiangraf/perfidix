@@ -231,8 +231,8 @@ public class BenchView extends ViewPart {
             return;
         }
 
-//        updateJob = new UpdateUIJob("jobName");
-//        updateJob.schedule(REFRESH_INTERVAL);
+        // updateJob = new UpdateUIJob("jobName");
+        // updateJob.schedule(REFRESH_INTERVAL);
     }
 
     /*
@@ -380,24 +380,32 @@ public class BenchView extends ViewPart {
     }
 
     /**
-     * This method handles the action that will be executed when an element has been selected in the tree viewer.
+     * This method handles the action that will be executed when an element has
+     * been selected in the tree viewer.
      * 
-     * @param element The String value of the element in the tree view.
+     * @param element
+     *            The String value of the element in the tree view.
      */
     public void handleBenchSelection(TreeDataProvider element) {
-        
+
         showBench(element);
-        
+
     }
+
+    /**
+     * This method show the selection from the tree view provider.
+     * 
+     * @param element The TreeDataProvider element that has been clicked.
+     */
     private void showBench(TreeDataProvider element) {
-       postSyncRunnable(new Runnable(){
-           public void run(){
-               if(!isDisposed()){
-                   System.out.println("Selection");
-               }
-           }
-       });
-        
+        postSyncRunnable(new Runnable() {
+            public void run() {
+                if (!isDisposed()) {
+                    System.out.println("Selection");
+                }
+            }
+        });
+
     }
 
     /**
@@ -406,6 +414,5 @@ public class BenchView extends ViewPart {
     public boolean isCreated() {
         return counterComposite != null;
     }
-
 
 }
