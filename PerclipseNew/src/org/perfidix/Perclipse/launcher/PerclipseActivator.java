@@ -46,6 +46,7 @@ public class PerclipseActivator extends AbstractUIPlugin {
 
     private BundleContext bundleContext;
 
+
     /**
      * The constructor
      */
@@ -121,6 +122,17 @@ public class PerclipseActivator extends AbstractUIPlugin {
     public static void log(Throwable e) {
         log(new Status(IStatus.ERROR, getPluginId(), IStatus.ERROR, "Error", e));
     }
+    
+    /**
+     * The log method gets a Throwable error message and saves its status in the
+     * log.
+     * 
+     * @param e
+     * @param text The error title.
+     */
+    public static void log(Throwable e, String text) {
+        log(new Status(IStatus.ERROR, getPluginId(), IStatus.ERROR, text, e));
+    }
 
     /**
      * The log method expect a parameter, the status of type IStatus and
@@ -144,6 +156,9 @@ public class PerclipseActivator extends AbstractUIPlugin {
         return imageDescriptorFromPlugin(PLUGIN_ID, path);
     }
 
+    /**
+     * @return This method returns the active workbench window of this plug-in.
+     */
     public static IWorkbenchWindow getActiveWorkbenchWindow() {
         if (plugin == null)
             return null;
@@ -153,6 +168,9 @@ public class PerclipseActivator extends AbstractUIPlugin {
         return workBench.getActiveWorkbenchWindow();
     }
 
+    /**
+     * @return This Method returns the active workbench page of this plug-in.
+     */
     public static IWorkbenchPage getActivePage() {
         IWorkbenchWindow activeWorkbenchWindow = getActiveWorkbenchWindow();
         if (activeWorkbenchWindow == null)
@@ -160,46 +178,44 @@ public class PerclipseActivator extends AbstractUIPlugin {
         return activeWorkbenchWindow.getActivePage();
     }
 
+    /**
+     * @return This method returns the instance of the BenchModel class.
+     */
     public static BenchModel getModel() {
         return benchModel;
     }
 
+    /**
+     * This method sets the created BenchView.
+     * 
+     * @param view The BenchView.
+     */
     public void setBenchView(BenchView view) {
         this.view = view;
 
     }
 
+    /**
+     * @return This method returns the created BenchView.
+     */
     public BenchView getBenchView() {
         return view;
     }
 
+    /**
+     * @return This method returns the plug-in workspace.
+     */
     public IWorkspace getWorkspace() {
-        // TODO Auto-generated method stub
         return plugin.getWorkspace();
     }
 
-    public Bundle[] getBundles(String bundleID, String version) {
-        Bundle[] bundles = Platform.getBundles(bundleID, version);
-        if (bundles != null) {
-            return bundles;
-        }
-        ServiceReference serviceRef =
-                bundleContext.getServiceReference(PackageAdmin.class.getName());
-        PackageAdmin admin =
-                (PackageAdmin) bundleContext.getService(serviceRef);
-        bundles = admin.getBundles(bundleID, version);
-        if (bundles != null && bundles.length > 0) {
-            return bundles;
-        }
-        return null;
+    /**
+     * @return This method returns the bundle context or null.
+     */
+    public BundleContext getBundleContext() {
+        return bundleContext;
     }
 
-    public Bundle getBundle(String bundleName) {
-        Bundle[] bundles = getBundles(bundleName, null);
-        if (bundles != null && bundles.length > 0) {
-            return bundles[0];
-        }
-        return null;
-    }
+
 
 }
