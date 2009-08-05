@@ -42,9 +42,9 @@ public final class BenchFinder {
      * This method gets an object array with java elements, looks up its exact
      * type and delegate the find bench option to the responsible method.
      * 
-     * @param elements
-     * @param result
-     * @param pm
+     * @param elements An array of objects which eventually contain bench types.
+     * @param result The result set.
+     * @param pm The progress monitor.
      */
     public static void findBenchsInContainer(
             Object[] elements, Set<IType> result, IProgressMonitor pm) {

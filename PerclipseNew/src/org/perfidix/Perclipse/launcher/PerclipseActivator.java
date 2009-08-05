@@ -46,7 +46,6 @@ public class PerclipseActivator extends AbstractUIPlugin {
 
     private BundleContext bundleContext;
 
-
     /**
      * The constructor
      */
@@ -107,7 +106,7 @@ public class PerclipseActivator extends AbstractUIPlugin {
      * The logInfo method expect a String message that will be saved in the log
      * to document the status.
      * 
-     * @param message
+     * @param message The message which has to be stored in the log.
      */
     public static void logInfo(String message) {
         log(new Status(IStatus.INFO, getPluginId(), IStatus.INFO, message, null));
@@ -117,18 +116,19 @@ public class PerclipseActivator extends AbstractUIPlugin {
      * The log method gets a Throwable error message and saves its status in the
      * log.
      * 
-     * @param e
+     * @param e The Exception occurred and has to be stored in the log.
      */
     public static void log(Throwable e) {
         log(new Status(IStatus.ERROR, getPluginId(), IStatus.ERROR, "Error", e));
     }
-    
+
     /**
      * The log method gets a Throwable error message and saves its status in the
      * log.
      * 
-     * @param e
-     * @param text The error title.
+     * @param e The Exception occurred and has to be stored in the log.
+     * @param text 
+     *            The error title.
      */
     public static void log(Throwable e, String text) {
         log(new Status(IStatus.ERROR, getPluginId(), IStatus.ERROR, text, e));
@@ -138,7 +138,7 @@ public class PerclipseActivator extends AbstractUIPlugin {
      * The log method expect a parameter, the status of type IStatus and
      * afterwards logs the status.
      * 
-     * @param status
+     * @param status The status that has to be logged.
      */
     public static void log(IStatus status) {
         getDefault().getLog().log(status);
@@ -188,7 +188,8 @@ public class PerclipseActivator extends AbstractUIPlugin {
     /**
      * This method sets the created BenchView.
      * 
-     * @param view The BenchView.
+     * @param view
+     *            The BenchView.
      */
     public void setBenchView(BenchView view) {
         this.view = view;
@@ -215,7 +216,5 @@ public class PerclipseActivator extends AbstractUIPlugin {
     public BundleContext getBundleContext() {
         return bundleContext;
     }
-
-
 
 }

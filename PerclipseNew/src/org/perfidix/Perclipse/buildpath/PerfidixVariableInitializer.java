@@ -30,6 +30,7 @@ public class PerfidixVariableInitializer extends ClasspathVariableInitializer {
      * This method is responisble for initialization of the classpath variable
      * within eclipse for our perfidix libs.
      * 
+     * @param variable The variable for initialization.
      * @see org.eclipse.jdt.core.ClasspathVariableInitializer#initialize(java.lang.String)
      */
     @Override

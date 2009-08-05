@@ -104,7 +104,7 @@ public class BenchViewCounterPanel extends Composite {
     /**
      * Setter of total runs for the label in the view.
      * 
-     * @param totalRuns
+     * @param totalRuns The total runs value.
      */
     public void setTotalRuns(int totalRuns) {
         this.totalRuns = totalRuns;
@@ -128,7 +128,7 @@ public class BenchViewCounterPanel extends Composite {
     /**
      * Setter of occurred errors.
      * 
-     * @param benchErrors
+     * @param benchErrors The int value for upcoming bench runs.
      */
     public void setBenchErrors(int benchErrors) {
         this.benchErrors.setText(Integer.toString(benchErrors));

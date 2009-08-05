@@ -125,6 +125,9 @@ public class PerfidixContainerInitializer extends ClasspathContainerInitializer 
      * This method initializes the custom classpath container with the
      * PerfidixContainer
      * 
+     * @param cpath see the super method.
+     * @param project see the super method.
+     * @throws CoreException see the super method.
      * @see org.eclipse.jdt.core.ClasspathContainerInitializer#initialize(org.eclipse.core.runtime.IPath,
      *      org.eclipse.jdt.core.IJavaProject)
      */
@@ -200,6 +203,8 @@ public class PerfidixContainerInitializer extends ClasspathContainerInitializer 
     /**
      * SourceAttachmentStatus returns only READ_ONLY status.
      * 
+     * @param containerPath see super method.
+     * @param project see super method.
      * @see org.eclipse.jdt.core.ClasspathContainerInitializer#getSourceAttachmentStatus(org.eclipse.core.runtime.IPath,
      *      org.eclipse.jdt.core.IJavaProject)
      */
@@ -211,6 +216,9 @@ public class PerfidixContainerInitializer extends ClasspathContainerInitializer 
     /**
      * This method returns the status of the attributes.
      * 
+     * @param containerPath The path of the container.
+     * @param project The java project where the problem occurs.
+     * @param attributeKey The attribute for the status.
      * @see org.eclipse.jdt.core.ClasspathContainerInitializer#getAttributeStatus(org.eclipse.core.runtime.IPath,
      *      org.eclipse.jdt.core.IJavaProject, java.lang.String)
      */
@@ -301,6 +309,8 @@ public class PerfidixContainerInitializer extends ClasspathContainerInitializer 
     /**
      * This method shows the description for the valid container path.
      * 
+     * @param containerPath see super method.
+     * @param project see super method.
      * @see org.eclipse.jdt.core.ClasspathContainerInitializer#getDescription(org.eclipse.core.runtime.IPath,
      *      org.eclipse.jdt.core.IJavaProject)
      */

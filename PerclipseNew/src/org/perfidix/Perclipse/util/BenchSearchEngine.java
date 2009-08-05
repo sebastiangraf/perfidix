@@ -29,11 +29,11 @@ public class BenchSearchEngine {
      * This method expects a runnable context and an object array to find Benchs
      * in the given source.
      * 
-     * @param context
-     * @param elements
-     * @return
-     * @throws InvocationTargetException
-     * @throws InterruptedException
+     * @param context The runnable context.
+     * @param elements The array of elements.
+     * @return A type array.
+     * @throws InvocationTargetException The upcoming exception.
+     * @throws InterruptedException The upcoming exceptions.
      */
     public static IType[] findBenchs(
             IRunnableContext context, final Object[] elements)
@@ -56,9 +56,9 @@ public class BenchSearchEngine {
      * This method checks the object element for its type and returns if
      * afterwards.
      * 
-     * @param element
-     * @return
-     * @throws JavaModelException
+     * @param element The element.
+     * @return The object.
+     * @throws JavaModelException The upcoming exception.
      */
     public static Object computeScope(Object element) throws JavaModelException {
         if (element instanceof IFileEditorInput)
@@ -77,10 +77,10 @@ public class BenchSearchEngine {
      * This method gets an array of java elements and delegates the bench search
      * to the class {@link BenchFinder}.
      * 
-     * @param elements
-     * @return an IType array
-     * @throws InvocationTargetException
-     * @throws InterruptedException
+     * @param elements The object array of elements.
+     * @return an IType array.
+     * @throws InvocationTargetException The Exception which occurred.
+     * @throws InterruptedException The Exception which occurred.
      */
     public static IType[] findBenchs(final Object[] elements)
             throws InvocationTargetException, InterruptedException {
@@ -96,8 +96,8 @@ public class BenchSearchEngine {
      * This method gets a java project and evaluates if it has a bench type or
      * not.
      * 
-     * @param javaProject
-     * @return
+     * @param javaProject The java project for checking.
+     * @return A boolean value if the java project contains benches.
      */
     public static boolean hasBenchType(IJavaProject javaProject) {
         return benchType(javaProject) != null;
@@ -107,8 +107,8 @@ public class BenchSearchEngine {
      * This method return the first type found with the given fully qualified
      * name. In our case a type with a bench.
      * 
-     * @param javaProject
-     * @return
+     * @param javaProject The java project for testing for benchs.
+     * @return The type.
      */
     private static IType benchType(IJavaProject javaProject) {
         try {

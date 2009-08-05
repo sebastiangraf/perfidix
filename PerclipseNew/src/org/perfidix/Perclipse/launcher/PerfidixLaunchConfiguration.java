@@ -159,12 +159,14 @@ public class PerfidixLaunchConfiguration
     }
 
     /**
-     * @param configuration
-     * @param benchTypes
-     * @param runMode
-     * @param port
-     * @return
-     * @throws CoreException
+     * This method creates a VMRunner for our perfidix project.
+     * 
+     * @param configuration The created launch configuration for the project which has to be benched.
+     * @param benchTypes The result of the bench type search.
+     * @param runMode The launch mode run/debug. 
+     * @param port The port where the {@link org.perfidix.Perclipse.model.PerclipseViewSkeleton} is listening.
+     * @return The runner configuration.
+     * @throws CoreException The exception.
      */
     protected VMRunnerConfiguration createVMRunner(
             ILaunchConfiguration configuration, BenchSearchResult benchTypes,
@@ -186,12 +188,14 @@ public class PerfidixLaunchConfiguration
     }
 
     /**
-     * @param configuration
-     * @param result
-     * @param runMode
-     * @param port
-     * @return
-     * @throws CoreException
+     * This method returns the VM arguments in a Vector List for given launch configuration, bench search result, the launch mode and the port for the skeleton.
+     * 
+     * @param configuration The launch configuration.
+     * @param result The result of the search for bench elements within the launching project.
+     * @param runMode The launch mode - run/debug.
+     * @param port The port where the skeleton is listening.
+     * @return A Vector List containing the VM arguments for invoking perfidix's main.
+     * @throws CoreException The exception.
      */
     public Vector getVMArgs(
             ILaunchConfiguration configuration, BenchSearchResult result,
