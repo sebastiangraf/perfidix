@@ -44,7 +44,7 @@ public class BenchViewer {
     }
 
     private BenchRunSession benchRunSession;
-    private Image hierarchyIcon;
+    // private Image hierarchyIcon;
     private PageBook viewerBook;
     private TreeViewer treeViewer;
     private SelectionProviderMediator selectionProvider;
@@ -66,7 +66,7 @@ public class BenchViewer {
      *            The bench view.
      */
     public BenchViewer(Composite parent, BenchView view) {
-        hierarchyIcon = BenchView.createImage("icons/time.png"); //$NON-NLS-1$
+        //hierarchyIcon = BenchView.createImage("icons/time.png"); //$NON-NLS-1$
         parent.addDisposeListener(new DisposeListener() {
             public void widgetDisposed(DisposeEvent e) {
                 disposeIcons();
@@ -126,7 +126,7 @@ public class BenchViewer {
 
         int launchHash = treeDataRunnin.hashCode();
 
-        if (dataFilled == false || sameLaunch != launchHash) {
+        if (!dataFilled || sameLaunch != launchHash) {
             initData(launchHash);
         } else {
 
@@ -210,7 +210,7 @@ public class BenchViewer {
      * This method is responsible for disposing the icon.
      */
     private void disposeIcons() {
-        hierarchyIcon.dispose();
+        // if(hierarchyIcon!=null) hierarchyIcon.dispose();
     }
 
     /**

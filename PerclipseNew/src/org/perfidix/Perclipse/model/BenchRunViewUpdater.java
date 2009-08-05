@@ -16,7 +16,7 @@ public class BenchRunViewUpdater {
      * The updateView method gets a given benchSession and starts to update the
      * BenchView via the startUpdateJobs method.
      * 
-     * @param benchSession
+     * @param benchSession The bench session which contain information about the complete running session process.
      */
     public void updateView(BenchRunSession benchSession) {
         BenchView benchview = PerclipseActivator.getDefault().getBenchView();

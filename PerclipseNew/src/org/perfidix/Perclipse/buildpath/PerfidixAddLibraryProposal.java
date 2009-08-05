@@ -68,6 +68,7 @@ public class PerfidixAddLibraryProposal implements IJavaCompletionProposal {
     /**
      * This method inserts our proposal - jar library - into classpath.
      * 
+     * @param document see super method.
      * @see org.eclipse.jface.text.contentassist.ICompletionProposal#apply(org.eclipse.jface.text.IDocument)
      */
     public void apply(IDocument document) {

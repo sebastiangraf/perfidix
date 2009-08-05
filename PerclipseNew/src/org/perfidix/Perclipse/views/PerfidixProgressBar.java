@@ -34,12 +34,12 @@ public class PerfidixProgressBar extends Canvas {
     private boolean error;
     private boolean hasStopped = false;
 
+
     /**
      * The constructor initializes the listeners and the responsible
      * {@link Display} of the parent composite (BenchView). Furthermore it
      * initializes the possible colors for the progress bar.
-     * 
-     * @param parent
+     * @param parent The composite of the parent.
      */
     public PerfidixProgressBar(Composite parent) {
         super(parent, SWT.NONE);

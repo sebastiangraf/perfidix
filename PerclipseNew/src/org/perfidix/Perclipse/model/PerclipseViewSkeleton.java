@@ -62,7 +62,7 @@ public class PerclipseViewSkeleton extends Thread {
         }
 
         String command;
-        while (finished == false) {
+        while (!finished) {
             try {
                 command = (String) in.readObject();
                 if ("init".equals(command)) {
@@ -82,6 +82,7 @@ public class PerclipseViewSkeleton extends Thread {
                 } else if ("finished".equals(command)) {
                     System.out.println("Bench runs finished");
                     finished = true;
+                    PerclipseActivator.logInfo("Bench process finished");
                 } else {
                     throw new RuntimeException("unknown command:" + command);
                 }
@@ -89,8 +90,11 @@ public class PerclipseViewSkeleton extends Thread {
                 if (e instanceof EOFException) {
                     System.out
                             .println("Connection has been interrupted. ServerSocket will close..");
-                    PerclipseActivator.log(e, "Running Bench process has been stopped or restarted");
-                    //PerclipseActivator.logInfo("Running Bench process has been stopped or restarted");
+                    PerclipseActivator
+                            .log(
+                                    e,
+                                    "Running Bench process has been stopped or restarted");
+                    // PerclipseActivator.logInfo("Running Bench process has been stopped or restarted");
 
                 } else {
                     e.printStackTrace();
@@ -114,7 +118,5 @@ public class PerclipseViewSkeleton extends Thread {
         }
 
     }
-
-
 
 }

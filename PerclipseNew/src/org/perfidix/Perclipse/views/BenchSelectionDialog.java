@@ -71,8 +71,8 @@ public class BenchSelectionDialog extends TwoPaneElementSelector {
      * The constructor initializes the types which contains the necessary
      * benches and calls the super constructor.
      * 
-     * @param shell
-     * @param types
+     * @param shell The current shell.
+     * @param types The types array of to be benched classes.
      */
     public BenchSelectionDialog(Shell shell, IType[] types) {
         super(
@@ -88,6 +88,7 @@ public class BenchSelectionDialog extends TwoPaneElementSelector {
      * topics to the super class {@link TwoPaneElementSelector}.
      * 
      * @see org.eclipse.jface.window.Window#configureShell(Shell)
+     * @param newShell The new shell value.
      */
     protected void configureShell(Shell newShell) {
         super.configureShell(newShell);

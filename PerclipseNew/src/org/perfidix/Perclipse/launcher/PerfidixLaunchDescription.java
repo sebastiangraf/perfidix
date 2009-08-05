@@ -60,8 +60,8 @@ public class PerfidixLaunchDescription {
      * The constructor gets an existing java element of type IJavaElement and a
      * name as a String value and set them. Afterwards it sets the attributes.
      * 
-     * @param element
-     * @param name
+     * @param element The java element for a launch description.
+     * @param name The name of the launch description.
      */
     public PerfidixLaunchDescription(IJavaElement element, String name) {
         fElement = element;
@@ -75,7 +75,7 @@ public class PerfidixLaunchDescription {
      * The copyAttributeInto sets the attributes in the working copy of the
      * launch configuration (ILaunchConfigurationWorkingCopy).
      * 
-     * @param wc
+     * @param wc The launch configuration working copy.
      */
     public void copyAttributesInto(ILaunchConfigurationWorkingCopy wc) {
         wc.setAttribute(
@@ -105,8 +105,8 @@ public class PerfidixLaunchDescription {
      * The getAttribute method returns the String value of the queried
      * attribute, otherwise it returns the DEFAULT_VALUE.
      * 
-     * @param attr
-     * @return
+     * @param attr The queried attribute.
+     * @return The String value of the searched attribute.
      */
     public String getAttribute(String attr) {
         if (fAttributes.containsKey(attr))
@@ -156,8 +156,8 @@ public class PerfidixLaunchDescription {
      * The setContainer method set an attribute item of fAttributes with launch
      * container parameter and a handleIdentifier.
      * 
-     * @param handleIdentifier
-     * @return
+     * @param handleIdentifier The String identifier.
+     * @return The perfidix launch description.
      */
     public PerfidixLaunchDescription setContainer(String handleIdentifier) {
         return setAttribute(
@@ -169,8 +169,8 @@ public class PerfidixLaunchDescription {
      * The setMainType method set an attribute item of fAttributes with the main
      * type name and the mainType String value.
      * 
-     * @param mainType
-     * @return
+     * @param mainType The main type for the launch description. 
+     * @return The perfidix launch description.
      */
     public PerfidixLaunchDescription setMainType(String mainType) {
         return setAttribute(
@@ -182,8 +182,8 @@ public class PerfidixLaunchDescription {
      * bench name attribute, consisting of plugin id and bench name, and a given
      * benchName of type String.
      * 
-     * @param benchName
-     * @return
+     * @param benchName The bench name.
+     * @return The launch description.
      */
     public PerfidixLaunchDescription setBenchName(String benchName) {
         return setAttribute(
@@ -213,9 +213,9 @@ public class PerfidixLaunchDescription {
      * The following method validates the attributes with the
      * ILaunchConfiguration config.
      * 
-     * @param config
-     * @return
-     * @throws CoreException
+     * @param config The launch configuration.
+     * @return The boolean value if the attributes for a given configuration match.
+     * @throws CoreException The exception.
      */
     boolean attributesMatch(ILaunchConfiguration config) throws CoreException {
         for (int i = 0; i < ATTRIBUTES_THAT_MUST_MATCH.length; i++) {
@@ -230,10 +230,10 @@ public class PerfidixLaunchDescription {
      * The following method checks if configs attribute is equal to the
      * fAttributes attribute.
      * 
-     * @param attributeName
-     * @param config
-     * @return
-     * @throws CoreException
+     * @param attributeName The attribute name.
+     * @param config The launch configuration.
+     * @return The boolean value for matching or not. 
+     * @throws CoreException A core exception.
      */
     boolean configurationMatches(
             final String attributeName, ILaunchConfiguration config)
@@ -246,7 +246,7 @@ public class PerfidixLaunchDescription {
      * The following method sets a new attribute to fAttributes with the a given
      * type of IType.
      * 
-     * @param type
+     * @param type The type parameter. 
      */
     void setMainType(IType type) {
         setMainType(type.getFullyQualifiedName());

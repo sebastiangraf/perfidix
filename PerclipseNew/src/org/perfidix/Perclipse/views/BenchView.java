@@ -54,8 +54,8 @@ public class BenchView extends ViewPart {
     /**
      * This method creates every intern part of the view, like progress bar or
      * the bench viewer.
-     * 
      * @see org.eclipse.ui.part.WorkbenchPart#createPartControl(org.eclipse.swt.widgets.Composite)
+     * @param parent The composite of the parent. 
      */
     @Override
     public void createPartControl(Composite parent) {
@@ -395,7 +395,8 @@ public class BenchView extends ViewPart {
     /**
      * This method show the selection from the tree view provider.
      * 
-     * @param element The TreeDataProvider element that has been clicked.
+     * @param element
+     *            The TreeDataProvider element that has been clicked.
      */
     private void showBench(TreeDataProvider element) {
         postSyncRunnable(new Runnable() {
