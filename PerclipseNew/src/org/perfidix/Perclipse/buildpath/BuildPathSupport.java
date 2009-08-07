@@ -20,13 +20,19 @@ import org.perfidix.Perclipse.launcher.PerclipseActivator;
  * 
  * @author Lewandowski Lukas, DiSy, University of Konstanz
  */
-public class BuildPathSupport {
+public final class BuildPathSupport {
     /**
      * This field specifies the name of the existing jar that will be added to
      * the plug-ins build path.
      */
-    public final static String JAR_NAME =
+    public static final String JAR_NAME =
             "perfidix-3.3-jar-with-dependencies.jar";
+
+    /**
+     * The constructor.
+     */
+    private BuildPathSupport() {
+    }
 
     /**
      * This method returns the path of the plug-ins bundle location.

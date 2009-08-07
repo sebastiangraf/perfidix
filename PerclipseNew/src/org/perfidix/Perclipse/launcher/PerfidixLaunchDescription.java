@@ -46,6 +46,9 @@ public class PerfidixLaunchDescription {
                     IJavaLaunchConfigurationConstants.ATTR_MAIN_TYPE_NAME,
                     PerfidixLaunchConfiguration.BENCH_NAME_ATTR };
 
+    /**
+     * A empty String.
+     */
     public static final String EMPTY = ""; //$NON-NLS-1$
 
     private static final String DEFAULT_VALUE = ""; //$NON-NLS-1$
@@ -60,8 +63,10 @@ public class PerfidixLaunchDescription {
      * The constructor gets an existing java element of type IJavaElement and a
      * name as a String value and set them. Afterwards it sets the attributes.
      * 
-     * @param element The java element for a launch description.
-     * @param name The name of the launch description.
+     * @param element
+     *            The java element for a launch description.
+     * @param name
+     *            The name of the launch description.
      */
     public PerfidixLaunchDescription(IJavaElement element, String name) {
         fElement = element;
@@ -75,25 +80,23 @@ public class PerfidixLaunchDescription {
      * The copyAttributeInto sets the attributes in the working copy of the
      * launch configuration (ILaunchConfigurationWorkingCopy).
      * 
-     * @param wc The launch configuration working copy.
+     * @param wc
+     *            The launch configuration working copy.
      */
     public void copyAttributesInto(ILaunchConfigurationWorkingCopy wc) {
         wc.setAttribute(
                 IJavaLaunchConfigurationConstants.ATTR_PROJECT_NAME,
                 getProjectName());
 
-        Set definedAttributes = getDefinedAttributes();
-        for (Iterator iter = definedAttributes.iterator(); iter.hasNext();) {
-            Entry attribute = (Entry) iter.next();
+        Set<?> definedAttributes = getDefinedAttributes();
+        for (Iterator<?> iter = definedAttributes.iterator(); iter.hasNext();) {
+            Entry<?, ?> attribute = (Entry<?, ?>) iter.next();
             wc.setAttribute((String) attribute.getKey(), (String) attribute
                     .getValue());
         }
     }
 
-    /*
-     * (non-Javadoc)
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
+    /** {@inheritDoc} */
     public boolean equals(Object arg0) {
         PerfidixLaunchDescription desc = (PerfidixLaunchDescription) arg0;
         return areEqual(desc.fElement, fElement)
@@ -105,12 +108,14 @@ public class PerfidixLaunchDescription {
      * The getAttribute method returns the String value of the queried
      * attribute, otherwise it returns the DEFAULT_VALUE.
      * 
-     * @param attr The queried attribute.
+     * @param attr
+     *            The queried attribute.
      * @return The String value of the searched attribute.
      */
     public String getAttribute(String attr) {
-        if (fAttributes.containsKey(attr))
+        if (fAttributes.containsKey(attr)) {
             return (String) fAttributes.get(attr);
+        }
         return DEFAULT_VALUE;
     }
 
@@ -118,7 +123,7 @@ public class PerfidixLaunchDescription {
      * The getContainer method returns an existing attribute representing launch
      * container attribute.
      * 
-     * @return
+     * @return The String container value.
      */
     public String getContainer() {
         return getAttribute(PerfidixLaunchConfiguration.LAUNCH_CONTAINER_ATTR);
@@ -127,7 +132,7 @@ public class PerfidixLaunchDescription {
     /**
      * The getDefinedAttributes returns the entrySet of the Set fAttributes.
      * 
-     * @return
+     * @return The Set of defined attributes.
      */
     public Set getDefinedAttributes() {
         return fAttributes.entrySet();
@@ -137,7 +142,7 @@ public class PerfidixLaunchDescription {
      * The getElement method returns the existing fElement of type
      * {@link IJavaElement}.
      * 
-     * @return
+     * @return The java element.
      */
     public IJavaElement getElement() {
         return fElement;
@@ -146,7 +151,7 @@ public class PerfidixLaunchDescription {
     /**
      * The getName method returns the unexpected value of fName.
      * 
-     * @return
+     * @return The name.
      */
     public String getName() {
         return fName;
@@ -156,7 +161,8 @@ public class PerfidixLaunchDescription {
      * The setContainer method set an attribute item of fAttributes with launch
      * container parameter and a handleIdentifier.
      * 
-     * @param handleIdentifier The String identifier.
+     * @param handleIdentifier
+     *            The String identifier.
      * @return The perfidix launch description.
      */
     public PerfidixLaunchDescription setContainer(String handleIdentifier) {
@@ -169,7 +175,8 @@ public class PerfidixLaunchDescription {
      * The setMainType method set an attribute item of fAttributes with the main
      * type name and the mainType String value.
      * 
-     * @param mainType The main type for the launch description. 
+     * @param mainType
+     *            The main type for the launch description.
      * @return The perfidix launch description.
      */
     public PerfidixLaunchDescription setMainType(String mainType) {
@@ -182,7 +189,8 @@ public class PerfidixLaunchDescription {
      * bench name attribute, consisting of plugin id and bench name, and a given
      * benchName of type String.
      * 
-     * @param benchName The bench name.
+     * @param benchName
+     *            The bench name.
      * @return The launch description.
      */
     public PerfidixLaunchDescription setBenchName(String benchName) {
@@ -190,10 +198,7 @@ public class PerfidixLaunchDescription {
                 PerfidixLaunchConfiguration.BENCH_NAME_ATTR, benchName);
     }
 
-    /*
-     * (non-Javadoc)
-     * @see java.lang.Object#toString()
-     */
+    /** {@inheritDoc} */
     public String toString() {
         return "PerfidixLaunchDescription(" + fName + ")"; //$NON-NLS-1$//$NON-NLS-2$
     }
@@ -202,7 +207,7 @@ public class PerfidixLaunchDescription {
      * The getProjectName method returns either the existing project name of the
      * project element or the value null.
      * 
-     * @return
+     * @return The project name.
      */
     protected String getProjectName() {
         IJavaProject project = getProject();
@@ -213,9 +218,12 @@ public class PerfidixLaunchDescription {
      * The following method validates the attributes with the
      * ILaunchConfiguration config.
      * 
-     * @param config The launch configuration.
-     * @return The boolean value if the attributes for a given configuration match.
-     * @throws CoreException The exception.
+     * @param config
+     *            The launch configuration.
+     * @return The boolean value if the attributes for a given configuration
+     *         match.
+     * @throws CoreException
+     *             The exception.
      */
     boolean attributesMatch(ILaunchConfiguration config) throws CoreException {
         for (int i = 0; i < ATTRIBUTES_THAT_MUST_MATCH.length; i++) {
@@ -230,10 +238,13 @@ public class PerfidixLaunchDescription {
      * The following method checks if configs attribute is equal to the
      * fAttributes attribute.
      * 
-     * @param attributeName The attribute name.
-     * @param config The launch configuration.
-     * @return The boolean value for matching or not. 
-     * @throws CoreException A core exception.
+     * @param attributeName
+     *            The attribute name.
+     * @param config
+     *            The launch configuration.
+     * @return The boolean value for matching or not.
+     * @throws CoreException
+     *             A core exception.
      */
     boolean configurationMatches(
             final String attributeName, ILaunchConfiguration config)
@@ -246,7 +257,8 @@ public class PerfidixLaunchDescription {
      * The following method sets a new attribute to fAttributes with the a given
      * type of IType.
      * 
-     * @param type The type parameter. 
+     * @param type
+     *            The type parameter.
      */
     void setMainType(IType type) {
         setMainType(type.getFullyQualifiedName());
@@ -261,8 +273,9 @@ public class PerfidixLaunchDescription {
      * @return
      */
     private boolean areEqual(Object thing, Object otherThing) {
-        if (thing == null)
+        if (thing == null) {
             return otherThing == null;
+        }
         return thing.equals(otherThing);
     }
 
@@ -270,7 +283,7 @@ public class PerfidixLaunchDescription {
      * The getProject method returns the getJavaProject item of fElement
      * otherwise null.
      * 
-     * @return
+     * @return The java project.
      */
     public IJavaProject getProject() {
         return fElement == null ? null : fElement.getJavaProject();
@@ -283,7 +296,7 @@ public class PerfidixLaunchDescription {
      * 
      * @param attr
      * @param value
-     * @return
+     * @return The perfidix launch description.
      */
     private PerfidixLaunchDescription setAttribute(String attr, String value) {
         fAttributes.put(attr, value);

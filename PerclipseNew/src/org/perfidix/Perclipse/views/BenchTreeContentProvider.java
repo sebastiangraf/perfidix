@@ -13,12 +13,7 @@ import org.perfidix.Perclipse.viewTreeData.TreeDataProvider;
 public class BenchTreeContentProvider extends ArrayContentProvider
         implements ITreeContentProvider {
 
-    /*
-     * (non-Javadoc)
-     * @see
-     * org.eclipse.jface.viewers.ITreeContentProvider#getChildren(java.lang.
-     * Object)
-     */
+    /** {@inheritDoc} */
     public Object[] getChildren(Object parentElement) {
         if (parentElement != null) {
             TreeDataProvider treeData = (TreeDataProvider) parentElement;
@@ -27,12 +22,7 @@ public class BenchTreeContentProvider extends ArrayContentProvider
         return null;
     }
 
-    /*
-     * (non-Javadoc)
-     * @see
-     * org.eclipse.jface.viewers.ITreeContentProvider#getParent(java.lang.Object
-     * )
-     */
+    /** {@inheritDoc} */
     public Object getParent(Object element) {
         if (element != null) {
             TreeDataProvider treeData = (TreeDataProvider) element;
@@ -41,12 +31,7 @@ public class BenchTreeContentProvider extends ArrayContentProvider
         return null;
     }
 
-    /*
-     * (non-Javadoc)
-     * @see
-     * org.eclipse.jface.viewers.ITreeContentProvider#hasChildren(java.lang.
-     * Object)
-     */
+    /** {@inheritDoc} */
     public boolean hasChildren(Object element) {
         if (element != null) {
             TreeDataProvider treeData = (TreeDataProvider) element;

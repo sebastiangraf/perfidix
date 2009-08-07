@@ -47,21 +47,12 @@ public class BenchSelectionDialog extends TwoPaneElementSelector {
                     | JavaElementLabelProvider.SHOW_ROOT);
         }
 
-        /*
-         * (non-Javadoc)
-         * @see
-         * org.eclipse.jdt.ui.JavaElementLabelProvider#getImage(java.lang.Object
-         * )
-         */
+        /** {@inheritDoc} */
         public Image getImage(Object element) {
             return super.getImage(((IType) element).getPackageFragment());
         }
 
-        /*
-         * (non-Javadoc)
-         * @see
-         * org.eclipse.jdt.ui.JavaElementLabelProvider#getText(java.lang.Object)
-         */
+        /** {@inheritDoc} */
         public String getText(Object element) {
             return super.getText(((IType) element).getPackageFragment());
         }
@@ -71,8 +62,10 @@ public class BenchSelectionDialog extends TwoPaneElementSelector {
      * The constructor initializes the types which contains the necessary
      * benches and calls the super constructor.
      * 
-     * @param shell The current shell.
-     * @param types The types array of to be benched classes.
+     * @param shell
+     *            The current shell.
+     * @param types
+     *            The types array of to be benched classes.
      */
     public BenchSelectionDialog(Shell shell, IType[] types) {
         super(
@@ -88,7 +81,8 @@ public class BenchSelectionDialog extends TwoPaneElementSelector {
      * topics to the super class {@link TwoPaneElementSelector}.
      * 
      * @see org.eclipse.jface.window.Window#configureShell(Shell)
-     * @param newShell The new shell value.
+     * @param newShell
+     *            The new shell value.
      */
     protected void configureShell(Shell newShell) {
         super.configureShell(newShell);
@@ -96,9 +90,7 @@ public class BenchSelectionDialog extends TwoPaneElementSelector {
         // Object[] { IJavaHelpContextIds.MAINTYPE_SELECTION_DIALOG });
     }
 
-    /*
-     * @see Window#open()
-     */
+    /** {@inheritDoc} */
     public int open() {
         setElements(fTypes);
         return super.open();

@@ -30,10 +30,12 @@ public class TreeDataProvider {
      */
     public TreeDataProvider(
             String parentElement, int numberOfBenchs, int currentBench) {
+        if(numberOfBenchs>=0 && currentBench>=0 && parentElement!=null){
         this.parentElementName = parentElement;
         this.numberOfBenchsForElement = numberOfBenchs;
         this.currentBench = currentBench;
         parent = this;
+        }
     }
 
     /**
@@ -83,6 +85,7 @@ public class TreeDataProvider {
     /**
      * Override toString()
      * 
+     * @return see the super method description.
      * @see java.lang.Object#toString()
      */
     public String toString() {

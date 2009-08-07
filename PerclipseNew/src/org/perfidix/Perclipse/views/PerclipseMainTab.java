@@ -86,18 +86,13 @@ public class PerclipseMainTab extends AbstractLaunchConfigurationTab {
     private final ILabelProvider fJavaElementLabelProvider =
             new JavaElementLabelProvider();
     private String fOriginalBenchMethodName;
-    private final IPath ICON_PATH = new Path("icons/time.png");
+    private final IPath iconPath = new Path("icons/time.png");
     private Image fTabIcon =
             createImageDescriptor(
-                    PerclipseActivator.getDefault().getBundle(), ICON_PATH,
+                    PerclipseActivator.getDefault().getBundle(), iconPath,
                     true).createImage();
 
-    /*
-     * *
-     * @see
-     * org.eclipse.debug.ui.ILaunchConfigurationTab#createControl(org.eclipse
-     * .swt.widgets.Composite)
-     */
+    /** {@inheritDoc} */
     public void createControl(Composite parent) {
         Composite comp = new Composite(parent, SWT.NONE);
         setControl(comp);
@@ -115,12 +110,7 @@ public class PerclipseMainTab extends AbstractLaunchConfigurationTab {
 
     }
 
-    /*
-     * (non-Javadoc)
-     * @see
-     * org.eclipse.debug.ui.ILaunchConfigurationTab#initializeFrom(org.eclipse
-     * .debug.core.ILaunchConfiguration)
-     */
+    /** {@inheritDoc} */
     public void initializeFrom(ILaunchConfiguration config) {
         updateProjectFromConfig(config);
         String containerHandle = ""; //$NON-NLS-1$
@@ -142,12 +132,7 @@ public class PerclipseMainTab extends AbstractLaunchConfigurationTab {
         }
     }
 
-    /*
-     * (non-Javadoc)
-     * @see
-     * org.eclipse.debug.ui.ILaunchConfigurationTab#performApply(org.eclipse
-     * .debug.core.ILaunchConfigurationWorkingCopy)
-     */
+    /** {@inheritDoc} */
     public void performApply(ILaunchConfigurationWorkingCopy config) {
 
         if (fAllBenchsRadioButton.getSelection() && fContainerElement != null) {
@@ -171,12 +156,7 @@ public class PerclipseMainTab extends AbstractLaunchConfigurationTab {
 
     }
 
-    /*
-     * (non-Javadoc)
-     * @see
-     * org.eclipse.debug.ui.ILaunchConfigurationTab#setDefaults(org.eclipse.
-     * debug.core.ILaunchConfigurationWorkingCopy)
-     */
+    /** {@inheritDoc} */
     public void setDefaults(ILaunchConfigurationWorkingCopy config) {
         IJavaElement javaElement = getContext();
         if (javaElement != null) {
@@ -191,10 +171,7 @@ public class PerclipseMainTab extends AbstractLaunchConfigurationTab {
 
     }
 
-    /*
-     * (non-Javadoc)
-     * @see org.eclipse.debug.ui.ILaunchConfigurationTab#getName()
-     */
+    /** {@inheritDoc} */
     public String getName() {
         return "Benchs";
     }
@@ -214,10 +191,11 @@ public class PerclipseMainTab extends AbstractLaunchConfigurationTab {
     private void initializeBenchAttributes(
             IJavaElement javaElement, ILaunchConfigurationWorkingCopy config) {
         if (javaElement != null
-                && javaElement.getElementType() < IJavaElement.COMPILATION_UNIT)
+                && javaElement.getElementType() < IJavaElement.COMPILATION_UNIT) {
             initializeBenchContainer(javaElement, config);
-        else
+        } else {
             initializeBenchType(javaElement, config);
+        }
     }
 
     /**
@@ -298,8 +276,9 @@ public class PerclipseMainTab extends AbstractLaunchConfigurationTab {
         } catch (InvocationTargetException ite) {
             PerclipseActivator.log(ite);
         }
-        if (name == null)
+        if (name == null) {
             name = ""; //$NON-NLS-1$
+        }
         config.setAttribute(
                 IJavaLaunchConfigurationConstants.ATTR_MAIN_TYPE_NAME, name);
         initializeName(config, name);
@@ -393,8 +372,9 @@ public class PerclipseMainTab extends AbstractLaunchConfigurationTab {
         fSingleBenchRadioButton.setLayoutData(gd);
         fSingleBenchRadioButton.addSelectionListener(new SelectionAdapter() {
             public void widgetSelected(SelectionEvent e) {
-                if (fSingleBenchRadioButton.getSelection())
+                if (fSingleBenchRadioButton.getSelection()) {
                     benchModeChanged();
+                }
             }
         });
 
@@ -649,8 +629,9 @@ public class PerclipseMainTab extends AbstractLaunchConfigurationTab {
         if (!isSingleBenchMode && fProjTextforAllBenchs.getText().length() == 0) {
             IJavaProject javaProject =
                     getJavaModel().getJavaProject(fProjText.getText());
-            if (javaProject != null && javaProject.exists())
+            if (javaProject != null && javaProject.exists()) {
                 fContainerElement = javaProject;
+            }
             fProjTextforAllBenchs
                     .setText(getPresentationName(fContainerElement));
         }
@@ -919,33 +900,28 @@ public class PerclipseMainTab extends AbstractLaunchConfigurationTab {
         } catch (CoreException ce) {
             PerclipseActivator.log(ce);
         }
-        if (containerElement != null)
+        if (containerElement != null) {
             fContainerElement = containerElement;
-
+        }
         fAllBenchsRadioButton.setSelection(true);
         setEnableSingleBenchGroup(false);
         setEnableAllBenchGroup(true);
         fSingleBenchRadioButton.setSelection(false);
-        if (fContainerElement != null)
+        if (fContainerElement != null) {
             fProjTextforAllBenchs
                     .setText(getPresentationName(fContainerElement));
+        }
         //$NON-NLS-1$
     }
 
-    /*
-     * (non-Javadoc)
-     * @see org.eclipse.debug.ui.AbstractLaunchConfigurationTab#getImage()
-     */
+    /** {@inheritDoc} */
     public Image getImage() {
 
         return fTabIcon;
 
     }
 
-    /*
-     * (non-Javadoc)
-     * @see org.eclipse.debug.ui.AbstractLaunchConfigurationTab#dispose()
-     */
+    /** {@inheritDoc} */
     public void dispose() {
         super.dispose();
         fJavaElementLabelProvider.dispose();

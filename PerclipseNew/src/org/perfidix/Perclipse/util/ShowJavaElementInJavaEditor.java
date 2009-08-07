@@ -11,24 +11,12 @@ import org.eclipse.core.runtime.IPath;
  * 
  * @author Lewandowski Lukas, DiSy, University of Konstanz
  */
-public class ShowJavaElementInJavaEditor {
+public final class ShowJavaElementInJavaEditor {
 
     /**
-     * This constructor opens a given object in an java editor.
-     * 
-     * @param object
-     *            This param is a given object that should be opened in an
-     *            editor.
+     * The constructor.
      */
-    public ShowJavaElementInJavaEditor(Object object) {
-
-        // ToDo: when the object was double clicked, opens the java element in
-        // the java editor
-        // This class and methods are still in development!
-
-        System.out.println(object);
-
-        openJavaEditor(object.toString());
+    private ShowJavaElementInJavaEditor() {
 
     }
 
@@ -37,8 +25,9 @@ public class ShowJavaElementInJavaEditor {
      * editor. Its a worker method.
      * 
      * @param editname
+     *            The name
      */
-    private void openJavaEditor(String editname) {
+    public static void openJavaEditor(String editname) {
 
         // This class and methods are still in development!
 
@@ -55,7 +44,6 @@ public class ShowJavaElementInJavaEditor {
         // IWorkbenchPage page = null;
         // page = PerclipseActivator.getActivePage();
         // activePart=page.getActivePart();
-        //		
         // IEditorDescriptor desc =
         // PlatformUI.getWorkbench().getEditorRegistry().getDefaultEditor(editname);
         // page.openEditor(new FileEditorInput(file), desc.getId());

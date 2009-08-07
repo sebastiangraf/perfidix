@@ -11,14 +11,16 @@ import org.junit.Before;
 public class BenchSearchEngineTest {
 
     /**
-     * @throws Exception The Exception which occurred.
+     * @throws Exception
+     *             The Exception which occurred.
      */
     @Before
     public void setUp() throws Exception {
     }
 
     /**
-     * @throws Exception Exception The Exception which occurred.
+     * @throws Exception
+     *             Exception The Exception which occurred.
      */
     @After
     public void tearDown() throws Exception {

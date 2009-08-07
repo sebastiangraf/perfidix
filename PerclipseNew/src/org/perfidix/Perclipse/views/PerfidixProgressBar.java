@@ -34,12 +34,13 @@ public class PerfidixProgressBar extends Canvas {
     private boolean error;
     private boolean hasStopped = false;
 
-
     /**
      * The constructor initializes the listeners and the responsible
      * {@link Display} of the parent composite (BenchView). Furthermore it
      * initializes the possible colors for the progress bar.
-     * @param parent The composite of the parent.
+     * 
+     * @param parent
+     *            The composite of the parent.
      */
     public PerfidixProgressBar(Composite parent) {
         super(parent, SWT.NONE);
@@ -117,8 +118,9 @@ public class PerfidixProgressBar extends Canvas {
         currentTickCount = ticksDone;
         maxTickCount = maximum;
         colorBarWidth = scale(ticksDone);
-        if (!noChange)
+        if (!noChange) {
             redraw();
+        }
     }
 
     /**
@@ -146,12 +148,13 @@ public class PerfidixProgressBar extends Canvas {
      *            The responsible graphics class for drawing within this class.
      */
     private void setStatusColor(GC gc) {
-        if (hasStopped)
+        if (hasStopped) {
             gc.setBackground(stoppedColor);
-        else if (error)
+        } else if (error) {
             gc.setBackground(errorColor);
-        else
+        } else {
             gc.setBackground(okColor);
+        }
     }
 
     /**
@@ -172,8 +175,9 @@ public class PerfidixProgressBar extends Canvas {
     private int scale(int value) {
         if (maxTickCount > 0) {
             Rectangle r = getClientArea();
-            if (r.width != 0)
+            if (r.width != 0) {
                 return Math.max(0, value * (r.width - 2) / maxTickCount);
+            }
         }
         return value;
     }
@@ -222,17 +226,16 @@ public class PerfidixProgressBar extends Canvas {
         gc.fillRectangle(1, 1, colorBarWidth, rect.height - 2);
     }
 
-    /*
-     * (non-Javadoc)
-     * @see org.eclipse.swt.widgets.Composite#computeSize(int, int, boolean)
-     */
+    /** {@inheritDoc} */
     public Point computeSize(int wHint, int hHint, boolean changed) {
         checkWidget();
         Point size = new Point(DEFAULT_WIDTH, DEFAULT_HEIGHT);
-        if (wHint != SWT.DEFAULT)
+        if (wHint != SWT.DEFAULT) {
             size.x = wHint;
-        if (hHint != SWT.DEFAULT)
+        }
+        if (hHint != SWT.DEFAULT) {
             size.y = hHint;
+        }
         return size;
     }
 
@@ -253,8 +256,9 @@ public class PerfidixProgressBar extends Canvas {
             error = true;
             x = 1;
         }
-        if (currentTickCount == maxTickCount)
+        if (currentTickCount == maxTickCount) {
             colorBarWidth = getClientArea().width - 1;
+        }
         paintStep(x, colorBarWidth);
     }
 

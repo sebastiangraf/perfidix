@@ -26,9 +26,13 @@ public class Quickfixprocessor implements IQuickFixProcessor {
     /**
      * This method provides the proposals for a given context and location.
      * 
-     * @param context The invocation context.
-     * @param locations The code location for the problem.
-     * @throws CoreException The Exception occurred.
+     * @param context
+     *            The invocation context.
+     * @param locations
+     *            The code location for the problem.
+     * @throws CoreException
+     *             The Exception occurred.
+     * @return A array of java completion proposals.
      * @see org.eclipse.jdt.ui.text.java.IQuickFixProcessor#getCorrections(org.eclipse.jdt.ui.text.java.IInvocationContext,
      *      org.eclipse.jdt.ui.text.java.IProblemLocation[])
      */
@@ -46,8 +50,9 @@ public class Quickfixprocessor implements IQuickFixProcessor {
                                 context, problem, arraylist);
             }
         }
-        if (arraylist == null || arraylist.isEmpty())
+        if (arraylist == null || arraylist.isEmpty()) {
             return null;
+        }
         return (IJavaCompletionProposal[]) arraylist
                 .toArray(new IJavaCompletionProposal[arraylist.size()]);
     }
@@ -55,8 +60,11 @@ public class Quickfixprocessor implements IQuickFixProcessor {
     /**
      * Defines which problemId refers to our proposal.
      * 
-     * @param unit The compilation unit.
-     * @param problemId The problem id which occurred for quick fix.
+     * @param unit
+     *            The compilation unit.
+     * @param problemId
+     *            The problem id which occurred for quick fix.
+     * @return True or false depends on the parameters.
      * @see org.eclipse.jdt.ui.text.java.IQuickFixProcessor#hasCorrections(org.eclipse.jdt.core.ICompilationUnit,
      *      int)
      */

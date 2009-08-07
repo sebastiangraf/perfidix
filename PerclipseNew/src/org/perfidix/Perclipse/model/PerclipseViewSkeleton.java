@@ -21,7 +21,7 @@ public class PerclipseViewSkeleton extends Thread {
     private ServerSocket serverSocket;
     private Socket socket = null;
     private int serverPort;
-    boolean finished = false;
+    private boolean finished = false;
     private ObjectInputStream in;
 
     /**
@@ -109,8 +109,9 @@ public class PerclipseViewSkeleton extends Thread {
 
         }
         try {
-            if (socket.isConnected())
+            if (socket.isConnected()) {
                 socket.close();
+            }
             serverSocket.close();
         } catch (IOException e) {
             PerclipseActivator.log(e);

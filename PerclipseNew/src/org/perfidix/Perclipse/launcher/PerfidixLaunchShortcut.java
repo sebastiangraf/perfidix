@@ -23,12 +23,7 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
-import org.eclipse.ui.IViewPart;
-import org.eclipse.ui.IWorkbenchPage;
-import org.eclipse.ui.IWorkbenchPart;
-import org.eclipse.ui.PartInitException;
 import org.perfidix.Perclipse.util.BenchSearchEngine;
-import org.perfidix.Perclipse.views.BenchView;
 
 /**
  * The class is responsible for the settings of our Perfidix LaunchShortcut
@@ -48,12 +43,7 @@ public class PerfidixLaunchShortcut implements ILaunchShortcut {
         private static final long serialVersionUID = 1L;
     }
 
-    /*
-     * (non-Javadoc)
-     * @see
-     * org.eclipse.debug.ui.ILaunchShortcut#launch(org.eclipse.jface.viewers
-     * .ISelection, java.lang.String)
-     */
+    /** {@inheritDoc} */
     public void launch(ISelection selection, String mode) {
 
         if (selection instanceof IStructuredSelection) {
@@ -63,12 +53,7 @@ public class PerfidixLaunchShortcut implements ILaunchShortcut {
 
     }
 
-    /*
-     * (non-Javadoc)
-     * @see
-     * org.eclipse.debug.ui.ILaunchShortcut#launch(org.eclipse.ui.IEditorPart,
-     * java.lang.String)
-     */
+    /** {@inheritDoc} */
     public void launch(IEditorPart editor, String mode) {
         IJavaElement element = null;
         IEditorInput input = editor.getEditorInput();
@@ -128,9 +113,6 @@ public class PerfidixLaunchShortcut implements ILaunchShortcut {
         IType[] types = null;
         try {
             types = BenchSearchEngine.findBenchs(new Object[] { search });
-            for (int i = 0; i < types.length; i++) {
-
-            }
         } catch (InterruptedException e) {
             PerclipseActivator.log(e);
             // TODO Do something real fancy here if exceptions were thrown
@@ -166,7 +148,7 @@ public class PerfidixLaunchShortcut implements ILaunchShortcut {
      * 
      * @param container
      *            the container to bench
-     * @return
+     * @return the perfidix launch configuration.
      */
     public PerfidixLaunchDescription describeContainerLaunch(
             IJavaElement container) {
@@ -181,7 +163,8 @@ public class PerfidixLaunchShortcut implements ILaunchShortcut {
     /**
      * Create the description for benching a type (class).
      * 
-     * @param type The bench type.
+     * @param type
+     *            The bench type.
      * @return The launch description for a given type.
      */
     public PerfidixLaunchDescription describeTypeLaunch(IType type) {
@@ -217,11 +200,15 @@ public class PerfidixLaunchShortcut implements ILaunchShortcut {
      * Check to see if a configuration for this type already exists. If not,
      * create a new one.
      * 
-     * @param mode The run mode.
-     * @param registry The launch shortcut type.
-     * @param description The perfidix launch description.
+     * @param mode
+     *            The run mode.
+     * @param registry
+     *            The launch shortcut type.
+     * @param description
+     *            The perfidix launch description.
      * @return The launch configuration.
-     * @throws LaunchCancelledByUserException The cancel exception as an event of user interaction.
+     * @throws LaunchCancelledByUserException
+     *             The cancel exception as an event of user interaction.
      */
     public ILaunchConfiguration findOrCreateLaunchConfiguration(
             String mode, PerfidixLaunchShortcut registry,
@@ -241,10 +228,13 @@ public class PerfidixLaunchShortcut implements ILaunchShortcut {
     /**
      * Search for an existing configuration.
      * 
-     * @param mode The launch mode.
-     * @param description The perfidix launch description.
+     * @param mode
+     *            The launch mode.
+     * @param description
+     *            The perfidix launch description.
      * @return The launch configuration.
-     * @throws LaunchCancelledByUserException The exception occurred when an user canceled the run.
+     * @throws LaunchCancelledByUserException
+     *             The exception occurred when an user canceled the run.
      */
     public ILaunchConfiguration findLaunchConfiguration(
             String mode, PerfidixLaunchDescription description)
@@ -284,7 +274,8 @@ public class PerfidixLaunchShortcut implements ILaunchShortcut {
     /**
      * Create a configuration from the the perfidix description.
      * 
-     * @param description The perfidix launch description.
+     * @param description
+     *            The perfidix launch description.
      * @return The launch configuration.
      */
     public ILaunchConfiguration createConfiguration(
@@ -304,11 +295,16 @@ public class PerfidixLaunchShortcut implements ILaunchShortcut {
      * The following method creates a launch configuration out of a working copy
      * of launch configuration.
      * 
-     * @param project The  java project for a launch.
-     * @param name The config name.
-     * @param mainType The main type.
-     * @param container The container attribute.
-     * @param benchName The bench name.
+     * @param project
+     *            The java project for a launch.
+     * @param name
+     *            The config name.
+     * @param mainType
+     *            The main type.
+     * @param container
+     *            The container attribute.
+     * @param benchName
+     *            The bench name.
      * @return The launch configuration.
      */
     protected ILaunchConfiguration createConfiguration(
@@ -327,9 +323,10 @@ public class PerfidixLaunchShortcut implements ILaunchShortcut {
             wc.setAttribute(
                     PerfidixLaunchConfiguration.LAUNCH_CONTAINER_ATTR,
                     container);
-            if (benchName.length() > 0)
+            if (benchName.length() > 0) {
                 wc.setAttribute(
                         PerfidixLaunchConfiguration.BENCH_NAME_ATTR, benchName);
+            }
             config = wc.doSave();
         } catch (CoreException ce) {
             PerclipseActivator.log(ce);
@@ -351,9 +348,11 @@ public class PerfidixLaunchShortcut implements ILaunchShortcut {
      * Returns a new instance of ILaunchConfigurationWorkingCopy with the config
      * setting of the perfidix launch configuration.
      * 
-     * @param name The configuration name.
+     * @param name
+     *            The configuration name.
      * @return The launch configuration working copy.
-     * @throws CoreException The core exception.
+     * @throws CoreException
+     *             The core exception.
      */
     protected ILaunchConfigurationWorkingCopy newWorkingCopy(String name)
             throws CoreException {
@@ -377,7 +376,8 @@ public class PerfidixLaunchShortcut implements ILaunchShortcut {
     /**
      * Returns the container label of a given {@link IJavaElement}.
      * 
-     * @param container The java element. 
+     * @param container
+     *            The java element.
      * @return The label name for a java element.
      */
     protected String getContainerLabel(IJavaElement container) {
