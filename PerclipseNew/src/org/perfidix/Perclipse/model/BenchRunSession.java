@@ -30,7 +30,11 @@ public class BenchRunSession {
      */
     public void setBenchRunSession(
             int totalCount, List<JavaElementsWithTotalRuns> completeList) {
-        this.totalCount = totalCount;
+        if (totalCount < 0) {
+            this.totalCount = 0;
+        } else {
+            this.totalCount = totalCount;
+        }
         startedCount = 0;
         errorCount = 0;
         currentCount = 0;
@@ -77,7 +81,7 @@ public class BenchRunSession {
      */
     public void setCurrentRun(String currentElement) {
 
-        if (benchElements != null) {
+        if (benchElements != null && benchElements.size()>0) {
             for (JavaElementsWithTotalRuns listElement : benchElements) {
                 if (listElement.getJavaElement().equals(currentElement)) {
                     listElement.updateCurrentRun();
@@ -118,6 +122,10 @@ public class BenchRunSession {
         totalCount = 0;
         errorCount = 0;
         currentCount = 0;
+        currentRunElement = null;
+        benchElements = null;
+        isRunning = true;
+        isStopped = false;
 
     }
 
@@ -127,7 +135,7 @@ public class BenchRunSession {
      * 
      * @param elementsList
      *            A List of java elements to be benched of type
-     *            {@link JavaElementsWithTotalRuns}.
+     *            {@link JavaElementsWithTotalRunsTest}.
      */
     public void setBenchElements(List<JavaElementsWithTotalRuns> elementsList) {
         this.benchElements = elementsList;
@@ -147,7 +155,15 @@ public class BenchRunSession {
      *            The name of the java element where the error occurred.
      */
     public void updateError(String errorInElement) {
-        errorCount = errorCount + 1;
+        if (benchElements != null && benchElements.size()>0) {
+            for (JavaElementsWithTotalRuns listElement : benchElements) {
+                if (listElement.getJavaElement().equals(errorInElement)) {
+                    listElement.updateErrorCount();
+                    errorCount = errorCount + 1;                    
+                }
+            }
+
+        }
 
     }
 
@@ -158,7 +174,7 @@ public class BenchRunSession {
      *            The boolean param that is true when a bench process finished.
      */
     public void setFinished(boolean finished) {
-        isRunning = false;
+        isRunning = !finished;
         isStopped = finished;
 
     }

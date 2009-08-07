@@ -12,7 +12,6 @@ import org.eclipse.ui.IViewSite;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.part.ViewPart;
 import org.eclipse.ui.progress.IWorkbenchSiteProgressService;
-import org.eclipse.ui.progress.UIJob;
 import org.perfidix.Perclipse.model.BenchRunSession;
 import org.perfidix.Perclipse.viewTreeData.TreeDataProvider;
 
@@ -28,7 +27,7 @@ public class BenchView extends ViewPart {
     /**
      * The view id, responsible for the view extensions point.
      */
-    public final static String MY_VIEW_ID =
+    public static final String MY_VIEW_ID =
             "org.perfidix.Perclipse.views.BenchView";
     private static final int REFRESH_INTERVAL = 2000;
     private PerfidixProgressBar progressBar;
@@ -54,8 +53,10 @@ public class BenchView extends ViewPart {
     /**
      * This method creates every intern part of the view, like progress bar or
      * the bench viewer.
+     * 
      * @see org.eclipse.ui.part.WorkbenchPart#createPartControl(org.eclipse.swt.widgets.Composite)
-     * @param parent The composite of the parent. 
+     * @param parent
+     *            The composite of the parent.
      */
     @Override
     public void createPartControl(Composite parent) {
@@ -76,10 +77,7 @@ public class BenchView extends ViewPart {
 
     }
 
-    /*
-     * (non-Javadoc)
-     * @see org.eclipse.ui.part.WorkbenchPart#setFocus()
-     */
+    /** {@inheritDoc} */
     @Override
     public void setFocus() {
         // TODO Auto-generated method stub
@@ -235,17 +233,14 @@ public class BenchView extends ViewPart {
         // updateJob.schedule(REFRESH_INTERVAL);
     }
 
-    /*
-     * (non-Javadoc)
-     * @see org.eclipse.ui.part.ViewPart#init(org.eclipse.ui.IViewSite,
-     * org.eclipse.ui.IMemento)
-     */
+    /** {@inheritDoc} */
     public void init(IViewSite site, IMemento memento) throws PartInitException {
         super.init(site, memento);
         this.memento = memento;
         IWorkbenchSiteProgressService progressService = getProgressService();
-        if (progressService != null)
+        if (progressService != null) {
             progressService.showBusyForFamily(new Object());
+        }
     }
 
     /**
@@ -258,8 +253,9 @@ public class BenchView extends ViewPart {
                 getSite()
                         .getAdapter(
                                 org.eclipse.ui.progress.IWorkbenchSiteProgressService.class);
-        if (siteService != null)
+        if (siteService != null) {
             return (org.eclipse.ui.progress.IWorkbenchSiteProgressService) siteService;
+        }
         return null;
     }
 
@@ -281,8 +277,9 @@ public class BenchView extends ViewPart {
      *            This param is a custom runnable.
      */
     private void postSyncRunnable(Runnable r) {
-        if (!isDisposed())
+        if (!isDisposed()) {
             getDisplay().syncExec(r);
+        }
     }
 
     /**
@@ -320,8 +317,9 @@ public class BenchView extends ViewPart {
      * updating the view.
      */
     private void processChangesInUI() {
-        if (counterComposite.isDisposed())
+        if (counterComposite.isDisposed()) {
             return;
+        }
         refreshCounters();
         benchViewer.processChangesInUI(benchRunSession);
     }
@@ -368,11 +366,11 @@ public class BenchView extends ViewPart {
         }
 
         int ticksDone;
-        if (startedCount == currentCount)
+        if (startedCount == currentCount) {
             ticksDone = startedCount;
-        else
+        } else {
             ticksDone = currentCount;
-
+        }
         benchCounterPanel.setTotalRuns(totalCount);
         benchCounterPanel.setBenchRuns(ticksDone);
         benchCounterPanel.setBenchErrors(errorCount);

@@ -12,18 +12,12 @@ import org.perfidix.Perclipse.viewTreeData.TreeDataProvider;
  */
 public class BenchTreeLabelProvider extends LabelProvider {
 
-    /*
-     * (non-Javadoc)
-     * @see org.eclipse.jface.viewers.LabelProvider#getImage(java.lang.Object)
-     */
+    /** {@inheritDoc} */
     public Image getImage(Object element) {
         return null;
     }
 
-    /*
-     * (non-Javadoc)
-     * @see org.eclipse.jface.viewers.LabelProvider#getText(java.lang.Object)
-     */
+    /** {@inheritDoc} */
     public String getText(Object element) {
         if (element != null) {
             TreeDataProvider treeData = (TreeDataProvider) element;

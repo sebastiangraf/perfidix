@@ -18,7 +18,6 @@ import org.eclipse.jdt.launching.IVMInstall;
 import org.eclipse.jdt.launching.IVMRunner;
 import org.eclipse.jdt.launching.SocketUtil;
 import org.eclipse.jdt.launching.VMRunnerConfiguration;
-import org.perfidix.Perclipse.model.BenchRunSession;
 import org.perfidix.Perclipse.model.PerclipseViewSkeleton;
 import org.perfidix.Perclipse.util.BenchSearchEngine;
 
@@ -33,23 +32,25 @@ import org.perfidix.Perclipse.util.BenchSearchEngine;
 public class PerfidixLaunchConfiguration
         extends AbstractJavaLaunchConfigurationDelegate {
 
+    /**
+     * The launch container attribute.
+     */
     public static final String LAUNCH_CONTAINER_ATTR =
             PerclipseActivator.PLUGIN_ID + ".CONTAINER";
 
+    /**
+     * The bench name attribute.
+     */
     public static final String BENCH_NAME_ATTR =
             PerclipseActivator.PLUGIN_ID + ".BENCHNAME";
 
+    /**
+     * The id of perfidix application.
+     */
     public static final String ID_PERFIDIX_APPLICATION =
             "org.perfidix.configureBench";
 
-    /*
-     * (non-Javadoc)
-     * @see
-     * org.eclipse.debug.core.model.ILaunchConfigurationDelegate#launch(org.
-     * eclipse.debug.core.ILaunchConfiguration, java.lang.String,
-     * org.eclipse.debug.core.ILaunch,
-     * org.eclipse.core.runtime.IProgressMonitor)
-     */
+    /** {@inheritDoc} */
     public void launch(
             ILaunchConfiguration configuration, String mode, ILaunch launch,
             IProgressMonitor monitor) throws CoreException {
@@ -135,8 +136,9 @@ public class PerfidixLaunchConfiguration
             BenchSearchResult benchs, int port) throws CoreException {
         File workingDir = verifyWorkingDirectory(configuration);
         String workingDirName = null;
-        if (workingDir != null)
+        if (workingDir != null) {
             workingDirName = workingDir.getAbsolutePath();
+        }
 
         // Program & VM args
         String vmArgs = getVMArguments(configuration);
@@ -161,12 +163,20 @@ public class PerfidixLaunchConfiguration
     /**
      * This method creates a VMRunner for our perfidix project.
      * 
-     * @param configuration The created launch configuration for the project which has to be benched.
-     * @param benchTypes The result of the bench type search.
-     * @param runMode The launch mode run/debug. 
-     * @param port The port where the {@link org.perfidix.Perclipse.model.PerclipseViewSkeleton} is listening.
+     * @param configuration
+     *            The created launch configuration for the project which has to
+     *            be benched.
+     * @param benchTypes
+     *            The result of the bench type search.
+     * @param runMode
+     *            The launch mode run/debug.
+     * @param port
+     *            The port where the
+     *            {@link org.perfidix.Perclipse.model.PerclipseViewSkeleton} is
+     *            listening.
      * @return The runner configuration.
-     * @throws CoreException The exception.
+     * @throws CoreException
+     *             The exception.
      */
     protected VMRunnerConfiguration createVMRunner(
             ILaunchConfiguration configuration, BenchSearchResult benchTypes,
@@ -188,14 +198,23 @@ public class PerfidixLaunchConfiguration
     }
 
     /**
-     * This method returns the VM arguments in a Vector List for given launch configuration, bench search result, the launch mode and the port for the skeleton.
+     * This method returns the VM arguments in a Vector List for given launch
+     * configuration, bench search result, the launch mode and the port for the
+     * skeleton.
      * 
-     * @param configuration The launch configuration.
-     * @param result The result of the search for bench elements within the launching project.
-     * @param runMode The launch mode - run/debug.
-     * @param port The port where the skeleton is listening.
-     * @return A Vector List containing the VM arguments for invoking perfidix's main.
-     * @throws CoreException The exception.
+     * @param configuration
+     *            The launch configuration.
+     * @param result
+     *            The result of the search for bench elements within the
+     *            launching project.
+     * @param runMode
+     *            The launch mode - run/debug.
+     * @param port
+     *            The port where the skeleton is listening.
+     * @return A Vector List containing the VM arguments for invoking perfidix's
+     *         main.
+     * @throws CoreException
+     *             The exception.
      */
     public Vector getVMArgs(
             ILaunchConfiguration configuration, BenchSearchResult result,

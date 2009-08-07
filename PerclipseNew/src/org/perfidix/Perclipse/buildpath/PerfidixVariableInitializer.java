@@ -23,14 +23,15 @@ public class PerfidixVariableInitializer extends ClasspathVariableInitializer {
      * This field specifies the variable id, needed by the corresponding
      * extension point.
      */
-    public final static String PERFIDIX_VARIABLE_INIT =
+    public static final String PERFIDIX_VARIABLE_INIT =
             "org.perfidix.Perclipse.PERFIDIX_VAR_INIT";
 
     /**
      * This method is responisble for initialization of the classpath variable
      * within eclipse for our perfidix libs.
      * 
-     * @param variable The variable for initialization.
+     * @param variable
+     *            The variable for initialization.
      * @see org.eclipse.jdt.core.ClasspathVariableInitializer#initialize(java.lang.String)
      */
     @Override

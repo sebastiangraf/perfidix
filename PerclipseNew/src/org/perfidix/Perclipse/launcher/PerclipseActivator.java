@@ -2,17 +2,13 @@ package org.perfidix.Perclipse.launcher;
 
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
-import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
-import org.osgi.framework.ServiceReference;
-import org.osgi.service.packageadmin.PackageAdmin;
 import org.perfidix.Perclipse.model.BenchModel;
 import org.perfidix.Perclipse.views.BenchView;
 
@@ -30,7 +26,7 @@ public class PerclipseActivator extends AbstractUIPlugin {
     // The shared instance
     private static PerclipseActivator plugin;
 
-    private final static BenchModel benchModel = new BenchModel();
+    private static final BenchModel BENCH_MODEL = new BenchModel();
 
     /**
      * The Perfidix home variable for building purposes
@@ -54,30 +50,20 @@ public class PerclipseActivator extends AbstractUIPlugin {
 
     }
 
-    /*
-     * (non-Javadoc)
-     * @see
-     * org.eclipse.ui.plugin.AbstractUIPlugin#start(org.osgi.framework.BundleContext
-     * )
-     */
+    /** {@inheritDoc} */
     public void start(BundleContext context) throws Exception {
         plugin = this;
         super.start(context);
         bundleContext = context;
 
-        benchModel.start();
+        BENCH_MODEL.start();
     }
 
-    /*
-     * (non-Javadoc)
-     * @see
-     * org.eclipse.ui.plugin.AbstractUIPlugin#stop(org.osgi.framework.BundleContext
-     * )
-     */
+    /** {@inheritDoc} */
     public void stop(BundleContext context) throws Exception {
         plugin = null;
         try {
-            benchModel.stop();
+            BENCH_MODEL.stop();
         } finally {
             super.stop(context);
         }
@@ -96,7 +82,7 @@ public class PerclipseActivator extends AbstractUIPlugin {
     /**
      * The getPluginID method returns, oh wonder, the PluginID.
      * 
-     * @return
+     * @return The String plug-in id.
      */
     public static String getPluginId() {
         return PLUGIN_ID;
@@ -106,7 +92,8 @@ public class PerclipseActivator extends AbstractUIPlugin {
      * The logInfo method expect a String message that will be saved in the log
      * to document the status.
      * 
-     * @param message The message which has to be stored in the log.
+     * @param message
+     *            The message which has to be stored in the log.
      */
     public static void logInfo(String message) {
         log(new Status(IStatus.INFO, getPluginId(), IStatus.INFO, message, null));
@@ -116,7 +103,8 @@ public class PerclipseActivator extends AbstractUIPlugin {
      * The log method gets a Throwable error message and saves its status in the
      * log.
      * 
-     * @param e The Exception occurred and has to be stored in the log.
+     * @param e
+     *            The Exception occurred and has to be stored in the log.
      */
     public static void log(Throwable e) {
         log(new Status(IStatus.ERROR, getPluginId(), IStatus.ERROR, "Error", e));
@@ -126,8 +114,9 @@ public class PerclipseActivator extends AbstractUIPlugin {
      * The log method gets a Throwable error message and saves its status in the
      * log.
      * 
-     * @param e The Exception occurred and has to be stored in the log.
-     * @param text 
+     * @param e
+     *            The Exception occurred and has to be stored in the log.
+     * @param text
      *            The error title.
      */
     public static void log(Throwable e, String text) {
@@ -138,7 +127,8 @@ public class PerclipseActivator extends AbstractUIPlugin {
      * The log method expect a parameter, the status of type IStatus and
      * afterwards logs the status.
      * 
-     * @param status The status that has to be logged.
+     * @param status
+     *            The status that has to be logged.
      */
     public static void log(IStatus status) {
         getDefault().getLog().log(status);
@@ -160,11 +150,13 @@ public class PerclipseActivator extends AbstractUIPlugin {
      * @return This method returns the active workbench window of this plug-in.
      */
     public static IWorkbenchWindow getActiveWorkbenchWindow() {
-        if (plugin == null)
+        if (plugin == null) {
             return null;
+        }
         IWorkbench workBench = plugin.getWorkbench();
-        if (workBench == null)
+        if (workBench == null) {
             return null;
+        }
         return workBench.getActiveWorkbenchWindow();
     }
 
@@ -173,8 +165,9 @@ public class PerclipseActivator extends AbstractUIPlugin {
      */
     public static IWorkbenchPage getActivePage() {
         IWorkbenchWindow activeWorkbenchWindow = getActiveWorkbenchWindow();
-        if (activeWorkbenchWindow == null)
+        if (activeWorkbenchWindow == null) {
             return null;
+        }
         return activeWorkbenchWindow.getActivePage();
     }
 
@@ -182,7 +175,7 @@ public class PerclipseActivator extends AbstractUIPlugin {
      * @return This method returns the instance of the BenchModel class.
      */
     public static BenchModel getModel() {
-        return benchModel;
+        return BENCH_MODEL;
     }
 
     /**

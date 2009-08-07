@@ -75,10 +75,7 @@ public class PerfidixContainerInitializer extends ClasspathContainerInitializer 
             this.entries = entries;
         }
 
-        /*
-         * (non-Javadoc)
-         * @see org.eclipse.jdt.core.IClasspathContainer#getClasspathEntries()
-         */
+        /** {@inheritDoc} */
         public IClasspathEntry[] getClasspathEntries() {
 
             return entries;
@@ -94,19 +91,13 @@ public class PerfidixContainerInitializer extends ClasspathContainerInitializer 
             return "Perfidix Library";
         }
 
-        /*
-         * (non-Javadoc)
-         * @see org.eclipse.jdt.core.IClasspathContainer#getKind()
-         */
+        /** {@inheritDoc} */
         public int getKind() {
 
             return IClasspathContainer.K_APPLICATION;
         }
 
-        /*
-         * (non-Javadoc)
-         * @see org.eclipse.jdt.core.IClasspathContainer#getPath()
-         */
+        /** {@inheritDoc} */
         public IPath getPath() {
 
             return path;
@@ -125,9 +116,12 @@ public class PerfidixContainerInitializer extends ClasspathContainerInitializer 
      * This method initializes the custom classpath container with the
      * PerfidixContainer
      * 
-     * @param cpath see the super method.
-     * @param project see the super method.
-     * @throws CoreException see the super method.
+     * @param cpath
+     *            see the super method.
+     * @param project
+     *            see the super method.
+     * @throws CoreException
+     *             see the super method.
      * @see org.eclipse.jdt.core.ClasspathContainerInitializer#initialize(org.eclipse.core.runtime.IPath,
      *      org.eclipse.jdt.core.IJavaProject)
      */
@@ -178,23 +172,13 @@ public class PerfidixContainerInitializer extends ClasspathContainerInitializer 
         return cpath != null && BENCH_CONTAINER_ID.equals(cpath.segment(0));
     }
 
-    /*
-     * (non-Javadoc)
-     * @seeorg.eclipse.jdt.core.ClasspathContainerInitializer#
-     * canUpdateClasspathContainer(org.eclipse.core.runtime.IPath,
-     * org.eclipse.jdt.core.IJavaProject)
-     */
+    /** {@inheritDoc} */
     public boolean canUpdateClasspathContainer(
             IPath containerPath, IJavaProject project) {
         return true;
     }
 
-    /*
-     * (non-Javadoc)
-     * @see
-     * org.eclipse.jdt.core.ClasspathContainerInitializer#getAccessRulesStatus
-     * (org.eclipse.core.runtime.IPath, org.eclipse.jdt.core.IJavaProject)
-     */
+    /** {@inheritDoc} */
     public IStatus getAccessRulesStatus(
             IPath containerPath, IJavaProject project) {
         return NOT_SUPPORTED;
@@ -203,8 +187,11 @@ public class PerfidixContainerInitializer extends ClasspathContainerInitializer 
     /**
      * SourceAttachmentStatus returns only READ_ONLY status.
      * 
-     * @param containerPath see super method.
-     * @param project see super method.
+     * @param containerPath
+     *            see super method.
+     * @param project
+     *            see super method.
+     * @return The status.
      * @see org.eclipse.jdt.core.ClasspathContainerInitializer#getSourceAttachmentStatus(org.eclipse.core.runtime.IPath,
      *      org.eclipse.jdt.core.IJavaProject)
      */
@@ -216,9 +203,13 @@ public class PerfidixContainerInitializer extends ClasspathContainerInitializer 
     /**
      * This method returns the status of the attributes.
      * 
-     * @param containerPath The path of the container.
-     * @param project The java project where the problem occurs.
-     * @param attributeKey The attribute for the status.
+     * @param containerPath
+     *            The path of the container.
+     * @param project
+     *            The java project where the problem occurs.
+     * @param attributeKey
+     *            The attribute for the status.
+     * @return The status.
      * @see org.eclipse.jdt.core.ClasspathContainerInitializer#getAttributeStatus(org.eclipse.core.runtime.IPath,
      *      org.eclipse.jdt.core.IJavaProject, java.lang.String)
      */
@@ -231,13 +222,7 @@ public class PerfidixContainerInitializer extends ClasspathContainerInitializer 
         return NOT_SUPPORTED;
     }
 
-    /*
-     * (non-Javadoc)
-     * @seeorg.eclipse.jdt.core.ClasspathContainerInitializer#
-     * requestClasspathContainerUpdate(org.eclipse.core.runtime.IPath,
-     * org.eclipse.jdt.core.IJavaProject,
-     * org.eclipse.jdt.core.IClasspathContainer)
-     */
+    /** {@inheritDoc} */
     public void requestClasspathContainerUpdate(
             IPath containerPath, IJavaProject project,
             IClasspathContainer containerSuggestion) {
@@ -309,8 +294,11 @@ public class PerfidixContainerInitializer extends ClasspathContainerInitializer 
     /**
      * This method shows the description for the valid container path.
      * 
-     * @param containerPath see super method.
-     * @param project see super method.
+     * @param containerPath
+     *            see super method.
+     * @param project
+     *            see super method.
+     * @return The String description.
      * @see org.eclipse.jdt.core.ClasspathContainerInitializer#getDescription(org.eclipse.core.runtime.IPath,
      *      org.eclipse.jdt.core.IJavaProject)
      */
@@ -321,12 +309,7 @@ public class PerfidixContainerInitializer extends ClasspathContainerInitializer 
         return "Unresolved";
     }
 
-    /*
-     * (non-Javadoc)
-     * @see
-     * org.eclipse.jdt.core.ClasspathContainerInitializer#getComparisonID(org
-     * .eclipse.core.runtime.IPath, org.eclipse.jdt.core.IJavaProject)
-     */
+    /** {@inheritDoc} */
     public Object getComparisonID(IPath containerPath, IJavaProject project) {
         return containerPath;
     }

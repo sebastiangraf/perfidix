@@ -12,7 +12,8 @@ public class BenchSearchResult {
     /**
      * The constructor sets the IType array fTypes with the given parameter.
      * 
-     * @param types A type array for bench classes.
+     * @param types
+     *            A type array for bench classes.
      */
     public BenchSearchResult(IType[] types) {
         fTypes = types;

@@ -56,10 +56,7 @@ public class PerfidixAddLibraryProposal implements IJavaCompletionProposal {
         this.relevance = relevance;
     }
 
-    /*
-     * (non-Javadoc)
-     * @see org.eclipse.jdt.ui.text.java.IJavaCompletionProposal#getRelevance()
-     */
+    /** {@inheritDoc} */
     public int getRelevance() {
         // TODO Auto-generated method stub
         return relevance;
@@ -68,7 +65,8 @@ public class PerfidixAddLibraryProposal implements IJavaCompletionProposal {
     /**
      * This method inserts our proposal - jar library - into classpath.
      * 
-     * @param document see super method.
+     * @param document
+     *            see super method.
      * @see org.eclipse.jface.text.contentassist.ICompletionProposal#apply(org.eclipse.jface.text.IDocument)
      */
     public void apply(IDocument document) {
@@ -197,6 +195,7 @@ public class PerfidixAddLibraryProposal implements IJavaCompletionProposal {
      * This method provides additional information for the proposal in a small
      * window.
      * 
+     * @return The additional information for the proposal.
      * @see org.eclipse.jface.text.contentassist.ICompletionProposal#getAdditionalProposalInfo()
      */
     public String getAdditionalProposalInfo() {
@@ -209,11 +208,7 @@ public class PerfidixAddLibraryProposal implements IJavaCompletionProposal {
         return null;
     }
 
-    /*
-     * (non-Javadoc)
-     * @seeorg.eclipse.jface.text.contentassist.ICompletionProposal#
-     * getContextInformation()
-     */
+    /** {@inheritDoc} */
     public IContextInformation getContextInformation() {
         // TODO Auto-generated method stub
         return null;
@@ -222,6 +217,7 @@ public class PerfidixAddLibraryProposal implements IJavaCompletionProposal {
     /**
      * This method provides the label within the proposal.
      * 
+     * @return The display String for the "add perfidix"-proposal.
      * @see org.eclipse.jface.text.contentassist.ICompletionProposal#getDisplayString()
      */
     public String getDisplayString() {
@@ -231,22 +227,14 @@ public class PerfidixAddLibraryProposal implements IJavaCompletionProposal {
         return null;
     }
 
-    /*
-     * (non-Javadoc)
-     * @see org.eclipse.jface.text.contentassist.ICompletionProposal#getImage()
-     */
+    /** {@inheritDoc} */
     public Image getImage() {
         // TODO Auto-generated method stub
         return JavaUI
                 .getSharedImages().getImage(ISharedImages.IMG_OBJS_LIBRARY);
     }
 
-    /*
-     * (non-Javadoc)
-     * @see
-     * org.eclipse.jface.text.contentassist.ICompletionProposal#getSelection
-     * (org.eclipse.jface.text.IDocument)
-     */
+    /** {@inheritDoc} */
     public Point getSelection(IDocument arg0) {
         // TODO Auto-generated method stub
         return new Point(context.getSelectionOffset(), context

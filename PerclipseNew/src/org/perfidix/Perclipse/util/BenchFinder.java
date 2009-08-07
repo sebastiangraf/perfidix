@@ -3,9 +3,7 @@ package org.perfidix.Perclipse.util;
 import java.util.Set;
 
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.debug.core.DebugException;
 import org.eclipse.jdt.core.Flags;
-import org.eclipse.jdt.core.IClassFile;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IJavaProject;
@@ -20,7 +18,6 @@ import org.eclipse.jdt.core.ToolFactory;
 import org.eclipse.jdt.core.compiler.IScanner;
 import org.eclipse.jdt.core.compiler.ITerminalSymbols;
 import org.eclipse.jdt.core.compiler.InvalidInputException;
-import org.eclipse.jdt.debug.core.IJavaClassType;
 import org.perfidix.Perclipse.launcher.PerclipseActivator;
 
 /**
@@ -42,9 +39,12 @@ public final class BenchFinder {
      * This method gets an object array with java elements, looks up its exact
      * type and delegate the find bench option to the responsible method.
      * 
-     * @param elements An array of objects which eventually contain bench types.
-     * @param result The result set.
-     * @param pm The progress monitor.
+     * @param elements
+     *            An array of objects which eventually contain bench types.
+     * @param result
+     *            The result set.
+     * @param pm
+     *            The progress monitor.
      */
     public static void findBenchsInContainer(
             Object[] elements, Set<IType> result, IProgressMonitor pm) {
@@ -171,7 +171,7 @@ public final class BenchFinder {
      */
     private static boolean isBench(IType type) throws JavaModelException {
         if (!Flags.isAbstract(type.getFlags())
-                && (Annotation.Bench.annotatesAtLeastOneMethod(type) || Annotation.BenchClass
+                && (Annotation.BENCH.annotatesAtLeastOneMethod(type) || Annotation.BENCH_CLASS
                         .annotatesClass(type))) {
             return true;
         }
@@ -184,13 +184,13 @@ public final class BenchFinder {
      * 
      * @author lewandow
      */
-    private static class Annotation {
+    private static final class Annotation {
 
-        private static final BenchFinder.Annotation Bench =
+        private static final BenchFinder.Annotation BENCH =
                 new BenchFinder.Annotation(new String[] {
                         "Bench", "org.perfidix.Bench" }); //$NON-NLS-1$ //$NON-NLS-2$
 
-        private static final BenchFinder.Annotation BenchClass =
+        private static final BenchFinder.Annotation BENCH_CLASS =
                 new BenchFinder.Annotation(new String[] {
                         "BenchClass", "org.perfidix.BenchClass" });
 
@@ -283,8 +283,9 @@ public final class BenchFinder {
         boolean annotatesAtLeastOneMethod(IType type) throws JavaModelException {
             IMethod[] methods = type.getMethods();
             for (int i = 0; i < methods.length; i++) {
-                if (annotates(methods[i]))
+                if (annotates(methods[i])) {
                     return true;
+                }
             }
             return false;
         }

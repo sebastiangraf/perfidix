@@ -23,17 +23,27 @@ import org.perfidix.Perclipse.launcher.PerclipseActivator;
  * 
  * @author Graf S.
  */
-public class BenchSearchEngine {
+public final class BenchSearchEngine {
+
+    /**
+     * The constructor.
+     */
+    private BenchSearchEngine() {
+    }
 
     /**
      * This method expects a runnable context and an object array to find Benchs
      * in the given source.
      * 
-     * @param context The runnable context.
-     * @param elements The array of elements.
+     * @param context
+     *            The runnable context.
+     * @param elements
+     *            The array of elements.
      * @return A type array.
-     * @throws InvocationTargetException The upcoming exception.
-     * @throws InterruptedException The upcoming exceptions.
+     * @throws InvocationTargetException
+     *             The upcoming exception.
+     * @throws InterruptedException
+     *             The upcoming exceptions.
      */
     public static IType[] findBenchs(
             IRunnableContext context, final Object[] elements)
@@ -56,15 +66,19 @@ public class BenchSearchEngine {
      * This method checks the object element for its type and returns if
      * afterwards.
      * 
-     * @param element The element.
+     * @param element
+     *            The element.
      * @return The object.
-     * @throws JavaModelException The upcoming exception.
+     * @throws JavaModelException
+     *             The upcoming exception.
      */
     public static Object computeScope(Object element) throws JavaModelException {
-        if (element instanceof IFileEditorInput)
+        if (element instanceof IFileEditorInput) {
             element = ((IFileEditorInput) element).getFile();
-        if (element instanceof IResource)
+        }
+        if (element instanceof IResource) {
             element = JavaCore.create((IResource) element);
+        }
         if (element instanceof IClassFile) {
             IClassFile cf = (IClassFile) element;
             element = cf.getType();
@@ -77,10 +91,13 @@ public class BenchSearchEngine {
      * This method gets an array of java elements and delegates the bench search
      * to the class {@link BenchFinder}.
      * 
-     * @param elements The object array of elements.
+     * @param elements
+     *            The object array of elements.
      * @return an IType array.
-     * @throws InvocationTargetException The Exception which occurred.
-     * @throws InterruptedException The Exception which occurred.
+     * @throws InvocationTargetException
+     *             The Exception which occurred.
+     * @throws InterruptedException
+     *             The Exception which occurred.
      */
     public static IType[] findBenchs(final Object[] elements)
             throws InvocationTargetException, InterruptedException {
@@ -96,7 +113,8 @@ public class BenchSearchEngine {
      * This method gets a java project and evaluates if it has a bench type or
      * not.
      * 
-     * @param javaProject The java project for checking.
+     * @param javaProject
+     *            The java project for checking.
      * @return A boolean value if the java project contains benches.
      */
     public static boolean hasBenchType(IJavaProject javaProject) {
@@ -107,7 +125,8 @@ public class BenchSearchEngine {
      * This method return the first type found with the given fully qualified
      * name. In our case a type with a bench.
      * 
-     * @param javaProject The java project for testing for benchs.
+     * @param javaProject
+     *            The java project for testing for benchs.
      * @return The type.
      */
     private static IType benchType(IJavaProject javaProject) {
