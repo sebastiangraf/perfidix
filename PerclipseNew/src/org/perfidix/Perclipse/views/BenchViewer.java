@@ -116,7 +116,7 @@ public class BenchViewer {
 
         List<JavaElementsWithTotalRuns> treeDataRunnin =
                 benchRunSession.getBenchElements();
-        if (treeDataRunnin == null) {
+        if (treeDataRunnin == null || treeDataRunnin.size()==0) {
 
             treeViewer.setInput(null);
 
@@ -128,9 +128,9 @@ public class BenchViewer {
         if (!dataFilled || sameLaunch != launchHash) {
             initData(launchHash);
         } else {
-
-            updateCountersInTree(benchRunSession.getCurrentRunElement());
-
+            if (benchRunSession.getCurrentRunElement() != null) {
+                updateCountersInTree(benchRunSession.getCurrentRunElement());
+            }
         }
 
     }
@@ -150,11 +150,14 @@ public class BenchViewer {
                 if ((((TreeDataProvider) item).getParentElementName())
                         .equals(javaElementsWithTotalRuns.getJavaElement())) {
                     searchedItem = (TreeDataProvider) item;
+                    searchedItem.updateCurrentBench(javaElementsWithTotalRuns.getCurrentRun());
+                    if(javaElementsWithTotalRuns.getErrorCount()>0){
+                        searchedItem.updateCurrentBenchError(javaElementsWithTotalRuns.getErrorCount());
+                    }
                     break;
                 }
             }
         }
-        searchedItem.updateCurrentBench();
         treeViewer.update(searchedItem, null);
 
     }

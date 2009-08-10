@@ -66,21 +66,17 @@ public class PerclipseViewSkeleton extends Thread {
             try {
                 command = (String) in.readObject();
                 if ("init".equals(command)) {
-                    System.out.println("init");
                     HashMap<String, Integer> elements =
                             (HashMap<String, Integer>) in.readObject();
                     sessionListener.initTotalBenchProgress(elements);
                 } else if ("updateCurrentRun".equals(command)) {
-                    System.out.println("updateCurrentRun");
                     String currentElement = (String) in.readObject();
                     sessionListener.updateCurrentRun(currentElement);
 
                 } else if ("updateError".equals(command)) {
-                    System.out.println("updateError");
                     String errorElement = (String) in.readObject();
                     sessionListener.updateError(errorElement);
                 } else if ("finished".equals(command)) {
-                    System.out.println("Bench runs finished");
                     finished = true;
                     PerclipseActivator.logInfo("Bench process finished");
                 } else {

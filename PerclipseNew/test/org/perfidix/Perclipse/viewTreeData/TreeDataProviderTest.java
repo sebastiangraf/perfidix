@@ -30,6 +30,9 @@ public class TreeDataProviderTest {
         assertEquals("MyElement", dataProvider.getParentElementName());
         assertEquals(66, dataProvider.getNumberOfBenchsForElement());
         assertEquals(22, dataProvider.getCurrentBench());
+        assertEquals(0, dataProvider.getCurrentBenchError());
+        dataProvider.updateCurrentBenchError(5);
+        assertEquals(5, dataProvider.getCurrentBenchError());
         assertNotNull(dataProvider.getChildElements());
         assertNotNull(dataProvider.getParent());
         assertEquals(dataProvider, dataProvider.getParent());
@@ -49,11 +52,21 @@ public class TreeDataProviderTest {
 
     /**
      * Tests the method updateCurrentBench.
-     * {@link org.perfidix.Perclipse.viewTreeData.TreeDataProvider#updateCurrentBench()}
+     * {@link org.perfidix.Perclipse.viewTreeData.TreeDataProvider#updateCurrentBench(int)}
      */
     @Test
     public void testUpdateCurrentBench() {
-        dataProvider.updateCurrentBench();
+        dataProvider.updateCurrentBench(23);
+        assertEquals(23, dataProvider.getCurrentBench());
+    }
+    
+    /**
+     * Tests the method update error count.
+     * {@link org.perfidix.Perclipse.viewTreeData.TreeDataProvider#updateCurrentBenchError(int)}
+     */
+    @Test
+    public void testUpdateCurrentBenchError() {
+        dataProvider.updateCurrentBench(23);
         assertEquals(23, dataProvider.getCurrentBench());
     }
 
