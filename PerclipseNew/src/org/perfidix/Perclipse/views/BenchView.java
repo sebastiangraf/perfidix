@@ -317,6 +317,7 @@ public class BenchView extends ViewPart {
      * updating the view.
      */
     private void processChangesInUI() {
+
         if (counterComposite.isDisposed()) {
             return;
         }

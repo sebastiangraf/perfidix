@@ -11,6 +11,7 @@ public class TreeDataProvider {
     private String parentElementName;
     private int numberOfBenchsForElement;
     private int currentBench;
+    private int errorInBench;    
     private TreeDataProvider parent = null;
 
     private TreeDataProvider childElements[] = new TreeDataProvider[0];
@@ -35,6 +36,7 @@ public class TreeDataProvider {
         this.numberOfBenchsForElement = numberOfBenchs;
         this.currentBench = currentBench;
         parent = this;
+        errorInBench=0;
         }
     }
 
@@ -62,10 +64,24 @@ public class TreeDataProvider {
     }
 
     /**
+     * Counts the currentBench errors.
+     */
+    public void updateCurrentBenchError(int count) {
+        errorInBench = count;
+    }
+
+    /**
+     * @return This method returns the current bench error run of the java element.
+     */
+    public int getCurrentBenchError() {
+        return errorInBench;
+    }
+    
+    /**
      * Counts the currentBench;
      */
-    public void updateCurrentBench() {
-        currentBench = currentBench + 1;
+    public void updateCurrentBench(int count) {
+        currentBench = count;
     }
 
     /**

@@ -54,8 +54,8 @@ public class BenchRunSessionListenerTest {
     public void tearDown() throws Exception {
         listener=null;
         initData=null;
-//        utilClass.setViewNull();
-//        utilClass=null;
+        utilClass.setViewNull();
+        utilClass=null;
     }
 
     /**
