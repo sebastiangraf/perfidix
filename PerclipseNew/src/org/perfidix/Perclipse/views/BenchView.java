@@ -12,6 +12,7 @@ import org.eclipse.ui.IViewSite;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.part.ViewPart;
 import org.eclipse.ui.progress.IWorkbenchSiteProgressService;
+import org.perfidix.Perclipse.launcher.PerclipseActivator;
 import org.perfidix.Perclipse.model.BenchRunSession;
 import org.perfidix.Perclipse.viewTreeData.TreeDataProvider;
 
@@ -117,8 +118,8 @@ public class BenchView extends ViewPart {
      * @return It retruns the created image.
      */
     public static Image createImage(String string) {
-        // Currently not used
-        return null;
+        
+        return PerclipseActivator.getImageDescriptor(string).createImage();
     }
 
     /**

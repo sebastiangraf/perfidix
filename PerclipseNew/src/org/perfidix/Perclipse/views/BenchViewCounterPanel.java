@@ -1,5 +1,8 @@
 package org.perfidix.Perclipse.views;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
@@ -22,6 +25,8 @@ public class BenchViewCounterPanel extends Composite {
     private Text benchRuns;
     private Text benchErrors;
     private int totalRuns;
+    private final Image benchRunImage = BenchView.createImage("icons/time.png");
+    private final Image benchErrorImage = BenchView.createImage("icons/error.png");
 
     /**
      * The constructor creates the counter panel for the BenchView.
@@ -38,8 +43,10 @@ public class BenchViewCounterPanel extends Composite {
         gridLayout.marginWidth = 0;
         setLayout(gridLayout);
 
-        benchRuns = createLabel("Runs: ", null, " 0/0 ");
-        benchErrors = createLabel("Errors: ", null, " 0 ");
+            benchRuns = createLabel("Runs: ", benchRunImage, " 0/0 ");
+            
+            benchErrors = createLabel("Errors: ", benchErrorImage, " 0 ");
+ 
 
         addDisposeListener(new DisposeListener() {
             public void widgetDisposed(DisposeEvent e) {
