@@ -35,7 +35,9 @@ public class BenchTreeContentProvider extends ArrayContentProvider
     public boolean hasChildren(Object element) {
         if (element != null) {
             TreeDataProvider treeData = (TreeDataProvider) element;
-            return treeData.getChildElements().length > 0;
+            if (treeData.getChildElements().length > 0) {
+                return true;
+            }
         }
         return false;
 

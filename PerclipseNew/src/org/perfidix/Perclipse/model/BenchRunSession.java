@@ -159,6 +159,7 @@ public class BenchRunSession {
             for (JavaElementsWithTotalRuns listElement : benchElements) {
                 if (listElement.getJavaElement().equals(errorInElement)) {
                     listElement.updateErrorCount();
+                    listElement.updateCurrentRun();
                     currentRunElement=listElement;
                     currentCount=currentCount+1;
                     errorCount = errorCount + 1;                    
