@@ -1,5 +1,15 @@
 package org.perfidix.Perclipse.model;
 
+import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
+
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
+import java.net.UnknownHostException;
+import java.util.HashMap;
+
+import org.eclipse.jdt.launching.SocketUtil;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -11,8 +21,11 @@ import org.junit.Test;
  * @author Lewandowski Lukas, DiSy, University of Konstanz
  */
 public class PerclipseViewSkeletonTest {
-    
+
     private PerclipseViewSkeleton skeleton;
+    private HashMap<String, Integer> elementsMap;
+    private int port;
+
 
     /**
      * Simple setUp - method.
@@ -22,7 +35,12 @@ public class PerclipseViewSkeletonTest {
      */
     @Before
     public void setUp() throws Exception {
-        skeleton=new PerclipseViewSkeleton(8989);
+        port = SocketUtil.findFreePort();
+        skeleton = new PerclipseViewSkeleton(port);
+        skeleton.start();
+        elementsMap = new HashMap<String, Integer>();
+        elementsMap.put("package.Class.method1", 50);
+        elementsMap.put("package1.Class1.method1", 25);
     }
 
     /**
@@ -33,16 +51,149 @@ public class PerclipseViewSkeletonTest {
      */
     @After
     public void tearDown() throws Exception {
-        skeleton=null;
+        skeleton = null;
+        elementsMap = null;
     }
-    
+
     /**
      * Tests the method
      * {@link org.perfidix.Perclipse.model.PerclipseViewSkeleton#PerclipseViewSkeleton(int)}
      * .
      */
     @Test
-    public void testPerclipseViewSkeleton(){
-        
+    public void testPerclipseViewSkeleton() {
+        assertNotNull(skeleton);
+
+    }
+
+    /**
+     * Tests stub skeleton connection for initialization of the view.
+     */
+    @Test
+    public void testInitView() {
+        WorkerStubForSkeletonTest stubForSkeletonTest =
+                new WorkerStubForSkeletonTest(null, port);
+        stubForSkeletonTest.initTotalBenchProgress(null);
+        stubForSkeletonTest.initTotalBenchProgress(elementsMap);
+        stubForSkeletonTest.finishedBenchRuns();
+    }
+
+    /**
+     * Tests stub skeleton connection for updating the progress of the view.
+     */
+    @Test
+    public void testUpdateCurrentRun() {
+        WorkerStubForSkeletonTest stubForSkeletonTest =
+                new WorkerStubForSkeletonTest(null, port);
+        stubForSkeletonTest.initTotalBenchProgress(elementsMap);
+        stubForSkeletonTest.updateCurrentRun("No");
+        stubForSkeletonTest.updateCurrentRun("package.Class.method1");
+        stubForSkeletonTest.finishedBenchRuns();
+    }
+
+    /**
+     * Tests stub skeleton connection for updating the progress of the view.
+     */
+    @Test
+    public void testUpdateError() {
+        WorkerStubForSkeletonTest stubForSkeletonTest =
+                new WorkerStubForSkeletonTest(null, port);
+        stubForSkeletonTest.initTotalBenchProgress(null);
+        stubForSkeletonTest.initTotalBenchProgress(elementsMap);
+        stubForSkeletonTest.updateError("Not");
+        stubForSkeletonTest.updateError("package.Class.method1");
+        stubForSkeletonTest.finishedBenchRuns();
+    }
+
+
+
+    private class WorkerStubForSkeletonTest {
+        private String host;
+        private int viewListenerPort;
+        private String command;
+        private Socket socket;
+        private ObjectOutputStream outputStream;
+
+        /**
+         * The constructor initializes the given host name and the port, which
+         * are needed for creating a client socket. Afterwards it creates the
+         * client socket and the object output stream.
+         * 
+         * @param host
+         *            Host represents the {@link String} host name
+         * @param viewListenerPort
+         *            This param represents the port of the view.
+         */
+        public WorkerStubForSkeletonTest(String host, int viewListenerPort) {
+            if (host == null) {
+                this.host = "localhost";
+            } else {
+                this.host = host;
+            }
+            this.viewListenerPort = viewListenerPort;
+            try {
+                socket = new Socket(this.host, this.viewListenerPort);
+                outputStream = new ObjectOutputStream(socket.getOutputStream());
+            } catch (UnknownHostException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+
+        }
+
+        /** {@inheritDoc} */
+        public void initTotalBenchProgress(
+                HashMap<String, Integer> benchElementsWithTotalBench) {
+            command = "init";
+            try {
+                outputStream.writeObject(command);
+                outputStream.writeObject(benchElementsWithTotalBench);
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+
+        }
+
+        /** {@inheritDoc} */
+        public void updateCurrentRun(String currentElement) {
+            command = "updateCurrentRun";
+            try {
+                outputStream.writeObject(command);
+                outputStream.writeObject(currentElement);
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+
+        }
+
+        /** {@inheritDoc} */
+        public void updateError(String element) {
+            command = "updateError";
+            try {
+                outputStream.writeObject(command);
+                outputStream.writeObject(element);
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+
+        }
+
+        /** {@inheritDoc} */
+        public void finishedBenchRuns() {
+            command = "finished";
+            try {
+                outputStream.writeObject(command);
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+
+        }
     }
 }

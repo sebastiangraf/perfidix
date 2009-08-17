@@ -1,6 +1,7 @@
 package org.perfidix.Perclipse.views;
 
 import org.eclipse.core.runtime.Status;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.dnd.Clipboard;
 import org.eclipse.swt.graphics.Image;
@@ -118,8 +119,14 @@ public class BenchView extends ViewPart {
      * @return It retruns the created image.
      */
     public static Image createImage(String string) {
-        
-        return PerclipseActivator.getImageDescriptor(string).createImage();
+        if (string != null) {
+            ImageDescriptor imageDescriptor =
+                    PerclipseActivator.getImageDescriptor(string);
+            if (imageDescriptor != null) {
+                return imageDescriptor.createImage();
+            }
+        }
+        return null;
     }
 
     /**
@@ -223,11 +230,13 @@ public class BenchView extends ViewPart {
      *            The given bench run session.
      */
     public void startUpdateJobs(BenchRunSession benchRunSession) {
+        if(benchRunSession!=null){
         this.benchRunSession = benchRunSession;
         postSyncProcessChanges();
 
         if (updateJob != null) {
             return;
+        }
         }
 
         // updateJob = new UpdateUIJob("jobName");
@@ -298,20 +307,7 @@ public class BenchView extends ViewPart {
         return getViewSite().getShell().getDisplay();
     }
 
-    /**
-     * This method is called when a update job has to stop.
-     */
-    public void stopUpdateJobs() {
-        if (updateJob != null) {
-            updateJob.stop();
-            updateJob = null;
-        }
-        if (benchIsRunningJob != null && benchIsRunningLock != null) {
-            benchIsRunningLock.release();
-            benchIsRunningJob = null;
-        }
-        postSyncProcessChanges();
-    }
+
 
     /**
      * This method changes the values of the view's data. It is used for
