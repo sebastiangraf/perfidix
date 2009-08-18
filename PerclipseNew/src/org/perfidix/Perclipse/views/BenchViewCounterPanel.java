@@ -26,7 +26,8 @@ public class BenchViewCounterPanel extends Composite {
     private Text benchErrors;
     private int totalRuns;
     private final Image benchRunImage = BenchView.createImage("icons/time.png");
-    private final Image benchErrorImage = BenchView.createImage("icons/error.png");
+    private final Image benchErrorImage =
+            BenchView.createImage("icons/error.png");
 
     /**
      * The constructor creates the counter panel for the BenchView.
@@ -43,10 +44,9 @@ public class BenchViewCounterPanel extends Composite {
         gridLayout.marginWidth = 0;
         setLayout(gridLayout);
 
-            benchRuns = createLabel("Runs: ", benchRunImage, " 0/0 ");
-            
-            benchErrors = createLabel("Errors: ", benchErrorImage, " 0 ");
- 
+        benchRuns = createLabel("Runs: ", benchRunImage, " 0/0 ");
+
+        benchErrors = createLabel("Errors: ", benchErrorImage, " 0 ");
 
         addDisposeListener(new DisposeListener() {
             public void widgetDisposed(DisposeEvent e) {
@@ -65,28 +65,33 @@ public class BenchViewCounterPanel extends Composite {
      * @return This method returns the Text widget containing the labeling and
      *         additional stuff.
      */
-    private Text createLabel(String labelName, Image image, String initValue) {
+    protected Text createLabel(String labelName, Image image, String initValue) {
 
-        Label label = new Label(this, SWT.NONE);
-        if (image != null) {
-            image.setBackground(label.getBackground());
-            label.setImage(image);
+        if (labelName != null && initValue != null) {
+            Label label = new Label(this, SWT.NONE);
+            if (image != null) {
+                image.setBackground(label.getBackground());
+                label.setImage(image);
+            }
+
+            label.setLayoutData(new GridData(
+                    GridData.HORIZONTAL_ALIGN_BEGINNING));
+
+            label = new Label(this, SWT.NONE);
+            label.setText(labelName);
+            label.setLayoutData(new GridData(
+                    GridData.HORIZONTAL_ALIGN_BEGINNING));
+
+            Text text = new Text(this, SWT.READ_ONLY);
+            text.setText(initValue);
+            text.setBackground(getDisplay().getSystemColor(
+                    SWT.COLOR_WIDGET_BACKGROUND));
+            text.setLayoutData(new GridData(GridData.FILL_HORIZONTAL
+                    | GridData.HORIZONTAL_ALIGN_BEGINNING));
+
+            return text;
         }
-
-        label.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING));
-
-        label = new Label(this, SWT.NONE);
-        label.setText(labelName);
-        label.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING));
-
-        Text text = new Text(this, SWT.READ_ONLY);
-        text.setText(initValue);
-        text.setBackground(getDisplay().getSystemColor(
-                SWT.COLOR_WIDGET_BACKGROUND));
-        text.setLayoutData(new GridData(GridData.FILL_HORIZONTAL
-                | GridData.HORIZONTAL_ALIGN_BEGINNING));
-
-        return text;
+        return null;
     }
 
     /**
@@ -148,7 +153,8 @@ public class BenchViewCounterPanel extends Composite {
      * This method is responsible for disposing of used icons.
      */
     private void disposeIcons() {
-        // here you have to dispose used images
+        benchErrorImage.dispose();
+        benchRunImage.dispose();
 
     }
 }

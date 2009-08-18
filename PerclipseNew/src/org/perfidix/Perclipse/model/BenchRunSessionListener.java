@@ -35,7 +35,7 @@ public class BenchRunSessionListener implements IBenchRunSessionListener {
         mapElements = benchElementsWithTotalBench;
         List<JavaElementsWithTotalRuns> list =
                 new ArrayList<JavaElementsWithTotalRuns>();
-        if (mapElements != null && mapElements.size()>0) {
+        if (mapElements != null && mapElements.size() > 0) {
             Set<String> theSet = mapElements.keySet();
             for (String elementName : theSet) {
                 list.add(new JavaElementsWithTotalRuns(elementName, mapElements
@@ -57,7 +57,7 @@ public class BenchRunSessionListener implements IBenchRunSessionListener {
 
     /** {@inheritDoc} */
     public void updateError(String element) {
-        if  (mapElements != null && mapElements.containsKey(element)) {
+        if (mapElements != null && mapElements.containsKey(element)) {
             runSession.updateError(element);
             viewUpdater.updateView(runSession);
         }

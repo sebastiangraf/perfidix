@@ -26,7 +26,6 @@ public class PerclipseViewSkeletonTest {
     private HashMap<String, Integer> elementsMap;
     private int port;
 
-
     /**
      * Simple setUp - method.
      * 
@@ -104,8 +103,6 @@ public class PerclipseViewSkeletonTest {
         stubForSkeletonTest.updateError("package.Class.method1");
         stubForSkeletonTest.finishedBenchRuns();
     }
-
-
 
     private class WorkerStubForSkeletonTest {
         private String host;

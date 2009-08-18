@@ -12,10 +12,11 @@ import org.perfidix.Perclipse.launcher.PerclipseActivator;
 import org.perfidix.Perclipse.model.BenchRunSession;
 import org.perfidix.Perclipse.model.JavaElementsWithTotalRuns;
 import org.perfidix.Perclipse.util.TestUtilClass;
+import org.perfidix.Perclipse.viewTreeData.TreeDataProvider;
 
 /**
  * This class tests the java class
- * {@link org.perfidix.Perclipse.views.BenchTreeLabelProvider}.
+ * {@link org.perfidix.Perclipse.views.BenchView}.
  * 
  * @author Lewandowski Lukas, DiSy, University of Konstanz
  */
@@ -56,13 +57,13 @@ public class BenchViewTest {
         utilClass.setViewNull();
         utilClass = null;
         view = null;
-        elementsList=null;
-        runSession=null;
+        elementsList = null;
+        runSession = null;
     }
 
     /**
      * Tests the method
-     * {@link org.perfidix.Perclipse.views.BenchView#BenchView())} .
+     * {@link org.perfidix.Perclipse.views.BenchView#BenchView()} .
      */
     @Test
     public void testBenchView() {
@@ -90,6 +91,17 @@ public class BenchViewTest {
     public void testStartUpdateJobs() {
         view.startUpdateJobs(null);
         view.startUpdateJobs(runSession);
+    }
+    
+    /**
+     * Tests the method
+     * {@link org.perfidix.Perclipse.views.BenchView#handleBenchSelection(org.perfidix.Perclipse.viewTreeData.TreeDataProvider)}
+     * .
+     */
+    @Test
+    public void testHandleBenchSelection(){
+        view.handleBenchSelection(null);
+        view.handleBenchSelection(new TreeDataProvider("SomeElement",55, 22));
     }
 
 }

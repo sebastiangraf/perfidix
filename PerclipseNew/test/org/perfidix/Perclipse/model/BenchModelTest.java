@@ -44,10 +44,9 @@ public class BenchModelTest {
     public void testStart() {
 
         model.start();
-        
 
     }
-    
+
     /**
      * This method test the stop() method :
      * {@link org.perfidix.Perclipse.model.BenchModel#stop()}.
@@ -56,7 +55,6 @@ public class BenchModelTest {
     public void testStop() {
 
         model.stop();
-        
 
     }
 

@@ -11,7 +11,7 @@ public class TreeDataProvider {
     private String parentElementName;
     private int numberOfBenchsForElement;
     private int currentBench;
-    private int errorInBench;    
+    private int errorInBench;
     private TreeDataProvider parent = null;
 
     private TreeDataProvider childElements[] = new TreeDataProvider[0];
@@ -31,12 +31,12 @@ public class TreeDataProvider {
      */
     public TreeDataProvider(
             String parentElement, int numberOfBenchs, int currentBench) {
-        if(numberOfBenchs>=0 && currentBench>=0 && parentElement!=null){
-        this.parentElementName = parentElement;
-        this.numberOfBenchsForElement = numberOfBenchs;
-        this.currentBench = currentBench;
-        parent = this;
-        errorInBench=0;
+        if (numberOfBenchs >= 0 && currentBench >= 0 && parentElement != null) {
+            this.parentElementName = parentElement;
+            this.numberOfBenchsForElement = numberOfBenchs;
+            this.currentBench = currentBench;
+            parent = this;
+            errorInBench = 0;
         }
     }
 
@@ -71,12 +71,13 @@ public class TreeDataProvider {
     }
 
     /**
-     * @return This method returns the current bench error run of the java element.
+     * @return This method returns the current bench error run of the java
+     *         element.
      */
     public int getCurrentBenchError() {
         return errorInBench;
     }
-    
+
     /**
      * Counts the currentBench;
      */

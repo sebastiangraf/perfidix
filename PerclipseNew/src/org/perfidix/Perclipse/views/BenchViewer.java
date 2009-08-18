@@ -113,23 +113,24 @@ public class BenchViewer {
     public void processChangesInUI(BenchRunSession benchRunSessionParam) {
 
         benchRunSession = benchRunSessionParam;
+        if (benchRunSessionParam != null) {
+            List<JavaElementsWithTotalRuns> treeDataRunnin =
+                    benchRunSession.getBenchElements();
+            if (treeDataRunnin == null || treeDataRunnin.size() == 0) {
 
-        List<JavaElementsWithTotalRuns> treeDataRunnin =
-                benchRunSession.getBenchElements();
-        if (treeDataRunnin == null || treeDataRunnin.size()==0) {
+                treeViewer.setInput(null);
 
-            treeViewer.setInput(null);
+                return;
+            }
 
-            return;
-        }
+            int launchHash = treeDataRunnin.hashCode();
 
-        int launchHash = treeDataRunnin.hashCode();
-
-        if (!dataFilled || sameLaunch != launchHash) {
-            initData(launchHash);
-        } else {
-            if (benchRunSession.getCurrentRunElement() != null) {
-                updateCountersInTree(benchRunSession.getCurrentRunElement());
+            if (!dataFilled || sameLaunch != launchHash) {
+                initData(launchHash);
+            } else {
+                if (benchRunSession.getCurrentRunElement() != null) {
+                    updateCountersInTree(benchRunSession.getCurrentRunElement());
+                }
             }
         }
 
@@ -150,9 +151,12 @@ public class BenchViewer {
                 if ((((TreeDataProvider) item).getParentElementName())
                         .equals(javaElementsWithTotalRuns.getJavaElement())) {
                     searchedItem = (TreeDataProvider) item;
-                    searchedItem.updateCurrentBench(javaElementsWithTotalRuns.getCurrentRun());
-                    if(javaElementsWithTotalRuns.getErrorCount()>0){
-                        searchedItem.updateCurrentBenchError(javaElementsWithTotalRuns.getErrorCount());
+                    searchedItem.updateCurrentBench(javaElementsWithTotalRuns
+                            .getCurrentRun());
+                    if (javaElementsWithTotalRuns.getErrorCount() > 0) {
+                        searchedItem
+                                .updateCurrentBenchError(javaElementsWithTotalRuns
+                                        .getErrorCount());
                     }
                     break;
                 }

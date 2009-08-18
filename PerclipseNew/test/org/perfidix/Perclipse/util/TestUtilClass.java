@@ -21,11 +21,11 @@ public class TestUtilClass {
                 showBenchViewInActivePage(findBenchViewInActivePage());
         PerclipseActivator.getDefault().setBenchView(benchView);
     }
-    
+
     /**
      * Set View NULL just for testing.
      */
-    public  void setViewNull(){
+    public void setViewNull() {
         PerclipseActivator.getDefault().setBenchView(null);
     }
 
@@ -38,7 +38,7 @@ public class TestUtilClass {
      *            BenchView.
      * @return It returns the displayed view.
      */
-    private  BenchView showBenchViewInActivePage(final BenchView benchView) {
+    private BenchView showBenchViewInActivePage(final BenchView benchView) {
         IWorkbenchPage page = null;
         page = PerclipseActivator.getActivePage();
 
@@ -69,7 +69,7 @@ public class TestUtilClass {
      * 
      * @return Returns the loaded view.
      */
-    private  BenchView findBenchViewInActivePage() {
+    private BenchView findBenchViewInActivePage() {
         final IWorkbenchPage page = PerclipseActivator.getActivePage();
         if (page == null) {
             return null;

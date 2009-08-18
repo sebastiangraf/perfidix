@@ -42,7 +42,7 @@ public class BenchRunViewUpdaterTest {
      */
     @Before
     public void setUp() throws Exception {
-        
+
         updater = new BenchRunViewUpdater();
         session = new BenchRunSession();
         List<JavaElementsWithTotalRuns> theList =
@@ -62,8 +62,8 @@ public class BenchRunViewUpdaterTest {
     public void tearDown() throws Exception {
         updater = null;
         session = null;
-//        utilClass.setViewNull();
-//        utilClass=null;
+        // utilClass.setViewNull();
+        // utilClass=null;
     }
 
     /**
@@ -74,13 +74,11 @@ public class BenchRunViewUpdaterTest {
     @Test
     public void testUpdateView() {
         updater.updateView(session);
-        utilClass=new TestUtilClass();
+        utilClass = new TestUtilClass();
         utilClass.setViewForTesting();
         updater.updateView(session);
         session = null;
         updater.updateView(session);
     }
-
-
 
 }

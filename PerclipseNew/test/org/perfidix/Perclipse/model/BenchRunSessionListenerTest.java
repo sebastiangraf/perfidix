@@ -26,7 +26,6 @@ public class BenchRunSessionListenerTest {
     private HashMap<String, Integer> initData;
     private TestUtilClass utilClass;
 
-
     /**
      * Simple setUp - method.
      * 
@@ -35,7 +34,7 @@ public class BenchRunSessionListenerTest {
      */
     @Before
     public void setUp() throws Exception {
-//        TestUtilClass.setViewForTesting();
+        // TestUtilClass.setViewForTesting();
         utilClass = new TestUtilClass();
         utilClass.setViewForTesting();
         listener = new BenchRunSessionListener();
@@ -52,10 +51,10 @@ public class BenchRunSessionListenerTest {
      */
     @After
     public void tearDown() throws Exception {
-        listener=null;
-        initData=null;
+        listener = null;
+        initData = null;
         utilClass.setViewNull();
-        utilClass=null;
+        utilClass = null;
     }
 
     /**
@@ -86,36 +85,36 @@ public class BenchRunSessionListenerTest {
      * .
      */
     @Test
-    public void testUpdateCurrentRun(){
+    public void testUpdateCurrentRun() {
         listener.updateCurrentRun("MyBenchObject");
         listener.initTotalBenchProgress(initData);
         listener.updateCurrentRun("MyBenchObject");
         listener.updateCurrentRun("Nothing");
     }
-    
+
     /**
      * Tests the method
      * {@link org.perfidix.Perclipse.model.BenchRunSessionListener#updateError(String)}
      * .
      */
     @Test
-    public void testUpdateError(){
+    public void testUpdateError() {
         listener.updateError("MyBenchi");
         listener.initTotalBenchProgress(initData);
         listener.updateError("MyBenchObject");
         listener.updateError("Sometthin");
     }
-    
+
     /**
      * Tests the method
      * {@link org.perfidix.Perclipse.model.BenchRunSessionListener#finishedBenchRuns()}
      * .
      */
     @Test
-    public void testFinishedBenchRuns(){
-        
+    public void testFinishedBenchRuns() {
+
         listener.finishedBenchRuns();
         assertTrue(listener.getFinished());
-        
+
     }
 }

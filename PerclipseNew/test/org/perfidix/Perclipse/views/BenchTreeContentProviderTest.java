@@ -1,6 +1,5 @@
 package org.perfidix.Perclipse.views;
 
-
 import static org.junit.Assert.*;
 
 import org.junit.After;
@@ -26,7 +25,7 @@ public class BenchTreeContentProviderTest {
      */
     @Before
     public void setUp() throws Exception {
-        dataProvider= new TreeDataProvider("package.Class.TheElement",25,17);
+        dataProvider = new TreeDataProvider("package.Class.TheElement", 25, 17);
         treeContentProvider = new BenchTreeContentProvider();
     }
 
@@ -38,9 +37,9 @@ public class BenchTreeContentProviderTest {
      */
     @After
     public void tearDown() throws Exception {
-        dataProvider=null;
-        treeContentProvider=null;
-        }
+        dataProvider = null;
+        treeContentProvider = null;
+    }
 
     /**
      * Tests the method
@@ -48,35 +47,40 @@ public class BenchTreeContentProviderTest {
      * .
      */
     @Test
-    public void testGetChildren(){
-        //Expected no children because currently our objects has no children in the treeviewer
+    public void testGetChildren() {
+        // Expected no children because currently our objects has no children in
+        // the treeviewer
         assertNull(treeContentProvider.getChildren(null));
-        assertArrayEquals(new Object[0], treeContentProvider.getChildren(dataProvider));
-      
+        assertArrayEquals(new Object[0], treeContentProvider
+                .getChildren(dataProvider));
+
     }
-    
+
     /**
      * Tests the method
      * {@link org.perfidix.Perclipse.views.BenchTreeContentProvider#hasChildren(Object)}
      * .
      */
     @Test
-    public void testHasChildren(){
-      //Expected no children because currently our objects has no children in the treeviewer
+    public void testHasChildren() {
+        // Expected no children because currently our objects has no children in
+        // the treeviewer
         assertFalse(treeContentProvider.hasChildren(null));
         assertFalse(treeContentProvider.hasChildren(dataProvider));
     }
+
     /**
      * Tests the method
      * {@link org.perfidix.Perclipse.views.BenchTreeContentProvider#getParent(Object)}
      * .
      */
-    @Test 
-    public void testGetParent(){
+    @Test
+    public void testGetParent() {
         assertNull(treeContentProvider.getParent(null));
         assertNotNull(treeContentProvider.getParent(dataProvider));
         assertEquals(dataProvider, treeContentProvider.getParent(dataProvider));
-        TreeDataProvider newDataProvider = new TreeDataProvider("A",22,9);
-        assertFalse(newDataProvider.equals(treeContentProvider.getParent(dataProvider)));
+        TreeDataProvider newDataProvider = new TreeDataProvider("A", 22, 9);
+        assertFalse(newDataProvider.equals(treeContentProvider
+                .getParent(dataProvider)));
     }
 }
