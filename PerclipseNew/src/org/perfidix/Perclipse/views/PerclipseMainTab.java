@@ -89,8 +89,8 @@ public class PerclipseMainTab extends AbstractLaunchConfigurationTab {
     private final IPath iconPath = new Path("icons/time.png");
     private Image fTabIcon =
             createImageDescriptor(
-                    PerclipseActivator.getDefault().getBundle(), iconPath,
-                    true).createImage();
+                    PerclipseActivator.getDefault().getBundle(), iconPath, true)
+                    .createImage();
 
     /** {@inheritDoc} */
     public void createControl(Composite parent) {

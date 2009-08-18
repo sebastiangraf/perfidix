@@ -81,7 +81,7 @@ public class BenchRunSession {
      */
     public void setCurrentRun(String currentElement) {
 
-        if (benchElements != null && benchElements.size()>0) {
+        if (benchElements != null && benchElements.size() > 0) {
             for (JavaElementsWithTotalRuns listElement : benchElements) {
                 if (listElement.getJavaElement().equals(currentElement)) {
                     listElement.updateCurrentRun();
@@ -155,14 +155,14 @@ public class BenchRunSession {
      *            The name of the java element where the error occurred.
      */
     public void updateError(String errorInElement) {
-        if (benchElements != null && benchElements.size()>0) {
+        if (benchElements != null && benchElements.size() > 0) {
             for (JavaElementsWithTotalRuns listElement : benchElements) {
                 if (listElement.getJavaElement().equals(errorInElement)) {
                     listElement.updateErrorCount();
                     listElement.updateCurrentRun();
-                    currentRunElement=listElement;
-                    currentCount=currentCount+1;
-                    errorCount = errorCount + 1;                    
+                    currentRunElement = listElement;
+                    currentCount = currentCount + 1;
+                    errorCount = errorCount + 1;
                 }
             }
 

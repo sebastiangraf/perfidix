@@ -13,14 +13,15 @@ import org.junit.Test;
 public class TreeDataProviderTest {
 
     private TreeDataProvider dataProvider;
+
     /**
      * Simple setUp method for our TreeDataProvider instance.
      */
     @Before
-    public void setUp(){
-    dataProvider=new TreeDataProvider("MyElement", 66, 22);    
+    public void setUp() {
+        dataProvider = new TreeDataProvider("MyElement", 66, 22);
     }
-    
+
     /**
      * This method tests the getters for the class
      * {@link org.perfidix.Perclipse.viewTreeData.TreeDataProvider}.
@@ -46,7 +47,7 @@ public class TreeDataProviderTest {
     @Test
     public void testTreeDataProvider() {
         assertNotNull(dataProvider);
-        dataProvider= new TreeDataProvider(null, 55,11);
+        dataProvider = new TreeDataProvider(null, 55, 11);
         assertEquals(null, dataProvider.getParent());
     }
 
@@ -59,7 +60,7 @@ public class TreeDataProviderTest {
         dataProvider.updateCurrentBench(23);
         assertEquals(23, dataProvider.getCurrentBench());
     }
-    
+
     /**
      * Tests the method update error count.
      * {@link org.perfidix.Perclipse.viewTreeData.TreeDataProvider#updateCurrentBenchError(int)}
@@ -76,9 +77,9 @@ public class TreeDataProviderTest {
      */
     @Test
     public void testToString() {
-        assertTrue((dataProvider.toString()!=null));
-        dataProvider= new TreeDataProvider(null, 55,11);
-        assertTrue((dataProvider.toString()==null));
+        assertTrue((dataProvider.toString() != null));
+        dataProvider = new TreeDataProvider(null, 55, 11);
+        assertTrue((dataProvider.toString() == null));
     }
 
 }

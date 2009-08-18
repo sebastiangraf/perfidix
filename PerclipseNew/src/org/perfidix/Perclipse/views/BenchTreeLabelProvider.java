@@ -21,23 +21,23 @@ public class BenchTreeLabelProvider extends LabelProvider {
     public String getText(Object element) {
         if (element != null) {
             TreeDataProvider treeData = (TreeDataProvider) element;
-            if(treeData.getCurrentBenchError()>0){
+            if (treeData.getCurrentBenchError() > 0) {
                 return treeData.getParentElementName()
-                + "  ("
-                + treeData.getCurrentBench()
-                + "/"
-                + treeData.getNumberOfBenchsForElement()
-                + ") "
-                + "Errors: "
-                + treeData.getCurrentBenchError();
-            } else{
-                
+                        + "  ("
+                        + treeData.getCurrentBench()
+                        + "/"
+                        + treeData.getNumberOfBenchsForElement()
+                        + ") "
+                        + "Errors: "
+                        + treeData.getCurrentBenchError();
+            } else {
+
                 return treeData.getParentElementName()
-                + "  ("
-                + treeData.getCurrentBench()
-                + "/"
-                + treeData.getNumberOfBenchsForElement()
-                + ")";
+                        + "  ("
+                        + treeData.getCurrentBench()
+                        + "/"
+                        + treeData.getNumberOfBenchsForElement()
+                        + ")";
             }
         }
         return null;

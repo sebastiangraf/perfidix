@@ -47,9 +47,9 @@ public class BenchRunSessionTest {
      */
     @After
     public void tearDown() throws Exception {
-        session=null;
-        run=null;
-        theList=null;
+        session = null;
+        run = null;
+        theList = null;
     }
 
     /**
@@ -135,13 +135,13 @@ public class BenchRunSessionTest {
                 .getBenchElements().toArray());
 
     }
-    
+
     /**
      * Tests the method
      * {@link org.perfidix.Perclipse.model.BenchRunSession#setFinished(boolean)}
      */
     @Test
-    public void testSetFinished(){
+    public void testSetFinished() {
         session.setFinished(true);
         assertTrue(session.isStopped());
         assertFalse(session.isRunning());

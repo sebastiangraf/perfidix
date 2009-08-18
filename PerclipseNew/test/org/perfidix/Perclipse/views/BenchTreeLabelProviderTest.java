@@ -1,6 +1,5 @@
 package org.perfidix.Perclipse.views;
 
-
 import static org.junit.Assert.*;
 
 import org.junit.After;
@@ -27,7 +26,7 @@ public class BenchTreeLabelProviderTest {
     @Before
     public void setUp() throws Exception {
         labelProvider = new BenchTreeLabelProvider();
-        dataProvider = new TreeDataProvider("package.Class.element",99, 54);
+        dataProvider = new TreeDataProvider("package.Class.element", 99, 54);
     }
 
     /**
@@ -38,8 +37,8 @@ public class BenchTreeLabelProviderTest {
      */
     @After
     public void tearDown() throws Exception {
-        labelProvider=null;
-        dataProvider=null;
+        labelProvider = null;
+        dataProvider = null;
     }
 
     /**
@@ -48,23 +47,25 @@ public class BenchTreeLabelProviderTest {
      * .
      */
     @Test
-    public void testGetImage(){
-        //Currently images are not specified for the treeviewer
+    public void testGetImage() {
+        // Currently images are not specified for the treeviewer
         assertNull(labelProvider.getImage(null));
         assertNull(labelProvider.getImage(dataProvider));
     }
-    
+
     /**
      * Tests the method
      * {@link org.perfidix.Perclipse.views.BenchTreeLabelProvider#getText(Object)}
      * .
      */
     @Test
-    public void testGetText(){
+    public void testGetText() {
         assertNull(labelProvider.getText(null));
-        assertEquals("package.Class.element  (54/99)", labelProvider.getText(dataProvider));
+        assertEquals("package.Class.element  (54/99)", labelProvider
+                .getText(dataProvider));
         dataProvider.updateCurrentBenchError(2);
-        assertEquals("package.Class.element  (54/99) Errors: 2", labelProvider.getText(dataProvider));
+        assertEquals("package.Class.element  (54/99) Errors: 2", labelProvider
+                .getText(dataProvider));
 
     }
 }
