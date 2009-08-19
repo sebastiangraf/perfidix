@@ -26,31 +26,28 @@ package org.perfidix.ouput.asciitable;
  * 
  * @author Alexander Onea, neue Couch
  */
-public final class Row extends TabularComponent {
+public final class Row extends AbstractTabularComponent {
 
     /**
      * The data, converted to string.
      */
-    private final String[] data;
+    private transient final String[] data;
 
     /**
      * Constructor.
      * 
-     * @param numberOfColumns
-     *            of the table
      * @param myParent
      *            table to be printed to
      * @param paramData
      *            data to be plotted
      */
-    public Row(
-            final int numberOfColumns, final NiceTable myParent,
-            final String[] paramData) {
+    public Row(final NiceTable myParent, final String[] paramData) {
         super(myParent);
-        data = paramData;
+        data = new String[paramData.length];
+        System.arraycopy(paramData, 0, data, 0, paramData.length);
         for (int i = 0; i < data.length; i++) {
-            getTable().updateColumnWidth(i, data[i].toString().length());
-            data[i] = data[i].toString().trim();
+            getTable().updateColumnWidth(i, data[i].length());
+            data[i] = data[i].trim();
         }
     }
 
@@ -59,20 +56,20 @@ public final class Row extends TabularComponent {
      * 
      * @return the width of the row.
      */
-    public final int getRowWidth() {
+    public int getRowWidth() {
 
-        int k = 0;
+        int overallWidth = 0;
         for (int i = 0; i < data.length; i++) {
-            k += getTable().getColumnWidth(i);
+            overallWidth += getTable().getColumnWidth(i);
         }
-        return k;
+        return overallWidth;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public final String draw() {
+    public String draw() {
 
         final String[] row = new String[data.length];
         for (int i = 0; i < data.length; i++) {
@@ -84,7 +81,8 @@ public final class Row extends TabularComponent {
         }
         return Util
                 .combine(
-                        new String(new char[] { TabularComponent.BORDER }),
+                        new String(
+                                new char[] { AbstractTabularComponent.BORDER }),
                         SPACE,
                         Util
                                 .implode(
@@ -92,10 +90,11 @@ public final class Row extends TabularComponent {
                                                 .combine(
                                                         SPACE,
                                                         new String(
-                                                                new char[] { TabularComponent.BORDER }),
+                                                                new char[] { AbstractTabularComponent.BORDER }),
                                                         SPACE), row),
-                        SPACE, new String(
-                                new char[] { TabularComponent.BORDER }),
+                        SPACE,
+                        new String(
+                                new char[] { AbstractTabularComponent.BORDER }),
                         NEWLINE);
 
     }

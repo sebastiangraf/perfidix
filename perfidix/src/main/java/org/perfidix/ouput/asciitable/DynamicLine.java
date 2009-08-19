@@ -25,10 +25,10 @@ package org.perfidix.ouput.asciitable;
  * 
  * @author Alexander Onea, neue Couch
  */
-public final class DynamicLine extends TabularComponent {
+public final class DynamicLine extends AbstractTabularComponent {
 
     /** Content for this dynamic line. */
-    private final char content;
+    private transient final char content;
 
     /**
      * Constructor.
@@ -47,12 +47,12 @@ public final class DynamicLine extends TabularComponent {
      * {@inheritDoc}
      */
     @Override
-    public final String draw() {
+    public String draw() {
         return Util.combine(new String(
-                new char[] { TabularComponent.BORDER }), Util.repeat(
+                new char[] { AbstractTabularComponent.BORDER }), Util.repeat(
                 new String(new char[] { content }), getTable()
                         .getTotalWidth() - 2), new String(
-                new char[] { TabularComponent.BORDER }), NEWLINE);
+                new char[] { AbstractTabularComponent.BORDER }), NEWLINE);
 
     }
 

@@ -20,7 +20,7 @@
  */
 package org.perfidix.ouput.asciitable;
 
-import org.perfidix.ouput.asciitable.TabularComponent.Alignment;
+import org.perfidix.ouput.asciitable.AbstractTabularComponent.Alignment;
 
 /**
  * Utilities for the ascii table.
@@ -41,7 +41,7 @@ public final class Util {
      *            multiple Strings
      * @return the combined string
      */
-    protected static final String combine(final String... args) {
+    protected static String combine(final String... args) {
         final StringBuilder builder = new StringBuilder();
         for (final String arg : args) {
             builder.append(arg);
@@ -72,25 +72,30 @@ public final class Util {
      * @param totalWidth
      *            the total width of the result string
      */
-    protected static final String pad(
+    protected static String pad(
             final String data, final char doPadWithThis,
             final int totalWidth, final Alignment orientation) {
 
         final String pad =
                 repeat(new String(new char[] { doPadWithThis }), Math.max(
                         0, totalWidth - data.length()));
-        if (orientation == Alignment.Center) {
-            return pad.substring(0, pad.length() / 2)
-                    + data
-                    + pad.substring(pad.length() / 2, pad.length());
-        }
+        String returnVal = "";
+        switch (orientation) {
+        case Center:
+            returnVal =
+                    pad.substring(0, pad.length() / 2)
+                            + data
+                            + pad
+                                    .substring(pad.length() / 2, pad
+                                            .length());
+            break;
+        case Right:
+            returnVal = new StringBuilder(pad).append(data).toString();
+        default:
+            returnVal = new StringBuilder(data).append(pad).toString();
 
-        if (orientation == Alignment.Right) {
-            return new StringBuilder(pad).append(data).toString();
-        } else {
-            return new StringBuilder(data).append(pad).toString();
         }
-
+        return returnVal;
     }
 
     /**
@@ -109,63 +114,62 @@ public final class Util {
      * </pre>
      * @return String
      */
-    protected static final String implode(
-            final String glue, final String[] what) {
+    protected static String implode(final String glue, final String[] what) {
 
-        final StringBuilder s = new StringBuilder();
+        final StringBuilder builder = new StringBuilder();
         for (int i = 0; i < what.length; i++) {
-            s.append(what[i]);
+            builder.append(what[i]);
             if (i + 1 != what.length) {
-                s.append(glue);
+                builder.append(glue);
             }
         }
-        return s.toString();
+        return builder.toString();
     }
 
     /**
      * a str_repeat function.
      * 
-     * @param s
+     * @param toBeRepeated
      *            the string to repeat
      * @param numTimes
      *            how many times to concantenate the string
      * @return the repeated string.
      */
-    protected static final String repeat(final String s, final int numTimes) {
-        String str = "";
+    protected static String repeat(final String toBeRepeated, final int numTimes) {
+        final StringBuilder builder = new StringBuilder();
 
         for (int i = 0; i < numTimes; i++) {
-            str += s;
+            builder.append(toBeRepeated);
         }
-        return str;
+        return builder.toString();
     }
 
     /**
      * Splits a string with the help of a given char.
      * 
      * @return an array of elements
-     * @param ch
+     * @param splitter
      *            the separator char
-     * @param s
+     * @param toBeSplitted
      *            the string to be splitted
      */
-    private static final String[] explode(final char ch, final String s) {
-        return s.split("\\" + ch);
+    private static String[] explode(final char splitter, final String toBeSplitted) {
+        return toBeSplitted.split("\\" + splitter);
     }
 
     /**
      * Returns how many new lines are in the string.
      * 
-     * @param s
+     * @param toExamine
      *            the string to look upon.
      * @return the number of occurences of {@link NiceTable#NEWLINE} in the
      *         string.
      */
-    private static final int numNewLines(final String s) {
-        final char[] arr = s.toCharArray();
+    private static int numNewLines(final String toExamine) {
+        final char[] arr = toExamine.toCharArray();
         int result = 0;
         for (char ch : arr) {
-            if (TabularComponent.NEWLINE.equals(new String(
+            if (AbstractTabularComponent.NEWLINE.equals(new String(
                     new char[] { ch }))) {
                 result++;
             }
@@ -178,12 +182,12 @@ public final class Util {
      * that only newlines within the string are important, not the newlines at
      * the front or the end of the string.
      * 
-     * @param s
+     * @param toExamine
      *            to be checked
      * @return boolean if the string contains newlines.
      */
-    public static final boolean containsNewlines(final String s) {
-        return s.trim().contains(TabularComponent.NEWLINE);
+    public static boolean containsNewlines(final String toExamine) {
+        return toExamine.trim().contains(AbstractTabularComponent.NEWLINE);
     }
 
     /**
@@ -194,17 +198,17 @@ public final class Util {
      * @param data
      *            an array of row data
      */
-    public static final String[][] createMatrix(final String[] data) {
+    public static String[][] createMatrix(final String[] data) {
         int maxNewLines = 0;
         for (final String col : data) {
             maxNewLines = Math.max(maxNewLines, Util.numNewLines(col));
         }
         final String[][] matrix = new String[maxNewLines + 1][data.length];
         for (int col = 0; col < data.length; col++) {
-            final String[] my = Util.explode('\n', data[col]);
+            final String[] exploded = Util.explode('\n', data[col]);
             for (int row = 0; row < maxNewLines + 1; row++) {
-                if (my.length > row) {
-                    matrix[row][col] = my[row];
+                if (exploded.length > row) {
+                    matrix[row][col] = exploded[row];
                 } else {
                     matrix[row][col] = "";
                 }

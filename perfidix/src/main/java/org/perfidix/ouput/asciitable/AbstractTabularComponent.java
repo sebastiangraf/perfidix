@@ -25,7 +25,7 @@ package org.perfidix.ouput.asciitable;
  * 
  * @author Alexander Onea, neue Couch
  */
-public abstract class TabularComponent {
+public abstract class AbstractTabularComponent {
 
     /** Alignment in the cells. */
     public enum Alignment {
@@ -53,7 +53,7 @@ public abstract class TabularComponent {
     protected static final String SPACE = " ";
 
     /** Instance to draw to. */
-    private final NiceTable table;
+    private transient final NiceTable table;
 
     /**
      * Constructor.
@@ -61,7 +61,7 @@ public abstract class TabularComponent {
      * @param paramTable
      *            to be drawn
      */
-    protected TabularComponent(final NiceTable paramTable) {
+    protected AbstractTabularComponent(final NiceTable paramTable) {
         table = paramTable;
     }
 
