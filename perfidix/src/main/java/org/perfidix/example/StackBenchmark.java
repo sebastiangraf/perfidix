@@ -53,13 +53,13 @@ public final class StackBenchmark {
     private static final int ARRAYSIZE = 100;
 
     /** Data to be written and read. */
-    private int[] intData;
+    private transient int[] intData; 
 
     /** FastStack instance. */
-    private FastIntStack fastInt;
+    private transient FastIntStack fastInt;
 
     /** Stack instance. */
-    private Stack<Integer> normalInt;
+    private transient Stack<Integer> normalInt;
 
     /**
      * Generating the data, just once per runtime.
@@ -68,10 +68,10 @@ public final class StackBenchmark {
     public void generateData() {
         final Random ran = new Random();
         intData = new int[ARRAYSIZE];
-        int i = 0;
-        while (i < ARRAYSIZE) {
-            intData[i] = ran.nextInt();
-            i++;
+        int counter = 0;
+        while (counter < ARRAYSIZE) {
+            intData[counter] = ran.nextInt();
+            counter++;
         }
     }
 

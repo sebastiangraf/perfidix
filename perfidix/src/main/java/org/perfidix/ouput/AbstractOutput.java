@@ -22,7 +22,7 @@ package org.perfidix.ouput;
 import java.lang.reflect.Method;
 import java.util.Formatter;
 
-import org.perfidix.failureHandling.PerfidixMethodException;
+import org.perfidix.exceptions.AbstractPerfidixMethodException;
 import org.perfidix.meter.AbstractMeter;
 import org.perfidix.result.BenchmarkResult;
 
@@ -70,21 +70,21 @@ public abstract class AbstractOutput {
      * Listening to an arised exception.
      * 
      * @param exec
-     *            an {@link PerfidixMethodException} instance
+     *            an {@link AbstractPerfidixMethodException} instance
      */
     public abstract void listenToException(
-            final PerfidixMethodException exec);
+            final AbstractPerfidixMethodException exec);
 
     /**
      * Formats a double.
      * 
-     * @param i
+     * @param toFormat
      *            the number to format
      * @see java.util.Formatter for the documentation.
      * @return the formatted string.
      */
-    protected static final String format(final double i) {
-        return new Formatter().format(FLOATFORMAT, i).toString();
+    protected static final String format(final double toFormat) {
+        return new Formatter().format(FLOATFORMAT, toFormat).toString();
     }
 
 }

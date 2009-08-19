@@ -36,8 +36,8 @@ import org.perfidix.element.BenchmarkExecutor;
 import org.perfidix.element.BenchmarkMethod;
 import org.perfidix.element.KindOfArrangement;
 import org.perfidix.element.NoMethodArrangement;
-import org.perfidix.failureHandling.PerfidixMethodCheckException;
-import org.perfidix.failureHandling.PerfidixMethodInvocationException;
+import org.perfidix.exceptions.PerfidixMethodCheckException;
+import org.perfidix.exceptions.PerfidixMethodInvocationException;
 import org.perfidix.meter.AbstractMeter;
 import org.perfidix.meter.Time;
 import org.perfidix.meter.TimeMeter;
@@ -52,13 +52,15 @@ import org.perfidix.result.BenchmarkResult;
 public final class Benchmark {
 
     /** Set with all registered meters. */
-    private final LinkedHashSet<AbstractMeter> meters;
+    private transient final Set<AbstractMeter> meters;
 
     /** Set with all used classes. */
-    private final Set<Class< ? >> clazzes;
+    private transient final Set<Class< ? >> clazzes;
 
     /** Already instantiated objects */
-    private final Set<Object> objects;
+    private transient Set<Object> objects;
+
+    private transient static final Random RAN = new Random();
 
     /**
      * Constructor with a fixed set of used meters.
@@ -89,12 +91,12 @@ public final class Benchmark {
      * @param clazz
      *            to be added.
      */
-    public final void add(final Class< ? > clazz) {
-        if (!this.clazzes.contains(clazz)) {
-            this.clazzes.add(clazz);
-        } else {
+    public void add(final Class< ? > clazz) {
+        if (this.clazzes.contains(clazz)) {
             throw new IllegalArgumentException(
                     "Only one class-instance per benchmark allowed");
+        } else {
+            this.clazzes.add(clazz);
         }
     }
 
@@ -105,15 +107,15 @@ public final class Benchmark {
      * @param obj
      *            to be added
      */
-    public final void add(final Object obj) {
+    public void add(final Object obj) {
         final Class< ? > clazz = obj.getClass();
 
-        if (!this.clazzes.contains(clazz)) {
-            this.clazzes.add(clazz);
-            this.objects.add(obj);
-        } else {
+        if (this.clazzes.contains(clazz)) {
             throw new IllegalArgumentException(
                     "Only one class-instance per benchmark allowed");
+        } else {
+            this.clazzes.add(clazz);
+            this.objects.add(obj);
         }
     }
 
@@ -127,7 +129,7 @@ public final class Benchmark {
      *            probability to invoke gc
      * @return the result of the Benchmark
      */
-    public final BenchmarkResult run(
+    public BenchmarkResult run(
             final double gcProb, final AbstractOutput... visitor) {
         return run(gcProb, KindOfArrangement.NoArrangement, visitor);
     }
@@ -140,7 +142,7 @@ public final class Benchmark {
      *            possible visitors
      * @return the result of the Benchmark
      */
-    public final BenchmarkResult run(final AbstractOutput... visitor) {
+    public BenchmarkResult run(final AbstractOutput... visitor) {
         return run(1.0d, visitor);
     }
 
@@ -154,7 +156,7 @@ public final class Benchmark {
      *            of methodArrangement.
      * @return the result of the Benchmark
      */
-    public final BenchmarkResult run(
+    public BenchmarkResult run(
             final KindOfArrangement kind, final AbstractOutput... visitor) {
         return run(1.0d, kind, visitor);
     }
@@ -164,7 +166,7 @@ public final class Benchmark {
      * 
      * @return a map with all methods and the runs.
      */
-    public final Map<BenchmarkMethod, Integer> getNumberOfMethodsAndRuns() {
+    public Map<BenchmarkMethod, Integer> getNumberOfMethodsAndRuns() {
         final Map<BenchmarkMethod, Integer> returnVal =
                 new HashMap<BenchmarkMethod, Integer>();
         final Set<BenchmarkMethod> meths = getBenchmarkMethods();
@@ -191,10 +193,9 @@ public final class Benchmark {
      * @return {@link BenchmarkResult} the result in an {@link BenchmarkResult}
      *         container.
      */
-    public final BenchmarkResult run(
+    public BenchmarkResult run(
             final double gcProb, final KindOfArrangement kind,
             final AbstractOutput... visitor) {
-        final Random ran = new Random();
         final BenchmarkResult res = new BenchmarkResult(visitor);
         BenchmarkExecutor.initialize(meters, res);
 
@@ -228,7 +229,7 @@ public final class Benchmark {
                 exec.executeBeforeMethods(obj);
 
                 // invoking gc if possible
-                if (ran.nextDouble() < gcProb) {
+                if (RAN.nextDouble() < gcProb) {
                     System.gc();
                 }
 
@@ -252,7 +253,7 @@ public final class Benchmark {
      *            {@link BenchmarkResult} for storing possible failures.
      * @return a mapping with class->objects for all registered classes-
      */
-    private final Map<Class< ? >, Object> instantiateMethods(
+    private Map<Class< ? >, Object> instantiateMethods(
             final BenchmarkResult res) {
         // datastructure initialization for all objects
         final Map<Class< ? >, Object> objectsToUse =
@@ -269,9 +270,9 @@ public final class Benchmark {
             // generating a new instance on which the benchmark will be
             // performed if there isn't a user generated one
             if (!objectsToUse.containsKey(clazz)) {
-                Object obj = null;
                 try {
-                    obj = clazz.newInstance();
+                    final Object obj = clazz.newInstance();
+                    objectsToUse.put(clazz, obj);
                     // otherwise adding an exception to the result
                 } catch (final InstantiationException e) {
                     res
@@ -282,7 +283,7 @@ public final class Benchmark {
                             .addException(new PerfidixMethodInvocationException(
                                     e, BeforeBenchClass.class));
                 }
-                objectsToUse.put(clazz, obj);
+
             }
         }
 
@@ -298,7 +299,7 @@ public final class Benchmark {
      *            where the Exceptions should be stored to
      * @return valid instances with valid beforeCall
      */
-    private final Map<Class< ? >, Object> executeBeforeBenchClass(
+    private Map<Class< ? >, Object> executeBeforeBenchClass(
             final Map<Class< ? >, Object> instantiatedObj,
             final BenchmarkResult res) {
 
@@ -325,31 +326,30 @@ public final class Benchmark {
             }
             // if everything worked well...
             if (continueVal) {
-                // ... either the beforeMethod will be executed and a
-                // possible exception stored to the result...
-                if (beforeClassMeth != null) {
-                    final PerfidixMethodCheckException e =
+                if (beforeClassMeth == null) {
+                    // ...either the objects is directly mapped to the class
+                    // for executing the benches
+                    returnVal.put(clazz, objectToUse);
+                } else {
+                    // ... or the beforeMethod will be executed and a
+                    // possible exception stored to the result...
+                    final PerfidixMethodCheckException beforeByCheck =
                             BenchmarkExecutor.checkMethod(
                                     objectToUse, beforeClassMeth,
                                     BeforeBenchClass.class);
-                    if (e == null) {
-                        final PerfidixMethodInvocationException e2 =
+                    if (beforeByCheck == null) {
+                        final PerfidixMethodInvocationException beforeByInvok =
                                 BenchmarkExecutor.invokeMethod(
                                         objectToUse, beforeClassMeth,
                                         BeforeBenchClass.class);
-                        if (e2 == null) {
+                        if (beforeByInvok == null) {
                             returnVal.put(clazz, objectToUse);
                         } else {
-                            res.addException(e2);
+                            res.addException(beforeByInvok);
                         }
                     } else {
-                        res.addException(e);
+                        res.addException(beforeByCheck);
                     }
-                } else {
-                    // ...or the objects is directly mapped to the class
-                    // for
-                    // executing the benches
-                    returnVal.put(clazz, objectToUse);
                 }
             }
         }
@@ -365,7 +365,7 @@ public final class Benchmark {
      * @param res
      *            the {@link BenchmarkResult} for storing possible failures.
      */
-    private final void tearDownObjectsToExecute(
+    private void tearDownObjectsToExecute(
             final Map<Class< ? >, Object> objects,
             final BenchmarkResult res) {
 
@@ -386,20 +386,20 @@ public final class Benchmark {
                 // if afterClassMethod exists, the method will be executed and
                 // possible failures will be stored in the BenchmarkResult
                 if (afterClassMeth != null) {
-                    final PerfidixMethodCheckException e1 =
+                    final PerfidixMethodCheckException afterByCheck =
                             BenchmarkExecutor.checkMethod(
                                     objectToUse, afterClassMeth,
                                     AfterBenchClass.class);
-                    if (e1 == null) {
-                        final PerfidixMethodInvocationException e2 =
+                    if (afterByCheck == null) {
+                        final PerfidixMethodInvocationException afterByInvok =
                                 BenchmarkExecutor.invokeMethod(
                                         objectToUse, afterClassMeth,
                                         AfterBenchClass.class);
-                        if (e2 != null) {
-                            res.addException(e2);
+                        if (afterByInvok != null) {
+                            res.addException(afterByInvok);
                         }
                     } else {
-                        res.addException(e1);
+                        res.addException(afterByCheck);
                     }
                 }
             }
@@ -411,7 +411,7 @@ public final class Benchmark {
      * 
      * @return a Set with {@link BenchmarkMethod}
      */
-    public final Set<BenchmarkMethod> getBenchmarkMethods() {
+    public Set<BenchmarkMethod> getBenchmarkMethods() {
         // Generating Set for returnVal
         final Set<BenchmarkMethod> elems =
                 new LinkedHashSet<BenchmarkMethod>();
@@ -435,7 +435,7 @@ public final class Benchmark {
      * 
      * @return a Set with {@link BenchmarkMethod}
      */
-    public final Set<BenchmarkElement> getBenchmarkElements() {
+    public Set<BenchmarkElement> getBenchmarkElements() {
 
         // Generating Set for returnVal
         final Set<BenchmarkElement> elems =

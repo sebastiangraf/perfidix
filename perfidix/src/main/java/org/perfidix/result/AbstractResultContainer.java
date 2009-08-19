@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  * 
- * $Id: ResultContainer.java 2624 2007-03-28 15:08:52Z kramis $
+ * $Id: AbstractResultContainer.java 2624 2007-03-28 15:08:52Z kramis $
  * 
  */
 
@@ -32,11 +32,11 @@ import java.util.Map;
  * @param <ResultType>
  *            the type of the children.
  */
-public abstract class ResultContainer<ResultType extends AbstractResult>
+public abstract class AbstractResultContainer<ResultType extends AbstractResult>
         extends AbstractResult {
 
     /** Map of all elements with the Mapping Method/Class -> ResultType. */
-    protected final Map<Object, ResultType> elements;
+    protected transient final Map<Object, ResultType> elements;
 
     /**
      * Constructor.
@@ -44,8 +44,8 @@ public abstract class ResultContainer<ResultType extends AbstractResult>
      * @param paramRelatedElement
      *            related element
      */
-    protected ResultContainer(final Object paramRelatedElement) {
-        super(paramRelatedElement);
+    protected AbstractResultContainer(final Object paramElem) {
+        super(paramElem);
         elements = new Hashtable<Object, ResultType>();
     }
 

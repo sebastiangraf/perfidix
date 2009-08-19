@@ -35,7 +35,7 @@ import org.perfidix.benchmarktestClasses.NormalCompleteBench;
 import org.perfidix.benchmarktestClasses.NormalIncompleteBench;
 import org.perfidix.element.BenchmarkMethod;
 import org.perfidix.element.KindOfArrangement;
-import org.perfidix.failureHandling.PerfidixMethodException;
+import org.perfidix.exceptions.AbstractPerfidixMethodException;
 import org.perfidix.result.BenchmarkResult;
 
 /**
@@ -45,7 +45,7 @@ import org.perfidix.result.BenchmarkResult;
  */
 public class BenchmarkTest {
 
-    private Benchmark benchmark;
+    private transient Benchmark benchmark;
 
     /**
      * Simple setUp.
@@ -65,7 +65,6 @@ public class BenchmarkTest {
     @After
     public void tearDown() throws Exception {
         NormalCompleteBench.reset();
-        benchmark = null;
     }
 
     /**
@@ -73,18 +72,23 @@ public class BenchmarkTest {
      * {@link org.perfidix.Benchmark#run(double,org.perfidix.element.KindOfArrangement, org.perfidix.ouput.AbstractOutput[])}
      * .
      */
-    // @Test
+    @Test
     public final void testRunBeforeClassError() {
         benchmark.add(BeforeBenchClassError.class);
         final BenchmarkResult benchRes =
                 benchmark.run(1.0, KindOfArrangement.NoArrangement);
-        assertEquals(0, benchRes.getRegisteredMeters().size());
-        assertEquals(1, benchRes.getExceptions().size());
-        final PerfidixMethodException exec =
+        assertEquals("Meters should be empty", 0, benchRes
+                .getRegisteredMeters().size());
+        assertEquals("One Exception should be registered", 1, benchRes
+                .getExceptions().size());
+        final AbstractPerfidixMethodException exec =
                 benchRes.getExceptions().iterator().next();
-        assertEquals(BeforeBenchClass.class, exec.getRelatedAnno());
-        assertEquals(IllegalStateException.class, exec
-                .getExec().getClass());
+        assertEquals(
+                "The related Anno should be BeforeBenchClass",
+                BeforeBenchClass.class, exec.getRelatedAnno());
+        assertEquals(
+                "The related Exception should be an IllegalStateException",
+                IllegalStateException.class, exec.getExec().getClass());
 
     }
 
@@ -98,23 +102,43 @@ public class BenchmarkTest {
         benchmark.add(NormalCompleteBench.class);
         final Map<BenchmarkMethod, Integer> mapping =
                 benchmark.getNumberOfMethodsAndRuns();
-        assertEquals(1, mapping.size());
-        assertTrue(mapping.values().contains(NormalCompleteBench.RUNS));
+        assertEquals(
+                "The mapping of methods and runs should be 1", 1, mapping
+                        .size());
+        assertTrue(
+                "The mapping contains the number of estimated runs",
+                mapping.values().contains(NormalCompleteBench.RUNS));
         final BenchmarkResult benchRes =
                 benchmark.run(1.0, KindOfArrangement.NoArrangement);
-        assertEquals(1, benchRes.getRegisteredMeters().size());
-        assertEquals(0, benchRes.getExceptions().size());
+        assertEquals("Only one meter is registered", 1, benchRes
+                .getRegisteredMeters().size());
+        assertEquals("No expcetion was thrown", 0, benchRes
+                .getExceptions().size());
 
-        assertEquals(1, NormalCompleteBench.getBeforeClassCounter());
-        assertEquals(1, NormalCompleteBench.getBeforeFirstRunCounter());
-        assertEquals(NormalCompleteBench.RUNS, NormalCompleteBench
-                .getBeforeEachRunCounter());
-        assertEquals(NormalCompleteBench.RUNS, NormalCompleteBench
-                .getBenchCounter());
-        assertEquals(NormalCompleteBench.RUNS, NormalCompleteBench
-                .getAfterEachRunCounter());
-        assertEquals(1, NormalCompleteBench.getAfterLastRunCounter());
-        assertEquals(1, NormalCompleteBench.getAfterClassCounter());
+        assertEquals(
+                "The BeforeClass-method was invoked once", 1,
+                NormalCompleteBench.getBeforeClassCounter());
+        assertEquals(
+                "The BeforeFirst-Run was invoked once", 1,
+                NormalCompleteBench.getBeforeFirstRunCounter());
+        assertEquals(
+                "The number of runs should be equal to the before-each invocations",
+                NormalCompleteBench.RUNS, NormalCompleteBench
+                        .getBeforeEachRunCounter());
+        assertEquals(
+                "The number of runs should be equal to the bench invocations",
+                NormalCompleteBench.RUNS, NormalCompleteBench
+                        .getBenchCounter());
+        assertEquals(
+                "The number of runs should be equal to the after-each invocations",
+                NormalCompleteBench.RUNS, NormalCompleteBench
+                        .getAfterEachRunCounter());
+        assertEquals(
+                "The AfterLast-Run was invoked once", 1,
+                NormalCompleteBench.getAfterLastRunCounter());
+        assertEquals(
+                "The AfterClass-method was invoked once", 1,
+                NormalCompleteBench.getAfterClassCounter());
     }
 
     /**
@@ -122,13 +146,15 @@ public class BenchmarkTest {
      * {@link org.perfidix.Benchmark#run(double,org.perfidix.element.KindOfArrangement, org.perfidix.ouput.AbstractOutput[])}
      * .
      */
-    // @Test
+    @Test
     public final void testIncompleteBenchrun() {
         benchmark.add(NormalIncompleteBench.class);
         final BenchmarkResult benchRes =
                 benchmark.run(1.0, KindOfArrangement.NoArrangement);
-        assertEquals(0, benchRes.getRegisteredMeters().size());
-        assertEquals(0, benchRes.getExceptions().size());
+        assertEquals("No Meter is given", 0, benchRes
+                .getRegisteredMeters().size());
+        assertEquals("No Exception is thrown", 0, benchRes
+                .getExceptions().size());
     }
 
     /**
@@ -139,19 +165,33 @@ public class BenchmarkTest {
         benchmark.add(NormalCompleteBench.class);
         final BenchmarkResult benchRes =
                 benchmark.run(1.0, KindOfArrangement.NoArrangement);
-        assertEquals(1, benchRes.getRegisteredMeters().size());
-        assertEquals(0, benchRes.getExceptions().size());
+        assertEquals("One meter is registered", 1, benchRes
+                .getRegisteredMeters().size());
+        assertEquals("No exception is thrown", 0, benchRes
+                .getExceptions().size());
 
-        assertEquals(1, NormalCompleteBench.getBeforeClassCounter());
-        assertEquals(1, NormalCompleteBench.getBeforeFirstRunCounter());
-        assertEquals(NormalCompleteBench.RUNS, NormalCompleteBench
-                .getBeforeEachRunCounter());
-        assertEquals(NormalCompleteBench.RUNS, NormalCompleteBench
-                .getBenchCounter());
-        assertEquals(NormalCompleteBench.RUNS, NormalCompleteBench
-                .getAfterEachRunCounter());
-        assertEquals(1, NormalCompleteBench.getAfterLastRunCounter());
-        assertEquals(1, NormalCompleteBench.getAfterClassCounter());
+        assertEquals(
+                "Before-Class is invoked once", 1, NormalCompleteBench
+                        .getBeforeClassCounter());
+        assertEquals(
+                "Before-First is invoked once", 1, NormalCompleteBench
+                        .getBeforeFirstRunCounter());
+        assertEquals(
+                "Before-Each is invoked as much as bench",
+                NormalCompleteBench.RUNS, NormalCompleteBench
+                        .getBeforeEachRunCounter());
+        assertEquals(
+                "Bench is invoked as much as bench",
+                NormalCompleteBench.RUNS, NormalCompleteBench
+                        .getBenchCounter());
+        assertEquals(
+                "After-Each is invoked as much as bench",
+                NormalCompleteBench.RUNS, NormalCompleteBench
+                        .getAfterEachRunCounter());
+        assertEquals("After-Last is invoked once", 1, NormalCompleteBench
+                .getAfterLastRunCounter());
+        assertEquals("After-Class is invoked once", 1, NormalCompleteBench
+                .getAfterClassCounter());
     }
 
     /**
@@ -163,26 +203,40 @@ public class BenchmarkTest {
         benchmark.add(obj);
         final BenchmarkResult benchRes =
                 benchmark.run(1.0, KindOfArrangement.NoArrangement);
-        assertEquals(1, benchRes.getRegisteredMeters().size());
-        assertEquals(0, benchRes.getExceptions().size());
+        assertEquals("One meter is registered", 1, benchRes
+                .getRegisteredMeters().size());
+        assertEquals("No exception is thrown", 0, benchRes
+                .getExceptions().size());
 
-        assertEquals(1, NormalCompleteBench.getBeforeClassCounter());
-        assertEquals(1, NormalCompleteBench.getBeforeFirstRunCounter());
-        assertEquals(NormalCompleteBench.RUNS, NormalCompleteBench
-                .getBeforeEachRunCounter());
-        assertEquals(NormalCompleteBench.RUNS, NormalCompleteBench
-                .getBenchCounter());
-        assertEquals(NormalCompleteBench.RUNS, NormalCompleteBench
-                .getAfterEachRunCounter());
-        assertEquals(1, NormalCompleteBench.getAfterLastRunCounter());
-        assertEquals(1, NormalCompleteBench.getAfterClassCounter());
+        assertEquals(
+                "Before-Class is invoked once", 1, NormalCompleteBench
+                        .getBeforeClassCounter());
+        assertEquals(
+                "Before-First is invoked once", 1, NormalCompleteBench
+                        .getBeforeFirstRunCounter());
+        assertEquals(
+                "Before-Each is invoked as much as bench",
+                NormalCompleteBench.RUNS, NormalCompleteBench
+                        .getBeforeEachRunCounter());
+        assertEquals(
+                "Bench is invoked as much as bench",
+                NormalCompleteBench.RUNS, NormalCompleteBench
+                        .getBenchCounter());
+        assertEquals(
+                "After-Each is invoked as much as bench",
+                NormalCompleteBench.RUNS, NormalCompleteBench
+                        .getAfterEachRunCounter());
+        assertEquals("After-Last is invoked once", 1, NormalCompleteBench
+                .getAfterLastRunCounter());
+        assertEquals("After-Class is invoked once", 1, NormalCompleteBench
+                .getAfterClassCounter());
     }
 
     /**
      * Test method for {@link org.perfidix.Benchmark#add(Object)} and
      * {@link org.perfidix.Benchmark#add(Class)}.
      */
-    // @Test(expected = IllegalArgumentException.class)
+    @Test(expected = IllegalArgumentException.class)
     public final void testAddObjectAndClass() {
         final NormalCompleteBench obj = new NormalCompleteBench();
         benchmark.add(obj);
@@ -193,7 +247,7 @@ public class BenchmarkTest {
      * Test method for {@link org.perfidix.Benchmark#add(Object)} and
      * {@link org.perfidix.Benchmark#add(Class)}.
      */
-    // @Test(expected = IllegalArgumentException.class)
+    @Test(expected = IllegalArgumentException.class)
     public final void testAddObjectAndClassWithoutBefore() {
         final NormalBenchForClassAndObjectAdd obj =
                 new NormalBenchForClassAndObjectAdd();

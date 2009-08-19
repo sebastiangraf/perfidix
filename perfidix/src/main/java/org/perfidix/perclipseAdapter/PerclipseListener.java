@@ -22,7 +22,7 @@ package org.perfidix.perclipseAdapter;
 
 import java.lang.reflect.Method;
 
-import org.perfidix.failureHandling.PerfidixMethodException;
+import org.perfidix.exceptions.AbstractPerfidixMethodException;
 import org.perfidix.meter.AbstractMeter;
 import org.perfidix.ouput.AbstractOutput;
 import org.perfidix.result.BenchmarkResult;
@@ -51,7 +51,7 @@ public final class PerclipseListener extends AbstractOutput {
 
     /** {@inheritDoc} */
     @Override
-    public void listenToException(PerfidixMethodException exec) {
+    public void listenToException(AbstractPerfidixMethodException exec) {
         view.updateErrorInElement((exec
                 .getMethod().getDeclaringClass().getName()
                 + "." + exec.getMethod().getName()));

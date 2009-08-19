@@ -26,14 +26,15 @@ import java.lang.reflect.Method;
 import java.util.Hashtable;
 import java.util.LinkedHashSet;
 import java.util.Map;
+import java.util.Set;
 
 import org.perfidix.annotation.AfterEachRun;
 import org.perfidix.annotation.AfterLastRun;
 import org.perfidix.annotation.BeforeEachRun;
 import org.perfidix.annotation.BeforeFirstRun;
 import org.perfidix.annotation.Bench;
-import org.perfidix.failureHandling.PerfidixMethodCheckException;
-import org.perfidix.failureHandling.PerfidixMethodInvocationException;
+import org.perfidix.exceptions.PerfidixMethodCheckException;
+import org.perfidix.exceptions.PerfidixMethodInvocationException;
 import org.perfidix.meter.AbstractMeter;
 import org.perfidix.result.BenchmarkResult;
 
@@ -57,23 +58,23 @@ public final class BenchmarkExecutor {
             new Hashtable<BenchmarkMethod, BenchmarkExecutor>();
 
     /** Set with all meters to be benched automatically. */
-    private static final LinkedHashSet<AbstractMeter> METERS_TO_BENCH =
+    private static final Set<AbstractMeter> METERS_TO_BENCH =
             new LinkedHashSet<AbstractMeter>();
 
     /** Result for all Benchmarks. */
     private static BenchmarkResult benchRes;
 
     /** Boolean to be sure that the beforeFirstRun was not executed yet. */
-    private boolean beforeFirstRunExecuted;
+    private transient boolean beforeFirstRun;
 
     /** Boolean to be sure that the afterLastRun was not executed yet. */
-    private boolean afterLastRunExecuted;
+    private transient boolean afterLastRun;
 
     /**
      * Corresponding BenchmarkElement of this executor to get the before/after
      * methods.
      */
-    private final BenchmarkMethod element;
+    private transient final BenchmarkMethod element;
 
     /**
      * Private constructor, just setting the booleans and one element to get the
@@ -84,8 +85,8 @@ public final class BenchmarkExecutor {
      *            methods.
      */
     private BenchmarkExecutor(final BenchmarkMethod paramElement) {
-        beforeFirstRunExecuted = false;
-        afterLastRunExecuted = false;
+        beforeFirstRun = false;
+        afterLastRun = false;
         element = paramElement;
     }
 
@@ -98,8 +99,7 @@ public final class BenchmarkExecutor {
      * @return the BenchmarkExecutor corresponding to the Method of the
      *         BenchmarkElement
      */
-    public static final BenchmarkExecutor getExecutor(
-            final BenchmarkElement meth) {
+    public static BenchmarkExecutor getExecutor(final BenchmarkElement meth) {
         if (benchRes == null) {
             throw new IllegalStateException(
                     "Call initialize method first!");
@@ -124,9 +124,8 @@ public final class BenchmarkExecutor {
      * @param result
      *            to be stored to
      */
-    public static final void initialize(
-            final LinkedHashSet<AbstractMeter> meters,
-            final BenchmarkResult result) {
+    public static void initialize(
+            final Set<AbstractMeter> meters, final BenchmarkResult result) {
         METERS_TO_BENCH.clear();
         METERS_TO_BENCH.addAll(meters);
         EXECUTOR.clear();
@@ -141,11 +140,11 @@ public final class BenchmarkExecutor {
      * @param obj
      *            the object of the class where the bench runs currently in.
      */
-    public final void executeBeforeMethods(final Object obj) {
+    public void executeBeforeMethods(final Object obj) {
 
         // invoking once the beforeFirstRun-method
-        if (!beforeFirstRunExecuted) {
-            beforeFirstRunExecuted = true;
+        if (!beforeFirstRun) {
+            beforeFirstRun = true;
 
             Method beforeFirst = null;
             try {
@@ -181,38 +180,38 @@ public final class BenchmarkExecutor {
      *            the instance of the benchclass where the method should be
      *            executed with.
      */
-    public final void executeBench(final Object objToExecute) {
+    public void executeBench(final Object objToExecute) {
 
         final double[] meterResults = new double[METERS_TO_BENCH.size()];
 
         final Method meth = element.getMethodToBench();
 
-        int i = 0;
-        int j = 0;
+        int meterIndex1 = 0;
+        int meterIndex2 = 0;
         for (final AbstractMeter meter : METERS_TO_BENCH) {
-            meterResults[i] = meter.getValue();
-            i++;
+            meterResults[meterIndex1] = meter.getValue();
+            meterIndex1++;
         }
 
         final PerfidixMethodInvocationException res =
                 invokeMethod(objToExecute, meth, Bench.class);
 
         for (final AbstractMeter meter : METERS_TO_BENCH) {
-            meterResults[j] = meter.getValue() - meterResults[j];
-            j++;
+            meterResults[meterIndex2] =
+                    meter.getValue() - meterResults[meterIndex2];
+            meterIndex2++;
         }
 
-        if (res != null) {
-            benchRes.addException(res);
-        } else {
-            i = 0;
+        if (res == null) {
+            meterIndex1 = 0;
             for (final AbstractMeter meter : METERS_TO_BENCH) {
-                benchRes
-                        .addData(
-                                element.getMethodToBench(), meter,
-                                meterResults[i]);
-                i++;
+                benchRes.addData(
+                        element.getMethodToBench(), meter,
+                        meterResults[meterIndex1]);
+                meterIndex1++;
             }
+        } else {
+            benchRes.addException(res);
         }
 
     }
@@ -224,11 +223,11 @@ public final class BenchmarkExecutor {
      * @param obj
      *            the object of the class where the bench runs currently in.
      */
-    public final void executeAfterMethods(final Object obj) {
+    public void executeAfterMethods(final Object obj) {
 
         // invoking once the beforeFirstRun-method
-        if (!afterLastRunExecuted) {
-            afterLastRunExecuted = true;
+        if (!afterLastRun) {
+            afterLastRun = true;
             Method afterLast = null;
             try {
                 afterLast = element.findAfterLastRun();
@@ -266,19 +265,20 @@ public final class BenchmarkExecutor {
      * @param anno
      *            the related annotation
      */
-    private final void checkAndExectuteBeforeAfters(
+    private void checkAndExectuteBeforeAfters(
             final Object obj, final Method meth,
             final Class< ? extends Annotation> anno) {
         final PerfidixMethodCheckException checkExc =
                 checkMethod(obj, meth, anno);
-        if (checkExc != null) {
-            benchRes.addException(checkExc);
-        } else {
+        if (checkExc == null) {
             final PerfidixMethodInvocationException invoExc =
                     invokeMethod(obj, meth, anno);
             if (invoExc != null) {
                 benchRes.addException(invoExc);
             }
+
+        } else {
+            benchRes.addException(checkExc);
         }
     }
 
@@ -294,24 +294,27 @@ public final class BenchmarkExecutor {
      * @return {@link PerfidixMethodInvocationException} if invocation fails,
      *         null otherwise.
      */
-    public static final PerfidixMethodInvocationException invokeMethod(
+    public static PerfidixMethodInvocationException invokeMethod(
             final Object obj, final Method meth,
             final Class< ? extends Annotation> relatedAnno) {
         final Object[] args = {};
-
+        PerfidixMethodInvocationException returnVal = null;
         try {
             meth.invoke(obj, args);
         } catch (final IllegalArgumentException e) {
-            return new PerfidixMethodInvocationException(
-                    e, meth, relatedAnno);
+            returnVal =
+                    new PerfidixMethodInvocationException(
+                            e, meth, relatedAnno);
         } catch (final IllegalAccessException e) {
-            return new PerfidixMethodInvocationException(
-                    e, meth, relatedAnno);
+            returnVal =
+                    new PerfidixMethodInvocationException(
+                            e, meth, relatedAnno);
         } catch (final InvocationTargetException e) {
-            return new PerfidixMethodInvocationException(
-                    e.getCause(), meth, relatedAnno);
+            returnVal =
+                    new PerfidixMethodInvocationException(
+                            e.getCause(), meth, relatedAnno);
         }
-        return null;
+        return returnVal;
     }
 
     /**
@@ -327,37 +330,43 @@ public final class BenchmarkExecutor {
      * @return {@link PerfidixMethodCheckException} if something is wrong in the
      *         mapping, null otherwise.
      */
-    public static final PerfidixMethodCheckException checkMethod(
+    public static PerfidixMethodCheckException checkMethod(
             final Object obj, final Method meth,
             final Class< ? extends Annotation> anno) {
         // check if the class of the object to be executed has the given method
-        boolean correlationClassMethod = false;
+        boolean classMethodCorr = false;
         for (final Method methodOfClass : obj
                 .getClass().getDeclaredMethods()) {
             if (methodOfClass.equals(meth)) {
-                correlationClassMethod = true;
+                classMethodCorr = true;
             }
         }
 
-        if (!correlationClassMethod) {
-            return new PerfidixMethodCheckException(
-                    new IllegalStateException(new StringBuilder(
-                            "Object to execute ")
-                            .append(obj).append(
-                                    " is not having a Method named ")
-                            .append(meth).append(".").toString()), meth,
-                    anno);
+        PerfidixMethodCheckException returnVal = null;
+        if (!classMethodCorr) {
+            returnVal =
+                    new PerfidixMethodCheckException(
+                            new IllegalStateException(
+                                    new StringBuilder("Object to execute ")
+                                            .append(obj)
+                                            .append(
+                                                    " is not having a Method named ")
+                                            .append(meth).append(".")
+                                            .toString()), meth, anno);
         }
 
         // check if the method is reflected executable
         if (!BenchmarkMethod.isReflectedExecutable(meth)) {
-            return new PerfidixMethodCheckException(
-                    new IllegalAccessException(new StringBuilder(
-                            "Method to execute ").append(meth).append(
-                            " is not reflected executable.").toString()),
-                    meth, anno);
+            returnVal =
+                    new PerfidixMethodCheckException(
+                            new IllegalAccessException(
+                                    new StringBuilder("Method to execute ")
+                                            .append(meth)
+                                            .append(
+                                                    " is not reflected executable.")
+                                            .toString()), meth, anno);
         }
-        return null;
+        return returnVal;
     }
 
 }

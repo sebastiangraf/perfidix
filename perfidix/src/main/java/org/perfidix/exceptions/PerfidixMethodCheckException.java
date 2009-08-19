@@ -18,7 +18,7 @@
  * $Date$
  *
  */
-package org.perfidix.failureHandling;
+package org.perfidix.exceptions;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
@@ -30,7 +30,7 @@ import java.lang.reflect.Method;
  * @author Sebastian Graf, University of Konstanz
  */
 public final class PerfidixMethodCheckException
-        extends PerfidixMethodException {
+        extends AbstractPerfidixMethodException {
 
     /** serializable id. */
     private static final long serialVersionUID = -2181496089750788312L;

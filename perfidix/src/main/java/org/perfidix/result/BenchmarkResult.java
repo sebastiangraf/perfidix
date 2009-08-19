@@ -24,7 +24,7 @@ import java.lang.reflect.Method;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.perfidix.failureHandling.PerfidixMethodException;
+import org.perfidix.exceptions.AbstractPerfidixMethodException;
 import org.perfidix.meter.AbstractMeter;
 import org.perfidix.ouput.AbstractOutput;
 
@@ -35,13 +35,14 @@ import org.perfidix.ouput.AbstractOutput;
  * @author Sebastian Graf, University of Konstanz
  * @author Alexander Onea, neue Couch
  */
-public final class BenchmarkResult extends ResultContainer<ClassResult> {
+public final class BenchmarkResult
+        extends AbstractResultContainer<ClassResult> {
 
     /** All occured exceptions. */
-    private final Set<PerfidixMethodException> exceptions;
+    private transient final Set<AbstractPerfidixMethodException> exceptions;
 
     /** Outputs for listeners. */
-    private final AbstractOutput[] outputs;
+    private transient final AbstractOutput[] outputs;
 
     /**
      * Constructor.
@@ -51,13 +52,13 @@ public final class BenchmarkResult extends ResultContainer<ClassResult> {
      */
     public BenchmarkResult(final AbstractOutput... paramOutputs) {
         super(null);
-        this.exceptions = new HashSet<PerfidixMethodException>();
+        this.exceptions = new HashSet<AbstractPerfidixMethodException>();
         outputs = paramOutputs;
     }
 
     /** {@inheritDoc} */
     @Override
-    public final String getElementName() {
+    public String getElementName() {
         return "Benchmark";
     }
 
@@ -72,7 +73,7 @@ public final class BenchmarkResult extends ResultContainer<ClassResult> {
      * @param data
      *            the data itself
      */
-    public final void addData(
+    public void addData(
             final Method meth, final AbstractMeter meter, final double data) {
 
         final Class< ? > clazz = meth.getDeclaringClass();
@@ -102,7 +103,7 @@ public final class BenchmarkResult extends ResultContainer<ClassResult> {
      * @param exec
      *            the exception stored to this result
      */
-    public final void addException(final PerfidixMethodException exec) {
+    public void addException(final AbstractPerfidixMethodException exec) {
         this.getExceptions().add(exec);
         for (final AbstractOutput output : outputs) {
             output.listenToException(exec);
@@ -114,7 +115,7 @@ public final class BenchmarkResult extends ResultContainer<ClassResult> {
      * 
      * @return the exceptions
      */
-    public final Set<PerfidixMethodException> getExceptions() {
+    public Set<AbstractPerfidixMethodException> getExceptions() {
         return exceptions;
     }
 
@@ -122,7 +123,7 @@ public final class BenchmarkResult extends ResultContainer<ClassResult> {
      * {@inheritDoc}
      */
     @Override
-    public final String toString() {
+    public String toString() {
         final StringBuilder builder = new StringBuilder(super.toString());
         builder.append("\nexceptions: ").append(getExceptions());
         return builder.toString();

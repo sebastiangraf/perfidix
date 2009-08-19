@@ -39,7 +39,7 @@ import org.perfidix.annotation.Bench;
  */
 public class ShuffleMethodArrangementTest {
 
-    private Set<BenchmarkElement> elemSet;
+    private transient Set<BenchmarkElement> elemSet;
 
     /**
      * Before method to setUp Benchmarkables.
@@ -47,7 +47,7 @@ public class ShuffleMethodArrangementTest {
     @Before
     public void setUp() {
         elemSet = new HashSet<BenchmarkElement>();
-        final Class< ? > testClazz = new TestBenchClass().getClass();
+        final Class< ? > testClazz = TestBenchClass.class;
         for (final Method meth : testClazz.getDeclaredMethods()) {
             if (BenchmarkMethod.isBenchmarkable(meth)) {
                 elemSet

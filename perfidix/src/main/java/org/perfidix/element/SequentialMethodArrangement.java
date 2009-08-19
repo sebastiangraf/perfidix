@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Hashtable;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.Map.Entry;
@@ -61,9 +62,9 @@ public final class SequentialMethodArrangement
 
     /** {@inheritDoc} */
     @Override
-    protected final List<BenchmarkElement> arrangeList(
+    protected List<BenchmarkElement> arrangeList(
             final Set<BenchmarkElement> elements) {
-        final Hashtable<BenchmarkMethod, ArrayList<BenchmarkElement>> table =
+        final Map<BenchmarkMethod, ArrayList<BenchmarkElement>> table =
                 new Hashtable<BenchmarkMethod, ArrayList<BenchmarkElement>>();
         final List<BenchmarkElement> returnVal =
                 new ArrayList<BenchmarkElement>();
@@ -100,9 +101,9 @@ public final class SequentialMethodArrangement
 
         for (int i = 0; i < numberOfElements; i++) {
             BenchmarkElement elem = null;
-            int j = 0;
+            int indexPart = 0;
             while (elem == null) {
-                int index = (i + j) % methods.size();
+                final int index = (i + indexPart) % methods.size();
                 final BenchmarkMethod methodToInclude = methods.get(index);
                 if (table.containsKey(methodToInclude)) {
                     elem = table.get(methodToInclude).remove(0);
@@ -110,7 +111,7 @@ public final class SequentialMethodArrangement
                         table.remove(methodToInclude);
                     }
                 }
-                j++;
+                indexPart++;
             }
             returnVal.add(elem);
         }
@@ -129,14 +130,15 @@ public final class SequentialMethodArrangement
 
         /** {@inheritDoc} */
         public int compare(
-                final Entry<BenchmarkMethod, ArrayList<BenchmarkElement>> o1,
-                final Entry<BenchmarkMethod, ArrayList<BenchmarkElement>> o2) {
-            if (o1.getValue().size() > o2.getValue().size()) {
-                return -1;
+                final Entry<BenchmarkMethod, ArrayList<BenchmarkElement>> object1,
+                final Entry<BenchmarkMethod, ArrayList<BenchmarkElement>> object2) {
+            int returnVal = 0;
+            if (object1.getValue().size() > object2.getValue().size()) {
+                returnVal = -1;
             } else {
-                return 1;
+                returnVal = 1;
             }
-
+            return returnVal;
         }
 
     }

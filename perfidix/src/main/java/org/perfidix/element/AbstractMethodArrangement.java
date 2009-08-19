@@ -40,7 +40,7 @@ public abstract class AbstractMethodArrangement
      * List to hold all benchmarkable elements in the correct order as a base
      * for the iterator.
      */
-    private final List<BenchmarkElement> elementList;
+    private transient final List<BenchmarkElement> elementList;
 
     /**
      * Constructor which takes all benchmarkable methods. These methods are
@@ -85,16 +85,24 @@ public abstract class AbstractMethodArrangement
     public static final AbstractMethodArrangement getMethodArrangement(
             final Set<BenchmarkElement> elements,
             final KindOfArrangement kind) {
+        AbstractMethodArrangement arrang = null;
         switch (kind) {
         case NoArrangement:
-            return new NoMethodArrangement(elements);
+            arrang = new NoMethodArrangement(elements);
+            break;
         case ShuffleArrangement:
-            return new ShuffleMethodArrangement(elements);
+            arrang = new ShuffleMethodArrangement(elements);
+            break;
         case SequentialMethodArrangement:
-            return new SequentialMethodArrangement(elements);
+            arrang = new SequentialMethodArrangement(elements);
+            break;
         default:
+            break;
+        }
+        if (arrang == null) {
             throw new IllegalArgumentException("Kind not known!");
-
+        } else {
+            return arrang;
         }
 
     }

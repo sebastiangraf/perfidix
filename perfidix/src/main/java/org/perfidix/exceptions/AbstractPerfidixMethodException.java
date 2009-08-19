@@ -18,7 +18,7 @@
  * $Date$
  *
  */
-package org.perfidix.failureHandling;
+package org.perfidix.exceptions;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
@@ -29,22 +29,22 @@ import java.lang.reflect.Method;
  * 
  * @author Sebastian Graf, University of Konstanz
  */
-public abstract class PerfidixMethodException extends Exception {
+public abstract class AbstractPerfidixMethodException extends Exception {
     /** Serial because of serializable. */
     private static final long serialVersionUID = 5251116501564408317L;
 
     /**
      * Encapsulated Exception.
      */
-    private final Throwable exec;
+    private transient final Throwable exec;
 
     /**
      * Related method.
      */
-    private final Method meth;
+    private transient final Method meth;
 
     /** Related annotation to this method. */
-    private final Class< ? extends Annotation> relatedAnno;
+    private transient final Class< ? extends Annotation> relatedAnno;
 
     /**
      * Simple Constructor.
@@ -56,9 +56,10 @@ public abstract class PerfidixMethodException extends Exception {
      * @param paramAnnotation
      *            the related annotation to this method
      */
-    public PerfidixMethodException(
+    public AbstractPerfidixMethodException(
             final Throwable paramExec, final Method paramMeth,
             final Class< ? extends Annotation> paramAnnotation) {
+        super();
         this.exec = paramExec;
         this.meth = paramMeth;
         this.relatedAnno = paramAnnotation;
@@ -117,44 +118,46 @@ public abstract class PerfidixMethodException extends Exception {
     /** {@inheritDoc} */
     @Override
     public final boolean equals(final Object obj) {
+        boolean returnVal = true;
         if (this == obj) {
-            return true;
+            returnVal = true;
         }
         if (obj == null) {
-            return false;
+            returnVal = false;
         }
         if (getClass() != obj.getClass()) {
-            return false;
+            returnVal = false;
         }
-        PerfidixMethodException other = (PerfidixMethodException) obj;
+        final AbstractPerfidixMethodException other =
+                (AbstractPerfidixMethodException) obj;
         if (exec == null) {
             if (other.exec != null) {
-                return false;
+                returnVal = false;
             }
         } else {
             if (!exec.equals(other.exec)) {
-                return false;
+                returnVal = false;
             }
         }
         if (meth == null) {
             if (other.meth != null) {
-                return false;
+                returnVal = false;
             }
         } else {
             if (!meth.equals(other.meth)) {
-                return false;
+                returnVal = false;
             }
         }
         if (relatedAnno == null) {
             if (other.relatedAnno != null) {
-                return false;
+                returnVal = false;
             }
         } else {
             if (!relatedAnno.equals(other.relatedAnno)) {
-                return false;
+                returnVal = false;
             }
         }
-        return true;
+        return returnVal;
     }
 
     /**
