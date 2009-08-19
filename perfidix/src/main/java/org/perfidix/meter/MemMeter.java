@@ -42,10 +42,10 @@ public final class MemMeter extends AbstractMeter {
     private static final String NAME = "MemMeter";
 
     /** Amount of already used memory. */
-    private double memAlreadyUsed;
+    private transient double memAlreadyUsed;
 
     /** Scale of memory. */
-    private final Memory scale;
+    private transient final Memory scale;
 
     /**
      * Constructor.
@@ -63,10 +63,12 @@ public final class MemMeter extends AbstractMeter {
      * {@inheritDoc}
      */
     @Override
-    public final double getValue() {
-        final Runtime rt = Runtime.getRuntime();
+    public double getValue() {
+        final Runtime runtime = Runtime.getRuntime();
         memAlreadyUsed =
-                memAlreadyUsed + rt.totalMemory() - rt.freeMemory();
+                memAlreadyUsed
+                        + runtime.totalMemory()
+                        - runtime.freeMemory();
         return new BigDecimal(memAlreadyUsed, MathContext.DECIMAL128)
                 .divide(
                         new BigDecimal(scale.getNumberOfBytes()),
@@ -75,25 +77,25 @@ public final class MemMeter extends AbstractMeter {
 
     /** {@inheritDoc} */
     @Override
-    public final String getName() {
+    public String getName() {
         return NAME;
     }
 
     /** {@inheritDoc} */
     @Override
-    public final String getUnit() {
+    public String getUnit() {
         return scale.getUnit();
     }
 
     /** {@inheritDoc} */
     @Override
-    public final String getUnitDescription() {
+    public String getUnitDescription() {
         return scale.getUnitDescription();
     }
 
     /** {@inheritDoc} */
     @Override
-    public final int hashCode() {
+    public int hashCode() {
         final int prime = 31;
         int result = prime;
         if (scale == null) {
@@ -107,24 +109,25 @@ public final class MemMeter extends AbstractMeter {
 
     /** {@inheritDoc} */
     @Override
-    public final boolean equals(final Object obj) {
+    public boolean equals(final Object obj) {
+        boolean returnVal = true;
         if (this == obj) {
-            return true;
+            returnVal = true;
         }
         if (getClass() != obj.getClass()) {
-            return false;
+            returnVal = false;
         }
-        MemMeter other = (MemMeter) obj;
+        final MemMeter other = (MemMeter) obj;
         if (scale == null) {
             if (other.scale != null) {
-                return false;
+                returnVal = false;
             }
         } else {
             if (!scale.equals(other.scale)) {
-                return false;
+                returnVal = false;
             }
         }
-        return true;
+        return returnVal;
     }
 
 }

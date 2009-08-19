@@ -30,7 +30,7 @@ public final class ThreadMeter extends AbstractMeter {
     /**
      * the threadgroup to analyse.
      */
-    private final ThreadGroup topThreadGroup;
+    private transient final ThreadGroup topThreadGroup;
 
     /** Name of the Meter. */
     private static final String NAME = "ThreadMeter";
@@ -62,24 +62,25 @@ public final class ThreadMeter extends AbstractMeter {
      *            the group of number of threads to analyse.
      */
     public ThreadMeter(final ThreadGroup group) {
+        super();
         this.topThreadGroup = group;
     }
 
     /** {@inheritDoc} */
     @Override
-    public final String getName() {
+    public String getName() {
         return NAME;
     }
 
     /** {@inheritDoc} */
     @Override
-    public final String getUnit() {
+    public String getUnit() {
         return UNIT;
     }
 
     /** {@inheritDoc} */
     @Override
-    public final String getUnitDescription() {
+    public String getUnitDescription() {
         return DESCRIPTION;
     }
 
@@ -91,7 +92,7 @@ public final class ThreadMeter extends AbstractMeter {
 
     /** {@inheritDoc} */
     @Override
-    public final int hashCode() {
+    public int hashCode() {
         final int prime = 31;
         int result = prime;
         result = prime * result;
@@ -101,15 +102,17 @@ public final class ThreadMeter extends AbstractMeter {
 
     /** {@inheritDoc} */
     @Override
-    public final boolean equals(final Object obj) {
+    public boolean equals(final Object obj) {
+        boolean returnVal = true;
         if (this == obj) {
-            return true;
+            returnVal = true;
         }
-        if (getClass() != obj.getClass()) {
-            return false;
+        if (getClass() == obj.getClass()) {
+            returnVal = true;
         } else {
-            return true;
+            returnVal = false;
         }
+        return returnVal;
     }
 
 }
