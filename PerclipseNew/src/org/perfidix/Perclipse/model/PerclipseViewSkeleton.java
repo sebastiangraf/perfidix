@@ -39,7 +39,7 @@ public class PerclipseViewSkeleton extends Thread {
             serverSocket = new ServerSocket(serverPort);
         } catch (IOException e) {
             PerclipseActivator.log(e);
-            e.printStackTrace();
+
         }
     }
 
@@ -80,7 +80,7 @@ public class PerclipseViewSkeleton extends Thread {
                     finished = true;
                     PerclipseActivator.logInfo("Bench process finished");
                 } else {
-                    throw new RuntimeException("unknown command:" + command);
+                    PerclipseActivator.logInfo("Unknown command:" + command +"received.");
                 }
             } catch (IOException e) {
                 if (e instanceof EOFException) {

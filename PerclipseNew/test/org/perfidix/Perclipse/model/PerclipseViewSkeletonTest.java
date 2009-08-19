@@ -103,7 +103,74 @@ public class PerclipseViewSkeletonTest {
         stubForSkeletonTest.updateError("package.Class.method1");
         stubForSkeletonTest.finishedBenchRuns();
     }
+    /**
+     * Test the stub skeleton for exception.
+     */
+    @Test(expected=RuntimeException.class)
+    public void testForFalsePortException(){
+        WorkerStubForSkeletonTest stubForSkeletonTest =
+            new WorkerStubForSkeletonTest(null, 9999);
+    }
+    
+    /**
+     * Test the stub skeleton for exception.
+     */
+    @Test(expected=RuntimeException.class)
+    public void testForFalseHostException(){
+        WorkerStubForSkeletonTest stubForSkeletonTest =
+            new WorkerStubForSkeletonTest("notLocalHost", port);
+    }
+    
+    /**
+     * Test the stub skeleton for exception.
+     */
+    @Test(expected=RuntimeException.class)
+    public void testForInitException(){
+        WorkerStubForSkeletonTest stubForSkeletonTest =
+            new WorkerStubForSkeletonTest(null, port);
+        stubForSkeletonTest.finishedBenchRuns();
+        stubForSkeletonTest.initTotalBenchProgress(elementsMap);
+    }
+    
+    /**
+     * Test the stub skeleton for exception.
+     */
+    @Test(expected=RuntimeException.class)
+    public void testForUpdateRunException(){
+        WorkerStubForSkeletonTest stubForSkeletonTest =
+            new WorkerStubForSkeletonTest(null, port);
+        stubForSkeletonTest.finishedBenchRuns();
+        stubForSkeletonTest.updateCurrentRun("element");
+    }
+    
+    /**
+     * Test the stub skeleton for exception.
+     */
+    @Test(expected=RuntimeException.class)
+    public void testForUpdateErrorException(){
+        WorkerStubForSkeletonTest stubForSkeletonTest =
+            new WorkerStubForSkeletonTest(null, port);
+        stubForSkeletonTest.finishedBenchRuns();
+        stubForSkeletonTest.updateError("element");
+    }
+    
+    /**
+     * Test the stub skeleton for exception.
+     */
+    @Test(expected=RuntimeException.class)
+    public void testForFinishedBenchsException(){
+        WorkerStubForSkeletonTest stubForSkeletonTest =
+            new WorkerStubForSkeletonTest(null, port);
+        stubForSkeletonTest.finishedBenchRuns();
+        stubForSkeletonTest.finishedBenchRuns();
+    }
 
+    /**
+     * WorkerStub simulates the stub of perfidix. 
+     * 
+     * @author Lewandowski Lukas, DiSy, Univesity of Konstanz
+     *
+     */
     private class WorkerStubForSkeletonTest {
         private String host;
         private int viewListenerPort;
@@ -132,11 +199,9 @@ public class PerclipseViewSkeletonTest {
                 socket = new Socket(this.host, this.viewListenerPort);
                 outputStream = new ObjectOutputStream(socket.getOutputStream());
             } catch (UnknownHostException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+                throw new RuntimeException(e);
             } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+                throw new RuntimeException(e);
             }
 
         }
@@ -149,8 +214,7 @@ public class PerclipseViewSkeletonTest {
                 outputStream.writeObject(command);
                 outputStream.writeObject(benchElementsWithTotalBench);
             } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+                throw new RuntimeException(e);
             }
 
         }
@@ -162,8 +226,7 @@ public class PerclipseViewSkeletonTest {
                 outputStream.writeObject(command);
                 outputStream.writeObject(currentElement);
             } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+                throw new RuntimeException(e);
             }
 
         }
@@ -175,8 +238,7 @@ public class PerclipseViewSkeletonTest {
                 outputStream.writeObject(command);
                 outputStream.writeObject(element);
             } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+                throw new RuntimeException(e);
             }
 
         }
@@ -186,9 +248,10 @@ public class PerclipseViewSkeletonTest {
             command = "finished";
             try {
                 outputStream.writeObject(command);
+                outputStream.close();
+                socket.close();
             } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+                throw new RuntimeException(e);
             }
 
         }

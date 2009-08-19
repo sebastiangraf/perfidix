@@ -50,7 +50,8 @@ public class BenchTreeContentProviderTest {
     public void testGetChildren() {
         // Expected no children because currently our objects has no children in
         // the treeviewer
-        assertNull(treeContentProvider.getChildren(null));
+        assertNotNull(treeContentProvider.getChildren(null));
+        assertArrayEquals(new Object[0], treeContentProvider.getChildren(null));
         assertArrayEquals(new Object[0], treeContentProvider
                 .getChildren(dataProvider));
 

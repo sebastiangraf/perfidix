@@ -31,13 +31,13 @@ public class BenchViewer {
 
     private final class BenchSelectionListener
             implements ISelectionChangedListener {
-        public void selectionChanged(SelectionChangedEvent event) {
+        public void selectionChanged(final SelectionChangedEvent event) {
             handleSelected();
         }
     }
 
     private final class BenchOpenListener extends SelectionAdapter {
-        public void widgetDefaultSelected(SelectionEvent e) {
+        public void widgetDefaultSelected(final SelectionEvent e) {
             handleDefaultSelected();
         }
     }
@@ -204,9 +204,7 @@ public class BenchViewer {
                 (IStructuredSelection) selectionProvider.getSelection();
         TreeDataProvider element = null;
         if (selection.size() == 1) {
-            System.out.println(selection.getFirstElement());
             element = (TreeDataProvider) selection.getFirstElement();
-            System.out.println("element: " + element);
         }
         view.handleBenchSelection(element);
 
@@ -231,7 +229,7 @@ public class BenchViewer {
         TreeDataProvider elementName =
                 (TreeDataProvider) structuredSelection.getFirstElement();
         // I Do nothing
-        System.out.println("I did it");
+
     }
 
 }

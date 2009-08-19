@@ -65,7 +65,7 @@ public class BenchViewCounterPanel extends Composite {
      * @return This method returns the Text widget containing the labeling and
      *         additional stuff.
      */
-    protected Text createLabel(String labelName, Image image, String initValue) {
+    private Text createLabel(String labelName, Image image, String initValue) {
 
         if (labelName != null && initValue != null) {
             Label label = new Label(this, SWT.NONE);
