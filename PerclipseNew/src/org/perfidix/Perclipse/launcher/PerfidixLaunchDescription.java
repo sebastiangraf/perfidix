@@ -209,7 +209,7 @@ public class PerfidixLaunchDescription {
      * 
      * @return The project name.
      */
-    protected String getProjectName() {
+    private String getProjectName() {
         IJavaProject project = getProject();
         return project == null ? null : project.getElementName();
     }
@@ -285,7 +285,7 @@ public class PerfidixLaunchDescription {
      * 
      * @return The java project.
      */
-    public IJavaProject getProject() {
+    public final IJavaProject getProject() {
         return fElement == null ? null : fElement.getJavaProject();
     }
 

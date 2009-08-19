@@ -19,7 +19,8 @@ public class BenchTreeContentProvider extends ArrayContentProvider
             TreeDataProvider treeData = (TreeDataProvider) parentElement;
             return treeData.getChildElements();
         }
-        return null;
+
+        return  new Object [0];
     }
 
     /** {@inheritDoc} */

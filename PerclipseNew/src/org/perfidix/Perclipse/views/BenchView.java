@@ -109,6 +109,13 @@ public class BenchView extends ViewPart {
     }
 
     /**
+     * @return The created Bench Counter Panel object {@link org.perfidix.Perclipse.views.PerfidixProgressBar}
+     */
+    public PerfidixProgressBar getProgressBar() {
+        return progressBar;
+    }
+    
+    /**
      * @return The created Bench Counter Panel object {@link org.perfidix.Perclipse.views.BenchViewCounterPanel}
      */
     public BenchViewCounterPanel getBenchCounterPanel() {
