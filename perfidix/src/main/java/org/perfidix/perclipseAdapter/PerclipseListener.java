@@ -37,7 +37,7 @@ public final class PerclipseListener extends AbstractOutput {
     /**
      * Instance to the perclipse view.
      */
-    private final PerclipseViewProgressUpdater view;
+    private transient final PerclipseViewProgressUpdater view;
 
     /**
      * Constructor with the port for initalising the connection to the view.
@@ -46,12 +46,14 @@ public final class PerclipseListener extends AbstractOutput {
      *            connection to the perclipse view
      */
     public PerclipseListener(final PerclipseViewProgressUpdater paramView) {
+        super();
         view = paramView;
     }
 
     /** {@inheritDoc} */
     @Override
-    public void listenToException(AbstractPerfidixMethodException exec) {
+    public void listenToException(
+            final AbstractPerfidixMethodException exec) {
         view.updateErrorInElement((exec
                 .getMethod().getDeclaringClass().getName()
                 + "." + exec.getMethod().getName()));
@@ -61,14 +63,14 @@ public final class PerclipseListener extends AbstractOutput {
     /** {@inheritDoc} */
     @Override
     public void listenToResultSet(
-            Method meth, AbstractMeter meter, double data) {
+            final Method meth, final AbstractMeter meter, final double data) {
         view.updateCurrentElement((meth.getDeclaringClass().getName()
                 + "." + meth.getName()));
     }
 
     /** {@inheritDoc} */
     @Override
-    public void visitBenchmark(BenchmarkResult res) {
+    public void visitBenchmark(final BenchmarkResult res) {
         throw new UnsupportedOperationException(
                 "Operation is not permitted!");
     }

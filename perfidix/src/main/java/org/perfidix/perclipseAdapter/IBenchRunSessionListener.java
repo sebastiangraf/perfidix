@@ -20,7 +20,7 @@
  */
 package org.perfidix.perclipseAdapter;
 
-import java.util.HashMap;
+import java.util.Map;
 
 /**
  * This interface specifies the methods which have to update the eclipse view
@@ -33,12 +33,11 @@ public interface IBenchRunSessionListener {
      * The initTotalBenchProgress initializes the progress bar in the eclipse
      * view. This param represent the sum value of all runs to be executed.
      * 
-     * @param benchElementsWithTotalBench
+     * @param elems
      *            This param is an HashMap which consists of each java element
      *            name with its total bench runs value.
      */
-    public void initTotalBenchProgress(
-            HashMap<String, Integer> benchElementsWithTotalBench);
+    void initTotalBenchProgress(final Map<String, Integer> elems);
 
     /**
      * The updateCurrentRun method notifies the view which element is currently
@@ -48,7 +47,7 @@ public interface IBenchRunSessionListener {
      *            This {@link String} param represents the current running java
      *            element.
      */
-    public void updateCurrentRun(String currentElement);
+    void updateCurrentRun(final String currentElement);
 
     /**
      * The updateError method updates the view that an error occurred while
@@ -58,11 +57,11 @@ public interface IBenchRunSessionListener {
      *            This {@link String} param represents the element name of the
      *            benched object where the error occurred.
      */
-    public void updateError(String element);
+    void updateError(final String element);
 
     /**
      * This method notifies the view that all bench runs completed.
      */
-    public void finishedBenchRuns();
+    void finishedBenchRuns();
 
 }

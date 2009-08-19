@@ -36,10 +36,10 @@ import org.perfidix.result.BenchmarkResult;
 public final class PerclipseAdapter {
 
     /** Instance for this run of the adapter */
-    private final Benchmark benchmark;
+    private transient final Benchmark benchmark;
 
     /** View instance for communicating with the perclipse plugin */
-    private final PerclipseViewProgressUpdater view;
+    private transient final PerclipseViewProgressUpdater view;
 
     /**
      * private constructor.
@@ -56,7 +56,7 @@ public final class PerclipseAdapter {
      * @param classNames
      *            the names of the classes to be benched
      */
-    private final void registerClasses(final List<String> classNames) {
+    private void registerClasses(final List<String> classNames) {
         for (final String className : classNames) {
             try {
                 benchmark.add(Class.forName(className));
@@ -69,7 +69,7 @@ public final class PerclipseAdapter {
         view.initProgressView(vals);
     }
 
-    private final void runBenchmark() {
+    private void runBenchmark() {
         final BenchmarkResult res =
                 benchmark.run(new PerclipseListener(view));
         new TabularSummaryOutput().visitBenchmark(res);
@@ -84,18 +84,18 @@ public final class PerclipseAdapter {
      * @throws Exception
      *             of any kind.
      */
-    public final static void main(final String[] args) throws Exception {
+    public static void main(final String[] args) {
         // init of the connection to the plugin
         int viewPort = 0;
         final List<String> classList = new ArrayList<String>();
         for (int i = 0; i < args.length; i++) {
-            if (!args[i].equals("-Port")) {
-                classList.add(args[i]);
-            } else {
+            if (args[i].equals("-Port")) {
                 if (args[i + 1] != null) {
                     viewPort = Integer.parseInt(args[i + 1]);
                 }
                 break;
+            } else {
+                classList.add(args[i]);
             }
         }
 
