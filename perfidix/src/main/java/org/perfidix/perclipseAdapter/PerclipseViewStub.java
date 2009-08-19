@@ -116,6 +116,8 @@ public class PerclipseViewStub implements IBenchRunSessionListener {
         command = "finished";
         try {
             outputStream.writeObject(command);
+            outputStream.close();
+            socket.close();
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
