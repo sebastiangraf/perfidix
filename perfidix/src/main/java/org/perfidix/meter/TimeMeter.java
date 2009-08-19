@@ -40,7 +40,7 @@ public final class TimeMeter extends AbstractMeter {
      * Instance of the enum <code>Time</code> for correct formatting of the
      * time.
      */
-    private final Time currentTime;
+    private transient final Time currentTime;
 
     /**
      * Constructor which is in need of a given time.
@@ -57,7 +57,7 @@ public final class TimeMeter extends AbstractMeter {
      * {@inheritDoc}
      */
     @Override
-    public final double getValue() {
+    public double getValue() {
         return new BigDecimal(System.nanoTime(), MathContext.DECIMAL128)
                 .divide(
                         new BigDecimal(
@@ -68,25 +68,25 @@ public final class TimeMeter extends AbstractMeter {
 
     /** {@inheritDoc} */
     @Override
-    public final String getName() {
+    public String getName() {
         return NAME;
     }
 
     /** {@inheritDoc} */
     @Override
-    public final String getUnit() {
+    public String getUnit() {
         return currentTime.getUnit();
     }
 
     /** {@inheritDoc} */
     @Override
-    public final String getUnitDescription() {
+    public String getUnitDescription() {
         return currentTime.getUnitDescription();
     }
 
     /** {@inheritDoc} */
     @Override
-    public final int hashCode() {
+    public int hashCode() {
         final int prime = 31;
         int result = prime;
         if (currentTime == null) {
@@ -100,24 +100,25 @@ public final class TimeMeter extends AbstractMeter {
 
     /** {@inheritDoc} */
     @Override
-    public final boolean equals(final Object obj) {
+    public boolean equals(final Object obj) {
+        boolean returnVal = true;
         if (this == obj) {
-            return true;
+            returnVal = true;
         }
         if (getClass() != obj.getClass()) {
-            return false;
+            returnVal = false;
         }
-        TimeMeter other = (TimeMeter) obj;
+        final TimeMeter other = (TimeMeter) obj;
         if (currentTime == null) {
             if (other.currentTime != null) {
-                return false;
+                returnVal = false;
             }
         } else {
             if (!currentTime.equals(other.currentTime)) {
-                return false;
+                returnVal = false;
             }
         }
-        return true;
+        return returnVal;
     }
 
 }

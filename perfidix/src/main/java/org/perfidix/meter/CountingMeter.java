@@ -47,22 +47,22 @@ public final class CountingMeter extends AbstractMeter {
     /**
      * Counter for ticks.
      */
-    private long counter;
+    private transient long counter;
 
     /**
      * Name for this counting meter.
      */
-    private final String name;
+    private transient final String name;
 
     /**
      * Unit for this counting meter.
      */
-    private final String unit;
+    private transient final String unit;
 
     /**
      * Short description for the unit.
      */
-    private final String unitDescription;
+    private transient final String unitDescription;
 
     /**
      * Constructor, generates a simple CountingMeter.
@@ -101,16 +101,16 @@ public final class CountingMeter extends AbstractMeter {
      *            the name of this CountingMeter
      * @param paramUnit
      *            the unit of this CountingMeter
-     * @param paramUnitDescription
+     * @param paramUnitDesc
      *            the description of this CountingMeter
      */
     public CountingMeter(
             final String paramName, final String paramUnit,
-            final String paramUnitDescription) {
+            final String paramUnitDesc) {
         super();
         name = paramName;
         unit = paramUnit;
-        unitDescription = paramUnitDescription;
+        unitDescription = paramUnitDesc;
         counter = 0;
     }
 
@@ -120,14 +120,14 @@ public final class CountingMeter extends AbstractMeter {
      * @return the name of this CountingMeter
      */
     @Override
-    public final String getName() {
+    public String getName() {
         return name;
     }
 
     /**
      * The meter is ticking one forward.
      */
-    public final void tick() {
+    public void tick() {
         counter++;
     }
 
@@ -137,7 +137,7 @@ public final class CountingMeter extends AbstractMeter {
      * @return the counter's value.
      */
     @Override
-    public final double getValue() {
+    public double getValue() {
         return counter;
     }
 
@@ -147,7 +147,7 @@ public final class CountingMeter extends AbstractMeter {
      * @return the unit of this CountingMeter
      */
     @Override
-    public final String getUnit() {
+    public String getUnit() {
         return unit;
     }
 
@@ -157,13 +157,13 @@ public final class CountingMeter extends AbstractMeter {
      * @return the description of this CountingMeter
      */
     @Override
-    public final String getUnitDescription() {
+    public String getUnitDescription() {
         return unitDescription;
     }
 
     /** {@inheritDoc} */
     @Override
-    public final int hashCode() {
+    public int hashCode() {
         final int prime = 31;
         int result = prime;
         if (name == null) {
@@ -186,40 +186,41 @@ public final class CountingMeter extends AbstractMeter {
 
     /** {@inheritDoc} */
     @Override
-    public final boolean equals(final Object obj) {
+    public boolean equals(final Object obj) {
+        boolean returnVal = true;
         if (this == obj) {
-            return true;
+            returnVal = true;
         }
         if (getClass() != obj.getClass()) {
-            return false;
+            returnVal = false;
         }
-        CountingMeter other = (CountingMeter) obj;
+        final CountingMeter other = (CountingMeter) obj;
         if (name == null) {
             if (other.name != null) {
-                return false;
+                returnVal = false;
             }
         } else {
             if (!name.equals(other.name)) {
-                return false;
+                returnVal = false;
             }
         }
         if (unit == null) {
             if (other.unit != null) {
-                return false;
+                returnVal = false;
             }
         } else if (!unit.equals(other.unit)) {
-            return false;
+            returnVal = false;
         }
         if (unitDescription == null) {
-            if (other.unitDescription != null) {
-                return false;
-            } else {
+            if (other.unitDescription == null) {
                 if (!unitDescription.equals(other.unitDescription)) {
-                    return false;
+                    returnVal = false;
                 }
+            } else {
+                returnVal = false;
             }
         }
-        return true;
+        return returnVal;
     }
 
 }

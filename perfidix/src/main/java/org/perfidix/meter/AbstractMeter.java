@@ -31,12 +31,6 @@ package org.perfidix.meter;
 public abstract class AbstractMeter {
 
     /**
-     * Constructor.
-     */
-    protected AbstractMeter() {
-    }
-
-    /**
      * Getting the current value for this meter.
      * 
      * @return the current tick value.

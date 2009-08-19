@@ -26,7 +26,8 @@ import java.lang.reflect.Method;
 import org.perfidix.exceptions.AbstractPerfidixMethodException;
 import org.perfidix.exceptions.PerfidixMethodInvocationException;
 import org.perfidix.meter.AbstractMeter;
-import org.perfidix.ouput.NiceTable.Alignment;
+import org.perfidix.ouput.asciitable.NiceTable;
+import org.perfidix.ouput.asciitable.TabularComponent.Alignment;
 import org.perfidix.result.AbstractResult;
 import org.perfidix.result.BenchmarkResult;
 import org.perfidix.result.ClassResult;
@@ -97,7 +98,8 @@ public final class TabularSummaryOutput extends AbstractOutput {
         }
 
         table.addHeader("Exceptions", '=', Alignment.Center);
-        for (final AbstractPerfidixMethodException exec : benchRes.getExceptions()) {
+        for (final AbstractPerfidixMethodException exec : benchRes
+                .getExceptions()) {
             final StringBuilder execBuilder0 = new StringBuilder();
             execBuilder0.append("Related exception: ").append(
                     exec.getExec().getClass().getSimpleName());
@@ -185,7 +187,8 @@ public final class TabularSummaryOutput extends AbstractOutput {
 
     /** {@inheritDoc} */
     @Override
-    public final void listenToException(final AbstractPerfidixMethodException exec) {
+    public final void listenToException(
+            final AbstractPerfidixMethodException exec) {
         final StringBuilder builder = new StringBuilder();
         if (exec.getMethod() != null) {
             builder

@@ -95,48 +95,40 @@ public final class CSVOutput extends AbstractOutput {
     @Override
     public void listenToResultSet(
             final Method meth, final AbstractMeter meter, final double data) {
-        try {
-
-            final PrintStream stream =
-                    setUpNewPrintStream(false, meth
-                            .getDeclaringClass().getSimpleName(), meth
-                            .getName(), meter.getName());
-            if (!firstResult) {
-                stream.append(",");
-            }
-            stream.append(Double.toString(data));
-            stream.flush();
-            firstResult = false;
-        } catch (final Exception e) {
-            e.printStackTrace();
+        final PrintStream stream =
+                setUpNewPrintStream(false, meth
+                        .getDeclaringClass().getSimpleName(), meth
+                        .getName(), meter.getName());
+        if (!firstResult) {
+            stream.append(",");
         }
+        stream.append(Double.toString(data));
+        stream.flush();
+        firstResult = false;
 
     }
 
     /** {@inheritDoc} */
     @Override
-    public void listenToException(final AbstractPerfidixMethodException exec) {
-        try {
-            final PrintStream currentWriter =
-                    setUpNewPrintStream(false, "Exceptions");
-            if (!firstException) {
-                currentWriter.append("\n");
-            }
-            currentWriter.append(exec.getRelatedAnno().getSimpleName());
-            currentWriter.append(",");
-            if (exec.getMethod() != null) {
-                currentWriter.append(exec
-                        .getMethod().getDeclaringClass().getSimpleName());
-                currentWriter.append("#");
-                currentWriter.append(exec.getMethod().getName());
-                currentWriter.append(",");
-            }
-            exec.getExec().printStackTrace(currentWriter);
-            currentWriter.flush();
-            firstException = false;
-        } catch (final Exception e) {
-            e.printStackTrace();
+    public void listenToException(
+            final AbstractPerfidixMethodException exec) {
+        final PrintStream currentWriter =
+                setUpNewPrintStream(false, "Exceptions");
+        if (!firstException) {
+            currentWriter.append("\n");
         }
+        currentWriter.append(exec.getRelatedAnno().getSimpleName());
+        currentWriter.append(",");
+        if (exec.getMethod() != null) {
+            currentWriter.append(exec
+                    .getMethod().getDeclaringClass().getSimpleName());
+            currentWriter.append("#");
+            currentWriter.append(exec.getMethod().getName());
+            currentWriter.append(",");
+        }
+        exec.getExec().printStackTrace(currentWriter);
+        currentWriter.flush();
+        firstException = false;
 
     }
 
@@ -149,58 +141,47 @@ public final class CSVOutput extends AbstractOutput {
                     .getIncludedResults()) {
                 for (final AbstractMeter meter : methRes
                         .getRegisteredMeters()) {
-                    try {
-                        final PrintStream currentWriter =
-                                setUpNewPrintStream(true, classRes
-                                        .getElementName(), methRes
-                                        .getElementName(), meter.getName());
-                        int i = 0;
-                        for (final Double d : methRes.getResultSet(meter)) {
-                            if (i == 0) {
-                                currentWriter.append(d.toString());
-                            } else {
-                                currentWriter
-                                        .append(new StringBuilder(",")
-                                                .append(d.toString())
-                                                .toString());
-                            }
-                            i++;
+                    final PrintStream currentWriter =
+                            setUpNewPrintStream(true, classRes
+                                    .getElementName(), methRes
+                                    .getElementName(), meter.getName());
+                    boolean first = true;
+                    for (final Double d : methRes.getResultSet(meter)) {
+                        if (first) {
+                            currentWriter.append(d.toString());
+                            first = false;
+                        } else {
+                            currentWriter.append(new StringBuilder(",")
+                                    .append(d.toString()).toString());
                         }
-
-                        currentWriter.flush();
-
-                    } catch (Exception e) {
-                        e.printStackTrace();
                     }
+
+                    currentWriter.flush();
+
                 }
             }
         }
 
         // Printing the exceptions
-        try {
-            final PrintStream currentWriter =
-                    setUpNewPrintStream(true, "Exceptions");
+        final PrintStream currentWriter =
+                setUpNewPrintStream(true, "Exceptions");
 
-            for (final AbstractPerfidixMethodException exec : res.getExceptions()) {
-                currentWriter
-                        .append(exec.getRelatedAnno().getSimpleName());
-                if (exec.getMethod() != null) {
-                    currentWriter.append(":");
-                    currentWriter.append(exec
-                            .getMethod().getDeclaringClass()
-                            .getSimpleName());
-                    currentWriter.append("#");
-                    currentWriter.append(exec.getMethod().getName());
-                }
-                currentWriter.append("\n");
-                exec.getExec().printStackTrace(currentWriter);
+        for (final AbstractPerfidixMethodException exec : res
+                .getExceptions()) {
+            currentWriter.append(exec.getRelatedAnno().getSimpleName());
+            if (exec.getMethod() != null) {
+                currentWriter.append(":");
+                currentWriter.append(exec
+                        .getMethod().getDeclaringClass().getSimpleName());
+                currentWriter.append("#");
+                currentWriter.append(exec.getMethod().getName());
             }
-
-            currentWriter.flush();
-
-        } catch (Exception e) {
-            e.printStackTrace();
+            currentWriter.append("\n");
+            exec.getExec().printStackTrace(currentWriter);
         }
+
+        currentWriter.flush();
+
     }
 
     /**
@@ -216,14 +197,14 @@ public final class CSVOutput extends AbstractOutput {
      *             if something goes wrong with the file
      */
     private PrintStream setUpNewPrintStream(
-            final boolean visitorStream, final String... names)
-            throws FileNotFoundException {
+            final boolean visitorStream, final String... names) {
+
+        PrintStream out = System.out;
 
         if (folder == null) {
             if (visitorStream) {
-                System.out.println();
+                out.println();
             }
-            return System.out;
         } else {
             final File toWriteTo = new File(folder, buildFileName(names));
             if (!usedFiles.contains(toWriteTo)) {
@@ -231,9 +212,17 @@ public final class CSVOutput extends AbstractOutput {
                 usedFiles.add(toWriteTo);
                 firstResult = true;
             }
-            return new PrintStream(new FileOutputStream(
-                    toWriteTo, !visitorStream));
+            try {
+                out =
+                        new PrintStream(new FileOutputStream(
+                                toWriteTo, !visitorStream));
+            } catch (final FileNotFoundException e) {
+                throw new IllegalStateException(e);
+            }
+
         }
+        return out;
+
     }
 
     /**

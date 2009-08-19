@@ -18,15 +18,15 @@
  * $Date$
  *
  */
-package org.perfidix.output;
+package org.perfidix.output.asciitable;
 
 import static org.junit.Assert.assertEquals;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.perfidix.ouput.NiceTable;
-import org.perfidix.ouput.NiceTable.Alignment;
+import org.perfidix.ouput.asciitable.NiceTable;
+import org.perfidix.ouput.asciitable.TabularComponent.Alignment;
 
 /**
  * Test class for the NiceTable.
@@ -55,7 +55,8 @@ public class NiceTableTest {
     }
 
     /**
-     * Test method for {@link org.perfidix.ouput.NiceTable#NiceTable(int)}.
+     * Test method for
+     * {@link org.perfidix.ouput.asciitable.NiceTable#NiceTable(int)}.
      */
     @Test
     public void testCreate() {
@@ -64,7 +65,8 @@ public class NiceTableTest {
 
     /**
      * Test method for
-     * {@link org.perfidix.ouput.NiceTable#addHeader(java.lang.String)}.
+     * {@link org.perfidix.ouput.asciitable.NiceTable#addHeader(java.lang.String)}
+     * .
      */
     @Test
     public void testAddHeaderString() {
@@ -75,7 +77,7 @@ public class NiceTableTest {
 
     /**
      * Test method for
-     * {@link org.perfidix.ouput.NiceTable#addHeader(java.lang.String, char, org.perfidix.ouput.NiceTable.Alignment)}
+     * {@link org.perfidix.ouput.asciitable.NiceTable#addHeader(java.lang.String, char, org.perfidix.ouput.asciitable.NiceTable.Alignment)}
      * .
      */
     @Test
@@ -102,7 +104,8 @@ public class NiceTableTest {
 
     /**
      * Test method for
-     * {@link org.perfidix.ouput.NiceTable#addRow(java.lang.String[])}.
+     * {@link org.perfidix.ouput.asciitable.NiceTable#addRow(java.lang.String[])}
+     * .
      */
     @Test
     public void testAddRow() {
@@ -112,7 +115,8 @@ public class NiceTableTest {
     }
 
     /**
-     * Test method for {@link org.perfidix.ouput.NiceTable#addLine(char)}.
+     * Test method for
+     * {@link org.perfidix.ouput.asciitable.NiceTable#addLine(char)}.
      */
     @Test
     public void testAddLine() {
@@ -122,7 +126,8 @@ public class NiceTableTest {
     }
 
     /**
-     * Test method for {@link org.perfidix.ouput.NiceTable#toString()}.
+     * Test method for
+     * {@link org.perfidix.ouput.asciitable.NiceTable#toString()}.
      */
     @Test
     public void testToString() {
@@ -133,24 +138,6 @@ public class NiceTableTest {
         assertEquals(
                 "|= This is a header ===========================|\n| This | is | one     | data |\n|----------------------------------------------|\n| This | is | another | data |\n",
                 table.toString());
-    }
-
-    /**
-     * Test method for
-     * {@link org.perfidix.ouput.NiceTable#setColumnDelimiter(char)} .
-     */
-    @Test
-    public void testSetColumnDelimiter() {
-        table.addHeader("This is a header");
-        table.addRow(new String[] { "This", "is", "one", "data" });
-        table.addLine('-');
-        table.setColumnDelimiter('-');
-        table.addRow(new String[] { "This", "is", "another", "data" });
-        final String expected =
-                "-= This is a header ===========================-\n- This - is - one     - data -\n------------------------------------------------\n- This - is - another - data -\n";
-        final String asIs = table.toString();
-        assertEquals(expected, asIs);
-
     }
 
     /**
@@ -166,12 +153,11 @@ public class NiceTableTest {
         one.addRow(new String[] { "a", "b" });
         two.addRow(new String[] { "c", "d" });
         three.addRow(new String[] { "e", "f" });
-        t.setColumnDelimiter('-');
         t.addRow(new String[] {
                 one.toString(), two.toString(), three.toString() });
 
         final String result = t.toString().trim();
-        final String expected = "- | a | b |  - | c | d |  - | e | f |  -";
+        final String expected = "| | a | b |  | | c | d |  | | e | f |  |";
         assertEquals(expected, result);
     }
 

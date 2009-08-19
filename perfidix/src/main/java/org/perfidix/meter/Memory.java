@@ -56,15 +56,15 @@ public enum Memory {
      *            to give
      * @param paramUnitDesc
      *            to give
-     * @param paramNumberOfBytes
+     * @param paramBytes
      *            to give
      */
     private Memory(
             final String paramUnit, final String paramUnitDesc,
-            final int paramNumberOfBytes) {
+            final int paramBytes) {
         unit = paramUnit;
         unitDescription = paramUnitDesc;
-        numberOfBytes = paramNumberOfBytes;
+        numberOfBytes = paramBytes;
     }
 
     /**

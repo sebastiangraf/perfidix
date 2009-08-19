@@ -49,7 +49,7 @@ public enum Time {
     /**
      * Number of bytes.
      */
-    private final double numberOfMilliSeconds;
+    private transient final double milliSeconds;
 
     /**
      * The constructor for the memory sizes.
@@ -58,15 +58,15 @@ public enum Time {
      *            to give
      * @param paramUnitDesc
      *            to give
-     * @param paramNumberOfMilliSeconds
+     * @param paramMillis
      *            to give
      */
     private Time(
             final String paramUnit, final String paramUnitDesc,
-            final double paramNumberOfMilliSeconds) {
+            final double paramMillis) {
         unit = paramUnit;
         unitDescription = paramUnitDesc;
-        numberOfMilliSeconds = paramNumberOfMilliSeconds;
+        milliSeconds = paramMillis;
     }
 
     /**
@@ -75,7 +75,7 @@ public enum Time {
      * @return the number of milli seconds
      */
     public double getNumberOfMilliSeconds() {
-        return numberOfMilliSeconds;
+        return milliSeconds;
     }
 
     /**
