@@ -80,20 +80,24 @@ public final class Util {
                 repeat(new String(new char[] { doPadWithThis }), Math.max(
                         0, totalWidth - data.length()));
         String returnVal = "";
-        switch (orientation) {
-        case Center:
-            returnVal =
-                    pad.substring(0, pad.length() / 2)
-                            + data
-                            + pad
-                                    .substring(pad.length() / 2, pad
-                                            .length());
-            break;
-        case Right:
-            returnVal = new StringBuilder(pad).append(data).toString();
-        default:
+        if (orientation == null) {
             returnVal = new StringBuilder(data).append(pad).toString();
+        } else {
+            switch (orientation) {
+            case Center:
+                returnVal =
+                        pad.substring(0, pad.length() / 2)
+                                + data
+                                + pad.substring(pad.length() / 2, pad
+                                        .length());
+                break;
+            case Right:
+                returnVal = new StringBuilder(pad).append(data).toString();
+                break;
+            default:
+                returnVal = new StringBuilder(data).append(pad).toString();
 
+            }
         }
         return returnVal;
     }
@@ -135,7 +139,8 @@ public final class Util {
      *            how many times to concantenate the string
      * @return the repeated string.
      */
-    protected static String repeat(final String toBeRepeated, final int numTimes) {
+    protected static String repeat(
+            final String toBeRepeated, final int numTimes) {
         final StringBuilder builder = new StringBuilder();
 
         for (int i = 0; i < numTimes; i++) {
@@ -153,7 +158,8 @@ public final class Util {
      * @param toBeSplitted
      *            the string to be splitted
      */
-    private static String[] explode(final char splitter, final String toBeSplitted) {
+    private static String[] explode(
+            final char splitter, final String toBeSplitted) {
         return toBeSplitted.split("\\" + splitter);
     }
 
