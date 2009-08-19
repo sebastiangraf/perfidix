@@ -20,8 +20,9 @@
 package org.perfidix.ouput.asciitable;
 
 import java.util.ArrayList;
+import java.util.List;
 
-import org.perfidix.ouput.asciitable.TabularComponent.Alignment;
+import org.perfidix.ouput.asciitable.AbstractTabularComponent.Alignment;
 
 /**
  * This class represents a table which allows formatting of data as an ascii
@@ -38,17 +39,17 @@ public final class NiceTable {
     /**
      * Container for all rows.
      */
-    private final ArrayList<TabularComponent> rows;
+    private transient final List<AbstractTabularComponent> rows;
 
     /**
      * Storing the length of chars in the different columns.
      */
-    private final int[] columnLengths;
+    private transient final int[] columnLengths;
 
     /**
      * An array holding the orientations of columns.
      */
-    private final Alignment[] orientations;
+    private transient final Alignment[] orientations;
 
     /**
      * Constructor. needs the number of columns to show.
@@ -60,7 +61,7 @@ public final class NiceTable {
 
         columnLengths = new int[numberOfColumns];
         orientations = new Alignment[numberOfColumns];
-        rows = new ArrayList<TabularComponent>();
+        rows = new ArrayList<AbstractTabularComponent>();
     }
 
     /**
@@ -69,7 +70,7 @@ public final class NiceTable {
      * @param title
      *            the text to display within the header
      */
-    public final void addHeader(final String title) {
+    public void addHeader(final String title) {
         addHeader(title, '=', Alignment.Left);
     }
 
@@ -90,11 +91,11 @@ public final class NiceTable {
      * @param orientation
      *            the orientation of the header column.
      */
-    public final void addHeader(
+    public void addHeader(
             final String title, final char mark,
             final Alignment orientation) {
-        final Header h = new Header(title, mark, orientation, this);
-        rows.add(h);
+        final Header header = new Header(title, mark, orientation, this);
+        rows.add(header);
     }
 
     /**
@@ -104,15 +105,14 @@ public final class NiceTable {
      * @param data
      *            the array of data.
      */
-    public final void addRow(final String[] data) {
+    public void addRow(final String[] data) {
         if (anyStringContainsNewLine(data)) {
             final String[][] theMatrix = Util.createMatrix(data);
             for (int i = 0; i < theMatrix.length; i++) {
                 addRow(theMatrix[i]);
             }
         } else {
-            final Row myRow =
-                    new Row(this.columnLengths.length, this, data);
+            final Row myRow = new Row(this, data);
             rows.add(myRow);
         }
 
@@ -125,7 +125,7 @@ public final class NiceTable {
      * @param fill
      *            any character with which to draw the line.
      */
-    public final void addLine(final char fill) {
+    public void addLine(final char fill) {
         rows.add(new DynamicLine(fill, this));
     }
 
@@ -135,15 +135,15 @@ public final class NiceTable {
      * @return the formatted table.
      */
     @Override
-    public final String toString() {
+    public String toString() {
 
-        final StringBuilder s = new StringBuilder();
+        final StringBuilder builder = new StringBuilder();
 
         for (int i = 0; i < rows.size(); i++) {
-            final TabularComponent myObj = rows.get(i);
-            s.append(myObj.draw());
+            final AbstractTabularComponent myObj = rows.get(i);
+            builder.append(myObj.draw());
         }
-        return s.toString();
+        return builder.toString();
     }
 
     /**
@@ -153,7 +153,7 @@ public final class NiceTable {
      *            the index of the column for which to fetch the width.
      * @return the width (in number of chars) for the column index.
      */
-    protected final int getColumnWidth(final int columnIndex) {
+    protected int getColumnWidth(final int columnIndex) {
 
         return columnLengths[columnIndex];
     }
@@ -166,8 +166,7 @@ public final class NiceTable {
      * @param newSize
      *            the new size of the column
      */
-    protected final void updateColumnWidth(
-            final int index, final int newSize) {
+    protected void updateColumnWidth(final int index, final int newSize) {
         columnLengths[index] = Math.max(columnLengths[index], newSize);
     }
 
@@ -176,7 +175,7 @@ public final class NiceTable {
      * 
      * @return the number of columns the table may contain.
      */
-    private final int numColumns() {
+    private int numColumns() {
         return this.columnLengths.length;
     }
 
@@ -187,7 +186,7 @@ public final class NiceTable {
      *            integer
      * @return Alignment for the column
      */
-    protected final Alignment getOrientation(final int columnIndex) {
+    protected Alignment getOrientation(final int columnIndex) {
 
         return orientations[columnIndex];
     }
@@ -197,17 +196,17 @@ public final class NiceTable {
      * 
      * @return int the width of the row
      */
-    private final int getRowWidth() {
-
+    private int getRowWidth() {
+        int returnVal = 1;
         if (rows.size() < 1) {
-            return 0;
+            returnVal = 0;
         }
         for (int i = 0; i < rows.size(); i++) {
             if (rows.get(i) instanceof Row) {
-                return ((Row) rows.get(i)).getRowWidth();
+                returnVal = ((Row) rows.get(i)).getRowWidth();
             }
         }
-        return 1;
+        return returnVal;
     }
 
     /**
@@ -215,7 +214,7 @@ public final class NiceTable {
      * 
      * @return int the width of the table
      */
-    protected final int getTotalWidth() {
+    protected int getTotalWidth() {
         final int widthFactor1 = 3;
         final int widthFactor2 = 1;
         return this.getRowWidth()
@@ -231,14 +230,14 @@ public final class NiceTable {
      *            the array to check.
      * @return whether any of the strings contains a newline symbol.
      */
-    private final boolean anyStringContainsNewLine(final String[] data) {
-
+    private boolean anyStringContainsNewLine(final String[] data) {
+        boolean returnVal = false;
         for (int i = 0; i < data.length; i++) {
             if (Util.containsNewlines(data[i])) {
-                return true;
+                returnVal = true;
             }
         }
-        return false;
+        return returnVal;
     }
 
 }

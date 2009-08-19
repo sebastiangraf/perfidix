@@ -27,7 +27,7 @@ import org.perfidix.exceptions.AbstractPerfidixMethodException;
 import org.perfidix.exceptions.PerfidixMethodInvocationException;
 import org.perfidix.meter.AbstractMeter;
 import org.perfidix.ouput.asciitable.NiceTable;
-import org.perfidix.ouput.asciitable.TabularComponent.Alignment;
+import org.perfidix.ouput.asciitable.AbstractTabularComponent.Alignment;
 import org.perfidix.result.AbstractResult;
 import org.perfidix.result.BenchmarkResult;
 import org.perfidix.result.ClassResult;
@@ -42,7 +42,7 @@ import org.perfidix.result.MethodResult;
 public final class TabularSummaryOutput extends AbstractOutput {
 
     /** Print stream where the result should end. */
-    private final PrintStream out;
+    private transient final PrintStream out;
 
     /**
      * Constructor for piping the result to elsewhere.
@@ -51,6 +51,7 @@ public final class TabularSummaryOutput extends AbstractOutput {
      *            an {@link PrintStream} to pipe to.
      */
     public TabularSummaryOutput(final PrintStream paramOut) {
+        super();
         out = paramOut;
     }
 
@@ -63,7 +64,7 @@ public final class TabularSummaryOutput extends AbstractOutput {
 
     /** {@inheritDoc} */
     @Override
-    public final void visitBenchmark(final BenchmarkResult benchRes) {
+    public void visitBenchmark(final BenchmarkResult benchRes) {
         final int numberOfColumns = 9;
         NiceTable table = new NiceTable(numberOfColumns);
         table = generateHeader(table);
@@ -143,7 +144,7 @@ public final class TabularSummaryOutput extends AbstractOutput {
      *            the {@link NiceTable} to be print to
      * @return the modified {@link NiceTable} instance
      */
-    private final NiceTable generateMeterResult(
+    private NiceTable generateMeterResult(
             final String columnDesc, final AbstractMeter meter,
             final AbstractResult result, final NiceTable input) {
         input
@@ -173,7 +174,7 @@ public final class TabularSummaryOutput extends AbstractOutput {
      * {@inheritDoc}
      */
     @Override
-    public final void listenToResultSet(
+    public void listenToResultSet(
             final Method meth, final AbstractMeter meter, final double data) {
         final StringBuilder builder = new StringBuilder();
         builder
@@ -187,7 +188,7 @@ public final class TabularSummaryOutput extends AbstractOutput {
 
     /** {@inheritDoc} */
     @Override
-    public final void listenToException(
+    public void listenToException(
             final AbstractPerfidixMethodException exec) {
         final StringBuilder builder = new StringBuilder();
         if (exec.getMethod() != null) {
@@ -215,7 +216,7 @@ public final class TabularSummaryOutput extends AbstractOutput {
      *            the table where the header should fit to
      * @return another {@link NiceTable} instance
      */
-    private final NiceTable generateHeader(final NiceTable table) {
+    private NiceTable generateHeader(final NiceTable table) {
         table.addHeader("Benchmark");
         table.addRow(new String[] {
                 "-", "unit", "sum", "min", "max", "avg", "stddev",

@@ -26,7 +26,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.perfidix.ouput.asciitable.NiceTable;
-import org.perfidix.ouput.asciitable.TabularComponent.Alignment;
+import org.perfidix.ouput.asciitable.AbstractTabularComponent.Alignment;
 
 /**
  * Test class for the NiceTable.

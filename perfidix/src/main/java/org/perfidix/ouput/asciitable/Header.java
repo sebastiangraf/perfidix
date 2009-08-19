@@ -23,22 +23,22 @@ package org.perfidix.ouput.asciitable;
 /**
  * @author Sebastian Graf, University of Konstanz
  */
-public final class Header extends TabularComponent {
+public final class Header extends AbstractTabularComponent {
 
     /**
      * Title of the header.
      */
-    private final String title;
+    private transient final String title;
 
     /**
      * Enclosed char of the header.
      */
-    private final char enclosing;
+    private transient final char enclosing;
 
     /**
      * Orientation of the title.
      */
-    private final Alignment orientation;
+    private transient final Alignment orientation;
 
     /**
      * Constructor.
@@ -71,12 +71,12 @@ public final class Header extends TabularComponent {
      * {@inheritDoc}
      */
     @Override
-    public final String draw() {
+    public String draw() {
         return Util.combine(new String(
-                new char[] { TabularComponent.BORDER }), Util.pad(
+                new char[] { AbstractTabularComponent.BORDER }), Util.pad(
                 title, enclosing, getTable().getTotalWidth() - 2,
                 orientation), new String(
-                new char[] { TabularComponent.BORDER }), NEWLINE);
+                new char[] { AbstractTabularComponent.BORDER }), NEWLINE);
 
     }
 
