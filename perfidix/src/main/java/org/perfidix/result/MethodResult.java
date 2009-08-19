@@ -44,7 +44,7 @@ public final class MethodResult extends AbstractResult {
 
     /** {@inheritDoc} */
     @Override
-    public final String getElementName() {
+    public String getElementName() {
         return ((Method) getRelatedElement()).getName();
     }
 

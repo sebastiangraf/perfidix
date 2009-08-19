@@ -30,7 +30,7 @@ package org.perfidix.result;
  * @author Sebastian Graf, University of Konstanz
  * @author Alexander Onea, neue Couch
  */
-public final class ClassResult extends ResultContainer<MethodResult> {
+public final class ClassResult extends AbstractResultContainer<MethodResult> {
 
     /**
      * Constructor.
@@ -44,7 +44,7 @@ public final class ClassResult extends ResultContainer<MethodResult> {
 
     /** {@inheritDoc} */
     @Override
-    public final String getElementName() {
+    public String getElementName() {
         return ((Class< ? >) getRelatedElement()).getSimpleName();
     }
 }

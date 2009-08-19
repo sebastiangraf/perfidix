@@ -33,14 +33,14 @@ import java.util.Map;
 public final class BenchmarkElement {
 
     /** The BenchmarkMethod related to this element. */
-    private final BenchmarkMethod meth;
+    private transient final BenchmarkMethod meth;
 
-    /** The unique id for this elements. */
-    private final int id;
+    /** The unique elementId for this elements. */
+    private transient final int elementId;
 
     /**
      * Static Mapping for BenchmarkMethod->Integer. Every BenchmarkMethod gains
-     * one unique id from this mapping.
+     * one unique elementId from this mapping.
      */
     private static final Map<BenchmarkMethod, Integer> ID_MAPPING =
             new Hashtable<BenchmarkMethod, Integer>();
@@ -56,18 +56,18 @@ public final class BenchmarkElement {
         if (!ID_MAPPING.containsKey(paramMeth)) {
             ID_MAPPING.put(getMeth(), 0);
         }
-        id = ID_MAPPING.get(getMeth()) + 1;
+        elementId = ID_MAPPING.get(getMeth()) + 1;
         ID_MAPPING.put(getMeth(), getId());
 
     }
 
     /**
-     * Getter for the id.
+     * Getter for the elementId.
      * 
-     * @return the id of this element
+     * @return the elementId of this element
      */
-    public final int getId() {
-        return id;
+    public int getId() {
+        return elementId;
     }
 
     /**
@@ -75,16 +75,16 @@ public final class BenchmarkElement {
      * 
      * @return the meth
      */
-    public final BenchmarkMethod getMeth() {
+    public BenchmarkMethod getMeth() {
         return meth;
     }
 
     /** {@inheritDoc} */
     @Override
-    public final int hashCode() {
+    public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + id;
+        result = prime * result + elementId;
         if (meth == null) {
             result = prime * result;
         } else {
@@ -95,39 +95,40 @@ public final class BenchmarkElement {
 
     /** {@inheritDoc} */
     @Override
-    public final boolean equals(final Object obj) {
+    public boolean equals(final Object obj) {
+        boolean returnVal = true;
         if (this == obj) {
-            return true;
+            returnVal = true;
         }
         if (obj == null) {
-            return false;
+            returnVal = false;
         }
         if (getClass() != obj.getClass()) {
-            return false;
+            returnVal = false;
         }
         final BenchmarkElement other = (BenchmarkElement) obj;
-        if (id != other.id) {
-            return false;
+        if (elementId != other.elementId) {
+            returnVal = false;
         }
         if (meth == null) {
             if (other.meth != null) {
-                return false;
+                returnVal = false;
             }
         } else {
             if (!meth.equals(other.meth)) {
-                return false;
+                returnVal = false;
             }
         }
-        return true;
+        return returnVal;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public final String toString() {
+    public String toString() {
         return new StringBuilder(meth.toString())
-                .append(":").append(id).toString();
+                .append(":").append(elementId).toString();
     }
 
 }

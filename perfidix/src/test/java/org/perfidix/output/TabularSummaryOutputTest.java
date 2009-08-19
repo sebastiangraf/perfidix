@@ -33,8 +33,8 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.perfidix.annotation.Bench;
-import org.perfidix.failureHandling.PerfidixMethodException;
-import org.perfidix.failureHandling.PerfidixMethodInvocationException;
+import org.perfidix.exceptions.AbstractPerfidixMethodException;
+import org.perfidix.exceptions.PerfidixMethodInvocationException;
 import org.perfidix.meter.AbstractMeter;
 import org.perfidix.meter.CountingMeter;
 import org.perfidix.ouput.TabularSummaryOutput;
@@ -56,7 +56,7 @@ public class TabularSummaryOutputTest {
 
     private ByteArrayOutputStream bytes;
 
-    private PerfidixMethodException testException;
+    private AbstractPerfidixMethodException testException;
 
     /**
      * Simple Constructor.
@@ -218,7 +218,7 @@ public class TabularSummaryOutputTest {
 
     /**
      * Test method for
-     * {@link org.perfidix.ouput.TabularSummaryOutput#listenToException(org.perfidix.failureHandling.PerfidixMethodException)}
+     * {@link org.perfidix.ouput.TabularSummaryOutput#listenToException(org.perfidix.exceptions.AbstractPerfidixMethodException)}
      * .
      */
     @Test

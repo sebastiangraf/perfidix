@@ -44,11 +44,11 @@ public final class Perfidix {
      * @param benchs
      *            to be inserted
      * @return one {@link BenchmarkResult} object with the results
-     * @throws Exception
-     *             of any kind
+     * @throws ClassNotFoundException
+     *             if class cannot be found
      */
-    public final static BenchmarkResult runBenchs(final String[] benchs)
-            throws Exception {
+    public static BenchmarkResult runBenchs(final String[] benchs)
+            throws ClassNotFoundException {
         final Benchmark bench = new Benchmark();
         for (String each : benchs) {
             bench.add(Class.forName(each));
@@ -61,10 +61,11 @@ public final class Perfidix {
      * 
      * @param args
      *            the classes
-     * @throws Exception
-     *             of any kind.
+     * @throws ClassNotFoundException
+     *             if class cannot be found
      */
-    public final static void main(final String[] args) throws Exception {
+    public static void main(final String[] args)
+            throws ClassNotFoundException {
         final BenchmarkResult res = runBenchs(args);
         new TabularSummaryOutput().visitBenchmark(res);
     }

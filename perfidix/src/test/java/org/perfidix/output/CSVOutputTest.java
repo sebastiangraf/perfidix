@@ -36,8 +36,8 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.perfidix.annotation.Bench;
-import org.perfidix.failureHandling.PerfidixMethodException;
-import org.perfidix.failureHandling.PerfidixMethodInvocationException;
+import org.perfidix.exceptions.AbstractPerfidixMethodException;
+import org.perfidix.exceptions.PerfidixMethodInvocationException;
 import org.perfidix.meter.AbstractMeter;
 import org.perfidix.meter.CountingMeter;
 import org.perfidix.ouput.CSVOutput;
@@ -60,7 +60,7 @@ public class CSVOutputTest {
 
     private ByteArrayOutputStream bytes;
 
-    private PerfidixMethodException testException;
+    private AbstractPerfidixMethodException testException;
 
     private final static File TEST_FOLDER = new File("benchTest");
 
@@ -172,7 +172,7 @@ public class CSVOutputTest {
 
     /**
      * Test method for
-     * {@link org.perfidix.ouput.CSVOutput#listenToException(org.perfidix.failureHandling.PerfidixMethodException)}
+     * {@link org.perfidix.ouput.CSVOutput#listenToException(org.perfidix.exceptions.AbstractPerfidixMethodException)}
      * .
      * 
      * @throws Exception
@@ -184,7 +184,7 @@ public class CSVOutputTest {
         final CSVOutput output = new CSVOutput();
         output.listenToException(testException);
         final String beginString =
-                new String("Bench,Class1#method1,java.io.IOException");
+                "Bench,Class1#method1,java.io.IOException";
         assertTrue(bytes.toString().startsWith(beginString));
 
     }
@@ -210,8 +210,7 @@ public class CSVOutputTest {
         }
         output.visitBenchmark(benchRes);
         final String data =
-                new String(
-                        "0.5,1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,1.0,2.0,3.0,4.0,5.0,6.0,7.0,8.0,9.0,10.0");
+                "0.5,1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,1.0,2.0,3.0,4.0,5.0,6.0,7.0,8.0,9.0,10.0";
         assertTrue(bytes.toString().contains(data));
 
     }
@@ -348,7 +347,7 @@ public class CSVOutputTest {
 
     /**
      * Test method for
-     * {@link org.perfidix.ouput.CSVOutput#listenToException(org.perfidix.failureHandling.PerfidixMethodException)}
+     * {@link org.perfidix.ouput.CSVOutput#listenToException(org.perfidix.exceptions.AbstractPerfidixMethodException)}
      * .
      * 
      * @throws Exception
@@ -361,7 +360,7 @@ public class CSVOutputTest {
         final CSVOutput output = new CSVOutput(TEST_FOLDER);
         output.listenToException(testException);
         final String beginString =
-                new String("Bench,Class1#method1,java.io.IOException");
+                "Bench,Class1#method1,java.io.IOException";
 
         assertEquals(4, TEST_FOLDER.listFiles().length);
 

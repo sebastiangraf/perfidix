@@ -47,12 +47,12 @@ import org.perfidix.meter.AbstractMeter;
 public abstract class AbstractResult {
 
     /** Related element of this container. Can be a method or a class. */
-    private final Object relatedElement;
+    private transient final Object relatedElement;
 
     /**
      * Results mapped to the meters.
      */
-    private final Map<AbstractMeter, Collection<Double>> meterResults;
+    private transient final Map<AbstractMeter, Collection<Double>> meterResults;
 
     /**
      * Constructor with a given name.
@@ -60,8 +60,8 @@ public abstract class AbstractResult {
      * @param paramRelatedElement
      *            element to this result.
      */
-    protected AbstractResult(final Object paramRelatedElement) {
-        this.relatedElement = paramRelatedElement;
+    protected AbstractResult(final Object paramElement) {
+        this.relatedElement = paramElement;
         this.meterResults =
                 new Hashtable<AbstractMeter, Collection<Double>>();
 

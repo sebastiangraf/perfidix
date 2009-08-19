@@ -28,7 +28,7 @@ import java.lang.reflect.Method;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.perfidix.failureHandling.PerfidixMethodException;
+import org.perfidix.exceptions.AbstractPerfidixMethodException;
 import org.perfidix.meter.AbstractMeter;
 import org.perfidix.result.BenchmarkResult;
 import org.perfidix.result.ClassResult;
@@ -47,22 +47,22 @@ public final class CSVOutput extends AbstractOutput {
     private static final String SEPARATOR = "$";
 
     /** Print stream where the result should end. */
-    private final File folder;
+    private transient final File folder;
 
     /**
      * Flag for correct commata for results.
      */
-    private boolean firstResult;
+    private transient boolean firstResult;
 
     /**
      * Flag for correct commata for exceptions.
      */
-    private boolean firstException;
+    private transient boolean firstException;
 
     /**
      * Set for deleting old files in the beginning.
      */
-    private final Set<File> usedFiles;
+    private transient final Set<File> usedFiles;
 
     /**
      * Constructor for piping the result to elsewhere.
@@ -71,6 +71,7 @@ public final class CSVOutput extends AbstractOutput {
      *            an {@link File} object which has to be a folder to write to
      */
     public CSVOutput(final File paramFolder) {
+        super();
         folder = paramFolder;
         if (folder != null && !folder.isDirectory()) {
             throw new IllegalStateException(new StringBuilder(paramFolder
@@ -92,7 +93,7 @@ public final class CSVOutput extends AbstractOutput {
      * {@inheritDoc}
      */
     @Override
-    public final void listenToResultSet(
+    public void listenToResultSet(
             final Method meth, final AbstractMeter meter, final double data) {
         try {
 
@@ -103,7 +104,7 @@ public final class CSVOutput extends AbstractOutput {
             if (!firstResult) {
                 stream.append(",");
             }
-            stream.append(new Double(data).toString());
+            stream.append(Double.toString(data));
             stream.flush();
             firstResult = false;
         } catch (final Exception e) {
@@ -114,7 +115,7 @@ public final class CSVOutput extends AbstractOutput {
 
     /** {@inheritDoc} */
     @Override
-    public final void listenToException(final PerfidixMethodException exec) {
+    public void listenToException(final AbstractPerfidixMethodException exec) {
         try {
             final PrintStream currentWriter =
                     setUpNewPrintStream(false, "Exceptions");
@@ -141,7 +142,7 @@ public final class CSVOutput extends AbstractOutput {
 
     /** {@inheritDoc} */
     @Override
-    public final void visitBenchmark(final BenchmarkResult res) {
+    public void visitBenchmark(final BenchmarkResult res) {
         // Printing the data
         for (final ClassResult classRes : res.getIncludedResults()) {
             for (final MethodResult methRes : classRes
@@ -180,7 +181,7 @@ public final class CSVOutput extends AbstractOutput {
             final PrintStream currentWriter =
                     setUpNewPrintStream(true, "Exceptions");
 
-            for (final PerfidixMethodException exec : res.getExceptions()) {
+            for (final AbstractPerfidixMethodException exec : res.getExceptions()) {
                 currentWriter
                         .append(exec.getRelatedAnno().getSimpleName());
                 if (exec.getMethod() != null) {
@@ -214,11 +215,16 @@ public final class CSVOutput extends AbstractOutput {
      * @throws FileNotFoundException
      *             if something goes wrong with the file
      */
-    private final PrintStream setUpNewPrintStream(
+    private PrintStream setUpNewPrintStream(
             final boolean visitorStream, final String... names)
             throws FileNotFoundException {
 
-        if (folder != null) {
+        if (folder == null) {
+            if (visitorStream) {
+                System.out.println();
+            }
+            return System.out;
+        } else {
             final File toWriteTo = new File(folder, buildFileName(names));
             if (!usedFiles.contains(toWriteTo)) {
                 toWriteTo.delete();
@@ -227,11 +233,6 @@ public final class CSVOutput extends AbstractOutput {
             }
             return new PrintStream(new FileOutputStream(
                     toWriteTo, !visitorStream));
-        } else {
-            if (visitorStream) {
-                System.out.println();
-            }
-            return System.out;
         }
     }
 
@@ -242,7 +243,7 @@ public final class CSVOutput extends AbstractOutput {
      *            different names to be combined
      * @return a String for a suitable file name
      */
-    private final String buildFileName(final String... names) {
+    private String buildFileName(final String... names) {
         final StringBuilder builder = new StringBuilder();
         for (int i = 0; i < names.length; i++) {
             builder.append(names[i]);

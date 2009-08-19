@@ -30,7 +30,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.perfidix.annotation.Bench;
-import org.perfidix.failureHandling.PerfidixMethodInvocationException;
+import org.perfidix.exceptions.PerfidixMethodInvocationException;
 import org.perfidix.meter.CountingMeter;
 
 /**
@@ -121,7 +121,7 @@ public class ResultContainerTest {
 
     /**
      * Test method for
-     * {@link org.perfidix.result.BenchmarkResult#addException(org.perfidix.failureHandling.PerfidixMethodException)}
+     * {@link org.perfidix.result.BenchmarkResult#addException(org.perfidix.exceptions.AbstractPerfidixMethodException)}
      * and {@link org.perfidix.result.BenchmarkResult#getExceptions()} .
      */
     @Test

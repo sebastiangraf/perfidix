@@ -40,7 +40,7 @@ import org.perfidix.annotation.BeforeFirstRun;
 import org.perfidix.annotation.Bench;
 import org.perfidix.annotation.BenchClass;
 import org.perfidix.annotation.SkipBench;
-import org.perfidix.failureHandling.PerfidixMethodCheckException;
+import org.perfidix.exceptions.PerfidixMethodCheckException;
 
 /**
  * This class acts as a testcase for the BenchmarkElement-class.

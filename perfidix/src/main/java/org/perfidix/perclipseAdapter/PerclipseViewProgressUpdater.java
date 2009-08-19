@@ -33,7 +33,7 @@ import org.perfidix.element.BenchmarkMethod;
  * 
  * @author Lewandowski Lukas, University of Konstanz
  */
-public class PerclipseViewProgressUpdater {
+public final class PerclipseViewProgressUpdater {
 
     private PerclipseViewStub viewStub;
 
@@ -46,10 +46,12 @@ public class PerclipseViewProgressUpdater {
      * @param port
      *            Port represent the port number of the eclipse view.
      */
-    public PerclipseViewProgressUpdater(String host, int port) {
-        if (host == "" || host == null)
-            host = "localhost";
-        viewStub = new PerclipseViewStub(host, port);
+    public PerclipseViewProgressUpdater(final String host, final int port) {
+        String strubParam = host;
+        if (host == "" || host == null) {
+            strubParam = "localhost";
+        }
+        viewStub = new PerclipseViewStub(strubParam, port);
 
     }
 
