@@ -35,7 +35,7 @@ import org.perfidix.element.BenchmarkMethod;
  */
 public final class PerclipseViewProgressUpdater {
 
-    private PerclipseViewStub viewStub;
+    private transient final PerclipseViewStub viewStub;
 
     /**
      * The constructor initializes the host and port for creation a client
@@ -48,7 +48,7 @@ public final class PerclipseViewProgressUpdater {
      */
     public PerclipseViewProgressUpdater(final String host, final int port) {
         String strubParam = host;
-        if (host == "" || host == null) {
+        if (host == null || host.equals("")) {
             strubParam = "localhost";
         }
         viewStub = new PerclipseViewStub(strubParam, port);
@@ -65,9 +65,9 @@ public final class PerclipseViewProgressUpdater {
     public void initProgressView(
             final Map<BenchmarkMethod, Integer> mapping) {
         if (mapping != null) {
-            Set<BenchmarkMethod> methodSet = mapping.keySet();
+            final Set<BenchmarkMethod> methodSet = mapping.keySet();
 
-            HashMap<String, Integer> finalMap =
+            final Map<String, Integer> finalMap =
                     new HashMap<String, Integer>();
             for (BenchmarkMethod benchmarkMethod : methodSet) {
 
@@ -83,13 +83,13 @@ public final class PerclipseViewProgressUpdater {
     /**
      * This method notifies the eclipse view which element is currently benched.
      * 
-     * @param fullQualifiedElementName
+     * @param name
      *            This param represents the java element which is currently
-     *            benched.
+     *            benched and which is fully qualified.
      */
-    public void updateCurrentElement(String fullQualifiedElementName) {
-        if (fullQualifiedElementName != null) {
-            viewStub.updateCurrentRun(fullQualifiedElementName);
+    public void updateCurrentElement(final String name) {
+        if (name != null) {
+            viewStub.updateCurrentRun(name);
         }
     }
 
@@ -101,7 +101,7 @@ public final class PerclipseViewProgressUpdater {
      *            Element represents the java element which has not been
      *            executed successfully.
      */
-    public void updateErrorInElement(String fullQualifiedElementName) {
+    public void updateErrorInElement(final String fullQualifiedElementName) {
         if (fullQualifiedElementName != null) {
             viewStub.updateError(fullQualifiedElementName);
         }

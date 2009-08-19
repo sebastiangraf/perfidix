@@ -24,7 +24,7 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.util.HashMap;
+import java.util.Map;
 
 /**
  * This class creates the connection to the eclipse view, which depict the
@@ -34,11 +34,10 @@ import java.util.HashMap;
  * @author Lewandowski Lukas, University of Konstanz
  */
 public class PerclipseViewStub implements IBenchRunSessionListener {
-    private String host;
-    private int viewListenerPort;
-    private String command;
-    private Socket socket;
-    private ObjectOutputStream outputStream;
+    private transient final String host;
+    private transient String command;
+    private transient Socket socket;
+    private transient ObjectOutputStream outputStream;
 
     /**
      * The constructor initializes the given host name and the port, which are
@@ -50,15 +49,14 @@ public class PerclipseViewStub implements IBenchRunSessionListener {
      * @param viewListenerPort
      *            This param represents the port of the view.
      */
-    public PerclipseViewStub(String host, int viewListenerPort) {
+    public PerclipseViewStub(final String host, final int viewListenerPort) {
         if (host == null) {
             this.host = "localhost";
         } else {
             this.host = host;
         }
-        this.viewListenerPort = viewListenerPort;
         try {
-            socket = new Socket(this.host, this.viewListenerPort);
+            socket = new Socket(this.host, viewListenerPort);
             outputStream =
                     new ObjectOutputStream(socket.getOutputStream());
         } catch (UnknownHostException e) {
@@ -72,12 +70,11 @@ public class PerclipseViewStub implements IBenchRunSessionListener {
     }
 
     /** {@inheritDoc} */
-    public void initTotalBenchProgress(
-            HashMap<String, Integer> benchElementsWithTotalBench) {
+    public void initTotalBenchProgress(final Map<String, Integer> elems) {
         command = "init";
         try {
             outputStream.writeObject(command);
-            outputStream.writeObject(benchElementsWithTotalBench);
+            outputStream.writeObject(elems);
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -86,7 +83,7 @@ public class PerclipseViewStub implements IBenchRunSessionListener {
     }
 
     /** {@inheritDoc} */
-    public void updateCurrentRun(String currentElement) {
+    public void updateCurrentRun(final String currentElement) {
         command = "updateCurrentRun";
         try {
             outputStream.writeObject(command);
@@ -99,7 +96,7 @@ public class PerclipseViewStub implements IBenchRunSessionListener {
     }
 
     /** {@inheritDoc} */
-    public void updateError(String element) {
+    public void updateError(final String element) {
         command = "updateError";
         try {
             outputStream.writeObject(command);
