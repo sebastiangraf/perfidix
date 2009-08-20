@@ -103,8 +103,6 @@ public class PerfidixLaunchConfiguration
         if (containerHandle.length() != 0) {
             // benching an entire project/package
             types = BenchSearchEngine.findBenchs(new Object[] { javaProject });
-            System.out.println("Benchin entire project/package: "
-                    + javaProject.getElementName());
             PerclipseActivator.logInfo("Benching an entire project/package");
         } else {
             // benching a single class
@@ -115,8 +113,7 @@ public class PerfidixLaunchConfiguration
                                     (String) null);
 
             types = new IType[] { javaProject.findType(benchTypeName) };
-            System.out.println("Benching class: " + benchTypeName);
-            PerclipseActivator.logInfo("Benching class " + benchTypeName);
+            PerclipseActivator.logInfo("Benching a single class " + benchTypeName);
         }
 
         BenchSearchResult result = new BenchSearchResult(types);
