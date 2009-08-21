@@ -5,6 +5,7 @@ package org.perfidix.Perclipse.launcher;
 
 import static org.junit.Assert.*;
 
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.Status;
 import org.junit.After;
 import org.junit.Before;
@@ -13,7 +14,7 @@ import org.perfidix.Perclipse.util.TestUtilClass;
 
 /**
  * This class tests the java class
- * {@link org.perfidix.Perclipse.view.PerfidixProgressBar}.
+ * {@link org.perfidix.Perclipse.launcher.PerclipseActivator}.
  * 
  * @author Lewandowski Lukas, DiSy, University of Konstanz
  */
@@ -172,7 +173,8 @@ public class PerclipseActivatorTest {
      */
     @Test
     public void testGetWorkspace() {
-        fail("Not yet implemented"); // TODO
+        assertNotNull(activator.getWorkspace());
+        assertNotNull(PerclipseActivator.getDefault().getWorkspace());
     }
 
 }

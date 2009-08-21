@@ -34,7 +34,7 @@ import org.eclipse.jdt.launching.IJavaLaunchConfigurationConstants;
  * The PerfidixLaunchDescription class is responsible for the setting of various
  * launch description items you need to run a launch configuration
  * 
- * @author lewandow
+ * @author Graf Sebastian, Lewandowski Lukas, Disy Group, University of Konstanz
  */
 public class PerfidixLaunchDescription {
 
