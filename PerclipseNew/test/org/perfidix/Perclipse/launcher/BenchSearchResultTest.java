@@ -18,7 +18,7 @@ import org.perfidix.Perclipse.viewTreeData.TreeDataProvider;
 
 /**
  * This class tests the java class
- * {@link org.perfidix.Perclipse.view.PerfidixProgressBar}.
+ * {@link org.perfidix.Perclipse.launcher.BenchSearchResult}.
  * 
  * @author Lewandowski Lukas, DiSy, University of Konstanz
  */

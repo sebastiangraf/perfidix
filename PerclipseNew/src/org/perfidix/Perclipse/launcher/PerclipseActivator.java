@@ -1,6 +1,7 @@
 package org.perfidix.Perclipse.launcher;
 
 import org.eclipse.core.resources.IWorkspace;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.resource.ImageDescriptor;
@@ -203,7 +204,7 @@ public class PerclipseActivator extends AbstractUIPlugin {
      * @return This method returns the plug-in workspace.
      */
     public IWorkspace getWorkspace() {
-        return plugin.getWorkspace();
+        return ResourcesPlugin.getWorkspace();
     }
 
     /**

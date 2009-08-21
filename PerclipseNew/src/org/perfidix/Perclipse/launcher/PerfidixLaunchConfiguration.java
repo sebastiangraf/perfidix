@@ -24,8 +24,8 @@ import org.perfidix.Perclipse.util.BenchSearchEngine;
 /**
  * The PerfidixLaunchConfiguration class is a subclass of the
  * AbstractJavaLaunchConfigurationDelegate and so our implementation of
- * LaunchConfigurationDelegate. It contains the necessary configurations for our
- * plugin.
+ * LaunchConfigurationDelegate. It contains the necessary configurations for
+ * starting perfidix within our plugin.
  * 
  * @author Graf S., Lewandowski L., DiSy, University of Konstanz
  */
