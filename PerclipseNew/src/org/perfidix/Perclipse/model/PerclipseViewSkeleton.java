@@ -84,8 +84,8 @@ public class PerclipseViewSkeleton extends Thread {
                 }
             } catch (IOException e) {
                 if (e instanceof EOFException) {
-                    System.out
-                            .println("Connection has been interrupted. ServerSocket will close..");
+//                    System.out
+//                            .println("Connection has been interrupted. ServerSocket will close..");
                     PerclipseActivator
                             .log(
                                     e,
