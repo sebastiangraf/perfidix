@@ -49,17 +49,17 @@ import org.perfidix.result.MethodResult;
  * 
  * @author Sebastian Graf, University of Konstanz
  */
-public class CSVOutputTest {
+public final class CSVOutputTest {
 
     private final static int NUMBER_OF_TICKS = 10;
 
-    private BenchmarkResult benchRes;
+    private transient BenchmarkResult benchRes;
 
-    private PrintStream consoleOut;
+    private transient PrintStream consoleOut;
 
-    private ByteArrayOutputStream bytes;
+    private transient ByteArrayOutputStream bytes;
 
-    private AbstractPerfidixMethodException testException;
+    private transient AbstractPerfidixMethodException testException;
 
     private final static File TEST_FOLDER = new File("benchTest");
 
@@ -72,7 +72,7 @@ public class CSVOutputTest {
     public void setUp() throws Exception {
         benchRes = new BenchmarkResult();
 
-        final Class< ? > class1 = new Class1().getClass();
+        final Class< ? > class1 = Class1.class;
 
         final Method meth11 = class1.getDeclaredMethod("method1");
         final Method meth12 = class1.getDeclaredMethod("method2");
@@ -106,7 +106,6 @@ public class CSVOutputTest {
      */
     @After
     public void tearDown() throws Exception {
-        benchRes = null;
         System.setOut(consoleOut);
         for (final File file : TEST_FOLDER.listFiles()) {
             file.delete();
@@ -120,7 +119,7 @@ public class CSVOutputTest {
      * .
      */
     @Test
-    public final void testVisitSystemOut() {
+    public void testVisitSystemOut() {
 
         final CSVOutput output = new CSVOutput();
         output.visitBenchmark(benchRes);
@@ -145,7 +144,7 @@ public class CSVOutputTest {
      * .
      */
     @Test
-    public final void testListenSystemOut() {
+    public void testListenSystemOut() {
         final ClassResult classRes =
                 benchRes.getIncludedResults().iterator().next();
         final CSVOutput output = new CSVOutput();
@@ -178,7 +177,7 @@ public class CSVOutputTest {
      *             because of reflective invocation
      */
     @Test
-    public final void testListenExceptionSystemOut() throws Exception {
+    public void testListenExceptionSystemOut() throws Exception {
 
         final CSVOutput output = new CSVOutput();
         output.listenToException(testException);
@@ -194,7 +193,7 @@ public class CSVOutputTest {
      * .
      */
     @Test
-    public final void testVisitListenSystemOut() {
+    public void testVisitListenSystemOut() {
         final CSVOutput output = new CSVOutput();
 
         final ClassResult classRes =
@@ -223,7 +222,7 @@ public class CSVOutputTest {
      *             of any kind
      */
     @Test
-    public final void testVisitListenerFile() throws Exception {
+    public void testVisitListenerFile() throws Exception {
         final CSVOutput output = new CSVOutput(TEST_FOLDER);
 
         final ClassResult classRes =
@@ -268,7 +267,7 @@ public class CSVOutputTest {
      *             of any kind .
      */
     @Test
-    public final void testVisitFile() throws Exception {
+    public void testVisitFile() throws Exception {
 
         final CSVOutput output = new CSVOutput(TEST_FOLDER);
         output.visitBenchmark(benchRes);
@@ -309,7 +308,7 @@ public class CSVOutputTest {
      *             of any kind
      */
     @Test
-    public final void testListenFile() throws Exception {
+    public void testListenFile() throws Exception {
         final ClassResult classRes =
                 benchRes.getIncludedResults().iterator().next();
         final CSVOutput output = new CSVOutput(TEST_FOLDER);
@@ -353,7 +352,7 @@ public class CSVOutputTest {
      *             because of reflective invocation
      */
     @Test
-    public final void testListenExceptionFile() throws Exception {
+    public void testListenExceptionFile() throws Exception {
 
         final CSVOutput output = new CSVOutput(TEST_FOLDER);
         output.listenToException(testException);

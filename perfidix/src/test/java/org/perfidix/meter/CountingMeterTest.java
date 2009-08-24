@@ -24,7 +24,6 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.Random;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -48,35 +47,22 @@ public class CountingMeterTest {
     /**
      * Instance to test.
      */
-    private CountingMeter meter;
+    private transient CountingMeter meter;
 
     /**
-     * @throws java.lang.Exception
-     *             for everything
+     * Setting up the meter.
      */
     @Before
-    public final void setUp() throws Exception {
+    public void setUp() {
         meter = new CountingMeter();
-    }
-
-    /**
-     * @throws java.lang.Exception
-     *             for everything
-     */
-    @After
-    public final void tearDown() throws Exception {
-        meter = null;
     }
 
     /**
      * Test method for ticks and getValue(). Number of ticks must be the same
      * than the storedValue();
-     * 
-     * @throws Exception
-     *             for everything.
      */
     @Test
-    public final void test() throws Exception {
+    public void test() {
         final Random ran = new Random(SEED);
         final int firstRun = Math.abs(ran.nextInt(RANGE));
         final int secondRun = Math.abs(ran.nextInt(RANGE));

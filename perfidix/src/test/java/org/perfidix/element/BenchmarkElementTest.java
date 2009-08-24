@@ -21,11 +21,11 @@
 package org.perfidix.element;
 
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertTrue;
 
 import java.lang.reflect.Method;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.perfidix.annotation.Bench;
@@ -37,8 +37,8 @@ import org.perfidix.annotation.Bench;
  */
 public class BenchmarkElementTest {
 
-    private BenchmarkElement benchClass1;
-    private BenchmarkElement benchClass2;
+    private transient BenchmarkElement benchClass1;
+    private transient BenchmarkElement benchClass2;
 
     /**
      * Simple setUp
@@ -48,7 +48,7 @@ public class BenchmarkElementTest {
      */
     @Before
     public void setUp() throws Exception {
-        final Class< ? > clazz = new BenchClass().getClass();
+        final Class< ? > clazz = BenchClass.class;
         final Method meth = clazz.getMethod("bench");
         final BenchmarkMethod benchMeth = new BenchmarkMethod(meth);
 
@@ -61,7 +61,9 @@ public class BenchmarkElementTest {
      */
     @Test
     public void testID() {
-        assertFalse(benchClass1.getId() == benchClass2.getId());
+        assertNotSame(
+                "Id should be the same", benchClass1.getId(), benchClass2
+                        .getId());
     }
 
     /**
@@ -70,8 +72,10 @@ public class BenchmarkElementTest {
      */
     @Test
     public void testEquals() {
-        assertFalse(benchClass1.equals(benchClass2));
-        assertTrue(benchClass1.getMeth().equals(benchClass2.getMeth()));
+        assertFalse("Bench classes should be the same", benchClass1
+                .equals(benchClass2));
+        assertTrue("Methods should be the same", benchClass1
+                .getMeth().equals(benchClass2.getMeth()));
     }
 
     /**
@@ -80,27 +84,17 @@ public class BenchmarkElementTest {
      */
     @Test
     public void testHashCode() {
-        assertFalse(benchClass1.hashCode() == benchClass2.hashCode());
-        assertTrue(benchClass1.getMeth().hashCode() == benchClass2
-                .getMeth().hashCode());
-    }
-
-    /**
-     * Simple tearDown
-     * 
-     * @throws Exception
-     *             of any kind
-     */
-    @After
-    public void tearDown() throws Exception {
-        benchClass1 = null;
-        benchClass2 = null;
+        assertNotSame(
+                "HashCode of Class should not be the same", benchClass1
+                        .hashCode(), benchClass2.hashCode());
+        assertTrue("HashCode of Method should be the same", benchClass1
+                .getMeth().hashCode() == benchClass2.getMeth().hashCode());
     }
 
     class BenchClass {
         @Bench
         public void bench() {
-
+            // Just a test for identifying classes and methods.
         }
     }
 }

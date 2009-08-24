@@ -22,11 +22,15 @@ package org.perfidix.element;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.fail;
 
 import java.lang.reflect.Method;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
+import java.util.Set;
 
 import org.junit.After;
 import org.junit.Before;
@@ -56,13 +60,16 @@ import org.perfidix.result.MethodResult;
  */
 public class BenchmarkExecutorTest {
 
-    private LinkedHashSet<AbstractMeter> meter;
+    /** Method name to test */
+    private final static String METHODNAME = "bench";
+
+    private transient Set<AbstractMeter> meter;
     /** static int to check the beforefirstcounter */
     public static int once;
     /** static int to check the beforeeachcounter */
     public static int each;
 
-    private BenchmarkResult res;
+    private transient BenchmarkResult res;
 
     /**
      * Simple SetUp.
@@ -84,122 +91,158 @@ public class BenchmarkExecutorTest {
     @After
     public void tearDown() {
         meter.clear();
-        meter = null;
-        res = null;
     }
 
     /**
      * Test method for
      * {@link org.perfidix.element.BenchmarkExecutor#getExecutor(org.perfidix.element.BenchmarkElement)}
-     * 
-     * @throws Exception
-     *             of any kind because of reflection
      */
     @Test
-    public void testGetExecutor() throws Exception {
-        final NormalTestClass getInstanceClass = new NormalTestClass();
-        final Method meth = getInstanceClass.getClass().getMethod("bench");
+    public void testGetExecutor() {
+        final NormalClass getInstanceClass = new NormalClass();
+        Method meth;
+        try {
+            meth = getInstanceClass.getClass().getMethod(METHODNAME);
 
-        final BenchmarkMethod elem1 = new BenchmarkMethod(meth);
-        final BenchmarkMethod elem2 = new BenchmarkMethod(meth);
+            final BenchmarkMethod elem1 = new BenchmarkMethod(meth);
+            final BenchmarkMethod elem2 = new BenchmarkMethod(meth);
 
-        final BenchmarkExecutor exec1 =
-                BenchmarkExecutor.getExecutor(new BenchmarkElement(elem1));
-        final BenchmarkExecutor exec2 =
-                BenchmarkExecutor.getExecutor(new BenchmarkElement(elem2));
+            final BenchmarkExecutor exec1 =
+                    BenchmarkExecutor.getExecutor(new BenchmarkElement(
+                            elem1));
+            final BenchmarkExecutor exec2 =
+                    BenchmarkExecutor.getExecutor(new BenchmarkElement(
+                            elem2));
 
-        assertTrue(exec1 == exec2);
+            assertSame("Singleton test of executor", exec1, exec2);
+        } catch (final SecurityException e) {
+            fail(e.getMessage());
+        } catch (final NoSuchMethodException e) {
+            fail(e.getMessage());
+        }
     }
 
     /**
      * Test method for
      * {@link org.perfidix.element.BenchmarkExecutor#executeBeforeMethods(java.lang.Object)}
-     * 
-     * @throws Exception
-     *             of any kind because of reflection
      */
     @Test
-    public void testExecuteBeforeMethods() throws Exception {
+    public void testExecuteBeforeMethods() {
+        try {
+            final Method meth = BeforeClass.class.getMethod("bench");
+            final Object objToExecute = BeforeClass.class.newInstance();
 
-        final BeforeTestClass getClass = new BeforeTestClass();
-        final Method meth = getClass.getClass().getMethod("bench");
-        final Object objToExecute = getClass.getClass().newInstance();
+            final BenchmarkMethod elem = new BenchmarkMethod(meth);
 
-        final BenchmarkMethod elem = new BenchmarkMethod(meth);
+            final BenchmarkExecutor exec =
+                    BenchmarkExecutor.getExecutor(new BenchmarkElement(
+                            elem));
 
-        final BenchmarkExecutor exec =
-                BenchmarkExecutor.getExecutor(new BenchmarkElement(elem));
+            exec.executeBeforeMethods(objToExecute);
+            exec.executeBeforeMethods(objToExecute);
 
-        exec.executeBeforeMethods(objToExecute);
-        exec.executeBeforeMethods(objToExecute);
-
-        assertEquals(1, once);
-        assertEquals(2, each);
+            assertEquals("Once should be inoked once", 1, once);
+            assertEquals("Each should be invoked twice", 2, each);
+        } catch (final SecurityException e) {
+            fail(e.getMessage());
+        } catch (final NoSuchMethodException e) {
+            fail(e.getMessage());
+        } catch (final InstantiationException e) {
+            fail(e.getMessage());
+        } catch (final IllegalAccessException e) {
+            fail(e.getMessage());
+        }
 
     }
 
     /**
      * Test method for
      * {@link org.perfidix.element.BenchmarkExecutor#executeBench(Object)} .
-     * 
-     * @throws Exception
-     *             of any kind because reflection
      */
     @Test
-    public void testExecuteBench() throws Exception {
-        final NormalTestClass normalClass = new NormalTestClass();
-        final Method meth = normalClass.getClass().getMethod("bench");
+    public void testExecuteBench() {
+        try {
+            final Method meth = NormalClass.class.getMethod(METHODNAME);
+            final Object objToExecute = NormalClass.class.newInstance();
+            final BenchmarkMethod elem = new BenchmarkMethod(meth);
+            final BenchmarkExecutor exec =
+                    BenchmarkExecutor.getExecutor(new BenchmarkElement(
+                            elem));
+            exec.executeBench(objToExecute);
 
-        final Object objToExecute = normalClass.getClass().newInstance();
+            assertEquals("Each is invoked just once", 1, each);
+            assertEquals(
+                    "Set should be included in the frameworks as well",
+                    meter, res.getRegisteredMeters());
+            final Iterator<ClassResult> classResIter =
+                    res.getIncludedResults().iterator();
+            final ClassResult classRes = classResIter.next();
+            assertFalse(
+                    "Iterator of classes should only contain one element",
+                    classResIter.hasNext());
+            assertEquals(
+                    "Meters should all be registered", meter, classRes
+                            .getRegisteredMeters());
+            assertEquals(
+                    "Classes has to be included in a correct way",
+                    objToExecute.getClass(), classRes.getRelatedElement());
+            assertEquals(
+                    "The NormalClass should be included", NormalClass.class,
+                    classRes.getRelatedElement());
 
-        final BenchmarkMethod elem = new BenchmarkMethod(meth);
-
-        final BenchmarkExecutor exec =
-                BenchmarkExecutor.getExecutor(new BenchmarkElement(elem));
-        exec.executeBench(objToExecute);
-
-        assertEquals(1, each);
-        assertEquals(meter, res.getRegisteredMeters());
-        final Iterator<ClassResult> classResIter =
-                res.getIncludedResults().iterator();
-        final ClassResult classRes = classResIter.next();
-        assertFalse(classResIter.hasNext());
-        assertEquals(meter, classRes.getRegisteredMeters());
-        assertEquals(objToExecute.getClass(), classRes.getRelatedElement());
-        assertEquals(normalClass.getClass(), classRes.getRelatedElement());
-
-        final Iterator<MethodResult> methResIter =
-                classRes.getIncludedResults().iterator();
-        final MethodResult methRes = methResIter.next();
-        assertFalse(methResIter.hasNext());
-        assertEquals(meter, methRes.getRegisteredMeters());
-        assertEquals(meth, methRes.getRelatedElement());
+            final Iterator<MethodResult> methResIter =
+                    classRes.getIncludedResults().iterator();
+            final MethodResult methRes = methResIter.next();
+            assertFalse("Only one result should be there", methResIter
+                    .hasNext());
+            assertEquals("The set has to match", meter, methRes
+                    .getRegisteredMeters());
+            assertEquals(
+                    "The method should be the same than for the related element",
+                    meth, methRes.getRelatedElement());
+        } catch (final SecurityException e) {
+            fail(e.getMessage());
+        } catch (final NoSuchMethodException e) {
+            fail(e.getMessage());
+        } catch (final InstantiationException e) {
+            fail(e.getMessage());
+        } catch (final IllegalAccessException e) {
+            fail(e.getMessage());
+        }
 
     }
 
     /**
      * Test method for
      * {@link org.perfidix.element.BenchmarkExecutor#executeAfterMethods(java.lang.Object)}
-     * 
-     * @throws Exception
-     *             of any kind because of reflection.
      */
     @Test
-    public void testExecuteAfterMethods() throws Exception {
-        final AfterTestClass getClass = new AfterTestClass();
-        final Method meth = getClass.getClass().getMethod("bench");
-        final Object objToExecute = getClass.getClass().newInstance();
+    public void testExecuteAfterMethods() {
+        try {
+            final Method meth = AfterClass.class.getMethod(METHODNAME);
+            final Object objToExecute = AfterClass.class.newInstance();
 
-        final BenchmarkMethod elem = new BenchmarkMethod(meth);
+            final BenchmarkMethod elem = new BenchmarkMethod(meth);
 
-        final BenchmarkExecutor exec =
-                BenchmarkExecutor.getExecutor(new BenchmarkElement(elem));
+            final BenchmarkExecutor exec =
+                    BenchmarkExecutor.getExecutor(new BenchmarkElement(
+                            elem));
 
-        exec.executeAfterMethods(objToExecute);
-        exec.executeAfterMethods(objToExecute);
+            exec.executeAfterMethods(objToExecute);
+            exec.executeAfterMethods(objToExecute);
 
-        assertEquals(1, once);
-        assertEquals(2, each);
+            assertEquals("Once should be invoked once", 1, once);
+            assertEquals("Each should be invoked twice", 2, each);
+        } catch (final SecurityException e) {
+            fail(e.getMessage());
+        } catch (final NoSuchMethodException e) {
+            fail(e.getMessage());
+        } catch (final InstantiationException e) {
+            fail(e.getMessage());
+        } catch (final IllegalAccessException e) {
+            fail(e.getMessage());
+        }
+
     }
 
     /**
@@ -207,48 +250,52 @@ public class BenchmarkExecutorTest {
      * {@link org.perfidix.element.BenchmarkExecutor#checkMethod(Object, Method, Class)}
      * and
      * {@link org.perfidix.element.BenchmarkExecutor#invokeMethod(Object, Method, Class)}
-     * 
-     * @throws Exception
-     *             of any kind because of reflection
      */
     @Test
-    public void testCheckAndExecute() throws Exception {
-        final Object falseObj = new Object();
-        final Object correctObj = new CheckAndExecuteTestClass();
+    public void testCheckAndExecute() {
+        try {
+            final Object falseObj = new Object();
+            final Object correctObj = new CheckAndExecuteClass();
 
-        assertEquals(2, correctObj.getClass().getDeclaredMethods().length);
+            assertEquals("Two methods should be included", 2, correctObj
+                    .getClass().getDeclaredMethods().length);
 
-        final Method correctMethod =
-                correctObj.getClass().getMethod("correctMethod");
-        final Method falseMethod =
-                correctObj.getClass().getMethod("incorrectMethod");
+            final Method correctMethod =
+                    CheckAndExecuteClass.class.getMethod("correctMethod");
+            final Method falseMethod =
+                    CheckAndExecuteClass.class
+                            .getMethod("incorrectMethod");
 
-        final PerfidixMethodCheckException e1 =
-                BenchmarkExecutor.checkMethod(
-                        falseObj, correctMethod, SkipBench.class);
-        assertTrue(e1 != null);
+            final PerfidixMethodCheckException excep1 =
+                    BenchmarkExecutor.checkMethod(
+                            falseObj, correctMethod, SkipBench.class);
+            assertNotNull("Exception 1 shouldn't be null", excep1);
 
-        final PerfidixMethodCheckException e2 =
-                BenchmarkExecutor.checkMethod(
-                        correctObj, falseMethod, SkipBench.class);
-        assertTrue(e2 != null);
+            final PerfidixMethodCheckException excep2 =
+                    BenchmarkExecutor.checkMethod(
+                            correctObj, falseMethod, SkipBench.class);
+            assertNotNull("Exception 2 shouldn't be null", excep2);
 
-        final PerfidixMethodCheckException e3 =
-                BenchmarkExecutor.checkMethod(
-                        correctObj, correctMethod, SkipBench.class);
-        assertTrue(e3 == null);
+            final PerfidixMethodCheckException excep3 =
+                    BenchmarkExecutor.checkMethod(
+                            correctObj, correctMethod, SkipBench.class);
+            assertNull("Exception 3 shouldn't be null", excep3);
 
-        final PerfidixMethodInvocationException e4 =
-                BenchmarkExecutor.invokeMethod(
-                        correctObj, correctMethod, SkipBench.class);
-        assertTrue(e4 == null);
+            final PerfidixMethodInvocationException excep4 =
+                    BenchmarkExecutor.invokeMethod(
+                            correctObj, correctMethod, SkipBench.class);
+            assertNull("Exception 4 shouldn't be null", excep4);
 
-        assertEquals(1, once);
-
+            assertEquals("invokation of beforeFirst should be occured just once",1, once);
+        } catch (final SecurityException e) {
+            fail(e.getMessage());
+        } catch (final NoSuchMethodException e) {
+            fail(e.getMessage());
+        }
     }
 }
 
-class CheckAndExecuteTestClass {
+class CheckAndExecuteClass {
 
     public void correctMethod() {
         BenchmarkExecutorTest.once++;
@@ -260,7 +307,7 @@ class CheckAndExecuteTestClass {
 
 }
 
-class NormalTestClass {
+class NormalClass {
 
     @Bench
     public void bench() {
@@ -269,10 +316,11 @@ class NormalTestClass {
 
 }
 
-class AfterTestClass {
+class AfterClass {
 
     @Bench
     public void bench() {
+        // empty method, just for counting
     }
 
     @AfterLastRun
@@ -287,10 +335,11 @@ class AfterTestClass {
 
 }
 
-class BeforeTestClass {
+class BeforeClass {
 
     @Bench
     public void bench() {
+        // empty method, just for counting
     }
 
     @BeforeFirstRun

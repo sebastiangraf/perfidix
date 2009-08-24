@@ -22,49 +22,35 @@ package org.perfidix.meter;
 
 import static org.junit.Assert.assertTrue;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 /**
+ * Test case for Thread Meter.
+ * 
  * @author Sebastian Graf, University of Konstanz
  */
 public final class ThreadMeterTest {
 
-    private ThreadMeter meter;
+    private transient ThreadMeter meter;
 
     /**
      * Simple setUp.
-     * 
-     * @throws java.lang.Exception
-     *             for any Kind
      */
     @Before
-    public final void setUp() throws Exception {
+    public void setUp() {
         meter = new ThreadMeter();
     }
 
     /**
-     * Simple tearDown.
-     * 
-     * @throws java.lang.Exception
-     *             for any Kind
-     */
-    @After
-    public final void tearDown() throws Exception {
-        meter = null;
-    }
-
-    /**
      * Test method for {@link org.perfidix.meter.ThreadMeter#getValue()}.
-     * 
-     * @throws Exception
-     *             of any kind
      */
     @Test
-    public final void testGetValue() throws Exception {
+    public void testGetValue() {
         final double threadMeter = meter.getValue();
-        assertTrue(threadMeter >= 4);
+        assertTrue(
+                "Number of thread should be larger than 4",
+                threadMeter >= 4);
 
     }
 

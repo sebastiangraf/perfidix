@@ -38,144 +38,144 @@ public final class NormalCompleteBench {
     /** Static for setting number of runs */
     public final static int RUNS = 25;
 
-    private static int beforeClassCounter = 0;
-    private static int beforeFirstRunCounter = 0;
-    private static int beforeEachRunCounter = 0;
-    private static int benchCounter = 0;
-    private static int afterEachRunCounter = 0;
-    private static int afterLastRunCounter = 0;
-    private static int afterClassCounter = 0;
+    private static int beforeClassC = 0;
+    private static int beforeFirstRunC = 0;
+    private static int beforeEachRunC = 0;
+    private static int benchC = 0;
+    private static int afterEachC = 0;
+    private static int afterLastC = 0;
+    private static int afterClassC = 0;
 
     /**
      * before benchclass
      */
     @BeforeBenchClass
-    public final void beforeClass() {
-        beforeClassCounter++;
+    public void beforeClass() {
+        beforeClassC++;
     }
 
     /**
      * before firstrun
      */
     @BeforeFirstRun
-    public final void beforeFirstRun() {
-        beforeFirstRunCounter++;
+    public void beforeFirstRun() {
+        beforeFirstRunC++;
     }
 
     /**
      * before eachrun
      */
     @BeforeEachRun
-    public final void beforeEachRun() {
-        beforeEachRunCounter++;
+    public void beforeEachRun() {
+        beforeEachRunC++;
     }
 
     /**
      * Bench
      */
     @Bench(runs = RUNS)
-    public final void bench() {
-        benchCounter++;
+    public void bench() {
+        benchC++;
     }
 
     /**
      * after eachrun
      */
     @AfterEachRun
-    public final void afterEachRun() {
-        afterEachRunCounter++;
+    public void afterEachRun() {
+        afterEachC++;
     }
 
     /**
      * before eachrun
      */
     @AfterLastRun
-    public final void afterLastRun() {
-        afterLastRunCounter++;
+    public void afterLastRun() {
+        afterLastC++;
     }
 
     /**
      * after benchclass
      */
     @AfterBenchClass
-    public final void afterClass() {
-        afterClassCounter++;
+    public void afterClass() {
+        afterClassC++;
     }
 
     /**
      * Resetting everything
      */
-    public static final void reset() {
-        beforeClassCounter = 0;
-        beforeEachRunCounter = 0;
-        beforeFirstRunCounter = 0;
-        benchCounter = 0;
-        afterClassCounter = 0;
-        afterEachRunCounter = 0;
-        afterLastRunCounter = 0;
+    public static void reset() {
+        beforeClassC = 0;
+        beforeEachRunC = 0;
+        beforeFirstRunC = 0;
+        benchC = 0;
+        afterClassC = 0;
+        afterEachC = 0;
+        afterLastC = 0;
     }
 
     /**
-     * Getter for member beforeClassCounter
+     * Getter for member beforeClassC
      * 
-     * @return the beforeClassCounter
+     * @return the beforeClassC
      */
-    public static final int getBeforeClassCounter() {
-        return beforeClassCounter;
+    public static int getBeforeClassCounter() {
+        return beforeClassC;
     }
 
     /**
-     * Getter for member beforeFirstRunCounter
+     * Getter for member beforeFirstRunC
      * 
-     * @return the beforeFirstRunCounter
+     * @return the beforeFirstRunC
      */
-    public static final int getBeforeFirstRunCounter() {
-        return beforeFirstRunCounter;
+    public static int getBeforeFirstRunCounter() {
+        return beforeFirstRunC;
     }
 
     /**
-     * Getter for member beforeEachRunCounter
+     * Getter for member beforeEachRunC
      * 
-     * @return the beforeEachRunCounter
+     * @return the beforeEachRunC
      */
-    public static final int getBeforeEachRunCounter() {
-        return beforeEachRunCounter;
+    public static int getBeforeEachRunCounter() {
+        return beforeEachRunC;
     }
 
     /**
-     * Getter for member benchCounter
+     * Getter for member benchC
      * 
-     * @return the benchCounter
+     * @return the benchC
      */
-    public static final int getBenchCounter() {
-        return benchCounter;
+    public static int getBenchCounter() {
+        return benchC;
     }
 
     /**
-     * Getter for member afterEachRunCounter
+     * Getter for member afterEachC
      * 
-     * @return the afterEachRunCounter
+     * @return the afterEachC
      */
-    public static final int getAfterEachRunCounter() {
-        return afterEachRunCounter;
+    public static int getAfterEachRunCounter() {
+        return afterEachC;
     }
 
     /**
-     * Getter for member afterLastRunCounter
+     * Getter for member afterLastC
      * 
-     * @return the afterLastRunCounter
+     * @return the afterLastC
      */
-    public static final int getAfterLastRunCounter() {
-        return afterLastRunCounter;
+    public static int getAfterLastRunCounter() {
+        return afterLastC;
     }
 
     /**
-     * Getter for member afterClassCounter
+     * Getter for member afterClassC
      * 
-     * @return the afterClassCounter
+     * @return the afterClassC
      */
-    public static final int getAfterClassCounter() {
-        return afterClassCounter;
+    public static int getAfterClassCounter() {
+        return afterClassC;
     }
 
 }

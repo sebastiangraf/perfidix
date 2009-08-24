@@ -41,7 +41,7 @@ public final class NormalIncompleteBench {
      * before firstrun
      */
     @BeforeFirstRun
-    public final void beforeFirstRun() {
+    public void beforeFirstRun() {
         fail();
     }
 
@@ -49,7 +49,7 @@ public final class NormalIncompleteBench {
      * before eachrun
      */
     @BeforeEachRun
-    public final void beforeEachRun() {
+    public void beforeEachRun() {
         fail();
     }
 
@@ -57,7 +57,7 @@ public final class NormalIncompleteBench {
      * Bench
      */
     @SkipBench
-    public final void bench() {
+    public void bench() {
         fail();
     }
 
@@ -65,7 +65,7 @@ public final class NormalIncompleteBench {
      * after eachrun
      */
     @AfterEachRun
-    public final void afterEachRun() {
+    public void afterEachRun() {
         fail();
     }
 
@@ -73,7 +73,7 @@ public final class NormalIncompleteBench {
      * before eachrun
      */
     @AfterLastRun
-    public final void afterLastRun() {
+    public void afterLastRun() {
         fail();
     }
 

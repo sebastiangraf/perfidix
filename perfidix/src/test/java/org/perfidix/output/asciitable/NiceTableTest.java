@@ -22,7 +22,6 @@ package org.perfidix.output.asciitable;
 
 import static org.junit.Assert.assertEquals;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.perfidix.ouput.asciitable.NiceTable;
@@ -35,7 +34,7 @@ import org.perfidix.ouput.asciitable.AbstractTabularComponent.Alignment;
  */
 public class NiceTableTest {
 
-    private NiceTable table;
+    private transient NiceTable table;
     private final static int COLUMNNUMBER = 10;
 
     /**
@@ -47,20 +46,12 @@ public class NiceTableTest {
     }
 
     /**
-     *Simple tearDown
-     */
-    @After
-    public void tearDown() {
-        table = null;
-    }
-
-    /**
      * Test method for
      * {@link org.perfidix.ouput.asciitable.NiceTable#NiceTable(int)}.
      */
     @Test
     public void testCreate() {
-        assertEquals("", table.toString());
+        assertEquals("Table should be emtpy", "", table.toString());
     }
 
     /**
@@ -86,14 +77,12 @@ public class NiceTableTest {
         assertEquals("|- This is a test -------------|\n", table
                 .toString());
 
-        tearDown();
         setUp();
 
         table.addHeader("This is a test", '/', Alignment.Center);
         assertEquals("|/////// This is a test ///////|\n", table
                 .toString());
 
-        tearDown();
         setUp();
 
         table.addHeader("This is a test", '\\', Alignment.Right);
