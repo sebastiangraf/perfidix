@@ -113,7 +113,8 @@ public class PerfidixLaunchConfiguration
                                     (String) null);
 
             types = new IType[] { javaProject.findType(benchTypeName) };
-            PerclipseActivator.logInfo("Benching a single class " + benchTypeName);
+            PerclipseActivator.logInfo("Benching a single class "
+                    + benchTypeName);
         }
 
         BenchSearchResult result = new BenchSearchResult(types);

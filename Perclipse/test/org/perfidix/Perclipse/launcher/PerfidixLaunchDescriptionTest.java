@@ -40,7 +40,9 @@ public class PerfidixLaunchDescriptionTest {
     }
 
     /**
-     * Test method for {@link org.perfidix.Perclipse.launcher.PerfidixLaunchDescription#PerfidixLaunchDescription(org.eclipse.jdt.core.IJavaElement, java.lang.String)}.
+     * Test method for
+     * {@link org.perfidix.Perclipse.launcher.PerfidixLaunchDescription#PerfidixLaunchDescription(org.eclipse.jdt.core.IJavaElement, java.lang.String)}
+     * .
      */
     @Ignore
     @Test
@@ -49,7 +51,9 @@ public class PerfidixLaunchDescriptionTest {
     }
 
     /**
-     * Test method for {@link org.perfidix.Perclipse.launcher.PerfidixLaunchDescription#copyAttributesInto(org.eclipse.debug.core.ILaunchConfigurationWorkingCopy)}.
+     * Test method for
+     * {@link org.perfidix.Perclipse.launcher.PerfidixLaunchDescription#copyAttributesInto(org.eclipse.debug.core.ILaunchConfigurationWorkingCopy)}
+     * .
      */
     @Ignore
     @Test
@@ -58,7 +62,9 @@ public class PerfidixLaunchDescriptionTest {
     }
 
     /**
-     * Test method for {@link org.perfidix.Perclipse.launcher.PerfidixLaunchDescription#getAttribute(java.lang.String)}.
+     * Test method for
+     * {@link org.perfidix.Perclipse.launcher.PerfidixLaunchDescription#getAttribute(java.lang.String)}
+     * .
      */
     @Ignore
     @Test
@@ -67,7 +73,9 @@ public class PerfidixLaunchDescriptionTest {
     }
 
     /**
-     * Test method for {@link org.perfidix.Perclipse.launcher.PerfidixLaunchDescription#getContainer()}.
+     * Test method for
+     * {@link org.perfidix.Perclipse.launcher.PerfidixLaunchDescription#getContainer()}
+     * .
      */
     @Ignore
     @Test
@@ -76,7 +84,9 @@ public class PerfidixLaunchDescriptionTest {
     }
 
     /**
-     * Test method for {@link org.perfidix.Perclipse.launcher.PerfidixLaunchDescription#getDefinedAttributes()}.
+     * Test method for
+     * {@link org.perfidix.Perclipse.launcher.PerfidixLaunchDescription#getDefinedAttributes()}
+     * .
      */
     @Ignore
     @Test
@@ -85,7 +95,9 @@ public class PerfidixLaunchDescriptionTest {
     }
 
     /**
-     * Test method for {@link org.perfidix.Perclipse.launcher.PerfidixLaunchDescription#getElement()}.
+     * Test method for
+     * {@link org.perfidix.Perclipse.launcher.PerfidixLaunchDescription#getElement()}
+     * .
      */
     @Ignore
     @Test
@@ -94,7 +106,9 @@ public class PerfidixLaunchDescriptionTest {
     }
 
     /**
-     * Test method for {@link org.perfidix.Perclipse.launcher.PerfidixLaunchDescription#getName()}.
+     * Test method for
+     * {@link org.perfidix.Perclipse.launcher.PerfidixLaunchDescription#getName()}
+     * .
      */
     @Ignore
     @Test
@@ -103,7 +117,9 @@ public class PerfidixLaunchDescriptionTest {
     }
 
     /**
-     * Test method for {@link org.perfidix.Perclipse.launcher.PerfidixLaunchDescription#setContainer(java.lang.String)}.
+     * Test method for
+     * {@link org.perfidix.Perclipse.launcher.PerfidixLaunchDescription#setContainer(java.lang.String)}
+     * .
      */
     @Ignore
     @Test
@@ -112,7 +128,9 @@ public class PerfidixLaunchDescriptionTest {
     }
 
     /**
-     * Test method for {@link org.perfidix.Perclipse.launcher.PerfidixLaunchDescription#setMainType(java.lang.String)}.
+     * Test method for
+     * {@link org.perfidix.Perclipse.launcher.PerfidixLaunchDescription#setMainType(java.lang.String)}
+     * .
      */
     @Ignore
     @Test
@@ -121,7 +139,9 @@ public class PerfidixLaunchDescriptionTest {
     }
 
     /**
-     * Test method for {@link org.perfidix.Perclipse.launcher.PerfidixLaunchDescription#setBenchName(java.lang.String)}.
+     * Test method for
+     * {@link org.perfidix.Perclipse.launcher.PerfidixLaunchDescription#setBenchName(java.lang.String)}
+     * .
      */
     @Ignore
     @Test
@@ -130,7 +150,9 @@ public class PerfidixLaunchDescriptionTest {
     }
 
     /**
-     * Test method for {@link org.perfidix.Perclipse.launcher.PerfidixLaunchDescription#getProject()}.
+     * Test method for
+     * {@link org.perfidix.Perclipse.launcher.PerfidixLaunchDescription#getProject()}
+     * .
      */
     @Ignore
     @Test

@@ -3,9 +3,10 @@
  */
 package org.perfidix.Perclipse.launcher;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
-import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.Status;
 import org.junit.After;
 import org.junit.Before;
@@ -150,7 +151,7 @@ public class PerclipseActivatorTest {
     @Test
     public void testGetModel() {
         assertNotNull(PerclipseActivator.getModel());
-        
+
     }
 
     /**
@@ -160,10 +161,10 @@ public class PerclipseActivatorTest {
      */
     @Test
     public void testGetBenchView() {
-       assertNull(activator.getBenchView());
-       assertNull(PerclipseActivator.getDefault().getBenchView());
-       utilClass.setViewForTesting();
-       assertNotNull(PerclipseActivator.getDefault().getBenchView());
+        assertNull(activator.getBenchView());
+        assertNull(PerclipseActivator.getDefault().getBenchView());
+        utilClass.setViewForTesting();
+        assertNotNull(PerclipseActivator.getDefault().getBenchView());
     }
 
     /**

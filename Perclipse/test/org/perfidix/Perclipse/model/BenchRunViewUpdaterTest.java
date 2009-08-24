@@ -6,21 +6,10 @@ package org.perfidix.Perclipse.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.debug.core.ILaunch;
-import org.eclipse.debug.core.Launch;
-import org.eclipse.swt.custom.ViewForm;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.ui.IViewPart;
-import org.eclipse.ui.IWorkbenchPage;
-import org.eclipse.ui.PartInitException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.perfidix.Perclipse.launcher.PerclipseActivator;
-import org.perfidix.Perclipse.launcher.PerfidixLaunchConfiguration;
 import org.perfidix.Perclipse.util.TestUtilClass;
-import org.perfidix.Perclipse.views.BenchView;
 
 /**
  * This class tests the java class

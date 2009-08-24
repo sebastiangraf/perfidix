@@ -3,14 +3,13 @@
  */
 package org.perfidix.Perclipse.model;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.HashMap;
 
-import org.eclipse.swt.internal.carbon.AEDesc;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.perfidix.Perclipse.util.TestUtilClass;
 

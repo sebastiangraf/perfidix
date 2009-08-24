@@ -1,9 +1,5 @@
 package org.perfidix.Perclipse.model;
 
-import static org.junit.Assert.*;
-
-import org.eclipse.debug.core.DebugPlugin;
-import org.eclipse.debug.core.ILaunchManager;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

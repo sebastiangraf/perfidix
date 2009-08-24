@@ -3,7 +3,8 @@
  */
 package org.perfidix.Perclipse.views;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import org.eclipse.swt.graphics.Point;
 import org.junit.After;
@@ -31,10 +32,10 @@ public class PerfidixProgressBarTest {
      */
     @Before
     public void setUp() throws Exception {
-        utilClass= new TestUtilClass();
+        utilClass = new TestUtilClass();
         utilClass.setViewForTesting();
         view = PerclipseActivator.getDefault().getBenchView();
-        progressBar=view.getProgressBar();
+        progressBar = view.getProgressBar();
 
     }
 
@@ -59,7 +60,7 @@ public class PerfidixProgressBarTest {
      */
     @Test
     public void testPerfidixProgressBar() {
-      assertNotNull(progressBar);
+        assertNotNull(progressBar);
     }
 
     /**
@@ -90,7 +91,7 @@ public class PerfidixProgressBarTest {
         progressBar.reset(true, false, 50, 100);
         progressBar.reset(false, false, 33, 12);
         progressBar.reset(false, true, 99, 99);
-        
+
     }
 
     /**
@@ -109,8 +110,8 @@ public class PerfidixProgressBarTest {
      */
     @Test
     public void testComputeSizeIntIntBoolean() {
-        Point point = new Point(22,55);
-        assertEquals(point,progressBar.computeSize(22, 55, true));
+        Point point = new Point(22, 55);
+        assertEquals(point, progressBar.computeSize(22, 55, true));
     }
 
     /**
