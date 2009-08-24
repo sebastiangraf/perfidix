@@ -18,7 +18,7 @@
  * $Date$
  *
  */
-package org.perfidix.benchmarktestClasses;
+package org.perfidix.benchmarktests;
 
 import org.perfidix.annotation.AfterBenchClass;
 import org.perfidix.annotation.AfterEachRun;

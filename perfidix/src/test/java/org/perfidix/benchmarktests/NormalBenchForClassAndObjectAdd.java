@@ -18,7 +18,7 @@
  * $Date$
  *
  */
-package org.perfidix.benchmarktestClasses;
+package org.perfidix.benchmarktests;
 
 import static org.junit.Assert.fail;
 

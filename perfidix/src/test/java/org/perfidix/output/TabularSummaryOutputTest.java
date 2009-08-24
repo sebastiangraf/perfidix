@@ -30,7 +30,6 @@ import java.lang.reflect.Method;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.perfidix.annotation.Bench;
 import org.perfidix.exceptions.AbstractPerfidixMethodException;
@@ -107,7 +106,6 @@ public class TabularSummaryOutputTest {
      * .
      */
 
-    @Ignore
     @Test
     public final void testVisitBenchmark() {
         final TabularSummaryOutput output = new TabularSummaryOutput();
