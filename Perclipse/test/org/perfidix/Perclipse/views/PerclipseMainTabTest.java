@@ -3,8 +3,7 @@
  */
 package org.perfidix.Perclipse.views;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
 import org.junit.After;
 import org.junit.Before;
@@ -12,13 +11,13 @@ import org.junit.Test;
 
 /**
  * This class tests the java class
- * {@link org.perfidix.Perclipse.view.PerclipseMainTab}.
+ * {@link org.perfidix.Perclipse.buildpath.BuildPathSupport}.
  * 
  * @author Lewandowski Lukas, DiSy, University of Konstanz
  */
 public class PerclipseMainTabTest {
     private PerclipseMainTab mainTab;
-
+    
     /**
      * Simple setUp - method.
      * 
@@ -27,7 +26,7 @@ public class PerclipseMainTabTest {
      */
     @Before
     public void setUp() throws Exception {
-        mainTab = new PerclipseMainTab();
+        mainTab= new PerclipseMainTab();
     }
 
     /**
@@ -38,22 +37,19 @@ public class PerclipseMainTabTest {
      */
     @After
     public void tearDown() throws Exception {
-        mainTab = null;
+        mainTab=null;
     }
 
     /**
-     * Test method for
-     * {@link org.perfidix.Perclipse.views.PerclipseMainTab#getName()}.
+     * Test method for {@link org.perfidix.Perclipse.views.PerclipseMainTab#getName()}.
      */
     @Test
     public void testGetName() {
-        assertNotNull(mainTab.getName());
         assertEquals("Benchs", mainTab.getName());
     }
 
     /**
-     * Test method for
-     * {@link org.perfidix.Perclipse.views.PerclipseMainTab#getImage()}.
+     * Test method for {@link org.perfidix.Perclipse.views.PerclipseMainTab#getImage()}.
      */
     @Test
     public void testGetImage() {

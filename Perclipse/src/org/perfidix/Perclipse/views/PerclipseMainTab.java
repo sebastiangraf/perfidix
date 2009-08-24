@@ -66,6 +66,13 @@ import org.perfidix.Perclipse.util.BenchSearchEngine;
  * @author Lewandowski L.
  */
 public class PerclipseMainTab extends AbstractLaunchConfigurationTab {
+    
+    /**
+     * Empty constructor
+     */
+    public PerclipseMainTab(){
+        
+    }
 
     // UI Elements for the single section
     private Button fSingleBenchRadioButton;

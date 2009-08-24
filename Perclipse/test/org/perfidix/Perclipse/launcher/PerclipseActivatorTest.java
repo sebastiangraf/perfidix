@@ -32,7 +32,7 @@ public class PerclipseActivatorTest {
     @Before
     public void setUp() throws Exception {
         utilClass = new TestUtilClass();
-        activator = new PerclipseActivator();
+        activator = PerclipseActivator.getDefault();
     }
 
     /**
@@ -165,6 +165,7 @@ public class PerclipseActivatorTest {
         assertNull(PerclipseActivator.getDefault().getBenchView());
         utilClass.setViewForTesting();
         assertNotNull(PerclipseActivator.getDefault().getBenchView());
+        utilClass.setViewNull();
     }
 
     /**
