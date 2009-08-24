@@ -1,6 +1,5 @@
 package org.perfidix.Perclipse.model;
 
-import static org.junit.Assert.*;
 import static org.junit.Assert.assertNotNull;
 
 import java.io.IOException;
@@ -103,73 +102,73 @@ public class PerclipseViewSkeletonTest {
         stubForSkeletonTest.updateError("package.Class.method1");
         stubForSkeletonTest.finishedBenchRuns();
     }
+
     /**
      * Test the stub skeleton for exception.
      */
-    @Test(expected=RuntimeException.class)
-    public void testForFalsePortException(){
+    @Test(expected = RuntimeException.class)
+    public void testForFalsePortException() {
         WorkerStubForSkeletonTest stubForSkeletonTest =
-            new WorkerStubForSkeletonTest(null, 9999);
+                new WorkerStubForSkeletonTest(null, 9999);
     }
-    
+
     /**
      * Test the stub skeleton for exception.
      */
-    @Test(expected=RuntimeException.class)
-    public void testForFalseHostException(){
+    @Test(expected = RuntimeException.class)
+    public void testForFalseHostException() {
         WorkerStubForSkeletonTest stubForSkeletonTest =
-            new WorkerStubForSkeletonTest("notLocalHost", port);
+                new WorkerStubForSkeletonTest("notLocalHost", port);
     }
-    
+
     /**
      * Test the stub skeleton for exception.
      */
-    @Test(expected=RuntimeException.class)
-    public void testForInitException(){
+    @Test(expected = RuntimeException.class)
+    public void testForInitException() {
         WorkerStubForSkeletonTest stubForSkeletonTest =
-            new WorkerStubForSkeletonTest(null, port);
+                new WorkerStubForSkeletonTest(null, port);
         stubForSkeletonTest.finishedBenchRuns();
         stubForSkeletonTest.initTotalBenchProgress(elementsMap);
     }
-    
+
     /**
      * Test the stub skeleton for exception.
      */
-    @Test(expected=RuntimeException.class)
-    public void testForUpdateRunException(){
+    @Test(expected = RuntimeException.class)
+    public void testForUpdateRunException() {
         WorkerStubForSkeletonTest stubForSkeletonTest =
-            new WorkerStubForSkeletonTest(null, port);
+                new WorkerStubForSkeletonTest(null, port);
         stubForSkeletonTest.finishedBenchRuns();
         stubForSkeletonTest.updateCurrentRun("element");
     }
-    
+
     /**
      * Test the stub skeleton for exception.
      */
-    @Test(expected=RuntimeException.class)
-    public void testForUpdateErrorException(){
+    @Test(expected = RuntimeException.class)
+    public void testForUpdateErrorException() {
         WorkerStubForSkeletonTest stubForSkeletonTest =
-            new WorkerStubForSkeletonTest(null, port);
+                new WorkerStubForSkeletonTest(null, port);
         stubForSkeletonTest.finishedBenchRuns();
         stubForSkeletonTest.updateError("element");
     }
-    
+
     /**
      * Test the stub skeleton for exception.
      */
-    @Test(expected=RuntimeException.class)
-    public void testForFinishedBenchsException(){
+    @Test(expected = RuntimeException.class)
+    public void testForFinishedBenchsException() {
         WorkerStubForSkeletonTest stubForSkeletonTest =
-            new WorkerStubForSkeletonTest(null, port);
+                new WorkerStubForSkeletonTest(null, port);
         stubForSkeletonTest.finishedBenchRuns();
         stubForSkeletonTest.finishedBenchRuns();
     }
 
     /**
-     * WorkerStub simulates the stub of perfidix. 
+     * WorkerStub simulates the stub of perfidix.
      * 
      * @author Lewandowski Lukas, DiSy, Univesity of Konstanz
-     *
      */
     private class WorkerStubForSkeletonTest {
         private String host;

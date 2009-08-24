@@ -20,14 +20,11 @@ import java.util.Set;
 import java.util.Map.Entry;
 
 import org.eclipse.core.runtime.CoreException;
-
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
-
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IType;
-
 import org.eclipse.jdt.launching.IJavaLaunchConfigurationConstants;
 
 /**

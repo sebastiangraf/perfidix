@@ -1,6 +1,7 @@
 package org.perfidix.Perclipse.views;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import org.junit.After;
 import org.junit.Before;
@@ -58,19 +59,21 @@ public class BenchViewCounterPanelTest {
         assertNotNull(counterPanel);
     }
 
-//    /**
-//     * Tests the method
-//     * {@link org.perfidix.Perclipse.views.BenchViewCounterPanel#createLabel(String, org.eclipse.swt.graphics.Image, String)
-//     * }
-//     * .
-//     */
-//    @Test
-//    public void testCreateLabel() {
-//        assertNull(counterPanel.createLabel(null, null, null));
-//        assertNotNull(counterPanel.createLabel("MyName", null, "25"));
-//        assertEquals("50", counterPanel
-//                .createLabel("TheName", null, "50").getText());
-//    }
+    // /**
+    // * Tests the method
+    // * {@link
+    // org.perfidix.Perclipse.views.BenchViewCounterPanel#createLabel(String,
+    // org.eclipse.swt.graphics.Image, String)
+    // * }
+    // * .
+    // */
+    // @Test
+    // public void testCreateLabel() {
+    // assertNull(counterPanel.createLabel(null, null, null));
+    // assertNotNull(counterPanel.createLabel("MyName", null, "25"));
+    // assertEquals("50", counterPanel
+    // .createLabel("TheName", null, "50").getText());
+    // }
 
     /**
      * Tests the method
@@ -99,7 +102,6 @@ public class BenchViewCounterPanelTest {
         counterPanel.setBenchRuns(222);
         counterPanel.setTotalRuns(555);
         assertEquals(555, counterPanel.getTotalRuns());
-        
-        
+
     }
 }

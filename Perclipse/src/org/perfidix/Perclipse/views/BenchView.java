@@ -1,9 +1,7 @@
 package org.perfidix.Perclipse.views;
 
-import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.dnd.Clipboard;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -109,14 +107,16 @@ public class BenchView extends ViewPart {
     }
 
     /**
-     * @return The created Bench Counter Panel object {@link org.perfidix.Perclipse.views.PerfidixProgressBar}
+     * @return The created Bench Counter Panel object
+     *         {@link org.perfidix.Perclipse.views.PerfidixProgressBar}
      */
     public PerfidixProgressBar getProgressBar() {
         return progressBar;
     }
-    
+
     /**
-     * @return The created Bench Counter Panel object {@link org.perfidix.Perclipse.views.BenchViewCounterPanel}
+     * @return The created Bench Counter Panel object
+     *         {@link org.perfidix.Perclipse.views.BenchViewCounterPanel}
      */
     public BenchViewCounterPanel getBenchCounterPanel() {
         return benchCounterPanel;
@@ -228,8 +228,8 @@ public class BenchView extends ViewPart {
             return;
         }
         refreshCounters();
-        if(benchRunSession!=null){
-            benchViewer.processChangesInUI(benchRunSession);            
+        if (benchRunSession != null) {
+            benchViewer.processChangesInUI(benchRunSession);
         }
     }
 

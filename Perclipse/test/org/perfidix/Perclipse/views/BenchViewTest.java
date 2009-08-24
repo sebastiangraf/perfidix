@@ -1,6 +1,7 @@
 package org.perfidix.Perclipse.views;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -92,16 +93,16 @@ public class BenchViewTest {
         view.startUpdateJobs(null);
         view.startUpdateJobs(runSession);
     }
-    
+
     /**
      * Tests the method
      * {@link org.perfidix.Perclipse.views.BenchView#handleBenchSelection(org.perfidix.Perclipse.viewTreeData.TreeDataProvider)}
      * .
      */
     @Test
-    public void testHandleBenchSelection(){
+    public void testHandleBenchSelection() {
         view.handleBenchSelection(null);
-        view.handleBenchSelection(new TreeDataProvider("SomeElement",55, 22));
+        view.handleBenchSelection(new TreeDataProvider("SomeElement", 55, 22));
     }
 
 }

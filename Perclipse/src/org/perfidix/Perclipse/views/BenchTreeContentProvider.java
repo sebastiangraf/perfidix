@@ -20,7 +20,7 @@ public class BenchTreeContentProvider extends ArrayContentProvider
             return treeData.getChildElements();
         }
 
-        return  new Object [0];
+        return new Object[0];
     }
 
     /** {@inheritDoc} */

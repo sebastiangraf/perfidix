@@ -3,18 +3,15 @@
  */
 package org.perfidix.Perclipse.launcher;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
-import java.lang.reflect.Type;
-
-import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IType;
-import org.eclipse.jdt.internal.core.JavaProject;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
-import org.perfidix.Perclipse.viewTreeData.TreeDataProvider;
 
 /**
  * This class tests the java class
@@ -35,8 +32,8 @@ public class BenchSearchResultTest {
     @Before
     public void setUp() throws Exception {
         typeArray = new IType[1];
-        typeArray[0]= null;
-        searchResult= new BenchSearchResult(typeArray);
+        typeArray[0] = null;
+        searchResult = new BenchSearchResult(typeArray);
     }
 
     /**

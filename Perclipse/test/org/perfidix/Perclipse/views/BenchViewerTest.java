@@ -1,10 +1,11 @@
 package org.perfidix.Perclipse.views;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.swt.widgets.Composite;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

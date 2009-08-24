@@ -10,14 +10,11 @@
  *******************************************************************************/
 package org.perfidix.Perclipse.views;
 
+import org.eclipse.jdt.core.IType;
+import org.eclipse.jdt.ui.JavaElementLabelProvider;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Shell;
-
 import org.eclipse.ui.dialogs.TwoPaneElementSelector;
-
-import org.eclipse.jdt.core.IType;
-
-import org.eclipse.jdt.ui.JavaElementLabelProvider;
 
 /**
  * This class represent the dialog which opens when the User clicks on the

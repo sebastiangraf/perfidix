@@ -3,9 +3,7 @@
  */
 package org.perfidix.Perclipse.model;
 
-import static org.junit.Assert.*;
-
-import java.util.HashMap;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.After;
 import org.junit.Before;

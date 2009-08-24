@@ -1,8 +1,5 @@
 package org.perfidix.Perclipse.views;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;

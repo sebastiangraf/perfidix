@@ -3,7 +3,8 @@
  */
 package org.perfidix.Perclipse.views;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import org.junit.After;
 import org.junit.Before;
@@ -26,7 +27,7 @@ public class PerclipseMainTabTest {
      */
     @Before
     public void setUp() throws Exception {
-        mainTab= new PerclipseMainTab();
+        mainTab = new PerclipseMainTab();
     }
 
     /**
@@ -37,11 +38,12 @@ public class PerclipseMainTabTest {
      */
     @After
     public void tearDown() throws Exception {
-        mainTab=null;
+        mainTab = null;
     }
 
     /**
-     * Test method for {@link org.perfidix.Perclipse.views.PerclipseMainTab#getName()}.
+     * Test method for
+     * {@link org.perfidix.Perclipse.views.PerclipseMainTab#getName()}.
      */
     @Test
     public void testGetName() {
@@ -50,7 +52,8 @@ public class PerclipseMainTabTest {
     }
 
     /**
-     * Test method for {@link org.perfidix.Perclipse.views.PerclipseMainTab#getImage()}.
+     * Test method for
+     * {@link org.perfidix.Perclipse.views.PerclipseMainTab#getImage()}.
      */
     @Test
     public void testGetImage() {
