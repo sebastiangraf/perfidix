@@ -295,7 +295,6 @@ public class BenchView extends ViewPart {
         postSyncRunnable(new Runnable() {
             public void run() {
                 if (!isDisposed() && isCreated()) {
-                    System.out.println("Selection");
                 }
             }
         });
