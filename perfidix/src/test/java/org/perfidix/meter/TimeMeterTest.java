@@ -23,7 +23,6 @@ package org.perfidix.meter;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -32,36 +31,33 @@ import org.junit.Test;
  * 
  * @author Sebastian Graf, University of Konstanz
  */
-public class TimeMeterTest {
+public final class TimeMeterTest {
 
     /**
      * Instance for nano seconds.
      */
-    private TimeMeter nano;
+    private transient TimeMeter nano;
 
     /**
      * Instance for milli seconds.
      */
-    private TimeMeter milli;
+    private transient TimeMeter milli;
 
     /**
      * Instance for seconds.
      */
-    private TimeMeter second;
+    private transient TimeMeter second;
 
     /**
      * Instance for minutes.
      */
-    private TimeMeter minute;
+    private transient TimeMeter minute;
 
     /**
      * Simple setUp.
-     * 
-     * @throws java.lang.Exception
-     *             for any Kind
      */
     @Before
-    public final void setUp() throws Exception {
+    public void setUp() {
         nano = new TimeMeter(Time.NanoSeconds);
         milli = new TimeMeter(Time.MilliSeconds);
         second = new TimeMeter(Time.Seconds);
@@ -69,27 +65,10 @@ public class TimeMeterTest {
     }
 
     /**
-     * Simple tearDown.
-     * 
-     * @throws java.lang.Exception
-     *             for any Kind
-     */
-    @After
-    public final void tearDown() throws Exception {
-        nano = null;
-        milli = null;
-        second = null;
-        minute = null;
-    }
-
-    /**
      * Test method for {@link org.perfidix.meter.TimeMeter#getValue()}.
-     * 
-     * @throws Exception
-     *             of any kind
      */
     @Test
-    public final void testGetValue() throws Exception {
+    public void testGetValue() {
         final double dataNano1 = nano.getValue();
         final double dataMilli1 = milli.getValue();
         final double dataSecond1 = second.getValue();
@@ -100,21 +79,25 @@ public class TimeMeterTest {
         final double dataSecond2 = second.getValue() - dataSecond1;
         final double dataMinute2 = minute.getValue() - dataMinute1;
 
-        assertTrue(dataNano2 > 0);
-        assertTrue(dataMilli2 > 0);
-        assertTrue(dataSecond2 > 0);
-        assertTrue(dataMinute2 > 0);
+        assertTrue("nanovalue has to be larger than 0", dataNano2 > 0);
+        assertTrue("millivalue has to be larger than 0", dataMilli2 > 0);
+        assertTrue("secondvalue has to be larger than 0", dataSecond2 > 0);
+        assertTrue("minutevalue has to be larger than 0", dataMinute2 > 0);
     }
 
     /**
      * Test method for {@link org.perfidix.meter.TimeMeter#getUnit()}.
      */
     @Test
-    public final void testGetUnit() {
-        assertEquals(Time.NanoSeconds.getUnit(), nano.getUnit());
-        assertEquals(Time.MilliSeconds.getUnit(), milli.getUnit());
-        assertEquals(Time.Seconds.getUnit(), second.getUnit());
-        assertEquals(Time.Minutes.getUnit(), minute.getUnit());
+    public void testGetUnit() {
+        assertEquals("Unit for nanos", Time.NanoSeconds.getUnit(), nano
+                .getUnit());
+        assertEquals("Unit for millis", Time.MilliSeconds.getUnit(), milli
+                .getUnit());
+        assertEquals("Unit for seconds", Time.Seconds.getUnit(), second
+                .getUnit());
+        assertEquals("Unit for minutes", Time.Minutes.getUnit(), minute
+                .getUnit());
     }
 
     /**
@@ -122,15 +105,15 @@ public class TimeMeterTest {
      * .
      */
     @Test
-    public final void testGetDescription() {
-        assertEquals(Time.NanoSeconds.getUnitDescription(), nano
-                .getUnitDescription());
-        assertEquals(Time.MilliSeconds.getUnitDescription(), milli
-                .getUnitDescription());
-        assertEquals(Time.Seconds.getUnitDescription(), second
-                .getUnitDescription());
-        assertEquals(Time.Minutes.getUnitDescription(), minute
-                .getUnitDescription());
+    public void testGetDescription() {
+        assertEquals("Description for nanos", Time.NanoSeconds
+                .getUnitDescription(), nano.getUnitDescription());
+        assertEquals("Description for millis", Time.MilliSeconds
+                .getUnitDescription(), milli.getUnitDescription());
+        assertEquals("Description for seconds", Time.Seconds
+                .getUnitDescription(), second.getUnitDescription());
+        assertEquals("Description for minutes", Time.Minutes
+                .getUnitDescription(), minute.getUnitDescription());
 
     }
 

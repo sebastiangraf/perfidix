@@ -23,7 +23,6 @@ package org.perfidix.meter;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -32,7 +31,7 @@ import org.junit.Test;
  * 
  * @author Sebastian Graf, University of Konstanz
  */
-public class MemMeterTest {
+public final class MemMeterTest {
 
     /**
      * Constant for epsilon for testCases. Memory can change...
@@ -42,79 +41,74 @@ public class MemMeterTest {
     /**
      * Byte meter variable.
      */
-    private MemMeter byteMeter;
+    private transient MemMeter byteMeter;
 
     /**
      * KibiByte meter variable.
      */
-    private MemMeter kibiByteMeter;
+    private transient MemMeter kibiByteMeter;
 
     /**
      * MebiByte meter variable.
      */
-    private MemMeter mebiByteMeter;
+    private transient MemMeter mebiByteMeter;
 
     /**
      * Simple setUp.
-     * 
-     * @throws java.lang.Exception
-     *             of any kind
      */
     @Before
-    public final void setUp() throws Exception {
+    public void setUp() {
         byteMeter = new MemMeter(Memory.Byte);
         kibiByteMeter = new MemMeter(Memory.KibiByte);
         mebiByteMeter = new MemMeter(Memory.Mebibyte);
     }
 
     /**
-     * Simple tearDown.
-     * 
-     * @throws java.lang.Exception
-     *             of any kind
-     */
-    @After
-    public final void tearDown() throws Exception {
-        byteMeter = null;
-        kibiByteMeter = null;
-        mebiByteMeter = null;
-    }
-
-    /**
      * Test method for {@link org.perfidix.meter.MemMeter#getValue()}.
      */
     @Test
-    public final void testGetValue() {
+    public void testGetValue() {
         final double dataB1 = byteMeter.getValue();
         final double dataKB1 = kibiByteMeter.getValue();
         final double dataMB1 = mebiByteMeter.getValue();
 
-        assertTrue(dataB1 > EPSILON / Memory.Byte.getNumberOfBytes());
-        assertTrue(dataKB1 > EPSILON / Memory.KibiByte.getNumberOfBytes());
-        assertTrue(dataMB1 > EPSILON / Memory.Mebibyte.getNumberOfBytes());
+        assertTrue("Data check for byte", dataB1 > EPSILON
+                / Memory.Byte.getNumberOfBytes());
+        assertTrue("Data check for KibiByte", dataKB1 > EPSILON
+                / Memory.KibiByte.getNumberOfBytes());
+        assertTrue("Data check for MebiByte", dataMB1 > EPSILON
+                / Memory.Mebibyte.getNumberOfBytes());
     }
 
     /**
      * Test method for {@link org.perfidix.meter.MemMeter#getUnit()}.
      */
     @Test
-    public final void testGetUnit() {
-        assertEquals(Memory.Byte.getUnit(), byteMeter.getUnit());
-        assertEquals(Memory.KibiByte.getUnit(), kibiByteMeter.getUnit());
-        assertEquals(Memory.Mebibyte.getUnit(), mebiByteMeter.getUnit());
+    public void testGetUnit() {
+        assertEquals(
+                "Data check for unit for byte", Memory.Byte.getUnit(),
+                byteMeter.getUnit());
+        assertEquals("Data check for unit for kibiByte", Memory.KibiByte
+                .getUnit(), kibiByteMeter.getUnit());
+        assertEquals("Data check for unit for mebiByte", Memory.Mebibyte
+                .getUnit(), mebiByteMeter.getUnit());
     }
 
     /**
      * Test method for {@link org.perfidix.meter.MemMeter#getUnitDescription()}.
      */
     @Test
-    public final void testGetDescription() {
-        assertEquals(Memory.Byte.getUnitDescription(), byteMeter
-                .getUnitDescription());
-        assertEquals(Memory.KibiByte.getUnitDescription(), kibiByteMeter
-                .getUnitDescription());
-        assertEquals(Memory.Mebibyte.getUnitDescription(), mebiByteMeter
-                .getUnitDescription());
+    public void testGetDescription() {
+        assertEquals("Data check for describtion for byte", Memory.Byte
+                .getUnitDescription(), byteMeter.getUnitDescription());
+        assertEquals(
+                "Data check for describtion for kibiByte", Memory.KibiByte
+                        .getUnitDescription(), kibiByteMeter
+                        .getUnitDescription());
+        assertEquals(
+                "Data check for describtion for mebiByte", Memory.Mebibyte
+                        .getUnitDescription(), mebiByteMeter
+                        .getUnitDescription());
 
     }
 }

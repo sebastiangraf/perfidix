@@ -50,7 +50,7 @@ import org.perfidix.exceptions.PerfidixMethodCheckException;
 
 public class BenchmarkMethodTest {
 
-    private Object currentClassToTest;
+    private transient Object currentClassToTest;
 
     /**
      * Simple setUp.
