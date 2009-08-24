@@ -121,7 +121,7 @@ public class PerfidixAddLibraryProposal implements IJavaCompletionProposal {
             IRunnableContext context) throws JavaModelException {
 
         IClasspathEntry[] oldEntries = project.getRawClasspath();
-        ArrayList newEntries = new ArrayList(oldEntries.length + 1);
+        ArrayList<IClasspathEntry> newEntries = new ArrayList<IClasspathEntry>(oldEntries.length + 1);
         boolean added = false;
         for (int i = 0; i < oldEntries.length; i++) {
             IClasspathEntry current = oldEntries[i];
