@@ -107,6 +107,26 @@ public class PerclipseViewSkeletonTest {
      * Test the stub skeleton for exception.
      */
     @Test(expected = RuntimeException.class)
+    public void testForBusyPort() {
+        skeleton= new PerclipseViewSkeleton(port);
+    }
+    
+    /**
+     * Test the stub skeleton for exception.
+     */
+    @Test(expected = RuntimeException.class)
+    public void testNoIncoming() {
+        WorkerStubForSkeletonTest stubForSkeletonTest =
+            new WorkerStubForSkeletonTest(null, port);
+        stubForSkeletonTest.finishedBenchRuns();
+        skeleton.start();
+    }
+    
+    
+    /**
+     * Test the stub skeleton for exception.
+     */
+    @Test(expected = RuntimeException.class)
     public void testForFalsePortException() {
         WorkerStubForSkeletonTest stubForSkeletonTest =
                 new WorkerStubForSkeletonTest(null, 9999);
@@ -163,6 +183,16 @@ public class PerclipseViewSkeletonTest {
                 new WorkerStubForSkeletonTest(null, port);
         stubForSkeletonTest.finishedBenchRuns();
         stubForSkeletonTest.finishedBenchRuns();
+    }
+    
+    /**
+     * Test the stub skeleton for false command.
+     */
+    @Test
+    public void testForFalseCommand() {
+        WorkerStubForSkeletonTest stubForSkeletonTest =
+                new WorkerStubForSkeletonTest(null, port);
+        stubForSkeletonTest.sendFalseCommand();
     }
 
     /**
@@ -249,6 +279,20 @@ public class PerclipseViewSkeletonTest {
                 outputStream.writeObject(command);
                 outputStream.close();
                 socket.close();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
+        }
+        
+
+        /**
+         * Dummy method to test an incoming false command at the skeleton.
+         */
+        public void sendFalseCommand() {
+            command = "falseCommand";
+            try {
+                outputStream.writeObject(command);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
