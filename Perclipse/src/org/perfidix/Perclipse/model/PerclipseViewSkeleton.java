@@ -86,17 +86,15 @@ public class PerclipseViewSkeleton extends Thread {
                 }
             } catch (IOException e) {
                 if (e instanceof EOFException) {
-                    // System.out
-                    // .println("Connection has been interrupted. ServerSocket will close..");
                     PerclipseActivator
                             .log(
                                     e,
                                     "Running Bench process has been stopped or restarted");
-                    // PerclipseActivator.logInfo("Running Bench process has been stopped or restarted");
+
 
                 } else {
                     e.printStackTrace();
-                    PerclipseActivator.log(e);
+                    PerclipseActivator.log(e,"Running Bench process has been stopped or restarted");
                 }
                 finished = true;
             } catch (ClassNotFoundException e) {
