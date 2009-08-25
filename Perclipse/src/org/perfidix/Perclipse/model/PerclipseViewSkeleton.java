@@ -39,6 +39,7 @@ public class PerclipseViewSkeleton extends Thread {
             serverSocket = new ServerSocket(serverPort);
         } catch (IOException e) {
             PerclipseActivator.log(e);
+            throw new RuntimeException(e);
 
         }
     }
@@ -58,7 +59,7 @@ public class PerclipseViewSkeleton extends Thread {
             in = new ObjectInputStream(socket.getInputStream());
         } catch (IOException e1) {
             PerclipseActivator.log(e1);
-            e1.printStackTrace();
+            throw new RuntimeException(e1);
         }
 
         String command;
