@@ -33,10 +33,11 @@ import java.util.HashMap;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.perfidix.ideadapter.PerclipseViewStub;
 
 /**
  * This class tests the java class
- * {@link org.perfidix.perclipseAdapter.PerclipseViewStub}.
+ * {@link org.perfidix.ideadapter.PerclipseViewStub}.
  * 
  * @author Lewandowski Lukas, DiSy, University of Konstanz
  */
@@ -77,7 +78,7 @@ public class PerclipseViewStubTest {
 
     /**
      * Test method for
-     * {@link org.perfidix.perclipseAdapter.PerclipseViewStub#PerclipseViewStub(java.lang.String, int)}
+     * {@link org.perfidix.ideadapter.PerclipseViewStub#PerclipseViewStub(java.lang.String, int)}
      * .
      */
     @Test
@@ -87,7 +88,7 @@ public class PerclipseViewStubTest {
 
     /**
      * Test method for
-     * {@link org.perfidix.perclipseAdapter.PerclipseViewStub#initTotalBenchProgress(java.util.Map)}
+     * {@link org.perfidix.ideadapter.PerclipseViewStub#initTotalBenchProgress(java.util.Map)}
      * .
      * 
      * @throws InterruptedException
@@ -107,7 +108,7 @@ public class PerclipseViewStubTest {
 
     /**
      * Test method for
-     * {@link org.perfidix.perclipseAdapter.PerclipseViewStub#updateCurrentRun(java.lang.String)}
+     * {@link org.perfidix.ideadapter.PerclipseViewStub#updateCurrentRun(java.lang.String)}
      * .
      * 
      * @throws InterruptedException
@@ -125,7 +126,7 @@ public class PerclipseViewStubTest {
 
     /**
      * Test method for
-     * {@link org.perfidix.perclipseAdapter.PerclipseViewStub#updateError(java.lang.String)}
+     * {@link org.perfidix.ideadapter.PerclipseViewStub#updateError(java.lang.String)}
      * .
      * 
      * @throws InterruptedException
@@ -143,7 +144,7 @@ public class PerclipseViewStubTest {
 
     /**
      * Test method for
-     * {@link org.perfidix.perclipseAdapter.PerclipseViewStub#finishedBenchRuns()}
+     * {@link org.perfidix.ideadapter.PerclipseViewStub#finishedBenchRuns()}
      * .
      * 
      * @throws InterruptedException

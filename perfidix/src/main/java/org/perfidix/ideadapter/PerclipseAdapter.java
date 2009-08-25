@@ -18,7 +18,7 @@
  * $LastChangedDate$
  *
  */
-package org.perfidix.perclipseAdapter;
+package org.perfidix.ideadapter;
 
 import java.util.ArrayList;
 import java.util.List;

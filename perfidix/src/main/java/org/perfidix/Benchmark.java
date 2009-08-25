@@ -35,7 +35,6 @@ import org.perfidix.element.BenchmarkElement;
 import org.perfidix.element.BenchmarkExecutor;
 import org.perfidix.element.BenchmarkMethod;
 import org.perfidix.element.KindOfArrangement;
-import org.perfidix.element.NoMethodArrangement;
 import org.perfidix.exceptions.PerfidixMethodCheckException;
 import org.perfidix.exceptions.PerfidixMethodInvocationException;
 import org.perfidix.meter.AbstractMeter;
@@ -120,8 +119,7 @@ public final class Benchmark {
     }
 
     /**
-     * Running this benchmark with no arrangement. Then the
-     * {@link NoMethodArrangement} is chosen.
+     * Running this benchmark with no arrangement.
      * 
      * @param visitor
      *            possible visitors
@@ -136,7 +134,7 @@ public final class Benchmark {
 
     /**
      * Running this benchmark with no arrangement and gc invoking for every
-     * bench. The {@link NoMethodArrangement} is chosen.
+     * bench.
      * 
      * @param visitor
      *            possible visitors
