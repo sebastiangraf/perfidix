@@ -18,7 +18,7 @@
  * $LastChangedDate$
  *
  */
-package org.perfidix.perclipseAdapter;
+package org.perfidix.ideadapter;
 
 import java.util.HashMap;
 import java.util.Map;

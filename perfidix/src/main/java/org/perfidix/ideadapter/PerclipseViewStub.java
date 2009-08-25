@@ -18,7 +18,7 @@
  * $LastChangedDate$
  *
  */
-package org.perfidix.perclipseAdapter;
+package org.perfidix.ideadapter;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
