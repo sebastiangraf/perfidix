@@ -46,4 +46,13 @@ public final class SocketViewException extends IOException {
         exc = paramToStore;
     }
 
+    /**
+     * Returns the occurred exception.
+     * 
+     * @return The exception occurred.
+     */
+    public IOException getExc() {
+        return exc;
+    }
+
 }

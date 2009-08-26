@@ -25,6 +25,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.perfidix.element.BenchmarkMethod;
+import org.perfidix.exceptions.AbstractPerfidixMethodException;
 import org.perfidix.exceptions.SocketViewException;
 
 /**
@@ -112,8 +113,19 @@ public final class SocketViewProgressUpdater {
     public void updateErrorInElement(
             final String name, final Exception exception)
             throws SocketViewException {
-        if (name != null) {
-            viewStub.updateError(name, exception.getMessage());
+        if (name != null && exception != null) {
+            if (exception instanceof AbstractPerfidixMethodException) {
+                AbstractPerfidixMethodException exc =
+                        (AbstractPerfidixMethodException) exception;
+                viewStub.updateError(name, exc
+                        .getExec().getClass().getSimpleName());
+            }
+            if (exception instanceof SocketViewException) {
+                SocketViewException viewException =
+                        (SocketViewException) exception;
+                viewStub.updateError(name, viewException
+                        .getExc().getClass().getSimpleName());
+            }
         }
     }
 
