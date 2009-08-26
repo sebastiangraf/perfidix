@@ -115,13 +115,13 @@ public final class SocketViewProgressUpdater {
             throws SocketViewException {
         if (name != null && exception != null) {
             if (exception instanceof AbstractPerfidixMethodException) {
-                AbstractPerfidixMethodException exc =
+                final AbstractPerfidixMethodException exc =
                         (AbstractPerfidixMethodException) exception;
                 viewStub.updateError(name, exc
                         .getExec().getClass().getSimpleName());
             }
             if (exception instanceof SocketViewException) {
-                SocketViewException viewException =
+                final SocketViewException viewException =
                         (SocketViewException) exception;
                 viewStub.updateError(name, viewException
                         .getExc().getClass().getSimpleName());

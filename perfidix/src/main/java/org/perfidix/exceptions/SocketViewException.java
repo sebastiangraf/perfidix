@@ -33,7 +33,7 @@ public final class SocketViewException extends IOException {
     /** Serial ID */
     private static final long serialVersionUID = 528281733888231478L;
 
-    private final IOException exc;
+    private transient final IOException exc;
 
     /**
      * Constructor

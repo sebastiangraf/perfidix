@@ -22,6 +22,7 @@ package org.perfidix.socketadapter;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.io.IOException;
@@ -47,21 +48,18 @@ public class SocketViewStubTest {
     /**
      * The SocketViewStub instance to test its methods.
      */
-    private SocketViewStub viewStub;
+    private transient SocketViewStub viewStub;
     /**
      * The PerclipseViewSkeletonSimulater instance is our dummy skeleton to test
      * the connection between the stub and the skeleton.
      */
-    private PerclipseViewSkeletonSimulator skeletonSimulator;
-    /**
-     * The Map containing the data for updating of the eclipse view.
-     */
-    private Map<String, Integer> dataForView;
+    private transient PerclipseViewSkeletonSimulator skeletonSimulator;
+
     /**
      * The finished value shows if a connection finished and the socket is
      * closed.
      */
-    private boolean finished = false;
+    private transient boolean finished = false;
 
     /**
      * Simple setUp
@@ -97,7 +95,7 @@ public class SocketViewStubTest {
      */
     @Test
     public void testPerclipseViewStub() {
-        assertNotNull(viewStub);
+        assertNotNull("Test if instance is not null", viewStub);
     }
 
     /**
@@ -111,15 +109,19 @@ public class SocketViewStubTest {
     @Test
     public void testInitTotalBenchProgress()
             throws InterruptedException, SocketViewException {
-        dataForView = new HashMap<String, Integer>();
+        final Map<String, Integer> dataForView = new HashMap<String, Integer>();
         dataForView.put("org.some.method", 55);
         dataForView.put("blue.some.other", 88);
         viewStub.initTotalBenchProgress(dataForView);
         Thread.sleep(10);
-        assertEquals(dataForView, skeletonSimulator.getTheMap());
+        assertEquals(
+                "Checks if both objects, the input and the dispatched, are equals.",
+                dataForView, skeletonSimulator.getTheMap());
         viewStub.initTotalBenchProgress(null);
         Thread.sleep(10);
-        assertEquals(null, skeletonSimulator.getTheMap());
+        assertEquals(
+                "Checks if both objects, the input and the dispatched, are equals.",
+                null, skeletonSimulator.getTheMap());
     }
 
     /**
@@ -128,23 +130,29 @@ public class SocketViewStubTest {
      * .
      * 
      * @throws InterruptedException
+     *             exception occurrred.
      * @throws SocketViewException
+     *             exception occurred.
      */
     @Test
     public void testUpdateCurrentRun()
             throws InterruptedException, SocketViewException {
-        viewStub.updateCurrentRun("some.Element");
+        final String nameForDispatch = "some.Element";
+        viewStub.updateCurrentRun(nameForDispatch);
         Thread.sleep(10);
-        assertEquals("some.Element", skeletonSimulator
-                .getReceivedStringObject());
+        assertEquals(
+                "Tests if the sent and the reveived object are equal",
+                nameForDispatch, skeletonSimulator.getReceivedStringObject());
         viewStub.updateCurrentRun(null);
         Thread.sleep(10);
-        assertEquals(null, skeletonSimulator.getReceivedStringObject());
+        assertEquals(
+                "Tests if the sent one and the received one are equal", null,
+                skeletonSimulator.getReceivedStringObject());
     }
 
     /**
      * Test method for
-     * {@link org.perfidix.socketadapter.SocketViewStub#updateError(java.lang.String)}
+     * {@link org.perfidix.socketadapter.SocketViewStub#updateError(java.lang.String, java.lang.String)}
      * .
      * 
      * @throws InterruptedException
@@ -153,16 +161,23 @@ public class SocketViewStubTest {
     @Test
     public void testUpdateError()
             throws InterruptedException, SocketViewException {
-        viewStub.updateError("some.Element", "aException");
+        final String nameForDispatch = "some.Element";
+        viewStub.updateError(nameForDispatch, "aException");
         Thread.sleep(10);
-        assertEquals("some.Element", skeletonSimulator
-                .getReceivedStringObject());
-        assertEquals("aException", skeletonSimulator
-                .getErrorStringObject());
+        assertEquals(
+                "Test if the sent name and the received are equal.",
+                nameForDispatch, skeletonSimulator.getReceivedStringObject());
+        assertEquals(
+                "Test if the sent exception name and the received one are equal.",
+                "aException", skeletonSimulator.getErrorStringObject());
         viewStub.updateError(null, null);
         Thread.sleep(10);
-        assertEquals(null, skeletonSimulator.getReceivedStringObject());
-        assertEquals(null, skeletonSimulator.getErrorStringObject());
+        assertEquals(
+                "Test if the null objects are on both sides.", null,
+                skeletonSimulator.getReceivedStringObject());
+        assertEquals(
+                "Test if sent null is equal to the received one", null,
+                skeletonSimulator.getErrorStringObject());
     }
 
     /**
@@ -177,6 +192,8 @@ public class SocketViewStubTest {
             throws InterruptedException, SocketViewException {
         viewStub.finishedBenchRuns();
         Thread.sleep(10);
+        assertTrue("Checks if connection has been closed", skeletonSimulator
+                .isFinsihed());
         finished = true;
     }
 
@@ -186,14 +203,14 @@ public class SocketViewStubTest {
      * @author Lewandowski Lukas, University of Konstanz
      */
     private final class PerclipseViewSkeletonSimulator extends Thread {
-        private Map<String, Integer> receivedMap;
-        private String receivedStringObject;
-        private ServerSocket serverSocket;
-        private Socket socket = null;
-        private int serverPort;
-        private boolean finished = false;
-        private ObjectInputStream in;
-        private String errorOccurred;
+        private transient Map<String, Integer> receivedMap;
+        private transient String receivedString;
+        private transient ServerSocket serverSocket;
+        private transient Socket socket = null;
+        private transient final int serverPort;
+        private transient boolean finished = false;
+        private transient ObjectInputStream inStream;
+        private transient String errorOccurred;
 
         /**
          * The constructor gets a given free port and initializes the bench run
@@ -203,8 +220,8 @@ public class SocketViewStubTest {
          * @param port
          *            The given free port number.
          */
-        public PerclipseViewSkeletonSimulator(int port) {
-
+        public PerclipseViewSkeletonSimulator(final int port) {
+            super();
             serverPort = port;
             try {
                 serverSocket = new ServerSocket(serverPort);
@@ -227,7 +244,7 @@ public class SocketViewStubTest {
             try {
                 socket = serverSocket.accept();
 
-                in = new ObjectInputStream(socket.getInputStream());
+                inStream = new ObjectInputStream(socket.getInputStream());
             } catch (IOException e1) {
                 fail(e1.toString());
             }
@@ -236,19 +253,20 @@ public class SocketViewStubTest {
             try {
                 while (!finished) {
 
-                    command = (String) in.readObject();
+                    command = (String) inStream.readObject();
                     if ("init".equals(command)) {
                         receivedMap =
-                                (HashMap<String, Integer>) in.readObject();
+                                (HashMap<String, Integer>) inStream
+                                        .readObject();
 
                         // init happened
                     } else if ("updateCurrentRun".equals(command)) {
-                        receivedStringObject = (String) in.readObject();
+                        receivedString = (String) inStream.readObject();
                         // update happened
 
                     } else if ("updateError".equals(command)) {
-                        receivedStringObject = (String) in.readObject();
-                        errorOccurred = (String) in.readObject();
+                        receivedString = (String) inStream.readObject();
+                        errorOccurred = (String) inStream.readObject();
                         // error happened
                     } else if ("finished".equals(command)) {
                         // finished happened
@@ -293,7 +311,7 @@ public class SocketViewStubTest {
          * @return Received data just for testing purposes.
          */
         public String getReceivedStringObject() {
-            return receivedStringObject;
+            return receivedString;
         }
 
         /**
@@ -303,6 +321,15 @@ public class SocketViewStubTest {
          */
         public String getErrorStringObject() {
             return errorOccurred;
+        }
+
+        /**
+         * Received data just for testing purposes.
+         * 
+         * @return Received data just for testing purposes.
+         */
+        public boolean isFinsihed() {
+            return finished;
         }
 
     }
