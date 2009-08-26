@@ -40,7 +40,7 @@ import org.perfidix.annotation.Bench;
  */
 public class NoMethodArrangementTest {
 
-    private Set<BenchmarkElement> elemSet;
+    private transient Set<BenchmarkElement> elemSet;
 
     /**
      * Before method to setUp Benchmarkables.
@@ -48,7 +48,7 @@ public class NoMethodArrangementTest {
     @Before
     public void setUp() {
         elemSet = new HashSet<BenchmarkElement>();
-        final Class< ? > testClazz = new TestBenchClass().getClass();
+        final Class< ? > testClazz = TestBenchClass.class;
         for (final Method meth : testClazz.getDeclaredMethods()) {
             if (BenchmarkMethod.isBenchmarkable(meth)) {
                 elemSet
@@ -72,13 +72,19 @@ public class NoMethodArrangementTest {
                     { "bench1", "bench2", "bench4" };
             final Iterator<BenchmarkElement> iterBench =
                     arrangement.iterator();
-            assertEquals(expectedNames[0], iterBench
-                    .next().getMeth().getMethodToBench().getName());
-            assertEquals(expectedNames[1], iterBench
-                    .next().getMeth().getMethodToBench().getName());
-            assertEquals(expectedNames[2], iterBench
-                    .next().getMeth().getMethodToBench().getName());
-            assertFalse(iterBench.hasNext());
+            assertEquals(
+                    "Method name for first element", expectedNames[0],
+                    iterBench
+                            .next().getMeth().getMethodToBench().getName());
+            assertEquals(
+                    "Method name for second element", expectedNames[1],
+                    iterBench
+                            .next().getMeth().getMethodToBench().getName());
+            assertEquals(
+                    "Method name for third element", expectedNames[2],
+                    iterBench
+                            .next().getMeth().getMethodToBench().getName());
+            assertFalse("No more elements avaliables", iterBench.hasNext());
 
         } catch (final Exception e) {
             fail(e.toString());
@@ -89,17 +95,21 @@ public class NoMethodArrangementTest {
 
         @Bench
         public void bench1() {
+            // Just a method sekeleton
         }
 
         @Bench
         public void bench2() {
+            // Just a method sekeleton
         }
 
         public void bench3() {
+            // Just a method sekeleton
         }
 
         @Bench
         public void bench4() {
+            // Just a method sekeleton
         }
 
     }

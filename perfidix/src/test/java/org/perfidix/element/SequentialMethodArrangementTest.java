@@ -39,7 +39,10 @@ import org.perfidix.annotation.Bench;
  */
 public class SequentialMethodArrangementTest {
 
-    private Set<BenchmarkElement> elemSet;
+    private transient Set<BenchmarkElement> elemSet;
+
+    private final static String BENCH2NAME = "bench2";
+    private final static String BENCH4NAME = "bench4";
 
     /**
      * Before method to setUp Benchmarkables.
@@ -50,7 +53,7 @@ public class SequentialMethodArrangementTest {
     @Before
     public void setUp() throws Exception {
         elemSet = new HashSet<BenchmarkElement>();
-        final Class< ? > testClazz = new TestBenchClass().getClass();
+        final Class< ? > testClazz = TestBenchClass.class;
         for (final Method meth : testClazz.getDeclaredMethods()) {
             if (BenchmarkMethod.isBenchmarkable(meth)) {
                 elemSet
@@ -58,11 +61,11 @@ public class SequentialMethodArrangementTest {
                                 new BenchmarkMethod(meth)));
             }
         }
-        Method meth = testClazz.getMethod("bench2");
+        Method meth = testClazz.getMethod(BENCH2NAME);
         elemSet.add(new BenchmarkElement(new BenchmarkMethod(meth)));
-        meth = testClazz.getMethod("bench2");
+        meth = testClazz.getMethod(BENCH2NAME);
         elemSet.add(new BenchmarkElement(new BenchmarkMethod(meth)));
-        meth = testClazz.getMethod("bench4");
+        meth = testClazz.getMethod(BENCH4NAME);
         elemSet.add(new BenchmarkElement(new BenchmarkMethod(meth)));
     }
 
@@ -90,29 +93,23 @@ public class SequentialMethodArrangementTest {
             final BenchmarkElement elem4 = iterBench.next();
             final BenchmarkElement elem5 = iterBench.next();
             final BenchmarkElement elem6 = iterBench.next();
-            if (expectedNames[0].equals(elem1
-                    .getMeth().getMethodToBench().getName())) {
-                if (expectedNames[1].equals(elem2
-                        .getMeth().getMethodToBench().getName())) {
-                    if (expectedNames[2].equals(elem3
-                            .getMeth().getMethodToBench().getName())) {
-                        if (expectedNames[3].equals(elem4
-                                .getMeth().getMethodToBench().getName())) {
-                            if (expectedNames[4].equals(elem5
-                                    .getMeth().getMethodToBench()
-                                    .getName())) {
-                                if (expectedNames[5].equals(elem6
-                                        .getMeth().getMethodToBench()
-                                        .getName())) {
-                                    fail("Something has to be arranged in a different way!");
-                                }
-
-                            }
-                        }
-                    }
-                }
+            if ((expectedNames[0].equals(elem1
+                    .getMeth().getMethodToBench().getName()))
+                    && (expectedNames[1].equals(elem2
+                            .getMeth().getMethodToBench().getName()))
+                    && (expectedNames[2].equals(elem3
+                            .getMeth().getMethodToBench().getName()))
+                    && (expectedNames[3].equals(elem4
+                            .getMeth().getMethodToBench().getName()))
+                    && (expectedNames[4].equals(elem5
+                            .getMeth().getMethodToBench().getName()))
+                    && (expectedNames[5].equals(elem6
+                            .getMeth().getMethodToBench().getName()))) {
+                fail("Something has to be arranged in a different way!");
             }
-            assertFalse(iterBench.hasNext());
+
+            assertFalse("No more elements should be there", iterBench
+                    .hasNext());
 
         } catch (final Exception e) {
             fail(e.toString());
@@ -123,17 +120,21 @@ public class SequentialMethodArrangementTest {
 
         @Bench
         public void bench1() {
+            // Just a method sekeleton
         }
 
         @Bench
         public void bench2() {
+            // Just a method sekeleton
         }
 
         public void bench3() {
+            // Just a method sekeleton
         }
 
         @Bench
         public void bench4() {
+            // Just a method sekeleton
         }
 
     }

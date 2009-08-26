@@ -33,11 +33,11 @@ import java.util.HashMap;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.perfidix.ideadapter.PerclipseViewStub;
+import org.perfidix.socketadapter.PerclipseViewStub;
 
 /**
  * This class tests the java class
- * {@link org.perfidix.ideadapter.PerclipseViewStub}.
+ * {@link org.perfidix.socketadapter.PerclipseViewStub}.
  * 
  * @author Lewandowski Lukas, DiSy, University of Konstanz
  */
@@ -78,7 +78,7 @@ public class PerclipseViewStubTest {
 
     /**
      * Test method for
-     * {@link org.perfidix.ideadapter.PerclipseViewStub#PerclipseViewStub(java.lang.String, int)}
+     * {@link org.perfidix.socketadapter.PerclipseViewStub#PerclipseViewStub(java.lang.String, int)}
      * .
      */
     @Test
@@ -88,7 +88,7 @@ public class PerclipseViewStubTest {
 
     /**
      * Test method for
-     * {@link org.perfidix.ideadapter.PerclipseViewStub#initTotalBenchProgress(java.util.Map)}
+     * {@link org.perfidix.socketadapter.PerclipseViewStub#initTotalBenchProgress(java.util.Map)}
      * .
      * 
      * @throws InterruptedException
@@ -108,7 +108,7 @@ public class PerclipseViewStubTest {
 
     /**
      * Test method for
-     * {@link org.perfidix.ideadapter.PerclipseViewStub#updateCurrentRun(java.lang.String)}
+     * {@link org.perfidix.socketadapter.PerclipseViewStub#updateCurrentRun(java.lang.String)}
      * .
      * 
      * @throws InterruptedException
@@ -126,7 +126,7 @@ public class PerclipseViewStubTest {
 
     /**
      * Test method for
-     * {@link org.perfidix.ideadapter.PerclipseViewStub#updateError(java.lang.String)}
+     * {@link org.perfidix.socketadapter.PerclipseViewStub#updateError(java.lang.String)}
      * .
      * 
      * @throws InterruptedException
@@ -144,7 +144,7 @@ public class PerclipseViewStubTest {
 
     /**
      * Test method for
-     * {@link org.perfidix.ideadapter.PerclipseViewStub#finishedBenchRuns()}
+     * {@link org.perfidix.socketadapter.PerclipseViewStub#finishedBenchRuns()}
      * .
      * 
      * @throws InterruptedException

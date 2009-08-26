@@ -20,6 +20,7 @@
  */
 package org.perfidix.element;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertTrue;
@@ -87,8 +88,8 @@ public class BenchmarkElementTest {
         assertNotSame(
                 "HashCode of Class should not be the same", benchClass1
                         .hashCode(), benchClass2.hashCode());
-        assertTrue("HashCode of Method should be the same", benchClass1
-                .getMeth().hashCode() == benchClass2.getMeth().hashCode());
+        assertEquals("HashCode of Method should be the same", benchClass1
+                .getMeth().hashCode(), benchClass2.getMeth().hashCode());
     }
 
     class BenchClass {

@@ -18,7 +18,7 @@
  * $LastChangedDate$
  *
  */
-package org.perfidix.ideadapter;
+package org.perfidix.socketadapter;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -97,13 +97,13 @@ public final class PerclipseViewProgressUpdater {
      * This method informs the view that an error occurred while benching the
      * current element.
      * 
-     * @param fullQualifiedElementName
+     * @param name
      *            Element represents the java element which has not been
      *            executed successfully.
      */
-    public void updateErrorInElement(final String fullQualifiedElementName) {
-        if (fullQualifiedElementName != null) {
-            viewStub.updateError(fullQualifiedElementName);
+    public void updateErrorInElement(final String name) {
+        if (name != null) {
+            viewStub.updateError(name);
         }
     }
 
