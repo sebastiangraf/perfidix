@@ -239,6 +239,7 @@ public class SocketViewStubTest {
          * @see java.lang.Thread#run()
          */
         @Override
+        @SuppressWarnings("unchecked")
         public void run() {
 
             try {
