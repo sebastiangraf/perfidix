@@ -47,7 +47,11 @@ public final class SocketAdapter {
      */
     private SocketAdapter(final int port) {
         benchmark = new Benchmark();
-        view = new SocketViewProgressUpdater(null, port);
+        try {
+            view = new SocketViewProgressUpdater(null, port);
+        } catch (final SocketViewException e) {
+            throw new IllegalStateException(e);
+        }
     }
 
     /**
@@ -68,7 +72,11 @@ public final class SocketAdapter {
         }
         final Map<BenchmarkMethod, Integer> vals =
                 benchmark.getNumberOfMethodsAndRuns();
-        view.initProgressView(vals);
+        try {
+            view.initProgressView(vals);
+        } catch (final SocketViewException e) {
+            throw new IllegalStateException(e);
+        }
     }
 
     // TODO javadoc
@@ -76,7 +84,11 @@ public final class SocketAdapter {
         final BenchmarkResult res =
                 benchmark.run(new SocketListener(view));
         new TabularSummaryOutput().visitBenchmark(res);
-        view.finished();
+        try {
+            view.finished();
+        } catch (final SocketViewException e) {
+            throw new IllegalStateException(e);
+        }
     }
 
     /**

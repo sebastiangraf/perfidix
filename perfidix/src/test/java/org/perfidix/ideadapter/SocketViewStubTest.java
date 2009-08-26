@@ -22,17 +22,19 @@ package org.perfidix.ideadapter;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
 
-import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.HashMap;
+import java.util.Map;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.perfidix.socketadapter.SocketViewException;
 import org.perfidix.socketadapter.SocketViewStub;
 
 /**
@@ -41,7 +43,8 @@ import org.perfidix.socketadapter.SocketViewStub;
  * 
  * @author Lewandowski Lukas, DiSy, University of Konstanz
  */
-public class PerclipseViewStubTest {
+public class SocketViewStubTest {
+    // TODO javadoc
     private SocketViewStub viewStub;
     private PerclipseViewSkeletonSimulator skeletonSimulator;
     private HashMap<String, Integer> dataForView;
@@ -71,14 +74,12 @@ public class PerclipseViewStubTest {
             viewStub.finishedBenchRuns();
             Thread.sleep(10);
         }
-        skeletonSimulator = null;
-        viewStub = null;
         finished = false;
     }
 
     /**
      * Test method for
-     * {@link org.perfidix.socketadapter.SocketViewStub#PerclipseViewStub(java.lang.String, int)}
+     * {@link org.perfidix.socketadapter.SocketViewStub#SocketViewStub(java.lang.String, int)}
      * .
      */
     @Test
@@ -92,9 +93,11 @@ public class PerclipseViewStubTest {
      * .
      * 
      * @throws InterruptedException
+     * @throws SocketViewException
      */
     @Test
-    public void testInitTotalBenchProgress() throws InterruptedException {
+    public void testInitTotalBenchProgress()
+            throws InterruptedException, SocketViewException {
         dataForView = new HashMap<String, Integer>();
         dataForView.put("org.some.method", 55);
         dataForView.put("blue.some.other", 88);
@@ -112,9 +115,11 @@ public class PerclipseViewStubTest {
      * .
      * 
      * @throws InterruptedException
+     * @throws SocketViewException
      */
     @Test
-    public void testUpdateCurrentRun() throws InterruptedException {
+    public void testUpdateCurrentRun()
+            throws InterruptedException, SocketViewException {
         viewStub.updateCurrentRun("some.Element");
         Thread.sleep(10);
         assertEquals("some.Element", skeletonSimulator
@@ -130,9 +135,11 @@ public class PerclipseViewStubTest {
      * .
      * 
      * @throws InterruptedException
+     * @throws SocketViewException
      */
     @Test
-    public void testUpdateError() throws InterruptedException {
+    public void testUpdateError()
+            throws InterruptedException, SocketViewException {
         viewStub.updateError("some.Element");
         Thread.sleep(10);
         assertEquals("some.Element", skeletonSimulator
@@ -144,13 +151,14 @@ public class PerclipseViewStubTest {
 
     /**
      * Test method for
-     * {@link org.perfidix.socketadapter.SocketViewStub#finishedBenchRuns()}
-     * .
+     * {@link org.perfidix.socketadapter.SocketViewStub#finishedBenchRuns()} .
      * 
      * @throws InterruptedException
+     * @throws SocketViewException
      */
     @Test
-    public void testFinishedBenchRuns() throws InterruptedException {
+    public void testFinishedBenchRuns()
+            throws InterruptedException, SocketViewException {
         viewStub.finishedBenchRuns();
         Thread.sleep(10);
         finished = true;
@@ -161,8 +169,8 @@ public class PerclipseViewStubTest {
      * 
      * @author Lewandowski Lukas, University of Konstanz
      */
-    private class PerclipseViewSkeletonSimulator extends Thread {
-        private HashMap<String, Integer> receivedMap;
+    private final class PerclipseViewSkeletonSimulator extends Thread {
+        private Map<String, Integer> receivedMap;
         private String receivedStringObject;
         private ServerSocket serverSocket;
         private Socket socket = null;
@@ -183,8 +191,8 @@ public class PerclipseViewStubTest {
             serverPort = port;
             try {
                 serverSocket = new ServerSocket(serverPort);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
+            } catch (final IOException e) {
+                fail(e.toString());
 
             }
         }
@@ -204,12 +212,13 @@ public class PerclipseViewStubTest {
 
                 in = new ObjectInputStream(socket.getInputStream());
             } catch (IOException e1) {
-                throw new RuntimeException(e1);
+                fail(e1.toString());
             }
 
             String command;
-            while (!finished) {
-                try {
+            try {
+                while (!finished) {
+
                     command = (String) in.readObject();
                     if ("init".equals(command)) {
                         receivedMap =
@@ -226,34 +235,27 @@ public class PerclipseViewStubTest {
                     } else if ("finished".equals(command)) {
                         // finished happened
                         finished = true;
-
                     } else {
-                        // Unknown command. In the real skeleton an eclipse log
-                        // gets this notification.
+                        fail();
                     }
+
+                }
+            } catch (final IOException e) {
+                finished = true;
+                fail(e.toString());
+            } catch (ClassNotFoundException e) {
+                finished = true;
+                fail(e.toString());
+            } finally {
+                try {
+                    if (socket.isConnected()) {
+                        socket.close();
+                    }
+                    serverSocket.close();
                 } catch (IOException e) {
-                    finished = true;
-                    if (e instanceof EOFException) {
-                        throw new RuntimeException(e);
-                        // Running Bench process has been stopped or restarted
-
-                    } else {
-                        throw new RuntimeException(e);
-                        // Another error occurred.
-                    }
-                } catch (ClassNotFoundException e) {
-                    finished = true;
-                    throw new RuntimeException(e);
+                    fail(e.toString());
                 }
 
-            }
-            try {
-                if (socket.isConnected()) {
-                    socket.close();
-                }
-                serverSocket.close();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
             }
 
         }
@@ -263,7 +265,7 @@ public class PerclipseViewStubTest {
          * 
          * @return Received data just for testing purposes.
          */
-        public HashMap<String, Integer> getTheMap() {
+        public Map<String, Integer> getTheMap() {
             return receivedMap;
         }
 
