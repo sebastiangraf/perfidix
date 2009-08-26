@@ -293,10 +293,10 @@ public final class BenchmarkMethod {
                         getMethodToBench()
                                 .getDeclaringClass().getDeclaredMethod(
                                         benchAnno.afterLastRun(), setUpParams);
-            } catch (SecurityException e) {
+            } catch (final SecurityException e) {
                 throw new PerfidixMethodCheckException(
                         e, method, AfterLastRun.class);
-            } catch (NoSuchMethodException e) {
+            } catch (final NoSuchMethodException e) {
                 throw new PerfidixMethodCheckException(
                         e, method, AfterLastRun.class);
             }

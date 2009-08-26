@@ -28,6 +28,7 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
+import org.perfidix.AbstractConfig.StandardConfig;
 import org.perfidix.annotation.AfterBenchClass;
 import org.perfidix.annotation.BeforeBenchClass;
 import org.perfidix.annotation.Bench;
@@ -77,6 +78,13 @@ public final class Benchmark {
         for (final AbstractMeter meter : conf.getMeters()) {
             this.meters.add(meter);
         }
+    }
+
+    /**
+     * Convience constructor using the {@link StandardConfig}
+     */
+    public Benchmark() {
+        this(new StandardConfig());
     }
 
     /**
@@ -162,7 +170,7 @@ public final class Benchmark {
 
         // executing the bench for the arrangement
         for (final BenchmarkElement elem : arrangement) {
-            final BenchmarkExecutor exec = BenchmarkExecutor.getExecutor(elem);
+            final BenchmarkExecutor exec = BenchmarkExecutor.getExecutor(elem); // NOPMD by sebi on 26.08.09 21:20
 
             final Object obj =
                     objectsToExecute.get(elem
@@ -173,7 +181,7 @@ public final class Benchmark {
 
                 // invoking gc if possible
                 if (RAN.nextDouble() < conf.getGcProb()) {
-                    System.gc();
+                    System.gc(); // NOPMD by Sebastian on 26.08.09 21:18
                 }
 
                 exec.executeBench(obj);
@@ -217,10 +225,10 @@ public final class Benchmark {
                     objectsToUse.put(clazz, obj);
                     // otherwise adding an exception to the result
                 } catch (final InstantiationException e) {
-                    res.addException(new PerfidixMethodInvocationException(
+                    res.addException(new PerfidixMethodInvocationException( // NOPMD by sebi on 26.08.09 21:19
                             e, BeforeBenchClass.class));
                 } catch (final IllegalAccessException e) {
-                    res.addException(new PerfidixMethodInvocationException(
+                    res.addException(new PerfidixMethodInvocationException( // NOPMD by Sebastian on 26.08.09 21:18
                             e, BeforeBenchClass.class));
                 }
 
@@ -249,13 +257,13 @@ public final class Benchmark {
         // invoking before bench class
         for (final Class<?> clazz : instantiatedObj.keySet()) {
 
-            final Object objectToUse = instantiatedObj.get(clazz);
+            final Object objectToUse = instantiatedObj.get(clazz); // NOPMD by sebi on 26.08.09 21:20
 
             // ..the search for the beforeClassMeth begins...
-            Method beforeClassMeth = null;
-            boolean continueVal = true;
+            Method beforeClassMeth = null; // NOPMD by sebi on 26.08.09 21:20
+            boolean continueVal = true; // NOPMD by sebi on 26.08.09 21:20
             try {
-                beforeClassMeth =
+                beforeClassMeth = // NOPMD by sebi on 26.08.09 21:20
                         BenchmarkMethod.findAndCheckAnyMethodByAnnotation(
                                 clazz, BeforeBenchClass.class);
                 // ... and if this search is throwing an exception, the
@@ -313,7 +321,7 @@ public final class Benchmark {
             final Object objectToUse = objects.get(clazz);
             if (objectToUse != null) {
                 // executing AfterClass for all objects.
-                Method afterClassMeth = null;
+                Method afterClassMeth = null; // NOPMD by sebi on 26.08.09 21:20
                 try {
                     afterClassMeth =
                             BenchmarkMethod.findAndCheckAnyMethodByAnnotation(
@@ -358,7 +366,7 @@ public final class Benchmark {
                 // Check if benchmarkable, if so, insert to returnVal;
                 if (BenchmarkMethod.isBenchmarkable(meth)) {
                     final BenchmarkMethod benchmarkMeth =
-                            new BenchmarkMethod(meth);
+                            new BenchmarkMethod(meth); // NOPMD by sebi on 26.08.09 21:19
                     elems.add(benchmarkMeth);
                 }
             }
@@ -391,7 +399,7 @@ public final class Benchmark {
             // getting the number of runs and adding this number of
             // elements to the set to be evaluated.
             for (int i = 0; i < numberOfRuns; i++) {
-                elems.add(new BenchmarkElement(meth));
+                elems.add(new BenchmarkElement(meth)); // NOPMD by sebi on 26.08.09 21:19
             }
         }
 

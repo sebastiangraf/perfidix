@@ -102,7 +102,7 @@ public final class Perfidix {
     public static AbstractConfig getConfiguration(final String[] classes)
             throws ClassNotFoundException, InstantiationException,
             IllegalAccessException {
-        AbstractConfig conf = new StandardConfig();
+        AbstractConfig conf = null;
         for (String each : classes) {
             final Class<?> clazz = Class.forName(each);
             final Class<?> superclazz = clazz.getSuperclass();
@@ -114,6 +114,9 @@ public final class Perfidix {
                             "Only one config-class allowed");
                 }
             }
+        }
+        if (conf == null) {
+            conf = new StandardConfig();
         }
         return conf;
     }

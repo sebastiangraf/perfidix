@@ -153,8 +153,9 @@ public class NiceTableTest {
                 one.toString(), two.toString(), three.toString() });
 
         final String result = zero.toString().trim();
-        final String expected = "| | a | b |  | | c | d |  | | e | f |  |";
-        assertEquals("Test for encapsulated tables", expected, result);
+        assertEquals(
+                "Test for encapsulated tables",
+                "| | a | b |  | | c | d |  | | e | f |  |", result);
     }
 
     /**
