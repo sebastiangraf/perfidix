@@ -137,10 +137,10 @@ public class ResultContainerTest {
     }
 
     /**
-     * Test method for {@link org.perfidix.result.MethodResult} .
+     * Test method1 for {@link org.perfidix.result.MethodResult} .
      */
     @Test
-    public void testMethodRes() {
+    public void testMethodRes11() {
 
         assertEquals(
                 "Mean should be the same as given by method11", 5.5,
@@ -171,6 +171,13 @@ public class ResultContainerTest {
                 "Number of result should be the same as given by method11",
                 10, methodRes11.getNumberOfResult(meter));
 
+    }
+
+    /**
+     * Test method2 for {@link org.perfidix.result.MethodResult} .
+     */
+    @Test
+    public void testMethodRes12() {
         assertEquals(
                 "Mean should be the same as given by method12", 20.5,
                 methodRes12.mean(meter), 0);
@@ -200,6 +207,13 @@ public class ResultContainerTest {
                 "Number of results should be the same as given by method12",
                 20, methodRes12.getNumberOfResult(meter));
 
+    }
+
+    /**
+     * Test method3 for {@link org.perfidix.result.MethodResult} .
+     */
+    @Test
+    public void testMethodRes21() {
         assertEquals(
                 "Mean should be the same as given by method21", 50.5,
                 methodRes21.mean(meter), 0);
@@ -229,6 +243,13 @@ public class ResultContainerTest {
                 "Number of results should be the same as given by method21",
                 40, methodRes21.getNumberOfResult(meter));
 
+    }
+
+    /**
+     * Test method3 for {@link org.perfidix.result.MethodResult} .
+     */
+    @Test
+    public void testMethodRes22() {
         assertEquals(
                 "Mean should be the same as given by method22", 110.5,
                 methodRes22.mean(meter), 0);
@@ -257,7 +278,6 @@ public class ResultContainerTest {
         assertEquals(
                 "Number of runs should be the same as given by method22",
                 80, methodRes22.getNumberOfResult(meter));
-
     }
 
     /**
