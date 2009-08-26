@@ -24,12 +24,10 @@ import java.util.Random;
 import java.util.Stack;
 
 import org.perfidix.Benchmark;
+import org.perfidix.AbstractConfig.StandardConfig;
 import org.perfidix.annotation.BeforeBenchClass;
 import org.perfidix.annotation.Bench;
-import org.perfidix.element.KindOfArrangement;
 import org.perfidix.meter.MemMeter;
-import org.perfidix.meter.Memory;
-import org.perfidix.meter.Time;
 import org.perfidix.meter.TimeMeter;
 import org.perfidix.ouput.TabularSummaryOutput;
 import org.perfidix.result.BenchmarkResult;
@@ -129,14 +127,11 @@ public final class StackBenchmark {
      *            not used here
      */
     public static void main(final String[] args) {
-        final Benchmark bench =
-                new Benchmark(new TimeMeter(Time.MilliSeconds), new MemMeter(
-                        Memory.KibiByte));
+
+        final Benchmark bench = new Benchmark(new StandardConfig());
         bench.add(StackBenchmark.class);
 
-        final BenchmarkResult res =
-                bench.run(1.0, KindOfArrangement.ShuffleArrangement);
+        final BenchmarkResult res = bench.run();
         new TabularSummaryOutput().visitBenchmark(res);
     }
-
 }
