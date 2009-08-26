@@ -34,20 +34,20 @@ import org.perfidix.result.BenchmarkResult;
  * @author Lukas Lewandowski, University of Konstanz
  * @author Sebastian Graf, University of Konstanz
  */
-public final class PerclipseAdapter {
+public final class SocketAdapter {
 
     /** Instance for this run of the adapter */
     private transient final Benchmark benchmark;
 
     /** View instance for communicating with the perclipse plugin */
-    private transient final PerclipseViewProgressUpdater view;
+    private transient final SocketViewProgressUpdater view;
 
     /**
      * private constructor.
      */
-    private PerclipseAdapter(final int port) {
+    private SocketAdapter(final int port) {
         benchmark = new Benchmark();
-        view = new PerclipseViewProgressUpdater(null, port);
+        view = new SocketViewProgressUpdater(null, port);
     }
 
     /**
@@ -74,7 +74,7 @@ public final class PerclipseAdapter {
     // TODO javadoc
     private void runBenchmark() {
         final BenchmarkResult res =
-                benchmark.run(new PerclipseListener(view));
+                benchmark.run(new SocketListener(view));
         new TabularSummaryOutput().visitBenchmark(res);
         view.finished();
     }
@@ -100,7 +100,7 @@ public final class PerclipseAdapter {
             }
         }
 
-        final PerclipseAdapter adapter = new PerclipseAdapter(viewPort);
+        final SocketAdapter adapter = new SocketAdapter(viewPort);
         adapter.registerClasses(classList);
         adapter.runBenchmark();
         //

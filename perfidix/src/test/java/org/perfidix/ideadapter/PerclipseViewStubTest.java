@@ -33,16 +33,16 @@ import java.util.HashMap;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.perfidix.socketadapter.PerclipseViewStub;
+import org.perfidix.socketadapter.SocketViewStub;
 
 /**
  * This class tests the java class
- * {@link org.perfidix.socketadapter.PerclipseViewStub}.
+ * {@link org.perfidix.socketadapter.SocketViewStub}.
  * 
  * @author Lewandowski Lukas, DiSy, University of Konstanz
  */
 public class PerclipseViewStubTest {
-    private PerclipseViewStub viewStub;
+    private SocketViewStub viewStub;
     private PerclipseViewSkeletonSimulator skeletonSimulator;
     private HashMap<String, Integer> dataForView;
     private boolean finished = false;
@@ -57,7 +57,7 @@ public class PerclipseViewStubTest {
         skeletonSimulator = new PerclipseViewSkeletonSimulator(6363);
         skeletonSimulator.start();
         Thread.sleep(100);
-        viewStub = new PerclipseViewStub(null, 6363);
+        viewStub = new SocketViewStub(null, 6363);
     }
 
     /**
@@ -78,7 +78,7 @@ public class PerclipseViewStubTest {
 
     /**
      * Test method for
-     * {@link org.perfidix.socketadapter.PerclipseViewStub#PerclipseViewStub(java.lang.String, int)}
+     * {@link org.perfidix.socketadapter.SocketViewStub#PerclipseViewStub(java.lang.String, int)}
      * .
      */
     @Test
@@ -88,7 +88,7 @@ public class PerclipseViewStubTest {
 
     /**
      * Test method for
-     * {@link org.perfidix.socketadapter.PerclipseViewStub#initTotalBenchProgress(java.util.Map)}
+     * {@link org.perfidix.socketadapter.SocketViewStub#initTotalBenchProgress(java.util.Map)}
      * .
      * 
      * @throws InterruptedException
@@ -108,7 +108,7 @@ public class PerclipseViewStubTest {
 
     /**
      * Test method for
-     * {@link org.perfidix.socketadapter.PerclipseViewStub#updateCurrentRun(java.lang.String)}
+     * {@link org.perfidix.socketadapter.SocketViewStub#updateCurrentRun(java.lang.String)}
      * .
      * 
      * @throws InterruptedException
@@ -126,7 +126,7 @@ public class PerclipseViewStubTest {
 
     /**
      * Test method for
-     * {@link org.perfidix.socketadapter.PerclipseViewStub#updateError(java.lang.String)}
+     * {@link org.perfidix.socketadapter.SocketViewStub#updateError(java.lang.String)}
      * .
      * 
      * @throws InterruptedException
@@ -144,7 +144,7 @@ public class PerclipseViewStubTest {
 
     /**
      * Test method for
-     * {@link org.perfidix.socketadapter.PerclipseViewStub#finishedBenchRuns()}
+     * {@link org.perfidix.socketadapter.SocketViewStub#finishedBenchRuns()}
      * .
      * 
      * @throws InterruptedException

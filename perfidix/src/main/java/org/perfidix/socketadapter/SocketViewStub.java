@@ -33,7 +33,7 @@ import java.util.Map;
  * 
  * @author Lewandowski Lukas, University of Konstanz
  */
-public final class PerclipseViewStub implements IBenchRunSessionListener {
+public final class SocketViewStub implements IBenchRunSessionListener {
 
     // TODO Javadoc
     private transient final String host;
@@ -51,7 +51,7 @@ public final class PerclipseViewStub implements IBenchRunSessionListener {
      * @param viewListenerPort
      *            This param represents the port of the view.
      */
-    public PerclipseViewStub(final String host, final int viewListenerPort) {
+    public SocketViewStub(final String host, final int viewListenerPort) {
         if (host == null) {
             this.host = "localhost";
         } else {

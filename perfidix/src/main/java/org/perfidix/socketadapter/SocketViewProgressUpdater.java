@@ -28,14 +28,14 @@ import org.perfidix.element.BenchmarkMethod;
 
 /**
  * This class creates the connection to the eclipse view via
- * {@link PerclipseViewStub}. It contains the methods which update the view to
+ * {@link SocketViewStub}. It contains the methods which update the view to
  * inform about the bench process progress.
  * 
  * @author Lewandowski Lukas, University of Konstanz
  */
-public final class PerclipseViewProgressUpdater {
+public final class SocketViewProgressUpdater {
 
-    private transient final PerclipseViewStub viewStub;
+    private transient final SocketViewStub viewStub;
 
     /**
      * The constructor initializes the host and port for creation a client
@@ -46,12 +46,12 @@ public final class PerclipseViewProgressUpdater {
      * @param port
      *            Port represent the port number of the eclipse view.
      */
-    public PerclipseViewProgressUpdater(final String host, final int port) {
+    public SocketViewProgressUpdater(final String host, final int port) {
         String strubParam = host;
         if (host == null || host.equals("")) {
             strubParam = "localhost";
         }
-        viewStub = new PerclipseViewStub(strubParam, port);
+        viewStub = new SocketViewStub(strubParam, port);
 
     }
 
