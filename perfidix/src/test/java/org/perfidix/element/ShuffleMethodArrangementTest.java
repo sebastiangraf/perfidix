@@ -74,17 +74,17 @@ public class ShuffleMethodArrangementTest {
             final BenchmarkElement elem1 = iterBench.next();
             final BenchmarkElement elem2 = iterBench.next();
             final BenchmarkElement elem3 = iterBench.next();
-            if (expectedNames[0].equals(elem1
-                    .getMeth().getMethodToBench().getName())) {
-                if (expectedNames[1].equals(elem2
-                        .getMeth().getMethodToBench().getName())) {
-                    if (expectedNames[2].equals(elem3
-                            .getMeth().getMethodToBench().getName())) {
-                        fail("Something has to be arranged in a different way!");
-                    }
-                }
+            if ((expectedNames[0].equals(elem1
+                    .getMeth().getMethodToBench().getName()))
+                    && (expectedNames[1].equals(elem2
+                            .getMeth().getMethodToBench().getName()))
+                    && (expectedNames[2].equals(elem3
+                            .getMeth().getMethodToBench().getName()))) {
+                fail("Something has to be arranged in a different way!");
+
             }
-            assertFalse(iterBench.hasNext());
+            assertFalse("No more elements should be left", iterBench
+                    .hasNext());
 
         } catch (final Exception e) {
             fail(e.toString());
@@ -95,17 +95,21 @@ public class ShuffleMethodArrangementTest {
 
         @Bench
         public void bench1() {
+            // Just a bench-sekeleton
         }
 
         @Bench
         public void bench2() {
+            // Just a bench-sekeleton
         }
 
         public void bench3() {
+            // Just a bench-sekeleton
         }
 
         @Bench
         public void bench4() {
+            // Just a bench-sekeleton
         }
 
     }

@@ -36,6 +36,7 @@ public class NiceTableTest {
 
     private transient NiceTable table;
     private final static int COLUMNNUMBER = 10;
+    private final static String TESTSTRING = "This is a test";
 
     /**
      * Simple setUp.
@@ -51,7 +52,7 @@ public class NiceTableTest {
      */
     @Test
     public void testCreate() {
-        assertEquals("Table should be emtpy", "", table.toString());
+        assertEquals("Test for create", "", table.toString());
     }
 
     /**
@@ -61,32 +62,35 @@ public class NiceTableTest {
      */
     @Test
     public void testAddHeaderString() {
-        table.addHeader("This is a test");
-        assertEquals("|= This is a test =============|\n", table
-                .toString());
+        table.addHeader(TESTSTRING);
+        assertEquals(
+                "Test for normal adding",
+                "|= This is a test =============|\n", table.toString());
     }
 
     /**
      * Test method for
-     * {@link org.perfidix.ouput.asciitable.NiceTable#addHeader(java.lang.String, char, org.perfidix.ouput.asciitable.NiceTable.Alignment)}
-     * .
+     * {@link org.perfidix.ouput.asciitable.NiceTable#addHeader(String, char, Alignment)}
      */
     @Test
     public void testAddHeaderStringCharAlignment() {
-        table.addHeader("This is a test", '-', Alignment.Left);
-        assertEquals("|- This is a test -------------|\n", table
-                .toString());
-
-        setUp();
-
-        table.addHeader("This is a test", '/', Alignment.Center);
-        assertEquals("|/////// This is a test ///////|\n", table
-                .toString());
-
-        setUp();
-
-        table.addHeader("This is a test", '\\', Alignment.Right);
+        table.addHeader(TESTSTRING, '-', Alignment.Left);
         assertEquals(
+                "Test for left alignement adding",
+                "|- This is a test -------------|\n", table.toString());
+
+        setUp();
+
+        table.addHeader(TESTSTRING, '/', Alignment.Center);
+        assertEquals(
+                "Test for center alignment",
+                "|/////// This is a test ///////|\n", table.toString());
+
+        setUp();
+
+        table.addHeader(TESTSTRING, '\\', Alignment.Right);
+        assertEquals(
+                "Test for right alignment",
                 "|\\\\\\\\\\\\\\\\\\\\\\\\\\ This is a test \\|\n", table
                         .toString());
     }
@@ -100,7 +104,9 @@ public class NiceTableTest {
     public void testAddRow() {
         final String[] data = { "this", "is", "a", "test" };
         table.addRow(data);
-        assertEquals("| this | is | a | test |\n", table.toString());
+        assertEquals(
+                "Test for | delim", "| this | is | a | test |\n", table
+                        .toString());
     }
 
     /**
@@ -110,8 +116,9 @@ public class NiceTableTest {
     @Test
     public void testAddLine() {
         table.addLine('*');
-        assertEquals("|******************************|\n", table
-                .toString());
+        assertEquals(
+                "Test for adding a line",
+                "|******************************|\n", table.toString());
     }
 
     /**
@@ -125,6 +132,7 @@ public class NiceTableTest {
         table.addLine('-');
         table.addRow(new String[] { "This", "is", "another", "data" });
         assertEquals(
+                "Test for a complete table",
                 "|= This is a header ===========================|\n| This | is | one     | data |\n|----------------------------------------------|\n| This | is | another | data |\n",
                 table.toString());
     }
@@ -135,19 +143,19 @@ public class NiceTableTest {
     @Test
     public void testNestedTable() {
 
-        final NiceTable t = new NiceTable(3);
+        final NiceTable zero = new NiceTable(3);
         final NiceTable one = new NiceTable(2);
         final NiceTable two = new NiceTable(2);
         final NiceTable three = new NiceTable(2);
         one.addRow(new String[] { "a", "b" });
         two.addRow(new String[] { "c", "d" });
         three.addRow(new String[] { "e", "f" });
-        t.addRow(new String[] {
+        zero.addRow(new String[] {
                 one.toString(), two.toString(), three.toString() });
 
-        final String result = t.toString().trim();
+        final String result = zero.toString().trim();
         final String expected = "| | a | b |  | | c | d |  | | e | f |  |";
-        assertEquals(expected, result);
+        assertEquals("Test for encapsulated tables", expected, result);
     }
 
     /**
@@ -155,16 +163,16 @@ public class NiceTableTest {
      */
     @Test
     public void testRowAlignment() {
-        final NiceTable a = new NiceTable(2);
-        a.addRow(new String[] { "a\nb\nc", "a\nb" });
-        a.addRow(new String[] { "d", "d" });
+        final NiceTable zero = new NiceTable(2);
+        zero.addRow(new String[] { "a\nb\nc", "a\nb" });
+        zero.addRow(new String[] { "d", "d" });
 
         final String expected =
                 "| a | a |\n"
                         + "| b | b |\n"
                         + "| c |   |\n"
                         + "| d | d |\n";
-        assertEquals(expected, a.toString());
+        assertEquals("Test for row alignment", expected, zero.toString());
     }
 
     /**
@@ -173,25 +181,27 @@ public class NiceTableTest {
     @Test
     public void testDynamics() {
 
-        final String[] s = { "a", "b", "c", "d", "e" };
-        final Number[] d = { 1.222222222, 3.000, 4, 5.0, 4444 };
+        final String[] string = { "a", "b", "c", "d", "e" };
+        final Number[] numbers = { 1.222222222, 3.000, 4, 5.0, 4444 };
 
-        final NiceTable b = new NiceTable(s.length);
-        b.addLine('-');
-        b.addRow(s);
-        b.addLine('=');
-        b.addRow(new String[] {
-                d[0].toString(), d[1].toString(), d[2].toString(),
-                d[3].toString(), d[4].toString() });
-        b.addLine('-');
-        final String result = b.toString();
+        final NiceTable zero = new NiceTable(string.length);
+        zero.addLine('-');
+        zero.addRow(string);
+        zero.addLine('=');
+        zero.addRow(new String[] {
+                numbers[0].toString(), numbers[1].toString(),
+                numbers[2].toString(), numbers[3].toString(),
+                numbers[4].toString() });
+        zero.addLine('-');
+        final String result = zero.toString();
         final StringBuilder expected = new StringBuilder();
         expected.append("|------------------------------------|\n");
         expected.append("| a           | b   | c | d   | e    |\n");
         expected.append("|====================================|\n");
         expected.append("| 1.222222222 | 3.0 | 4 | 5.0 | 4444 |\n");
         expected.append("|------------------------------------|\n");
-        assertEquals(expected.toString(), result);
+        assertEquals("Another test for a complete table", expected
+                .toString(), result);
 
     }
 }

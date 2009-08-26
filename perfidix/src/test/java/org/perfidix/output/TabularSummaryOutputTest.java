@@ -49,24 +49,27 @@ public class TabularSummaryOutputTest {
 
     private final static int NUMBEROFTICKS = 10;
 
-    private BenchmarkResult benchRes;
+    private transient BenchmarkResult benchRes;
 
-    private PrintStream consoleOut;
+    private transient PrintStream consoleOut;
 
-    private ByteArrayOutputStream bytes;
+    private transient ByteArrayOutputStream bytes;
 
-    private AbstractPerfidixMethodException testException;
+    private transient AbstractPerfidixMethodException testException;
 
     /**
      * Simple Constructor.
      * 
-     * @throws java.lang.Exception
+     * @throws NoSuchMethodException
+     *             if declaration fails
+     * @throws SecurityException
+     *             if declaration fails
      */
     @Before
-    public void setUp() throws Exception {
+    public void setUp() throws SecurityException, NoSuchMethodException {
         benchRes = new BenchmarkResult();
 
-        final Class< ? > class1 = new Class1().getClass();
+        final Class< ? > class1 = Class1.class;
 
         final Method meth11 = class1.getDeclaredMethod("method1");
 
@@ -96,7 +99,6 @@ public class TabularSummaryOutputTest {
      */
     @After
     public void tearDown() throws Exception {
-        benchRes = null;
         System.setOut(consoleOut);
     }
 
@@ -145,7 +147,8 @@ public class TabularSummaryOutputTest {
                 .append("|----------------------------------------------------------------------------------|\n");
         builder
                 .append("|==================================================================================|\n");
-        assertTrue(bytes.toString().startsWith(builder.toString()));
+        assertTrue("Complete Output check", bytes.toString().startsWith(
+                builder.toString()));
     }
 
     /**
@@ -157,6 +160,9 @@ public class TabularSummaryOutputTest {
      */
     @Test
     public final void testListenToResultSet() throws IOException {
+        final String classString = "Class: Class1#method1\n";
+        final String meterString = "Meter: Meter1\n";
+
         final MethodResult methRes =
                 benchRes
                         .getIncludedResults().iterator().next()
@@ -170,48 +176,49 @@ public class TabularSummaryOutputTest {
         }
         final StringBuilder builder = new StringBuilder();
 
-        builder.append("Class: Class1#method1\n");
-        builder.append("Meter: Meter1\n");
+        builder.append(classString);
+        builder.append(meterString);
         builder.append("Data: 1.0\n");
         builder.append("\n");
-        builder.append("Class: Class1#method1\n");
-        builder.append("Meter: Meter1\n");
+        builder.append(classString);
+        builder.append(meterString);
         builder.append("Data: 2.0\n");
         builder.append("\n");
-        builder.append("Class: Class1#method1\n");
-        builder.append("Meter: Meter1\n");
+        builder.append(classString);
+        builder.append(meterString);
         builder.append("Data: 3.0\n");
         builder.append("\n");
-        builder.append("Class: Class1#method1\n");
-        builder.append("Meter: Meter1\n");
+        builder.append(classString);
+        builder.append(meterString);
         builder.append("Data: 4.0\n");
         builder.append("\n");
-        builder.append("Class: Class1#method1\n");
-        builder.append("Meter: Meter1\n");
+        builder.append(classString);
+        builder.append(meterString);
         builder.append("Data: 5.0\n");
         builder.append("\n");
-        builder.append("Class: Class1#method1\n");
-        builder.append("Meter: Meter1\n");
+        builder.append(classString);
+        builder.append(meterString);
         builder.append("Data: 6.0\n");
         builder.append("\n");
-        builder.append("Class: Class1#method1\n");
-        builder.append("Meter: Meter1\n");
+        builder.append(classString);
+        builder.append(meterString);
         builder.append("Data: 7.0\n");
         builder.append("\n");
-        builder.append("Class: Class1#method1\n");
-        builder.append("Meter: Meter1\n");
+        builder.append(classString);
+        builder.append(meterString);
         builder.append("Data: 8.0\n");
         builder.append("\n");
-        builder.append("Class: Class1#method1\n");
-        builder.append("Meter: Meter1\n");
+        builder.append(classString);
+        builder.append(meterString);
         builder.append("Data: 9.0\n");
         builder.append("\n");
-        builder.append("Class: Class1#method1\n");
-        builder.append("Meter: Meter1\n");
+        builder.append(classString);
+        builder.append(meterString);
         builder.append("Data: 10.0\n");
         builder.append("\n");
 
-        assertEquals(builder.toString(), bytes.toString());
+        assertEquals("Complete listener test", builder.toString(), bytes
+                .toString());
     }
 
     /**
@@ -230,11 +237,13 @@ public class TabularSummaryOutputTest {
         builder
                 .append("Exception: PerfidixMethodInvocationException/java.io.IOException\n");
         builder.append("java.io.IOException\n");
-        assertTrue(bytes.toString().startsWith(builder.toString()));
+        assertTrue("Exception listener test", bytes.toString().startsWith(
+                builder.toString()));
     }
 
     class Class1 {
         public void method1() {
+            // Simple skeleton
         }
 
     }

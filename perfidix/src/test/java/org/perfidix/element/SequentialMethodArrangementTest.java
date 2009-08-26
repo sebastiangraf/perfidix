@@ -41,6 +41,7 @@ public class SequentialMethodArrangementTest {
 
     private transient Set<BenchmarkElement> elemSet;
 
+    private final static String BENCH1NAME = "bench1";
     private final static String BENCH2NAME = "bench2";
     private final static String BENCH4NAME = "bench4";
 
@@ -83,8 +84,8 @@ public class SequentialMethodArrangementTest {
                             KindOfArrangement.SequentialMethodArrangement);
             final String[] expectedNames =
                     {
-                            "bench2", "bench2", "bench2", "bench4",
-                            "bench4", "bench1" };
+                            BENCH2NAME, BENCH2NAME, BENCH2NAME,
+                            BENCH4NAME, BENCH4NAME, BENCH1NAME };
             final Iterator<BenchmarkElement> iterBench =
                     arrangement.iterator();
             final BenchmarkElement elem1 = iterBench.next();
