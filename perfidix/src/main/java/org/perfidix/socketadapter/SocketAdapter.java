@@ -26,11 +26,14 @@ import java.util.Map;
 
 import org.perfidix.Benchmark;
 import org.perfidix.element.BenchmarkMethod;
+import org.perfidix.exceptions.SocketViewException;
 import org.perfidix.ouput.TabularSummaryOutput;
 import org.perfidix.result.BenchmarkResult;
 
-//TODO Javadoc
 /**
+ * The SocketAdapter is the main-class for registration of the classes that will
+ * be benched and creation of the socket stub to the ide view.
+ * 
  * @author Lukas Lewandowski, University of Konstanz
  * @author Sebastian Graf, University of Konstanz
  */
@@ -66,7 +69,11 @@ public final class SocketAdapter {
             try {
                 benchmark.add(Class.forName(className));
             } catch (final ClassNotFoundException e) {
-                // TODO view#updateErrorInElement
+                try {
+                    view.updateErrorInElement(className, e);
+                } catch (final SocketViewException e1) {
+                    throw new IllegalStateException(e1);
+                }
 
             }
         }
@@ -79,7 +86,9 @@ public final class SocketAdapter {
         }
     }
 
-    // TODO javadoc
+    /**
+     * This method starts the bench progress with the registered classes.
+     */
     private void runBenchmark() {
         final BenchmarkResult res = benchmark.run(new SocketListener(view));
         new TabularSummaryOutput().visitBenchmark(res);

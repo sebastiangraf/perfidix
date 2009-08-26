@@ -22,6 +22,8 @@ package org.perfidix.socketadapter;
 
 import java.util.Map;
 
+import org.perfidix.exceptions.SocketViewException;
+
 /**
  * This interface specifies the methods which have to update the eclipse view
  * when a given event occurs.
@@ -62,10 +64,13 @@ public interface IBenchRunSessionListener {
      * @param element
      *            This {@link String} param represents the element name of the
      *            benched object where the error occurred.
+     * @param exception
+     *            The exception caused by the element.
      * @throws SocketViewException
      *             if update fails
      */
-    void updateError(final String element) throws SocketViewException;
+    void updateError(final String element, final String exception)
+            throws SocketViewException;
 
     /**
      * This method notifies the view that all bench runs completed.

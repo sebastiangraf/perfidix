@@ -34,8 +34,7 @@ import java.util.Map;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.perfidix.socketadapter.SocketViewException;
-import org.perfidix.socketadapter.SocketViewStub;
+import org.perfidix.exceptions.SocketViewException;
 
 /**
  * This class tests the java class
@@ -44,10 +43,24 @@ import org.perfidix.socketadapter.SocketViewStub;
  * @author Lewandowski Lukas, DiSy, University of Konstanz
  */
 public class SocketViewStubTest {
-    // TODO javadoc
+
+    /**
+     * The SocketViewStub instance to test its methods.
+     */
     private SocketViewStub viewStub;
+    /**
+     * The PerclipseViewSkeletonSimulater instance is our dummy skeleton to test
+     * the connection between the stub and the skeleton.
+     */
     private PerclipseViewSkeletonSimulator skeletonSimulator;
-    private HashMap<String, Integer> dataForView;
+    /**
+     * The Map containing the data for updating of the eclipse view.
+     */
+    private Map<String, Integer> dataForView;
+    /**
+     * The finished value shows if a connection finished and the socket is
+     * closed.
+     */
     private boolean finished = false;
 
     /**
@@ -140,13 +153,16 @@ public class SocketViewStubTest {
     @Test
     public void testUpdateError()
             throws InterruptedException, SocketViewException {
-        viewStub.updateError("some.Element");
+        viewStub.updateError("some.Element", "aException");
         Thread.sleep(10);
         assertEquals("some.Element", skeletonSimulator
                 .getReceivedStringObject());
-        viewStub.updateError(null);
+        assertEquals("aException", skeletonSimulator
+                .getErrorStringObject());
+        viewStub.updateError(null, null);
         Thread.sleep(10);
         assertEquals(null, skeletonSimulator.getReceivedStringObject());
+        assertEquals(null, skeletonSimulator.getErrorStringObject());
     }
 
     /**
@@ -177,6 +193,7 @@ public class SocketViewStubTest {
         private int serverPort;
         private boolean finished = false;
         private ObjectInputStream in;
+        private String errorOccurred;
 
         /**
          * The constructor gets a given free port and initializes the bench run
@@ -231,6 +248,7 @@ public class SocketViewStubTest {
 
                     } else if ("updateError".equals(command)) {
                         receivedStringObject = (String) in.readObject();
+                        errorOccurred = (String) in.readObject();
                         // error happened
                     } else if ("finished".equals(command)) {
                         // finished happened
@@ -276,6 +294,15 @@ public class SocketViewStubTest {
          */
         public String getReceivedStringObject() {
             return receivedStringObject;
+        }
+
+        /**
+         * Received data just for testing purposes.
+         * 
+         * @return Received data just for testing purposes.
+         */
+        public String getErrorStringObject() {
+            return errorOccurred;
         }
 
     }
