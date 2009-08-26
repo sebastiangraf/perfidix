@@ -31,6 +31,17 @@
 			<organizationUrl>http://www.informatik.uni-konstanz.de/ags/disy/</organizationUrl>
 			<timezone>+1</timezone>
 		</developer>
+		<developer>
+			<id>lewandowskil</id>
+			<name>Lukas Lewandowski</name>
+			<email>lukas.lewandowski@uni-konstanz.de</email>
+			<url>http://www.informatik.uni-konstanz.de/arbeitsgruppen/Verteilte-Systeme/mitglieder</url>
+			<organization>University of Konstanz, Distributed Systems Lab</organization>
+			<organizationUrl>http://www.informatik.uni-konstanz.de/ags/disy/</organizationUrl>
+			<timezone>+1</timezone>
+			<roles>
+			</roles>
+		</developer>
 	</developers>
 	<mailingLists>
 		<mailingList>
@@ -76,7 +87,7 @@
 				<configuration>
 					<sourceEncoding>utf-8</sourceEncoding>
 					<minimumTokens>100</minimumTokens>
-					<targetJdk>1.6</targetJdk>
+					<targetJdk>${compileSource}</targetJdk>
 				</configuration>
 			</plugin>
 		</plugins>
@@ -90,19 +101,21 @@
 				<configuration>
 					<sourceEncoding>utf-8</sourceEncoding>
 					<minimumTokens>100</minimumTokens>
-					<targetJdk>1.6</targetJdk>
+					<targetJdk>${compileSource}</targetJdk>
 				</configuration>
 			</plugin>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<configuration>
-					<source>1.6</source>
-					<target>1.6</target>
+					<sourceEncoding>utf-8</sourceEncoding>
+					<source>${compileSource}</source>
+					<target>${compileSource}</target>
 				</configuration>
 			</plugin>
 			<plugin>
 				<artifactId>maven-assembly-plugin</artifactId>
 				<configuration>
+					<sourceEncoding>utf-8</sourceEncoding>
 					<descriptors>
 						<descriptor>src/main/assembly/jarAssembly.xml</descriptor>
 					</descriptors>
@@ -130,4 +143,7 @@
 			<version>1.2</version>
 		</dependency>
 	</dependencies>
+	<properties>
+		<compileSource>1.6</compileSource>
+	</properties>
 </project>
