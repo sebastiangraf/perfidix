@@ -45,8 +45,10 @@ public final class SocketViewProgressUpdater {
      *            Host is the host name of the view provider.
      * @param port
      *            Port represent the port number of the eclipse view.
+     * @throws SocketViewException
      */
-    public SocketViewProgressUpdater(final String host, final int port) {
+    public SocketViewProgressUpdater(final String host, final int port)
+            throws SocketViewException {
         String strubParam = host;
         if (host == null || host.equals("")) {
             strubParam = "localhost";
@@ -61,9 +63,11 @@ public final class SocketViewProgressUpdater {
      * 
      * @param mapping
      *            a mapping with all methods to benchmark and the related runs
+     * @throws SocketViewException
      */
     public void initProgressView(
-            final Map<BenchmarkMethod, Integer> mapping) {
+            final Map<BenchmarkMethod, Integer> mapping)
+            throws SocketViewException {
         if (mapping != null) {
             final Set<BenchmarkMethod> methodSet = mapping.keySet();
 
@@ -86,8 +90,10 @@ public final class SocketViewProgressUpdater {
      * @param name
      *            This param represents the java element which is currently
      *            benched and which is fully qualified.
+     * @throws SocketViewException
      */
-    public void updateCurrentElement(final String name) {
+    public void updateCurrentElement(final String name)
+            throws SocketViewException {
         if (name != null) {
             viewStub.updateCurrentRun(name);
         }
@@ -100,8 +106,10 @@ public final class SocketViewProgressUpdater {
      * @param name
      *            Element represents the java element which has not been
      *            executed successfully.
+     * @throws SocketViewException
      */
-    public void updateErrorInElement(final String name) {
+    public void updateErrorInElement(final String name)
+            throws SocketViewException {
         if (name != null) {
             viewStub.updateError(name);
         }
@@ -110,8 +118,10 @@ public final class SocketViewProgressUpdater {
     /**
      * This method notifies the view that all benches have been executed and the
      * bench progress is finished.
+     * 
+     * @throws SocketViewException
      */
-    public void finished() {
+    public void finished() throws SocketViewException {
         viewStub.finishedBenchRuns();
     }
 

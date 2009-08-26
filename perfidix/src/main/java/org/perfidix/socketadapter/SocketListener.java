@@ -54,9 +54,13 @@ public final class SocketListener extends AbstractOutput {
     @Override
     public void listenToException(
             final AbstractPerfidixMethodException exec) {
-        view.updateErrorInElement((exec
-                .getMethod().getDeclaringClass().getName()
-                + "." + exec.getMethod().getName()));
+        try {
+            view.updateErrorInElement((exec
+                    .getMethod().getDeclaringClass().getName()
+                    + "." + exec.getMethod().getName()));
+        } catch (final SocketViewException e) {
+            throw new IllegalStateException(e);
+        }
 
     }
 
@@ -64,8 +68,12 @@ public final class SocketListener extends AbstractOutput {
     @Override
     public void listenToResultSet(
             final Method meth, final AbstractMeter meter, final double data) {
-        view.updateCurrentElement((meth.getDeclaringClass().getName()
-                + "." + meth.getName()));
+        try {
+            view.updateCurrentElement((meth.getDeclaringClass().getName()
+                    + "." + meth.getName()));
+        } catch (final SocketViewException e) {
+            throw new IllegalStateException(e);
+        }
     }
 
     /** {@inheritDoc} */

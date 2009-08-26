@@ -50,8 +50,11 @@ public final class SocketViewStub implements IBenchRunSessionListener {
      *            Host represents the {@link String} host name
      * @param viewListenerPort
      *            This param represents the port of the view.
+     * @throws SocketViewException
+     *             if communitcation fails
      */
-    public SocketViewStub(final String host, final int viewListenerPort) {
+    public SocketViewStub(final String host, final int viewListenerPort)
+            throws SocketViewException {
         if (host == null) {
             this.host = "localhost";
         } else {
@@ -61,65 +64,62 @@ public final class SocketViewStub implements IBenchRunSessionListener {
             socket = new Socket(this.host, viewListenerPort);
             outputStream =
                     new ObjectOutputStream(socket.getOutputStream());
-        } catch (UnknownHostException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+        } catch (final UnknownHostException e) {
+            throw new SocketViewException(e);
+        } catch (final IOException e) {
+            throw new SocketViewException(e);
         }
 
     }
 
     /** {@inheritDoc} */
-    public void initTotalBenchProgress(final Map<String, Integer> elems) {
+    public void initTotalBenchProgress(final Map<String, Integer> elems)
+            throws SocketViewException {
         command = "init";
         try {
             outputStream.writeObject(command);
             outputStream.writeObject(elems);
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+        } catch (final IOException e) {
+            throw new SocketViewException(e);
         }
 
     }
 
     /** {@inheritDoc} */
-    public void updateCurrentRun(final String currentElement) {
+    public void updateCurrentRun(final String currentElement)
+            throws SocketViewException {
         command = "updateCurrentRun";
         try {
             outputStream.writeObject(command);
             outputStream.writeObject(currentElement);
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+        } catch (final IOException e) {
+            throw new SocketViewException(e);
         }
 
     }
 
     /** {@inheritDoc} */
-    public void updateError(final String element) {
+    public void updateError(final String element)
+            throws SocketViewException {
         command = "updateError";
         try {
             outputStream.writeObject(command);
             outputStream.writeObject(element);
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+        } catch (final IOException e) {
+            throw new SocketViewException(e);
         }
 
     }
 
     /** {@inheritDoc} */
-    public void finishedBenchRuns() {
+    public void finishedBenchRuns() throws SocketViewException {
         command = "finished";
         try {
             outputStream.writeObject(command);
             outputStream.close();
             socket.close();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+        } catch (final IOException e) {
+            throw new SocketViewException(e);
         }
 
     }

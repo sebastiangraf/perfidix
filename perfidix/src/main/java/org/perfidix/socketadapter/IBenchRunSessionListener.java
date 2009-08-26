@@ -36,8 +36,11 @@ public interface IBenchRunSessionListener {
      * @param elems
      *            This param is an HashMap which consists of each java element
      *            name with its total bench runs value.
+     * @throws SocketViewException
+     *             if init fails
      */
-    void initTotalBenchProgress(final Map<String, Integer> elems);
+    void initTotalBenchProgress(final Map<String, Integer> elems)
+            throws SocketViewException;
 
     /**
      * The updateCurrentRun method notifies the view which element is currently
@@ -46,8 +49,11 @@ public interface IBenchRunSessionListener {
      * @param currentElement
      *            This {@link String} param represents the current running java
      *            element.
+     * @throws SocketViewException
+     *             if update fails
      */
-    void updateCurrentRun(final String currentElement);
+    void updateCurrentRun(final String currentElement)
+            throws SocketViewException;
 
     /**
      * The updateError method updates the view that an error occurred while
@@ -56,12 +62,17 @@ public interface IBenchRunSessionListener {
      * @param element
      *            This {@link String} param represents the element name of the
      *            benched object where the error occurred.
+     * @throws SocketViewException
+     *             if update fails
      */
-    void updateError(final String element);
+    void updateError(final String element) throws SocketViewException;
 
     /**
      * This method notifies the view that all bench runs completed.
+     * 
+     * @throws SocketViewException
+     *             if finish-update fails
      */
-    void finishedBenchRuns();
+    void finishedBenchRuns() throws SocketViewException;
 
 }
