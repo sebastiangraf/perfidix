@@ -28,13 +28,13 @@ import java.util.Map;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.perfidix.AbstractConfig.StandardConfig;
 import org.perfidix.annotation.BeforeBenchClass;
 import org.perfidix.benchmarktests.BeforeBenchClassError;
 import org.perfidix.benchmarktests.NormalBenchForClassAndObjectAdd;
 import org.perfidix.benchmarktests.NormalCompleteBench;
 import org.perfidix.benchmarktests.NormalIncompleteBench;
 import org.perfidix.element.BenchmarkMethod;
-import org.perfidix.element.KindOfArrangement;
 import org.perfidix.exceptions.AbstractPerfidixMethodException;
 import org.perfidix.result.BenchmarkResult;
 
@@ -54,7 +54,7 @@ public final class BenchmarkTest {
      */
     @Before
     public void setUp() throws Exception {
-        benchmark = new Benchmark();
+        benchmark = new Benchmark(new StandardConfig());
     }
 
     /**
@@ -68,15 +68,12 @@ public final class BenchmarkTest {
     }
 
     /**
-     * Test method for
-     * {@link org.perfidix.Benchmark#run(double,org.perfidix.element.KindOfArrangement, org.perfidix.ouput.AbstractOutput[])}
-     * .
+     * Test method for {@link org.perfidix.Benchmark#run()} .
      */
     @Test
     public void testRunBeforeClassError() {
         benchmark.add(BeforeBenchClassError.class);
-        final BenchmarkResult benchRes =
-                benchmark.run(1.0, KindOfArrangement.NoArrangement);
+        final BenchmarkResult benchRes = benchmark.run();
         assertEquals("Meters should be empty", 0, benchRes
                 .getRegisteredMeters().size());
         assertEquals("One Exception should be registered", 1, benchRes
@@ -93,9 +90,7 @@ public final class BenchmarkTest {
     }
 
     /**
-     * Test method for
-     * {@link org.perfidix.Benchmark#run(double,org.perfidix.element.KindOfArrangement, org.perfidix.ouput.AbstractOutput[])}
-     * .
+     * Test method for {@link org.perfidix.Benchmark#run()} .
      */
     @Test
     public void testNormalBenchrun() {
@@ -106,8 +101,7 @@ public final class BenchmarkTest {
                 .size());
         assertTrue("The mapping contains the number of estimated runs", mapping
                 .values().contains(NormalCompleteBench.RUNS));
-        final BenchmarkResult benchRes =
-                benchmark.run(1.0, KindOfArrangement.NoArrangement);
+        final BenchmarkResult benchRes = benchmark.run();
         assertEquals("Only one meter is registered", 1, benchRes
                 .getRegisteredMeters().size());
         assertEquals("No expcetion was thrown", 0, benchRes
@@ -139,15 +133,12 @@ public final class BenchmarkTest {
     }
 
     /**
-     * Test method for
-     * {@link org.perfidix.Benchmark#run(double,org.perfidix.element.KindOfArrangement, org.perfidix.ouput.AbstractOutput[])}
-     * .
+     * Test method for {@link org.perfidix.Benchmark#run()} .
      */
     @Test
     public void testIncompleteBenchrun() {
         benchmark.add(NormalIncompleteBench.class);
-        final BenchmarkResult benchRes =
-                benchmark.run(1.0, KindOfArrangement.NoArrangement);
+        final BenchmarkResult benchRes = benchmark.run();
         assertEquals("No Meter is given", 0, benchRes
                 .getRegisteredMeters().size());
         assertEquals("No Exception is thrown", 0, benchRes
@@ -160,8 +151,7 @@ public final class BenchmarkTest {
     @Test
     public void testAddClazz() {
         benchmark.add(NormalCompleteBench.class);
-        final BenchmarkResult benchRes =
-                benchmark.run(1.0, KindOfArrangement.NoArrangement);
+        final BenchmarkResult benchRes = benchmark.run();
         assertEquals("One meter is registered", 1, benchRes
                 .getRegisteredMeters().size());
         assertEquals("No exception is thrown", 0, benchRes
@@ -195,8 +185,7 @@ public final class BenchmarkTest {
     public void testAddObject() {
         final NormalCompleteBench obj = new NormalCompleteBench();
         benchmark.add(obj);
-        final BenchmarkResult benchRes =
-                benchmark.run(1.0, KindOfArrangement.NoArrangement);
+        final BenchmarkResult benchRes = benchmark.run();
         assertEquals("One meter is registered", 1, benchRes
                 .getRegisteredMeters().size());
         assertEquals("No exception is thrown", 0, benchRes

@@ -34,13 +34,9 @@ import org.perfidix.element.AbstractMethodArrangement;
 import org.perfidix.element.BenchmarkElement;
 import org.perfidix.element.BenchmarkExecutor;
 import org.perfidix.element.BenchmarkMethod;
-import org.perfidix.element.KindOfArrangement;
 import org.perfidix.exceptions.PerfidixMethodCheckException;
 import org.perfidix.exceptions.PerfidixMethodInvocationException;
 import org.perfidix.meter.AbstractMeter;
-import org.perfidix.meter.Time;
-import org.perfidix.meter.TimeMeter;
-import org.perfidix.ouput.AbstractOutput;
 import org.perfidix.result.BenchmarkResult;
 
 /**
@@ -57,30 +53,29 @@ public final class Benchmark {
     private transient final Set<Class<?>> clazzes;
 
     /** Already instantiated objects */
-    private transient Set<Object> objects;
+    private transient final Set<Object> objects;
 
+    /** Simple random for gc-prob */
     private transient static final Random RAN = new Random();
+
+    /** Configuration of benchmark, holding everything. */
+    private transient final AbstractConfig conf;
 
     /**
      * Constructor with a fixed set of used meters.
      * 
-     * @param paramMeters
-     *            meters to use.
+     * @param paramConf
+     *            Configuration for Benchmark
      */
-    public Benchmark(final AbstractMeter... paramMeters) {
+    public Benchmark(final AbstractConfig paramConf) {
+        conf = paramConf;
         this.meters = new LinkedHashSet<AbstractMeter>();
         this.clazzes = new LinkedHashSet<Class<?>>();
         this.objects = new LinkedHashSet<Object>();
 
-        for (final AbstractMeter meter : paramMeters) {
+        for (final AbstractMeter meter : conf.getMeters()) {
             this.meters.add(meter);
         }
-
-    }
-
-    /** Standard constructor. Only using a TimeMeter */
-    public Benchmark() {
-        this(new TimeMeter(Time.MilliSeconds));
     }
 
     /**
@@ -119,47 +114,6 @@ public final class Benchmark {
     }
 
     /**
-     * Running this benchmark with no arrangement.
-     * 
-     * @param visitor
-     *            possible visitors
-     * @param gcProb
-     *            probability to invoke gc
-     * @return the result of the Benchmark
-     */
-    public BenchmarkResult run(
-            final double gcProb, final AbstractOutput... visitor) {
-        return run(gcProb, KindOfArrangement.NoArrangement, visitor);
-    }
-
-    /**
-     * Running this benchmark with no arrangement and gc invoking for every
-     * bench.
-     * 
-     * @param visitor
-     *            possible visitors
-     * @return the result of the Benchmark
-     */
-    public BenchmarkResult run(final AbstractOutput... visitor) {
-        return run(1.0d, visitor);
-    }
-
-    /**
-     * Running this benchmark with a given arrangement and gc invoking for every
-     * bench.
-     * 
-     * @param visitor
-     *            possible visitors
-     * @param kind
-     *            of methodArrangement.
-     * @return the result of the Benchmark
-     */
-    public BenchmarkResult run(
-            final KindOfArrangement kind, final AbstractOutput... visitor) {
-        return run(1.0d, kind, visitor);
-    }
-
-    /**
      * Getting the number of all methods and all runs
      * 
      * @return a map with all methods and the runs.
@@ -176,25 +130,13 @@ public final class Benchmark {
     }
 
     /**
-     * Running this benchmark with a given kind of arrangement. See @link
-     * {@link KindOfArrangement} for different kinds.
+     * Running this benchmark
      * 
-     * @param kind
-     *            of methodArrangement.
-     * @param visitor
-     *            {@link AbstractOutput} instances which are listening to
-     *            upcoming results. Note that this is not an alternative for the
-     *            visit-functionality with the {@link BenchmarkResult} returnval
-     *            of the {@link AbstractOutput}
-     * @param gcProb
-     *            probability to invoke gc
      * @return {@link BenchmarkResult} the result in an {@link BenchmarkResult}
      *         container.
      */
-    public BenchmarkResult run(
-            final double gcProb, final KindOfArrangement kind,
-            final AbstractOutput... visitor) {
-        final BenchmarkResult res = new BenchmarkResult(visitor);
+    public BenchmarkResult run() {
+        final BenchmarkResult res = new BenchmarkResult(conf.getListener());
         BenchmarkExecutor.initialize(meters, res);
 
         // getting Benchmarkables
@@ -202,7 +144,8 @@ public final class Benchmark {
 
         // arranging them
         final AbstractMethodArrangement arrangement =
-                AbstractMethodArrangement.getMethodArrangement(elements, kind);
+                AbstractMethodArrangement.getMethodArrangement(elements, conf
+                        .getArrangement());
 
         // instantiate methods
         final Map<Class<?>, Object> instantiatedObj = instantiateMethods(res);
@@ -223,7 +166,7 @@ public final class Benchmark {
                 exec.executeBeforeMethods(obj);
 
                 // invoking gc if possible
-                if (RAN.nextDouble() < gcProb) {
+                if (RAN.nextDouble() < conf.getGcProb()) {
                     System.gc();
                 }
 

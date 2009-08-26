@@ -24,9 +24,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.perfidix.AbstractConfig;
 import org.perfidix.Benchmark;
+import org.perfidix.Perfidix;
 import org.perfidix.element.BenchmarkMethod;
 import org.perfidix.exceptions.SocketViewException;
+import org.perfidix.ouput.AbstractOutput;
 import org.perfidix.ouput.TabularSummaryOutput;
 import org.perfidix.result.BenchmarkResult;
 
@@ -40,21 +43,40 @@ import org.perfidix.result.BenchmarkResult;
 public final class SocketAdapter {
 
     /** Instance for this run of the adapter */
-    private transient final Benchmark benchmark;
+    private transient Benchmark benchmark;
 
     /** View instance for communicating with the perclipse plugin */
     private transient final SocketViewProgressUpdater view;
 
     /**
      * private constructor.
+     * 
+     * @throws IllegalAccessException
+     * @throws InstantiationException
+     * @throws ClassNotFoundException
+     * @throws SocketViewException
      */
-    private SocketAdapter(final int port) {
-        benchmark = new Benchmark();
-        try {
-            view = new SocketViewProgressUpdater(null, port);
-        } catch (final SocketViewException e) {
-            throw new IllegalStateException(e);
-        }
+    private SocketAdapter(final int port, final String[] classes)
+            throws SocketViewException, ClassNotFoundException,
+            InstantiationException, IllegalAccessException {
+        view = new SocketViewProgressUpdater(null, port);
+
+        // config adaptions for including the view
+        final AbstractConfig oldConf = Perfidix.getConfiguration(classes);
+        final AbstractOutput[] outputs =
+                new AbstractOutput[oldConf.getListener().length + 1];
+        System.arraycopy(oldConf.getListener(), 0, outputs, 0, oldConf
+                .getListener().length);
+        outputs[outputs.length - 1] = new SocketListener(view);
+
+        // Building up the benchmark object
+        final AbstractConfig newConf =
+                new AbstractConfig(
+                        oldConf.getRuns(), oldConf.getMeters(), outputs,
+                        oldConf.getArrangement(), oldConf.getGcProb()) {
+                };
+        benchmark = new Benchmark(newConf);
+
     }
 
     /**
@@ -64,39 +86,30 @@ public final class SocketAdapter {
      * @param classNames
      *            the names of the classes to be benched
      */
-    private void registerClasses(final List<String> classNames) {
-        for (final String className : classNames) {
-            try {
-                benchmark.add(Class.forName(className));
-            } catch (final ClassNotFoundException e) {
-                try {
-                    view.updateErrorInElement(className, e);
-                } catch (final SocketViewException e1) {
-                    throw new IllegalStateException(e1);
-                }
-
-            }
-        }
-        final Map<BenchmarkMethod, Integer> vals =
-                benchmark.getNumberOfMethodsAndRuns();
+    private void registerClasses(final String[] classNames)
+            throws SocketViewException {
         try {
+            benchmark = Perfidix.setUpBenchmark(classNames, benchmark);
+
+            final Map<BenchmarkMethod, Integer> vals =
+                    benchmark.getNumberOfMethodsAndRuns();
             view.initProgressView(vals);
-        } catch (final SocketViewException e) {
-            throw new IllegalStateException(e);
+
+        } catch (final ClassNotFoundException e2) {
+            view.updateErrorInElement(e2.toString(), e2);
         }
     }
 
     /**
      * This method starts the bench progress with the registered classes.
+     * 
+     * @throws SocketViewException
      */
-    private void runBenchmark() {
-        final BenchmarkResult res = benchmark.run(new SocketListener(view));
+    private void runBenchmark() throws SocketViewException {
+        // final BenchmarkResult res = benchmark.run(new SocketListener(view));
+        final BenchmarkResult res = benchmark.run();
         new TabularSummaryOutput().visitBenchmark(res);
-        try {
-            view.finished();
-        } catch (final SocketViewException e) {
-            throw new IllegalStateException(e);
-        }
+        view.finished();
     }
 
     /**
@@ -119,13 +132,28 @@ public final class SocketAdapter {
                 classList.add(args[i]);
             }
         }
+        try {
+            final SocketAdapter adapter =
+                    new SocketAdapter(viewPort, classList
+                            .toArray(new String[classList.size()]));
 
-        final SocketAdapter adapter = new SocketAdapter(viewPort);
-        adapter.registerClasses(classList);
-        adapter.runBenchmark();
+            adapter.registerClasses(classList.toArray(new String[classList
+                    .size()]));
+            adapter.runBenchmark();
+        } catch (final SocketViewException e) {
+            throw new IllegalStateException(e);
+        } catch (ClassNotFoundException e) {
+            throw new IllegalStateException(e);
+        } catch (InstantiationException e) {
+            throw new IllegalStateException(e);
+        } catch (IllegalAccessException e) {
+            throw new IllegalStateException(e);
+        }
+
         //
 
         /****/
 
     }
+
 }
