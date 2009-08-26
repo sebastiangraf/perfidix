@@ -23,18 +23,24 @@ package org.perfidix.socketadapter;
 import java.io.IOException;
 
 /**
+ * Exception type for communicating with the socket. Encapsulates instance of
+ * IOExceptions.
+ * 
  * @author Sebastian Graf, University of Konstanz
  */
 public final class SocketViewException extends IOException {
 
-    /** serial id */
+    /** Serial ID */
     private static final long serialVersionUID = 528281733888231478L;
 
-    private final IOException toStore;
-
+    /**
+     * Constructor
+     * 
+     * @param paramToStore
+     *            exception to encapsulate
+     */
     public SocketViewException(final IOException paramToStore) {
-        super();
-        this.toStore = paramToStore;
+        super(paramToStore);
     }
 
 }
