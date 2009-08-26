@@ -32,12 +32,12 @@ import org.perfidix.result.BenchmarkResult;
  * 
  * @author Sebastian Graf, University of Konstanz
  */
-public final class PerclipseListener extends AbstractOutput {
+public final class SocketListener extends AbstractOutput {
 
     /**
      * Instance to the perclipse view.
      */
-    private transient final PerclipseViewProgressUpdater view;
+    private transient final SocketViewProgressUpdater view;
 
     /**
      * Constructor with the port for initalising the connection to the view.
@@ -45,7 +45,7 @@ public final class PerclipseListener extends AbstractOutput {
      * @param paramView
      *            connection to the perclipse view
      */
-    public PerclipseListener(final PerclipseViewProgressUpdater paramView) {
+    public SocketListener(final SocketViewProgressUpdater paramView) {
         super();
         view = paramView;
     }
