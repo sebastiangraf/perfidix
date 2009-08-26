@@ -64,8 +64,8 @@ public class NiceTableTest {
     public void testAddHeaderString() {
         table.addHeader(TESTSTRING);
         assertEquals(
-                "Test for normal adding",
-                "|= This is a test =============|\n", table.toString());
+                "Test for normal adding", "|= This is a test =============|\n",
+                table.toString());
     }
 
     /**
@@ -104,9 +104,8 @@ public class NiceTableTest {
     public void testAddRow() {
         final String[] data = { "this", "is", "a", "test" };
         table.addRow(data);
-        assertEquals(
-                "Test for | delim", "| this | is | a | test |\n", table
-                        .toString());
+        assertEquals("Test for | delim", "| this | is | a | test |\n", table
+                .toString());
     }
 
     /**
@@ -117,8 +116,8 @@ public class NiceTableTest {
     public void testAddLine() {
         table.addLine('*');
         assertEquals(
-                "Test for adding a line",
-                "|******************************|\n", table.toString());
+                "Test for adding a line", "|******************************|\n",
+                table.toString());
     }
 
     /**
@@ -168,10 +167,7 @@ public class NiceTableTest {
         zero.addRow(new String[] { "d", "d" });
 
         final String expected =
-                "| a | a |\n"
-                        + "| b | b |\n"
-                        + "| c |   |\n"
-                        + "| d | d |\n";
+                "| a | a |\n" + "| b | b |\n" + "| c |   |\n" + "| d | d |\n";
         assertEquals("Test for row alignment", expected, zero.toString());
     }
 
@@ -200,8 +196,9 @@ public class NiceTableTest {
         expected.append("|====================================|\n");
         expected.append("| 1.222222222 | 3.0 | 4 | 5.0 | 4444 |\n");
         expected.append("|------------------------------------|\n");
-        assertEquals("Another test for a complete table", expected
-                .toString(), result);
+        assertEquals(
+                "Another test for a complete table", expected.toString(),
+                result);
 
     }
 }

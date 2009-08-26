@@ -69,9 +69,7 @@ public abstract class AbstractMeter {
     public final String toString() {
         final StringBuilder builder = new StringBuilder();
 
-        builder
-                .append(getName()).append("[").append(getUnit()).append(
-                        "]");
+        builder.append(getName()).append("[").append(getUnit()).append("]");
         return builder.toString();
     }
 

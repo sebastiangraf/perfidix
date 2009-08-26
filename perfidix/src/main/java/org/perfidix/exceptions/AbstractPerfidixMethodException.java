@@ -44,7 +44,7 @@ public abstract class AbstractPerfidixMethodException extends Exception {
     private transient final Method meth;
 
     /** Related annotation to this method. */
-    private transient final Class< ? extends Annotation> relatedAnno;
+    private transient final Class<? extends Annotation> relatedAnno;
 
     /**
      * Simple Constructor.
@@ -58,7 +58,7 @@ public abstract class AbstractPerfidixMethodException extends Exception {
      */
     public AbstractPerfidixMethodException(
             final Throwable paramExec, final Method paramMeth,
-            final Class< ? extends Annotation> paramAnnotation) {
+            final Class<? extends Annotation> paramAnnotation) {
         super();
         this.exec = paramExec;
         this.meth = paramMeth;
@@ -88,7 +88,7 @@ public abstract class AbstractPerfidixMethodException extends Exception {
      * 
      * @return the related annotation for this errored method
      */
-    public final Class< ? extends Annotation> getRelatedAnno() {
+    public final Class<? extends Annotation> getRelatedAnno() {
         return relatedAnno;
     }
 

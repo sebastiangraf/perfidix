@@ -47,7 +47,7 @@ public final class PerfidixMethodCheckException
      */
     public PerfidixMethodCheckException(
             final Throwable paramExec, final Method paramMeth,
-            final Class< ? extends Annotation> paramAnnotation) {
+            final Class<? extends Annotation> paramAnnotation) {
         super(paramExec, paramMeth, paramAnnotation);
     }
 

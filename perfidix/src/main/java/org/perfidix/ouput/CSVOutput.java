@@ -96,9 +96,9 @@ public final class CSVOutput extends AbstractOutput {
     public void listenToResultSet(
             final Method meth, final AbstractMeter meter, final double data) {
         final PrintStream stream =
-                setUpNewPrintStream(false, meth
-                        .getDeclaringClass().getSimpleName(), meth
-                        .getName(), meter.getName());
+                setUpNewPrintStream(
+                        false, meth.getDeclaringClass().getSimpleName(), meth
+                                .getName(), meter.getName());
         if (!firstResult) {
             stream.append(",");
         }
@@ -110,8 +110,7 @@ public final class CSVOutput extends AbstractOutput {
 
     /** {@inheritDoc} */
     @Override
-    public void listenToException(
-            final AbstractPerfidixMethodException exec) {
+    public void listenToException(final AbstractPerfidixMethodException exec) {
         final PrintStream currentWriter =
                 setUpNewPrintStream(false, "Exceptions");
         if (!firstException) {
@@ -137,22 +136,20 @@ public final class CSVOutput extends AbstractOutput {
     public void visitBenchmark(final BenchmarkResult res) {
         // Printing the data
         for (final ClassResult classRes : res.getIncludedResults()) {
-            for (final MethodResult methRes : classRes
-                    .getIncludedResults()) {
-                for (final AbstractMeter meter : methRes
-                        .getRegisteredMeters()) {
+            for (final MethodResult methRes : classRes.getIncludedResults()) {
+                for (final AbstractMeter meter : methRes.getRegisteredMeters()) {
                     final PrintStream currentWriter =
-                            setUpNewPrintStream(true, classRes
-                                    .getElementName(), methRes
-                                    .getElementName(), meter.getName());
+                            setUpNewPrintStream(
+                                    true, classRes.getElementName(), methRes
+                                            .getElementName(), meter.getName());
                     boolean first = true;
                     for (final Double d : methRes.getResultSet(meter)) {
                         if (first) {
                             currentWriter.append(d.toString());
                             first = false;
                         } else {
-                            currentWriter.append(new StringBuilder(",")
-                                    .append(d.toString()).toString());
+                            currentWriter.append(new StringBuilder(",").append(
+                                    d.toString()).toString());
                         }
                     }
 
@@ -166,8 +163,7 @@ public final class CSVOutput extends AbstractOutput {
         final PrintStream currentWriter =
                 setUpNewPrintStream(true, "Exceptions");
 
-        for (final AbstractPerfidixMethodException exec : res
-                .getExceptions()) {
+        for (final AbstractPerfidixMethodException exec : res.getExceptions()) {
             currentWriter.append(exec.getRelatedAnno().getSimpleName());
             if (exec.getMethod() != null) {
                 currentWriter.append(":");

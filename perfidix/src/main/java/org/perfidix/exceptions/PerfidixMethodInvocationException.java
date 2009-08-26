@@ -47,7 +47,7 @@ public final class PerfidixMethodInvocationException
      */
     public PerfidixMethodInvocationException(
             final Throwable paramExec, final Method paramMeth,
-            final Class< ? extends Annotation> paramAnnotation) {
+            final Class<? extends Annotation> paramAnnotation) {
         super(paramExec, paramMeth, paramAnnotation);
     }
 
@@ -61,7 +61,7 @@ public final class PerfidixMethodInvocationException
      */
     public PerfidixMethodInvocationException(
             final Throwable paramExec,
-            final Class< ? extends Annotation> paramAnnotation) {
+            final Class<? extends Annotation> paramAnnotation) {
         super(paramExec, null, paramAnnotation);
     }
 

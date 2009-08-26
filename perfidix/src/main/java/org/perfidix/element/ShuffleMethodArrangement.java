@@ -32,8 +32,7 @@ import java.util.Set;
  * 
  * @author Sebastian Graf, University of Konstanz
  */
-public final class ShuffleMethodArrangement
-        extends AbstractMethodArrangement {
+public final class ShuffleMethodArrangement extends AbstractMethodArrangement {
 
     /** Seed for the random arrangement of the elements. */
     private static final long SEED = 1L;

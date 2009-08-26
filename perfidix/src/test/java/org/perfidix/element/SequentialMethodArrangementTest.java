@@ -54,12 +54,10 @@ public class SequentialMethodArrangementTest {
     @Before
     public void setUp() throws Exception {
         elemSet = new HashSet<BenchmarkElement>();
-        final Class< ? > testClazz = TestBenchClass.class;
+        final Class<?> testClazz = TestBenchClass.class;
         for (final Method meth : testClazz.getDeclaredMethods()) {
             if (BenchmarkMethod.isBenchmarkable(meth)) {
-                elemSet
-                        .add(new BenchmarkElement(
-                                new BenchmarkMethod(meth)));
+                elemSet.add(new BenchmarkElement(new BenchmarkMethod(meth)));
             }
         }
         Method meth = testClazz.getMethod(BENCH2NAME);
@@ -84,10 +82,9 @@ public class SequentialMethodArrangementTest {
                             KindOfArrangement.SequentialMethodArrangement);
             final String[] expectedNames =
                     {
-                            BENCH2NAME, BENCH2NAME, BENCH2NAME,
-                            BENCH4NAME, BENCH4NAME, BENCH1NAME };
-            final Iterator<BenchmarkElement> iterBench =
-                    arrangement.iterator();
+                            BENCH2NAME, BENCH2NAME, BENCH2NAME, BENCH4NAME,
+                            BENCH4NAME, BENCH1NAME };
+            final Iterator<BenchmarkElement> iterBench = arrangement.iterator();
             final BenchmarkElement elem1 = iterBench.next();
             final BenchmarkElement elem2 = iterBench.next();
             final BenchmarkElement elem3 = iterBench.next();
@@ -109,8 +106,7 @@ public class SequentialMethodArrangementTest {
                 fail("Something has to be arranged in a different way!");
             }
 
-            assertFalse("No more elements should be there", iterBench
-                    .hasNext());
+            assertFalse("No more elements should be there", iterBench.hasNext());
 
         } catch (final Exception e) {
             fail(e.toString());

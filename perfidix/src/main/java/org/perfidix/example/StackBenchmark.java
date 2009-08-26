@@ -53,7 +53,7 @@ public final class StackBenchmark {
     private static final int ARRAYSIZE = 100;
 
     /** Data to be written and read. */
-    private transient int[] intData; 
+    private transient int[] intData;
 
     /** FastStack instance. */
     private transient FastIntStack fastInt;
@@ -130,9 +130,8 @@ public final class StackBenchmark {
      */
     public static void main(final String[] args) {
         final Benchmark bench =
-                new Benchmark(
-                        new TimeMeter(Time.MilliSeconds), new MemMeter(
-                                Memory.KibiByte));
+                new Benchmark(new TimeMeter(Time.MilliSeconds), new MemMeter(
+                        Memory.KibiByte));
         bench.add(StackBenchmark.class);
 
         final BenchmarkResult res =

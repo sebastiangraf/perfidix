@@ -62,8 +62,7 @@ public final class SocketViewStub implements IBenchRunSessionListener {
         }
         try {
             socket = new Socket(this.host, viewListenerPort);
-            outputStream =
-                    new ObjectOutputStream(socket.getOutputStream());
+            outputStream = new ObjectOutputStream(socket.getOutputStream());
         } catch (final UnknownHostException e) {
             throw new SocketViewException(e);
         } catch (final IOException e) {
@@ -99,8 +98,7 @@ public final class SocketViewStub implements IBenchRunSessionListener {
     }
 
     /** {@inheritDoc} */
-    public void updateError(final String element)
-            throws SocketViewException {
+    public void updateError(final String element) throws SocketViewException {
         command = "updateError";
         try {
             outputStream.writeObject(command);

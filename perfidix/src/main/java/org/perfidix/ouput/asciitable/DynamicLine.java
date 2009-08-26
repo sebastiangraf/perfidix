@@ -50,8 +50,8 @@ public final class DynamicLine extends AbstractTabularComponent {
     public String draw() {
         return Util.combine(new String(
                 new char[] { AbstractTabularComponent.BORDER }), Util.repeat(
-                new String(new char[] { content }), getTable()
-                        .getTotalWidth() - 2), new String(
+                new String(new char[] { content }),
+                getTable().getTotalWidth() - 2), new String(
                 new char[] { AbstractTabularComponent.BORDER }), NEWLINE);
 
     }
