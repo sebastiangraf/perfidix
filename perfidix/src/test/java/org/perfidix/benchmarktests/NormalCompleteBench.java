@@ -41,7 +41,8 @@ public final class NormalCompleteBench {
     private static int beforeClassC = 0;
     private static int beforeFirstRunC = 0;
     private static int beforeEachRunC = 0;
-    private static int benchC = 0;
+    private static int benchC1 = 0;
+    private static int benchC2 = 0;
     private static int afterEachC = 0;
     private static int afterLastC = 0;
     private static int afterClassC = 0;
@@ -74,8 +75,16 @@ public final class NormalCompleteBench {
      * Bench
      */
     @Bench(runs = RUNS)
+    public void bench1() {
+        benchC1++;
+    }
+
+    /**
+     * Bench
+     */
+    @Bench
     public void bench() {
-        benchC++;
+        benchC2++;
     }
 
     /**
@@ -109,7 +118,8 @@ public final class NormalCompleteBench {
         beforeClassC = 0;
         beforeEachRunC = 0;
         beforeFirstRunC = 0;
-        benchC = 0;
+        benchC1 = 0;
+        benchC2 = 0;
         afterClassC = 0;
         afterEachC = 0;
         afterLastC = 0;
@@ -147,8 +157,17 @@ public final class NormalCompleteBench {
      * 
      * @return the benchC
      */
-    public static int getBenchCounter() {
-        return benchC;
+    public static int getBenchCounter1() {
+        return benchC1;
+    }
+
+    /**
+     * Getter for member benchC
+     * 
+     * @return the benchC
+     */
+    public static int getBenchCounter2() {
+        return benchC2;
     }
 
     /**

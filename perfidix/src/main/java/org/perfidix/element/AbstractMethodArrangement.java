@@ -95,13 +95,9 @@ public abstract class AbstractMethodArrangement
             arrang = new SequentialMethodArrangement(elements);
             break;
         default:
-            break;
-        }
-        if (arrang == null) {
             throw new IllegalArgumentException("Kind not known!");
-        } else {
-            return arrang;
         }
+        return arrang;
 
     }
 }

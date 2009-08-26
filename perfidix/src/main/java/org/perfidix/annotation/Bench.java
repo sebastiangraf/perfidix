@@ -36,6 +36,11 @@ import java.lang.annotation.Target;
 public @interface Bench {
 
     /**
+     * Constant for NONE_RUN_Counter
+     */
+    final static int NONE_RUN = -1;
+
+    /**
      * Parameter of the method which works as a setUp-like, but just once for
      * all runs. For more information to setUp, look at JUnit.
      */
@@ -62,6 +67,6 @@ public @interface Bench {
     /**
      * Parameter for the number of runs of this bench.
      */
-    int runs() default 1;
+    int runs() default NONE_RUN;
 
 }

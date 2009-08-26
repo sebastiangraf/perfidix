@@ -32,7 +32,6 @@ import java.lang.reflect.Method;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.perfidix.annotation.Bench;
 import org.perfidix.exceptions.AbstractPerfidixMethodException;
@@ -362,7 +361,6 @@ public final class CSVOutputTest {
      *             if read fails;
      */
     @Test
-    @Ignore
     public void testListenExceptionFile() throws IOException {
 
         final CSVOutput output = new CSVOutput(TEST_FOLDER);

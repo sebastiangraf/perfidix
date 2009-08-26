@@ -36,7 +36,7 @@ import org.perfidix.ouput.AbstractOutput;
 public abstract class AbstractConfig {
 
     /** Standard runs */
-    private final static int RUNS = 1;
+    private final static int RUNS = 10;
 
     /** Standard meters */
     private final static AbstractMeter[] METERS =
