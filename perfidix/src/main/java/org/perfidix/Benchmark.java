@@ -30,6 +30,7 @@ import java.util.Set;
 
 import org.perfidix.annotation.AfterBenchClass;
 import org.perfidix.annotation.BeforeBenchClass;
+import org.perfidix.annotation.Bench;
 import org.perfidix.element.AbstractMethodArrangement;
 import org.perfidix.element.BenchmarkElement;
 import org.perfidix.element.BenchmarkExecutor;
@@ -123,8 +124,13 @@ public final class Benchmark {
                 new HashMap<BenchmarkMethod, Integer>();
         final Set<BenchmarkMethod> meths = getBenchmarkMethods();
         for (final BenchmarkMethod meth : meths) {
-            returnVal.put(meth, BenchmarkMethod.getNumberOfAnnotatedRuns(meth
-                    .getMethodToBench()));
+            int numberOfRuns =
+                    BenchmarkMethod.getNumberOfAnnotatedRuns(meth
+                            .getMethodToBench());
+            if (numberOfRuns == Bench.NONE_RUN) {
+                numberOfRuns = conf.getRuns();
+            }
+            returnVal.put(meth, numberOfRuns);
         }
         return returnVal;
     }
@@ -375,9 +381,12 @@ public final class Benchmark {
         final Set<BenchmarkMethod> meths = getBenchmarkMethods();
 
         for (final BenchmarkMethod meth : meths) {
-            final int numberOfRuns =
+            int numberOfRuns =
                     BenchmarkMethod.getNumberOfAnnotatedRuns(meth
                             .getMethodToBench());
+            if (numberOfRuns == Bench.NONE_RUN) {
+                numberOfRuns = conf.getRuns();
+            }
 
             // getting the number of runs and adding this number of
             // elements to the set to be evaluated.

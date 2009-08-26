@@ -97,7 +97,7 @@ public final class BenchmarkTest {
         benchmark.add(NormalCompleteBench.class);
         final Map<BenchmarkMethod, Integer> mapping =
                 benchmark.getNumberOfMethodsAndRuns();
-        assertEquals("The mapping of methods and runs should be 1", 1, mapping
+        assertEquals("The mapping of methods and runs should be 2", 2, mapping
                 .size());
         assertTrue("The mapping contains the number of estimated runs", mapping
                 .values().contains(NormalCompleteBench.RUNS));
@@ -111,21 +111,26 @@ public final class BenchmarkTest {
                 "The BeforeClass-method was invoked once", 1,
                 NormalCompleteBench.getBeforeClassCounter());
         assertEquals(
-                "The BeforeFirst-Run was invoked once", 1, NormalCompleteBench
+                "The BeforeFirst-Run was invoked twice", 2, NormalCompleteBench
                         .getBeforeFirstRunCounter());
         assertEquals(
                 "The number of runs should be equal to the before-each invocations",
-                NormalCompleteBench.RUNS, NormalCompleteBench
-                        .getBeforeEachRunCounter());
+                NormalCompleteBench.RUNS + new StandardConfig().getRuns(),
+                NormalCompleteBench.getBeforeEachRunCounter());
         assertEquals(
-                "The number of runs should be equal to the bench invocations",
-                NormalCompleteBench.RUNS, NormalCompleteBench.getBenchCounter());
+                "The number of runs should be equal to the bench1 invocations",
+                NormalCompleteBench.RUNS, NormalCompleteBench
+                        .getBenchCounter1());
+        assertEquals(
+                "The number of runs should be equal to the bench2 invocations",
+                new StandardConfig().getRuns(), NormalCompleteBench
+                        .getBenchCounter2());
         assertEquals(
                 "The number of runs should be equal to the after-each invocations",
-                NormalCompleteBench.RUNS, NormalCompleteBench
-                        .getAfterEachRunCounter());
+                NormalCompleteBench.RUNS + new StandardConfig().getRuns(),
+                NormalCompleteBench.getAfterEachRunCounter());
         assertEquals(
-                "The AfterLast-Run was invoked once", 1, NormalCompleteBench
+                "The AfterLast-Run was invoked twice", 2, NormalCompleteBench
                         .getAfterLastRunCounter());
         assertEquals(
                 "The AfterClass-method was invoked once", 1,
@@ -159,20 +164,22 @@ public final class BenchmarkTest {
 
         assertEquals("Before-Class is invoked once", 1, NormalCompleteBench
                 .getBeforeClassCounter());
-        assertEquals("Before-First is invoked once", 1, NormalCompleteBench
+        assertEquals("Before-First is invoked twice", 2, NormalCompleteBench
                 .getBeforeFirstRunCounter());
         assertEquals(
                 "Before-Each is invoked as much as bench",
-                NormalCompleteBench.RUNS, NormalCompleteBench
-                        .getBeforeEachRunCounter());
+                NormalCompleteBench.RUNS + new StandardConfig().getRuns(),
+                NormalCompleteBench.getBeforeEachRunCounter());
         assertEquals(
-                "Bench is invoked as much as bench", NormalCompleteBench.RUNS,
-                NormalCompleteBench.getBenchCounter());
+                "Bench is invoked as much as bench1", NormalCompleteBench.RUNS,
+                NormalCompleteBench.getBenchCounter1());
+        assertEquals("Bench is invoked as much as bench2", new StandardConfig()
+                .getRuns(), NormalCompleteBench.getBenchCounter2());
         assertEquals(
                 "After-Each is invoked as much as bench",
-                NormalCompleteBench.RUNS, NormalCompleteBench
-                        .getAfterEachRunCounter());
-        assertEquals("After-Last is invoked once", 1, NormalCompleteBench
+                NormalCompleteBench.RUNS + new StandardConfig().getRuns(),
+                NormalCompleteBench.getAfterEachRunCounter());
+        assertEquals("After-Last is invoked once", 2, NormalCompleteBench
                 .getAfterLastRunCounter());
         assertEquals("After-Class is invoked once", 1, NormalCompleteBench
                 .getAfterClassCounter());
@@ -193,20 +200,22 @@ public final class BenchmarkTest {
 
         assertEquals("Before-Class is invoked once", 1, NormalCompleteBench
                 .getBeforeClassCounter());
-        assertEquals("Before-First is invoked once", 1, NormalCompleteBench
+        assertEquals("Before-First is invoked twice", 2, NormalCompleteBench
                 .getBeforeFirstRunCounter());
         assertEquals(
                 "Before-Each is invoked as much as bench",
-                NormalCompleteBench.RUNS, NormalCompleteBench
-                        .getBeforeEachRunCounter());
+                NormalCompleteBench.RUNS + new StandardConfig().getRuns(),
+                NormalCompleteBench.getBeforeEachRunCounter());
         assertEquals(
-                "Bench is invoked as much as bench", NormalCompleteBench.RUNS,
-                NormalCompleteBench.getBenchCounter());
+                "Bench is invoked as much as bench1", NormalCompleteBench.RUNS,
+                NormalCompleteBench.getBenchCounter1());
+        assertEquals("Bench is invoked as much as bench2", new StandardConfig()
+                .getRuns(), NormalCompleteBench.getBenchCounter2());
         assertEquals(
                 "After-Each is invoked as much as bench",
-                NormalCompleteBench.RUNS, NormalCompleteBench
-                        .getAfterEachRunCounter());
-        assertEquals("After-Last is invoked once", 1, NormalCompleteBench
+                NormalCompleteBench.RUNS + new StandardConfig().getRuns(),
+                NormalCompleteBench.getAfterEachRunCounter());
+        assertEquals("After-Last is invoked twice", 2, NormalCompleteBench
                 .getAfterLastRunCounter());
         assertEquals("After-Class is invoked once", 1, NormalCompleteBench
                 .getAfterClassCounter());
