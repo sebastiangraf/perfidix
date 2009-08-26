@@ -43,7 +43,7 @@ import org.perfidix.result.BenchmarkResult;
  * 
  * @author Sebastian Graf, University of Konstanz
  */
-public class BenchmarkTest {
+public final class BenchmarkTest {
 
     private transient Benchmark benchmark;
 
@@ -73,7 +73,7 @@ public class BenchmarkTest {
      * .
      */
     @Test
-    public final void testRunBeforeClassError() {
+    public void testRunBeforeClassError() {
         benchmark.add(BeforeBenchClassError.class);
         final BenchmarkResult benchRes =
                 benchmark.run(1.0, KindOfArrangement.NoArrangement);
@@ -98,7 +98,7 @@ public class BenchmarkTest {
      * .
      */
     @Test
-    public final void testNormalBenchrun() {
+    public void testNormalBenchrun() {
         benchmark.add(NormalCompleteBench.class);
         final Map<BenchmarkMethod, Integer> mapping =
                 benchmark.getNumberOfMethodsAndRuns();
@@ -144,7 +144,7 @@ public class BenchmarkTest {
      * .
      */
     @Test
-    public final void testIncompleteBenchrun() {
+    public void testIncompleteBenchrun() {
         benchmark.add(NormalIncompleteBench.class);
         final BenchmarkResult benchRes =
                 benchmark.run(1.0, KindOfArrangement.NoArrangement);
@@ -158,7 +158,7 @@ public class BenchmarkTest {
      * Test method for {@link org.perfidix.Benchmark#add(Class)} .
      */
     @Test
-    public final void testAddClazz() {
+    public void testAddClazz() {
         benchmark.add(NormalCompleteBench.class);
         final BenchmarkResult benchRes =
                 benchmark.run(1.0, KindOfArrangement.NoArrangement);
@@ -192,7 +192,7 @@ public class BenchmarkTest {
      * Test method for {@link org.perfidix.Benchmark#add(Object)} .
      */
     @Test
-    public final void testAddObject() {
+    public void testAddObject() {
         final NormalCompleteBench obj = new NormalCompleteBench();
         benchmark.add(obj);
         final BenchmarkResult benchRes =
@@ -224,11 +224,22 @@ public class BenchmarkTest {
     }
 
     /**
+     * Test method for {@link org.perfidix.Benchmark#add(Object)} .
+     */
+    @Test(expected = IllegalArgumentException.class)
+    public void testDuplicateObject() {
+        final NormalCompleteBench obj1 = new NormalCompleteBench();
+        benchmark.add(obj1);
+        final NormalCompleteBench obj2 = new NormalCompleteBench();
+        benchmark.add(obj2);
+    }
+
+    /**
      * Test method for {@link org.perfidix.Benchmark#add(Object)} and
      * {@link org.perfidix.Benchmark#add(Class)}.
      */
     @Test(expected = IllegalArgumentException.class)
-    public final void testAddObjectAndClass() {
+    public void testAddObjectAndClass() {
         final NormalCompleteBench obj = new NormalCompleteBench();
         benchmark.add(obj);
         benchmark.add(NormalCompleteBench.class);
@@ -239,7 +250,7 @@ public class BenchmarkTest {
      * {@link org.perfidix.Benchmark#add(Class)}.
      */
     @Test(expected = IllegalArgumentException.class)
-    public final void testAddObjectAndClassWithoutBefore() {
+    public void testAddObjectAndClassWithoutBefore() {
         final NormalBenchForClassAndObjectAdd obj =
                 new NormalBenchForClassAndObjectAdd();
         benchmark.add(obj);
