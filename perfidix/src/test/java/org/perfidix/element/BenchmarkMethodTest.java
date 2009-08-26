@@ -24,13 +24,13 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.io.IOException;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.lang.reflect.Method;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.perfidix.annotation.AfterEachRun;
@@ -50,7 +50,7 @@ import org.perfidix.exceptions.PerfidixMethodCheckException;
 
 public class BenchmarkMethodTest {
 
-    private transient Object currentClassToTest;
+    private transient Object toTest;
 
     /**
      * Simple setUp.
@@ -62,19 +62,7 @@ public class BenchmarkMethodTest {
     public void setUp() throws Exception {
 
         // Testing the bench-anno
-        currentClassToTest =
-                new TestClassCheckThisMethodAsBenchmarkable1();
-    }
-
-    /**
-     * Simple tearDown.
-     * 
-     * @throws java.lang.Exception
-     *             of any kind
-     */
-    @After
-    public void tearDown() throws Exception {
-        currentClassToTest = null;
+        toTest = new TestClassCheckThisMethodAsBenchmarkable1();
     }
 
     /**
@@ -86,20 +74,18 @@ public class BenchmarkMethodTest {
         final Object[] param = {};
         try {
 
-            final Method[] meths =
-                    currentClassToTest.getClass().getDeclaredMethods();
-            int numberOfFoundMethods = 0;
+            final Method[] meths = toTest.getClass().getDeclaredMethods();
+            int numOfMethods = 0;
             for (final Method meth : meths) {
                 if (BenchmarkMethod.isBenchmarkable(meth)) {
                     final BenchmarkMethod elem = new BenchmarkMethod(meth);
-                    elem.getMethodToBench().invoke(
-                            currentClassToTest, param);
-                    numberOfFoundMethods++;
+                    elem.getMethodToBench().invoke(toTest, param);
+                    numOfMethods++;
                 }
             }
-            assertEquals(numberOfFoundMethods, 1);
+            assertEquals("Number of methods should be 1", numOfMethods, 1);
 
-        } catch (Exception e) {
+        } catch (final Exception e) {
             fail(e.toString());
         }
     }
@@ -115,22 +101,19 @@ public class BenchmarkMethodTest {
             final Object[] param = {};
 
             // Testing the bench-anno
-            currentClassToTest =
-                    new TestClassCheckThisMethodAsBenchmarkable2();
-            final Method[] meths =
-                    currentClassToTest.getClass().getDeclaredMethods();
-            int numberOfFoundMethods = 0;
+            toTest = new TestClassCheckThisMethodAsBenchmarkable2();
+            final Method[] meths = toTest.getClass().getDeclaredMethods();
+            int numOfMethods = 0;
             for (final Method meth : meths) {
                 if (BenchmarkMethod.isBenchmarkable(meth)) {
                     final BenchmarkMethod elem = new BenchmarkMethod(meth);
-                    elem.getMethodToBench().invoke(
-                            currentClassToTest, param);
-                    numberOfFoundMethods++;
+                    elem.getMethodToBench().invoke(toTest, param);
+                    numOfMethods++;
                 }
             }
-            assertEquals(numberOfFoundMethods, 0);
+            assertEquals("Number of methods should be 0", numOfMethods, 0);
 
-        } catch (Exception e) {
+        } catch (final Exception e) {
             fail(e.toString());
         }
     }
@@ -146,15 +129,9 @@ public class BenchmarkMethodTest {
     @Test(expected = PerfidixMethodCheckException.class)
     public void testFindAndCheckAnyMethodByAnnotation()
             throws PerfidixMethodCheckException {
-        try {
-            currentClassToTest = new TestFindAndCheckBenchClass();
-            BenchmarkMethod.findAndCheckAnyMethodByAnnotation(
-                    currentClassToTest.getClass(), ShouldOccureOnce.class);
-        } catch (PerfidixMethodCheckException e) {
-            throw e;
-        } catch (Exception e) {
-            fail(e.toString());
-        }
+        toTest = new TestFindAndCheckBenchClass();
+        BenchmarkMethod.findAndCheckAnyMethodByAnnotation(toTest
+                .getClass(), ShouldOccureOnce.class);
     }
 
     /**
@@ -166,18 +143,17 @@ public class BenchmarkMethodTest {
     public void testIsReflectedExecutable() {
         try {
             final Object[] param = {};
-            currentClassToTest = new TestIsReflectedExecutable();
-            final Method[] meths =
-                    currentClassToTest.getClass().getDeclaredMethods();
-            int numberOfInvokedMethods = 0;
+            toTest = new TestIsReflectedExecutable();
+            final Method[] meths = toTest.getClass().getDeclaredMethods();
+            int numOfMethods = 0;
             for (final Method meth : meths) {
                 if (BenchmarkMethod.isReflectedExecutable(meth)) {
-                    meth.invoke(currentClassToTest, param);
-                    numberOfInvokedMethods++;
+                    meth.invoke(toTest, param);
+                    numOfMethods++;
                 }
             }
-            assertEquals(numberOfInvokedMethods, 1);
-        } catch (Exception e) {
+            assertEquals("Number of methods should be 1", numOfMethods, 1);
+        } catch (final Exception e) {
             fail(e.toString());
         }
     }
@@ -192,9 +168,8 @@ public class BenchmarkMethodTest {
             final Object[] param = {};
 
             // Testing the bench-anno
-            currentClassToTest = new TestBeforeFirstRun1();
-            final Method[] meths =
-                    currentClassToTest.getClass().getDeclaredMethods();
+            toTest = new TestBeforeFirstRun1();
+            final Method[] meths = toTest.getClass().getDeclaredMethods();
             BenchmarkMethod elem = null;
             for (final Method meth : meths) {
                 if (BenchmarkMethod.isBenchmarkable(meth)) {
@@ -204,15 +179,15 @@ public class BenchmarkMethodTest {
                     if (elem == null) {
                         elem = checkElem;
                     } else {
-                        fail("Should be only one element!");
+                        fail("More than one elem in TestBeforeFirstRun1 found!");
                     }
                 }
             }
 
             final Method meth = elem.findBeforeFirstRun();
-            meth.invoke(currentClassToTest, param);
+            meth.invoke(toTest, param);
 
-        } catch (Exception e) {
+        } catch (final Exception e) {
             fail(e.toString());
         }
     }
@@ -227,9 +202,8 @@ public class BenchmarkMethodTest {
             final Object[] param = {};
 
             // Testing the bench-anno
-            currentClassToTest = new TestBeforeFirstRun2();
-            final Method[] meths =
-                    currentClassToTest.getClass().getDeclaredMethods();
+            toTest = new TestBeforeFirstRun2();
+            final Method[] meths = toTest.getClass().getDeclaredMethods();
             BenchmarkMethod elem = null;
             for (final Method meth : meths) {
                 if (BenchmarkMethod.isBenchmarkable(meth)) {
@@ -239,15 +213,15 @@ public class BenchmarkMethodTest {
                     if (elem == null) {
                         elem = checkElem;
                     } else {
-                        fail("Should be only one element!");
+                        fail("More than one elem in TestBeforeFirstRun2 found!");
                     }
                 }
             }
 
             final Method meth = elem.findBeforeFirstRun();
-            meth.invoke(currentClassToTest, param);
+            meth.invoke(toTest, param);
 
-        } catch (Exception e) {
+        } catch (final Exception e) {
             fail(e.toString());
         }
     }
@@ -262,9 +236,8 @@ public class BenchmarkMethodTest {
             final Object[] param = {};
 
             // Testing the bench-anno
-            currentClassToTest = new TestBeforeEachRun1();
-            final Method[] meths =
-                    currentClassToTest.getClass().getDeclaredMethods();
+            toTest = new TestBeforeEachRun1();
+            final Method[] meths = toTest.getClass().getDeclaredMethods();
             BenchmarkMethod elem = null;
             for (final Method meth : meths) {
                 if (BenchmarkMethod.isBenchmarkable(meth)) {
@@ -274,15 +247,15 @@ public class BenchmarkMethodTest {
                     if (elem == null) {
                         elem = checkElem;
                     } else {
-                        fail("Should be only one element!");
+                        fail("More than one elem in TestBeforeEachRun1 found!");
                     }
                 }
             }
 
             final Method meth = elem.findBeforeEachRun();
-            meth.invoke(currentClassToTest, param);
+            meth.invoke(toTest, param);
 
-        } catch (Exception e) {
+        } catch (final Exception e) {
             fail(e.toString());
         }
     }
@@ -297,9 +270,8 @@ public class BenchmarkMethodTest {
             final Object[] param = {};
 
             // Testing the bench-anno
-            currentClassToTest = new TestBeforeEachRun2();
-            final Method[] meths =
-                    currentClassToTest.getClass().getDeclaredMethods();
+            toTest = new TestBeforeEachRun2();
+            final Method[] meths = toTest.getClass().getDeclaredMethods();
             BenchmarkMethod elem = null;
             for (final Method meth : meths) {
                 if (BenchmarkMethod.isBenchmarkable(meth)) {
@@ -309,15 +281,15 @@ public class BenchmarkMethodTest {
                     if (elem == null) {
                         elem = checkElem;
                     } else {
-                        fail("Should be only one element!");
+                        fail("More than one elem in TestBeforeFirstRun2 found!");
                     }
                 }
             }
 
             final Method meth = elem.findBeforeEachRun();
-            meth.invoke(currentClassToTest, param);
+            meth.invoke(toTest, param);
 
-        } catch (Exception e) {
+        } catch (final Exception e) {
             fail(e.toString());
         }
     }
@@ -332,9 +304,8 @@ public class BenchmarkMethodTest {
             final Object[] param = {};
 
             // Testing the bench-anno
-            currentClassToTest = new TestAfterEachRun1();
-            final Method[] meths =
-                    currentClassToTest.getClass().getDeclaredMethods();
+            toTest = new TestAfterEachRun1();
+            final Method[] meths = toTest.getClass().getDeclaredMethods();
             BenchmarkMethod elem = null;
             for (final Method meth : meths) {
                 if (BenchmarkMethod.isBenchmarkable(meth)) {
@@ -344,15 +315,15 @@ public class BenchmarkMethodTest {
                     if (elem == null) {
                         elem = checkElem;
                     } else {
-                        fail("Should be only one element!");
+                        fail("More than one elem in TestAfterEachRun1 found!");
                     }
                 }
             }
 
             final Method meth = elem.findAfterEachRun();
-            meth.invoke(currentClassToTest, param);
+            meth.invoke(toTest, param);
 
-        } catch (Exception e) {
+        } catch (final Exception e) {
             fail(e.toString());
         }
     }
@@ -367,9 +338,8 @@ public class BenchmarkMethodTest {
             final Object[] param = {};
 
             // Testing the bench-anno
-            currentClassToTest = new TestAfterEachRun2();
-            final Method[] meths =
-                    currentClassToTest.getClass().getDeclaredMethods();
+            toTest = new TestAfterEachRun2();
+            final Method[] meths = toTest.getClass().getDeclaredMethods();
             BenchmarkMethod elem = null;
             for (final Method meth : meths) {
                 if (BenchmarkMethod.isBenchmarkable(meth)) {
@@ -379,15 +349,15 @@ public class BenchmarkMethodTest {
                     if (elem == null) {
                         elem = checkElem;
                     } else {
-                        fail("Should be only one element!");
+                        fail("More than one elem in TestAfterEeachRun2 found!");
                     }
                 }
             }
 
             final Method meth = elem.findAfterEachRun();
-            meth.invoke(currentClassToTest, param);
+            meth.invoke(toTest, param);
 
-        } catch (Exception e) {
+        } catch (final Exception e) {
             fail(e.toString());
         }
     }
@@ -402,9 +372,8 @@ public class BenchmarkMethodTest {
             final Object[] param = {};
 
             // Testing the bench-anno
-            currentClassToTest = new TestAfterLastRun1();
-            final Method[] meths =
-                    currentClassToTest.getClass().getDeclaredMethods();
+            toTest = new TestAfterLastRun1();
+            final Method[] meths = toTest.getClass().getDeclaredMethods();
             BenchmarkMethod elem = null;
             for (final Method meth : meths) {
                 if (BenchmarkMethod.isBenchmarkable(meth)) {
@@ -414,15 +383,15 @@ public class BenchmarkMethodTest {
                     if (elem == null) {
                         elem = checkElem;
                     } else {
-                        fail("Should be only one element!");
+                        fail("More than one elem in TestAfterLastRun1 found!");
                     }
                 }
             }
 
             final Method meth = elem.findAfterLastRun();
-            meth.invoke(currentClassToTest, param);
+            meth.invoke(toTest, param);
 
-        } catch (Exception e) {
+        } catch (final Exception e) {
             fail(e.toString());
         }
     }
@@ -437,9 +406,8 @@ public class BenchmarkMethodTest {
             final Object[] param = {};
 
             // Testing the bench-anno
-            currentClassToTest = new TestAfterLastRun2();
-            final Method[] meths =
-                    currentClassToTest.getClass().getDeclaredMethods();
+            toTest = new TestAfterLastRun2();
+            final Method[] meths = toTest.getClass().getDeclaredMethods();
             BenchmarkMethod elem = null;
             for (final Method meth : meths) {
                 if (BenchmarkMethod.isBenchmarkable(meth)) {
@@ -449,15 +417,15 @@ public class BenchmarkMethodTest {
                     if (elem == null) {
                         elem = checkElem;
                     } else {
-                        fail("Should be only one element!");
+                        fail("More than one elem in TestAfterLastRun2 found!");
                     }
                 }
             }
 
             final Method meth = elem.findAfterLastRun();
-            meth.invoke(currentClassToTest, param);
+            meth.invoke(toTest, param);
 
-        } catch (Exception e) {
+        } catch (final Exception e) {
             fail(e.toString());
         }
     }
@@ -470,27 +438,30 @@ public class BenchmarkMethodTest {
     @Test
     public void testNumberOfAnnotatedRuns() {
         try {
-            currentClassToTest = new TestNumberOfAnnotatedRuns();
-            final Method[] meths =
-                    currentClassToTest.getClass().getDeclaredMethods();
+            toTest = new TestNumberOfAnnotatedRuns();
+            final Method[] meths = toTest.getClass().getDeclaredMethods();
 
-            assertEquals(3, meths.length);
+            assertEquals("3 methods should be found", 3, meths.length);
 
-            assertEquals("bench1", meths[0].getName());
-            assertEquals(10, BenchmarkMethod
+            assertEquals("Check of name of method1", "bench1", meths[0]
+                    .getName());
+            assertEquals("Check of runs of method1", 10, BenchmarkMethod
                     .getNumberOfAnnotatedRuns(meths[0]));
-            assertEquals("bench2", meths[1].getName());
-            assertEquals(20, BenchmarkMethod
+            assertEquals("Check of name of method2", "bench2", meths[1]
+                    .getName());
+            assertEquals("Check of runs of method2", 20, BenchmarkMethod
                     .getNumberOfAnnotatedRuns(meths[1]));
-            assertEquals("bench3", meths[2].getName());
+            assertEquals("Check of name of method3", "bench3", meths[2]
+                    .getName());
             try {
                 BenchmarkMethod.getNumberOfAnnotatedRuns(meths[2]);
                 fail("Must throw IllegalStateException!");
-            } catch (IllegalArgumentException e) {
-                assertTrue(e.getMessage().startsWith("Method"));
+            } catch (final IllegalArgumentException e) {
+                assertTrue("Methodexception must match a pattern", e
+                        .getMessage().startsWith("Method"));
             }
 
-        } catch (Exception e) {
+        } catch (final Exception e) {
             fail("Should never fail in testRuns!");
         }
     }
@@ -500,12 +471,15 @@ public class BenchmarkMethodTest {
 
         @Bench(runs = 10)
         public void bench1() {
+            // Just for getting the method1
         }
 
         public void bench2() {
+            // Just for getting the method2
         }
 
         public int bench3() {
+            // Just for getting the method3
             return -1;
         }
 
@@ -515,10 +489,12 @@ public class BenchmarkMethodTest {
 
         @AfterLastRun
         public final void afterLastRun() {
+            // Just for getting the afterLastAnno
         }
 
         @Bench
         public final void bench() {
+            // Just for getting the bench
         }
     }
 
@@ -526,14 +502,16 @@ public class BenchmarkMethodTest {
 
         @AfterLastRun
         public final void afterLastRunAnno() {
-            fail("Should be ignored!");
+            fail("Should be ignored because of designated afterLastRun");
         }
 
         public final void afterLastRun() {
+            // Just for having an AfterLastRun
         }
 
         @Bench(afterLastRun = "afterLastRun")
         public final void bench() {
+            // Just a bench
         }
     }
 
@@ -541,10 +519,12 @@ public class BenchmarkMethodTest {
 
         @AfterEachRun
         public final void afterEachRun() {
+            // Just for having an AfterEachRun
         }
 
         @Bench
         public final void bench() {
+            // building the bench
         }
     }
 
@@ -552,14 +532,16 @@ public class BenchmarkMethodTest {
 
         @AfterEachRun
         public final void afterEachRunAnno() {
-            fail("Should be ignored!");
+            fail("Should be ignored because of designated after each run");
         }
 
         public final void afterEachRun() {
+            // Just the afterEachRun
         }
 
         @Bench(afterEachRun = "afterEachRun")
         public final void bench() {
+            // Just the bench
         }
     }
 
@@ -567,10 +549,12 @@ public class BenchmarkMethodTest {
 
         @BeforeEachRun
         public final void beforeEachRun() {
+            // Just the before each run
         }
 
         @Bench
         public final void bench() {
+            // Just the bench
         }
     }
 
@@ -578,14 +562,16 @@ public class BenchmarkMethodTest {
 
         @BeforeEachRun
         public final void beforeEachRunAnno() {
-            fail("Should be ignored!");
+            fail("Should be ignored because of designated before each run!");
         }
 
         public final void beforeEachRun() {
+            // Just the before each run
         }
 
         @Bench(beforeEachRun = "beforeEachRun")
         public final void bench() {
+            // Just the bench
         }
     }
 
@@ -593,10 +579,12 @@ public class BenchmarkMethodTest {
 
         @BeforeFirstRun
         public final void beforeFirstRun() {
+            // Just the before first run
         }
 
         @Bench
         public final void bench() {
+            // Just the bench
         }
     }
 
@@ -604,14 +592,16 @@ public class BenchmarkMethodTest {
 
         @BeforeFirstRun
         public final void beforeFirstRunAnno() {
-            fail("Should be ignored!");
+            fail("Should be ignored because of designated before first anno");
         }
 
         public final void beforeFirstRun() {
+            // Just the before first anno
         }
 
         @Bench(beforeFirstRun = "beforeFirstRun")
         public final void bench() {
+            // Just the bench
         }
     }
 
@@ -621,11 +611,11 @@ public class BenchmarkMethodTest {
             fail("Only param-less methods allowed");
         }
 
-        public final void exceptionMethod() throws Exception {
+        public final void exceptionMethod() throws IOException {
             fail("Only methods without an exception allowed");
         }
 
-        final void notPublicMethod() {
+        protected final void notPublicMethod() {
             fail("Only methods with public identifier allowed");
         }
 
@@ -635,27 +625,30 @@ public class BenchmarkMethodTest {
         }
 
         public final void shouldBeInvoked() {
-
+            // Should be invoked
         }
     }
 
     class TestFindAndCheckBenchClass {
 
         @ShouldOccureOnce
-        public final void testBenchAnno1() {
+        public final void benchAnno1() {
+            // Just for performing a search
         }
 
         @ShouldOccureOnce
-        public final void testBenchAnno2() {
+        public final void benchAnno2() {
+            // Just for performing a search
         }
     }
 
     class TestClassCheckThisMethodAsBenchmarkable1 {
         @Bench
-        public final void testBenchAnno1() {
+        public final void benchAnno1() {
+            // Just for performing a search
         }
 
-        public final void testBenchAnno2() {
+        public final void benchAnno2() {
             fail("Should not be benched!");
         }
     }
@@ -664,7 +657,7 @@ public class BenchmarkMethodTest {
 
         @SkipBench
         @Bench
-        public final void testBenchAnno3() {
+        public final void benchAnno3() {
             fail("Should not be benched!");
         }
     }
