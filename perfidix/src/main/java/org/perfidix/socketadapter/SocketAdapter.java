@@ -120,7 +120,7 @@ public final class SocketAdapter {
      */
     public static void main(final String[] args) {
         // init of the connection to the plugin
-        int viewPort = 0;
+        int viewPort = 0; // NOPMD by Sebastian on 26.08.09 21:10
         final List<String> classList = new ArrayList<String>();
         for (int i = 0; i < args.length; i++) {
             if (args[i].equals("-Port")) {

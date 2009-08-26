@@ -62,7 +62,7 @@ public final class PerfidixMethodInvocationException
     public PerfidixMethodInvocationException(
             final Throwable paramExec,
             final Class<? extends Annotation> paramAnnotation) {
-        super(paramExec, null, paramAnnotation);
+        this(paramExec, null, paramAnnotation);
     }
 
 }

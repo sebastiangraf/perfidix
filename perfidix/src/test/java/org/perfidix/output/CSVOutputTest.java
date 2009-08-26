@@ -48,7 +48,7 @@ import org.perfidix.result.MethodResult;
  * 
  * @author Sebastian Graf, University of Konstanz
  */
-public final class CSVOutputTest {
+public final class CSVOutputTest { // NOPMD by Sebastian on 26.08.09 21:15
 
     private final static int NUMBER_OF_TICKS = 10;
 
@@ -73,10 +73,10 @@ public final class CSVOutputTest {
 
         final Class<?> class1 = Class1.class;
 
-        final Method meth11 = class1.getDeclaredMethod("method1");
-        final Method meth12 = class1.getDeclaredMethod("method2");
+        final Method meth11 = class1.getDeclaredMethod("method1"); // NOPMD by sebi on 26.08.09 21:21
+        final Method meth12 = class1.getDeclaredMethod("method2"); // NOPMD by sebi on 26.08.09 21:21
 
-        final CountingMeter meter = new CountingMeter("Meter1");
+        final CountingMeter meter = new CountingMeter("Meter1"); // NOPMD by sebi on 26.08.09 21:21
 
         for (int i = 0; i < NUMBER_OF_TICKS; i++) {
             meter.tick();
@@ -148,9 +148,9 @@ public final class CSVOutputTest {
     public void testListenSystemOut() {
         final ClassResult classRes =
                 benchRes.getIncludedResults().iterator().next();
-        final CSVOutput output = new CSVOutput();
+        final CSVOutput output = new CSVOutput(); // NOPMD by sebi on 26.08.09 21:21
 
-        final AbstractMeter meter =
+        final AbstractMeter meter = // NOPMD by sebi on 26.08.09 21:21
                 classRes.getRegisteredMeters().iterator().next();
         for (final MethodResult methRes : classRes.getIncludedResults()) {
 
@@ -181,9 +181,8 @@ public final class CSVOutputTest {
 
         final CSVOutput output = new CSVOutput();
         output.listenToException(testException);
-        final String beginString = "Bench,Class1#method1,java.io.IOException";
         assertTrue("Testcase for exceptions", bytes.toString().startsWith(
-                beginString));
+                "Bench,Class1#method1,java.io.IOException"));
 
     }
 
@@ -198,7 +197,7 @@ public final class CSVOutputTest {
 
         final ClassResult classRes =
                 benchRes.getIncludedResults().iterator().next();
-        final AbstractMeter meter =
+        final AbstractMeter meter = // NOPMD by sebi on 26.08.09 21:21
                 classRes.getRegisteredMeters().iterator().next();
         for (final MethodResult methRes : classRes.getIncludedResults()) {
             for (final double d : methRes.getResultSet(meter)) {
@@ -207,10 +206,12 @@ public final class CSVOutputTest {
             }
         }
         output.visitBenchmark(benchRes);
-        final String data =
-                "0.5,1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,1.0,2.0,3.0,4.0,5.0,6.0,7.0,8.0,9.0,10.0";
-        assertTrue("first bunch of numbers must be in the test string", bytes
-                .toString().contains(data));
+        assertTrue(
+                "first bunch of numbers must be in the test string",
+                bytes
+                        .toString()
+                        .contains(
+                                "0.5,1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,1.0,2.0,3.0,4.0,5.0,6.0,7.0,8.0,9.0,10.0"));
 
     }
 
@@ -228,7 +229,7 @@ public final class CSVOutputTest {
 
         final ClassResult classRes =
                 benchRes.getIncludedResults().iterator().next();
-        final AbstractMeter meter =
+        final AbstractMeter meter = // NOPMD by sebi on 26.08.09 21:21
                 classRes.getRegisteredMeters().iterator().next();
         for (final MethodResult methRes : classRes.getIncludedResults()) {
             for (final double d : methRes.getResultSet(meter)) {
@@ -241,7 +242,9 @@ public final class CSVOutputTest {
         final StringBuilder asIsData = new StringBuilder();
         for (final File file : TEST_FOLDER.listFiles()) {
             final BufferedReader reader =
-                    new BufferedReader(new FileReader(file));
+                    new BufferedReader(new FileReader(file)); // NOPMD by
+            // Sebastian on
+            // 26.08.09 21:17
             String line = reader.readLine();
             while (line != null) {
                 asIsData.append(line).append("\n");
@@ -280,7 +283,9 @@ public final class CSVOutputTest {
 
         for (final File file : TEST_FOLDER.listFiles()) {
             final BufferedReader reader =
-                    new BufferedReader(new FileReader(file));
+                    new BufferedReader(new FileReader(file)); // NOPMD by
+                                                              // Sebastian on
+                                                              // 26.08.09 21:18
             String line = reader.readLine();
             while (line != null) {
                 asIsData.append(line).append("\n");
@@ -317,9 +322,11 @@ public final class CSVOutputTest {
     public void testListenFile() throws IOException {
         final ClassResult classRes =
                 benchRes.getIncludedResults().iterator().next();
-        final CSVOutput output = new CSVOutput(TEST_FOLDER);
+        final CSVOutput output = new CSVOutput(TEST_FOLDER); // NOPMD by
+        // Sebastian on
+        // 26.08.09 21:15
 
-        final AbstractMeter meter =
+        final AbstractMeter meter = // NOPMD by sebi on 26.08.09 21:21
                 classRes.getRegisteredMeters().iterator().next();
         for (final MethodResult methRes : classRes.getIncludedResults()) {
 
@@ -333,7 +340,9 @@ public final class CSVOutputTest {
 
         for (final File file : TEST_FOLDER.listFiles()) {
             final BufferedReader reader =
-                    new BufferedReader(new FileReader(file));
+                    new BufferedReader(new FileReader(file)); // NOPMD by
+            // Sebastian on
+            // 26.08.09 21:17
             String line = reader.readLine();
             while (line != null) {
                 asIsData.append(line).append("\n");
@@ -365,7 +374,6 @@ public final class CSVOutputTest {
 
         final CSVOutput output = new CSVOutput(TEST_FOLDER);
         output.listenToException(testException);
-        final String beginString = "Bench,Class1#method1,java.io.IOException";
 
         // Disabled
         // assertEquals(
@@ -382,7 +390,8 @@ public final class CSVOutputTest {
         }
 
         assertTrue("Test for exception as pure listener", asIsData
-                .toString().startsWith(beginString));
+                .toString().startsWith(
+                        "Bench,Class1#method1,java.io.IOException"));
 
     }
 

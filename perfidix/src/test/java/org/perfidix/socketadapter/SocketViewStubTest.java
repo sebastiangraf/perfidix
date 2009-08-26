@@ -45,6 +45,9 @@ import org.perfidix.exceptions.SocketViewException;
  */
 public class SocketViewStubTest {
 
+    /** Convenient variable for testcase */
+    private final static String NAMEFORDISPATCH = "some.Element";
+
     /**
      * The SocketViewStub instance to test its methods.
      */
@@ -137,12 +140,12 @@ public class SocketViewStubTest {
     @Test
     public void testUpdateCurrentRun()
             throws InterruptedException, SocketViewException {
-        final String nameForDispatch = "some.Element";
-        viewStub.updateCurrentRun(nameForDispatch);
+
+        viewStub.updateCurrentRun(NAMEFORDISPATCH);
         Thread.sleep(10);
         assertEquals(
                 "Tests if the sent and the reveived object are equal",
-                nameForDispatch, skeletonSimulator.getReceivedStringObject());
+                NAMEFORDISPATCH, skeletonSimulator.getReceivedStringObject());
         viewStub.updateCurrentRun(null);
         Thread.sleep(10);
         assertEquals(
@@ -161,12 +164,11 @@ public class SocketViewStubTest {
     @Test
     public void testUpdateError()
             throws InterruptedException, SocketViewException {
-        final String nameForDispatch = "some.Element";
-        viewStub.updateError(nameForDispatch, "aException");
+        viewStub.updateError(NAMEFORDISPATCH, "aException");
         Thread.sleep(10);
         assertEquals(
                 "Test if the sent name and the received are equal.",
-                nameForDispatch, skeletonSimulator.getReceivedStringObject());
+                NAMEFORDISPATCH, skeletonSimulator.getReceivedStringObject());
         assertEquals(
                 "Test if the sent exception name and the received one are equal.",
                 "aException", skeletonSimulator.getErrorStringObject());
@@ -202,7 +204,12 @@ public class SocketViewStubTest {
      * 
      * @author Lewandowski Lukas, University of Konstanz
      */
-    private final class PerclipseViewSkeletonSimulator extends Thread {
+    private final class PerclipseViewSkeletonSimulator extends Thread { // NOPMD
+        // by
+        // Sebastian
+        // on
+        // 26.08.09
+        // 21:10
         private transient Map<String, Integer> receivedMap;
         private transient String receivedString;
         private transient ServerSocket serverSocket;
@@ -240,7 +247,7 @@ public class SocketViewStubTest {
          */
         @Override
         @SuppressWarnings("unchecked")
-        public void run() {
+        public void run() { // NOPMD by Sebastian on 26.08.09 21:10
 
             try {
                 socket = serverSocket.accept();

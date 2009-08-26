@@ -47,6 +47,9 @@ import org.perfidix.result.MethodResult;
  */
 public class TabularSummaryOutputTest {
 
+    private final static String CLASSSTRING = "Class: Class1#method1\n";
+    private final static String METERSTRING = "Meter: Meter1\n";
+
     private final static int NUMBEROFTICKS = 10;
 
     private transient BenchmarkResult benchRes;
@@ -71,9 +74,16 @@ public class TabularSummaryOutputTest {
 
         final Class<?> class1 = Class1.class;
 
-        final Method meth11 = class1.getDeclaredMethod("method1");
+        final Method meth11 = class1.getDeclaredMethod("method1"); // NOPMD by
+        // Sebastian
+        // on
+        // 26.08.09
+        // 21:14
 
-        final CountingMeter meter = new CountingMeter("Meter1");
+        final CountingMeter meter = new CountingMeter("Meter1"); // NOPMD by
+        // Sebastian on
+        // 26.08.09
+        // 21:14
 
         for (int i = 0; i < NUMBEROFTICKS; i++) {
             meter.tick();
@@ -160,8 +170,6 @@ public class TabularSummaryOutputTest {
      */
     @Test
     public final void testListenToResultSet() throws IOException {
-        final String classString = "Class: Class1#method1\n";
-        final String meterString = "Meter: Meter1\n";
 
         final MethodResult methRes =
                 benchRes
@@ -169,51 +177,56 @@ public class TabularSummaryOutputTest {
                         .getIncludedResults().iterator().next();
         final AbstractMeter meter =
                 methRes.getRegisteredMeters().iterator().next();
-        final TabularSummaryOutput output = new TabularSummaryOutput();
+        final TabularSummaryOutput output = new TabularSummaryOutput(); // NOPMD
+        // by
+        // Sebastian
+        // on
+        // 26.08.09
+        // 21:13
         for (final double d : methRes.getResultSet(meter)) {
             output.listenToResultSet(
                     (Method) methRes.getRelatedElement(), meter, d);
         }
         final StringBuilder builder = new StringBuilder();
 
-        builder.append(classString);
-        builder.append(meterString);
+        builder.append(CLASSSTRING);
+        builder.append(METERSTRING);
         builder.append("Data: 1.0\n");
         builder.append("\n");
-        builder.append(classString);
-        builder.append(meterString);
+        builder.append(CLASSSTRING);
+        builder.append(METERSTRING);
         builder.append("Data: 2.0\n");
         builder.append("\n");
-        builder.append(classString);
-        builder.append(meterString);
+        builder.append(CLASSSTRING);
+        builder.append(METERSTRING);
         builder.append("Data: 3.0\n");
         builder.append("\n");
-        builder.append(classString);
-        builder.append(meterString);
+        builder.append(CLASSSTRING);
+        builder.append(METERSTRING);
         builder.append("Data: 4.0\n");
         builder.append("\n");
-        builder.append(classString);
-        builder.append(meterString);
+        builder.append(CLASSSTRING);
+        builder.append(METERSTRING);
         builder.append("Data: 5.0\n");
         builder.append("\n");
-        builder.append(classString);
-        builder.append(meterString);
+        builder.append(CLASSSTRING);
+        builder.append(METERSTRING);
         builder.append("Data: 6.0\n");
         builder.append("\n");
-        builder.append(classString);
-        builder.append(meterString);
+        builder.append(CLASSSTRING);
+        builder.append(METERSTRING);
         builder.append("Data: 7.0\n");
         builder.append("\n");
-        builder.append(classString);
-        builder.append(meterString);
+        builder.append(CLASSSTRING);
+        builder.append(METERSTRING);
         builder.append("Data: 8.0\n");
         builder.append("\n");
-        builder.append(classString);
-        builder.append(meterString);
+        builder.append(CLASSSTRING);
+        builder.append(METERSTRING);
         builder.append("Data: 9.0\n");
         builder.append("\n");
-        builder.append(classString);
-        builder.append(meterString);
+        builder.append(CLASSSTRING);
+        builder.append(METERSTRING);
         builder.append("Data: 10.0\n");
         builder.append("\n");
 
