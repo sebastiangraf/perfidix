@@ -92,8 +92,7 @@ public final class NiceTable {
      *            the orientation of the header column.
      */
     public void addHeader(
-            final String title, final char mark,
-            final Alignment orientation) {
+            final String title, final char mark, final Alignment orientation) {
         final Header header = new Header(title, mark, orientation, this);
         rows.add(header);
     }
@@ -217,10 +216,7 @@ public final class NiceTable {
     protected int getTotalWidth() {
         final int widthFactor1 = 3;
         final int widthFactor2 = 1;
-        return this.getRowWidth()
-                + widthFactor1
-                * numColumns()
-                + widthFactor2;
+        return this.getRowWidth() + widthFactor1 * numColumns() + widthFactor2;
     }
 
     /**

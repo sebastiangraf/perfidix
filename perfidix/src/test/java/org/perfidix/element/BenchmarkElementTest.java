@@ -49,7 +49,7 @@ public class BenchmarkElementTest {
      */
     @Before
     public void setUp() throws Exception {
-        final Class< ? > clazz = BenchClass.class;
+        final Class<?> clazz = BenchClass.class;
         final Method meth = clazz.getMethod("bench");
         final BenchmarkMethod benchMeth = new BenchmarkMethod(meth);
 
@@ -62,9 +62,8 @@ public class BenchmarkElementTest {
      */
     @Test
     public void testID() {
-        assertNotSame(
-                "Id should be the same", benchClass1.getId(), benchClass2
-                        .getId());
+        assertNotSame("Id should be the same", benchClass1.getId(), benchClass2
+                .getId());
     }
 
     /**
@@ -75,8 +74,8 @@ public class BenchmarkElementTest {
     public void testEquals() {
         assertFalse("Bench classes should be the same", benchClass1
                 .equals(benchClass2));
-        assertTrue("Methods should be the same", benchClass1
-                .getMeth().equals(benchClass2.getMeth()));
+        assertTrue("Methods should be the same", benchClass1.getMeth().equals(
+                benchClass2.getMeth()));
     }
 
     /**
@@ -85,9 +84,8 @@ public class BenchmarkElementTest {
      */
     @Test
     public void testHashCode() {
-        assertNotSame(
-                "HashCode of Class should not be the same", benchClass1
-                        .hashCode(), benchClass2.hashCode());
+        assertNotSame("HashCode of Class should not be the same", benchClass1
+                .hashCode(), benchClass2.hashCode());
         assertEquals("HashCode of Method should be the same", benchClass1
                 .getMeth().hashCode(), benchClass2.getMeth().hashCode());
     }

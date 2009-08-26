@@ -65,8 +65,7 @@ public final class SocketViewProgressUpdater {
      *            a mapping with all methods to benchmark and the related runs
      * @throws SocketViewException
      */
-    public void initProgressView(
-            final Map<BenchmarkMethod, Integer> mapping)
+    public void initProgressView(final Map<BenchmarkMethod, Integer> mapping)
             throws SocketViewException {
         if (mapping != null) {
             final Set<BenchmarkMethod> methodSet = mapping.keySet();
@@ -75,9 +74,8 @@ public final class SocketViewProgressUpdater {
                     new HashMap<String, Integer>();
             for (BenchmarkMethod benchmarkMethod : methodSet) {
 
-                finalMap.put(
-                        benchmarkMethod.getMethodWithClassName(), mapping
-                                .get(benchmarkMethod));
+                finalMap.put(benchmarkMethod.getMethodWithClassName(), mapping
+                        .get(benchmarkMethod));
             }
 
             viewStub.initTotalBenchProgress(finalMap);

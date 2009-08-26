@@ -72,7 +72,7 @@ public final class CSVOutputTest {
     public void setUp() throws Exception {
         benchRes = new BenchmarkResult();
 
-        final Class< ? > class1 = Class1.class;
+        final Class<?> class1 = Class1.class;
 
         final Method meth11 = class1.getDeclaredMethod("method1");
         final Method meth12 = class1.getDeclaredMethod("method2");
@@ -134,8 +134,7 @@ public final class CSVOutputTest {
                 .toString().contains(builderData2.toString()));
 
         final StringBuilder builderException = new StringBuilder();
-        builderException
-                .append("Bench:Class1#method1\njava.io.IOException");
+        builderException.append("Bench:Class1#method1\njava.io.IOException");
         assertTrue("third bunch of must be the same", bytes
                 .toString().contains(builderException.toString()));
 
@@ -157,8 +156,8 @@ public final class CSVOutputTest {
         for (final MethodResult methRes : classRes.getIncludedResults()) {
 
             for (final double d : methRes.getResultSet(meter)) {
-                output.listenToResultSet((Method) methRes
-                        .getRelatedElement(), meter, d);
+                output.listenToResultSet(
+                        (Method) methRes.getRelatedElement(), meter, d);
             }
         }
         final StringBuilder builderData1 = new StringBuilder();
@@ -183,8 +182,7 @@ public final class CSVOutputTest {
 
         final CSVOutput output = new CSVOutput();
         output.listenToException(testException);
-        final String beginString =
-                "Bench,Class1#method1,java.io.IOException";
+        final String beginString = "Bench,Class1#method1,java.io.IOException";
         assertTrue("Testcase for exceptions", bytes.toString().startsWith(
                 beginString));
 
@@ -205,16 +203,15 @@ public final class CSVOutputTest {
                 classRes.getRegisteredMeters().iterator().next();
         for (final MethodResult methRes : classRes.getIncludedResults()) {
             for (final double d : methRes.getResultSet(meter)) {
-                output.listenToResultSet((Method) methRes
-                        .getRelatedElement(), meter, d);
+                output.listenToResultSet(
+                        (Method) methRes.getRelatedElement(), meter, d);
             }
         }
         output.visitBenchmark(benchRes);
         final String data =
                 "0.5,1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,1.0,2.0,3.0,4.0,5.0,6.0,7.0,8.0,9.0,10.0";
-        assertTrue(
-                "first bunch of numbers must be in the test string", bytes
-                        .toString().contains(data));
+        assertTrue("first bunch of numbers must be in the test string", bytes
+                .toString().contains(data));
 
     }
 
@@ -236,8 +233,8 @@ public final class CSVOutputTest {
                 classRes.getRegisteredMeters().iterator().next();
         for (final MethodResult methRes : classRes.getIncludedResults()) {
             for (final double d : methRes.getResultSet(meter)) {
-                output.listenToResultSet((Method) methRes
-                        .getRelatedElement(), meter, d);
+                output.listenToResultSet(
+                        (Method) methRes.getRelatedElement(), meter, d);
             }
         }
         output.visitBenchmark(benchRes);
@@ -294,8 +291,8 @@ public final class CSVOutputTest {
 
         final StringBuilder builderData1 = new StringBuilder();
         builderData1.append("1.0,2.0,3.0,4.0,5.0,6.0,7.0,8.0,9.0,10.0");
-        assertTrue("Test for number as decimals", asIsData
-                .toString().contains(builderData1.toString()));
+        assertTrue("Test for number as decimals", asIsData.toString().contains(
+                builderData1.toString()));
 
         final StringBuilder builderData2 = new StringBuilder();
         builderData2.append("0.5,1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0");
@@ -303,8 +300,7 @@ public final class CSVOutputTest {
                 .toString().contains(builderData2.toString()));
 
         final StringBuilder builderException = new StringBuilder();
-        builderException
-                .append("Bench:Class1#method1\njava.io.IOException");
+        builderException.append("Bench:Class1#method1\njava.io.IOException");
         assertTrue("Test for exception as visitor", asIsData
                 .toString().contains(builderException.toString()));
 
@@ -329,8 +325,8 @@ public final class CSVOutputTest {
         for (final MethodResult methRes : classRes.getIncludedResults()) {
 
             for (final double d : methRes.getResultSet(meter)) {
-                output.listenToResultSet((Method) methRes
-                        .getRelatedElement(), meter, d);
+                output.listenToResultSet(
+                        (Method) methRes.getRelatedElement(), meter, d);
             }
         }
 
@@ -370,17 +366,15 @@ public final class CSVOutputTest {
 
         final CSVOutput output = new CSVOutput(TEST_FOLDER);
         output.listenToException(testException);
-        final String beginString =
-                "Bench,Class1#method1,java.io.IOException";
+        final String beginString = "Bench,Class1#method1,java.io.IOException";
 
-        assertEquals("Test for number of files", 1, TEST_FOLDER
-                .listFiles().length);
+        assertEquals(
+                "Test for number of files", 1, TEST_FOLDER.listFiles().length);
 
         final StringBuilder asIsData = new StringBuilder();
 
         final BufferedReader reader =
-                new BufferedReader(new FileReader(
-                        TEST_FOLDER.listFiles()[0]));
+                new BufferedReader(new FileReader(TEST_FOLDER.listFiles()[0]));
         String line = reader.readLine();
         while (line != null) {
             asIsData.append(line).append("\n");

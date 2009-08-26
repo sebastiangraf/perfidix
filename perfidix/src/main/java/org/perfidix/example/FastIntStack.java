@@ -49,8 +49,8 @@ public final class FastIntStack {
     }
 
     /**
-     * Place new element on top of stack. This might require to double the stackSize
-     * of the internal array.
+     * Place new element on top of stack. This might require to double the
+     * stackSize of the internal array.
      * 
      * @param element
      *            Element to push.

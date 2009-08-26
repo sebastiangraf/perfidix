@@ -61,8 +61,8 @@ public final class Header extends AbstractTabularComponent {
 
         this.title =
                 Util.combine(
-                        new String(new char[] { enclosing }).toString(),
-                        SPACE, contentToDisplay, SPACE, new String(
+                        new String(new char[] { enclosing }).toString(), SPACE,
+                        contentToDisplay, SPACE, new String(
                                 new char[] { enclosing }).toString());
 
     }
@@ -72,11 +72,13 @@ public final class Header extends AbstractTabularComponent {
      */
     @Override
     public String draw() {
-        return Util.combine(new String(
-                new char[] { AbstractTabularComponent.BORDER }), Util.pad(
-                title, enclosing, getTable().getTotalWidth() - 2,
-                orientation), new String(
-                new char[] { AbstractTabularComponent.BORDER }), NEWLINE);
+        return Util.combine(
+                new String(new char[] { AbstractTabularComponent.BORDER }),
+                Util.pad(
+                        title, enclosing, getTable().getTotalWidth() - 2,
+                        orientation), new String(
+                        new char[] { AbstractTabularComponent.BORDER }),
+                NEWLINE);
 
     }
 

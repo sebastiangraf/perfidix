@@ -48,12 +48,10 @@ public class NoMethodArrangementTest {
     @Before
     public void setUp() {
         elemSet = new HashSet<BenchmarkElement>();
-        final Class< ? > testClazz = TestBenchClass.class;
+        final Class<?> testClazz = TestBenchClass.class;
         for (final Method meth : testClazz.getDeclaredMethods()) {
             if (BenchmarkMethod.isBenchmarkable(meth)) {
-                elemSet
-                        .add(new BenchmarkElement(
-                                new BenchmarkMethod(meth)));
+                elemSet.add(new BenchmarkElement(new BenchmarkMethod(meth)));
             }
         }
     }
@@ -68,22 +66,17 @@ public class NoMethodArrangementTest {
             final AbstractMethodArrangement arrangement =
                     AbstractMethodArrangement.getMethodArrangement(
                             elemSet, KindOfArrangement.NoArrangement);
-            final String[] expectedNames =
-                    { "bench1", "bench2", "bench4" };
-            final Iterator<BenchmarkElement> iterBench =
-                    arrangement.iterator();
+            final String[] expectedNames = { "bench1", "bench2", "bench4" };
+            final Iterator<BenchmarkElement> iterBench = arrangement.iterator();
             assertEquals(
                     "Method name for first element", expectedNames[0],
-                    iterBench
-                            .next().getMeth().getMethodToBench().getName());
+                    iterBench.next().getMeth().getMethodToBench().getName());
             assertEquals(
                     "Method name for second element", expectedNames[1],
-                    iterBench
-                            .next().getMeth().getMethodToBench().getName());
+                    iterBench.next().getMeth().getMethodToBench().getName());
             assertEquals(
                     "Method name for third element", expectedNames[2],
-                    iterBench
-                            .next().getMeth().getMethodToBench().getName());
+                    iterBench.next().getMeth().getMethodToBench().getName());
             assertFalse("No more elements avaliables", iterBench.hasNext());
 
         } catch (final Exception e) {

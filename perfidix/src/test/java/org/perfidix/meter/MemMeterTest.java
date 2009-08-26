@@ -101,14 +101,10 @@ public final class MemMeterTest {
     public void testGetDescription() {
         assertEquals("Data check for describtion for byte", Memory.Byte
                 .getUnitDescription(), byteMeter.getUnitDescription());
-        assertEquals(
-                "Data check for describtion for kibiByte", Memory.KibiByte
-                        .getUnitDescription(), kibiByteMeter
-                        .getUnitDescription());
-        assertEquals(
-                "Data check for describtion for mebiByte", Memory.Mebibyte
-                        .getUnitDescription(), mebiByteMeter
-                        .getUnitDescription());
+        assertEquals("Data check for describtion for kibiByte", Memory.KibiByte
+                .getUnitDescription(), kibiByteMeter.getUnitDescription());
+        assertEquals("Data check for describtion for mebiByte", Memory.Mebibyte
+                .getUnitDescription(), mebiByteMeter.getUnitDescription());
 
     }
 }

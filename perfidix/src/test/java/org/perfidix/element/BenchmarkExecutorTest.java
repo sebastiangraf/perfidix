@@ -107,11 +107,9 @@ public class BenchmarkExecutorTest {
             final BenchmarkMethod elem2 = new BenchmarkMethod(meth);
 
             final BenchmarkExecutor exec1 =
-                    BenchmarkExecutor.getExecutor(new BenchmarkElement(
-                            elem1));
+                    BenchmarkExecutor.getExecutor(new BenchmarkElement(elem1));
             final BenchmarkExecutor exec2 =
-                    BenchmarkExecutor.getExecutor(new BenchmarkElement(
-                            elem2));
+                    BenchmarkExecutor.getExecutor(new BenchmarkElement(elem2));
 
             assertEquals("Singleton test of executor", exec1, exec2);
         } catch (final SecurityException e) {
@@ -134,8 +132,7 @@ public class BenchmarkExecutorTest {
             final BenchmarkMethod elem = new BenchmarkMethod(meth);
 
             final BenchmarkExecutor exec =
-                    BenchmarkExecutor.getExecutor(new BenchmarkElement(
-                            elem));
+                    BenchmarkExecutor.getExecutor(new BenchmarkElement(elem));
 
             exec.executeBeforeMethods(objToExecute);
             exec.executeBeforeMethods(objToExecute);
@@ -165,29 +162,27 @@ public class BenchmarkExecutorTest {
             final Object objToExecute = NormalClass.class.newInstance();
             final BenchmarkMethod elem = new BenchmarkMethod(meth);
             final BenchmarkExecutor exec =
-                    BenchmarkExecutor.getExecutor(new BenchmarkElement(
-                            elem));
+                    BenchmarkExecutor.getExecutor(new BenchmarkElement(elem));
             exec.executeBench(objToExecute);
 
             assertEquals("Each is invoked just once", 1, each);
             assertEquals(
-                    "Set should be included in the frameworks as well",
-                    meter, res.getRegisteredMeters());
+                    "Set should be included in the frameworks as well", meter,
+                    res.getRegisteredMeters());
             final Iterator<ClassResult> classResIter =
                     res.getIncludedResults().iterator();
             final ClassResult classRes = classResIter.next();
             assertFalse(
                     "Iterator of classes should only contain one element",
                     classResIter.hasNext());
+            assertEquals("Meters should all be registered", meter, classRes
+                    .getRegisteredMeters());
             assertEquals(
-                    "Meters should all be registered", meter, classRes
-                            .getRegisteredMeters());
+                    "Classes has to be included in a correct way", objToExecute
+                            .getClass(), classRes.getRelatedElement());
             assertEquals(
-                    "Classes has to be included in a correct way",
-                    objToExecute.getClass(), classRes.getRelatedElement());
-            assertEquals(
-                    "The NormalClass should be included",
-                    NormalClass.class, classRes.getRelatedElement());
+                    "The NormalClass should be included", NormalClass.class,
+                    classRes.getRelatedElement());
 
             final Iterator<MethodResult> methResIter =
                     classRes.getIncludedResults().iterator();
@@ -224,8 +219,7 @@ public class BenchmarkExecutorTest {
             final BenchmarkMethod elem = new BenchmarkMethod(meth);
 
             final BenchmarkExecutor exec =
-                    BenchmarkExecutor.getExecutor(new BenchmarkElement(
-                            elem));
+                    BenchmarkExecutor.getExecutor(new BenchmarkElement(elem));
 
             exec.executeAfterMethods(objToExecute);
             exec.executeAfterMethods(objToExecute);
@@ -262,8 +256,7 @@ public class BenchmarkExecutorTest {
             final Method correctMethod =
                     CheckAndExecuteClass.class.getMethod("correctMethod");
             final Method falseMethod =
-                    CheckAndExecuteClass.class
-                            .getMethod("incorrectMethod");
+                    CheckAndExecuteClass.class.getMethod("incorrectMethod");
 
             final PerfidixMethodCheckException excep1 =
                     BenchmarkExecutor.checkMethod(
@@ -286,8 +279,8 @@ public class BenchmarkExecutorTest {
             assertNull("Exception 4 shouldn't be null", excep4);
 
             assertEquals(
-                    "invokation of beforeFirst should be occured just once",
-                    1, once);
+                    "invokation of beforeFirst should be occured just once", 1,
+                    once);
         } catch (final SecurityException e) {
             fail(e.getMessage());
         } catch (final NoSuchMethodException e) {

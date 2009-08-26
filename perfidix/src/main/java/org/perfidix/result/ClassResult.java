@@ -38,13 +38,13 @@ public final class ClassResult extends AbstractResultContainer<MethodResult> {
      * @param paramClass
      *            class of these results
      */
-    public ClassResult(final Class< ? > paramClass) {
+    public ClassResult(final Class<?> paramClass) {
         super(paramClass);
     }
 
     /** {@inheritDoc} */
     @Override
     public String getElementName() {
-        return ((Class< ? >) getRelatedElement()).getSimpleName();
+        return ((Class<?>) getRelatedElement()).getSimpleName();
     }
 }

@@ -73,8 +73,8 @@ public final class Util {
      *            the total width of the result string
      */
     protected static String pad(
-            final String data, final char doPadWithThis,
-            final int totalWidth, final Alignment orientation) {
+            final String data, final char doPadWithThis, final int totalWidth,
+            final Alignment orientation) {
 
         final String pad =
                 repeat(new String(new char[] { doPadWithThis }), Math.max(
@@ -88,8 +88,7 @@ public final class Util {
                 returnVal =
                         pad.substring(0, pad.length() / 2)
                                 + data
-                                + pad.substring(pad.length() / 2, pad
-                                        .length());
+                                + pad.substring(pad.length() / 2, pad.length());
                 break;
             case Right:
                 returnVal = new StringBuilder(pad).append(data).toString();
@@ -139,8 +138,7 @@ public final class Util {
      *            how many times to concantenate the string
      * @return the repeated string.
      */
-    protected static String repeat(
-            final String toBeRepeated, final int numTimes) {
+    protected static String repeat(final String toBeRepeated, final int numTimes) {
         final StringBuilder builder = new StringBuilder();
 
         for (int i = 0; i < numTimes; i++) {

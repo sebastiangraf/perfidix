@@ -62,8 +62,8 @@ public final class TimeMeter extends AbstractMeter {
                 .divide(
                         new BigDecimal(
                                 currentTime.getNumberOfMilliSeconds(),
-                                MathContext.DECIMAL128),
-                        MathContext.DECIMAL128).doubleValue();
+                                MathContext.DECIMAL128), MathContext.DECIMAL128)
+                .doubleValue();
     }
 
     /** {@inheritDoc} */

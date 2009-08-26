@@ -35,8 +35,7 @@ import org.perfidix.ouput.AbstractOutput;
  * @author Sebastian Graf, University of Konstanz
  * @author Alexander Onea, neue Couch
  */
-public final class BenchmarkResult
-        extends AbstractResultContainer<ClassResult> {
+public final class BenchmarkResult extends AbstractResultContainer<ClassResult> {
 
     /** All occured exceptions. */
     private transient final Set<AbstractPerfidixMethodException> exceptions;
@@ -76,7 +75,7 @@ public final class BenchmarkResult
     public void addData(
             final Method meth, final AbstractMeter meter, final double data) {
 
-        final Class< ? > clazz = meth.getDeclaringClass();
+        final Class<?> clazz = meth.getDeclaringClass();
         if (!elements.containsKey(clazz)) {
             elements.put(clazz, new ClassResult(clazz));
         }

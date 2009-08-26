@@ -81,8 +81,7 @@ public final class SocketAdapter {
 
     // TODO javadoc
     private void runBenchmark() {
-        final BenchmarkResult res =
-                benchmark.run(new SocketListener(view));
+        final BenchmarkResult res = benchmark.run(new SocketListener(view));
         new TabularSummaryOutput().visitBenchmark(res);
         try {
             view.finished();

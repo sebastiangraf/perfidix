@@ -55,8 +55,7 @@ public final class SequentialMethodArrangement
      * 
      * @param elements
      */
-    protected SequentialMethodArrangement(
-            final Set<BenchmarkElement> elements) {
+    protected SequentialMethodArrangement(final Set<BenchmarkElement> elements) {
         super(elements);
     }
 
@@ -72,8 +71,7 @@ public final class SequentialMethodArrangement
         // Having a table
         for (final BenchmarkElement elem : elements) {
             if (!table.containsKey(elem.getMeth())) {
-                table.put(
-                        elem.getMeth(), new ArrayList<BenchmarkElement>());
+                table.put(elem.getMeth(), new ArrayList<BenchmarkElement>());
             }
             table.get(elem.getMeth()).add(elem);
         }

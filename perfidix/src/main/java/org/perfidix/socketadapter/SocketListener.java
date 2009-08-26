@@ -52,8 +52,7 @@ public final class SocketListener extends AbstractOutput {
 
     /** {@inheritDoc} */
     @Override
-    public void listenToException(
-            final AbstractPerfidixMethodException exec) {
+    public void listenToException(final AbstractPerfidixMethodException exec) {
         try {
             view.updateErrorInElement((exec
                     .getMethod().getDeclaringClass().getName()
@@ -69,8 +68,9 @@ public final class SocketListener extends AbstractOutput {
     public void listenToResultSet(
             final Method meth, final AbstractMeter meter, final double data) {
         try {
-            view.updateCurrentElement((meth.getDeclaringClass().getName()
-                    + "." + meth.getName()));
+            view
+                    .updateCurrentElement((meth.getDeclaringClass().getName()
+                            + "." + meth.getName()));
         } catch (final SocketViewException e) {
             throw new IllegalStateException(e);
         }
@@ -79,8 +79,7 @@ public final class SocketListener extends AbstractOutput {
     /** {@inheritDoc} */
     @Override
     public void visitBenchmark(final BenchmarkResult res) {
-        throw new UnsupportedOperationException(
-                "Operation is not permitted!");
+        throw new UnsupportedOperationException("Operation is not permitted!");
     }
 
 }

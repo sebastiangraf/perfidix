@@ -64,8 +64,7 @@ public final class Perfidix {
      * @throws ClassNotFoundException
      *             if class cannot be found
      */
-    public static void main(final String[] args)
-            throws ClassNotFoundException {
+    public static void main(final String[] args) throws ClassNotFoundException {
         final BenchmarkResult res = runBenchs(args);
         new TabularSummaryOutput().visitBenchmark(res);
     }

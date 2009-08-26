@@ -54,7 +54,7 @@ public final class Benchmark {
     private transient final Set<AbstractMeter> meters;
 
     /** Set with all used classes. */
-    private transient final Set<Class< ? >> clazzes;
+    private transient final Set<Class<?>> clazzes;
 
     /** Already instantiated objects */
     private transient Set<Object> objects;
@@ -69,7 +69,7 @@ public final class Benchmark {
      */
     public Benchmark(final AbstractMeter... paramMeters) {
         this.meters = new LinkedHashSet<AbstractMeter>();
-        this.clazzes = new LinkedHashSet<Class< ? >>();
+        this.clazzes = new LinkedHashSet<Class<?>>();
         this.objects = new LinkedHashSet<Object>();
 
         for (final AbstractMeter meter : paramMeters) {
@@ -90,7 +90,7 @@ public final class Benchmark {
      * @param clazz
      *            to be added.
      */
-    public void add(final Class< ? > clazz) {
+    public void add(final Class<?> clazz) {
         if (this.clazzes.contains(clazz)) {
             throw new IllegalArgumentException(
                     "Only one class-instance per benchmark allowed");
@@ -107,7 +107,7 @@ public final class Benchmark {
      *            to be added
      */
     public void add(final Object obj) {
-        final Class< ? > clazz = obj.getClass();
+        final Class<?> clazz = obj.getClass();
 
         if (this.clazzes.contains(clazz)) {
             throw new IllegalArgumentException(
@@ -169,8 +169,8 @@ public final class Benchmark {
                 new HashMap<BenchmarkMethod, Integer>();
         final Set<BenchmarkMethod> meths = getBenchmarkMethods();
         for (final BenchmarkMethod meth : meths) {
-            returnVal.put(meth, BenchmarkMethod
-                    .getNumberOfAnnotatedRuns(meth.getMethodToBench()));
+            returnVal.put(meth, BenchmarkMethod.getNumberOfAnnotatedRuns(meth
+                    .getMethodToBench()));
         }
         return returnVal;
     }
@@ -202,26 +202,22 @@ public final class Benchmark {
 
         // arranging them
         final AbstractMethodArrangement arrangement =
-                AbstractMethodArrangement.getMethodArrangement(
-                        elements, kind);
+                AbstractMethodArrangement.getMethodArrangement(elements, kind);
 
         // instantiate methods
-        final Map<Class< ? >, Object> instantiatedObj =
-                instantiateMethods(res);
+        final Map<Class<?>, Object> instantiatedObj = instantiateMethods(res);
 
         // getting the mapping and executing beforemethod
-        final Map<Class< ? >, Object> objectsToExecute =
+        final Map<Class<?>, Object> objectsToExecute =
                 executeBeforeBenchClass(instantiatedObj, res);
 
         // executing the bench for the arrangement
         for (final BenchmarkElement elem : arrangement) {
-            final BenchmarkExecutor exec =
-                    BenchmarkExecutor.getExecutor(elem);
+            final BenchmarkExecutor exec = BenchmarkExecutor.getExecutor(elem);
 
             final Object obj =
                     objectsToExecute.get(elem
-                            .getMeth().getMethodToBench()
-                            .getDeclaringClass());
+                            .getMeth().getMethodToBench().getDeclaringClass());
             // check needed because of failed initialization of objects
             if (obj != null) {
                 exec.executeBeforeMethods(obj);
@@ -251,20 +247,19 @@ public final class Benchmark {
      *            {@link BenchmarkResult} for storing possible failures.
      * @return a mapping with class->objects for all registered classes-
      */
-    private Map<Class< ? >, Object> instantiateMethods(
-            final BenchmarkResult res) {
+    private Map<Class<?>, Object> instantiateMethods(final BenchmarkResult res) {
         // datastructure initialization for all objects
-        final Map<Class< ? >, Object> objectsToUse =
-                new Hashtable<Class< ? >, Object>();
+        final Map<Class<?>, Object> objectsToUse =
+                new Hashtable<Class<?>, Object>();
 
         // generating including already instaniated objects
         for (final Object obj : this.objects) {
-            final Class< ? > clazz = obj.getClass();
+            final Class<?> clazz = obj.getClass();
             objectsToUse.put(clazz, obj);
         }
 
         // generating objects for each registered class
-        for (final Class< ? > clazz : clazzes) {
+        for (final Class<?> clazz : clazzes) {
             // generating a new instance on which the benchmark will be
             // performed if there isn't a user generated one
             if (!objectsToUse.containsKey(clazz)) {
@@ -273,13 +268,11 @@ public final class Benchmark {
                     objectsToUse.put(clazz, obj);
                     // otherwise adding an exception to the result
                 } catch (final InstantiationException e) {
-                    res
-                            .addException(new PerfidixMethodInvocationException(
-                                    e, BeforeBenchClass.class));
+                    res.addException(new PerfidixMethodInvocationException(
+                            e, BeforeBenchClass.class));
                 } catch (final IllegalAccessException e) {
-                    res
-                            .addException(new PerfidixMethodInvocationException(
-                                    e, BeforeBenchClass.class));
+                    res.addException(new PerfidixMethodInvocationException(
+                            e, BeforeBenchClass.class));
                 }
 
             }
@@ -297,15 +290,15 @@ public final class Benchmark {
      *            where the Exceptions should be stored to
      * @return valid instances with valid beforeCall
      */
-    private Map<Class< ? >, Object> executeBeforeBenchClass(
-            final Map<Class< ? >, Object> instantiatedObj,
+    private Map<Class<?>, Object> executeBeforeBenchClass(
+            final Map<Class<?>, Object> instantiatedObj,
             final BenchmarkResult res) {
 
-        final Map<Class< ? >, Object> returnVal =
-                new Hashtable<Class< ? >, Object>();
+        final Map<Class<?>, Object> returnVal =
+                new Hashtable<Class<?>, Object>();
 
         // invoking before bench class
-        for (final Class< ? > clazz : instantiatedObj.keySet()) {
+        for (final Class<?> clazz : instantiatedObj.keySet()) {
 
             final Object objectToUse = instantiatedObj.get(clazz);
 
@@ -364,20 +357,18 @@ public final class Benchmark {
      *            the {@link BenchmarkResult} for storing possible failures.
      */
     private void tearDownObjectsToExecute(
-            final Map<Class< ? >, Object> objects,
-            final BenchmarkResult res) {
+            final Map<Class<?>, Object> objects, final BenchmarkResult res) {
 
         // executing tearDown for all clazzes registered in given Map
-        for (final Class< ? > clazz : objects.keySet()) {
+        for (final Class<?> clazz : objects.keySet()) {
             final Object objectToUse = objects.get(clazz);
             if (objectToUse != null) {
                 // executing AfterClass for all objects.
                 Method afterClassMeth = null;
                 try {
                     afterClassMeth =
-                            BenchmarkMethod
-                                    .findAndCheckAnyMethodByAnnotation(
-                                            clazz, AfterBenchClass.class);
+                            BenchmarkMethod.findAndCheckAnyMethodByAnnotation(
+                                    clazz, AfterBenchClass.class);
                 } catch (final PerfidixMethodCheckException e) {
                     res.addException(e);
                 }
@@ -411,10 +402,9 @@ public final class Benchmark {
      */
     public Set<BenchmarkMethod> getBenchmarkMethods() {
         // Generating Set for returnVal
-        final Set<BenchmarkMethod> elems =
-                new LinkedHashSet<BenchmarkMethod>();
+        final Set<BenchmarkMethod> elems = new LinkedHashSet<BenchmarkMethod>();
         // Getting all Methods and testing if its benchmarkable
-        for (final Class< ? > clazz : clazzes) {
+        for (final Class<?> clazz : clazzes) {
             for (final Method meth : clazz.getDeclaredMethods()) {
                 // Check if benchmarkable, if so, insert to returnVal;
                 if (BenchmarkMethod.isBenchmarkable(meth)) {

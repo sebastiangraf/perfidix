@@ -69,7 +69,7 @@ public class TabularSummaryOutputTest {
     public void setUp() throws SecurityException, NoSuchMethodException {
         benchRes = new BenchmarkResult();
 
-        final Class< ? > class1 = Class1.class;
+        final Class<?> class1 = Class1.class;
 
         final Method meth11 = class1.getDeclaredMethod("method1");
 

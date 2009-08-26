@@ -66,13 +66,10 @@ public final class MemMeter extends AbstractMeter {
     public double getValue() {
         final Runtime runtime = Runtime.getRuntime();
         memAlreadyUsed =
-                memAlreadyUsed
-                        + runtime.totalMemory()
-                        - runtime.freeMemory();
-        return new BigDecimal(memAlreadyUsed, MathContext.DECIMAL128)
-                .divide(
-                        new BigDecimal(scale.getNumberOfBytes()),
-                        MathContext.DECIMAL128).doubleValue();
+                memAlreadyUsed + runtime.totalMemory() - runtime.freeMemory();
+        return new BigDecimal(memAlreadyUsed, MathContext.DECIMAL128).divide(
+                new BigDecimal(scale.getNumberOfBytes()),
+                MathContext.DECIMAL128).doubleValue();
     }
 
     /** {@inheritDoc} */

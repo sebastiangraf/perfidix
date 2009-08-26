@@ -48,9 +48,7 @@ public final class ThreadMeterTest {
     @Test
     public void testGetValue() {
         final double threadMeter = meter.getValue();
-        assertTrue(
-                "Number of thread should be larger than 4",
-                threadMeter >= 4);
+        assertTrue("Number of thread should be larger than 4", threadMeter >= 4);
 
     }
 
