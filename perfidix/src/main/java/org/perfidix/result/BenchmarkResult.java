@@ -104,6 +104,7 @@ public final class BenchmarkResult
      *            the exception stored to this result
      */
     public void addException(final AbstractPerfidixMethodException exec) {
+        // TODO Exception-Name mitgeben
         this.getExceptions().add(exec);
         for (final AbstractOutput output : outputs) {
             output.listenToException(exec);

@@ -24,7 +24,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertSame;
 import static org.junit.Assert.fail;
 
 import java.lang.reflect.Method;
@@ -114,7 +113,7 @@ public class BenchmarkExecutorTest {
                     BenchmarkExecutor.getExecutor(new BenchmarkElement(
                             elem2));
 
-            assertSame("Singleton test of executor", exec1, exec2);
+            assertEquals("Singleton test of executor", exec1, exec2);
         } catch (final SecurityException e) {
             fail(e.getMessage());
         } catch (final NoSuchMethodException e) {
@@ -187,8 +186,8 @@ public class BenchmarkExecutorTest {
                     "Classes has to be included in a correct way",
                     objToExecute.getClass(), classRes.getRelatedElement());
             assertEquals(
-                    "The NormalClass should be included", NormalClass.class,
-                    classRes.getRelatedElement());
+                    "The NormalClass should be included",
+                    NormalClass.class, classRes.getRelatedElement());
 
             final Iterator<MethodResult> methResIter =
                     classRes.getIncludedResults().iterator();
@@ -286,7 +285,9 @@ public class BenchmarkExecutorTest {
                             correctObj, correctMethod, SkipBench.class);
             assertNull("Exception 4 shouldn't be null", excep4);
 
-            assertEquals("invokation of beforeFirst should be occured just once",1, once);
+            assertEquals(
+                    "invokation of beforeFirst should be occured just once",
+                    1, once);
         } catch (final SecurityException e) {
             fail(e.getMessage());
         } catch (final NoSuchMethodException e) {

@@ -18,7 +18,7 @@
  * $LastChangedDate$
  *
  */
-package org.perfidix.ideadapter;
+package org.perfidix.socketadapter;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -33,7 +33,9 @@ import java.util.Map;
  * 
  * @author Lewandowski Lukas, University of Konstanz
  */
-public class PerclipseViewStub implements IBenchRunSessionListener {
+public final class PerclipseViewStub implements IBenchRunSessionListener {
+
+    // TODO Javadoc
     private transient final String host;
     private transient String command;
     private transient Socket socket;

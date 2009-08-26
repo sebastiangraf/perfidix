@@ -18,7 +18,7 @@
  * $LastChangedDate$
  *
  */
-package org.perfidix.ideadapter;
+package org.perfidix.socketadapter;
 
 import java.util.Map;
 

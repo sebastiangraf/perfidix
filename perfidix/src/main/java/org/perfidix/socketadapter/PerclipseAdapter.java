@@ -18,7 +18,7 @@
  * $LastChangedDate$
  *
  */
-package org.perfidix.ideadapter;
+package org.perfidix.socketadapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +29,7 @@ import org.perfidix.element.BenchmarkMethod;
 import org.perfidix.ouput.TabularSummaryOutput;
 import org.perfidix.result.BenchmarkResult;
 
+//TODO Javadoc
 /**
  * @author Lukas Lewandowski, University of Konstanz
  * @author Sebastian Graf, University of Konstanz
@@ -61,7 +62,8 @@ public final class PerclipseAdapter {
             try {
                 benchmark.add(Class.forName(className));
             } catch (final ClassNotFoundException e) {
-                // TODO Exception handling auf das Perclipse plugin
+                // TODO view#updateErrorInElement
+
             }
         }
         final Map<BenchmarkMethod, Integer> vals =
@@ -69,6 +71,7 @@ public final class PerclipseAdapter {
         view.initProgressView(vals);
     }
 
+    // TODO javadoc
     private void runBenchmark() {
         final BenchmarkResult res =
                 benchmark.run(new PerclipseListener(view));
@@ -81,8 +84,6 @@ public final class PerclipseAdapter {
      * 
      * @param args
      *            the classes
-     * @throws Exception
-     *             of any kind.
      */
     public static void main(final String[] args) {
         // init of the connection to the plugin
