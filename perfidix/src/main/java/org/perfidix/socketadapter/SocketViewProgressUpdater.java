@@ -25,6 +25,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.perfidix.element.BenchmarkMethod;
+import org.perfidix.exceptions.SocketViewException;
 
 /**
  * This class creates the connection to the eclipse view via
@@ -104,12 +105,15 @@ public final class SocketViewProgressUpdater {
      * @param name
      *            Element represents the java element which has not been
      *            executed successfully.
+     * @param exception
+     *            The exception caused by the element.
      * @throws SocketViewException
      */
-    public void updateErrorInElement(final String name)
+    public void updateErrorInElement(
+            final String name, final Exception exception)
             throws SocketViewException {
         if (name != null) {
-            viewStub.updateError(name);
+            viewStub.updateError(name, exception.getMessage());
         }
     }
 

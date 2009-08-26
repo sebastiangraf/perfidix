@@ -23,6 +23,7 @@ package org.perfidix.socketadapter;
 import java.lang.reflect.Method;
 
 import org.perfidix.exceptions.AbstractPerfidixMethodException;
+import org.perfidix.exceptions.SocketViewException;
 import org.perfidix.meter.AbstractMeter;
 import org.perfidix.ouput.AbstractOutput;
 import org.perfidix.result.BenchmarkResult;
@@ -56,7 +57,7 @@ public final class SocketListener extends AbstractOutput {
         try {
             view.updateErrorInElement((exec
                     .getMethod().getDeclaringClass().getName()
-                    + "." + exec.getMethod().getName()));
+                    + "." + exec.getMethod().getName()), exec);
         } catch (final SocketViewException e) {
             throw new IllegalStateException(e);
         }

@@ -26,6 +26,8 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.Map;
 
+import org.perfidix.exceptions.SocketViewException;
+
 /**
  * This class creates the connection to the eclipse view, which depict the
  * current progress of the operation. It contains also the methods to upudate
@@ -35,10 +37,24 @@ import java.util.Map;
  */
 public final class SocketViewStub implements IBenchRunSessionListener {
 
-    // TODO Javadoc
+    /**
+     * The host name for the connection to the socket skeleton.
+     */
     private transient final String host;
+    /**
+     * The command that will be send to the socket skeleton. So the skeleton
+     * knows which data will be dispatched afterwards.
+     */
     private transient String command;
+    /**
+     * The client socket that will connect to the server socket of the ide
+     * plug-in.
+     */
     private transient Socket socket;
+    /**
+     * The output stream for dispatching data to the ide skeleton to visualize
+     * the bench process / progress.
+     */
     private transient ObjectOutputStream outputStream;
 
     /**
@@ -98,11 +114,15 @@ public final class SocketViewStub implements IBenchRunSessionListener {
     }
 
     /** {@inheritDoc} */
-    public void updateError(final String element) throws SocketViewException {
+
+    public void updateError(final String element, final String exception)
+            throws SocketViewException {
+
         command = "updateError";
         try {
             outputStream.writeObject(command);
             outputStream.writeObject(element);
+            outputStream.writeObject(exception);
         } catch (final IOException e) {
             throw new SocketViewException(e);
         }

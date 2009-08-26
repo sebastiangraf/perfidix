@@ -18,7 +18,7 @@
  * $LastChangedDate$
  *
  */
-package org.perfidix.socketadapter;
+package org.perfidix.exceptions;
 
 import java.io.IOException;
 
@@ -33,6 +33,8 @@ public final class SocketViewException extends IOException {
     /** Serial ID */
     private static final long serialVersionUID = 528281733888231478L;
 
+    private final IOException exc;
+
     /**
      * Constructor
      * 
@@ -40,7 +42,8 @@ public final class SocketViewException extends IOException {
      *            exception to encapsulate
      */
     public SocketViewException(final IOException paramToStore) {
-        super(paramToStore);
+        super();
+        exc = paramToStore;
     }
 
 }
