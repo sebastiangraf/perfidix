@@ -58,7 +58,9 @@ public class SocketAdapterTest {
         final String[] args =
                 {
                         "org.perfidix.example.Config",
-                        "org.perfidix.example.StackBenchmark", "-Port", "6777" };
+                        "org.perfidix.example.StackBenchmark",
+                        "org.perfidix.socketadapter.BenchWithException",
+                        "-Port", "6777" };
         SocketAdapter.main(args);
         assertNotNull("Dummy", skeletonSimulator);
         Thread.sleep(10);

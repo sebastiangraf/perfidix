@@ -26,7 +26,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -86,8 +85,7 @@ public final class PerclipseViewSkeletonSimulator extends Thread {
 
                 command = (String) inStream.readObject();
                 if ("init".equals(command)) {
-                    receivedMap =
-                            (HashMap<String, Integer>) inStream.readObject();
+                    receivedMap = (Map<String, Integer>) inStream.readObject();
 
                     // init happened
                 } else if ("updateCurrentRun".equals(command)) {
