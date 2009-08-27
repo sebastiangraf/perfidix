@@ -20,9 +20,11 @@
  */
 package org.perfidix.socketadapter;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -53,6 +55,7 @@ public class SocketAdapterTest {
      * @throws InterruptedException
      *             Exception occurred.
      */
+    @Ignore
     @Test
     public void testMain() throws InterruptedException {
         final String[] args =
@@ -63,6 +66,11 @@ public class SocketAdapterTest {
                         "-Port", "6777" };
         SocketAdapter.main(args);
         assertNotNull("Dummy", skeletonSimulator);
+        Thread.sleep(10);
+        assertEquals("Test if benchcounts are right", 100, skeletonSimulator
+                .getElements()
+                .get("org.perfidix.example.StackBenchmark.benchNormalIntPush")
+                .getCurrentRun());
         Thread.sleep(10);
     }
 

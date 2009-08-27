@@ -26,7 +26,9 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * The simulator of our skeleton within the eclipse plug-in.
@@ -35,6 +37,8 @@ import java.util.Map;
  */
 public final class PerclipseViewSkeletonSimulator extends Thread {
     private transient Map<String, Integer> receivedMap;
+    private transient Map<String, MethodWhichIsBenchin> benchElements =
+            new HashMap<String, MethodWhichIsBenchin>();
     private transient String receivedString;
     private transient ServerSocket serverSocket;
     private transient boolean finished = false;
@@ -86,15 +90,32 @@ public final class PerclipseViewSkeletonSimulator extends Thread {
                 command = (String) inStream.readObject();
                 if ("init".equals(command)) {
                     receivedMap = (Map<String, Integer>) inStream.readObject();
-
+                    benchElements = new HashMap<String, MethodWhichIsBenchin>();
+                    if (receivedMap != null) {
+                        Set<String> stringSet = receivedMap.keySet();
+                        for (String name : stringSet) {
+                            benchElements.put(name, new MethodWhichIsBenchin(
+                                    name, receivedMap.get(name)));
+                        }
+                    }
                     // init happened
                 } else if ("updateCurrentRun".equals(command)) {
                     receivedString = (String) inStream.readObject();
+                    if (getElements().containsKey(receivedString)) {
+                        MethodWhichIsBenchin method =
+                                getElements().get(receivedString);
+                        method.updateRun();
+                    }
                     // update happened
 
                 } else if ("updateError".equals(command)) {
                     receivedString = (String) inStream.readObject();
                     errorOccurred = (String) inStream.readObject();
+                    if (getElements().containsKey(receivedString)) {
+                        MethodWhichIsBenchin method =
+                                getElements().get(receivedString);
+                        method.updateError();
+                    }
                     // error happened
                 } else if ("finished".equals(command)) {
                     // finished happened
@@ -158,6 +179,53 @@ public final class PerclipseViewSkeletonSimulator extends Thread {
      */
     public boolean isFinsihed() {
         return finished;
+    }
+
+    /**
+     * Received data just for testing purposes.
+     * 
+     * @return Received data just for testing purposes.
+     */
+    public Map<String, MethodWhichIsBenchin> getElements() {
+        return benchElements;
+    }
+
+    class MethodWhichIsBenchin {
+        private transient String name;
+        private transient int initValue;
+        private transient int run;
+        private transient int error;
+
+        public MethodWhichIsBenchin(String name, int initValue) {
+            this.name = name;
+            this.initValue = initValue;
+            run = 0;
+            error = 0;
+        }
+
+        public void updateRun() {
+            run = run + 1;
+        }
+
+        public void updateError() {
+            error = error + 1;
+        }
+
+        public int getCurrentRun() {
+            return run;
+        }
+
+        public int getErrorRuns() {
+            return error;
+        }
+
+        public int getSumToBeBenched() {
+            return initValue;
+        }
+
+        public String getName() {
+            return name;
+        }
     }
 
 }
