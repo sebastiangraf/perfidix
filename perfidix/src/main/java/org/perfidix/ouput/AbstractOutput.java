@@ -21,6 +21,7 @@ package org.perfidix.ouput;
 
 import java.lang.reflect.Method;
 import java.util.Formatter;
+import java.util.Locale;
 
 import org.perfidix.exceptions.AbstractPerfidixMethodException;
 import org.perfidix.meter.AbstractMeter;
@@ -84,7 +85,8 @@ public abstract class AbstractOutput {
      * @return the formatted string.
      */
     protected static final String format(final double toFormat) {
-        return new Formatter().format(FLOATFORMAT, toFormat).toString();
+        return new Formatter(Locale.US)
+                .format(FLOATFORMAT, toFormat).toString();
     }
 
 }
