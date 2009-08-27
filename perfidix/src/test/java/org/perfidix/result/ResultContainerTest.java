@@ -37,7 +37,7 @@ import org.perfidix.meter.CountingMeter;
  * 
  * @author Sebastian Graf, University of Konstanz
  */
-public class ResultContainerTest { // NOPMD by Sebastian on 26.08.09 21:13
+public class ResultContainerTest {
 
     private final static int NUMBEROFTICKS = 10;
     private final static int TICKFACTOR = 2;

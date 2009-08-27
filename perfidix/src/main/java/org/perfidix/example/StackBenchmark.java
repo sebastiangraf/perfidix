@@ -69,7 +69,7 @@ public final class StackBenchmark {
      */
     @BeforeBenchClass
     public void generateData() {
-        final Random ran = new Random(); // NOPMD by sebi on 26.08.09 21:24
+        final Random ran = new Random();
         intData = new int[ARRAYSIZE];
         int counter = 0;
         while (counter < ARRAYSIZE) {

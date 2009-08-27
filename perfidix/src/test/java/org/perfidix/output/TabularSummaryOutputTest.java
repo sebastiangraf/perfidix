@@ -74,16 +74,9 @@ public class TabularSummaryOutputTest {
 
         final Class<?> class1 = Class1.class;
 
-        final Method meth11 = class1.getDeclaredMethod("method1"); // NOPMD by
-        // Sebastian
-        // on
-        // 26.08.09
-        // 21:14
+        final Method meth11 = class1.getDeclaredMethod("method1");
 
-        final CountingMeter meter = new CountingMeter("Meter1"); // NOPMD by
-        // Sebastian on
-        // 26.08.09
-        // 21:14
+        final CountingMeter meter = new CountingMeter("Meter1");
 
         for (int i = 0; i < NUMBEROFTICKS; i++) {
             meter.tick();
@@ -177,12 +170,7 @@ public class TabularSummaryOutputTest {
                         .getIncludedResults().iterator().next();
         final AbstractMeter meter =
                 methRes.getRegisteredMeters().iterator().next();
-        final TabularSummaryOutput output = new TabularSummaryOutput(); // NOPMD
-        // by
-        // Sebastian
-        // on
-        // 26.08.09
-        // 21:13
+        final TabularSummaryOutput output = new TabularSummaryOutput();
         for (final double d : methRes.getResultSet(meter)) {
             output.listenToResultSet(
                     (Method) methRes.getRelatedElement(), meter, d);

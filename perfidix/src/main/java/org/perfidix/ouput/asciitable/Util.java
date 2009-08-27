@@ -79,7 +79,7 @@ public final class Util {
         final String pad =
                 repeat(new String(new char[] { doPadWithThis }), Math.max(
                         0, totalWidth - data.length()));
-        String returnVal = ""; // NOPMD by sebi on 26.08.09 21:23
+        String returnVal = "";
         if (orientation == null) {
             returnVal = new StringBuilder(data).append(pad).toString();
         } else {
@@ -171,11 +171,11 @@ public final class Util {
      */
     private static int numNewLines(final String toExamine) {
         final char[] arr = toExamine.toCharArray();
-        int result = 0; // NOPMD by sebi on 26.08.09 21:23
+        int result = 0;
         for (char ch : arr) {
-            if (AbstractTabularComponent.NEWLINE.equals(new String( // NOPMD by sebi on 26.08.09 21:22
+            if (AbstractTabularComponent.NEWLINE.equals(new String(
                     new char[] { ch }))) {
-                result++; // NOPMD by sebi on 26.08.09 21:23
+                result++;
             }
         }
         return result;
@@ -203,18 +203,18 @@ public final class Util {
      *            an array of row data
      */
     public static String[][] createMatrix(final String[] data) {
-        int maxNewLines = 0; // NOPMD by sebi on 26.08.09 21:23
+        int maxNewLines = 0;
         for (final String col : data) {
             maxNewLines = Math.max(maxNewLines, Util.numNewLines(col));
         }
-        final String[][] matrix = new String[maxNewLines + 1][data.length]; // NOPMD by sebi on 26.08.09 21:23
+        final String[][] matrix = new String[maxNewLines + 1][data.length];
         for (int col = 0; col < data.length; col++) {
-            final String[] exploded = Util.explode('\n', data[col]); // NOPMD by sebi on 26.08.09 21:22
+            final String[] exploded = Util.explode('\n', data[col]);
             for (int row = 0; row < maxNewLines + 1; row++) {
                 if (exploded.length > row) {
-                    matrix[row][col] = exploded[row]; // NOPMD by sebi on 26.08.09 21:23
+                    matrix[row][col] = exploded[row];
                 } else {
-                    matrix[row][col] = ""; // NOPMD by sebi on 26.08.09 21:23
+                    matrix[row][col] = "";
                 }
             }
         }

@@ -204,12 +204,7 @@ public class SocketViewStubTest {
      * 
      * @author Lewandowski Lukas, University of Konstanz
      */
-    private final class PerclipseViewSkeletonSimulator extends Thread { // NOPMD
-        // by
-        // Sebastian
-        // on
-        // 26.08.09
-        // 21:10
+    private final class PerclipseViewSkeletonSimulator extends Thread {
         private transient Map<String, Integer> receivedMap;
         private transient String receivedString;
         private transient ServerSocket serverSocket;
@@ -247,7 +242,7 @@ public class SocketViewStubTest {
          */
         @Override
         @SuppressWarnings("unchecked")
-        public void run() { // NOPMD by Sebastian on 26.08.09 21:10
+        public void run() {
 
             try {
                 socket = serverSocket.accept();

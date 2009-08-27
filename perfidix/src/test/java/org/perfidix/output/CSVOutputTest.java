@@ -48,7 +48,7 @@ import org.perfidix.result.MethodResult;
  * 
  * @author Sebastian Graf, University of Konstanz
  */
-public final class CSVOutputTest { // NOPMD by Sebastian on 26.08.09 21:15
+public final class CSVOutputTest {
 
     private final static int NUMBER_OF_TICKS = 10;
 
@@ -73,10 +73,10 @@ public final class CSVOutputTest { // NOPMD by Sebastian on 26.08.09 21:15
 
         final Class<?> class1 = Class1.class;
 
-        final Method meth11 = class1.getDeclaredMethod("method1"); // NOPMD by sebi on 26.08.09 21:21
-        final Method meth12 = class1.getDeclaredMethod("method2"); // NOPMD by sebi on 26.08.09 21:21
+        final Method meth11 = class1.getDeclaredMethod("method1");
+        final Method meth12 = class1.getDeclaredMethod("method2");
 
-        final CountingMeter meter = new CountingMeter("Meter1"); // NOPMD by sebi on 26.08.09 21:21
+        final CountingMeter meter = new CountingMeter("Meter1");
 
         for (int i = 0; i < NUMBER_OF_TICKS; i++) {
             meter.tick();
@@ -148,9 +148,9 @@ public final class CSVOutputTest { // NOPMD by Sebastian on 26.08.09 21:15
     public void testListenSystemOut() {
         final ClassResult classRes =
                 benchRes.getIncludedResults().iterator().next();
-        final CSVOutput output = new CSVOutput(); // NOPMD by sebi on 26.08.09 21:21
+        final CSVOutput output = new CSVOutput();
 
-        final AbstractMeter meter = // NOPMD by sebi on 26.08.09 21:21
+        final AbstractMeter meter =
                 classRes.getRegisteredMeters().iterator().next();
         for (final MethodResult methRes : classRes.getIncludedResults()) {
 
@@ -197,7 +197,7 @@ public final class CSVOutputTest { // NOPMD by Sebastian on 26.08.09 21:15
 
         final ClassResult classRes =
                 benchRes.getIncludedResults().iterator().next();
-        final AbstractMeter meter = // NOPMD by sebi on 26.08.09 21:21
+        final AbstractMeter meter =
                 classRes.getRegisteredMeters().iterator().next();
         for (final MethodResult methRes : classRes.getIncludedResults()) {
             for (final double d : methRes.getResultSet(meter)) {
@@ -229,7 +229,7 @@ public final class CSVOutputTest { // NOPMD by Sebastian on 26.08.09 21:15
 
         final ClassResult classRes =
                 benchRes.getIncludedResults().iterator().next();
-        final AbstractMeter meter = // NOPMD by sebi on 26.08.09 21:21
+        final AbstractMeter meter =
                 classRes.getRegisteredMeters().iterator().next();
         for (final MethodResult methRes : classRes.getIncludedResults()) {
             for (final double d : methRes.getResultSet(meter)) {
@@ -242,9 +242,7 @@ public final class CSVOutputTest { // NOPMD by Sebastian on 26.08.09 21:15
         final StringBuilder asIsData = new StringBuilder();
         for (final File file : TEST_FOLDER.listFiles()) {
             final BufferedReader reader =
-                    new BufferedReader(new FileReader(file)); // NOPMD by
-            // Sebastian on
-            // 26.08.09 21:17
+                    new BufferedReader(new FileReader(file));
             String line = reader.readLine();
             while (line != null) {
                 asIsData.append(line).append("\n");
@@ -283,9 +281,7 @@ public final class CSVOutputTest { // NOPMD by Sebastian on 26.08.09 21:15
 
         for (final File file : TEST_FOLDER.listFiles()) {
             final BufferedReader reader =
-                    new BufferedReader(new FileReader(file)); // NOPMD by
-                                                              // Sebastian on
-                                                              // 26.08.09 21:18
+                    new BufferedReader(new FileReader(file));
             String line = reader.readLine();
             while (line != null) {
                 asIsData.append(line).append("\n");
@@ -322,11 +318,9 @@ public final class CSVOutputTest { // NOPMD by Sebastian on 26.08.09 21:15
     public void testListenFile() throws IOException {
         final ClassResult classRes =
                 benchRes.getIncludedResults().iterator().next();
-        final CSVOutput output = new CSVOutput(TEST_FOLDER); // NOPMD by
-        // Sebastian on
-        // 26.08.09 21:15
+        final CSVOutput output = new CSVOutput(TEST_FOLDER);
 
-        final AbstractMeter meter = // NOPMD by sebi on 26.08.09 21:21
+        final AbstractMeter meter =
                 classRes.getRegisteredMeters().iterator().next();
         for (final MethodResult methRes : classRes.getIncludedResults()) {
 
@@ -340,9 +334,7 @@ public final class CSVOutputTest { // NOPMD by Sebastian on 26.08.09 21:15
 
         for (final File file : TEST_FOLDER.listFiles()) {
             final BufferedReader reader =
-                    new BufferedReader(new FileReader(file)); // NOPMD by
-            // Sebastian on
-            // 26.08.09 21:17
+                    new BufferedReader(new FileReader(file));
             String line = reader.readLine();
             while (line != null) {
                 asIsData.append(line).append("\n");
