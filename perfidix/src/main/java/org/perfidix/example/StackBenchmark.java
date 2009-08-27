@@ -23,17 +23,11 @@ package org.perfidix.example;
 import java.util.Random;
 import java.util.Stack;
 
-import org.perfidix.AbstractConfig;
 import org.perfidix.Benchmark;
 import org.perfidix.annotation.BeforeBenchClass;
 import org.perfidix.annotation.Bench;
-import org.perfidix.element.KindOfArrangement;
-import org.perfidix.meter.AbstractMeter;
 import org.perfidix.meter.MemMeter;
-import org.perfidix.meter.Memory;
-import org.perfidix.meter.Time;
 import org.perfidix.meter.TimeMeter;
-import org.perfidix.ouput.AbstractOutput;
 import org.perfidix.ouput.TabularSummaryOutput;
 import org.perfidix.result.BenchmarkResult;
 
@@ -140,29 +134,4 @@ public final class StackBenchmark {
         new TabularSummaryOutput().visitBenchmark(res);
     }
 
-    /**
-     * Public class to represent the settings for this benchmark.
-     * 
-     * @author Sebastian Graf, University of Konstanz
-     */
-    public static class Config extends AbstractConfig {
-
-        private final static int RUNS = 100;
-        private final static AbstractMeter[] METERS =
-                { new TimeMeter(Time.MilliSeconds), new MemMeter(Memory.Byte) };
-        private final static AbstractOutput[] OUTPUT =
-                { new TabularSummaryOutput() };
-        private final static KindOfArrangement ARRAN =
-                KindOfArrangement.SequentialMethodArrangement;
-        private final static double GCPROB = 1.0d;
-
-        /**
-         * Public constructor.
-         */
-        public Config() {
-            super(RUNS, METERS, OUTPUT, ARRAN, GCPROB);
-
-        }
-
-    }
 }
