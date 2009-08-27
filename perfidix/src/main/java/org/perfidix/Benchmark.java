@@ -170,6 +170,11 @@ public final class Benchmark {
 
         // executing the bench for the arrangement
         for (final BenchmarkElement elem : arrangement) {
+            // invoking gc if possible
+            if (RAN.nextDouble() < conf.getGcProb()) {
+                System.gc();
+            }
+
             final BenchmarkExecutor exec = BenchmarkExecutor.getExecutor(elem);
 
             final Object obj =
@@ -178,12 +183,6 @@ public final class Benchmark {
             // check needed because of failed initialization of objects
             if (obj != null) {
                 exec.executeBeforeMethods(obj);
-
-                // invoking gc if possible
-                if (RAN.nextDouble() < conf.getGcProb()) {
-                    System.gc();   
-                }
-
                 exec.executeBench(obj);
                 exec.executeAfterMethods(obj);
             }
@@ -225,10 +224,10 @@ public final class Benchmark {
                     objectsToUse.put(clazz, obj);
                     // otherwise adding an exception to the result
                 } catch (final InstantiationException e) {
-                    res.addException(new PerfidixMethodInvocationException( 
+                    res.addException(new PerfidixMethodInvocationException(
                             e, BeforeBenchClass.class));
                 } catch (final IllegalAccessException e) {
-                    res.addException(new PerfidixMethodInvocationException( 
+                    res.addException(new PerfidixMethodInvocationException(
                             e, BeforeBenchClass.class));
                 }
 
@@ -398,7 +397,7 @@ public final class Benchmark {
             // getting the number of runs and adding this number of
             // elements to the set to be evaluated.
             for (int i = 0; i < numberOfRuns; i++) {
-                elems.add(new BenchmarkElement(meth)); 
+                elems.add(new BenchmarkElement(meth));
             }
         }
 
