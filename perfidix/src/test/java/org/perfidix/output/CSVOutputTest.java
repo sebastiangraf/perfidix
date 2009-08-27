@@ -22,10 +22,7 @@ package org.perfidix.output;
 
 import static org.junit.Assert.assertTrue;
 
-import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.lang.reflect.Method;
@@ -60,7 +57,7 @@ public final class CSVOutputTest {
 
     private transient AbstractPerfidixMethodException testException;
 
-    private final static File TEST_FOLDER = new File("benchTest");
+    // private final static File TEST_FOLDER = new File("benchTest");
 
     /**
      * Simple setUp
@@ -95,7 +92,7 @@ public final class CSVOutputTest {
         bytes = new ByteArrayOutputStream();
         System.setOut(new PrintStream(bytes));
 
-        TEST_FOLDER.mkdir();
+        // TEST_FOLDER.mkdir();
     }
 
     /**
@@ -106,10 +103,10 @@ public final class CSVOutputTest {
     @After
     public void tearDown() throws Exception {
         System.setOut(consoleOut);
-        for (final File file : TEST_FOLDER.listFiles()) {
-            file.delete();
-        }
-        TEST_FOLDER.delete();
+        // for (final File file : TEST_FOLDER.listFiles()) {
+        // file.delete();
+        // }
+        // TEST_FOLDER.delete();
     }
 
     /**
@@ -215,177 +212,182 @@ public final class CSVOutputTest {
 
     }
 
-    /**
-     * Test method for
-     * {@link org.perfidix.ouput.CSVOutput#visitBenchmark(org.perfidix.result.BenchmarkResult)}
-     * .
-     * 
-     * @throws IOException
-     *             if file access was not valid
-     */
-    @Test
-    public void testVisitListenerFile() throws IOException {
-        final CSVOutput output = new CSVOutput(TEST_FOLDER);
-
-        final ClassResult classRes =
-                benchRes.getIncludedResults().iterator().next();
-        final AbstractMeter meter =
-                classRes.getRegisteredMeters().iterator().next();
-        for (final MethodResult methRes : classRes.getIncludedResults()) {
-            for (final double d : methRes.getResultSet(meter)) {
-                output.listenToResultSet(
-                        (Method) methRes.getRelatedElement(), meter, d);
-            }
-        }
-        output.visitBenchmark(benchRes);
-
-        final StringBuilder asIsData = new StringBuilder();
-        for (final File file : TEST_FOLDER.listFiles()) {
-            final BufferedReader reader =
-                    new BufferedReader(new FileReader(file));
-            String line = reader.readLine();
-            while (line != null) {
-                asIsData.append(line).append("\n");
-                line = reader.readLine();
-            }
-        }
-
-        final StringBuilder builderData1 = new StringBuilder();
-        builderData1.append("1.0,2.0,3.0,4.0,5.0,6.0,7.0,8.0,9.0,10.0\n");
-        assertTrue("Test for normal numbers as listener", asIsData
-                .toString().contains(builderData1.toString()));
-
-        builderData1.append("0.5,1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0\n");
-        assertTrue("Test for decimal numbers as listener", asIsData
-                .toString().contains(builderData1.toString()));
-
-        builderData1.append("Bench:Class1#method1\njava.io.IOException");
-        assertTrue("Test for exceptions as listener", asIsData
-                .toString().contains(builderData1.toString()));
-
-    }
-
-    /**
-     * Test method for
-     * {@link org.perfidix.ouput.CSVOutput#visitBenchmark(org.perfidix.result.BenchmarkResult)}
-     * 
-     * @throws IOException
-     */
-    @Test
-    public void testVisitFile() throws IOException {
-
-        final CSVOutput output = new CSVOutput(TEST_FOLDER);
-        output.visitBenchmark(benchRes);
-
-        final StringBuilder asIsData = new StringBuilder();
-
-        for (final File file : TEST_FOLDER.listFiles()) {
-            final BufferedReader reader =
-                    new BufferedReader(new FileReader(file));
-            String line = reader.readLine();
-            while (line != null) {
-                asIsData.append(line).append("\n");
-                line = reader.readLine();
-            }
-        }
-
-        final StringBuilder builderData1 = new StringBuilder();
-        builderData1.append("1.0,2.0,3.0,4.0,5.0,6.0,7.0,8.0,9.0,10.0");
-        assertTrue("Test for number as decimals", asIsData.toString().contains(
-                builderData1.toString()));
-
-        final StringBuilder builderData2 = new StringBuilder();
-        builderData2.append("0.5,1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0");
-        assertTrue("Test for decimals as visitor", asIsData
-                .toString().contains(builderData2.toString()));
-
-        final StringBuilder builderException = new StringBuilder();
-        builderException.append("Bench:Class1#method1\njava.io.IOException");
-        assertTrue("Test for exception as visitor", asIsData
-                .toString().contains(builderException.toString()));
-
-    }
-
-    /**
-     * Test method for
-     * {@link org.perfidix.ouput.CSVOutput#listenToResultSet(java.lang.reflect.Method, org.perfidix.meter.AbstractMeter, double)}
-     * .
-     * 
-     * @throws IOException
-     *             if read fails
-     */
-    @Test
-    public void testListenFile() throws IOException {
-        final ClassResult classRes =
-                benchRes.getIncludedResults().iterator().next();
-        final CSVOutput output = new CSVOutput(TEST_FOLDER);
-
-        final AbstractMeter meter =
-                classRes.getRegisteredMeters().iterator().next();
-        for (final MethodResult methRes : classRes.getIncludedResults()) {
-
-            for (final double d : methRes.getResultSet(meter)) {
-                output.listenToResultSet(
-                        (Method) methRes.getRelatedElement(), meter, d);
-            }
-        }
-
-        final StringBuilder asIsData = new StringBuilder();
-
-        for (final File file : TEST_FOLDER.listFiles()) {
-            final BufferedReader reader =
-                    new BufferedReader(new FileReader(file));
-            String line = reader.readLine();
-            while (line != null) {
-                asIsData.append(line).append("\n");
-                line = reader.readLine();
-            }
-        }
-
-        final StringBuilder builderData1 = new StringBuilder();
-        builderData1.append("1.0,2.0,3.0,4.0,5.0,6.0,7.0,8.0,9.0,10.0\n");
-        assertTrue("Test for numbers as pure listener", asIsData
-                .toString().contains(builderData1.toString()));
-
-        builderData1.append("0.5,1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0\n");
-        assertTrue("Test for decimals as pure listener", asIsData
-                .toString().contains(builderData1.toString()));
-
-    }
-
-    /**
-     * Test method for
-     * {@link org.perfidix.ouput.CSVOutput#listenToException(org.perfidix.exceptions.AbstractPerfidixMethodException)}
-     * .
-     * 
-     * @throws IOException
-     *             if read fails;
-     */
-    @Test
-    public void testListenExceptionFile() throws IOException {
-
-        final CSVOutput output = new CSVOutput(TEST_FOLDER);
-        output.listenToException(testException);
-
-        // Disabled
-        // assertEquals(
-        // "Test for number of files", 1, TEST_FOLDER.listFiles().length);
-
-        final StringBuilder asIsData = new StringBuilder();
-
-        final BufferedReader reader =
-                new BufferedReader(new FileReader(TEST_FOLDER.listFiles()[0]));
-        String line = reader.readLine();
-        while (line != null) {
-            asIsData.append(line).append("\n");
-            line = reader.readLine();
-        }
-
-        assertTrue("Test for exception as pure listener", asIsData
-                .toString().startsWith(
-                        "Bench,Class1#method1,java.io.IOException"));
-
-    }
+    // /**
+    // * Test method for
+    // * {@link
+    // org.perfidix.ouput.CSVOutput#visitBenchmark(org.perfidix.result.BenchmarkResult)}
+    // * .
+    // *
+    // * @throws IOException
+    // * if file access was not valid
+    // */
+    // @Test
+    // public void testVisitListenerFile() throws IOException {
+    // final CSVOutput output = new CSVOutput(TEST_FOLDER);
+    //
+    // final ClassResult classRes =
+    // benchRes.getIncludedResults().iterator().next();
+    // final AbstractMeter meter =
+    // classRes.getRegisteredMeters().iterator().next();
+    // for (final MethodResult methRes : classRes.getIncludedResults()) {
+    // for (final double d : methRes.getResultSet(meter)) {
+    // output.listenToResultSet(
+    // (Method) methRes.getRelatedElement(), meter, d);
+    // }
+    // }
+    // output.visitBenchmark(benchRes);
+    //
+    // final StringBuilder asIsData = new StringBuilder();
+    // for (final File file : TEST_FOLDER.listFiles()) {
+    // final BufferedReader reader =
+    // new BufferedReader(new FileReader(file));
+    // String line = reader.readLine();
+    // while (line != null) {
+    // asIsData.append(line).append("\n");
+    // line = reader.readLine();
+    // }
+    // }
+    //
+    // final StringBuilder builderData1 = new StringBuilder();
+    // builderData1.append("1.0,2.0,3.0,4.0,5.0,6.0,7.0,8.0,9.0,10.0\n");
+    // assertTrue("Test for normal numbers as listener", asIsData
+    // .toString().contains(builderData1.toString()));
+    //
+    // builderData1.append("0.5,1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0\n");
+    // assertTrue("Test for decimal numbers as listener", asIsData
+    // .toString().contains(builderData1.toString()));
+    //
+    // builderData1.append("Bench:Class1#method1\njava.io.IOException");
+    // assertTrue("Test for exceptions as listener", asIsData
+    // .toString().contains(builderData1.toString()));
+    //
+    // }
+    //
+    // /**
+    // * Test method for
+    // * {@link
+    // org.perfidix.ouput.CSVOutput#visitBenchmark(org.perfidix.result.BenchmarkResult)}
+    // *
+    // * @throws IOException
+    // */
+    // @Test
+    // public void testVisitFile() throws IOException {
+    //
+    // final CSVOutput output = new CSVOutput(TEST_FOLDER);
+    // output.visitBenchmark(benchRes);
+    //
+    // final StringBuilder asIsData = new StringBuilder();
+    //
+    // for (final File file : TEST_FOLDER.listFiles()) {
+    // final BufferedReader reader =
+    // new BufferedReader(new FileReader(file));
+    // String line = reader.readLine();
+    // while (line != null) {
+    // asIsData.append(line).append("\n");
+    // line = reader.readLine();
+    // }
+    // }
+    //
+    // final StringBuilder builderData1 = new StringBuilder();
+    // builderData1.append("1.0,2.0,3.0,4.0,5.0,6.0,7.0,8.0,9.0,10.0");
+    // assertTrue("Test for number as decimals", asIsData.toString().contains(
+    // builderData1.toString()));
+    //
+    // final StringBuilder builderData2 = new StringBuilder();
+    // builderData2.append("0.5,1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0");
+    // assertTrue("Test for decimals as visitor", asIsData
+    // .toString().contains(builderData2.toString()));
+    //
+    // final StringBuilder builderException = new StringBuilder();
+    // builderException.append("Bench:Class1#method1\njava.io.IOException");
+    // assertTrue("Test for exception as visitor", asIsData
+    // .toString().contains(builderException.toString()));
+    //
+    // }
+    //
+    // /**
+    // * Test method for
+    // * {@link
+    // org.perfidix.ouput.CSVOutput#listenToResultSet(java.lang.reflect.Method,
+    // org.perfidix.meter.AbstractMeter, double)}
+    // * .
+    // *
+    // * @throws IOException
+    // * if read fails
+    // */
+    // @Test
+    // public void testListenFile() throws IOException {
+    // final ClassResult classRes =
+    // benchRes.getIncludedResults().iterator().next();
+    // final CSVOutput output = new CSVOutput(TEST_FOLDER);
+    //
+    // final AbstractMeter meter =
+    // classRes.getRegisteredMeters().iterator().next();
+    // for (final MethodResult methRes : classRes.getIncludedResults()) {
+    //
+    // for (final double d : methRes.getResultSet(meter)) {
+    // output.listenToResultSet(
+    // (Method) methRes.getRelatedElement(), meter, d);
+    // }
+    // }
+    //
+    // final StringBuilder asIsData = new StringBuilder();
+    //
+    // for (final File file : TEST_FOLDER.listFiles()) {
+    // final BufferedReader reader =
+    // new BufferedReader(new FileReader(file));
+    // String line = reader.readLine();
+    // while (line != null) {
+    // asIsData.append(line).append("\n");
+    // line = reader.readLine();
+    // }
+    // }
+    //
+    // final StringBuilder builderData1 = new StringBuilder();
+    // builderData1.append("1.0,2.0,3.0,4.0,5.0,6.0,7.0,8.0,9.0,10.0\n");
+    // assertTrue("Test for numbers as pure listener", asIsData
+    // .toString().contains(builderData1.toString()));
+    //
+    // builderData1.append("0.5,1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0\n");
+    // assertTrue("Test for decimals as pure listener", asIsData
+    // .toString().contains(builderData1.toString()));
+    //
+    // }
+    //
+    // /**
+    // * Test method for
+    // * {@link
+    // org.perfidix.ouput.CSVOutput#listenToException(org.perfidix.exceptions.AbstractPerfidixMethodException)}
+    // * .
+    // *
+    // * @throws IOException
+    // * if read fails;
+    // */
+    // @Test
+    // public void testListenExceptionFile() throws IOException {
+    //
+    // final CSVOutput output = new CSVOutput(TEST_FOLDER);
+    // output.listenToException(testException);
+    //
+    // // Disabled
+    // // assertEquals(
+    // // "Test for number of files", 1, TEST_FOLDER.listFiles().length);
+    //
+    // final StringBuilder asIsData = new StringBuilder();
+    //
+    // final BufferedReader reader =
+    // new BufferedReader(new FileReader(TEST_FOLDER.listFiles()[0]));
+    // String line = reader.readLine();
+    // while (line != null) {
+    // asIsData.append(line).append("\n");
+    // line = reader.readLine();
+    // }
+    //
+    // assertTrue("Test for exception as pure listener", asIsData
+    // .toString().startsWith(
+    // "Bench,Class1#method1,java.io.IOException"));
+    //
+    // }
 
     class Class1 {
         public void method1() {
