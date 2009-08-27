@@ -196,15 +196,13 @@ public final class NiceTable {
      * @return int the width of the row
      */
     private int getRowWidth() {
-        int returnVal = 1; // NOPMD by sebi on 26.08.09 21:22
+        int returnVal = 1;
         if (rows.size() < 1) {
-            returnVal = 0; // NOPMD by sebi on 26.08.09 21:22
+            returnVal = 0;
         }
         for (int i = 0; i < rows.size(); i++) {
             if (rows.get(i) instanceof Row) {
-                returnVal = ((Row) rows.get(i)).getRowWidth(); // NOPMD by sebi
-                                                               // on 26.08.09
-                                                               // 21:22
+                returnVal = ((Row) rows.get(i)).getRowWidth();
             }
         }
         return returnVal;
@@ -227,10 +225,10 @@ public final class NiceTable {
      * @return whether any of the strings contains a newline symbol.
      */
     private boolean anyStringContainsNewLine(final String[] data) {
-        boolean returnVal = false; // NOPMD by sebi on 26.08.09 21:22
+        boolean returnVal = false;
         for (int i = 0; i < data.length; i++) {
             if (Util.containsNewlines(data[i])) {
-                returnVal = true; // NOPMD by sebi on 26.08.09 21:22
+                returnVal = true;
             }
         }
         return returnVal;

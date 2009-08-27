@@ -170,7 +170,7 @@ public final class Benchmark {
 
         // executing the bench for the arrangement
         for (final BenchmarkElement elem : arrangement) {
-            final BenchmarkExecutor exec = BenchmarkExecutor.getExecutor(elem); // NOPMD by sebi on 26.08.09 21:20
+            final BenchmarkExecutor exec = BenchmarkExecutor.getExecutor(elem);
 
             final Object obj =
                     objectsToExecute.get(elem
@@ -181,7 +181,7 @@ public final class Benchmark {
 
                 // invoking gc if possible
                 if (RAN.nextDouble() < conf.getGcProb()) {
-                    System.gc(); // NOPMD by Sebastian on 26.08.09 21:18
+                    System.gc();   
                 }
 
                 exec.executeBench(obj);
@@ -225,10 +225,10 @@ public final class Benchmark {
                     objectsToUse.put(clazz, obj);
                     // otherwise adding an exception to the result
                 } catch (final InstantiationException e) {
-                    res.addException(new PerfidixMethodInvocationException( // NOPMD by sebi on 26.08.09 21:19
+                    res.addException(new PerfidixMethodInvocationException( 
                             e, BeforeBenchClass.class));
                 } catch (final IllegalAccessException e) {
-                    res.addException(new PerfidixMethodInvocationException( // NOPMD by Sebastian on 26.08.09 21:18
+                    res.addException(new PerfidixMethodInvocationException( 
                             e, BeforeBenchClass.class));
                 }
 
@@ -257,13 +257,12 @@ public final class Benchmark {
         // invoking before bench class
         for (final Class<?> clazz : instantiatedObj.keySet()) {
 
-            final Object objectToUse = instantiatedObj.get(clazz); // NOPMD by sebi on 26.08.09 21:20
-
+            final Object objectToUse = instantiatedObj.get(clazz);
             // ..the search for the beforeClassMeth begins...
-            Method beforeClassMeth = null; // NOPMD by sebi on 26.08.09 21:20
-            boolean continueVal = true; // NOPMD by sebi on 26.08.09 21:20
+            Method beforeClassMeth = null;
+            boolean continueVal = true;
             try {
-                beforeClassMeth = // NOPMD by sebi on 26.08.09 21:20
+                beforeClassMeth =
                         BenchmarkMethod.findAndCheckAnyMethodByAnnotation(
                                 clazz, BeforeBenchClass.class);
                 // ... and if this search is throwing an exception, the
@@ -321,7 +320,7 @@ public final class Benchmark {
             final Object objectToUse = objects.get(clazz);
             if (objectToUse != null) {
                 // executing AfterClass for all objects.
-                Method afterClassMeth = null; // NOPMD by sebi on 26.08.09 21:20
+                Method afterClassMeth = null;
                 try {
                     afterClassMeth =
                             BenchmarkMethod.findAndCheckAnyMethodByAnnotation(
@@ -366,7 +365,7 @@ public final class Benchmark {
                 // Check if benchmarkable, if so, insert to returnVal;
                 if (BenchmarkMethod.isBenchmarkable(meth)) {
                     final BenchmarkMethod benchmarkMeth =
-                            new BenchmarkMethod(meth); // NOPMD by sebi on 26.08.09 21:19
+                            new BenchmarkMethod(meth);
                     elems.add(benchmarkMeth);
                 }
             }
@@ -399,7 +398,7 @@ public final class Benchmark {
             // getting the number of runs and adding this number of
             // elements to the set to be evaluated.
             for (int i = 0; i < numberOfRuns; i++) {
-                elems.add(new BenchmarkElement(meth)); // NOPMD by sebi on 26.08.09 21:19
+                elems.add(new BenchmarkElement(meth)); 
             }
         }
 

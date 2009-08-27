@@ -71,9 +71,9 @@ public final class Row extends AbstractTabularComponent {
     @Override
     public String draw() {
 
-        final String[] row = new String[data.length]; // NOPMD by sebi on 26.08.09 21:22
+        final String[] row = new String[data.length];
         for (int i = 0; i < data.length; i++) {
-            row[i] = // NOPMD by sebi on 26.08.09 21:22
+            row[i] =
                     Util.pad(
                             data[i], ' ', getTable().getColumnWidth(i),
                             getTable().getOrientation(i));

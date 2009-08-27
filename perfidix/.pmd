@@ -156,20 +156,12 @@
             <ruleset>Braces Rules</ruleset>
         </rule>
         <rule>
-            <name>CloneMethodMustImplementCloneable</name>
-            <ruleset>Clone Implementation Rules</ruleset>
-        </rule>
-        <rule>
             <name>CloneThrowsCloneNotSupportedException</name>
             <ruleset>Clone Implementation Rules</ruleset>
         </rule>
         <rule>
             <name>ProperCloneImplementation</name>
             <ruleset>Clone Implementation Rules</ruleset>
-        </rule>
-        <rule>
-            <name>CyclomaticComplexity</name>
-            <ruleset>Code Size Rules</ruleset>
         </rule>
         <rule>
             <name>ExcessiveClassLength</name>
@@ -181,10 +173,6 @@
         </rule>
         <rule>
             <name>ExcessiveParameterList</name>
-            <ruleset>Code Size Rules</ruleset>
-        </rule>
-        <rule>
-            <name>ExcessivePublicCount</name>
             <ruleset>Code Size Rules</ruleset>
         </rule>
         <rule>
@@ -200,15 +188,7 @@
             <ruleset>Code Size Rules</ruleset>
         </rule>
         <rule>
-            <name>NPathComplexity</name>
-            <ruleset>Code Size Rules</ruleset>
-        </rule>
-        <rule>
             <name>TooManyFields</name>
-            <ruleset>Code Size Rules</ruleset>
-        </rule>
-        <rule>
-            <name>TooManyMethods</name>
             <ruleset>Code Size Rules</ruleset>
         </rule>
         <rule>
@@ -221,10 +201,6 @@
         </rule>
         <rule>
             <name>AvoidAccessibilityAlteration</name>
-            <ruleset>Controversial Rules</ruleset>
-        </rule>
-        <rule>
-            <name>AvoidFinalLocalVariable</name>
             <ruleset>Controversial Rules</ruleset>
         </rule>
         <rule>
@@ -248,15 +224,7 @@
             <ruleset>Controversial Rules</ruleset>
         </rule>
         <rule>
-            <name>DataflowAnomalyAnalysis</name>
-            <ruleset>Controversial Rules</ruleset>
-        </rule>
-        <rule>
             <name>DefaultPackage</name>
-            <ruleset>Controversial Rules</ruleset>
-        </rule>
-        <rule>
-            <name>DoNotCallGarbageCollectionExplicitly</name>
             <ruleset>Controversial Rules</ruleset>
         </rule>
         <rule>
@@ -293,10 +261,6 @@
         </rule>
         <rule>
             <name>ExcessiveImports</name>
-            <ruleset>Coupling Rules</ruleset>
-        </rule>
-        <rule>
-            <name>LooseCoupling</name>
             <ruleset>Coupling Rules</ruleset>
         </rule>
         <rule>
@@ -528,19 +492,7 @@
             <ruleset>Import Statement Rules</ruleset>
         </rule>
         <rule>
-            <name>TooManyStaticImports</name>
-            <ruleset>Import Statement Rules</ruleset>
-        </rule>
-        <rule>
-            <name>UnusedImports</name>
-            <ruleset>Import Statement Rules</ruleset>
-        </rule>
-        <rule>
             <name>DoNotCallSystemExit</name>
-            <ruleset>J2EE Rules</ruleset>
-        </rule>
-        <rule>
-            <name>DoNotUseThreads</name>
             <ruleset>J2EE Rules</ruleset>
         </rule>
         <rule>
@@ -621,10 +573,6 @@
         </rule>
         <rule>
             <name>SimplifyBooleanAssertion</name>
-            <ruleset>JUnit Rules</ruleset>
-        </rule>
-        <rule>
-            <name>TestClassWithoutTestCases</name>
             <ruleset>JUnit Rules</ruleset>
         </rule>
         <rule>
@@ -780,10 +728,6 @@
             <ruleset>Optimization Rules</ruleset>
         </rule>
         <rule>
-            <name>AvoidInstantiatingObjectsInLoops</name>
-            <ruleset>Optimization Rules</ruleset>
-        </rule>
-        <rule>
             <name>LocalVariableCouldBeFinal</name>
             <ruleset>Optimization Rules</ruleset>
         </rule>
@@ -853,10 +797,6 @@
         </rule>
         <rule>
             <name>ExceptionAsFlowControl</name>
-            <ruleset>Strict Exception Rules</ruleset>
-        </rule>
-        <rule>
-            <name>SignatureDeclareThrowsException</name>
             <ruleset>Strict Exception Rules</ruleset>
         </rule>
         <rule>
@@ -955,3 +895,4 @@
     <includeDerivedFiles>false</includeDerivedFiles>
     <violationsAsErrors>true</violationsAsErrors>
 </pmd>
+
