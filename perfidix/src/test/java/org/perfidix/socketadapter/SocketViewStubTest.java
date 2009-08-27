@@ -25,10 +25,6 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.net.ServerSocket;
-import java.net.Socket;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -200,141 +196,18 @@ public class SocketViewStubTest {
     }
 
     /**
-     * The simulator of our skeleton within the eclipse plug-in.
+     * This method tests
+     * {@link org.perfidix.socketadapter.SocketViewStub#SocketViewStub(java.lang.String, int)}
+     * for exceptions.
      * 
-     * @author Lewandowski Lukas, University of Konstanz
+     * @throws SocketViewException
+     *             the expected exception.
      */
-    private final class PerclipseViewSkeletonSimulator extends Thread {
-        private transient Map<String, Integer> receivedMap;
-        private transient String receivedString;
-        private transient ServerSocket serverSocket;
-        private transient Socket socket = null;
-        private transient final int serverPort;
-        private transient boolean finished = false;
-        private transient ObjectInputStream inStream;
-        private transient String errorOccurred;
 
-        /**
-         * The constructor gets a given free port and initializes the bench run
-         * session listener. Afterwards it creates a servers socket with the
-         * given port number.
-         * 
-         * @param port
-         *            The given free port number.
-         */
-        public PerclipseViewSkeletonSimulator(final int port) {
-            super();
-            serverPort = port;
-            try {
-                serverSocket = new ServerSocket(serverPort);
-            } catch (final IOException e) {
-                fail(e.toString());
-
-            }
-        }
-
-        /**
-         * This method is our Thread method. It is responsible for receiving
-         * data from our perfidix bench process. When a message is received, it
-         * delegates the data to the bench run session listener.
-         * 
-         * @see java.lang.Thread#run()
-         */
-        @Override
-        @SuppressWarnings("unchecked")
-        public void run() {
-
-            try {
-                socket = serverSocket.accept();
-
-                inStream = new ObjectInputStream(socket.getInputStream());
-            } catch (IOException e1) {
-                fail(e1.toString());
-            }
-
-            String command;
-            try {
-                while (!finished) {
-
-                    command = (String) inStream.readObject();
-                    if ("init".equals(command)) {
-                        receivedMap =
-                                (HashMap<String, Integer>) inStream
-                                        .readObject();
-
-                        // init happened
-                    } else if ("updateCurrentRun".equals(command)) {
-                        receivedString = (String) inStream.readObject();
-                        // update happened
-
-                    } else if ("updateError".equals(command)) {
-                        receivedString = (String) inStream.readObject();
-                        errorOccurred = (String) inStream.readObject();
-                        // error happened
-                    } else if ("finished".equals(command)) {
-                        // finished happened
-                        finished = true;
-                    } else {
-                        fail();
-                    }
-
-                }
-            } catch (final IOException e) {
-                finished = true;
-                fail(e.toString());
-            } catch (ClassNotFoundException e) {
-                finished = true;
-                fail(e.toString());
-            } finally {
-                try {
-                    if (socket.isConnected()) {
-                        socket.close();
-                    }
-                    serverSocket.close();
-                } catch (IOException e) {
-                    fail(e.toString());
-                }
-
-            }
-
-        }
-
-        /**
-         * Received data just for testing purposes.
-         * 
-         * @return Received data just for testing purposes.
-         */
-        public Map<String, Integer> getTheMap() {
-            return receivedMap;
-        }
-
-        /**
-         * Received data just for testing purposes.
-         * 
-         * @return Received data just for testing purposes.
-         */
-        public String getReceivedStringObject() {
-            return receivedString;
-        }
-
-        /**
-         * Received data just for testing purposes.
-         * 
-         * @return Received data just for testing purposes.
-         */
-        public String getErrorStringObject() {
-            return errorOccurred;
-        }
-
-        /**
-         * Received data just for testing purposes.
-         * 
-         * @return Received data just for testing purposes.
-         */
-        public boolean isFinsihed() {
-            return finished;
-        }
-
+    @Test(expected = SocketViewException.class)
+    public void testExceptionConstructor() throws SocketViewException {
+        viewStub = new SocketViewStub("Ahost", 6363);
+        fail();
     }
 
 }
