@@ -34,34 +34,37 @@ public class BenchTreeLabelProvider extends LabelProvider {
 
     /** {@inheritDoc} */
     @Override
-    public Image getImage(Object element) {
+    public Image getImage(final Object element) {
         return null;
     }
 
     /** {@inheritDoc} */
     @Override
-    public String getText(Object element) {
+    public String getText(final Object element) {
+        String stringReturn = null;
         if (element != null) {
-            TreeDataProvider treeData = (TreeDataProvider) element;
+            final TreeDataProvider treeData = (TreeDataProvider) element;
             if (treeData.getCurrentBenchError() > 0) {
-                return treeData.getParentElementName()
-                        + "  ("
-                        + treeData.getCurrentBench()
-                        + "/"
-                        + treeData.getNumberOfBenchsForElement()
-                        + ") "
-                        + "Errors: "
-                        + treeData.getCurrentBenchError();
+                stringReturn =
+                        treeData.getParentElementName()
+                                + "  ("
+                                + treeData.getCurrentBench()
+                                + "/"
+                                + treeData.getNumberOfBenchsForElement()
+                                + ") "
+                                + "Errors: "
+                                + treeData.getCurrentBenchError();
             } else {
 
-                return treeData.getParentElementName()
-                        + "  ("
-                        + treeData.getCurrentBench()
-                        + "/"
-                        + treeData.getNumberOfBenchsForElement()
-                        + ")";
+                stringReturn =
+                        treeData.getParentElementName()
+                                + "  ("
+                                + treeData.getCurrentBench()
+                                + "/"
+                                + treeData.getNumberOfBenchsForElement()
+                                + ")";
             }
         }
-        return null;
+        return stringReturn;
     }
 }

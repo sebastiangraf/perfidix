@@ -56,7 +56,8 @@ public interface IBenchRunSessionListener {
      * @param element
      *            This {@link String} param represents the element name of the
      *            benched object where the error occurred.
-     * @param exception The exception occurred in the element.
+     * @param exception
+     *            The exception occurred in the element.
      */
     void updateError(String element, final String exception);
 

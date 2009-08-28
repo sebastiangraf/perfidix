@@ -49,20 +49,18 @@ public class BenchView extends ViewPart {
      */
     public static final String MY_VIEW_ID =
             "org.perfidix.perclipse.views.BenchView";
-    private PerfidixProgressBar progressBar;
-    private BenchViewCounterPanel benchCounterPanel;
-    private BenchViewer benchViewer;
-    private BenchRunSession benchRunSession;
-    private Composite counterComposite;
-    private Composite composite;
-    private IMemento memento;
-    private boolean isDisposed = false;
+    private transient PerfidixProgressBar progressBar;
+    private transient BenchViewCounterPanel benchCounterPanel;
+    private transient BenchViewer benchViewer;
+    private transient BenchRunSession benchRunSession;
+    private transient Composite counterComposite;
+    final private static transient boolean DISP = false;
 
     /**
      * A must constructor that do nothing special.
      */
-    public BenchView() {
-
+    public BenchView() { // NOPMD by lewandow on 8/28/09 4:04 PM
+        super();
     }
 
     /**
@@ -74,8 +72,8 @@ public class BenchView extends ViewPart {
      *            The composite of the parent.
      */
     @Override
-    public void createPartControl(Composite parent) {
-        GridLayout gridLayout = new GridLayout();
+    public void createPartControl(final Composite parent) {
+        final GridLayout gridLayout = new GridLayout();
         gridLayout.marginWidth = 0;
         gridLayout.marginHeight = 0;
         parent.setLayout(gridLayout);
@@ -111,9 +109,9 @@ public class BenchView extends ViewPart {
      *            counter panel should be created.
      * @return It returns a modified composite.
      */
-    public Composite createProgressCountPanel(Composite parent) {
-        composite = new Composite(parent, SWT.NONE);
-        GridLayout layout = new GridLayout();
+    public Composite createProgressCountPanel(final Composite parent) {
+        final Composite composite = new Composite(parent, SWT.NONE);
+        final GridLayout layout = new GridLayout();
         composite.setLayout(layout);
 
         benchCounterPanel = new BenchViewCounterPanel(composite);
@@ -149,15 +147,16 @@ public class BenchView extends ViewPart {
      *            The String name/path of the image.
      * @return It retruns the created image.
      */
-    public static Image createImage(String string) {
+    public static Image createImage(final String string) {
+        Image retImage = null;
         if (string != null) {
-            ImageDescriptor imageDescriptor =
+            final ImageDescriptor imageDescriptor =
                     PerclipseActivator.getImageDescriptor(string);
             if (imageDescriptor != null) {
-                return imageDescriptor.createImage();
+                retImage = imageDescriptor.createImage();
             }
         }
-        return null;
+        return retImage;
     }
 
     /**
@@ -167,7 +166,7 @@ public class BenchView extends ViewPart {
      * @param benchRunSession
      *            The given bench run session.
      */
-    public void startUpdateJobs(BenchRunSession benchRunSession) {
+    public void startUpdateJobs(final BenchRunSession benchRunSession) {
 
         this.benchRunSession = benchRunSession;
         postSyncProcessChanges();
@@ -176,10 +175,12 @@ public class BenchView extends ViewPart {
 
     /** {@inheritDoc} */
     @Override
-    public void init(IViewSite site, IMemento memento) throws PartInitException {
-        super.init(site, memento);
-        this.memento = memento;
-        IWorkbenchSiteProgressService progressService = getProgressService();
+    public void init(final IViewSite site, final IMemento memento)
+            throws PartInitException {
+        final IMemento mMemento = memento;
+        super.init(site, mMemento);
+        final IWorkbenchSiteProgressService progressService =
+                getProgressService();
         if (progressService != null) {
             progressService.showBusyForFamily(new Object());
         }
@@ -191,14 +192,16 @@ public class BenchView extends ViewPart {
      * @return This method returns the ProgressService or null.
      */
     private org.eclipse.ui.progress.IWorkbenchSiteProgressService getProgressService() {
-        Object siteService =
+        IWorkbenchSiteProgressService retService = null;
+        final Object siteService =
                 getSite()
                         .getAdapter(
                                 org.eclipse.ui.progress.IWorkbenchSiteProgressService.class);
         if (siteService != null) {
-            return (org.eclipse.ui.progress.IWorkbenchSiteProgressService) siteService;
+            retService =
+                    (org.eclipse.ui.progress.IWorkbenchSiteProgressService) siteService;
         }
-        return null;
+        return retService;
     }
 
     /**
@@ -215,12 +218,12 @@ public class BenchView extends ViewPart {
     /**
      * This method updates the process data with an ui thread.
      * 
-     * @param r
+     * @param runnable
      *            This param is a custom runnable.
      */
-    private void postSyncRunnable(Runnable r) {
+    private void postSyncRunnable(final Runnable runnable) {
         if (!isDisposed()) {
-            getDisplay().syncExec(r);
+            getDisplay().syncExec(runnable);
         }
     }
 
@@ -229,7 +232,7 @@ public class BenchView extends ViewPart {
      *         not.
      */
     private boolean isDisposed() {
-        return isDisposed;
+        return DISP;
     }
 
     /**
@@ -245,12 +248,11 @@ public class BenchView extends ViewPart {
      */
     private void processChangesInUI() {
 
-        if (counterComposite.isDisposed()) {
-            return;
-        }
-        refreshCounters();
-        if (benchRunSession != null) {
-            benchViewer.processChangesInUI(benchRunSession);
+        if (!counterComposite.isDisposed()) {
+            refreshCounters();
+            if (benchRunSession != null) {
+                benchViewer.processChangesInUI(benchRunSession);
+            }
         }
     }
 
@@ -266,21 +268,20 @@ public class BenchView extends ViewPart {
         boolean hasErrors;
         boolean stopped;
 
-        if (benchRunSession != null) {
-            startedCount = benchRunSession.getStartedCount();
-            currentCount = benchRunSession.getCurrentCount();
-            totalCount = benchRunSession.getTotalCount();
-            errorCount = benchRunSession.getErrorCount();
-            hasErrors = errorCount > 0;
-            stopped = benchRunSession.isStopped();
-        } else {
-
+        if (benchRunSession == null) {
             startedCount = 0;
             currentCount = 0;
             totalCount = 0;
             errorCount = 0;
             hasErrors = false;
             stopped = false;
+        } else {
+            startedCount = benchRunSession.getStartedCount();
+            currentCount = benchRunSession.getCurrentCount();
+            totalCount = benchRunSession.getTotalCount();
+            errorCount = benchRunSession.getErrorCount();
+            hasErrors = errorCount > 0;
+            stopped = benchRunSession.isStopped();
         }
 
         int ticksDone;
@@ -302,7 +303,7 @@ public class BenchView extends ViewPart {
      * @param element
      *            The String value of the element in the tree view.
      */
-    public void handleBenchSelection(TreeDataProvider element) {
+    public void handleBenchSelection(final TreeDataProvider element) {
         showBench(element);
     }
 
@@ -312,10 +313,12 @@ public class BenchView extends ViewPart {
      * @param element
      *            The TreeDataProvider element that has been clicked.
      */
-    private void showBench(TreeDataProvider element) {
+    private void showBench(final TreeDataProvider element) {
         postSyncRunnable(new Runnable() {
             public void run() {
                 if (!isDisposed() && isCreated()) {
+                    PerclipseActivator.logInfo(element.getParentElementName()
+                            + " has been selected");
                 }
             }
         });

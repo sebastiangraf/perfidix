@@ -68,20 +68,22 @@ public class PerfidixLaunchConfiguration
     /**
      * The id of perfidix application.
      */
-    public static final String ID_PERFIDIX_APP =
-            "org.perfidix.configureBench";
+    public static final String ID_PERFIDIX_APP = "org.perfidix.configureBench";
 
     /** {@inheritDoc} */
-    public void launch(final 
-            ILaunchConfiguration configuration, final  String mode,final  ILaunch launch, final
-            IProgressMonitor monitor) throws CoreException {
+    public void launch(
+            final ILaunchConfiguration configuration, final String mode,
+            final ILaunch launch, final IProgressMonitor monitor)
+            throws CoreException {
 
         final IVMInstall vmInst = verifyVMInstall(configuration);
         final IVMRunner runner = vmInst.getVMRunner(mode);
         try {
-            final BenchSearchResult searchResult = findBenchTypes(configuration);
+            final BenchSearchResult searchResult =
+                    findBenchTypes(configuration);
             final int port = SocketUtil.findFreePort();
-            final PerclipseViewSkeleton skeleton = new PerclipseViewSkeleton(port);
+            final PerclipseViewSkeleton skeleton =
+                    new PerclipseViewSkeleton(port);
             skeleton.start();
             final VMRunnerConfiguration runConfig =
                     launchTypes(configuration, mode, searchResult, port);
@@ -104,7 +106,8 @@ public class PerfidixLaunchConfiguration
      * @throws InterruptedException
      * @throws InvocationTargetException
      */
-    private BenchSearchResult findBenchTypes(final ILaunchConfiguration configuration)
+    private BenchSearchResult findBenchTypes(
+            final ILaunchConfiguration configuration)
             throws CoreException, InvocationTargetException,
             InterruptedException {
         final IJavaProject javaProject = getJavaProject(configuration);
@@ -121,11 +124,11 @@ public class PerfidixLaunchConfiguration
         if (containerHandle.length() == 0) {
             // benching a single class
             final String benchTypeName =
-                configuration
-                .getAttribute(
-                        IJavaLaunchConfigurationConstants.ATTR_MAIN_TYPE_NAME,
-                        (String) null);
-            
+                    configuration
+                            .getAttribute(
+                                    IJavaLaunchConfigurationConstants.ATTR_MAIN_TYPE_NAME,
+                                    (String) null);
+
             types = new IType[] { javaProject.findType(benchTypeName) };
             PerclipseActivator.logInfo("Benching a single class "
                     + benchTypeName);
@@ -146,9 +149,10 @@ public class PerfidixLaunchConfiguration
      * @return
      * @throws CoreException
      */
-    private VMRunnerConfiguration launchTypes(final 
-            ILaunchConfiguration configuration, final String mode, final
-            BenchSearchResult benchs,final int port) throws CoreException {
+    private VMRunnerConfiguration launchTypes(
+            final ILaunchConfiguration configuration, final String mode,
+            final BenchSearchResult benchs, final int port)
+            throws CoreException {
         final File workingDir = verifyWorkingDirectory(configuration);
         String workingDirName = null;
         if (workingDir != null) {
@@ -166,7 +170,8 @@ public class PerfidixLaunchConfiguration
         runConfig.setWorkingDirectory(workingDirName);
         runConfig.setEnvironment(envp);
 
-        final Map<?, ?> vmAttributesMap = getVMSpecificAttributesMap(configuration);
+        final Map<?, ?> vmAttributesMap =
+                getVMSpecificAttributesMap(configuration);
         runConfig.setVMSpecificAttributesMap(vmAttributesMap);
 
         final String[] bootpath = getBootpath(configuration);
@@ -193,9 +198,10 @@ public class PerfidixLaunchConfiguration
      * @throws CoreException
      *             The exception.
      */
-    protected VMRunnerConfiguration createVMRunner(final 
-            ILaunchConfiguration configuration,final BenchSearchResult benchTypes, final 
-            String runMode,final int port) throws CoreException {
+    protected VMRunnerConfiguration createVMRunner(
+            final ILaunchConfiguration configuration,
+            final BenchSearchResult benchTypes, final String runMode,
+            final int port) throws CoreException {
         // String[] classPath = createClassPath(configuration,
         // benchTypes.getTestKind());
         final String[] classPath = getClasspath(configuration);
@@ -203,9 +209,10 @@ public class PerfidixLaunchConfiguration
         final VMRunnerConfiguration vmConfig =
                 new VMRunnerConfiguration(
                         "org.perfidix.socketadapter.SocketAdapter", classPath); //$NON-NLS-1$
-        final List<String> argv = getVMArgs(configuration, benchTypes, runMode, port);
+        final List<String> argv =
+                getVMArgs(configuration, benchTypes, runMode, port);
         String[] args = new String[argv.size()];
-        args=(String[]) argv.toArray(new String[argv.size()]);
+        args = (String[]) argv.toArray(new String[argv.size()]);
         vmConfig.setProgramArguments(args);
         return vmConfig;
     }
@@ -229,21 +236,21 @@ public class PerfidixLaunchConfiguration
      * @throws CoreException
      *             The exception.
      */
-    public List<String> getVMArgs(final 
-            ILaunchConfiguration configuration,final BenchSearchResult result, final
-            String runMode,final int port) throws CoreException {
+    public List<String> getVMArgs(
+            final ILaunchConfiguration configuration,
+            final BenchSearchResult result, final String runMode, final int port)
+            throws CoreException {
         final String progArgs = getProgramArguments(configuration);
 
         // insert the program arguments
         final List<String> argv = new ArrayList<String>(10);
-        final ExecutionArguments execArgs = new ExecutionArguments("", progArgs); //$NON-NLS-1$
+        final ExecutionArguments execArgs =
+                new ExecutionArguments("", progArgs); //$NON-NLS-1$
         final String[] progArg = execArgs.getProgramArgumentsArray();
 
         for (String string : progArg) {
-            argv.add(string);            
-        } 
-
-
+            argv.add(string);
+        }
 
         final IType[] benchTypes = result.getTypes();
 

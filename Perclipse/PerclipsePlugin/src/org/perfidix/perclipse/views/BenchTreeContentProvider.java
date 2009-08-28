@@ -34,33 +34,36 @@ public class BenchTreeContentProvider extends ArrayContentProvider
         implements ITreeContentProvider {
 
     /** {@inheritDoc} */
-    public Object[] getChildren(Object parentElement) {
+    public Object[] getChildren(final Object parentElement) {
+        Object[] returnArray = new Object[0];
         if (parentElement != null) {
-            TreeDataProvider treeData = (TreeDataProvider) parentElement;
-            return treeData.getChildElements();
+            final TreeDataProvider treeData = (TreeDataProvider) parentElement;
+            returnArray = treeData.getChildElements();
         }
 
-        return new Object[0];
+        return returnArray;
     }
 
     /** {@inheritDoc} */
-    public Object getParent(Object element) {
+    public Object getParent(final Object element) {
+        Object retParent = null;
         if (element != null) {
-            TreeDataProvider treeData = (TreeDataProvider) element;
-            return treeData.getParent();
+            final TreeDataProvider treeData = (TreeDataProvider) element;
+            retParent = treeData.getParent();
         }
-        return null;
+        return retParent;
     }
 
     /** {@inheritDoc} */
-    public boolean hasChildren(Object element) {
+    public boolean hasChildren(final Object element) {
+        boolean hasChilds = false;
         if (element != null) {
-            TreeDataProvider treeData = (TreeDataProvider) element;
+            final TreeDataProvider treeData = (TreeDataProvider) element;
             if (treeData.getChildElements().length > 0) {
-                return true;
+                hasChilds = true;
             }
         }
-        return false;
+        return hasChilds;
 
     }
 }

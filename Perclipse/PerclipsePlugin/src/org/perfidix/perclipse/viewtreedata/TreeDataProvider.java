@@ -33,7 +33,7 @@ public class TreeDataProvider {
     private transient int currentBench;
     private transient int errorInBench;
     private transient TreeDataProvider parent = null;
-    private transient TreeDataProvider childElements[]=null;
+    private transient TreeDataProvider childElements[] = null;
 
     /**
      * The constructor initializes the data which will be displayed in the view.
@@ -49,14 +49,15 @@ public class TreeDataProvider {
      *            it is initialized.
      */
     public TreeDataProvider(
-            final String parentElement,final int numberOfBenchs,final int currentBench) {
+            final String parentElement, final int numberOfBenchs,
+            final int currentBench) {
         if (numberOfBenchs >= 0 && currentBench >= 0 && parentElement != null) {
             this.parentElementName = parentElement;
             this.benchsForElement = numberOfBenchs;
             this.currentBench = currentBench;
             parent = this;
             errorInBench = 0;
-            childElements= new TreeDataProvider[0];
+            childElements = new TreeDataProvider[0];
         }
     }
 
@@ -85,7 +86,9 @@ public class TreeDataProvider {
 
     /**
      * Counts the currentBench errors.
-     * @param count The counter.
+     * 
+     * @param count
+     *            The counter.
      */
     public void updateCurrentBenchError(final int count) {
         errorInBench = count;
@@ -101,7 +104,9 @@ public class TreeDataProvider {
 
     /**
      * Counts the currentBench;
-     * @param count The counter.
+     * 
+     * @param count
+     *            The counter.
      */
     public void updateCurrentBench(final int count) {
         currentBench = count;

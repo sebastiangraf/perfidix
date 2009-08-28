@@ -38,8 +38,9 @@ import org.eclipse.jdt.debug.ui.launchConfigurations.JavaJRETab;
 public class PerclipseTabGroup extends AbstractLaunchConfigurationTabGroup {
 
     /** {@inheritDoc} */
-    public void createTabs(ILaunchConfigurationDialog dialog, String mode) {
-        ILaunchConfigurationTab[] tabs =
+    public void createTabs(
+            final ILaunchConfigurationDialog dialog, final String mode) {
+        final ILaunchConfigurationTab[] tabs =
                 new ILaunchConfigurationTab[] {
                         new PerclipseMainTab(), new JavaArgumentsTab(),
                         new JavaClasspathTab(), new JavaJRETab(),

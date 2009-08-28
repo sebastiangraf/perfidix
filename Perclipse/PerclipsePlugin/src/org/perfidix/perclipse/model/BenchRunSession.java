@@ -48,8 +48,9 @@ public class BenchRunSession {
      * @param completeList
      *            completeList contains every java element that will be benched.
      */
-    public void setBenchRunSession(final 
-            int totalCount,final List<JavaElementsWithTotalRuns> completeList) {
+    public void setBenchRunSession(
+            final int totalCount,
+            final List<JavaElementsWithTotalRuns> completeList) {
         if (totalCount < 0) {
             this.totalCount = 0;
         } else {
@@ -155,7 +156,8 @@ public class BenchRunSession {
      *            A List of java elements to be benched of type
      *            {@link JavaElementsWithTotalRunsTest}.
      */
-    public void setBenchElements(final List<JavaElementsWithTotalRuns> elementsList) {
+    public void setBenchElements(
+            final List<JavaElementsWithTotalRuns> elementsList) {
         this.benchElements = elementsList;
     }
 

@@ -157,7 +157,7 @@ public class PerfidixAddLibraryProposal implements IJavaCompletionProposal {
                     goAhead = false;
                 } else if (path.matchingFirstSegments(entry.getPath()) > 0) {
                     if (added) {
-                        final IClasspathEntry newEntry=null;
+                        final IClasspathEntry newEntry = null;
                         current = newEntry;
                     } else {
                         current = entry;
@@ -170,7 +170,7 @@ public class PerfidixAddLibraryProposal implements IJavaCompletionProposal {
                         && PerclipseActivator.PERFIDIX_HOME.equals(path
                                 .segment(0))) {
                     if (added) {
-                        final IClasspathEntry newEntry=null;
+                        final IClasspathEntry newEntry = null;
                         current = newEntry;
                     } else {
                         current = entry;

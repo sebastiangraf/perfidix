@@ -52,8 +52,7 @@ public class BenchRunSessionListener implements IBenchRunSessionListener {
     }
 
     /** {@inheritDoc} */
-    public void initTotalBenchProgress(
-            final Map<String, Integer> benchElements) {
+    public void initTotalBenchProgress(final Map<String, Integer> benchElements) {
         int totalRun = 0;
         mapElements = (HashMap<String, Integer>) benchElements;
         final List<JavaElementsWithTotalRuns> list =
@@ -61,7 +60,12 @@ public class BenchRunSessionListener implements IBenchRunSessionListener {
         if (mapElements != null && !mapElements.isEmpty()) {
             final Set<String> theSet = mapElements.keySet();
             for (String elementName : theSet) {
-                list.add(new JavaElementsWithTotalRuns(elementName, mapElements // NOPMD by IceMan on 27.08.09 22:50
+                list.add(new JavaElementsWithTotalRuns(elementName, mapElements // NOPMD
+                                                                                // by
+                                                                                // IceMan
+                                                                                // on
+                                                                                // 27.08.09
+                                                                                // 22:50
                         .get(elementName)));
                 totalRun = totalRun + mapElements.get(elementName);
             }
@@ -95,7 +99,7 @@ public class BenchRunSessionListener implements IBenchRunSessionListener {
 
     /** {@inheritDoc} */
     public void finishedBenchRuns() {
-        finished=true;
+        finished = true;
         runSession.setFinished(finished);
 
     }

@@ -36,7 +36,7 @@ import org.eclipse.ui.dialogs.TwoPaneElementSelector;
  */
 public class BenchSelectionDialog extends TwoPaneElementSelector {
 
-    private final IType[] fTypes;
+    private transient final IType[] fTypes;
 
     /**
      * This inner class is responsible for rendering of java packages.
@@ -56,13 +56,13 @@ public class BenchSelectionDialog extends TwoPaneElementSelector {
 
         /** {@inheritDoc} */
         @Override
-        public Image getImage(Object element) {
+        public Image getImage(final Object element) {
             return super.getImage(((IType) element).getPackageFragment());
         }
 
         /** {@inheritDoc} */
         @Override
-        public String getText(Object element) {
+        public String getText(final Object element) {
             return super.getText(((IType) element).getPackageFragment());
         }
     }
@@ -76,28 +76,13 @@ public class BenchSelectionDialog extends TwoPaneElementSelector {
      * @param types
      *            The types array of to be benched classes.
      */
-    public BenchSelectionDialog(Shell shell, IType[] types) {
+    public BenchSelectionDialog(final Shell shell, final IType[] types) {
         super(
                 shell, new JavaElementLabelProvider(
                         JavaElementLabelProvider.SHOW_BASICS
                                 | JavaElementLabelProvider.SHOW_OVERLAY_ICONS),
                 new PackageRenderer());
-        fTypes = types;
-    }
-
-    /**
-     * This method is responsible for configuring the shell. It delegates the
-     * topics to the super class {@link TwoPaneElementSelector}.
-     * 
-     * @see org.eclipse.jface.window.Window#configureShell(Shell)
-     * @param newShell
-     *            The new shell value.
-     */
-    @Override
-    protected void configureShell(Shell newShell) {
-        super.configureShell(newShell);
-        // PlatformUI.getWorkbench().getHelpSystem().setHelp(newShell, new
-        // Object[] { IJavaHelpContextIds.MAINTYPE_SELECTION_DIALOG });
+        fTypes = types.clone();
     }
 
     /** {@inheritDoc} */

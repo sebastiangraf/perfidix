@@ -40,7 +40,8 @@ public class BenchRunViewUpdater {
      *            running session process.
      */
     public void updateView(final BenchRunSession benchSession) {
-        final BenchView benchview = PerclipseActivator.getDefault().getBenchView();
+        final BenchView benchview =
+                PerclipseActivator.getDefault().getBenchView();
         if (benchview != null && benchSession != null) {
             // benchview.stopUpdateJobs();
             benchview.startUpdateJobs(benchSession);

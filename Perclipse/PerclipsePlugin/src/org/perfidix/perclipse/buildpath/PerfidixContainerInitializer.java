@@ -91,7 +91,8 @@ public class PerfidixContainerInitializer extends ClasspathContainerInitializer 
          * @param path
          * @param entries
          */
-        public PerfidixContainer(final IPath path,final IClasspathEntry[] entries) {
+        public PerfidixContainer(
+                final IPath path, final IClasspathEntry[] entries) {
             this.path = path;
             this.entries = entries.clone();
         }
@@ -126,12 +127,12 @@ public class PerfidixContainerInitializer extends ClasspathContainerInitializer 
 
     }
 
-//    /**
-//     * The empty constructor, needed by the corresponding extension point.
-//     */
-//    public PerfidixContainerInitializer() {
-//        super();
-//    }
+    // /**
+    // * The empty constructor, needed by the corresponding extension point.
+    // */
+    // public PerfidixContainerInitializer() {
+    // super();
+    // }
 
     /**
      * This method initializes the custom classpath container with the
@@ -147,7 +148,7 @@ public class PerfidixContainerInitializer extends ClasspathContainerInitializer 
      *      org.eclipse.jdt.core.IJavaProject)
      */
     @Override
-    public void initialize(final IPath cpath,final IJavaProject project)
+    public void initialize(final IPath cpath, final IJavaProject project)
             throws CoreException {
         if (isValidPerfidixContainerPath(cpath)) {
             final PerfidixContainer perfidixCont = getNewContainer(cpath);
@@ -196,7 +197,7 @@ public class PerfidixContainerInitializer extends ClasspathContainerInitializer 
     /** {@inheritDoc} */
     @Override
     public boolean canUpdateClasspathContainer(
-            final IPath containerPath,final IJavaProject project) {
+            final IPath containerPath, final IJavaProject project) {
         return true;
     }
 
@@ -239,21 +240,23 @@ public class PerfidixContainerInitializer extends ClasspathContainerInitializer 
      */
     @Override
     public IStatus getAttributeStatus(
-            final IPath containerPath, final IJavaProject project, final String attributeKey) {
-        IStatus returnStatus=NOT_SUPPORTED;
+            final IPath containerPath, final IJavaProject project,
+            final String attributeKey) {
+        IStatus returnStatus = NOT_SUPPORTED;
         if (attributeKey
                 .equals(IClasspathAttribute.JAVADOC_LOCATION_ATTRIBUTE_NAME)) {
-            returnStatus= Status.OK_STATUS;
+            returnStatus = Status.OK_STATUS;
         }
         return returnStatus;
     }
 
     /** {@inheritDoc} */
     @Override
-    public void requestClasspathContainerUpdate(final 
-            IPath containerPath, final IJavaProject project, final
-            IClasspathContainer containerSuggest) {
-        final IClasspathEntry[] entries = containerSuggest.getClasspathEntries();
+    public void requestClasspathContainerUpdate(
+            final IPath containerPath, final IJavaProject project,
+            final IClasspathContainer containerSuggest) {
+        final IClasspathEntry[] entries =
+                containerSuggest.getClasspathEntries();
         if (entries.length == 1 && isValidPerfidixContainerPath(containerPath)) {
 
             final IClasspathAttribute[] extraAttributes =
@@ -287,7 +290,8 @@ public class PerfidixContainerInitializer extends ClasspathContainerInitializer 
     private void rebindClasspathEntries(
             final IJavaModel javaModel, final IPath containerPath)
             throws JavaModelException {
-        final List<IJavaProject> affectedProject = new ArrayList<IJavaProject>();
+        final List<IJavaProject> affectedProject =
+                new ArrayList<IJavaProject>();
         final IJavaProject[] projects = javaModel.getJavaProjects();
         for (int i = 0; i < projects.length; i++) {
             final IJavaProject javaProject = projects[i];
@@ -303,8 +307,8 @@ public class PerfidixContainerInitializer extends ClasspathContainerInitializer 
 
         if (!affectedProject.isEmpty()) {
             final IJavaProject[] affected =
-                    affectedProject
-                    .toArray(new IJavaProject[affectedProject.size()]);
+                    affectedProject.toArray(new IJavaProject[affectedProject
+                            .size()]);
             final IClasspathContainer[] containers =
                     new IClasspathContainer[affected.length];
             for (int i = 0; i < containers.length; i++) {
@@ -329,17 +333,19 @@ public class PerfidixContainerInitializer extends ClasspathContainerInitializer 
      *      org.eclipse.jdt.core.IJavaProject)
      */
     @Override
-    public String getDescription(final IPath containerPath,final IJavaProject project) {
-        String theDescription="Unresolved";
+    public String getDescription(
+            final IPath containerPath, final IJavaProject project) {
+        String theDescription = "Unresolved";
         if (isValidPerfidixContainerPath(containerPath)) {
-            theDescription= "Bench Container Init Description";
+            theDescription = "Bench Container Init Description";
         }
         return theDescription;
     }
 
     /** {@inheritDoc} */
     @Override
-    public Object getComparisonID(final IPath containerPath, final IJavaProject project) {
+    public Object getComparisonID(
+            final IPath containerPath, final IJavaProject project) {
         return containerPath;
     }
 

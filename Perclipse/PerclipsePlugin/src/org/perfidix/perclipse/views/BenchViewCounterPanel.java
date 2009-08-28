@@ -39,11 +39,12 @@ import org.eclipse.swt.widgets.Text;
  */
 public class BenchViewCounterPanel extends Composite {
 
-    private Text benchRuns;
-    private Text benchErrors;
-    private int totalRuns;
-    private final Image benchRunImage = BenchView.createImage("icons/time.png");
-    private final Image benchErrorImage =
+    private transient final Text benchRuns;
+    private transient final Text benchErrors;
+    private transient int totalRuns;
+    private transient final Image benchRunImage =
+            BenchView.createImage("icons/time.png");
+    private transient final Image benchErrorImage =
             BenchView.createImage("icons/error.png");
 
     /**
@@ -53,9 +54,9 @@ public class BenchViewCounterPanel extends Composite {
      *            This param is the composite in which the panel has to be
      *            created. In our case it is the BenchView.
      */
-    public BenchViewCounterPanel(Composite parent) {
+    public BenchViewCounterPanel(final Composite parent) {
         super(parent, SWT.WRAP);
-        GridLayout gridLayout = new GridLayout();
+        final GridLayout gridLayout = new GridLayout();
         gridLayout.numColumns = 9;
         gridLayout.makeColumnsEqualWidth = false;
         gridLayout.marginWidth = 0;
@@ -66,7 +67,7 @@ public class BenchViewCounterPanel extends Composite {
         benchErrors = createLabel("Errors: ", benchErrorImage, " 0 ");
 
         addDisposeListener(new DisposeListener() {
-            public void widgetDisposed(DisposeEvent e) {
+            public void widgetDisposed(final DisposeEvent event) {
                 disposeIcons();
             }
         });
@@ -82,8 +83,9 @@ public class BenchViewCounterPanel extends Composite {
      * @return This method returns the Text widget containing the labeling and
      *         additional stuff.
      */
-    private Text createLabel(String labelName, Image image, String initValue) {
-
+    private Text createLabel(
+            final String labelName, final Image image, final String initValue) {
+        Text retText = null;
         if (labelName != null && initValue != null) {
             Label label = new Label(this, SWT.NONE);
             if (image != null) {
@@ -99,16 +101,16 @@ public class BenchViewCounterPanel extends Composite {
             label.setLayoutData(new GridData(
                     GridData.HORIZONTAL_ALIGN_BEGINNING));
 
-            Text text = new Text(this, SWT.READ_ONLY);
+            final Text text = new Text(this, SWT.READ_ONLY);
             text.setText(initValue);
             text.setBackground(getDisplay().getSystemColor(
                     SWT.COLOR_WIDGET_BACKGROUND));
             text.setLayoutData(new GridData(GridData.FILL_HORIZONTAL
                     | GridData.HORIZONTAL_ALIGN_BEGINNING));
 
-            return text;
+            retText = text;
         }
-        return null;
+        return retText;
     }
 
     /**
@@ -136,7 +138,7 @@ public class BenchViewCounterPanel extends Composite {
      * @param totalRuns
      *            The total runs value.
      */
-    public void setTotalRuns(int totalRuns) {
+    public void setTotalRuns(final int totalRuns) {
         this.totalRuns = totalRuns;
 
     }
@@ -147,7 +149,7 @@ public class BenchViewCounterPanel extends Composite {
      * @param benchRuns
      *            This param contains the value of the current bench run.
      */
-    public void setBenchRuns(int benchRuns) {
+    public void setBenchRuns(final int benchRuns) {
 
         this.benchRuns.setText(benchRuns + "/" + totalRuns);
 
@@ -161,7 +163,7 @@ public class BenchViewCounterPanel extends Composite {
      * @param benchErrors
      *            The int value for upcoming bench runs.
      */
-    public void setBenchErrors(int benchErrors) {
+    public void setBenchErrors(final int benchErrors) {
         this.benchErrors.setText(Integer.toString(benchErrors));
         redraw();
     }
