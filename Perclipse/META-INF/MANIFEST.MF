@@ -4,7 +4,7 @@ Bundle-Name: Perfidix Plug-in
 Bundle-SymbolicName: org.perfidix.perclipse;singleton:=true
 Bundle-Version: 1.0.0
 Bundle-Activator: org.perfidix.perclipse.launcher.PerclipseActivator
-Bundle-Vendor: University of Konstanz, DiSy Group
+Bundle-Vendor: University of Konstanz
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.debug.core,
@@ -25,5 +25,5 @@ Export-Package: org.perfidix.perclipse.buildpath,
  org.perfidix.perclipse.launcher,
  org.perfidix.perclipse.model,
  org.perfidix.perclipse.util,
- org.perfidix.perclipse.viewTreeData,
+ org.perfidix.perclipse.viewtreedata,
  org.perfidix.perclipse.views
