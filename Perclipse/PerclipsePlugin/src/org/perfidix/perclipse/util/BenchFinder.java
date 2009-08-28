@@ -43,29 +43,29 @@ public final class BenchFinder {
      *            An array of objects which eventually contain bench types.
      * @param result
      *            The result set.
-     * @param pm
+     * @param pMonitor
      *            The progress monitor.
      */
-    public static void findBenchsInContainer(
-            Object[] elements, Set<IType> result, IProgressMonitor pm) {
+    public static void findBenchsInContainer(final 
+            Object[] elements, final Set<IType> result, final IProgressMonitor pMonitor) {
         try {
             for (int i = 0; i < elements.length; i++) {
-                Object container = BenchSearchEngine.computeScope(elements[i]);
+                final Object container = BenchSearchEngine.computeScope(elements[i]);
                 if (container instanceof IJavaProject) {
-                    IJavaProject project = (IJavaProject) container;
+                    final IJavaProject project = (IJavaProject) container;
                     findBenchsInProject(project, result);
                 } else if (container instanceof IPackageFragmentRoot) {
-                    IPackageFragmentRoot root =
+                    final IPackageFragmentRoot root =
                             (IPackageFragmentRoot) container;
                     findBenchsInPackageFragmentRoot(root, result);
                 } else if (container instanceof IPackageFragment) {
-                    IPackageFragment fragment = (IPackageFragment) container;
+                    final IPackageFragment fragment = (IPackageFragment) container;
                     findBenchsInPackageFragment(fragment, result);
                 } else if (container instanceof ICompilationUnit) {
-                    ICompilationUnit cu = (ICompilationUnit) container;
-                    findBenchsInCompilationUnit(cu, result);
+                    final ICompilationUnit comUnit = (ICompilationUnit) container;
+                    findBenchsInCompilationUnit(comUnit, result);
                 } else if (container instanceof IType) {
-                    IType type = (IType) container;
+                    final IType type = (IType) container;
                     findBenchsInType(type, result);
                 }
             }
@@ -82,11 +82,11 @@ public final class BenchFinder {
      * @param result
      * @throws JavaModelException
      */
-    private static void findBenchsInProject(
-            IJavaProject project, Set<IType> result) throws JavaModelException {
-        IPackageFragmentRoot[] roots = project.getPackageFragmentRoots();
+    private static void findBenchsInProject(final 
+            IJavaProject project, final Set<IType> result) throws JavaModelException {
+        final IPackageFragmentRoot[] roots = project.getPackageFragmentRoots();
         for (int i = 0; i < roots.length; i++) {
-            IPackageFragmentRoot root = roots[i];
+            final IPackageFragmentRoot root = roots[i];
             findBenchsInPackageFragmentRoot(root, result);
         }
     }
@@ -99,12 +99,12 @@ public final class BenchFinder {
      * @param result
      * @throws JavaModelException
      */
-    private static void findBenchsInPackageFragmentRoot(
-            IPackageFragmentRoot root, Set<IType> result)
+    private static void findBenchsInPackageFragmentRoot(final 
+            IPackageFragmentRoot root, final Set<IType> result)
             throws JavaModelException {
-        IJavaElement[] children = root.getChildren();
+        final IJavaElement[] children = root.getChildren();
         for (int j = 0; j < children.length; j++) {
-            IPackageFragment fragment = (IPackageFragment) children[j];
+            final IPackageFragment fragment = (IPackageFragment) children[j];
             findBenchsInPackageFragment(fragment, result);
         }
     }
@@ -117,12 +117,12 @@ public final class BenchFinder {
      * @param result
      * @throws JavaModelException
      */
-    private static void findBenchsInPackageFragment(
-            IPackageFragment fragment, Set<IType> result)
+    private static void findBenchsInPackageFragment(final 
+            IPackageFragment fragment, final Set<IType> result)
             throws JavaModelException {
-        ICompilationUnit[] compilationUnits = fragment.getCompilationUnits();
+        final ICompilationUnit[] compilationUnits = fragment.getCompilationUnits();
         for (int k = 0; k < compilationUnits.length; k++) {
-            ICompilationUnit unit = compilationUnits[k];
+            final ICompilationUnit unit = compilationUnits[k];
             findBenchsInCompilationUnit(unit, result);
         }
     }
@@ -135,11 +135,11 @@ public final class BenchFinder {
      * @param result
      * @throws JavaModelException
      */
-    private static void findBenchsInCompilationUnit(
-            ICompilationUnit unit, Set<IType> result) throws JavaModelException {
-        IType[] types = unit.getAllTypes();
+    private static void findBenchsInCompilationUnit(final 
+            ICompilationUnit unit, final Set<IType> result) throws JavaModelException {
+        final IType[] types = unit.getAllTypes();
         for (int l = 0; l < types.length; l++) {
-            IType type = types[l];
+           final IType type = types[l];
             findBenchsInType(type, result);
         }
     }
@@ -153,7 +153,7 @@ public final class BenchFinder {
      * @param result
      * @throws JavaModelException
      */
-    private static void findBenchsInType(IType type, Set<IType> result)
+    private static void findBenchsInType(final IType type, final Set<IType> result)
             throws JavaModelException {
         if (isBench(type)) {
             result.add(type);
@@ -169,13 +169,14 @@ public final class BenchFinder {
      * @return
      * @throws JavaModelException
      */
-    private static boolean isBench(IType type) throws JavaModelException {
+    private static boolean isBench(final IType type) throws JavaModelException {
+        boolean returnIsBench=false;
         if (!Flags.isAbstract(type.getFlags())
                 && (Annotation.BENCH.annotatesAtLeastOneMethod(type) || Annotation.BENCH_CLASS
                         .annotatesClass(type) || Annotation.BENCH_CONFIG.annotatesClass(type) )) {
-            return true;
+            returnIsBench=true;
         }
-        return false;
+        return returnIsBench;
     }
 
     /**
@@ -186,27 +187,27 @@ public final class BenchFinder {
      */
     private static final class Annotation {
 
-        private static final BenchFinder.Annotation BENCH =
+        public static final BenchFinder.Annotation BENCH =
                 new BenchFinder.Annotation(new String[] {
                         "Bench", "org.perfidix.Bench" }); //$NON-NLS-1$ //$NON-NLS-2$
 
-        private static final BenchFinder.Annotation BENCH_CLASS =
+        public static final BenchFinder.Annotation BENCH_CLASS =
                 new BenchFinder.Annotation(new String[] {
                         "BenchClass", "org.perfidix.BenchClass" });
 
-        private static final BenchFinder.Annotation BENCH_CONFIG =
+        public static final BenchFinder.Annotation BENCH_CONFIG =
             new BenchFinder.Annotation(new String[] {
                     "BenchmarkConfig", "org.perfidix.BenchmarkConfig" });
         
-        private final String[] names;
+        private final transient String[] names;
 
         /**
          * The constructor. It sets the names array.
          * 
          * @param names
          */
-        private Annotation(String[] names) {
-            this.names = names;
+        private Annotation(final String[] names) {
+            this.names = names.clone();
         }
 
         /**
@@ -216,8 +217,9 @@ public final class BenchFinder {
          * @param source
          * @return
          */
-        public boolean foundIn(String source) {
-            IScanner scanner =
+        public boolean foundIn(final String source) {
+            boolean returnValue=false;
+            final IScanner scanner =
                     ToolFactory.createScanner(false, true, false, false);
             scanner.setSource(source.toCharArray());
             try {
@@ -225,28 +227,27 @@ public final class BenchFinder {
                 do {
                     tok = scanner.getNextToken();
                     if (tok == ITerminalSymbols.TokenNameAT) {
-                        String annotationName = ""; //$NON-NLS-1$
+                        final StringBuffer stringBuffer= new StringBuffer("");
                         tok = scanner.getNextToken();
                         while (tok == ITerminalSymbols.TokenNameIdentifier
                                 || tok == ITerminalSymbols.TokenNameDOT) {
-                            annotationName +=
-                                    String.valueOf(scanner
-                                            .getCurrentTokenSource());
+                            stringBuffer.append(String.valueOf(scanner
+                                            .getCurrentTokenSource()));
+
                             tok = scanner.getNextToken();
                         }
                         for (int i = 0; i < names.length; i++) {
-                            String annotation = names[i];
-                            if (annotationName.equals(annotation)) {
-                                return true;
+                            final String annotation = names[i];
+                            if (stringBuffer.toString().equals(annotation)) {
+                                returnValue=true;
                             }
                         }
                     }
                 } while (tok != ITerminalSymbols.TokenNameEOF);
             } catch (InvalidInputException e) {
                 PerclipseActivator.log(e);
-                return false;
             }
-            return false;
+            return returnValue;
         }
 
         /**
@@ -257,11 +258,11 @@ public final class BenchFinder {
          * @return
          * @throws JavaModelException
          */
-        boolean annotates(IMember member) throws JavaModelException {
-            ISourceRange sourceRange = member.getSourceRange();
-            ISourceRange nameRange = member.getNameRange();
-            int charsToSearch = nameRange.getOffset() - sourceRange.getOffset();
-            String source = member.getSource().substring(0, charsToSearch);
+        private boolean annotates(final IMember member) throws JavaModelException {
+            final ISourceRange sourceRange = member.getSourceRange();
+            final ISourceRange nameRange = member.getNameRange();
+            final int charsToSearch = nameRange.getOffset() - sourceRange.getOffset();
+            final String source = member.getSource().substring(0, charsToSearch);
             return foundIn(source);
         }
 
@@ -272,7 +273,7 @@ public final class BenchFinder {
          * @return
          * @throws JavaModelException
          */
-        boolean annotatesClass(IType type) throws JavaModelException {
+        private boolean annotatesClass(final IType type) throws JavaModelException {
             return annotates(type);
         }
 
@@ -284,14 +285,15 @@ public final class BenchFinder {
          * @return
          * @throws JavaModelException
          */
-        boolean annotatesAtLeastOneMethod(IType type) throws JavaModelException {
-            IMethod[] methods = type.getMethods();
+        private boolean annotatesAtLeastOneMethod(final IType type) throws JavaModelException {
+            boolean retValue=false;
+            final IMethod[] methods = type.getMethods();
             for (int i = 0; i < methods.length; i++) {
                 if (annotates(methods[i])) {
-                    return true;
+                    retValue=true;
                 }
             }
-            return false;
+            return retValue;
         }
     }
 

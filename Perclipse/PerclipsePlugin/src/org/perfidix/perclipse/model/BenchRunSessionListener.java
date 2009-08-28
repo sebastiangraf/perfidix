@@ -75,7 +75,7 @@ public class BenchRunSessionListener implements IBenchRunSessionListener {
 
     /** {@inheritDoc} */
     public void finishedBenchRuns() {
-        finished = true;
+        finished=true;
         runSession.setFinished(finished);
 
     }

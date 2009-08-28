@@ -1,10 +1,10 @@
 package org.perfidix.perclipse.buildpath;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.ICompilationUnit;
-import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.core.compiler.IProblem;
 import org.eclipse.jdt.core.dom.ASTNode;
@@ -37,24 +37,26 @@ public class Quickfixprocessor implements IQuickFixProcessor {
      *      org.eclipse.jdt.ui.text.java.IProblemLocation[])
      */
     public IJavaCompletionProposal[] getCorrections(
-            IInvocationContext context, IProblemLocation[] locations)
+            final IInvocationContext context, final IProblemLocation[] locations)
             throws CoreException {
-
+        IJavaCompletionProposal[] proposalsReturn = null;
         ArrayList<PerfidixAddLibraryProposal> arraylist = null;
         for (IProblemLocation problemLocation : locations) {
-            IProblemLocation problem = problemLocation;
-            int id = problem.getProblemId();
-            if (IProblem.UndefinedType == id || IProblem.ImportNotFound == id) {
+            final IProblemLocation problem = problemLocation;
+            final int idNo = problem.getProblemId();
+            if (IProblem.UndefinedType == idNo
+                    || IProblem.ImportNotFound == idNo) {
                 arraylist =
-                        getPerfidixAddLibraryProposals(
+                        (ArrayList<PerfidixAddLibraryProposal>) getPerfidixAddLibraryProposals(
                                 context, problem, arraylist);
             }
         }
-        if (arraylist == null || arraylist.isEmpty()) {
-            return null;
+        if (arraylist != null && !arraylist.isEmpty()) {
+            proposalsReturn =
+                    arraylist.toArray(new IJavaCompletionProposal[arraylist
+                            .size()]);
         }
-        return arraylist
-                .toArray(new IJavaCompletionProposal[arraylist.size()]);
+        return proposalsReturn;
     }
 
     /**
@@ -68,7 +70,8 @@ public class Quickfixprocessor implements IQuickFixProcessor {
      * @see org.eclipse.jdt.ui.text.java.IQuickFixProcessor#hasCorrections(org.eclipse.jdt.core.ICompilationUnit,
      *      int)
      */
-    public boolean hasCorrections(ICompilationUnit unit, int problemId) {
+    public boolean hasCorrections(
+            final ICompilationUnit unit, final int problemId) {
         return problemId == IProblem.UndefinedType
                 || problemId == IProblem.ImportNotFound;
     }
@@ -84,41 +87,41 @@ public class Quickfixprocessor implements IQuickFixProcessor {
      *            The ArrayList of our proposals.
      * @return The ArrayList of our modified proposals.
      */
-    private ArrayList<PerfidixAddLibraryProposal> getPerfidixAddLibraryProposals(
-            IInvocationContext context, IProblemLocation problem,
-            ArrayList<PerfidixAddLibraryProposal> arraylist) {
+    private List<PerfidixAddLibraryProposal> getPerfidixAddLibraryProposals(
+            final IInvocationContext context, final IProblemLocation problem,
+            final List<PerfidixAddLibraryProposal> arraylist) {
+        List<PerfidixAddLibraryProposal> returnList = arraylist;
 
-        ArrayList<String> allowedAnnotations = getInitAllowedAnnotation();
+        final List<String> okAnnotations = getInitAllowedAnnotation();
 
-        ICompilationUnit unit = context.getCompilationUnit();
-        int res = 0;
-        String s;
+        final ICompilationUnit unit = context.getCompilationUnit();
+        String string;
         try {
-            s =
+            string =
                     unit.getBuffer().getText(
                             problem.getOffset(), problem.getLength());
-            if (allowedAnnotations.contains(s)) {
-                ASTNode node = problem.getCoveredNode(context.getASTRoot());
+            if (okAnnotations.contains(string)) {
+                final ASTNode node =
+                        problem.getCoveredNode(context.getASTRoot());
                 if (node != null
-                        && node.getLocationInParent() == MarkerAnnotation.TYPE_NAME_PROPERTY) {
-
-                    IJavaProject javaProject = unit.getJavaProject();
-                    if (arraylist == null) {
-                        arraylist = new ArrayList<PerfidixAddLibraryProposal>();
-
-                    }
-                    arraylist.add(new PerfidixAddLibraryProposal(
+                        && node.getLocationInParent() == MarkerAnnotation.TYPE_NAME_PROPERTY && returnList==null) {
+                    returnList =
+                      new ArrayList<PerfidixAddLibraryProposal>();
+                    returnList.add(new PerfidixAddLibraryProposal(
                             true, context, 10));
-
+                    }
+                else if(node != null
+                            && node.getLocationInParent() == MarkerAnnotation.TYPE_NAME_PROPERTY && returnList!=null){
+                    returnList.add(new PerfidixAddLibraryProposal(
+                            true, context, 10));
+                    }
                 }
 
-            }
         } catch (JavaModelException e) {
             PerclipseActivator.log(e);
-            e.printStackTrace();
         }
 
-        return arraylist;
+        return returnList;
     }
 
     /**
@@ -128,8 +131,8 @@ public class Quickfixprocessor implements IQuickFixProcessor {
      * @return Returns an ArrayList containing the allowed annotations for our
      *         proposal support.
      */
-    private ArrayList<String> getInitAllowedAnnotation() {
-        ArrayList<String> allowed = new ArrayList<String>();
+    private List<String> getInitAllowedAnnotation() {
+        final List<String> allowed = new ArrayList<String>();
         allowed.add("Bench");
         allowed.add("BenchClass");
         allowed.add("AfterBenchClass");

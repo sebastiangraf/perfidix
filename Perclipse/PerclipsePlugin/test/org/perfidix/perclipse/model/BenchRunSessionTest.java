@@ -120,8 +120,6 @@ public class BenchRunSessionTest {
         assertEquals(0, session.getErrorCount());
         assertEquals(0, session.getStartedCount());
         assertEquals(0, session.getTotalCount());
-        assertEquals(null, session.getBenchElements());
-        assertEquals(null, session.getCurrentRunElement());
         assertTrue(session.isRunning());
         assertFalse(session.isStopped());
     }
@@ -151,8 +149,5 @@ public class BenchRunSessionTest {
         session.setFinished(true);
         assertTrue(session.isStopped());
         assertFalse(session.isRunning());
-        session.setFinished(false);
-        assertTrue(session.isRunning());
-        assertFalse(session.isStopped());
     }
 }

@@ -45,16 +45,16 @@ public final class BenchSearchEngine {
      * @throws InterruptedException
      *             The upcoming exceptions.
      */
-    public static IType[] findBenchs(
+    public static IType[] findBenchs(final
             IRunnableContext context, final Object[] elements)
             throws InvocationTargetException, InterruptedException {
         final Set<IType> result = new HashSet<IType>();
 
         if (elements.length > 0) {
-            IRunnableWithProgress runnable = new IRunnableWithProgress() {
-                public void run(IProgressMonitor pm)
+            final IRunnableWithProgress runnable = new IRunnableWithProgress() {
+                public void run(final IProgressMonitor progMonitor)
                         throws InterruptedException {
-                    BenchFinder.findBenchsInContainer(elements, result, pm);
+                    BenchFinder.findBenchsInContainer(elements, result, progMonitor);
                 }
             };
             context.run(true, true, runnable);
@@ -72,19 +72,20 @@ public final class BenchSearchEngine {
      * @throws JavaModelException
      *             The upcoming exception.
      */
-    public static Object computeScope(Object element) throws JavaModelException {
+    public static Object computeScope(final Object element) throws JavaModelException {
+        Object returnElement=element;
         if (element instanceof IFileEditorInput) {
-            element = ((IFileEditorInput) element).getFile();
+            returnElement = ((IFileEditorInput) element).getFile();
         }
         if (element instanceof IResource) {
-            element = JavaCore.create((IResource) element);
+            returnElement = JavaCore.create((IResource) element);
         }
         if (element instanceof IClassFile) {
-            IClassFile cf = (IClassFile) element;
-            element = cf.getType();
+            final IClassFile clazzFile = (IClassFile) element;
+            returnElement = clazzFile.getType();
 
         }
-        return element;
+        return returnElement;
     }
 
     /**
@@ -117,7 +118,7 @@ public final class BenchSearchEngine {
      *            The java project for checking.
      * @return A boolean value if the java project contains benches.
      */
-    public static boolean hasBenchType(IJavaProject javaProject) {
+    public static boolean hasBenchType(final IJavaProject javaProject) {
         return benchType(javaProject) != null;
     }
 
@@ -129,13 +130,14 @@ public final class BenchSearchEngine {
      *            The java project for testing for benchs.
      * @return The type.
      */
-    private static IType benchType(IJavaProject javaProject) {
+    private static IType benchType(final IJavaProject javaProject) {
+        IType returnBenchType=null;
         try {
-            return javaProject.findType("org.perfidix.Benchmark"); //$NON-NLS-1$
+            returnBenchType=javaProject.findType("org.perfidix.Benchmark");
         } catch (JavaModelException e) {
             PerclipseActivator.log(e);
-            return null;
         }
+        return returnBenchType;
     }
 
 }

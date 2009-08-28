@@ -40,22 +40,21 @@ public final class BuildPathSupport {
      * @return Returns the bundle location.
      */
     public static IPath getBundleLocation() {
-        Bundle bundle = PerclipseActivator.getDefault().getBundle();
-        if (bundle == null) {
-            return null;
-        }
+        IPath returnPath = null;
+        final Bundle bundle = PerclipseActivator.getDefault().getBundle();
+        if (bundle != null) {
+            URL local = null;
+            try {
+                local = FileLocator.toFileURL(bundle.getEntry("/"));
+                final String fullPath =
+                        new File(local.getPath()).getAbsolutePath();
+                returnPath = Path.fromOSString(fullPath);
 
-        URL local = null;
-        try {
-            local = FileLocator.toFileURL(bundle.getEntry("/"));
-
-        } catch (IOException e) {
-            PerclipseActivator.log(e);
-            e.printStackTrace();
-            return null;
+            } catch (IOException e) {
+                PerclipseActivator.log(e);
+            }
         }
-        String fullPath = new File(local.getPath()).getAbsolutePath();
-        return Path.fromOSString(fullPath);
+        return returnPath;
     }
 
     /**
@@ -74,27 +73,28 @@ public final class BuildPathSupport {
      * @return Returns the Perfidix library classpath entry.
      */
     public static IClasspathEntry getPerfidixLibraryEntry() {
-        IPath bundleBase = getBundleLocation();
+        IClasspathEntry returnEntry=null;
+        final IPath bundleBase = getBundleLocation();
         if (bundleBase != null) {
-            IPath jarLocation =
+            final IPath jarLocation =
                     bundleBase
                             .append("/lib/".concat(BuildPathSupport.JAR_NAME));
 
-            IAccessRule[] accessRule = {};
-            String javadocLocation =
+            final IAccessRule[] accessRule = {};
+            final String javadocLocation =
                     PerclipseActivator
                             .getDefault().getPreferenceStore().getString(
                                     "This is the Perfidix JavaDoc");
-            IClasspathAttribute[] attributes =
+            final IClasspathAttribute[] attributes =
                     { JavaCore
                             .newClasspathAttribute(
                                     IClasspathAttribute.JAVADOC_LOCATION_ATTRIBUTE_NAME,
                                     javadocLocation) };
-            return JavaCore.newLibraryEntry(
+            returnEntry= JavaCore.newLibraryEntry(
                     jarLocation, null, null, accessRule, attributes, false);
 
         }
-        return null;
+        return returnEntry;
 
     }
 

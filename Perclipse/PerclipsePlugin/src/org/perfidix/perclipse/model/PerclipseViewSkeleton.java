@@ -47,6 +47,7 @@ public class PerclipseViewSkeleton extends Thread {
      * 
      * @see java.lang.Thread#run()
      */
+    @SuppressWarnings("unchecked")
     @Override
     public void run() {
         try {

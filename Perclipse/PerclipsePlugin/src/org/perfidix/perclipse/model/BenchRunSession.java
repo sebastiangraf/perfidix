@@ -175,7 +175,7 @@ public class BenchRunSession {
      *            The boolean param that is true when a bench process finished.
      */
     public void setFinished(final boolean finished) {
-        running = !finished;
+        running = false;
         stopped = finished;
 
     }

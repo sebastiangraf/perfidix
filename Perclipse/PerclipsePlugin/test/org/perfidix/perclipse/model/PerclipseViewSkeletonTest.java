@@ -11,8 +11,8 @@ import java.util.HashMap;
 import org.eclipse.jdt.launching.SocketUtil;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
-import org.perfidix.perclipse.model.PerclipseViewSkeleton;
 
 /**
  * This class tests the java class
@@ -104,13 +104,6 @@ public class PerclipseViewSkeletonTest {
         stubForSkeletonTest.finishedBenchRuns();
     }
 
-    /**
-     * Test the stub skeleton for exception.
-     */
-    @Test(expected = RuntimeException.class)
-    public void testForBusyPort() {
-        skeleton= new PerclipseViewSkeleton(port);
-    }
     
     /**
      * Test the stub skeleton for exception.
