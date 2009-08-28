@@ -71,6 +71,7 @@ public final class PerclipseViewSkeletonSimulator extends Thread {
      * @see java.lang.Thread#run()
      */
     @Override
+    @SuppressWarnings("unchecked")
     public void run() {
 
         Socket socket = null;
@@ -92,7 +93,7 @@ public final class PerclipseViewSkeletonSimulator extends Thread {
                     receivedMap = (Map<String, Integer>) inStream.readObject();
                     benchElements = new HashMap<String, MethodWhichIsBenchin>();
                     if (receivedMap != null) {
-                        Set<String> stringSet = receivedMap.keySet();
+                        final Set<String> stringSet = receivedMap.keySet();
                         for (String name : stringSet) {
                             benchElements.put(name, new MethodWhichIsBenchin(
                                     name, receivedMap.get(name)));
@@ -102,7 +103,7 @@ public final class PerclipseViewSkeletonSimulator extends Thread {
                 } else if ("updateCurrentRun".equals(command)) {
                     receivedString = (String) inStream.readObject();
                     if (getElements().containsKey(receivedString)) {
-                        MethodWhichIsBenchin method =
+                        final MethodWhichIsBenchin method =
                                 getElements().get(receivedString);
                         method.updateRun();
                     }
@@ -112,7 +113,7 @@ public final class PerclipseViewSkeletonSimulator extends Thread {
                     receivedString = (String) inStream.readObject();
                     errorOccurred = (String) inStream.readObject();
                     if (getElements().containsKey(receivedString)) {
-                        MethodWhichIsBenchin method =
+                        final MethodWhichIsBenchin method =
                                 getElements().get(receivedString);
                         method.updateError();
                     }
@@ -191,12 +192,12 @@ public final class PerclipseViewSkeletonSimulator extends Thread {
     }
 
     class MethodWhichIsBenchin {
-        private transient String name;
-        private transient int initValue;
+        private final transient String name;
+        private final transient int initValue;
         private transient int run;
         private transient int error;
 
-        public MethodWhichIsBenchin(String name, int initValue) {
+        MethodWhichIsBenchin(final String name, final int initValue) {
             this.name = name;
             this.initValue = initValue;
             run = 0;
