@@ -23,7 +23,6 @@ package org.perfidix.perclipse.launcher;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
@@ -61,10 +60,31 @@ public class PerfidixLaunchShortcut implements ILaunchShortcut {
      */
     public class LaunchCancelledByUserException extends Exception {
         private static final long serialVersionUID = 1L;
+        private transient final Throwable exce;
+
+        /**
+         * The constructor.
+         * 
+         * @param paramExec
+         *            The throwable.
+         */
+        public LaunchCancelledByUserException(final Throwable paramExec) {
+            super();
+            exce = paramExec;
+        }
+
+        /**
+         * Returns occurred exception.
+         * 
+         * @return Occurred exception.
+         */
+        public Throwable getException() {
+            return exce;
+        }
     }
 
     /** {@inheritDoc} */
-    public void launch(ISelection selection, String mode) {
+    public void launch(final ISelection selection, final String mode) {
 
         if (selection instanceof IStructuredSelection) {
             searchAndLaunch(((IStructuredSelection) selection).toArray(), mode);
@@ -74,9 +94,9 @@ public class PerfidixLaunchShortcut implements ILaunchShortcut {
     }
 
     /** {@inheritDoc} */
-    public void launch(IEditorPart editor, String mode) {
+    public void launch(final IEditorPart editor, final String mode) {
         IJavaElement element = null;
-        IEditorInput input = editor.getEditorInput();
+        final IEditorInput input = editor.getEditorInput();
         element = (IJavaElement) input.getAdapter(IJavaElement.class);
 
         if (element != null) {
@@ -92,31 +112,25 @@ public class PerfidixLaunchShortcut implements ILaunchShortcut {
      * @param search
      * @param mode
      */
-    private void searchAndLaunch(Object[] search, String mode) {
-        if (search != null) {
-            if (search.length == 0) {
-                // TODO Do something real fancy here if no bench is found..
-                return;
-            }
+    private void searchAndLaunch(final Object[] search, final String mode) {
+        if (search != null
+                && search.length != 0
+                && search[0] instanceof IJavaElement) {
 
-            if (search[0] instanceof IJavaElement) {
-                IJavaElement element = (IJavaElement) search[0];
+            final IJavaElement element = (IJavaElement) search[0];
 
-                // the IJavaElement is a model/container/fragment/package
-                if (element.getElementType() < IJavaElement.COMPILATION_UNIT) {
-                    try {
-                        launch(mode, describeContainerLaunch(element));
-                    } catch (LaunchCancelledByUserException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                    }
-                    return;
-
-                    // the IJavaElement is a compilation unit/type
-                } else if (element.getElementType() == IJavaElement.COMPILATION_UNIT) {
-                    launchType(element, mode);
+            // the IJavaElement is a model/container/fragment/package
+            if (element.getElementType() < IJavaElement.COMPILATION_UNIT) {
+                try {
+                    launch(mode, describeContainerLaunch(element));
+                } catch (LaunchCancelledByUserException e) {
+                    PerclipseActivator.log(e);
                 }
+                // the IJavaElement is a compilation unit/type
+            } else if (element.getElementType() == IJavaElement.COMPILATION_UNIT) {
+                launchType(element, mode);
             }
+
         }
     }
 
@@ -128,38 +142,30 @@ public class PerfidixLaunchShortcut implements ILaunchShortcut {
      * @param search
      * @param mode
      */
-    private void launchType(IJavaElement search, String mode) {
+    private void launchType(final IJavaElement search, final String mode) {
         IType[] types = null;
         try {
             types = BenchSearchEngine.findBenchs(new Object[] { search });
+            IType type = null;
+
+            if (types.length != 0) {
+                type = types[0];
+            }
+
+            if (type != null) {
+                try {
+                    launch(mode, describeTypeLaunch(type));
+                } catch (LaunchCancelledByUserException e) {
+                    PerclipseActivator.log(e);
+                    // OK, silently move on
+                }
+            }
         } catch (InterruptedException e) {
             PerclipseActivator.log(e);
-            // TODO Do something real fancy here if exceptions were thrown
-            return;
         } catch (InvocationTargetException e) {
             PerclipseActivator.log(e);
-            // TODO Do something real fancy here if exceptions were thrown
-            return;
         }
 
-        IType type = null;
-
-        if (types.length == 0) {
-            // TODO Do something real fancy here if no bench is found..
-
-        } else {
-            type = types[0];
-
-        }
-
-        if (type != null) {
-            try {
-                launch(mode, describeTypeLaunch(type));
-            } catch (LaunchCancelledByUserException e) {
-                PerclipseActivator.log(e);
-                // OK, silently move on
-            }
-        }
     }
 
     /**
@@ -170,8 +176,8 @@ public class PerfidixLaunchShortcut implements ILaunchShortcut {
      * @return the perfidix launch configuration.
      */
     public PerfidixLaunchDescription describeContainerLaunch(
-            IJavaElement container) {
-        PerfidixLaunchDescription description =
+            final IJavaElement container) {
+        final PerfidixLaunchDescription description =
                 new PerfidixLaunchDescription(
                         container, getContainerLabel(container));
         description.setContainer(container.getHandleIdentifier());
@@ -186,8 +192,8 @@ public class PerfidixLaunchShortcut implements ILaunchShortcut {
      *            The bench type.
      * @return The launch description for a given type.
      */
-    public PerfidixLaunchDescription describeTypeLaunch(IType type) {
-        PerfidixLaunchDescription description =
+    public PerfidixLaunchDescription describeTypeLaunch(final IType type) {
+        final PerfidixLaunchDescription description =
                 new PerfidixLaunchDescription(type, type
                         .getFullyQualifiedName());
         description.setMainType(type);
@@ -204,9 +210,10 @@ public class PerfidixLaunchShortcut implements ILaunchShortcut {
      * @param description
      * @throws LaunchCancelledByUserException
      */
-    private void launch(String mode, PerfidixLaunchDescription description)
+    private void launch(
+            final String mode, final PerfidixLaunchDescription description)
             throws LaunchCancelledByUserException {
-        ILaunchConfiguration config =
+        final ILaunchConfiguration config =
                 findOrCreateLaunchConfiguration(mode, this, description);
         if (config != null) {
             DebugUITools.launch(config, mode);
@@ -230,8 +237,8 @@ public class PerfidixLaunchShortcut implements ILaunchShortcut {
      *             The cancel exception as an event of user interaction.
      */
     public ILaunchConfiguration findOrCreateLaunchConfiguration(
-            String mode, PerfidixLaunchShortcut registry,
-            PerfidixLaunchDescription description)
+            final String mode, final PerfidixLaunchShortcut registry,
+            final PerfidixLaunchDescription description)
             throws LaunchCancelledByUserException {
 
         ILaunchConfiguration config =
@@ -256,21 +263,23 @@ public class PerfidixLaunchShortcut implements ILaunchShortcut {
      *             The exception occurred when an user canceled the run.
      */
     public ILaunchConfiguration findLaunchConfiguration(
-            String mode, PerfidixLaunchDescription description)
+            final String mode, final PerfidixLaunchDescription description)
             throws LaunchCancelledByUserException {
+        ILaunchConfiguration retConfig = null;
 
-        ILaunchConfigurationType configType = getPerfidixLaunchConfigType();
+        final ILaunchConfigurationType configType =
+                getPerfidixLaunchConfigType();
         List<ILaunchConfiguration> candidateConfigs =
-                new Vector<ILaunchConfiguration>(0);
+                new ArrayList<ILaunchConfiguration>(0);
 
         try {
-            ILaunchConfiguration[] configs =
+            final ILaunchConfiguration[] configs =
                     getLaunchManager().getLaunchConfigurations(configType);
             candidateConfigs =
                     new ArrayList<ILaunchConfiguration>(configs.length);
 
             for (int i = 0; i < configs.length; i++) {
-                ILaunchConfiguration config = configs[i];
+                final ILaunchConfiguration config = configs[i];
                 if (description.attributesMatch(config)) {
                     candidateConfigs.add(config);
                 }
@@ -279,15 +288,13 @@ public class PerfidixLaunchShortcut implements ILaunchShortcut {
             PerclipseActivator.log(e);
         }
 
-        int candidateCount = candidateConfigs.size();
+        final int candidateCount = candidateConfigs.size();
 
         // return null if no matching configuration was found
-        if (candidateCount < 1) {
-            return null;
-            // TODO: what if more than one matching configuration
-        } else {
-            return candidateConfigs.get(0);
+        if (candidateCount >= 1) {
+            retConfig = candidateConfigs.get(0);
         }
+        return retConfig;
     }
 
     /**
@@ -298,11 +305,11 @@ public class PerfidixLaunchShortcut implements ILaunchShortcut {
      * @return The launch configuration.
      */
     public ILaunchConfiguration createConfiguration(
-            PerfidixLaunchDescription description) {
-        String mainType =
+            final PerfidixLaunchDescription description) {
+        final String mainType =
                 description
                         .getAttribute(IJavaLaunchConfigurationConstants.ATTR_MAIN_TYPE_NAME);
-        String benchName =
+        final String benchName =
                 description
                         .getAttribute(PerfidixLaunchConfiguration.BENCH_NAME_ATTR);
         // create the configuration
@@ -327,26 +334,27 @@ public class PerfidixLaunchShortcut implements ILaunchShortcut {
      * @return The launch configuration.
      */
     protected ILaunchConfiguration createConfiguration(
-            IJavaProject project, String name, String mainType,
-            String container, String benchName) {
+            final IJavaProject project, final String name,
+            final String mainType, final String container,
+            final String benchName) {
         ILaunchConfiguration config = null;
 
         try {
-            ILaunchConfigurationWorkingCopy wc = newWorkingCopy(name);
-            wc.setAttribute(
+            final ILaunchConfigurationWorkingCopy workCop =
+                    newWorkingCopy(name);
+            workCop.setAttribute(
                     IJavaLaunchConfigurationConstants.ATTR_MAIN_TYPE_NAME,
                     mainType);
-            wc.setAttribute(
+            workCop.setAttribute(
                     IJavaLaunchConfigurationConstants.ATTR_PROJECT_NAME,
                     project.getElementName());
-            wc.setAttribute(
-                    PerfidixLaunchConfiguration.LAUNCH_CONTAINER_ATTR,
-                    container);
+            workCop.setAttribute(
+                    PerfidixLaunchConfiguration.LAUNCH_CONT_ATTR, container);
             if (benchName.length() > 0) {
-                wc.setAttribute(
+                workCop.setAttribute(
                         PerfidixLaunchConfiguration.BENCH_NAME_ATTR, benchName);
             }
-            config = wc.doSave();
+            config = workCop.doSave();
         } catch (CoreException ce) {
             PerclipseActivator.log(ce);
         }
@@ -373,9 +381,10 @@ public class PerfidixLaunchShortcut implements ILaunchShortcut {
      * @throws CoreException
      *             The core exception.
      */
-    protected ILaunchConfigurationWorkingCopy newWorkingCopy(String name)
+    protected ILaunchConfigurationWorkingCopy newWorkingCopy(final String name)
             throws CoreException {
-        ILaunchConfigurationType configType = getPerfidixLaunchConfigType();
+        final ILaunchConfigurationType configType =
+                getPerfidixLaunchConfigType();
         return configType.newInstance(null, getLaunchManager()
                 .generateUniqueLaunchConfigurationNameFrom(name));
     }
@@ -386,10 +395,10 @@ public class PerfidixLaunchShortcut implements ILaunchShortcut {
      * @return ILaunchConfigurationType
      */
     protected ILaunchConfigurationType getPerfidixLaunchConfigType() {
-        ILaunchManager lm = getLaunchManager();
+        final ILaunchManager launchMan = getLaunchManager();
 
-        return lm
-                .getLaunchConfigurationType(PerfidixLaunchConfiguration.ID_PERFIDIX_APPLICATION);
+        return launchMan
+                .getLaunchConfigurationType(PerfidixLaunchConfiguration.ID_PERFIDIX_APP);
     }
 
     /**
@@ -399,8 +408,8 @@ public class PerfidixLaunchShortcut implements ILaunchShortcut {
      *            The java element.
      * @return The label name for a java element.
      */
-    protected String getContainerLabel(IJavaElement container) {
-        String name =
+    protected String getContainerLabel(final IJavaElement container) {
+        final String name =
                 JavaElementLabels.getTextLabel(
                         container, JavaElementLabels.ALL_FULLY_QUALIFIED);
         return name.substring(name.lastIndexOf(IPath.SEPARATOR) + 1);

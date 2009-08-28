@@ -27,7 +27,7 @@ import org.eclipse.jdt.core.IType;
  */
 public class BenchSearchResult {
 
-    private final IType[] fTypes;
+    private final transient IType[] fTypes;
 
     /**
      * The constructor sets the IType array fTypes with the given parameter.
@@ -35,8 +35,8 @@ public class BenchSearchResult {
      * @param types
      *            A type array for bench classes.
      */
-    public BenchSearchResult(IType[] types) {
-        fTypes = types;
+    public BenchSearchResult(final IType[] types) {
+        fTypes = types.clone();
     }
 
     /**
@@ -45,7 +45,7 @@ public class BenchSearchResult {
      * @return the IType array.
      */
     public IType[] getTypes() {
-        return fTypes;
+        return fTypes.clone();
     }
 
     /**
@@ -55,7 +55,7 @@ public class BenchSearchResult {
      *         array length is smaller than 1 or false if the getTypes array
      *         length is bigger than 0
      */
-    boolean isEmpty() {
+    public boolean isEmpty() {
         return getTypes().length <= 0;
     }
 }

@@ -144,7 +144,7 @@ public class PerclipseMainTab extends AbstractLaunchConfigurationTab {
         try {
             containerHandle =
                     config.getAttribute(
-                            PerfidixLaunchConfiguration.LAUNCH_CONTAINER_ATTR,
+                            PerfidixLaunchConfiguration.LAUNCH_CONT_ATTR,
                             ""); //$NON-NLS-1$
         } catch (CoreException ce) {
             PerclipseActivator.log(ce);
@@ -175,7 +175,7 @@ public class PerclipseMainTab extends AbstractLaunchConfigurationTab {
                     IJavaLaunchConfigurationConstants.ATTR_MAIN_TYPE_NAME,
                     fBenchText.getText());
             config.setAttribute(
-                    PerfidixLaunchConfiguration.LAUNCH_CONTAINER_ATTR, ""); //$NON-NLS-1$
+                    PerfidixLaunchConfiguration.LAUNCH_CONT_ATTR, ""); //$NON-NLS-1$
             config.setAttribute(
                     PerfidixLaunchConfiguration.BENCH_NAME_ATTR,
                     fOriginalBenchMethodName);
@@ -192,7 +192,7 @@ public class PerclipseMainTab extends AbstractLaunchConfigurationTab {
             config.setAttribute(
                     IJavaLaunchConfigurationConstants.ATTR_PROJECT_NAME, ""); //$NON-NLS-1$
             config.setAttribute(
-                    PerfidixLaunchConfiguration.LAUNCH_CONTAINER_ATTR, ""); //$NON-NLS-1$
+                    PerfidixLaunchConfiguration.LAUNCH_CONT_ATTR, ""); //$NON-NLS-1$
         }
         initializeBenchAttributes(javaElement, config);
 
@@ -238,7 +238,7 @@ public class PerclipseMainTab extends AbstractLaunchConfigurationTab {
     private void initializeBenchContainer(
             IJavaElement javaElement, ILaunchConfigurationWorkingCopy config) {
         config.setAttribute(
-                PerfidixLaunchConfiguration.LAUNCH_CONTAINER_ATTR, javaElement
+                PerfidixLaunchConfiguration.LAUNCH_CONT_ATTR, javaElement
                         .getHandleIdentifier());
         initializeName(config, javaElement.getElementName());
     }
@@ -924,7 +924,7 @@ public class PerclipseMainTab extends AbstractLaunchConfigurationTab {
         try {
             containerHandle =
                     config.getAttribute(
-                            PerfidixLaunchConfiguration.LAUNCH_CONTAINER_ATTR,
+                            PerfidixLaunchConfiguration.LAUNCH_CONT_ATTR,
                             ""); //$NON-NLS-1$
             if (containerHandle.length() > 0) {
                 containerElement = JavaCore.create(containerHandle);
@@ -969,7 +969,7 @@ public class PerclipseMainTab extends AbstractLaunchConfigurationTab {
             config.setAttribute(
                     IJavaLaunchConfigurationConstants.ATTR_PROJECT_NAME, "");
             config.setAttribute(
-                    PerfidixLaunchConfiguration.LAUNCH_CONTAINER_ATTR, "");
+                    PerfidixLaunchConfiguration.LAUNCH_CONT_ATTR, "");
             config.setAttribute(
                     IJavaLaunchConfigurationConstants.ATTR_MAIN_TYPE_NAME, ""); //$NON-NLS-1$
             // workaround for bug 65399
@@ -978,7 +978,7 @@ public class PerclipseMainTab extends AbstractLaunchConfigurationTab {
                     IJavaLaunchConfigurationConstants.ATTR_PROJECT_NAME,
                     element.getJavaProject().getElementName());
             config.setAttribute(
-                    PerfidixLaunchConfiguration.LAUNCH_CONTAINER_ATTR, element
+                    PerfidixLaunchConfiguration.LAUNCH_CONT_ATTR, element
                             .getHandleIdentifier());
             config.setAttribute(
                     IJavaLaunchConfigurationConstants.ATTR_MAIN_TYPE_NAME, ""); //$NON-NLS-1$
