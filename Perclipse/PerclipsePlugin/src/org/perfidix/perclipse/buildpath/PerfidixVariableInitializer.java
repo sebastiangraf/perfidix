@@ -23,7 +23,7 @@ public class PerfidixVariableInitializer extends ClasspathVariableInitializer {
      * This field specifies the variable id, needed by the corresponding
      * extension point.
      */
-    public static final String PERFIDIX_VARIABLE_INIT =
+    public static final String PERFIDIX_VAR_INIT =
             "org.perfidix.perclipse.PERFIDIX_VAR_INIT";
 
     /**
@@ -35,20 +35,20 @@ public class PerfidixVariableInitializer extends ClasspathVariableInitializer {
      * @see org.eclipse.jdt.core.ClasspathVariableInitializer#initialize(java.lang.String)
      */
     @Override
-    public void initialize(String variable) {
-        Bundle bundle = PerclipseActivator.getDefault().getBundle(); 
+    public void initialize(final String variable) {
+        final Bundle bundle = PerclipseActivator.getDefault().getBundle(); 
         if (bundle == null) {
             JavaCore.removeClasspathVariable(
                     PerclipseActivator.PERFIDIX_HOME, null);
             return;
         }
-        URL installLocation =
+        final URL installLocation =
                 bundle.getEntry("/lib/".concat(BuildPathSupport.JAR_NAME)); //$NON-NLS-1$
 
         try {
-            String fullPath =
+            final String fullPath =
                     new File(installLocation.getPath()).getAbsolutePath();
-            IPath path = Path.fromOSString(fullPath);
+            final IPath path = Path.fromOSString(fullPath);
             JavaCore.setClasspathVariable(
                     PerclipseActivator.PERFIDIX_HOME, path, null);
 

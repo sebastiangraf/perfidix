@@ -31,11 +31,12 @@ import org.perfidix.perclipse.launcher.PerclipseActivator;
  * 
  * @author Lewandowski Lukas, DiSy, University of Konstanz
  */
+@SuppressWarnings("restriction")
 public class PerfidixAddLibraryProposal implements IJavaCompletionProposal {
 
-    private final IInvocationContext context;
-    private final boolean isPerfidix;
-    private final int relevance;
+    private final transient IInvocationContext context;
+    private final transient boolean isPerfidix;
+    private final transient int relevance;
 
     /**
      * The constructor sets the proposal arguments isPerfidix, the adding
@@ -50,7 +51,8 @@ public class PerfidixAddLibraryProposal implements IJavaCompletionProposal {
      *            proposal (on top).
      */
     public PerfidixAddLibraryProposal(
-            boolean isPerfidix, IInvocationContext context, int relevance) {
+            final boolean isPerfidix, final IInvocationContext context,
+            final int relevance) {
         this.isPerfidix = isPerfidix;
         this.context = context;
         this.relevance = relevance;
@@ -69,9 +71,10 @@ public class PerfidixAddLibraryProposal implements IJavaCompletionProposal {
      *            see super method.
      * @see org.eclipse.jface.text.contentassist.ICompletionProposal#apply(org.eclipse.jface.text.IDocument)
      */
-    public void apply(IDocument document) {
-        IJavaProject project = context.getCompilationUnit().getJavaProject();
-        Shell shell =
+    public void apply(final IDocument document) {
+        final IJavaProject project =
+                context.getCompilationUnit().getJavaProject();
+        final Shell shell =
                 PerclipseActivator
                         .getActivePage().getWorkbenchWindow().getShell();
         try {
@@ -84,8 +87,8 @@ public class PerfidixAddLibraryProposal implements IJavaCompletionProposal {
                         shell, project, entry,
                         new BusyIndicatorRunnableContext());
             }
-            int offset = context.getSelectionOffset();
-            int length = context.getSelectionLength();
+            final int offset = context.getSelectionOffset();
+            final int length = context.getSelectionLength();
             String str;
             str = document.get(offset, length);
 
@@ -93,10 +96,8 @@ public class PerfidixAddLibraryProposal implements IJavaCompletionProposal {
 
         } catch (BadLocationException e) {
             PerclipseActivator.log(e);
-            e.printStackTrace();
         } catch (JavaModelException e) {
             PerclipseActivator.log(e);
-            e.printStackTrace();
         }
 
     }
@@ -117,76 +118,82 @@ public class PerfidixAddLibraryProposal implements IJavaCompletionProposal {
      * @throws JavaModelException
      */
     private static boolean addToClasspath(
-            Shell shell, final IJavaProject project, IClasspathEntry entry,
-            IRunnableContext context) throws JavaModelException {
-
-        IClasspathEntry[] oldEntries = project.getRawClasspath();
-        ArrayList<IClasspathEntry> newEntries = new ArrayList<IClasspathEntry>(oldEntries.length + 1);
-        boolean added = false;
+            final Shell shell, final IJavaProject project,
+            final IClasspathEntry entry, final IRunnableContext context)
+            throws JavaModelException {
+        boolean returnValue = false;
+        boolean goAhead = true;
+        final IClasspathEntry[] oldEntries = project.getRawClasspath();
+        final ArrayList<IClasspathEntry> newEntries =
+                new ArrayList<IClasspathEntry>(oldEntries.length + 1);
+        final boolean added = false;
         for (int i = 0; i < oldEntries.length; i++) {
             IClasspathEntry current = oldEntries[i];
             if (current.getEntryKind() == IClasspathEntry.CPE_CONTAINER) {
-                IPath path = current.getPath();
+                final IPath path = current.getPath();
 
                 if (path.equals(entry.getPath())) {
-                    return true;
+                    returnValue = true;
+                    goAhead = false;
                 } else if (path.matchingFirstSegments(entry.getPath()) > 0) {
-                    if (!added) {
-                        current = entry;
+                    if (added) {
+                        final IClasspathEntry newEntry=null;
+                        current = newEntry;
                     } else {
-                        current = null;
+                        current = entry;
                     }
                 }
 
             } else if (current.getEntryKind() == IClasspathEntry.CPE_VARIABLE) {
-                IPath path = current.getPath();
+                final IPath path = current.getPath();
                 if (path.segmentCount() > 0
                         && PerclipseActivator.PERFIDIX_HOME.equals(path
                                 .segment(0))) {
-                    if (!added) {
-                        current = entry;
+                    if (added) {
+                        final IClasspathEntry newEntry=null;
+                        current = newEntry;
                     } else {
-                        current = null;
+                        current = entry;
                     }
                 }
             }
-            if (current != null) {
+            if (current != null && goAhead) {
                 newEntries.add(current);
             }
 
         }
-        if (!added) {
-            newEntries.add(entry);
-        }
-        final IClasspathEntry[] newCPEntries =
-                newEntries
-                .toArray(new IClasspathEntry[newEntries.size()]);
-
-        try {
-            context.run(true, false, new IRunnableWithProgress() {
-                public void run(IProgressMonitor monitor) {
-                    try {
-                        project.setRawClasspath(newCPEntries, monitor);
-                    } catch (JavaModelException e) {
-                        PerclipseActivator.log(e);
-                        e.printStackTrace();
-                    }
-                }
-            });
-            return true;
-        } catch (InvocationTargetException e) {
-            PerclipseActivator.log(e);
-            Throwable t = e.getTargetException();
-            if (t instanceof CoreException) {
-                ErrorDialog.openError(
-                        shell, "Add Perfidix library to the build path",
-                        "Cannot Add", ((CoreException) t).getStatus());
+        if (goAhead) {
+            if (!added) {
+                newEntries.add(entry);
             }
-            return false;
-        } catch (InterruptedException e) {
-            PerclipseActivator.log(e);
-            return false;
+            final IClasspathEntry[] newCPEntries =
+                    newEntries.toArray(new IClasspathEntry[newEntries.size()]);
+
+            try {
+                context.run(true, false, new IRunnableWithProgress() {
+                    public void run(final IProgressMonitor monitor) {
+                        try {
+                            project.setRawClasspath(newCPEntries, monitor);
+                        } catch (JavaModelException e) {
+                            PerclipseActivator.log(e);
+                        }
+                    }
+                });
+                returnValue = true;
+            } catch (InvocationTargetException e) {
+                PerclipseActivator.log(e);
+                final Throwable thowi = e.getTargetException();
+                if (thowi instanceof CoreException) {
+                    ErrorDialog.openError(
+                            shell, "Add Perfidix library to the build path",
+                            "Cannot Add", ((CoreException) thowi).getStatus());
+                }
+            } catch (InterruptedException e) {
+                PerclipseActivator.log(e);
+            }
         }
+
+        return returnValue;
 
     }
 
@@ -198,18 +205,18 @@ public class PerfidixAddLibraryProposal implements IJavaCompletionProposal {
      * @see org.eclipse.jface.text.contentassist.ICompletionProposal#getAdditionalProposalInfo()
      */
     public String getAdditionalProposalInfo() {
-
+        String returnAddInfo = null;
         if (isPerfidix) {
-            return "Adds the Perfidix jar library to the build path. The jar was delivered with the Perclipse Plugin: "
-                    .concat(PerclipseActivator.PLUGIN_ID);
+            returnAddInfo =
+                    "Adds the Perfidix jar library to the build path. The jar was delivered with the Perclipse Plugin: "
+                            .concat(PerclipseActivator.PLUGIN_ID);
         }
 
-        return null;
+        return returnAddInfo;
     }
 
     /** {@inheritDoc} */
     public IContextInformation getContextInformation() {
-        // TODO Auto-generated method stub
         return null;
     }
 
@@ -220,22 +227,21 @@ public class PerfidixAddLibraryProposal implements IJavaCompletionProposal {
      * @see org.eclipse.jface.text.contentassist.ICompletionProposal#getDisplayString()
      */
     public String getDisplayString() {
+        String returnDisplayText = null;
         if (isPerfidix) {
-            return "Add Perfidix library to the build path";
+            returnDisplayText = "Add Perfidix library to the build path";
         }
-        return null;
+        return returnDisplayText;
     }
 
     /** {@inheritDoc} */
     public Image getImage() {
-        // TODO Auto-generated method stub
         return JavaUI
                 .getSharedImages().getImage(ISharedImages.IMG_OBJS_LIBRARY);
     }
 
     /** {@inheritDoc} */
-    public Point getSelection(IDocument arg0) {
-        // TODO Auto-generated method stub
+    public Point getSelection(final IDocument arg0) {
         return new Point(context.getSelectionOffset(), context
                 .getSelectionLength());
     }
