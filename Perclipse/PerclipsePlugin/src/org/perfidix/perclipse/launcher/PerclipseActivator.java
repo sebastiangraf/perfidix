@@ -45,7 +45,7 @@ public class PerclipseActivator extends AbstractUIPlugin {
     public static final String PLUGIN_ID = "org.perfidix.perclipse";
 
     // The shared instance
-    private static PerclipseActivator plugin;
+    private static transient PerclipseActivator plugin;
 
     private static final BenchModel BENCH_MODEL = new BenchModel();
 
@@ -59,38 +59,44 @@ public class PerclipseActivator extends AbstractUIPlugin {
      */
     public static final String PERFIDIX_SRC_HOME = "PERFIDIX_SRC_HOME";
 
-    private BenchView view;
+    private transient BenchView view;
 
-    private BundleContext bundleContext;
+    private transient BundleContext bundleContext;
 
     /**
      * The constructor
      */
     public PerclipseActivator() {
-        plugin = this;
+        super();
+        setSharedInstance(this);
 
     }
 
     /** {@inheritDoc} */
     @Override
-    public void start(BundleContext context) throws Exception {
+    public void start(final BundleContext context) {
         plugin = this;
-        super.start(context);
-        bundleContext = context;
-
-        BENCH_MODEL.start();
+        try {
+            super.start(context);
+            bundleContext = context;
+            BENCH_MODEL.start();
+        } catch (Exception e) {
+            log(e);
+        }
     }
 
     /** {@inheritDoc} */
     @Override
-    public void stop(BundleContext context) throws Exception {
-        plugin = null;
+    public void stop(final BundleContext context) {
         try {
             BENCH_MODEL.stop();
         } finally {
-            super.stop(context);
+            try {
+                super.stop(context);
+            } catch (Exception e) {
+                log(e);
+            }
         }
-        bundleContext = null;
     }
 
     /**
@@ -118,7 +124,7 @@ public class PerclipseActivator extends AbstractUIPlugin {
      * @param message
      *            The message which has to be stored in the log.
      */
-    public static void logInfo(String message) {
+    public static void logInfo(final String message) {
         log(new Status(IStatus.INFO, getPluginId(), IStatus.INFO, message, null));
     }
 
@@ -126,24 +132,25 @@ public class PerclipseActivator extends AbstractUIPlugin {
      * The log method gets a Throwable error message and saves its status in the
      * log.
      * 
-     * @param e
+     * @param exce
      *            The Exception occurred and has to be stored in the log.
      */
-    public static void log(Throwable e) {
-        log(new Status(IStatus.ERROR, getPluginId(), IStatus.ERROR, "Error", e));
+    public static void log(final Throwable exce) {
+        log(new Status(
+                IStatus.ERROR, getPluginId(), IStatus.ERROR, "Error", exce));
     }
 
     /**
      * The log method gets a Throwable error message and saves its status in the
      * log.
      * 
-     * @param e
+     * @param exce
      *            The Exception occurred and has to be stored in the log.
      * @param text
      *            The error title.
      */
-    public static void log(Throwable e, String text) {
-        log(new Status(IStatus.ERROR, getPluginId(), IStatus.ERROR, text, e));
+    public static void log(final Throwable exce, final String text) {
+        log(new Status(IStatus.ERROR, getPluginId(), IStatus.ERROR, text, exce));
     }
 
     /**
@@ -153,7 +160,7 @@ public class PerclipseActivator extends AbstractUIPlugin {
      * @param status
      *            The status that has to be logged.
      */
-    public static void log(IStatus status) {
+    public static void log(final IStatus status) {
         getDefault().getLog().log(status);
     }
 
@@ -165,36 +172,40 @@ public class PerclipseActivator extends AbstractUIPlugin {
      *            the path
      * @return the image descriptor
      */
-    public static ImageDescriptor getImageDescriptor(String path) {
+    public static ImageDescriptor getImageDescriptor(final String path) {
+        ImageDescriptor imageDescriptor = null;
         if (path != null) {
-            return imageDescriptorFromPlugin(PLUGIN_ID, path);
+            imageDescriptor = imageDescriptorFromPlugin(PLUGIN_ID, path);
         }
-        return null;
+        return imageDescriptor;
     }
 
     /**
      * @return This method returns the active workbench window of this plug-in.
      */
     public static IWorkbenchWindow getActiveWorkbenchWindow() {
-        if (plugin == null) {
-            return null;
+        IWorkbenchWindow window = null;
+        if (plugin != null) {
+            final IWorkbench workBench = plugin.getWorkbench();
+            if (workBench != null) {
+                window = workBench.getActiveWorkbenchWindow();
+            }
+
         }
-        IWorkbench workBench = plugin.getWorkbench();
-        if (workBench == null) {
-            return null;
-        }
-        return workBench.getActiveWorkbenchWindow();
+        return window;
     }
 
     /**
      * @return This Method returns the active workbench page of this plug-in.
      */
     public static IWorkbenchPage getActivePage() {
-        IWorkbenchWindow activeWorkbenchWindow = getActiveWorkbenchWindow();
-        if (activeWorkbenchWindow == null) {
-            return null;
+        IWorkbenchPage page = null;
+        final IWorkbenchWindow activeWorkbWindow =
+                getActiveWorkbenchWindow();
+        if (activeWorkbWindow != null) {
+            page = activeWorkbWindow.getActivePage();
         }
-        return activeWorkbenchWindow.getActivePage();
+        return page;
     }
 
     /**
@@ -210,7 +221,7 @@ public class PerclipseActivator extends AbstractUIPlugin {
      * @param view
      *            The BenchView.
      */
-    public void setBenchView(BenchView view) {
+    public void setBenchView(final BenchView view) {
         this.view = view;
 
     }
@@ -234,6 +245,14 @@ public class PerclipseActivator extends AbstractUIPlugin {
      */
     public BundleContext getBundleContext() {
         return bundleContext;
+    }
+    
+    /**
+     * Set shared instance-
+     * @param instance This instance.
+     */
+    private void setSharedInstance(final PerclipseActivator instance){
+        plugin=instance;
     }
 
 }

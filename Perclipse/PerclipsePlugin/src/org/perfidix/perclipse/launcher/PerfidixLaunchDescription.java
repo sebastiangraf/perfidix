@@ -43,10 +43,10 @@ import org.eclipse.jdt.launching.IJavaLaunchConfigurationConstants;
 public class PerfidixLaunchDescription {
 
     /** Attributes to match in order to find an existing configuration. */
-    public static final String[] ATTRIBUTES_THAT_MUST_MATCH =
+    public static final String[] ATTR_MUST_MATCH =
             new String[] {
                     IJavaLaunchConfigurationConstants.ATTR_PROJECT_NAME,
-                    PerfidixLaunchConfiguration.LAUNCH_CONTAINER_ATTR,
+                    PerfidixLaunchConfiguration.LAUNCH_CONT_ATTR,
                     IJavaLaunchConfigurationConstants.ATTR_MAIN_TYPE_NAME,
                     PerfidixLaunchConfiguration.BENCH_NAME_ATTR };
 
@@ -57,11 +57,11 @@ public class PerfidixLaunchDescription {
 
     private static final String DEFAULT_VALUE = ""; //$NON-NLS-1$
 
-    private Map<String, String> fAttributes = new HashMap<String, String>();
+    final private transient Map<String, String> fAttributes = new HashMap<String, String>();
 
-    private final IJavaElement fElement;
+    private final transient IJavaElement fElement;
 
-    private final String fName;
+    private final transient String fName;
 
     /**
      * The constructor gets an existing java element of type IJavaElement and a
@@ -72,7 +72,7 @@ public class PerfidixLaunchDescription {
      * @param name
      *            The name of the launch description.
      */
-    public PerfidixLaunchDescription(IJavaElement element, String name) {
+    public PerfidixLaunchDescription(final IJavaElement element,final String name) {
         fElement = element;
         fName = name;
         setAttribute(
@@ -84,29 +84,36 @@ public class PerfidixLaunchDescription {
      * The copyAttributeInto sets the attributes in the working copy of the
      * launch configuration (ILaunchConfigurationWorkingCopy).
      * 
-     * @param wc
+     * @param workCop
      *            The launch configuration working copy.
      */
-    public void copyAttributesInto(ILaunchConfigurationWorkingCopy wc) {
-        wc.setAttribute(
+    public void copyAttributesInto(final ILaunchConfigurationWorkingCopy workCop) {
+        workCop.setAttribute(
                 IJavaLaunchConfigurationConstants.ATTR_PROJECT_NAME,
                 getProjectName());
 
-        Set<?> definedAttributes = getDefinedAttributes();
-        for (Iterator<?> iter = definedAttributes.iterator(); iter.hasNext();) {
-            Entry<?, ?> attribute = (Entry<?, ?>) iter.next();
-            wc.setAttribute((String) attribute.getKey(), (String) attribute
+        final Set<?> definedAttributes = getDefinedAttributes();
+        for (final Iterator<?> iter = definedAttributes.iterator(); iter.hasNext();) {
+            final Entry<?, ?> attribute = (Entry<?, ?>) iter.next();
+            workCop.setAttribute((String) attribute.getKey(), (String) attribute
                     .getValue());
         }
     }
 
     /** {@inheritDoc} */
     @Override
-    public boolean equals(Object arg0) {
-        PerfidixLaunchDescription desc = (PerfidixLaunchDescription) arg0;
+    public boolean equals(final Object arg0) {
+        final PerfidixLaunchDescription desc = (PerfidixLaunchDescription) arg0;
         return areEqual(desc.fElement, fElement)
                 && areEqual(desc.fName, fName)
                 && areEqual(desc.fAttributes, fAttributes);
+    }
+    
+    
+    /** {@inheritDoc} */
+    @Override
+    public int hashCode(){
+        return super.hashCode()+1;
     }
 
     /**
@@ -117,11 +124,12 @@ public class PerfidixLaunchDescription {
      *            The queried attribute.
      * @return The String value of the searched attribute.
      */
-    public String getAttribute(String attr) {
+    public String getAttribute(final String attr) {
+        String returnString=DEFAULT_VALUE;
         if (fAttributes.containsKey(attr)) {
-            return fAttributes.get(attr);
+            returnString= fAttributes.get(attr);
         }
-        return DEFAULT_VALUE;
+        return returnString;
     }
 
     /**
@@ -131,7 +139,7 @@ public class PerfidixLaunchDescription {
      * @return The String container value.
      */
     public String getContainer() {
-        return getAttribute(PerfidixLaunchConfiguration.LAUNCH_CONTAINER_ATTR);
+        return getAttribute(PerfidixLaunchConfiguration.LAUNCH_CONT_ATTR);
     }
 
     /**
@@ -139,7 +147,7 @@ public class PerfidixLaunchDescription {
      * 
      * @return The Set of defined attributes.
      */
-    public Set getDefinedAttributes() {
+    public Set<?> getDefinedAttributes() {
         return fAttributes.entrySet();
     }
 
@@ -170,9 +178,9 @@ public class PerfidixLaunchDescription {
      *            The String identifier.
      * @return The perfidix launch description.
      */
-    public PerfidixLaunchDescription setContainer(String handleIdentifier) {
+    public PerfidixLaunchDescription setContainer(final String handleIdentifier) {
         return setAttribute(
-                PerfidixLaunchConfiguration.LAUNCH_CONTAINER_ATTR,
+                PerfidixLaunchConfiguration.LAUNCH_CONT_ATTR,
                 handleIdentifier);
     }
 
@@ -184,7 +192,7 @@ public class PerfidixLaunchDescription {
      *            The main type for the launch description.
      * @return The perfidix launch description.
      */
-    public PerfidixLaunchDescription setMainType(String mainType) {
+    public PerfidixLaunchDescription setMainType(final String mainType) {
         return setAttribute(
                 IJavaLaunchConfigurationConstants.ATTR_MAIN_TYPE_NAME, mainType);
     }
@@ -198,7 +206,7 @@ public class PerfidixLaunchDescription {
      *            The bench name.
      * @return The launch description.
      */
-    public PerfidixLaunchDescription setBenchName(String benchName) {
+    public PerfidixLaunchDescription setBenchName(final String benchName) {
         return setAttribute(
                 PerfidixLaunchConfiguration.BENCH_NAME_ATTR, benchName);
     }
@@ -216,7 +224,7 @@ public class PerfidixLaunchDescription {
      * @return The project name.
      */
     private String getProjectName() {
-        IJavaProject project = getProject();
+        final IJavaProject project = getProject();
         return project == null ? null : project.getElementName();
     }
 
@@ -231,13 +239,14 @@ public class PerfidixLaunchDescription {
      * @throws CoreException
      *             The exception.
      */
-    boolean attributesMatch(ILaunchConfiguration config) throws CoreException {
-        for (int i = 0; i < ATTRIBUTES_THAT_MUST_MATCH.length; i++) {
-            if (!configurationMatches(ATTRIBUTES_THAT_MUST_MATCH[i], config)) {
-                return false;
+    public boolean attributesMatch(final ILaunchConfiguration config) throws CoreException {
+        boolean returnValue=true;
+        for (int i = 0; i < ATTR_MUST_MATCH.length; i++) {
+            if (!configurationMatches(ATTR_MUST_MATCH[i], config)) {
+                returnValue= false;
             }
         }
-        return true;
+        return returnValue;
     }
 
     /**
@@ -252,8 +261,8 @@ public class PerfidixLaunchDescription {
      * @throws CoreException
      *             A core exception.
      */
-    boolean configurationMatches(
-            final String attributeName, ILaunchConfiguration config)
+    public boolean configurationMatches(
+            final String attributeName, final ILaunchConfiguration config)
             throws CoreException {
         return config.getAttribute(attributeName, EMPTY).equals(
                 getAttribute(attributeName));
@@ -266,7 +275,7 @@ public class PerfidixLaunchDescription {
      * @param type
      *            The type parameter.
      */
-    void setMainType(IType type) {
+    public void setMainType(final IType type) {
         setMainType(type.getFullyQualifiedName());
     }
 
@@ -278,11 +287,13 @@ public class PerfidixLaunchDescription {
      * @param otherThing
      * @return
      */
-    private boolean areEqual(Object thing, Object otherThing) {
-        if (thing == null) {
-            return otherThing == null;
+    private boolean areEqual(final Object thing, final Object otherThing) {
+        boolean retValue=false;
+        if (thing == null && otherThing==null) {
+            retValue=true;
         }
-        return thing.equals(otherThing);
+        retValue= thing.equals(otherThing);
+        return retValue;
     }
 
     /**
@@ -304,7 +315,7 @@ public class PerfidixLaunchDescription {
      * @param value
      * @return The perfidix launch description.
      */
-    private PerfidixLaunchDescription setAttribute(String attr, String value) {
+    private PerfidixLaunchDescription setAttribute(final String attr,final String value) {
         fAttributes.put(attr, value);
         return this;
     }
