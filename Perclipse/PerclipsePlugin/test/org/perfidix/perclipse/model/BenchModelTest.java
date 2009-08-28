@@ -73,7 +73,7 @@ public class BenchModelTest {
     public void testStop() {
 
         model.stop();
-        model=null;
+        model = null;
 
     }
 

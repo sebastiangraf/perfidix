@@ -65,8 +65,8 @@ public final class BenchSearchEngine {
      * @throws InterruptedException
      *             The upcoming exceptions.
      */
-    public static IType[] findBenchs(final
-            IRunnableContext context, final Object[] elements)
+    public static IType[] findBenchs(
+            final IRunnableContext context, final Object[] elements)
             throws InvocationTargetException, InterruptedException {
         final Set<IType> result = new HashSet<IType>();
 
@@ -74,7 +74,8 @@ public final class BenchSearchEngine {
             final IRunnableWithProgress runnable = new IRunnableWithProgress() {
                 public void run(final IProgressMonitor progMonitor)
                         throws InterruptedException {
-                    BenchFinder.findBenchsInContainer(elements, result, progMonitor);
+                    BenchFinder.findBenchsInContainer(
+                            elements, result, progMonitor);
                 }
             };
             context.run(true, true, runnable);
@@ -92,8 +93,9 @@ public final class BenchSearchEngine {
      * @throws JavaModelException
      *             The upcoming exception.
      */
-    public static Object computeScope(final Object element) throws JavaModelException {
-        Object returnElement=element;
+    public static Object computeScope(final Object element)
+            throws JavaModelException {
+        Object returnElement = element;
         if (element instanceof IFileEditorInput) {
             returnElement = ((IFileEditorInput) element).getFile();
         }
@@ -151,9 +153,9 @@ public final class BenchSearchEngine {
      * @return The type.
      */
     private static IType benchType(final IJavaProject javaProject) {
-        IType returnBenchType=null;
+        IType returnBenchType = null;
         try {
-            returnBenchType=javaProject.findType("org.perfidix.Benchmark");
+            returnBenchType = javaProject.findType("org.perfidix.Benchmark");
         } catch (JavaModelException e) {
             PerclipseActivator.log(e);
         }

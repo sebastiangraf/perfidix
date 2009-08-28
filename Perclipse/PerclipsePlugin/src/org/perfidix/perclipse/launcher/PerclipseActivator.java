@@ -200,8 +200,7 @@ public class PerclipseActivator extends AbstractUIPlugin {
      */
     public static IWorkbenchPage getActivePage() {
         IWorkbenchPage page = null;
-        final IWorkbenchWindow activeWorkbWindow =
-                getActiveWorkbenchWindow();
+        final IWorkbenchWindow activeWorkbWindow = getActiveWorkbenchWindow();
         if (activeWorkbWindow != null) {
             page = activeWorkbWindow.getActivePage();
         }
@@ -246,13 +245,15 @@ public class PerclipseActivator extends AbstractUIPlugin {
     public BundleContext getBundleContext() {
         return bundleContext;
     }
-    
+
     /**
      * Set shared instance-
-     * @param instance This instance.
+     * 
+     * @param instance
+     *            This instance.
      */
-    private void setSharedInstance(final PerclipseActivator instance){
-        plugin=instance;
+    private void setSharedInstance(final PerclipseActivator instance) {
+        plugin = instance;
     }
 
 }

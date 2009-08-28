@@ -57,7 +57,8 @@ public class PerfidixLaunchDescription {
 
     private static final String DEFAULT_VALUE = ""; //$NON-NLS-1$
 
-    final private transient Map<String, String> fAttributes = new HashMap<String, String>();
+    final private transient Map<String, String> fAttributes =
+            new HashMap<String, String>();
 
     private final transient IJavaElement fElement;
 
@@ -72,7 +73,8 @@ public class PerfidixLaunchDescription {
      * @param name
      *            The name of the launch description.
      */
-    public PerfidixLaunchDescription(final IJavaElement element,final String name) {
+    public PerfidixLaunchDescription(
+            final IJavaElement element, final String name) {
         fElement = element;
         fName = name;
         setAttribute(
@@ -93,10 +95,11 @@ public class PerfidixLaunchDescription {
                 getProjectName());
 
         final Set<?> definedAttributes = getDefinedAttributes();
-        for (final Iterator<?> iter = definedAttributes.iterator(); iter.hasNext();) {
+        for (final Iterator<?> iter = definedAttributes.iterator(); iter
+                .hasNext();) {
             final Entry<?, ?> attribute = (Entry<?, ?>) iter.next();
-            workCop.setAttribute((String) attribute.getKey(), (String) attribute
-                    .getValue());
+            workCop.setAttribute(
+                    (String) attribute.getKey(), (String) attribute.getValue());
         }
     }
 
@@ -108,12 +111,11 @@ public class PerfidixLaunchDescription {
                 && areEqual(desc.fName, fName)
                 && areEqual(desc.fAttributes, fAttributes);
     }
-    
-    
+
     /** {@inheritDoc} */
     @Override
-    public int hashCode(){
-        return super.hashCode()+1;
+    public int hashCode() {
+        return super.hashCode() + 1;
     }
 
     /**
@@ -125,9 +127,9 @@ public class PerfidixLaunchDescription {
      * @return The String value of the searched attribute.
      */
     public String getAttribute(final String attr) {
-        String returnString=DEFAULT_VALUE;
+        String returnString = DEFAULT_VALUE;
         if (fAttributes.containsKey(attr)) {
-            returnString= fAttributes.get(attr);
+            returnString = fAttributes.get(attr);
         }
         return returnString;
     }
@@ -180,8 +182,7 @@ public class PerfidixLaunchDescription {
      */
     public PerfidixLaunchDescription setContainer(final String handleIdentifier) {
         return setAttribute(
-                PerfidixLaunchConfiguration.LAUNCH_CONT_ATTR,
-                handleIdentifier);
+                PerfidixLaunchConfiguration.LAUNCH_CONT_ATTR, handleIdentifier);
     }
 
     /**
@@ -239,11 +240,12 @@ public class PerfidixLaunchDescription {
      * @throws CoreException
      *             The exception.
      */
-    public boolean attributesMatch(final ILaunchConfiguration config) throws CoreException {
-        boolean returnValue=true;
+    public boolean attributesMatch(final ILaunchConfiguration config)
+            throws CoreException {
+        boolean returnValue = true;
         for (int i = 0; i < ATTR_MUST_MATCH.length; i++) {
             if (!configurationMatches(ATTR_MUST_MATCH[i], config)) {
-                returnValue= false;
+                returnValue = false;
             }
         }
         return returnValue;
@@ -288,11 +290,11 @@ public class PerfidixLaunchDescription {
      * @return
      */
     private boolean areEqual(final Object thing, final Object otherThing) {
-        boolean retValue=false;
-        if (thing == null && otherThing==null) {
-            retValue=true;
+        boolean retValue = false;
+        if (thing == null && otherThing == null) {
+            retValue = true;
         }
-        retValue= thing.equals(otherThing);
+        retValue = thing.equals(otherThing);
         return retValue;
     }
 
@@ -315,7 +317,8 @@ public class PerfidixLaunchDescription {
      * @param value
      * @return The perfidix launch description.
      */
-    private PerfidixLaunchDescription setAttribute(final String attr,final String value) {
+    private PerfidixLaunchDescription setAttribute(
+            final String attr, final String value) {
         fAttributes.put(attr, value);
         return this;
     }

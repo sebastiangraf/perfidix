@@ -124,19 +124,17 @@ public class PerclipseViewSkeletonTest {
         stubForSkeletonTest.finishedBenchRuns();
     }
 
-    
     /**
      * Test the stub skeleton for exception.
      */
     @Test(expected = RuntimeException.class)
     public void testNoIncoming() {
         WorkerStubForSkeletonTest stubForSkeletonTest =
-            new WorkerStubForSkeletonTest(null, port);
+                new WorkerStubForSkeletonTest(null, port);
         stubForSkeletonTest.finishedBenchRuns();
         skeleton.start();
     }
-    
-    
+
     /**
      * Test the stub skeleton for exception.
      */
@@ -198,7 +196,7 @@ public class PerclipseViewSkeletonTest {
         stubForSkeletonTest.finishedBenchRuns();
         stubForSkeletonTest.finishedBenchRuns();
     }
-    
+
     /**
      * Test the stub skeleton for false command.
      */
@@ -298,7 +296,6 @@ public class PerclipseViewSkeletonTest {
             }
 
         }
-        
 
         /**
          * Dummy method to test an incoming false command at the skeleton.

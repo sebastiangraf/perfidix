@@ -56,7 +56,7 @@ public class PerfidixVariableInitializer extends ClasspathVariableInitializer {
      */
     @Override
     public void initialize(final String variable) {
-        final Bundle bundle = PerclipseActivator.getDefault().getBundle(); 
+        final Bundle bundle = PerclipseActivator.getDefault().getBundle();
         if (bundle == null) {
             JavaCore.removeClasspathVariable(
                     PerclipseActivator.PERFIDIX_HOME, null);

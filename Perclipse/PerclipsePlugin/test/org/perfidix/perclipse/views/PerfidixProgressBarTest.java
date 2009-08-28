@@ -32,7 +32,6 @@ import org.perfidix.perclipse.launcher.PerclipseActivator;
 import org.perfidix.perclipse.views.BenchView;
 import org.perfidix.perclipse.views.PerfidixProgressBar;
 
-
 /**
  * This class tests the java class
  * {@link org.perfidix.Perclipse.view.PerfidixProgressBar}.

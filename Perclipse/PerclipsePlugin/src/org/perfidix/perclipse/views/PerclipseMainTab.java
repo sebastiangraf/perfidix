@@ -18,7 +18,7 @@
  * $LastChangedDate$
  *
  */
-package org.perfidix.perclipse.views;
+package org.perfidix.perclipse.views; // NOPMD by lewandow on 8/28/09 4:33 PM
 
 import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
@@ -85,46 +85,52 @@ import org.perfidix.perclipse.util.BenchSearchEngine;
  * 
  * @author Lewandowski L.
  */
-public class PerclipseMainTab extends AbstractLaunchConfigurationTab {
-    
-    /**
-     * Empty constructor
-     */
-    public PerclipseMainTab(){
-        
-    }
+public class PerclipseMainTab extends AbstractLaunchConfigurationTab { // NOPMD
+                                                                       // by
+                                                                       // lewandow
+                                                                       // on
+                                                                       // 8/28/09
+                                                                       // 4:28
+                                                                       // PM
+
+    // /**
+    // * Empty constructor
+    // */
+    // public PerclipseMainTab(){
+    //        
+    // }
 
     // UI Elements for the single section
-    private Button fSingleBenchRadioButton;
-    private Label fProjLabel;
-    private Text fProjText;
-    private Button fSearchButton;
-    private Button fProjButton;
-    private Label fBenchLabel;
-    private Text fBenchText;
-    private Label fBenchMethodLabel;
+    private transient Button singleBenchRB;
+    private transient Label fProjLabel;
+    private transient Text fProjText;
+    private transient Button fSearchButton;
+    private transient Button fProjButton;
+    private transient Label fBenchLabel;
+    private transient Text fBenchText;
+    private transient Label fBenchMethodLabel;
 
     // UI Elements for the all bench section
-    private Button fAllBenchsRadioButton;
-    private Text fProjTextforAllBenchs;
-    private Button fProjButtonforAllBenchs;
-    private IJavaElement fContainerElement;
+    private transient Button allBenchsRB;
+    private transient Text textAllBenchs;
+    private transient Button pButAllBenchs;
+    private transient IJavaElement fContainerElement;
 
-    private final ILabelProvider fJavaElementLabelProvider =
+    private transient final ILabelProvider jElementLP =
             new JavaElementLabelProvider();
-    private String fOriginalBenchMethodName;
-    private final IPath iconPath = new Path("icons/time.png");
-    private Image fTabIcon =
+    private transient String origBenchMethName;
+    private transient final IPath iconPath = new Path("icons/time.png");
+    private transient final Image fTabIcon =
             createImageDescriptor(
                     PerclipseActivator.getDefault().getBundle(), iconPath, true)
                     .createImage();
 
     /** {@inheritDoc} */
-    public void createControl(Composite parent) {
-        Composite comp = new Composite(parent, SWT.NONE);
+    public void createControl(final Composite parent) {
+        final Composite comp = new Composite(parent, SWT.NONE);
         setControl(comp);
 
-        GridLayout topLayout = new GridLayout();
+        final GridLayout topLayout = new GridLayout();
         topLayout.numColumns = 3;
         comp.setLayout(topLayout);
 
@@ -138,14 +144,13 @@ public class PerclipseMainTab extends AbstractLaunchConfigurationTab {
     }
 
     /** {@inheritDoc} */
-    public void initializeFrom(ILaunchConfiguration config) {
+    public void initializeFrom(final ILaunchConfiguration config) {
         updateProjectFromConfig(config);
         String containerHandle = ""; //$NON-NLS-1$
         try {
             containerHandle =
                     config.getAttribute(
-                            PerfidixLaunchConfiguration.LAUNCH_CONT_ATTR,
-                            ""); //$NON-NLS-1$
+                            PerfidixLaunchConfiguration.LAUNCH_CONT_ATTR, ""); //$NON-NLS-1$
         } catch (CoreException ce) {
             PerclipseActivator.log(ce);
         }
@@ -160,9 +165,9 @@ public class PerclipseMainTab extends AbstractLaunchConfigurationTab {
     }
 
     /** {@inheritDoc} */
-    public void performApply(ILaunchConfigurationWorkingCopy config) {
+    public void performApply(final ILaunchConfigurationWorkingCopy config) {
 
-        if (fAllBenchsRadioButton.getSelection() && fContainerElement != null) {
+        if (allBenchsRB.getSelection() && fContainerElement != null) {
 
             performApplyContainer(config, fContainerElement);
 
@@ -178,21 +183,21 @@ public class PerclipseMainTab extends AbstractLaunchConfigurationTab {
                     PerfidixLaunchConfiguration.LAUNCH_CONT_ATTR, ""); //$NON-NLS-1$
             config.setAttribute(
                     PerfidixLaunchConfiguration.BENCH_NAME_ATTR,
-                    fOriginalBenchMethodName);
+                    origBenchMethName);
         }
 
     }
 
     /** {@inheritDoc} */
-    public void setDefaults(ILaunchConfigurationWorkingCopy config) {
-        IJavaElement javaElement = getContext();
-        if (javaElement != null) {
-            initializeJavaProject(javaElement, config);
-        } else {
+    public void setDefaults(final ILaunchConfigurationWorkingCopy config) {
+        final IJavaElement javaElement = getContext();
+        if (javaElement == null) {
             config.setAttribute(
                     IJavaLaunchConfigurationConstants.ATTR_PROJECT_NAME, ""); //$NON-NLS-1$
             config.setAttribute(
                     PerfidixLaunchConfiguration.LAUNCH_CONT_ATTR, ""); //$NON-NLS-1$
+        } else {
+            initializeJavaProject(javaElement, config);
         }
         initializeBenchAttributes(javaElement, config);
 
@@ -216,7 +221,8 @@ public class PerclipseMainTab extends AbstractLaunchConfigurationTab {
      *            elements specified by the user
      */
     private void initializeBenchAttributes(
-            IJavaElement javaElement, ILaunchConfigurationWorkingCopy config) {
+            final IJavaElement javaElement,
+            final ILaunchConfigurationWorkingCopy config) {
         if (javaElement != null
                 && javaElement.getElementType() < IJavaElement.COMPILATION_UNIT) {
             initializeBenchContainer(javaElement, config);
@@ -236,7 +242,8 @@ public class PerclipseMainTab extends AbstractLaunchConfigurationTab {
      *            can change its attributes for a given LaunchConfiguration
      */
     private void initializeBenchContainer(
-            IJavaElement javaElement, ILaunchConfigurationWorkingCopy config) {
+            final IJavaElement javaElement,
+            final ILaunchConfigurationWorkingCopy config) {
         config.setAttribute(
                 PerfidixLaunchConfiguration.LAUNCH_CONT_ATTR, javaElement
                         .getHandleIdentifier());
@@ -256,17 +263,18 @@ public class PerclipseMainTab extends AbstractLaunchConfigurationTab {
      *            current ILaunchConfigurationWorkingCopy
      */
     private void initializeName(
-            ILaunchConfigurationWorkingCopy config, String name) {
-        if (name == null) {
-            name = ""; //$NON-NLS-1$
+            final ILaunchConfigurationWorkingCopy config, final String name) {
+        String usedName = name;
+        if (usedName == null) {
+            usedName = ""; //$NON-NLS-1$
         }
-        if (name.length() > 0) {
-            int index = name.lastIndexOf('.');
+        if (usedName.length() > 0) {
+            final int index = usedName.lastIndexOf('.');
             if (index > 0) {
-                name = name.substring(index + 1);
+                usedName = usedName.substring(index + 1);
             }
-            name = getLaunchConfigurationDialog().generateName(name);
-            config.rename(name);
+            usedName = getLaunchConfigurationDialog().generateName(usedName);
+            config.rename(usedName);
         }
     }
 
@@ -280,7 +288,8 @@ public class PerclipseMainTab extends AbstractLaunchConfigurationTab {
      *            represents the current {@link ILaunchConfigurationWorkingCopy}
      */
     private void initializeBenchType(
-            IJavaElement javaElement, ILaunchConfigurationWorkingCopy config) {
+            final IJavaElement javaElement,
+            final ILaunchConfigurationWorkingCopy config) {
         String name = ""; //$NON-NLS-1$
         try {
             // we only do a search for compilation units or class files or
@@ -289,7 +298,7 @@ public class PerclipseMainTab extends AbstractLaunchConfigurationTab {
                     || (javaElement instanceof ISourceReference)
                     || (javaElement instanceof IClassFile)) {
 
-                IType[] types =
+                final IType[] types =
                         BenchSearchEngine
                                 .findBenchs(new Object[] { javaElement });
                 if ((types == null) || (types.length < 1)) {
@@ -317,12 +326,11 @@ public class PerclipseMainTab extends AbstractLaunchConfigurationTab {
      * @param benchMethodName
      *            is the given String value of name
      */
-    private void setBenchMethodLabel(String benchMethodName) {
-        if (!"".equals(benchMethodName)) { //$NON-NLS-1$
-            fBenchMethodLabel
-                    .setText("BenchMethod:" + fOriginalBenchMethodName);
+    private void setBenchMethodLabel(final String benchMethodName) {
+        if ("".equals(benchMethodName)) {
+            fBenchMethodLabel.setText("");
         } else {
-            fBenchMethodLabel.setText(""); //$NON-NLS-1$
+            fBenchMethodLabel.setText("BenchMethod:" + origBenchMethName);
         }
     }
 
@@ -334,26 +342,26 @@ public class PerclipseMainTab extends AbstractLaunchConfigurationTab {
      * @param config
      *            is an instance of the {@link ILaunchConfiguration}
      */
-    private void updateBenchTypeFromConfig(ILaunchConfiguration config) {
+    private void updateBenchTypeFromConfig(final ILaunchConfiguration config) {
         String benchTypeName = ""; //$NON-NLS-1$
-        fOriginalBenchMethodName = ""; //$NON-NLS-1$
+        origBenchMethName = ""; //$NON-NLS-1$
         try {
             benchTypeName =
                     config
                             .getAttribute(
                                     IJavaLaunchConfigurationConstants.ATTR_MAIN_TYPE_NAME,
                                     ""); //$NON-NLS-1$
-            fOriginalBenchMethodName =
+            origBenchMethName =
                     config.getAttribute(
                             PerfidixLaunchConfiguration.BENCH_NAME_ATTR, ""); //$NON-NLS-1$
         } catch (CoreException ce) {
             PerclipseActivator.log(ce);
         }
-        fSingleBenchRadioButton.setSelection(true);
+        singleBenchRB.setSelection(true);
         setEnableSingleBenchGroup(true);
         fBenchText.setText(benchTypeName);
         //fContainerText.setText(""); //$NON-NLS-1$
-        setBenchMethodLabel(fOriginalBenchMethodName);
+        setBenchMethodLabel(origBenchMethName);
     }
 
     /**
@@ -363,7 +371,7 @@ public class PerclipseMainTab extends AbstractLaunchConfigurationTab {
      * @param config
      *            is the {@link ILaunchConfiguration} instance
      */
-    private void updateProjectFromConfig(ILaunchConfiguration config) {
+    private void updateProjectFromConfig(final ILaunchConfiguration config) {
 
         String projectName = ""; //$NON-NLS-1$
         try {
@@ -376,7 +384,6 @@ public class PerclipseMainTab extends AbstractLaunchConfigurationTab {
 
         } catch (CoreException ce) {
             PerclipseActivator.log(ce);
-            ce.printStackTrace();
         }
         fProjText.setText(projectName);
     }
@@ -391,16 +398,16 @@ public class PerclipseMainTab extends AbstractLaunchConfigurationTab {
      *            is of type {@link Composite} and will contain the afterwards
      *            specified widgets
      */
-    private void createSingleBenchSection(Composite comp) {
-        fSingleBenchRadioButton = new Button(comp, SWT.RADIO);
-        fSingleBenchRadioButton.setText("Run a single bench");
-        GridData gd = new GridData();
-        gd.horizontalSpan = 3;
-        fSingleBenchRadioButton.setLayoutData(gd);
-        fSingleBenchRadioButton.addSelectionListener(new SelectionAdapter() {
+    private void createSingleBenchSection(final Composite comp) {
+        singleBenchRB = new Button(comp, SWT.RADIO);
+        singleBenchRB.setText("Run a single bench");
+        GridData gridData = new GridData();
+        gridData.horizontalSpan = 3;
+        singleBenchRB.setLayoutData(gridData);
+        singleBenchRB.addSelectionListener(new SelectionAdapter() {
             @Override
-            public void widgetSelected(SelectionEvent e) {
-                if (fSingleBenchRadioButton.getSelection()) {
+            public void widgetSelected(final SelectionEvent event) {
+                if (singleBenchRB.getSelection()) {
                     benchModeChanged();
                 }
             }
@@ -408,17 +415,17 @@ public class PerclipseMainTab extends AbstractLaunchConfigurationTab {
 
         fProjLabel = new Label(comp, SWT.NONE);
         fProjLabel.setText("Project: ");
-        gd = new GridData();
-        gd.horizontalIndent = 25;
-        fProjLabel.setLayoutData(gd);
+        gridData = new GridData();
+        gridData.horizontalIndent = 25;
+        fProjLabel.setLayoutData(gridData);
 
         fProjText = new Text(comp, SWT.SINGLE | SWT.BORDER);
         fProjText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         fProjText.addModifyListener(new ModifyListener() {
-            public void modifyText(ModifyEvent evt) {
+            public void modifyText(final ModifyEvent event) {
                 validatePage();
                 updateLaunchConfigurationDialog();
-                fSearchButton.setEnabled(fSingleBenchRadioButton.getSelection()
+                fSearchButton.setEnabled(singleBenchRB.getSelection()
                         && fProjText.getText().length() > 0);
             }
         });
@@ -430,20 +437,20 @@ public class PerclipseMainTab extends AbstractLaunchConfigurationTab {
         fProjButton.setText("Browse...");
         fProjButton.addSelectionListener(new SelectionAdapter() {
             @Override
-            public void widgetSelected(SelectionEvent evt) {
+            public void widgetSelected(final SelectionEvent event) {
                 handleProjectButtonSelected(fProjButton);
             }
         });
         setButtonGridData(fProjButton);
 
-        gd = new GridData();
-        gd.horizontalIndent = 25;
-        fBenchLabel.setLayoutData(gd);
+        gridData = new GridData();
+        gridData.horizontalIndent = 25;
+        fBenchLabel.setLayoutData(gridData);
         fBenchLabel.setText("Bench class: ");
 
         fBenchText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         fBenchText.addModifyListener(new ModifyListener() {
-            public void modifyText(ModifyEvent evt) {
+            public void modifyText(final ModifyEvent event) {
                 validatePage();
                 updateLaunchConfigurationDialog();
             }
@@ -454,19 +461,17 @@ public class PerclipseMainTab extends AbstractLaunchConfigurationTab {
         fSearchButton.setText("Search...");
         fSearchButton.addSelectionListener(new SelectionAdapter() {
             @Override
-            public void widgetSelected(SelectionEvent evt) {
+            public void widgetSelected(final SelectionEvent event) {
                 handleSearchButtonSelected();
             }
         });
         setButtonGridData(fSearchButton);
 
-        new Label(comp, SWT.NONE);
-
         fBenchMethodLabel = new Label(comp, SWT.NONE);
         fBenchMethodLabel.setText(""); //$NON-NLS-1$
-        gd = new GridData();
-        gd.horizontalSpan = 2;
-        fBenchMethodLabel.setLayoutData(gd);
+        gridData = new GridData();
+        gridData.horizontalSpan = 2;
+        fBenchMethodLabel.setLayoutData(gridData);
 
     }
 
@@ -480,42 +485,41 @@ public class PerclipseMainTab extends AbstractLaunchConfigurationTab {
      *            is of type {@link Composite} and will contain the widgets
      *            which will be specified in this method
      */
-    private void createAllBenchsSection(Composite comp) {
-        fAllBenchsRadioButton = new Button(comp, SWT.RADIO);
-        fAllBenchsRadioButton
-                .setText("Run all benchs in the selected project:");
-        GridData gd = new GridData();
-        gd.horizontalSpan = 3;
-        fAllBenchsRadioButton.setLayoutData(gd);
-        fAllBenchsRadioButton.addSelectionListener(new SelectionAdapter() {
+    private void createAllBenchsSection(final Composite comp) {
+        allBenchsRB = new Button(comp, SWT.RADIO);
+        allBenchsRB.setText("Run all benchs in the selected project:");
+        GridData gridData = new GridData();
+        gridData.horizontalSpan = 3;
+        allBenchsRB.setLayoutData(gridData);
+        allBenchsRB.addSelectionListener(new SelectionAdapter() {
             @Override
-            public void widgetSelected(SelectionEvent e) {
-                if (fAllBenchsRadioButton.getSelection()) {
+            public void widgetSelected(final SelectionEvent event) {
+                if (allBenchsRB.getSelection()) {
                     benchModeChanged();
                 }
             }
         });
-        gd = new GridData(GridData.FILL_HORIZONTAL);
-        gd.horizontalIndent = 25;
-        gd.horizontalSpan = 2;
+        gridData = new GridData(GridData.FILL_HORIZONTAL);
+        gridData.horizontalIndent = 25;
+        gridData.horizontalSpan = 2;
 
-        fProjTextforAllBenchs = new Text(comp, SWT.SINGLE | SWT.BORDER);
-        fProjTextforAllBenchs.setLayoutData(gd);
-        fProjTextforAllBenchs.addModifyListener(new ModifyListener() {
-            public void modifyText(ModifyEvent evt) {
+        textAllBenchs = new Text(comp, SWT.SINGLE | SWT.BORDER);
+        textAllBenchs.setLayoutData(gridData);
+        textAllBenchs.addModifyListener(new ModifyListener() {
+            public void modifyText(final ModifyEvent event) {
                 validatePage();
                 updateLaunchConfigurationDialog();
             }
         });
-        fProjButtonforAllBenchs = new Button(comp, SWT.PUSH);
-        fProjButtonforAllBenchs.setText("Search...");
-        fProjButtonforAllBenchs.addSelectionListener(new SelectionAdapter() {
+        pButAllBenchs = new Button(comp, SWT.PUSH);
+        pButAllBenchs.setText("Search...");
+        pButAllBenchs.addSelectionListener(new SelectionAdapter() {
             @Override
-            public void widgetSelected(SelectionEvent evt) {
-                handleProjectButtonSelected(fProjButtonforAllBenchs);
+            public void widgetSelected(final SelectionEvent event) {
+                handleProjectButtonSelected(pButAllBenchs);
             }
         });
-        setButtonGridData(fProjButtonforAllBenchs);
+        setButtonGridData(pButAllBenchs);
 
     }
 
@@ -525,8 +529,8 @@ public class PerclipseMainTab extends AbstractLaunchConfigurationTab {
      * @param button
      *            is a given {@link Button}
      */
-    private void setButtonGridData(Button button) {
-        GridData gridData = new GridData(GridData.HORIZONTAL_ALIGN_FILL);
+    private void setButtonGridData(final Button button) {
+        final GridData gridData = new GridData(GridData.HORIZONTAL_ALIGN_FILL);
         button.setLayoutData(gridData);
         // TODO look after this one
         // LayoutUtil.setButtonDimensionHint(button);
@@ -538,49 +542,48 @@ public class PerclipseMainTab extends AbstractLaunchConfigurationTab {
      * objects which contain at least one bench.
      */
     private void handleSearchButtonSelected() {
-        Shell shell = getShell();
+        final Shell shell = getShell();
 
         IJavaProject javaProject = getJavaProject();
 
         IType[] types = new IType[0];
         boolean[] radioSetting = new boolean[2];
         try {
-            radioSetting[0] = fSingleBenchRadioButton.getSelection();
+            radioSetting[0] = singleBenchRB.getSelection();
             // radioSetting[1]= fTestContainerRadioButton.getSelection();
 
             types =
                     BenchSearchEngine.findBenchs(
                             getLaunchConfigurationDialog(),
                             new Object[] { javaProject });
-        } catch (InterruptedException e) {
-            PerclipseActivator.log(e);
-            setErrorMessage(e.getMessage());
-            return;
-        } catch (InvocationTargetException e) {
-            return;
+        } catch (InterruptedException exce) {
+            PerclipseActivator.log(exce);
+            setErrorMessage(exce.getMessage());
+        } catch (InvocationTargetException exce) {
+            PerclipseActivator.log(exce);
         } finally {
-            fSingleBenchRadioButton.setSelection(radioSetting[0]);
+            singleBenchRB.setSelection(radioSetting[0]);
 
         }
 
-        SelectionDialog dialog = new BenchSelectionDialog(shell, types);
+        final SelectionDialog dialog = new BenchSelectionDialog(shell, types);
         dialog.setTitle("Search Bench types");
         dialog.setMessage("Search Bench types");
-        if (dialog.open() == Window.CANCEL) {
-            return;
+        if (dialog.open() != Window.CANCEL) {
+            final Object[] results = dialog.getResult();
+            if ((results != null) && (results.length >= 1)) {
+
+                final IType type = (IType) results[0];
+
+                if (type != null) {
+                    fBenchText.setText(type.getFullyQualifiedName('.'));
+                    javaProject = type.getJavaProject();
+                    fProjText.setText(javaProject.getElementName());
+                }
+            }
+
         }
 
-        Object[] results = dialog.getResult();
-        if ((results == null) || (results.length < 1)) {
-            return;
-        }
-        IType type = (IType) results[0];
-
-        if (type != null) {
-            fBenchText.setText(type.getFullyQualifiedName('.'));
-            javaProject = type.getJavaProject();
-            fProjText.setText(javaProject.getElementName());
-        }
     }
 
     /**
@@ -590,6 +593,7 @@ public class PerclipseMainTab extends AbstractLaunchConfigurationTab {
      * @return the project as an instance of {@link IJavaProject}
      */
     private IJavaProject chooseJavaProject() {
+        IJavaProject retProject = null;
         IJavaProject[] projects;
         try {
             projects = JavaCore.create(getWorkspaceRoot()).getJavaProjects();
@@ -598,23 +602,23 @@ public class PerclipseMainTab extends AbstractLaunchConfigurationTab {
             projects = new IJavaProject[0];
         }
 
-        ILabelProvider labelProvider =
+        final ILabelProvider labelProvider =
                 new JavaElementLabelProvider(
                         JavaElementLabelProvider.SHOW_DEFAULT);
-        ElementListSelectionDialog dialog =
+        final ElementListSelectionDialog dialog =
                 new ElementListSelectionDialog(getShell(), labelProvider);
         dialog.setTitle("Select Project");
         dialog.setMessage("Select Project");
         dialog.setElements(projects);
 
-        IJavaProject javaProject = getJavaProject();
+        final IJavaProject javaProject = getJavaProject();
         if (javaProject != null) {
             dialog.setInitialSelections(new Object[] { javaProject });
         }
         if (dialog.open() == Window.OK) {
-            return (IJavaProject) dialog.getFirstResult();
+            retProject = (IJavaProject) dialog.getFirstResult();
         }
-        return null;
+        return retProject;
     }
 
     /**
@@ -623,29 +627,28 @@ public class PerclipseMainTab extends AbstractLaunchConfigurationTab {
      * benchmark. It calls the chooseJavaProject method and sets the text label
      * with the selected project.
      * 
-     * @param bt
+     * @param button
      *            is a given button of type {@link Button} to react on an user
      *            action for this special button.
      */
-    private void handleProjectButtonSelected(Button bt) {
+    private void handleProjectButtonSelected(final Button button) {
 
-        IJavaProject project = chooseJavaProject();
+        final IJavaProject project = chooseJavaProject();
         fContainerElement = project;
-        if (project == null) {
-            return;
+        if (project != null) {
+            final String projectName = project.getElementName();
+
+            if (button.equals(fProjButton)) {
+                fProjText.setText(projectName);
+                fBenchText.setText("");
+            }
+            if (button.equals(pButAllBenchs)) {
+                textAllBenchs.setText(projectName);
+            }
+            validatePage();
+            updateLaunchConfigurationDialog();
         }
 
-        String projectName = project.getElementName();
-
-        if (bt == fProjButton) {
-            fProjText.setText(projectName);
-            fBenchText.setText("");
-        }
-        if (bt == fProjButtonforAllBenchs) {
-            fProjTextforAllBenchs.setText(projectName);
-        }
-        validatePage();
-        updateLaunchConfigurationDialog();
     }
 
     /**
@@ -654,18 +657,17 @@ public class PerclipseMainTab extends AbstractLaunchConfigurationTab {
      * of the LaunchConfigurations.
      */
     private void benchModeChanged() {
-        boolean isSingleBenchMode = fSingleBenchRadioButton.getSelection();
+        final boolean isSingleBenchMode = singleBenchRB.getSelection();
         setEnableSingleBenchGroup(isSingleBenchMode);
         setEnableAllBenchGroup(!isSingleBenchMode);
 
-        if (!isSingleBenchMode && fProjTextforAllBenchs.getText().length() == 0) {
-            IJavaProject javaProject =
+        if (!isSingleBenchMode && textAllBenchs.getText().length() == 0) {
+            final IJavaProject javaProject =
                     getJavaModel().getJavaProject(fProjText.getText());
             if (javaProject != null && javaProject.exists()) {
                 fContainerElement = javaProject;
             }
-            fProjTextforAllBenchs
-                    .setText(getPresentationName(fContainerElement));
+            textAllBenchs.setText(getPresentationName(fContainerElement));
         }
         validatePage();
         updateLaunchConfigurationDialog();
@@ -678,13 +680,13 @@ public class PerclipseMainTab extends AbstractLaunchConfigurationTab {
      * 
      * @param javaProject
      */
-    private boolean validateJavaProject(IJavaProject javaProject) {
+    private boolean validateJavaProject(final IJavaProject javaProject) {
+        boolean retValue = true;
         if (!BenchSearchEngine.hasBenchType(javaProject)) {
             setErrorMessage("No Benchs on path");
-
-            return false;
+            retValue = false;
         }
-        return true;
+        return retValue;
     }
 
     /**
@@ -697,51 +699,58 @@ public class PerclipseMainTab extends AbstractLaunchConfigurationTab {
         setErrorMessage(null);
         setMessage(null);
 
-        if (fAllBenchsRadioButton.getSelection()) {
+        if (allBenchsRB.getSelection()) {
             if (fContainerElement == null) {
                 setErrorMessage("No java project selected");
-                return;
+            } else {
+                validateJavaProject(fContainerElement.getJavaProject());
             }
-            validateJavaProject(fContainerElement.getJavaProject());
-            return;
-        }
+        } else {
+            final String projectName = fProjText.getText().trim();
+            if (projectName.length() == 0) {
+                setErrorMessage("Project not defined");
+            } else {
+                final IStatus status =
+                        ResourcesPlugin.getWorkspace().validatePath(
+                                IPath.SEPARATOR + projectName,
+                                IResource.PROJECT);
+                if (status.isOK()) {
+                    final IProject project =
+                            getWorkspaceRoot().getProject(projectName);
+                    if (project.exists()) {
+                        try {
+                            if (project.hasNature(JavaCore.NATURE_ID)) {
 
-        String projectName = fProjText.getText().trim();
-        if (projectName.length() == 0) {
-            setErrorMessage("Project not defined");
-            return;
-        }
+                                final String className =
+                                        fBenchText.getText().trim();
+                                if (className.length() == 0) {
+                                    setErrorMessage("No Benchs defined!");
+                                }
+                            } else {
+                                setErrorMessage("Project is not a Java Project");
 
-        IStatus status =
-                ResourcesPlugin.getWorkspace().validatePath(
-                        IPath.SEPARATOR + projectName, IResource.PROJECT);
-        if (!status.isOK()) {
-            setErrorMessage(MessageFormat.format(
-                    "Invalid Projectname", new Object[] { projectName }));
-            return;
-        }
+                            }
+                        } catch (Exception e) {
+                            PerclipseActivator.log(e);
+                        }
+                        final IJavaProject javaProject =
+                                JavaCore.create(project);
+                        validateJavaProject(javaProject);
+                    } else {
+                        setErrorMessage("Project does not exists!");
 
-        IProject project = getWorkspaceRoot().getProject(projectName);
-        if (!project.exists()) {
-            setErrorMessage("Project does not exists!");
-            return;
-        }
+                    }
+                } else {
+                    setErrorMessage(MessageFormat
+                            .format(
+                                    "Invalid Projectname",
+                                    new Object[] { projectName }));
 
-        try {
-            if (!project.hasNature(JavaCore.NATURE_ID)) {
-                setErrorMessage("Project is not a Java Project");
-                return;
+                }
+
             }
-            String className = fBenchText.getText().trim();
-            if (className.length() == 0) {
-                setErrorMessage("No Benchs defined!");
-                return;
-            }
-        } catch (Exception e) {
-            PerclipseActivator.log(e);
+
         }
-        IJavaProject javaProject = JavaCore.create(project);
-        validateJavaProject(javaProject);
     }
 
     /**
@@ -752,11 +761,12 @@ public class PerclipseMainTab extends AbstractLaunchConfigurationTab {
      * @return the existing java project of type {@link IJavaProject} or null
      */
     private IJavaProject getJavaProject() {
-        String projectName = fProjText.getText().trim();
-        if (projectName.length() < 1) {
-            return null;
+        IJavaProject retProject = null;
+        final String projectName = fProjText.getText().trim();
+        if (projectName.length() >= 1) {
+            retProject = getJavaModel().getJavaProject(projectName);
         }
-        return getJavaModel().getJavaProject(projectName);
+        return retProject;
     }
 
     /**
@@ -767,8 +777,8 @@ public class PerclipseMainTab extends AbstractLaunchConfigurationTab {
      * @return a String value of the fJavaElementLabelProvider as the
      *         PresentationName
      */
-    private String getPresentationName(IJavaElement element) {
-        return fJavaElementLabelProvider.getText(element);
+    private String getPresentationName(final IJavaElement element) {
+        return jElementLP.getText(element);
     }
 
     /**
@@ -796,7 +806,7 @@ public class PerclipseMainTab extends AbstractLaunchConfigurationTab {
      *            is a boolean value which sets the enabled widgets within the
      *            SingleBenchGroup either true or false
      */
-    private void setEnableSingleBenchGroup(boolean enabled) {
+    private void setEnableSingleBenchGroup(final boolean enabled) {
         fProjLabel.setEnabled(enabled);
         fProjText.setEnabled(enabled);
         fProjButton.setEnabled(enabled);
@@ -814,9 +824,9 @@ public class PerclipseMainTab extends AbstractLaunchConfigurationTab {
      *            is a boolean value which sets the enabled widgets within the
      *            AllBenchGroup either true or false
      */
-    private void setEnableAllBenchGroup(boolean enabled) {
-        fProjButtonforAllBenchs.setEnabled(enabled);
-        fProjTextforAllBenchs.setEnabled(enabled);
+    private void setEnableAllBenchGroup(final boolean enabled) {
+        pButAllBenchs.setEnabled(enabled);
+        textAllBenchs.setEnabled(enabled);
     }
 
     /**
@@ -825,40 +835,44 @@ public class PerclipseMainTab extends AbstractLaunchConfigurationTab {
      * @return the context of type {@link IJavaElement}
      */
     private IJavaElement getContext() {
-        IWorkbenchWindow activeWorkbenchWindow =
+        IJavaElement retElement = null;
+        final IWorkbenchWindow actWorkWin =
                 PlatformUI.getWorkbench().getActiveWorkbenchWindow();
-        if (activeWorkbenchWindow == null) {
-            return null;
-        }
-        IWorkbenchPage page = activeWorkbenchWindow.getActivePage();
-        if (page != null) {
-            ISelection selection = page.getSelection();
-            if (selection instanceof IStructuredSelection) {
-                IStructuredSelection ss = (IStructuredSelection) selection;
-                if (!ss.isEmpty()) {
-                    Object obj = ss.getFirstElement();
-                    if (obj instanceof IJavaElement) {
-                        return (IJavaElement) obj;
-                    }
-                    if (obj instanceof IResource) {
-                        IJavaElement je = JavaCore.create((IResource) obj);
-                        if (je == null) {
-                            IProject pro = ((IResource) obj).getProject();
-                            je = JavaCore.create(pro);
+        if (actWorkWin != null) {
+            final IWorkbenchPage page = actWorkWin.getActivePage();
+            if (page != null) {
+                final ISelection selection = page.getSelection();
+                if (selection instanceof IStructuredSelection) {
+                    final IStructuredSelection structSel =
+                            (IStructuredSelection) selection;
+                    if (!structSel.isEmpty()) {
+                        final Object obj = structSel.getFirstElement();
+                        if (obj instanceof IJavaElement) {
+                            retElement = (IJavaElement) obj;
                         }
-                        if (je != null) {
-                            return je;
+                        if (obj instanceof IResource) {
+                            IJavaElement jElement =
+                                    JavaCore.create((IResource) obj);
+                            if (jElement == null) {
+                                final IProject pro =
+                                        ((IResource) obj).getProject();
+                                jElement = JavaCore.create(pro);
+                            }
+                            if (jElement != null) {
+                                retElement = jElement;
+                            }
                         }
                     }
                 }
-            }
-            IEditorPart part = page.getActiveEditor();
-            if (part != null) {
-                IEditorInput input = part.getEditorInput();
-                return (IJavaElement) input.getAdapter(IJavaElement.class);
+                final IEditorPart part = page.getActiveEditor();
+                if (part != null) {
+                    final IEditorInput input = part.getEditorInput();
+                    retElement =
+                            (IJavaElement) input.getAdapter(IJavaElement.class);
+                }
             }
         }
-        return null;
+        return retElement;
     }
 
     /**
@@ -872,8 +886,9 @@ public class PerclipseMainTab extends AbstractLaunchConfigurationTab {
      *            which will be modified by the given javaElement
      */
     private void initializeJavaProject(
-            IJavaElement javaElement, ILaunchConfigurationWorkingCopy config) {
-        IJavaProject javaProject = javaElement.getJavaProject();
+            final IJavaElement javaElement,
+            final ILaunchConfigurationWorkingCopy config) {
+        final IJavaProject javaProject = javaElement.getJavaProject();
         String name = null;
         if (javaProject != null && javaProject.exists()) {
             name = javaProject.getElementName();
@@ -892,22 +907,23 @@ public class PerclipseMainTab extends AbstractLaunchConfigurationTab {
      *            current project files
      * @param path
      *            is the relative path of a given image
-     * @param useMissingImageDescriptor
+     * @param missIDescr
      *            is the boolean value that specifies if an ImageDescriptor can
      *            consist of a shared descriptor for a missing image
      * @return an ImageDescriptor created of an URL or of a shared image
      *         descriptor for a missing image
      */
     private static ImageDescriptor createImageDescriptor(
-            Bundle bundle, IPath path, boolean useMissingImageDescriptor) {
-        URL url = FileLocator.find(bundle, path, null);
+            final Bundle bundle, final IPath path, final boolean missIDescr) {
+        ImageDescriptor retDescriptor = null;
+        final URL url = FileLocator.find(bundle, path, null);
         if (url != null) {
-            return ImageDescriptor.createFromURL(url);
+            retDescriptor = ImageDescriptor.createFromURL(url);
         }
-        if (useMissingImageDescriptor) {
-            return ImageDescriptor.getMissingImageDescriptor();
+        if (missIDescr) {
+            retDescriptor = ImageDescriptor.getMissingImageDescriptor();
         }
-        return null;
+        return retDescriptor;
     }
 
     /**
@@ -918,14 +934,13 @@ public class PerclipseMainTab extends AbstractLaunchConfigurationTab {
      * @param config
      *            is type of {@link ILaunchConfiguration}
      */
-    private void updateBenchAllFromConfig(ILaunchConfiguration config) {
+    private void updateBenchAllFromConfig(final ILaunchConfiguration config) {
         String containerHandle = ""; //$NON-NLS-1$
         IJavaElement containerElement = null;
         try {
             containerHandle =
                     config.getAttribute(
-                            PerfidixLaunchConfiguration.LAUNCH_CONT_ATTR,
-                            ""); //$NON-NLS-1$
+                            PerfidixLaunchConfiguration.LAUNCH_CONT_ATTR, ""); //$NON-NLS-1$
             if (containerHandle.length() > 0) {
                 containerElement = JavaCore.create(containerHandle);
             }
@@ -935,13 +950,12 @@ public class PerclipseMainTab extends AbstractLaunchConfigurationTab {
         if (containerElement != null) {
             fContainerElement = containerElement;
         }
-        fAllBenchsRadioButton.setSelection(true);
+        allBenchsRB.setSelection(true);
         setEnableSingleBenchGroup(false);
         setEnableAllBenchGroup(true);
-        fSingleBenchRadioButton.setSelection(false);
+        singleBenchRB.setSelection(false);
         if (fContainerElement != null) {
-            fProjTextforAllBenchs
-                    .setText(getPresentationName(fContainerElement));
+            textAllBenchs.setText(getPresentationName(fContainerElement));
         }
         //$NON-NLS-1$
     }
@@ -958,22 +972,15 @@ public class PerclipseMainTab extends AbstractLaunchConfigurationTab {
     @Override
     public void dispose() {
         super.dispose();
-        fJavaElementLabelProvider.dispose();
+        jElementLP.dispose();
         fTabIcon.dispose();
     }
 
     private void performApplyContainer(
-            ILaunchConfigurationWorkingCopy config, IJavaElement element) {
+            final ILaunchConfigurationWorkingCopy config,
+            final IJavaElement element) {
 
-        if (!validateJavaProject(element.getJavaProject())) {
-            config.setAttribute(
-                    IJavaLaunchConfigurationConstants.ATTR_PROJECT_NAME, "");
-            config.setAttribute(
-                    PerfidixLaunchConfiguration.LAUNCH_CONT_ATTR, "");
-            config.setAttribute(
-                    IJavaLaunchConfigurationConstants.ATTR_MAIN_TYPE_NAME, ""); //$NON-NLS-1$
-            // workaround for bug 65399
-        } else {
+        if (validateJavaProject(element.getJavaProject())) {
             config.setAttribute(
                     IJavaLaunchConfigurationConstants.ATTR_PROJECT_NAME,
                     element.getJavaProject().getElementName());
@@ -986,6 +993,14 @@ public class PerclipseMainTab extends AbstractLaunchConfigurationTab {
             config
                     .setAttribute(
                             PerfidixLaunchConfiguration.BENCH_NAME_ATTR, ""); //$NON-NLS-1$
+        } else {
+            config.setAttribute(
+                    IJavaLaunchConfigurationConstants.ATTR_PROJECT_NAME, "");
+            config.setAttribute(
+                    PerfidixLaunchConfiguration.LAUNCH_CONT_ATTR, "");
+            config.setAttribute(
+                    IJavaLaunchConfigurationConstants.ATTR_MAIN_TYPE_NAME, ""); //$NON-NLS-1$
+            // workaround for bug 65399
         }
     }
 

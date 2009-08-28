@@ -116,10 +116,10 @@ public class BenchRunSessionListenerTest {
      */
     @Test
     public void testUpdateError() {
-        listener.updateError("MyBenchi","ExceptionTest");
+        listener.updateError("MyBenchi", "ExceptionTest");
         listener.initTotalBenchProgress(initData);
-        listener.updateError("MyBenchObject","ExceptionTest");
-        listener.updateError("Sometthin","ExceptionTest");
+        listener.updateError("MyBenchObject", "ExceptionTest");
+        listener.updateError("Sometthin", "ExceptionTest");
     }
 
     /**

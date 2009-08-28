@@ -45,7 +45,7 @@ import org.perfidix.perclipse.launcher.PerclipseActivator;
  * the finding of our Perfidix annotations. It searches the given sources
  * depending on their type for existing Perfidix annotations.
  * 
- * @author Graf S., Lewandowski L.,  DiSy, University of Konstanz
+ * @author Graf S., Lewandowski L., DiSy, University of Konstanz
  */
 public final class BenchFinder {
 
@@ -66,11 +66,13 @@ public final class BenchFinder {
      * @param pMonitor
      *            The progress monitor.
      */
-    public static void findBenchsInContainer(final 
-            Object[] elements, final Set<IType> result, final IProgressMonitor pMonitor) {
+    public static void findBenchsInContainer(
+            final Object[] elements, final Set<IType> result,
+            final IProgressMonitor pMonitor) {
         try {
             for (int i = 0; i < elements.length; i++) {
-                final Object container = BenchSearchEngine.computeScope(elements[i]);
+                final Object container =
+                        BenchSearchEngine.computeScope(elements[i]);
                 if (container instanceof IJavaProject) {
                     final IJavaProject project = (IJavaProject) container;
                     findBenchsInProject(project, result);
@@ -79,10 +81,12 @@ public final class BenchFinder {
                             (IPackageFragmentRoot) container;
                     findBenchsInPackageFragmentRoot(root, result);
                 } else if (container instanceof IPackageFragment) {
-                    final IPackageFragment fragment = (IPackageFragment) container;
+                    final IPackageFragment fragment =
+                            (IPackageFragment) container;
                     findBenchsInPackageFragment(fragment, result);
                 } else if (container instanceof ICompilationUnit) {
-                    final ICompilationUnit comUnit = (ICompilationUnit) container;
+                    final ICompilationUnit comUnit =
+                            (ICompilationUnit) container;
                     findBenchsInCompilationUnit(comUnit, result);
                 } else if (container instanceof IType) {
                     final IType type = (IType) container;
@@ -102,8 +106,9 @@ public final class BenchFinder {
      * @param result
      * @throws JavaModelException
      */
-    private static void findBenchsInProject(final 
-            IJavaProject project, final Set<IType> result) throws JavaModelException {
+    private static void findBenchsInProject(
+            final IJavaProject project, final Set<IType> result)
+            throws JavaModelException {
         final IPackageFragmentRoot[] roots = project.getPackageFragmentRoots();
         for (int i = 0; i < roots.length; i++) {
             final IPackageFragmentRoot root = roots[i];
@@ -119,8 +124,8 @@ public final class BenchFinder {
      * @param result
      * @throws JavaModelException
      */
-    private static void findBenchsInPackageFragmentRoot(final 
-            IPackageFragmentRoot root, final Set<IType> result)
+    private static void findBenchsInPackageFragmentRoot(
+            final IPackageFragmentRoot root, final Set<IType> result)
             throws JavaModelException {
         final IJavaElement[] children = root.getChildren();
         for (int j = 0; j < children.length; j++) {
@@ -137,10 +142,11 @@ public final class BenchFinder {
      * @param result
      * @throws JavaModelException
      */
-    private static void findBenchsInPackageFragment(final 
-            IPackageFragment fragment, final Set<IType> result)
+    private static void findBenchsInPackageFragment(
+            final IPackageFragment fragment, final Set<IType> result)
             throws JavaModelException {
-        final ICompilationUnit[] compilationUnits = fragment.getCompilationUnits();
+        final ICompilationUnit[] compilationUnits =
+                fragment.getCompilationUnits();
         for (int k = 0; k < compilationUnits.length; k++) {
             final ICompilationUnit unit = compilationUnits[k];
             findBenchsInCompilationUnit(unit, result);
@@ -155,11 +161,12 @@ public final class BenchFinder {
      * @param result
      * @throws JavaModelException
      */
-    private static void findBenchsInCompilationUnit(final 
-            ICompilationUnit unit, final Set<IType> result) throws JavaModelException {
+    private static void findBenchsInCompilationUnit(
+            final ICompilationUnit unit, final Set<IType> result)
+            throws JavaModelException {
         final IType[] types = unit.getAllTypes();
         for (int l = 0; l < types.length; l++) {
-           final IType type = types[l];
+            final IType type = types[l];
             findBenchsInType(type, result);
         }
     }
@@ -173,7 +180,8 @@ public final class BenchFinder {
      * @param result
      * @throws JavaModelException
      */
-    private static void findBenchsInType(final IType type, final Set<IType> result)
+    private static void findBenchsInType(
+            final IType type, final Set<IType> result)
             throws JavaModelException {
         if (isBench(type)) {
             result.add(type);
@@ -190,11 +198,12 @@ public final class BenchFinder {
      * @throws JavaModelException
      */
     private static boolean isBench(final IType type) throws JavaModelException {
-        boolean returnIsBench=false;
+        boolean returnIsBench = false;
         if (!Flags.isAbstract(type.getFlags())
-                && (Annotation.BENCH.annotatesAtLeastOneMethod(type) || Annotation.BENCH_CLASS
-                        .annotatesClass(type) || Annotation.BENCH_CONFIG.annotatesClass(type) )) {
-            returnIsBench=true;
+                && (Annotation.BENCH.annotatesAtLeastOneMethod(type)
+                        || Annotation.BENCH_CLASS.annotatesClass(type) || Annotation.BENCH_CONFIG
+                        .annotatesClass(type))) {
+            returnIsBench = true;
         }
         return returnIsBench;
     }
@@ -216,9 +225,9 @@ public final class BenchFinder {
                         "BenchClass", "org.perfidix.BenchClass" });
 
         public static final BenchFinder.Annotation BENCH_CONFIG =
-            new BenchFinder.Annotation(new String[] {
-                    "BenchmarkConfig", "org.perfidix.BenchmarkConfig" });
-        
+                new BenchFinder.Annotation(new String[] {
+                        "BenchmarkConfig", "org.perfidix.BenchmarkConfig" });
+
         private final transient String[] names;
 
         /**
@@ -238,7 +247,7 @@ public final class BenchFinder {
          * @return
          */
         public boolean foundIn(final String source) {
-            boolean returnValue=false;
+            boolean returnValue = false;
             final IScanner scanner =
                     ToolFactory.createScanner(false, true, false, false);
             scanner.setSource(source.toCharArray());
@@ -247,19 +256,19 @@ public final class BenchFinder {
                 do {
                     tok = scanner.getNextToken();
                     if (tok == ITerminalSymbols.TokenNameAT) {
-                        final StringBuffer stringBuffer= new StringBuffer("");
+                        final StringBuffer stringBuffer = new StringBuffer("");
                         tok = scanner.getNextToken();
                         while (tok == ITerminalSymbols.TokenNameIdentifier
                                 || tok == ITerminalSymbols.TokenNameDOT) {
                             stringBuffer.append(String.valueOf(scanner
-                                            .getCurrentTokenSource()));
+                                    .getCurrentTokenSource()));
 
                             tok = scanner.getNextToken();
                         }
                         for (int i = 0; i < names.length; i++) {
                             final String annotation = names[i];
                             if (stringBuffer.toString().equals(annotation)) {
-                                returnValue=true;
+                                returnValue = true;
                             }
                         }
                     }
@@ -278,11 +287,14 @@ public final class BenchFinder {
          * @return
          * @throws JavaModelException
          */
-        private boolean annotates(final IMember member) throws JavaModelException {
+        private boolean annotates(final IMember member)
+                throws JavaModelException {
             final ISourceRange sourceRange = member.getSourceRange();
             final ISourceRange nameRange = member.getNameRange();
-            final int charsToSearch = nameRange.getOffset() - sourceRange.getOffset();
-            final String source = member.getSource().substring(0, charsToSearch);
+            final int charsToSearch =
+                    nameRange.getOffset() - sourceRange.getOffset();
+            final String source =
+                    member.getSource().substring(0, charsToSearch);
             return foundIn(source);
         }
 
@@ -293,7 +305,8 @@ public final class BenchFinder {
          * @return
          * @throws JavaModelException
          */
-        private boolean annotatesClass(final IType type) throws JavaModelException {
+        private boolean annotatesClass(final IType type)
+                throws JavaModelException {
             return annotates(type);
         }
 
@@ -305,12 +318,13 @@ public final class BenchFinder {
          * @return
          * @throws JavaModelException
          */
-        private boolean annotatesAtLeastOneMethod(final IType type) throws JavaModelException {
-            boolean retValue=false;
+        private boolean annotatesAtLeastOneMethod(final IType type)
+                throws JavaModelException {
+            boolean retValue = false;
             final IMethod[] methods = type.getMethods();
             for (int i = 0; i < methods.length; i++) {
                 if (annotates(methods[i])) {
-                    retValue=true;
+                    retValue = true;
                 }
             }
             return retValue;

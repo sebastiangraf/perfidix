@@ -71,8 +71,8 @@ public class BenchRunViewUpdaterTest {
     public void tearDown() throws Exception {
         updater = null;
         session = null;
-         utilClass.setViewNull();
-         utilClass=null;
+        utilClass.setViewNull();
+        utilClass = null;
     }
 
     /**

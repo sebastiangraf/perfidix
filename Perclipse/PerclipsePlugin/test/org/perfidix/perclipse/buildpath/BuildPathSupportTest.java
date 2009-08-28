@@ -37,6 +37,7 @@ import org.perfidix.perclipse.launcher.PerclipseActivator;
 public class BuildPathSupportTest {
 
     private PerclipseActivator activator;
+
     /**
      * Simple setUp - method.
      * 
@@ -45,8 +46,8 @@ public class BuildPathSupportTest {
      */
     @Before
     public void setUp() throws Exception {
-        activator=PerclipseActivator.getDefault();
-        
+        activator = PerclipseActivator.getDefault();
+
     }
 
     /**
@@ -57,32 +58,37 @@ public class BuildPathSupportTest {
      */
     @After
     public void tearDown() throws Exception {
-        activator=null;
+        activator = null;
     }
 
     /**
-     * Test method for {@link org.perfidix.perclipse.buildpath.BuildPathSupport#getPerfidixClasspathEntry()}.
+     * Test method for
+     * {@link org.perfidix.perclipse.buildpath.BuildPathSupport#getPerfidixClasspathEntry()}
+     * .
      */
     @Test
     public void testGetPerfidixClasspathEntry() {
         assertNotNull(BuildPathSupport.getPerfidixClasspathEntry());
     }
-    
+
     /**
-     * Test method for {@link org.perfidix.perclipse.buildpath.BuildPathSupport#getBundleLocation()}.
+     * Test method for
+     * {@link org.perfidix.perclipse.buildpath.BuildPathSupport#getBundleLocation()}
+     * .
      */
     @Test
     public void testGetBundleLocation() {
         assertNotNull(BuildPathSupport.getBundleLocation());
     }
-    
+
     /**
-     * Test method for {@link org.perfidix.perclipse.buildpath.BuildPathSupport#getPerfidixLibraryEntry()}.
+     * Test method for
+     * {@link org.perfidix.perclipse.buildpath.BuildPathSupport#getPerfidixLibraryEntry()}
+     * .
      */
     @Test
     public void testGetPerfidixLibraryEntry() {
         assertNotNull(BuildPathSupport.getPerfidixLibraryEntry());
     }
-
 
 }

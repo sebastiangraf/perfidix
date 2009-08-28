@@ -124,18 +124,18 @@ public class Quickfixprocessor implements IQuickFixProcessor {
                 final ASTNode node =
                         problem.getCoveredNode(context.getASTRoot());
                 if (node != null
-                        && node.getLocationInParent() == MarkerAnnotation.TYPE_NAME_PROPERTY && returnList==null) {
-                    returnList =
-                      new ArrayList<PerfidixAddLibraryProposal>();
+                        && node.getLocationInParent() == MarkerAnnotation.TYPE_NAME_PROPERTY
+                        && returnList == null) {
+                    returnList = new ArrayList<PerfidixAddLibraryProposal>();
                     returnList.add(new PerfidixAddLibraryProposal(
                             true, context, 10));
-                    }
-                else if(node != null
-                            && node.getLocationInParent() == MarkerAnnotation.TYPE_NAME_PROPERTY && returnList!=null){
+                } else if (node != null
+                        && node.getLocationInParent() == MarkerAnnotation.TYPE_NAME_PROPERTY
+                        && returnList != null) {
                     returnList.add(new PerfidixAddLibraryProposal(
                             true, context, 10));
-                    }
                 }
+            }
 
         } catch (JavaModelException e) {
             PerclipseActivator.log(e);

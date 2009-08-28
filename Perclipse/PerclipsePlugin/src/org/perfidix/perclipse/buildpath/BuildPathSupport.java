@@ -93,7 +93,7 @@ public final class BuildPathSupport {
      * @return Returns the Perfidix library classpath entry.
      */
     public static IClasspathEntry getPerfidixLibraryEntry() {
-        IClasspathEntry returnEntry=null;
+        IClasspathEntry returnEntry = null;
         final IPath bundleBase = getBundleLocation();
         if (bundleBase != null) {
             final IPath jarLocation =
@@ -110,8 +110,10 @@ public final class BuildPathSupport {
                             .newClasspathAttribute(
                                     IClasspathAttribute.JAVADOC_LOCATION_ATTRIBUTE_NAME,
                                     javadocLocation) };
-            returnEntry= JavaCore.newLibraryEntry(
-                    jarLocation, null, null, accessRule, attributes, false);
+            returnEntry =
+                    JavaCore.newLibraryEntry(
+                            jarLocation, null, null, accessRule, attributes,
+                            false);
 
         }
         return returnEntry;

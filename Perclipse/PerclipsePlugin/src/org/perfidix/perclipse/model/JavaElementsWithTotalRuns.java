@@ -42,7 +42,8 @@ public class JavaElementsWithTotalRuns {
      * @param totalRuns
      *            The total bench runs of the java element.
      */
-    public JavaElementsWithTotalRuns(final String javaElement,final int totalRuns) {
+    public JavaElementsWithTotalRuns(
+            final String javaElement, final int totalRuns) {
         this.javaElement = javaElement;
         this.totalRuns = totalRuns;
         currentRun = 0;

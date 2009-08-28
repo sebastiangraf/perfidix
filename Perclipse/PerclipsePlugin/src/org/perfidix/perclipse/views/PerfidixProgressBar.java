@@ -45,14 +45,14 @@ public class PerfidixProgressBar extends Canvas {
     private static final int DEFAULT_WIDTH = 160;
     private static final int DEFAULT_HEIGHT = 18;
 
-    private int currentTickCount = 0;
-    private int maxTickCount = 0;
-    private int colorBarWidth = 0;
-    private Color okColor;
-    private Color errorColor;
-    private Color stoppedColor;
-    private boolean error;
-    private boolean hasStopped = false;
+    private transient int currentTickCount = 0;
+    private transient int maxTickCount = 0;
+    private transient int colorBarWidth = 0;
+    final private transient Color okColor;
+    final private transient Color errorColor;
+    final private transient Color stoppedColor;
+    private transient boolean error;
+    private transient boolean hasStopped = false;
 
     /**
      * The constructor initializes the listeners and the responsible
@@ -62,29 +62,29 @@ public class PerfidixProgressBar extends Canvas {
      * @param parent
      *            The composite of the parent.
      */
-    public PerfidixProgressBar(Composite parent) {
+    public PerfidixProgressBar(final Composite parent) {
         super(parent, SWT.NONE);
 
         addControlListener(new ControlAdapter() {
             @Override
-            public void controlResized(ControlEvent e) {
+            public void controlResized(final ControlEvent event) {
                 colorBarWidth = scale(currentTickCount);
                 redraw();
             }
         });
         addPaintListener(new PaintListener() {
-            public void paintControl(PaintEvent e) {
-                paint(e);
+            public void paintControl(final PaintEvent event) {
+                paint(event);
             }
         });
         addDisposeListener(new DisposeListener() {
-            public void widgetDisposed(DisposeEvent e) {
+            public void widgetDisposed(final DisposeEvent event) {
                 errorColor.dispose();
                 okColor.dispose();
                 stoppedColor.dispose();
             }
         });
-        Display display = parent.getDisplay();
+        final Display display = parent.getDisplay();
         errorColor = new Color(display, 159, 63, 63);
         okColor = new Color(display, 30, 144, 255);
         stoppedColor = new Color(display, 120, 120, 120);
@@ -97,7 +97,7 @@ public class PerfidixProgressBar extends Canvas {
      * @param max
      *            This param sets the maxTickCount value.
      */
-    public void setMaximum(int max) {
+    public void setMaximum(final int max) {
         maxTickCount = max;
     }
 
@@ -128,8 +128,9 @@ public class PerfidixProgressBar extends Canvas {
      *            This value represents the total count for the bench runs.
      */
     public void reset(
-            boolean hasErrors, boolean stopped, int ticksDone, int maximum) {
-        boolean noChange =
+            final boolean hasErrors, final boolean stopped,
+            final int ticksDone, final int maximum) {
+        final boolean noChange =
                 error == hasErrors
                         && hasStopped == stopped
                         && currentTickCount == ticksDone
@@ -152,29 +153,30 @@ public class PerfidixProgressBar extends Canvas {
      * @param endX
      *            This value sets the end position of the painting progress.
      */
-    private void paintStep(int startX, int endX) {
-        GC gc = new GC(this);
-        setStatusColor(gc);
-        Rectangle rect = getClientArea();
-        startX = Math.max(1, startX);
-        gc.fillRectangle(startX, 1, endX - startX, rect.height - 2);
-        gc.dispose();
+    private void paintStep(final int startX, final int endX) {
+        int starterX = startX;
+        final GC theGC = new GC(this);
+        setStatusColor(theGC);
+        final Rectangle rect = getClientArea();
+        starterX = Math.max(1, starterX);
+        theGC.fillRectangle(starterX, 1, endX - starterX, rect.height - 2);
+        theGC.dispose();
     }
 
     /**
      * This method sets the status color of the progress bar, depending on if it
      * has stopped, an error occurred or if anything happened right way.
      * 
-     * @param gc
+     * @param theGC
      *            The responsible graphics class for drawing within this class.
      */
-    private void setStatusColor(GC gc) {
+    private void setStatusColor(final GC theGC) {
         if (hasStopped) {
-            gc.setBackground(stoppedColor);
+            theGC.setBackground(stoppedColor);
         } else if (error) {
-            gc.setBackground(errorColor);
+            theGC.setBackground(errorColor);
         } else {
-            gc.setBackground(okColor);
+            theGC.setBackground(okColor);
         }
     }
 
@@ -193,37 +195,39 @@ public class PerfidixProgressBar extends Canvas {
      *            This value represents the ticks done value.
      * @return returns the new value of scale.
      */
-    private int scale(int value) {
+    private int scale(final int value) {
+        int retScale = value;
         if (maxTickCount > 0) {
-            Rectangle r = getClientArea();
-            if (r.width != 0) {
-                return Math.max(0, value * (r.width - 2) / maxTickCount);
+            final Rectangle rect = getClientArea();
+            if (rect.width != 0) {
+                retScale = Math.max(0, value * (rect.width - 2) / maxTickCount);
             }
         }
-        return value;
+        return retScale;
     }
 
     /**
      * This method is responsible for drawing the rectangle and its lines for
      * the progress bar.
      * 
-     * @param gc
-     * @param x
-     * @param y
-     * @param w
-     * @param h
+     * @param theGC
+     * @param xVar
+     * @param yVar
+     * @param wVar
+     * @param hVar
      * @param topleft
      * @param bottomright
      */
     private void drawBevelRect(
-            GC gc, int x, int y, int w, int h, Color topleft, Color bottomright) {
-        gc.setForeground(topleft);
-        gc.drawLine(x, y, x + w - 1, y);
-        gc.drawLine(x, y, x, y + h - 1);
+            final GC theGC, final int xVar, final int yVar, final int wVar,
+            final int hVar, final Color topleft, final Color bottomright) {
+        theGC.setForeground(topleft);
+        theGC.drawLine(xVar, yVar, xVar + wVar - 1, yVar);
+        theGC.drawLine(xVar, yVar, xVar, yVar + hVar - 1);
 
-        gc.setForeground(bottomright);
-        gc.drawLine(x + w, y, x + w, y + h);
-        gc.drawLine(x, y + h, x + w, y + h);
+        theGC.setForeground(bottomright);
+        theGC.drawLine(xVar + wVar, yVar, xVar + wVar, yVar + hVar);
+        theGC.drawLine(xVar, yVar + hVar, xVar + wVar, yVar + hVar);
     }
 
     /**
@@ -232,26 +236,28 @@ public class PerfidixProgressBar extends Canvas {
      * @param event
      *            Represents an paint event that occurred.
      */
-    private void paint(PaintEvent event) {
-        GC gc = event.gc;
-        Display disp = getDisplay();
+    private void paint(final PaintEvent event) {
+        final GC theGC = event.gc;
+        final Display disp = getDisplay();
 
-        Rectangle rect = getClientArea();
-        gc.fillRectangle(rect);
-        drawBevelRect(gc, rect.x, rect.y, rect.width - 1, rect.height - 1, disp
-                .getSystemColor(SWT.COLOR_WIDGET_NORMAL_SHADOW), disp
-                .getSystemColor(SWT.COLOR_WIDGET_HIGHLIGHT_SHADOW));
+        final Rectangle rect = getClientArea();
+        theGC.fillRectangle(rect);
+        drawBevelRect(
+                theGC, rect.x, rect.y, rect.width - 1, rect.height - 1, disp
+                        .getSystemColor(SWT.COLOR_WIDGET_NORMAL_SHADOW), disp
+                        .getSystemColor(SWT.COLOR_WIDGET_HIGHLIGHT_SHADOW));
 
-        setStatusColor(gc);
+        setStatusColor(theGC);
         colorBarWidth = Math.min(rect.width - 2, colorBarWidth);
-        gc.fillRectangle(1, 1, colorBarWidth, rect.height - 2);
+        theGC.fillRectangle(1, 1, colorBarWidth, rect.height - 2);
     }
 
     /** {@inheritDoc} */
     @Override
-    public Point computeSize(int wHint, int hHint, boolean changed) {
+    public Point computeSize(
+            final int wHint, final int hHint, final boolean changed) {
         checkWidget();
-        Point size = new Point(DEFAULT_WIDTH, DEFAULT_HEIGHT);
+        final Point size = new Point(DEFAULT_WIDTH, DEFAULT_HEIGHT);
         if (wHint != SWT.DEFAULT) {
             size.x = wHint;
         }
@@ -268,20 +274,20 @@ public class PerfidixProgressBar extends Canvas {
      *            This param represents the {@link Integer} value of occurred
      *            failures.
      */
-    public void step(int failures) {
+    public void step(final int failures) {
         currentTickCount++;
-        int x = colorBarWidth;
+        int xVal = colorBarWidth;
 
         colorBarWidth = scale(currentTickCount);
 
         if (!error && failures > 0) {
             error = true;
-            x = 1;
+            xVal = 1;
         }
         if (currentTickCount == maxTickCount) {
             colorBarWidth = getClientArea().width - 1;
         }
-        paintStep(x, colorBarWidth);
+        paintStep(xVal, colorBarWidth);
     }
 
     /**
@@ -291,7 +297,7 @@ public class PerfidixProgressBar extends Canvas {
      * @param hasErrors
      *            This param sets the value of occurred errors.
      */
-    public void refresh(boolean hasErrors) {
+    public void refresh(final boolean hasErrors) {
         error = hasErrors;
         redraw();
     }
