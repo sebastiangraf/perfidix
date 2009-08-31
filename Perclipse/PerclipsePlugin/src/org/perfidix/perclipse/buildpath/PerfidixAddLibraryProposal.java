@@ -80,7 +80,6 @@ public class PerfidixAddLibraryProposal implements IJavaCompletionProposal {
 
     /** {@inheritDoc} */
     public int getRelevance() {
-        // TODO Auto-generated method stub
         return relevance;
     }
 
