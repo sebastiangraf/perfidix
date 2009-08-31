@@ -93,6 +93,7 @@ public class PerclipseViewSkeleton extends Thread {
                     } else if ("updateError".equals(command)) {
                         final String errorElement =
                                 (String) inStream.readObject();
+
                         final String exceptionOccurred =
                                 (String) inStream.readObject();
                         sessionListener.updateError(

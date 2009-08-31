@@ -23,10 +23,8 @@ package org.perfidix.perclipse.views;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.perfidix.perclipse.views.BenchTreeLabelProvider;
 import org.perfidix.perclipse.viewtreedata.TreeDataProvider;
 
 /**
@@ -36,8 +34,8 @@ import org.perfidix.perclipse.viewtreedata.TreeDataProvider;
  * @author Lewandowski Lukas, DiSy, University of Konstanz
  */
 public class BenchTreeLabelProviderTest {
-    private BenchTreeLabelProvider labelProvider;
-    private TreeDataProvider dataProvider;
+    private transient BenchTreeLabelProvider labelProvider;
+    private transient TreeDataProvider dataProvider;
 
     /**
      * Simple setUp - method.
@@ -51,17 +49,17 @@ public class BenchTreeLabelProviderTest {
         dataProvider = new TreeDataProvider("package.Class.element", 99, 54);
     }
 
-    /**
-     * Simple tearDown - method.
-     * 
-     * @throws java.lang.Exception
-     *             The Exception occurred.
-     */
-    @After
-    public void tearDown() throws Exception {
-        labelProvider = null;
-        dataProvider = null;
-    }
+    // /**
+    // * Simple tearDown - method.
+    // *
+    // * @throws java.lang.Exception
+    // * The Exception occurred.
+    // */
+    // @After
+    // public void tearDown() throws Exception {
+    // labelProvider = null;
+    // dataProvider = null;
+    // }
 
     /**
      * Tests the method
@@ -71,8 +69,10 @@ public class BenchTreeLabelProviderTest {
     @Test
     public void testGetImage() {
         // Currently images are not specified for the treeviewer
-        assertNull(labelProvider.getImage(null));
-        assertNull(labelProvider.getImage(dataProvider));
+        assertNull("Test if not existing image is null", labelProvider
+                .getImage(null));
+        assertNull("Test if image is null", labelProvider
+                .getImage(dataProvider));
     }
 
     /**
@@ -82,12 +82,16 @@ public class BenchTreeLabelProviderTest {
      */
     @Test
     public void testGetText() {
-        assertNull(labelProvider.getText(null));
-        assertEquals("package.Class.element  (54/99)", labelProvider
-                .getText(dataProvider));
+        assertNull("Test if the text is null", labelProvider.getText(null));
+        assertEquals(
+                "test if label provider is equal to the given class Class",
+                "package.Class.element  (54/99)", labelProvider
+                        .getText(dataProvider));
         dataProvider.updateCurrentBenchError(2);
-        assertEquals("package.Class.element  (54/99) Errors: 2", labelProvider
-                .getText(dataProvider));
+        assertEquals(
+                "Test if label provider with errors is equal too",
+                "package.Class.element  (54/99) Errors: 2", labelProvider
+                        .getText(dataProvider));
 
     }
 }

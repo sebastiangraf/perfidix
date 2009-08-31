@@ -27,9 +27,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.perfidix.perclipse.util.TestUtilClass;
-import org.perfidix.perclipse.model.BenchRunSession;
-import org.perfidix.perclipse.model.BenchRunViewUpdater;
-import org.perfidix.perclipse.model.JavaElementsWithTotalRuns;
 
 /**
  * This class tests the java class
@@ -39,9 +36,9 @@ import org.perfidix.perclipse.model.JavaElementsWithTotalRuns;
  */
 public class BenchRunViewUpdaterTest {
 
-    private BenchRunViewUpdater updater;
-    private BenchRunSession session;
-    private TestUtilClass utilClass;
+    private transient BenchRunViewUpdater updater;
+    private transient BenchRunSession session;
+    private transient TestUtilClass utilClass;
 
     /**
      * Simple setUp - method.
@@ -54,7 +51,7 @@ public class BenchRunViewUpdaterTest {
 
         updater = new BenchRunViewUpdater();
         session = new BenchRunSession();
-        List<JavaElementsWithTotalRuns> theList =
+        final List<JavaElementsWithTotalRuns> theList =
                 new ArrayList<JavaElementsWithTotalRuns>();
         theList.add(new JavaElementsWithTotalRuns("MyName", 11));
         theList.add(new JavaElementsWithTotalRuns("AObject", 23));
@@ -69,10 +66,7 @@ public class BenchRunViewUpdaterTest {
      */
     @After
     public void tearDown() throws Exception {
-        updater = null;
-        session = null;
         utilClass.setViewNull();
-        utilClass = null;
     }
 
     /**
@@ -81,12 +75,12 @@ public class BenchRunViewUpdaterTest {
      * .
      */
     @Test
-    public void testUpdateView() {
+    public void testUpdateView() { // NOPMD by lewandow on 8/31/09 4:16 PM
         updater.updateView(session);
         utilClass = new TestUtilClass();
         utilClass.setViewForTesting();
         updater.updateView(session);
-        session = null;
+        session = null; // NOPMD by lewandow on 8/31/09 1:46 PM
         updater.updateView(session);
     }
 

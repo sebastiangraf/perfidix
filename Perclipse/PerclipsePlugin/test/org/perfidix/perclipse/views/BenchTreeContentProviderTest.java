@@ -26,10 +26,8 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.perfidix.perclipse.views.BenchTreeContentProvider;
 import org.perfidix.perclipse.viewtreedata.TreeDataProvider;
 
 /**
@@ -39,8 +37,8 @@ import org.perfidix.perclipse.viewtreedata.TreeDataProvider;
  * @author Lewandowski Lukas, DiSy, University of Konstanz
  */
 public class BenchTreeContentProviderTest {
-    private BenchTreeContentProvider treeContentProvider;
-    private TreeDataProvider dataProvider;
+    private transient BenchTreeContentProvider treeCProvider;
+    private transient TreeDataProvider dataProvider;
 
     /**
      * Simple setUp - method.
@@ -51,20 +49,20 @@ public class BenchTreeContentProviderTest {
     @Before
     public void setUp() throws Exception {
         dataProvider = new TreeDataProvider("package.Class.TheElement", 25, 17);
-        treeContentProvider = new BenchTreeContentProvider();
+        treeCProvider = new BenchTreeContentProvider();
     }
 
-    /**
-     * Simple tearDown - method.
-     * 
-     * @throws java.lang.Exception
-     *             The Exception occurred.
-     */
-    @After
-    public void tearDown() throws Exception {
-        dataProvider = null;
-        treeContentProvider = null;
-    }
+    // /**
+    // * Simple tearDown - method.
+    // *
+    // * @throws java.lang.Exception
+    // * The Exception occurred.
+    // */
+    // @After
+    // public void tearDown() throws Exception {
+    // dataProvider = null;
+    // treeContentProvider = null;
+    // }
 
     /**
      * Tests the method
@@ -75,10 +73,14 @@ public class BenchTreeContentProviderTest {
     public void testGetChildren() {
         // Expected no children because currently our objects has no children in
         // the treeviewer
-        assertNotNull(treeContentProvider.getChildren(null));
-        assertArrayEquals(new Object[0], treeContentProvider.getChildren(null));
-        assertArrayEquals(new Object[0], treeContentProvider
-                .getChildren(dataProvider));
+        assertNotNull("Tests if  getChildren is not null", treeCProvider
+                .getChildren(null));
+        assertArrayEquals(
+                "Tests if the both arrays are equal", new Object[0],
+                treeCProvider.getChildren(null));
+        assertArrayEquals(
+                "Tests if arrays are equal", new Object[0], treeCProvider
+                        .getChildren(dataProvider));
 
     }
 
@@ -91,8 +93,9 @@ public class BenchTreeContentProviderTest {
     public void testHasChildren() {
         // Expected no children because currently our objects has no children in
         // the treeviewer
-        assertFalse(treeContentProvider.hasChildren(null));
-        assertFalse(treeContentProvider.hasChildren(dataProvider));
+        assertFalse("Test if has children.", treeCProvider.hasChildren(null));
+        assertFalse("Test if provider has children", treeCProvider
+                .hasChildren(dataProvider));
     }
 
     /**
@@ -102,11 +105,14 @@ public class BenchTreeContentProviderTest {
      */
     @Test
     public void testGetParent() {
-        assertNull(treeContentProvider.getParent(null));
-        assertNotNull(treeContentProvider.getParent(dataProvider));
-        assertEquals(dataProvider, treeContentProvider.getParent(dataProvider));
-        TreeDataProvider newDataProvider = new TreeDataProvider("A", 22, 9);
-        assertFalse(newDataProvider.equals(treeContentProvider
-                .getParent(dataProvider)));
+        assertNull("Test if provider is null", treeCProvider.getParent(null));
+        assertNotNull("Tests if data provider is not null", treeCProvider
+                .getParent(dataProvider));
+        assertEquals(
+                "Test if data provider exists and is equal.", dataProvider,
+                treeCProvider.getParent(dataProvider));
+        final TreeDataProvider newDP = new TreeDataProvider("A", 22, 9);
+        assertFalse("Test if data provider is not the same.", newDP
+                .equals(treeCProvider.getParent(dataProvider)));
     }
 }

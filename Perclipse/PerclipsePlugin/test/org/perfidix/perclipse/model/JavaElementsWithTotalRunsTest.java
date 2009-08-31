@@ -22,7 +22,6 @@ package org.perfidix.perclipse.model;
 
 import static org.junit.Assert.assertEquals;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -34,7 +33,7 @@ import org.junit.Test;
  */
 public class JavaElementsWithTotalRunsTest {
 
-    private JavaElementsWithTotalRuns elements;
+    private transient JavaElementsWithTotalRuns elements;
 
     /**
      * Simple setUp - method.
@@ -47,16 +46,16 @@ public class JavaElementsWithTotalRunsTest {
         elements = new JavaElementsWithTotalRuns("TheObject", 555);
     }
 
-    /**
-     * Simple tearDown - method.
-     * 
-     * @throws java.lang.Exception
-     *             The Exception occurred.
-     */
-    @After
-    public void tearDown() throws Exception {
-        elements = null;
-    }
+    // /**
+    // * Simple tearDown - method.
+    // *
+    // * @throws java.lang.Exception
+    // * The Exception occurred.
+    // */
+    // @After
+    // public void tearDown() throws Exception {
+    // elements = null;
+    // }
 
     /**
      * Tests the method
@@ -65,10 +64,14 @@ public class JavaElementsWithTotalRunsTest {
      */
     @Test
     public void testJavaElementsWithTotalRuns() {
-        assertEquals(0, elements.getCurrentRun());
-        assertEquals(0, elements.getErrorCount());
-        assertEquals(555, elements.getTotalRuns());
-        assertEquals("TheObject", elements.getJavaElement());
+        assertEquals("Tests if current run is 0.", 0, elements.getCurrentRun());
+        assertEquals("Tests if current count is 0 too.", 0, elements
+                .getErrorCount());
+        assertEquals("Tests if total runs are equal 555", 555, elements
+                .getTotalRuns());
+        assertEquals(
+                "Tests if the elements java element is equal to TheObject.",
+                "TheObject", elements.getJavaElement());
     }
 
     /**
@@ -78,9 +81,12 @@ public class JavaElementsWithTotalRunsTest {
      */
     @Test
     public void testUpdateCurrentRun() {
-        assertEquals(0, elements.getCurrentRun());
+        assertEquals("Tests if the current run is 0.", 0, elements
+                .getCurrentRun());
         elements.updateCurrentRun();
-        assertEquals(1, elements.getCurrentRun());
+        assertEquals(
+                "Tests if the current run element counter is 0.", 1, elements
+                        .getCurrentRun());
     }
 
     /**
@@ -90,8 +96,8 @@ public class JavaElementsWithTotalRunsTest {
      */
     @Test
     public void testUpdateErrorCount() {
-        assertEquals(0, elements.getErrorCount());
+        assertEquals("Tests if error count is 0.", 0, elements.getErrorCount());
         elements.updateErrorCount();
-        assertEquals(1, elements.getErrorCount());
+        assertEquals("Tests if error count is 1.", 1, elements.getErrorCount());
     }
 }

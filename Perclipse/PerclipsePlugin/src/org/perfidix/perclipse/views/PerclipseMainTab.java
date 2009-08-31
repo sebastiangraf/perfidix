@@ -18,7 +18,7 @@
  * $LastChangedDate$
  *
  */
-package org.perfidix.perclipse.views; // NOPMD by lewandow on 8/28/09 4:33 PM
+package org.perfidix.perclipse.views; // NOPMD by lewandow on 8/31/09 2:27 PM
 
 import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
@@ -86,12 +86,12 @@ import org.perfidix.perclipse.util.BenchSearchEngine;
  * @author Lewandowski L.
  */
 public class PerclipseMainTab extends AbstractLaunchConfigurationTab { // NOPMD
-                                                                       // by
-                                                                       // lewandow
-                                                                       // on
-                                                                       // 8/28/09
-                                                                       // 4:28
-                                                                       // PM
+    // by
+    // lewandow
+    // on
+    // 8/31/09
+    // 2:27
+    // PM
 
     // /**
     // * Empty constructor

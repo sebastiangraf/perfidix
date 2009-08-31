@@ -25,13 +25,11 @@ import static org.junit.Assert.assertNotNull;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.net.UnknownHostException;
 import java.util.HashMap;
+import java.util.Map;
 
 import org.eclipse.jdt.launching.SocketUtil;
-import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -42,9 +40,11 @@ import org.junit.Test;
  */
 public class PerclipseViewSkeletonTest {
 
-    private PerclipseViewSkeleton skeleton;
-    private HashMap<String, Integer> elementsMap;
-    private int port;
+    private transient PerclipseViewSkeleton skeleton;
+    private transient Map<String, Integer> elementsMap;
+    private transient int port;
+    private static final transient String NOT_NULL =
+            "Tests if the object is not null.";
 
     /**
      * Simple setUp - method.
@@ -62,17 +62,17 @@ public class PerclipseViewSkeletonTest {
         elementsMap.put("package1.Class1.method1", 25);
     }
 
-    /**
-     * Simple tearDown - method.
-     * 
-     * @throws java.lang.Exception
-     *             The Exception occurred.
-     */
-    @After
-    public void tearDown() throws Exception {
-        skeleton = null;
-        elementsMap = null;
-    }
+    // /**
+    // * Simple tearDown - method.
+    // *
+    // * @throws java.lang.Exception
+    // * The Exception occurred.
+    // */
+    // @After
+    // public void tearDown() throws Exception {
+    // skeleton = null;
+    // elementsMap = null;
+    // }
 
     /**
      * Tests the method
@@ -81,130 +81,164 @@ public class PerclipseViewSkeletonTest {
      */
     @Test
     public void testPerclipseViewSkeleton() {
-        assertNotNull(skeleton);
+        assertNotNull(NOT_NULL, skeleton);
 
     }
 
     /**
      * Tests stub skeleton connection for initialization of the view.
+     * 
+     * @throws IOException
+     *             Exception occurred.
      */
     @Test
-    public void testInitView() {
-        WorkerStubForSkeletonTest stubForSkeletonTest =
+    public void testInitView() throws IOException { // NOPMD by lewandow on
+                                                    // 8/31/09 4:33 PM
+        final WorkerStubForSkeletonTest stub =
                 new WorkerStubForSkeletonTest(null, port);
-        stubForSkeletonTest.initTotalBenchProgress(null);
-        stubForSkeletonTest.initTotalBenchProgress(elementsMap);
-        stubForSkeletonTest.finishedBenchRuns();
+        stub.initTotalBenchProgress(null);
+        stub.initTotalBenchProgress(elementsMap);
+        stub.finishedBenchRuns();
     }
 
     /**
      * Tests stub skeleton connection for updating the progress of the view.
+     * 
+     * @throws IOException
+     *             Exception occurred.
      */
     @Test
-    public void testUpdateCurrentRun() {
-        WorkerStubForSkeletonTest stubForSkeletonTest =
+    public void testUpdateCurrentRun() throws IOException { // NOPMD by lewandow
+                                                            // on 8/31/09 4:33
+                                                            // PM
+        final WorkerStubForSkeletonTest stub =
                 new WorkerStubForSkeletonTest(null, port);
-        stubForSkeletonTest.initTotalBenchProgress(elementsMap);
-        stubForSkeletonTest.updateCurrentRun("No");
-        stubForSkeletonTest.updateCurrentRun("package.Class.method1");
-        stubForSkeletonTest.finishedBenchRuns();
+        stub.initTotalBenchProgress(elementsMap);
+        stub.updateCurrentRun("No");
+        stub.updateCurrentRun("package.Class.method1");
+        stub.finishedBenchRuns();
     }
 
     /**
      * Tests stub skeleton connection for updating the progress of the view.
+     * 
+     * @throws IOException
+     *             Exception occurred.
      */
     @Test
-    public void testUpdateError() {
-        WorkerStubForSkeletonTest stubForSkeletonTest =
+    public void testUpdateError() throws IOException { // NOPMD by lewandow on
+                                                       // 8/31/09 4:33 PM
+        final WorkerStubForSkeletonTest stub =
                 new WorkerStubForSkeletonTest(null, port);
-        stubForSkeletonTest.initTotalBenchProgress(null);
-        stubForSkeletonTest.initTotalBenchProgress(elementsMap);
-        stubForSkeletonTest.updateError("Not");
-        stubForSkeletonTest.updateError("package.Class.method1");
-        stubForSkeletonTest.finishedBenchRuns();
+        stub.initTotalBenchProgress(null);
+        stub.initTotalBenchProgress(elementsMap);
+        stub.updateError("Not");
+        stub.updateError("package.Class.method1");
+        stub.finishedBenchRuns();
+    }
+
+    // /**
+    // * Test the stub skeleton for exception.
+    // * @throws IOException Exception occurred.
+    // */
+    // @Test(expected = IOException.class)
+    // public void testNoIncoming() throws IOException {
+    // final WorkerStubForSkeletonTest stub =
+    // new WorkerStubForSkeletonTest(null, port);
+    // stub.finishedBenchRuns();
+    // skeleton.start();
+    // }
+
+    /**
+     * Test the stub skeleton for exception.
+     * 
+     * @throws IOException
+     *             Exception occurred.
+     */
+    @Test(expected = IOException.class)
+    public void testForFalsePortException() throws IOException {
+        new WorkerStubForSkeletonTest(null, 9999);
     }
 
     /**
      * Test the stub skeleton for exception.
+     * 
+     * @throws IOException
+     *             Exception occurred.
      */
-    @Test(expected = RuntimeException.class)
-    public void testNoIncoming() {
-        WorkerStubForSkeletonTest stubForSkeletonTest =
+    @Test(expected = IOException.class)
+    public void testForFalseHostException() throws IOException {
+        new WorkerStubForSkeletonTest("notLocalHost", port);
+    }
+
+    /**
+     * Test the stub skeleton for exception.
+     * 
+     * @throws IOException
+     *             Exception occurred.
+     */
+    @Test(expected = IOException.class)
+    public void testForInitException() throws IOException {
+        final WorkerStubForSkeletonTest stub =
                 new WorkerStubForSkeletonTest(null, port);
-        stubForSkeletonTest.finishedBenchRuns();
-        skeleton.start();
+        stub.finishedBenchRuns();
+        stub.initTotalBenchProgress(elementsMap);
     }
 
     /**
      * Test the stub skeleton for exception.
+     * 
+     * @throws IOException
+     *             Exception occurred.
      */
-    @Test(expected = RuntimeException.class)
-    public void testForFalsePortException() {
-        WorkerStubForSkeletonTest stubForSkeletonTest =
-                new WorkerStubForSkeletonTest(null, 9999);
-    }
-
-    /**
-     * Test the stub skeleton for exception.
-     */
-    @Test(expected = RuntimeException.class)
-    public void testForFalseHostException() {
-        WorkerStubForSkeletonTest stubForSkeletonTest =
-                new WorkerStubForSkeletonTest("notLocalHost", port);
-    }
-
-    /**
-     * Test the stub skeleton for exception.
-     */
-    @Test(expected = RuntimeException.class)
-    public void testForInitException() {
-        WorkerStubForSkeletonTest stubForSkeletonTest =
+    @Test(expected = IOException.class)
+    public void testForUpdateRunException() throws IOException {
+        final WorkerStubForSkeletonTest stub =
                 new WorkerStubForSkeletonTest(null, port);
-        stubForSkeletonTest.finishedBenchRuns();
-        stubForSkeletonTest.initTotalBenchProgress(elementsMap);
+        stub.finishedBenchRuns();
+        stub.updateCurrentRun("element");
     }
 
     /**
      * Test the stub skeleton for exception.
+     * 
+     * @throws IOException
+     *             Exception occurred.
      */
-    @Test(expected = RuntimeException.class)
-    public void testForUpdateRunException() {
-        WorkerStubForSkeletonTest stubForSkeletonTest =
+    @Test(expected = IOException.class)
+    public void testForUpdateErrorException() throws IOException {
+        final WorkerStubForSkeletonTest stub =
                 new WorkerStubForSkeletonTest(null, port);
-        stubForSkeletonTest.finishedBenchRuns();
-        stubForSkeletonTest.updateCurrentRun("element");
+        stub.finishedBenchRuns();
+        stub.updateError("element");
     }
 
     /**
      * Test the stub skeleton for exception.
+     * 
+     * @throws IOException
+     *             Exception occurred.
      */
-    @Test(expected = RuntimeException.class)
-    public void testForUpdateErrorException() {
-        WorkerStubForSkeletonTest stubForSkeletonTest =
+    @Test(expected = IOException.class)
+    public void testForFinishedBenchsException() throws IOException {
+        final WorkerStubForSkeletonTest stub =
                 new WorkerStubForSkeletonTest(null, port);
-        stubForSkeletonTest.finishedBenchRuns();
-        stubForSkeletonTest.updateError("element");
-    }
-
-    /**
-     * Test the stub skeleton for exception.
-     */
-    @Test(expected = RuntimeException.class)
-    public void testForFinishedBenchsException() {
-        WorkerStubForSkeletonTest stubForSkeletonTest =
-                new WorkerStubForSkeletonTest(null, port);
-        stubForSkeletonTest.finishedBenchRuns();
-        stubForSkeletonTest.finishedBenchRuns();
+        stub.finishedBenchRuns();
+        stub.finishedBenchRuns();
     }
 
     /**
      * Test the stub skeleton for false command.
+     * 
+     * @throws IOException
+     *             Exception occurred.
      */
     @Test
-    public void testForFalseCommand() {
-        WorkerStubForSkeletonTest stubForSkeletonTest =
+    public void testForFalseCommand() throws IOException { // NOPMD by lewandow
+                                                           // on 8/31/09 4:33 PM
+        final WorkerStubForSkeletonTest stub =
                 new WorkerStubForSkeletonTest(null, port);
-        stubForSkeletonTest.sendFalseCommand();
+        stub.sendFalseCommand();
     }
 
     /**
@@ -213,11 +247,10 @@ public class PerclipseViewSkeletonTest {
      * @author Lewandowski Lukas, DiSy, Univesity of Konstanz
      */
     private class WorkerStubForSkeletonTest {
-        private String host;
-        private int viewListenerPort;
-        private String command;
-        private Socket socket;
-        private ObjectOutputStream outputStream;
+
+        private transient String command;
+        private final transient Socket socket;
+        private final transient ObjectOutputStream outputStream;
 
         /**
          * The constructor initializes the given host name and the port, which
@@ -228,86 +261,94 @@ public class PerclipseViewSkeletonTest {
          *            Host represents the {@link String} host name
          * @param viewListenerPort
          *            This param represents the port of the view.
+         * @throws IOException
+         *             Exception occurred.
          */
-        public WorkerStubForSkeletonTest(String host, int viewListenerPort) {
-            if (host == null) {
-                this.host = "localhost";
-            } else {
-                this.host = host;
+        public WorkerStubForSkeletonTest(
+                final String host, final int viewListenerPort)
+                throws IOException {
+            String hosti = host;
+            final int listenerPort = viewListenerPort;
+            if (hosti == null) {
+                hosti = "localhost";
             }
-            this.viewListenerPort = viewListenerPort;
-            try {
-                socket = new Socket(this.host, this.viewListenerPort);
-                outputStream = new ObjectOutputStream(socket.getOutputStream());
-            } catch (UnknownHostException e) {
-                throw new RuntimeException(e);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-
+            socket = new Socket(hosti, listenerPort);
+            outputStream = new ObjectOutputStream(socket.getOutputStream());
         }
 
-        /** {@inheritDoc} */
+        /**
+         * Test method for stub.
+         * 
+         * @param benchElements
+         *            The map
+         * @throws IOException
+         *             Exception occurred.
+         */
         public void initTotalBenchProgress(
-                HashMap<String, Integer> benchElementsWithTotalBench) {
+                final Map<String, Integer> benchElements) throws IOException {
             command = "init";
-            try {
-                outputStream.writeObject(command);
-                outputStream.writeObject(benchElementsWithTotalBench);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+            outputStream.writeObject(command);
+            outputStream.writeObject(benchElements);
 
         }
 
-        /** {@inheritDoc} */
-        public void updateCurrentRun(String currentElement) {
+        /**
+         * Test method update current run.
+         * 
+         * @param currentElement
+         *            the current element.
+         * @throws IOException
+         *             Exception occurred.
+         */
+        public void updateCurrentRun(final String currentElement)
+                throws IOException {
             command = "updateCurrentRun";
-            try {
-                outputStream.writeObject(command);
-                outputStream.writeObject(currentElement);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+            outputStream.writeObject(command);
+            outputStream.writeObject(currentElement);
 
         }
 
-        /** {@inheritDoc} */
-        public void updateError(String element) {
+        /**
+         * Test method update error.
+         * 
+         * @param element
+         *            the element where the error occurred.
+         * @throws IOException
+         *             Exception occurred.
+         */
+        public void updateError(final String element) throws IOException {
             command = "updateError";
-            try {
-                outputStream.writeObject(command);
-                outputStream.writeObject(element);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+            outputStream.writeObject(command);
+            outputStream.writeObject(element);
 
         }
 
-        /** {@inheritDoc} */
-        public void finishedBenchRuns() {
+        /**
+         * Test method for finished runs.
+         * 
+         * @throws IOException
+         *             Exception occurred.
+         */
+        public void finishedBenchRuns() throws IOException {
             command = "finished";
-            try {
-                outputStream.writeObject(command);
-                outputStream.close();
-                socket.close();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+            outputStream.writeObject(command);
+            outputStream.close();
+            socket.close();
 
         }
 
         /**
          * Dummy method to test an incoming false command at the skeleton.
+         * 
+         * @throws IOException
+         *             Exception occurred.
          */
-        public void sendFalseCommand() {
+        public void sendFalseCommand() throws IOException {
             command = "falseCommand";
-            try {
-                outputStream.writeObject(command);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+            outputStream.writeObject(command);
 
         }
+
     }
+
 }

@@ -59,7 +59,7 @@ public class BenchView extends ViewPart {
     /**
      * A must constructor that do nothing special.
      */
-    public BenchView() { // NOPMD by lewandow on 8/28/09 4:04 PM
+    public BenchView() { // NOPMD by lewandow on 8/31/09 2:26 PM
         super();
     }
 
@@ -314,14 +314,17 @@ public class BenchView extends ViewPart {
      *            The TreeDataProvider element that has been clicked.
      */
     private void showBench(final TreeDataProvider element) {
-        postSyncRunnable(new Runnable() {
-            public void run() {
-                if (!isDisposed() && isCreated()) {
-                    PerclipseActivator.logInfo(element.getParentElementName()
-                            + " has been selected");
+        if (element != null) {
+            postSyncRunnable(new Runnable() {
+                public void run() {
+                    if (!isDisposed() && isCreated()) {
+                        PerclipseActivator.logInfo(element
+                                .getParentElementName()
+                                + " has been selected");
+                    }
                 }
-            }
-        });
+            });
+        }
 
     }
 

@@ -20,13 +20,9 @@
  */
 package org.perfidix.perclipse.buildpath;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
 
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
-import org.perfidix.perclipse.buildpath.BuildPathSupport;
-import org.perfidix.perclipse.launcher.PerclipseActivator;
 
 /**
  * This class tests the java class
@@ -36,31 +32,6 @@ import org.perfidix.perclipse.launcher.PerclipseActivator;
  */
 public class BuildPathSupportTest {
 
-    private PerclipseActivator activator;
-
-    /**
-     * Simple setUp - method.
-     * 
-     * @throws java.lang.Exception
-     *             The Exception occurred.
-     */
-    @Before
-    public void setUp() throws Exception {
-        activator = PerclipseActivator.getDefault();
-
-    }
-
-    /**
-     * Simple tearDown - method.
-     * 
-     * @throws java.lang.Exception
-     *             The Exception occurred.
-     */
-    @After
-    public void tearDown() throws Exception {
-        activator = null;
-    }
-
     /**
      * Test method for
      * {@link org.perfidix.perclipse.buildpath.BuildPathSupport#getPerfidixClasspathEntry()}
@@ -68,7 +39,8 @@ public class BuildPathSupportTest {
      */
     @Test
     public void testGetPerfidixClasspathEntry() {
-        assertNotNull(BuildPathSupport.getPerfidixClasspathEntry());
+        assertNotNull("Tests if the object is not null", BuildPathSupport
+                .getPerfidixClasspathEntry());
     }
 
     /**
@@ -78,7 +50,8 @@ public class BuildPathSupportTest {
      */
     @Test
     public void testGetBundleLocation() {
-        assertNotNull(BuildPathSupport.getBundleLocation());
+        assertNotNull("Tests if the object is not null", BuildPathSupport
+                .getBundleLocation());
     }
 
     /**
@@ -88,7 +61,8 @@ public class BuildPathSupportTest {
      */
     @Test
     public void testGetPerfidixLibraryEntry() {
-        assertNotNull(BuildPathSupport.getPerfidixLibraryEntry());
+        assertNotNull("Tests if the object is not null", BuildPathSupport
+                .getPerfidixLibraryEntry());
     }
 
 }
