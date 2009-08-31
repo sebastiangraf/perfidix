@@ -27,6 +27,7 @@ import java.util.Set;
 import org.perfidix.element.BenchmarkMethod;
 import org.perfidix.exceptions.AbstractPerfidixMethodException;
 import org.perfidix.exceptions.SocketViewException;
+import org.perfidix.meter.AbstractMeter;
 
 /**
  * This class creates the connection to the eclipse view via
@@ -37,7 +38,9 @@ import org.perfidix.exceptions.SocketViewException;
  */
 public final class SocketViewProgressUpdater {
 
-    private transient final SocketViewStub viewStub;
+    private final transient SocketViewStub viewStub;
+    private transient int meterHash = 0;
+    private transient boolean regMeterHash = false;
 
     /**
      * The constructor initializes the host and port for creation a client
@@ -87,14 +90,20 @@ public final class SocketViewProgressUpdater {
     /**
      * This method notifies the eclipse view which element is currently benched.
      * 
+     * @param meter
+     *            The current meter.
      * @param name
      *            This param represents the java element which is currently
      *            benched and which is fully qualified.
      * @throws SocketViewException
      */
-    public void updateCurrentElement(final String name)
+    public void updateCurrentElement(
+            final AbstractMeter meter, final String name)
             throws SocketViewException {
-        if (name != null) {
+        if (meter != null && !regMeterHash) {
+            registerFirstMeterHash(meter);
+        }
+        if (name != null && meter.hashCode() == (getRegMeter())) {
             viewStub.updateCurrentRun(name);
         }
     }
@@ -137,6 +146,28 @@ public final class SocketViewProgressUpdater {
      */
     public void finished() throws SocketViewException {
         viewStub.finishedBenchRuns();
+        regMeterHash = false;
+    }
+
+    /**
+     * Register the meter hash for update the view, so only one time the current
+     * view element will be updated and not for every meter.
+     * 
+     * @param meterHash
+     *            The hash of the meter.
+     */
+    private void registerFirstMeterHash(final AbstractMeter meterHash) {
+        this.meterHash = meterHash.hashCode();
+        regMeterHash = true;
+    }
+
+    /**
+     * The meter hash.
+     * 
+     * @return The meter hash of the registered hash;
+     */
+    private int getRegMeter() {
+        return meterHash;
     }
 
 }
