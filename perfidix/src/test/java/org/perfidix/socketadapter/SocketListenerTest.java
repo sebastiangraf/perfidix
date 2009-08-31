@@ -32,6 +32,8 @@ import org.junit.Test;
 import org.perfidix.annotation.Bench;
 import org.perfidix.element.BenchmarkMethod;
 import org.perfidix.exceptions.PerfidixMethodCheckException;
+import org.perfidix.meter.Time;
+import org.perfidix.meter.TimeMeter;
 
 /**
  * This class tests the java class
@@ -101,7 +103,9 @@ public class SocketListenerTest {
                 method1 = new BenchmarkMethod(method);
             }
         }
-        socketListener.listenToResultSet(method1.getMethodToBench(), null, 0);
+        socketListener
+                .listenToResultSet(method1.getMethodToBench(), new TimeMeter(
+                        Time.MilliSeconds), 0);
         Thread.sleep(10);
         assertEquals(
                 "Tests if the sent item has been received",

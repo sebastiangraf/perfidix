@@ -69,9 +69,9 @@ public final class SocketListener extends AbstractOutput {
     public void listenToResultSet(
             final Method meth, final AbstractMeter meter, final double data) {
         try {
-            view
-                    .updateCurrentElement((meth.getDeclaringClass().getName()
-                            + "." + meth.getName()));
+            view.updateCurrentElement(meter, (meth
+                    .getDeclaringClass().getName()
+                    + "." + meth.getName()));
         } catch (final SocketViewException e) {
             throw new IllegalStateException(e);
         }

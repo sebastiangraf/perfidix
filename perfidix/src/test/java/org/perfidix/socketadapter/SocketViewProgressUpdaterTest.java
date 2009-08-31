@@ -35,6 +35,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.perfidix.element.BenchmarkMethod;
 import org.perfidix.exceptions.SocketViewException;
+import org.perfidix.meter.TimeMeter;
 
 /**
  * This class tests the java class
@@ -127,7 +128,7 @@ public class SocketViewProgressUpdaterTest {
 
     /**
      * Test method for
-     * {@link org.perfidix.socketadapter.SocketViewProgressUpdater#updateCurrentElement(java.lang.String)}
+     * {@link org.perfidix.socketadapter.SocketViewProgressUpdater#updateCurrentElement(org.perfidix.meter.AbstractMeter, String)}
      * .
      * 
      * @throws InterruptedException
@@ -139,7 +140,8 @@ public class SocketViewProgressUpdaterTest {
             viewUpdater.initProgressView(dataForView);
             final String sentItem =
                     "org.perfidix.socketadapter.BenchWithException.benchMe";
-            viewUpdater.updateCurrentElement(sentItem);
+            viewUpdater.updateCurrentElement(new TimeMeter(
+                    org.perfidix.meter.Time.MilliSeconds), sentItem);
             Thread.sleep(10);
             assertEquals(
                     "Test if sent string is the same that has been received",
