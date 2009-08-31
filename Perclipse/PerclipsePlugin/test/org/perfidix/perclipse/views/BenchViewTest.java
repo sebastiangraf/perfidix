@@ -28,7 +28,6 @@ import java.util.List;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.perfidix.perclipse.launcher.PerclipseActivator;
 import org.perfidix.perclipse.model.BenchRunSession;
@@ -43,10 +42,9 @@ import org.perfidix.perclipse.viewtreedata.TreeDataProvider;
  * @author Lewandowski Lukas, DiSy, University of Konstanz
  */
 public class BenchViewTest {
-    private BenchView view;
-    private TestUtilClass utilClass;
-    private BenchRunSession runSession;
-    private List<JavaElementsWithTotalRuns> elementsList;
+    private transient BenchView view;
+    private transient TestUtilClass utilClass;
+    private transient BenchRunSession runSession;
 
     /**
      * Simple setUp - method.
@@ -59,7 +57,8 @@ public class BenchViewTest {
         utilClass = new TestUtilClass();
         utilClass.setViewForTesting();
         view = PerclipseActivator.getDefault().getBenchView();
-        elementsList = new ArrayList<JavaElementsWithTotalRuns>();
+        final List<JavaElementsWithTotalRuns> elementsList =
+                new ArrayList<JavaElementsWithTotalRuns>();
         elementsList.add(new JavaElementsWithTotalRuns(
                 "mypackage.Class.method", 125));
         elementsList.add(new JavaElementsWithTotalRuns(
@@ -77,10 +76,10 @@ public class BenchViewTest {
     @After
     public void tearDown() throws Exception {
         utilClass.setViewNull();
-        utilClass = null;
-        view = null;
-        elementsList = null;
-        runSession = null;
+        // utilClass = null;
+        // view = null;
+        // elementsList = null;
+        // runSession = null;
     }
 
     /**
@@ -90,7 +89,7 @@ public class BenchViewTest {
     @Test
     public void testBenchView() {
         view = new BenchView();
-        assertNotNull(view);
+        assertNotNull("Tests if view is not null", view);
     }
 
     /**
@@ -99,9 +98,14 @@ public class BenchViewTest {
      */
     @Test
     public void testCreateImage() {
-        assertNotNull(BenchView.createImage("icons/time.png"));
-        assertNull(BenchView.createImage("icons/timme.png"));
-        assertNull(BenchView.createImage(null));
+        assertNotNull(
+                "Test if creation of right image is successful and not null",
+                BenchView.createImage("icons/time.png"));
+        assertNull("Test if a not existing image returns null", BenchView
+                .createImage("icons/timme.png"));
+        assertNull(
+                "Tests if the parameter null returns a null image", BenchView
+                        .createImage(null));
     }
 
     /**
@@ -110,7 +114,7 @@ public class BenchViewTest {
      * .
      */
     @Test
-    public void testStartUpdateJobs() {
+    public void testStartUpdateJobs() { // NOPMD by lewandow on 8/31/09 4:20 PM
         view.startUpdateJobs(null);
         view.startUpdateJobs(runSession);
     }
@@ -120,9 +124,9 @@ public class BenchViewTest {
      * {@link org.perfidix.perclipse.views.BenchView#handleBenchSelection(org.perfidix.perclipse.viewtreedata.TreeDataProvider)}
      * .
      */
-    @Ignore // Has to be fixed. Tree has first to be initialized.
     @Test
-    public void testHandleBenchSelection() {
+    public void testHandleBenchSelection() { // NOPMD by lewandow on 8/31/09
+                                             // 4:20 PM
         view.handleBenchSelection(null);
         view.handleBenchSelection(new TreeDataProvider("SomeElement", 55, 22));
     }

@@ -26,10 +26,8 @@ import static org.junit.Assert.assertNotNull;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.perfidix.perclipse.util.TestUtilClass;
 import org.perfidix.perclipse.launcher.PerclipseActivator;
-import org.perfidix.perclipse.views.BenchView;
-import org.perfidix.perclipse.views.BenchViewCounterPanel;
+import org.perfidix.perclipse.util.TestUtilClass;
 
 /**
  * This class tests the java class
@@ -38,9 +36,8 @@ import org.perfidix.perclipse.views.BenchViewCounterPanel;
  * @author Lewandowski Lukas, DiSy, University of Konstanz
  */
 public class BenchViewCounterPanelTest {
-    private BenchViewCounterPanel counterPanel;
-    private BenchView view;
-    private TestUtilClass utilClass;
+    private transient BenchViewCounterPanel counterPanel;
+    private transient TestUtilClass utilClass;
 
     /**
      * Simple setUp - method.
@@ -52,7 +49,7 @@ public class BenchViewCounterPanelTest {
     public void setUp() throws Exception {
         utilClass = new TestUtilClass();
         utilClass.setViewForTesting();
-        view = PerclipseActivator.getDefault().getBenchView();
+        final BenchView view = PerclipseActivator.getDefault().getBenchView();
         counterPanel = view.getBenchCounterPanel();
     }
 
@@ -65,9 +62,9 @@ public class BenchViewCounterPanelTest {
     @After
     public void tearDown() throws Exception {
         utilClass.setViewNull();
-        utilClass = null;
-        view = null;
-        counterPanel = null;
+        // utilClass = null;
+        // view = null;
+        // counterPanel = null;
     }
 
     /**
@@ -78,7 +75,7 @@ public class BenchViewCounterPanelTest {
      */
     @Test
     public void testBenchViewCounterPanel() {
-        assertNotNull(counterPanel);
+        assertNotNull("Tests if counter panel is not null", counterPanel);
     }
 
     // /**
@@ -104,9 +101,10 @@ public class BenchViewCounterPanelTest {
     @Test
     public void testResetRuns() {
         counterPanel.setTotalRuns(55);
-        assertEquals(55, counterPanel.getTotalRuns());
+        assertEquals("Tests if total runs is 55", 55, counterPanel
+                .getTotalRuns());
         counterPanel.resetRuns();
-        assertEquals(0, counterPanel.getTotalRuns());
+        assertEquals("Tests if total runs is 0", 0, counterPanel.getTotalRuns());
     }
 
     /**
@@ -123,7 +121,8 @@ public class BenchViewCounterPanelTest {
         counterPanel.setBenchErrors(55);
         counterPanel.setBenchRuns(222);
         counterPanel.setTotalRuns(555);
-        assertEquals(555, counterPanel.getTotalRuns());
+        assertEquals("Tests if total runs is 555", 555, counterPanel
+                .getTotalRuns());
 
     }
 }

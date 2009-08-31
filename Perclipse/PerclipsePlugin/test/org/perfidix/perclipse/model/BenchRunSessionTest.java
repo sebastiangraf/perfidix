@@ -30,11 +30,8 @@ import static org.junit.Assert.assertTrue;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.perfidix.perclipse.model.BenchRunSession;
-import org.perfidix.perclipse.model.JavaElementsWithTotalRuns;
 
 /**
  * This class tests the java class
@@ -44,9 +41,10 @@ import org.perfidix.perclipse.model.JavaElementsWithTotalRuns;
  */
 
 public class BenchRunSessionTest {
-    private BenchRunSession session;
-    private JavaElementsWithTotalRuns run;
-    private List<JavaElementsWithTotalRuns> theList;
+    private transient BenchRunSession session;
+    private transient JavaElementsWithTotalRuns run;
+    private transient List<JavaElementsWithTotalRuns> theList;
+    private static final transient String NOT_NULL = "Test if not null";
 
     /**
      * Simple setUp - method.
@@ -62,18 +60,18 @@ public class BenchRunSessionTest {
         theList.add(run);
     }
 
-    /**
-     * Simple tearDown - method.
-     * 
-     * @throws java.lang.Exception
-     *             The Exception occurred.
-     */
-    @After
-    public void tearDown() throws Exception {
-        session = null;
-        run = null;
-        theList = null;
-    }
+    // /**
+    // * Simple tearDown - method.
+    // *
+    // * @throws java.lang.Exception
+    // * The Exception occurred.
+    // */
+    // @After
+    // public void tearDown() throws Exception {
+    // session = null;
+    // run = null;
+    // theList = null;
+    // }
 
     /**
      * Tests the method
@@ -83,18 +81,24 @@ public class BenchRunSessionTest {
     @Test
     public void testSetBenchRunSessoin() {
         session.setBenchRunSession(150, null);
-        assertEquals(150, session.getTotalCount());
-        assertNotNull(session);
-        assertEquals(null, session.getBenchElements());
-        assertEquals(0, session.getCurrentCount());
-        assertEquals(0, session.getErrorCount());
-        assertEquals(0, session.getStartedCount());
-        assertEquals(null, session.getCurrentRunElement());
+        assertEquals("Tests if the total count is equal to 150", 150, session
+                .getTotalCount());
+        assertNotNull(NOT_NULL, session);
+        assertEquals("Tests if getBenchElements are null", null, session
+                .getBenchElements());
+        assertEquals("Tests if currentCount is 0", 0, session.getCurrentCount());
+        assertEquals("Tests if errorCount is 0", 0, session.getErrorCount());
+        assertEquals("Tests if started count is 0", 0, session
+                .getStartedCount());
+        assertEquals("Tests if current element is null", null, session
+                .getCurrentRunElement());
         session.setBenchRunSession(-111, theList);
-        assertEquals(0, session.getTotalCount());
-        assertEquals(null, session.getCurrentRunElement());
-        assertArrayEquals(theList.toArray(), session
-                .getBenchElements().toArray());
+        assertEquals("Tests if total count is 0", 0, session.getTotalCount());
+        assertEquals("Tests if current element is null", null, session
+                .getCurrentRunElement());
+        assertArrayEquals(
+                "Tests if the both arrays are equal (the sent and the received)",
+                theList.toArray(), session.getBenchElements().toArray());
     }
 
     /**
@@ -105,12 +109,14 @@ public class BenchRunSessionTest {
     public void testSetCurrentRun() {
         session.setBenchRunSession(555, theList);
         session.setCurrentRun("TheElement");
-        assertEquals(run, session.getCurrentRunElement());
-        assertNotNull(session.getCurrentRunElement());
-        assertEquals(1, session.getCurrentCount());
-        assertEquals(1, session.getBenchElements().size());
-        assertTrue(session.isRunning());
-        assertFalse(session.isStopped());
+        assertEquals("Tests if the elements are equal", run, session
+                .getCurrentRunElement());
+        assertNotNull(NOT_NULL, session.getCurrentRunElement());
+        assertEquals("Tests the current counter", 1, session.getCurrentCount());
+        assertEquals("Tests the elements size", 1, session
+                .getBenchElements().size());
+        assertTrue("Tests if the running value is set", session.isRunning());
+        assertFalse("Tests if the session is stopped", session.isStopped());
     }
 
     /**
@@ -120,9 +126,11 @@ public class BenchRunSessionTest {
     @Test
     public void testUpdateError() {
         session.setBenchRunSession(55, theList);
-        assertEquals(0, session.getErrorCount());
+        assertEquals("Tests if the error count is 0", 0, session
+                .getErrorCount());
         session.updateError("TheElement");
-        assertEquals(1, session.getErrorCount());
+        assertEquals("Tests if the error count is 1", 1, session
+                .getErrorCount());
     }
 
     /**
@@ -133,12 +141,16 @@ public class BenchRunSessionTest {
     public void testReset() {
         session.setBenchRunSession(999, theList);
         session.reset();
-        assertEquals(0, session.getCurrentCount());
-        assertEquals(0, session.getErrorCount());
-        assertEquals(0, session.getStartedCount());
-        assertEquals(0, session.getTotalCount());
-        assertTrue(session.isRunning());
-        assertFalse(session.isStopped());
+        assertEquals("Test if the current count is 0.", 0, session
+                .getCurrentCount());
+        assertEquals("Test if error count is still 0.", 0, session
+                .getErrorCount());
+        assertEquals("Test if started count is 0.", 0, session
+                .getStartedCount());
+        assertEquals("Tests if total count is 0.", 0, session.getTotalCount());
+        assertTrue("Tests if the session is still running.", session
+                .isRunning());
+        assertFalse("Tests if the session stopped.", session.isStopped());
     }
 
     /**
@@ -149,11 +161,12 @@ public class BenchRunSessionTest {
     @Test
     public void testSetBenchElements() {
         session.setBenchElements(null);
-        assertNull(session.getBenchElements());
+        assertNull("Tests if object is null", session.getBenchElements());
         session.setBenchElements(theList);
-        assertNotNull(session.getBenchElements());
-        assertArrayEquals(theList.toArray(), session
-                .getBenchElements().toArray());
+        assertNotNull(NOT_NULL, session.getBenchElements());
+        assertArrayEquals(
+                "test if the sent array is equal to the received one.", theList
+                        .toArray(), session.getBenchElements().toArray());
 
     }
 
@@ -164,7 +177,7 @@ public class BenchRunSessionTest {
     @Test
     public void testSetFinished() {
         session.setFinished(true);
-        assertTrue(session.isStopped());
-        assertFalse(session.isRunning());
+        assertTrue("Test if session stopped.", session.isStopped());
+        assertFalse("Tests if session is still running.", session.isRunning());
     }
 }

@@ -66,7 +66,7 @@ public class TreeDataProvider {
      *         benched. Currently it is not used. But it could.
      */
     public TreeDataProvider[] getChildElements() {
-        return childElements; // NOPMD by IceMan on 27.08.09 23:01
+        return childElements.clone();
     }
 
     /**

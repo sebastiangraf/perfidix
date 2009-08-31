@@ -24,12 +24,12 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.perfidix.perclipse.util.TestUtilClass;
-import org.perfidix.perclipse.model.BenchRunSessionListener;
 
 /**
  * This class tests the java class
@@ -39,9 +39,10 @@ import org.perfidix.perclipse.model.BenchRunSessionListener;
  */
 
 public class BenchRunSessionListenerTest {
-    private BenchRunSessionListener listener;
-    private HashMap<String, Integer> initData;
-    private TestUtilClass utilClass;
+    private transient BenchRunSessionListener listener;
+    private transient Map<String, Integer> initData;
+    private transient TestUtilClass utilClass;
+    private static final transient String MY_BOBJECT = "MyBenchObject";
 
     /**
      * Simple setUp - method.
@@ -56,7 +57,7 @@ public class BenchRunSessionListenerTest {
         utilClass.setViewForTesting();
         listener = new BenchRunSessionListener();
         initData = new HashMap<String, Integer>();
-        initData.put("MyBenchObject", 123);
+        initData.put(MY_BOBJECT, 123);
         initData.put("AnotherObject", 654);
     }
 
@@ -68,10 +69,10 @@ public class BenchRunSessionListenerTest {
      */
     @After
     public void tearDown() throws Exception {
-        listener = null;
-        initData = null;
+        // listener = null;
+        // initData = null;
         utilClass.setViewNull();
-        utilClass = null;
+        // utilClass = null;
     }
 
     /**
@@ -81,7 +82,7 @@ public class BenchRunSessionListenerTest {
      */
     @Test
     public void testBenchRunSessionListener() {
-        assertNotNull(listener);
+        assertNotNull("Test if not null", listener);
     }
 
     /**
@@ -90,7 +91,8 @@ public class BenchRunSessionListenerTest {
      * .
      */
     @Test
-    public void testInitTotalBenchProgress() {
+    public void testInitTotalBenchProgress() { // NOPMD by lewandow on 8/31/09
+                                               // 4:34 PM
         listener.initTotalBenchProgress(null);
         listener.initTotalBenchProgress(new HashMap<String, Integer>());
         listener.initTotalBenchProgress(initData);
@@ -102,10 +104,10 @@ public class BenchRunSessionListenerTest {
      * .
      */
     @Test
-    public void testUpdateCurrentRun() {
-        listener.updateCurrentRun("MyBenchObject");
+    public void testUpdateCurrentRun() { // NOPMD by lewandow on 8/31/09 4:34 PM
+        listener.updateCurrentRun(MY_BOBJECT);
         listener.initTotalBenchProgress(initData);
-        listener.updateCurrentRun("MyBenchObject");
+        listener.updateCurrentRun(MY_BOBJECT);
         listener.updateCurrentRun("Nothing");
     }
 
@@ -115,10 +117,10 @@ public class BenchRunSessionListenerTest {
      * .
      */
     @Test
-    public void testUpdateError() {
+    public void testUpdateError() { // NOPMD by lewandow on 8/31/09 4:34 PM
         listener.updateError("MyBenchi", "ExceptionTest");
         listener.initTotalBenchProgress(initData);
-        listener.updateError("MyBenchObject", "ExceptionTest");
+        listener.updateError(MY_BOBJECT, "ExceptionTest");
         listener.updateError("Sometthin", "ExceptionTest");
     }
 
@@ -131,7 +133,7 @@ public class BenchRunSessionListenerTest {
     public void testFinishedBenchRuns() {
 
         listener.finishedBenchRuns();
-        assertTrue(listener.isFinished());
+        assertTrue("Test if finished successfully", listener.isFinished());
 
     }
 }

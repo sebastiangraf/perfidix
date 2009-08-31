@@ -37,7 +37,7 @@ public class TestUtilClass {
      * Set View just for testing.
      */
     public void setViewForTesting() {
-        BenchView benchView =
+        final BenchView benchView =
                 showBenchViewInActivePage(findBenchViewInActivePage());
         PerclipseActivator.getDefault().setBenchView(benchView);
     }
@@ -59,27 +59,27 @@ public class TestUtilClass {
      * @return It returns the displayed view.
      */
     private BenchView showBenchViewInActivePage(final BenchView benchView) {
+        BenchView retView = null;
         IWorkbenchPage page = null;
         page = PerclipseActivator.getActivePage();
 
         if (benchView != null && benchView.isCreated()) {
             page.activate(benchView);
-            return benchView;
+            retView = benchView;
+
+        } else if (page != null) {
+            try {
+                final IViewPart viewPart = page.showView(BenchView.MY_VIEW_ID);
+                final BenchView view = (BenchView) viewPart;
+                page.activate(viewPart);
+                retView = view;
+            } catch (final PartInitException e) {
+                PerclipseActivator.log(e);
+            }
 
         }
-        if (page == null) {
-            return null;
-        }
-        try {
-            final IViewPart viewPart = page.showView(BenchView.MY_VIEW_ID);
-            final BenchView view = (BenchView) viewPart;
-            page.activate(viewPart);
-            return view;
-        } catch (final PartInitException e) {
-            PerclipseActivator.log(e);
-            e.printStackTrace();
-            return null;
-        }
+
+        return retView;
 
     }
 
@@ -90,10 +90,11 @@ public class TestUtilClass {
      * @return Returns the loaded view.
      */
     private BenchView findBenchViewInActivePage() {
+        BenchView returnView = null;
         final IWorkbenchPage page = PerclipseActivator.getActivePage();
-        if (page == null) {
-            return null;
+        if (page != null) {
+            returnView = (BenchView) page.findView(BenchView.MY_VIEW_ID);
         }
-        return (BenchView) page.findView(BenchView.MY_VIEW_ID);
+        return returnView;
     }
 }

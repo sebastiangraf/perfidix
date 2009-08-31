@@ -20,11 +20,11 @@
  */
 package org.perfidix.perclipse.model;
 
-import org.junit.After;
+import static org.junit.Assert.assertNotNull;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.perfidix.perclipse.launcher.PerclipseActivator;
-import org.perfidix.perclipse.model.BenchModel;
 
 /**
  * This is the TestClass for {@link org.perfidix.perclipse.model.BenchModel}
@@ -33,7 +33,7 @@ import org.perfidix.perclipse.model.BenchModel;
  */
 public class BenchModelTest {
 
-    private BenchModel model;
+    private transient BenchModel model;
 
     /**
      * Simple setUp method.
@@ -48,20 +48,13 @@ public class BenchModelTest {
     }
 
     /**
-     * @throws Exception
-     */
-    @After
-    public void tearDown() throws Exception {
-    }
-
-    /**
      * This method test the start() method :
      * {@link org.perfidix.perclipse.model.BenchModel#start()}.
      */
     @Test
     public void testStart() {
-
         model.start();
+        assertNotNull("Test if exist", model);
 
     }
 
@@ -71,9 +64,8 @@ public class BenchModelTest {
      */
     @Test
     public void testStop() {
-
         model.stop();
-        model = null;
+        assertNotNull("Test if exist and no exception thrown", model);
 
     }
 

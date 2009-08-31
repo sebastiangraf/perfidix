@@ -20,12 +20,11 @@
  */
 package org.perfidix.perclipse.views;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.perfidix.perclipse.views.PerclipseMainTab;
 
 /**
  * This class tests the java class
@@ -34,7 +33,7 @@ import org.perfidix.perclipse.views.PerclipseMainTab;
  * @author Lewandowski Lukas, DiSy, University of Konstanz
  */
 public class PerclipseMainTabTest {
-    private PerclipseMainTab mainTab;
+    private transient PerclipseMainTab mainTab;
 
     /**
      * Simple setUp - method.
@@ -47,16 +46,16 @@ public class PerclipseMainTabTest {
         mainTab = new PerclipseMainTab();
     }
 
-    /**
-     * Simple tearDown - method.
-     * 
-     * @throws java.lang.Exception
-     *             The Exception occurred.
-     */
-    @After
-    public void tearDown() throws Exception {
-        mainTab = null;
-    }
+    // /**
+    // * Simple tearDown - method.
+    // *
+    // * @throws java.lang.Exception
+    // * The Exception occurred.
+    // */
+    // @After
+    // public void tearDown() throws Exception {
+    // mainTab = null;
+    // }
 
     /**
      * Test method for
@@ -64,7 +63,9 @@ public class PerclipseMainTabTest {
      */
     @Test
     public void testGetName() {
-        assertEquals("Benchs", mainTab.getName());
+        assertEquals(
+                "Tests the name of the created main tab.", "Benchs", mainTab
+                        .getName());
     }
 
     /**
@@ -73,7 +74,9 @@ public class PerclipseMainTabTest {
      */
     @Test
     public void testGetImage() {
-        assertNotNull(mainTab.getImage());
+        assertNotNull(
+                "Tests if the image of the main tab is not null.", mainTab
+                        .getImage());
     }
 
 }

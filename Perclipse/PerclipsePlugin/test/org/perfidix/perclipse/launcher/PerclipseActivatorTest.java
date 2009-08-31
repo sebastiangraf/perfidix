@@ -23,14 +23,19 @@ package org.perfidix.perclipse.launcher;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.eclipse.core.runtime.ILogListener;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.perfidix.perclipse.util.TestUtilClass;
-import org.perfidix.perclipse.launcher.PerclipseActivator;
 
 /**
  * This class tests the java class
@@ -39,8 +44,11 @@ import org.perfidix.perclipse.launcher.PerclipseActivator;
  * @author Lewandowski Lukas, DiSy, University of Konstanz
  */
 public class PerclipseActivatorTest {
-    private TestUtilClass utilClass;
-    private PerclipseActivator activator;
+    private transient TestUtilClass utilClass;
+    private transient PerclipseActivator activator;
+    private static final transient String NNULL_MESSAGE =
+            "Tests if the object is not null";
+    private transient MyLogListener loggerListener;
 
     /**
      * Simple setUp - method.
@@ -50,6 +58,8 @@ public class PerclipseActivatorTest {
      */
     @Before
     public void setUp() throws Exception {
+        loggerListener = new MyLogListener();
+        PerclipseActivator.getDefault().getLog().addLogListener(loggerListener);
         utilClass = new TestUtilClass();
         activator = PerclipseActivator.getDefault();
     }
@@ -62,8 +72,8 @@ public class PerclipseActivatorTest {
      */
     @After
     public void tearDown() throws Exception {
-        utilClass = null;
-        activator = null;
+        PerclipseActivator.getDefault().getLog().removeLogListener(
+                loggerListener);
     }
 
     /**
@@ -72,8 +82,10 @@ public class PerclipseActivatorTest {
      */
     @Test
     public void testGetDefault() {
-        assertNotNull(PerclipseActivator.getDefault());
-        assertEquals(activator, PerclipseActivator.getDefault());
+        assertNotNull(NNULL_MESSAGE, PerclipseActivator.getDefault());
+        assertEquals(
+                "Tests if the instances are equal", activator,
+                PerclipseActivator.getDefault());
     }
 
     /**
@@ -82,9 +94,12 @@ public class PerclipseActivatorTest {
      */
     @Test
     public void testGetPluginId() {
-        assertEquals("org.perfidix.perclipse", PerclipseActivator.getPluginId());
-        assertEquals(PerclipseActivator.PLUGIN_ID, PerclipseActivator
-                .getPluginId());
+        assertEquals(
+                "Tests if the plug-in id is equal to the one beside",
+                "org.perfidix.perclipse", PerclipseActivator.getPluginId());
+        assertEquals(
+                "Tests if the constant is equal to the static get method",
+                PerclipseActivator.PLUGIN_ID, PerclipseActivator.getPluginId());
     }
 
     /**
@@ -95,7 +110,10 @@ public class PerclipseActivatorTest {
     @Test
     public void testLogInfo() {
         PerclipseActivator.logInfo("Something to log");
+        assertTrue("Test if has been logged", loggerListener
+                .getStatusList().contains("Something to log"));
         PerclipseActivator.logInfo(null);
+
     }
 
     /**
@@ -105,7 +123,9 @@ public class PerclipseActivatorTest {
      */
     @Test
     public void testLogThrowable() {
-        PerclipseActivator.log(new RuntimeException("MyMessage"));
+        PerclipseActivator.log(new IOException("MyMessage"));
+        assertTrue("Tests if the log contains the MyMessage.", loggerListener
+                .getStatusList().contains("MyMessage"));
 
     }
 
@@ -116,8 +136,9 @@ public class PerclipseActivatorTest {
      */
     @Test
     public void testLogThrowableString() {
-        PerclipseActivator.log(
-                new RuntimeException("AnotherMesage"), "SomeText");
+        PerclipseActivator.log(new IOException(), "SomeText");
+        assertTrue("Checks if the log contains the SomeText.", loggerListener
+                .getStatusList().contains("SomeText"));
     }
 
     /**
@@ -129,6 +150,8 @@ public class PerclipseActivatorTest {
     public void testLogIStatus() {
         PerclipseActivator.log(new Status(
                 IStatus.OK, PerclipseActivator.PLUGIN_ID, "MyStatus"));
+        assertTrue("Tests if the log contains the MyStatus", loggerListener
+                .getStatusList().contains("MyStatus"));
     }
 
     /**
@@ -138,9 +161,12 @@ public class PerclipseActivatorTest {
      */
     @Test
     public void testGetImageDescriptor() {
-        assertNotNull(PerclipseActivator.getImageDescriptor("icons/time.png"));
-        assertNull(PerclipseActivator.getImageDescriptor("icons/tiiiime.png"));
-        assertNull(PerclipseActivator.getImageDescriptor(null));
+        assertNotNull(NNULL_MESSAGE, PerclipseActivator
+                .getImageDescriptor("icons/time.png"));
+        assertNull("Tests if the object is null", PerclipseActivator
+                .getImageDescriptor("icons/tiiiime.png"));
+        assertNull("Tests if the object is  null", PerclipseActivator
+                .getImageDescriptor(null));
     }
 
     /**
@@ -150,7 +176,8 @@ public class PerclipseActivatorTest {
      */
     @Test
     public void testGetActiveWorkbenchWindow() {
-        assertNotNull(PerclipseActivator.getActiveWorkbenchWindow());
+        assertNotNull(NNULL_MESSAGE, PerclipseActivator
+                .getActiveWorkbenchWindow());
     }
 
     /**
@@ -160,7 +187,7 @@ public class PerclipseActivatorTest {
      */
     @Test
     public void testGetActivePage() {
-        assertNotNull(PerclipseActivator.getActivePage());
+        assertNotNull(NNULL_MESSAGE, PerclipseActivator.getActivePage());
     }
 
     /**
@@ -169,7 +196,7 @@ public class PerclipseActivatorTest {
      */
     @Test
     public void testGetModel() {
-        assertNotNull(PerclipseActivator.getModel());
+        assertNotNull(NNULL_MESSAGE, PerclipseActivator.getModel());
 
     }
 
@@ -180,10 +207,12 @@ public class PerclipseActivatorTest {
      */
     @Test
     public void testGetBenchView() {
-        assertNull(activator.getBenchView());
-        assertNull(PerclipseActivator.getDefault().getBenchView());
+        assertNull("Tests if the object is null", activator.getBenchView());
+        assertNull("Tests if the object is null", PerclipseActivator
+                .getDefault().getBenchView());
         utilClass.setViewForTesting();
-        assertNotNull(PerclipseActivator.getDefault().getBenchView());
+        assertNotNull(NNULL_MESSAGE, PerclipseActivator
+                .getDefault().getBenchView());
         utilClass.setViewNull();
     }
 
@@ -194,8 +223,40 @@ public class PerclipseActivatorTest {
      */
     @Test
     public void testGetWorkspace() {
-        assertNotNull(activator.getWorkspace());
-        assertNotNull(PerclipseActivator.getDefault().getWorkspace());
+        assertNotNull(NNULL_MESSAGE, activator.getWorkspace());
+        assertNotNull(NNULL_MESSAGE, PerclipseActivator
+                .getDefault().getWorkspace());
     }
 
+    /**
+     * Test class to check logging.
+     * 
+     * @author lewandow
+     */
+    private class MyLogListener implements ILogListener {
+
+        private final transient List<String> statusList =
+                new ArrayList<String>();
+
+        /*
+         * (non-Javadoc)
+         * @see
+         * org.eclipse.core.runtime.ILogListener#logging(org.eclipse.core.runtime
+         * .IStatus, java.lang.String)
+         */
+        public void logging(final IStatus status, final String plugin) {
+            statusList.add(status.getMessage());
+            statusList.add(status.getException().getMessage());
+        }
+
+        /**
+         * The status list.
+         * 
+         * @return The list with the occurred status.
+         */
+        public List<String> getStatusList() {
+            return statusList;
+        }
+
+    }
 }

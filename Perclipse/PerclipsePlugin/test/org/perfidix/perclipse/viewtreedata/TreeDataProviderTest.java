@@ -26,7 +26,6 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.perfidix.perclipse.viewtreedata.TreeDataProvider;
 
 /**
  * TestCase for testing the class TreeDataProvider.
@@ -35,7 +34,9 @@ import org.perfidix.perclipse.viewtreedata.TreeDataProvider;
  */
 public class TreeDataProviderTest {
 
-    private TreeDataProvider dataProvider;
+    private transient TreeDataProvider dataProvider;
+    private static final transient String NOT_NULL =
+            "Tests if object is not null";
 
     /**
      * Simple setUp method for our TreeDataProvider instance.
@@ -51,15 +52,24 @@ public class TreeDataProviderTest {
      */
     @Test
     public void testGettersInClass() {
-        assertEquals("MyElement", dataProvider.getParentElementName());
-        assertEquals(66, dataProvider.getNumberOfBenchsForElement());
-        assertEquals(22, dataProvider.getCurrentBench());
-        assertEquals(0, dataProvider.getCurrentBenchError());
+        assertEquals(
+                "Tests if MyElement is equal to the data provider ones.",
+                "MyElement", dataProvider.getParentElementName());
+        assertEquals("Tests if number of benchs is 66.", 66, dataProvider
+                .getNumberOfBenchsForElement());
+        assertEquals("Tests if currentbench is 22.", 22, dataProvider
+                .getCurrentBench());
+        assertEquals(
+                "Tests if number of current bench errors is 0", 0, dataProvider
+                        .getCurrentBenchError());
         dataProvider.updateCurrentBenchError(5);
-        assertEquals(5, dataProvider.getCurrentBenchError());
-        assertNotNull(dataProvider.getChildElements());
-        assertNotNull(dataProvider.getParent());
-        assertEquals(dataProvider, dataProvider.getParent());
+        assertEquals("Tests if bench error is 5", 5, dataProvider
+                .getCurrentBenchError());
+        assertNotNull(NOT_NULL, dataProvider.getChildElements());
+        assertNotNull(NOT_NULL, dataProvider.getParent());
+        assertEquals(
+                "Tests if getParent is equals to dataProfier", dataProvider,
+                dataProvider.getParent());
 
     }
 
@@ -69,9 +79,10 @@ public class TreeDataProviderTest {
      */
     @Test
     public void testTreeDataProvider() {
-        assertNotNull(dataProvider);
+        assertNotNull(NOT_NULL, dataProvider);
         dataProvider = new TreeDataProvider(null, 55, 11);
-        assertEquals(null, dataProvider.getParent());
+        assertEquals("Test if getParent is null", null, dataProvider
+                .getParent());
     }
 
     /**
@@ -81,7 +92,8 @@ public class TreeDataProviderTest {
     @Test
     public void testUpdateCurrentBench() {
         dataProvider.updateCurrentBench(23);
-        assertEquals(23, dataProvider.getCurrentBench());
+        assertEquals("Test if current bench is 23.", 23, dataProvider
+                .getCurrentBench());
     }
 
     /**
@@ -90,8 +102,9 @@ public class TreeDataProviderTest {
      */
     @Test
     public void testUpdateCurrentBenchError() {
-        dataProvider.updateCurrentBench(23);
-        assertEquals(23, dataProvider.getCurrentBench());
+        dataProvider.updateCurrentBenchError(23);
+        assertEquals("Test if current bench error is 23", 23, dataProvider
+                .getCurrentBenchError());
     }
 
     /**
@@ -100,9 +113,9 @@ public class TreeDataProviderTest {
      */
     @Test
     public void testToString() {
-        assertTrue((dataProvider.toString() != null));
+        assertTrue("Test if is not null", (dataProvider.toString() != null));
         dataProvider = new TreeDataProvider(null, 55, 11);
-        assertTrue((dataProvider.toString() == null));
+        assertTrue("Test if is null", (dataProvider.toString() == null));
     }
 
 }

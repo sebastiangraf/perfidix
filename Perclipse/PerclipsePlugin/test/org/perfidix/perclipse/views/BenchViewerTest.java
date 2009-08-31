@@ -25,10 +25,8 @@ import static org.junit.Assert.assertNotNull;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.swt.widgets.Composite;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.perfidix.perclipse.launcher.PerclipseActivator;
 import org.perfidix.perclipse.model.BenchRunSession;
@@ -42,11 +40,9 @@ import org.perfidix.perclipse.util.TestUtilClass;
  * @author Lewandowski Lukas, DiSy, University of Konstanz
  */
 public class BenchViewerTest {
-    private TestUtilClass utilClass;
-    private BenchView view;
-    private BenchViewer viewer;
-    private BenchRunSession runSession;
-    private List<JavaElementsWithTotalRuns> elementsList;
+    private transient TestUtilClass utilClass;
+    private transient BenchViewer viewer;
+    private transient BenchRunSession runSession;
 
     /**
      * Simple setUp - method.
@@ -58,10 +54,10 @@ public class BenchViewerTest {
     public void setUp() throws Exception {
         utilClass = new TestUtilClass();
         utilClass.setViewForTesting();
-        view = PerclipseActivator.getDefault().getBenchView();
+        final BenchView view = PerclipseActivator.getDefault().getBenchView();
         viewer = view.getBenchViewer();
         runSession = new BenchRunSession();
-        elementsList = null;
+        // elementsList = null;
     }
 
     /**
@@ -73,11 +69,11 @@ public class BenchViewerTest {
     @After
     public void tearDown() throws Exception {
         utilClass.setViewNull();
-        utilClass = null;
-        view = null;
-        viewer = null;
-        runSession = null;
-        elementsList = null;
+        // utilClass = null;
+        // view = null;
+        // viewer = null;
+        // runSession = null;
+        // elementsList = null;
     }
 
     /**
@@ -87,7 +83,7 @@ public class BenchViewerTest {
      */
     @Test
     public void testBenchViewer() {
-        assertNotNull(viewer);
+        assertNotNull("Tests if viewer is not null", viewer);
     }
 
     /**
@@ -96,8 +92,10 @@ public class BenchViewerTest {
      * .
      */
     @Test
-    public void testProcessChangesInUI() {
-        elementsList = new ArrayList<JavaElementsWithTotalRuns>();
+    public void testProcessChangesInUI() { // NOPMD by lewandow on 8/31/09 4:19
+                                           // PM
+        List<JavaElementsWithTotalRuns> elementsList =
+                new ArrayList<JavaElementsWithTotalRuns>();
         elementsList.add(new JavaElementsWithTotalRuns(
                 "org.packaging.ClassA.methodA", 55));
         elementsList.add(new JavaElementsWithTotalRuns(
@@ -108,7 +106,7 @@ public class BenchViewerTest {
         elementsList = new ArrayList<JavaElementsWithTotalRuns>();
         elementsList.add(new JavaElementsWithTotalRuns(
                 "org.packaging.ClassA.methodA", 55));
-        JavaElementsWithTotalRuns element =
+        final JavaElementsWithTotalRuns element =
                 new JavaElementsWithTotalRuns(
                         "orog.packaging.ClassB.methodB", 88);
         element.updateCurrentRun();
@@ -125,9 +123,8 @@ public class BenchViewerTest {
      * }
      * .
      */
-    @Ignore // Has to be fixed. Tree has to be initialized.
     @Test
-    public void testSelectionsInTree() {
+    public void testSelectionsInTree() { // NOPMD by lewandow on 8/31/09 4:19 PM
         viewer.handleSelected();
         viewer.handleDefaultSelected();
     }
