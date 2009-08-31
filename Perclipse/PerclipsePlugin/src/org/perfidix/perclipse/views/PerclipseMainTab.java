@@ -532,7 +532,6 @@ public class PerclipseMainTab extends AbstractLaunchConfigurationTab { // NOPMD
     private void setButtonGridData(final Button button) {
         final GridData gridData = new GridData(GridData.HORIZONTAL_ALIGN_FILL);
         button.setLayoutData(gridData);
-        // TODO look after this one
         // LayoutUtil.setButtonDimensionHint(button);
     }
 

@@ -96,7 +96,6 @@ public class BenchView extends ViewPart {
     /** {@inheritDoc} */
     @Override
     public void setFocus() {
-        // TODO Auto-generated method stub
         // Set focus to my widget. For a label no sense but for more
         // complextypes
     }
