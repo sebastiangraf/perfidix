@@ -30,8 +30,10 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.debug.core.ILaunch;
 import org.eclipse.debug.core.ILaunchConfiguration;
+import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IType;
+import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.launching.AbstractJavaLaunchConfigurationDelegate;
 import org.eclipse.jdt.launching.ExecutionArguments;
 import org.eclipse.jdt.launching.IJavaLaunchConfigurationConstants;
@@ -133,9 +135,15 @@ public class PerfidixLaunchConfiguration
             PerclipseActivator.logInfo("Benching a single class "
                     + benchTypeName);
         } else {
+            
+            final IJavaElement element = JavaCore.create(containerHandle);
+            if(element!=null && element.exists()){
+                types = BenchSearchEngine.findBenchs(new Object[] { element });
+            }
+            
             // benching an entire project/package
-            types = BenchSearchEngine.findBenchs(new Object[] { javaProject });
-            PerclipseActivator.logInfo("Benching an entire project/package");
+//            types = BenchSearchEngine.findBenchs(new Object[] { javaProject });
+            PerclipseActivator.logInfo("Benching "+element.getElementName());
         }
 
         return new BenchSearchResult(types);
