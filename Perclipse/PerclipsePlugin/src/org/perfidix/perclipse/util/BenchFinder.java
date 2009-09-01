@@ -20,6 +20,8 @@
  */
 package org.perfidix.perclipse.util;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -48,6 +50,8 @@ import org.perfidix.perclipse.launcher.PerclipseActivator;
  * @author Graf S., Lewandowski L., DiSy, University of Konstanz
  */
 public final class BenchFinder {
+    
+    private static transient boolean subpackages=true;
 
     /**
      * The constructor.
@@ -83,6 +87,13 @@ public final class BenchFinder {
                 } else if (container instanceof IPackageFragment) {
                     final IPackageFragment fragment =
                             (IPackageFragment) container;
+                    if(subpackages){
+                        subpackages=false;
+                        final List<IPackageFragment> theList= containSubPackages(fragment);
+                        if(!theList.isEmpty()){
+                            findBenchsInContainer(theList.toArray(), result, pMonitor);
+                        }                        
+                    }
                     findBenchsInPackageFragment(fragment, result);
                 } else if (container instanceof ICompilationUnit) {
                     final ICompilationUnit comUnit =
@@ -93,6 +104,7 @@ public final class BenchFinder {
                     findBenchsInType(type, result);
                 }
             }
+            subpackages=true;
         } catch (JavaModelException e) {
             PerclipseActivator.log(e);
         }
@@ -329,6 +341,29 @@ public final class BenchFinder {
             }
             return retValue;
         }
+        
+    }
+    /**
+     * This method checks if the given packages has sub packages and adds them to a package list.
+     * 
+     * @param packageFragment The package that may contain sub packages.
+     * @return The list with all sub packages containing the head package.
+     * @throws JavaModelException The thrown exception.
+     */
+    private static List<IPackageFragment> containSubPackages(final IPackageFragment packageFragment) throws JavaModelException{
+        
+        final List<IPackageFragment> subPackages = new ArrayList<IPackageFragment>();
+        final IJavaElement[] allPackages = ((IPackageFragmentRoot) packageFragment
+            .getParent()).getChildren();
+        for (IJavaElement javaElement : allPackages) {
+          final IPackageFragment pakage = (IPackageFragment) javaElement;
+          final String startPackagenName = packageFragment.getElementName() + "."; //$NON-NLS-1$
+          if (packageFragment.isDefaultPackage()
+              || pakage.getElementName().startsWith(startPackagenName)) {
+            subPackages.add(pakage);
+          }
+        }
+        return subPackages;
     }
 
 }
