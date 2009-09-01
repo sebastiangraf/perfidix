@@ -5,7 +5,7 @@
 	<groupId>org</groupId>
 	<artifactId>perfidix</artifactId>
 	<name>Perfidix Project</name>
-	<version>3.5</version>
+	<version>3.4</version>
 	<description>Perfidix comes as a light-weight Java Benchmarking Tool which allows to make simple measurements of source code without intsalling heavy profilers or using special IDEs. Perfidix comes as a simple jar which has to be included in the classpath. Methods which should be benched are annotated similar to JUnit testcases. With these simple modifications  fast evaluation and real-time measurements can be made with existing source code without adapting the program.</description>
 	<url>http://www.perfidix.org</url>
 	<organization>
@@ -40,6 +40,7 @@
 			<organizationUrl>http://www.informatik.uni-konstanz.de/ags/disy/</organizationUrl>
 			<timezone>+1</timezone>
 			<roles>
+				<role>Developer</role>
 			</roles>
 		</developer>
 	</developers>
@@ -146,6 +147,6 @@
 		</dependency>
 	</dependencies>
 	<properties>
-		<compileSource>1.6</compileSource>
+		<compileSource>1.5</compileSource>
 	</properties>
 </project>
