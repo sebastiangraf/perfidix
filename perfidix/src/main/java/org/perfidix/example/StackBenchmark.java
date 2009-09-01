@@ -26,8 +26,6 @@ import java.util.Stack;
 import org.perfidix.Benchmark;
 import org.perfidix.annotation.BeforeBenchClass;
 import org.perfidix.annotation.Bench;
-import org.perfidix.meter.MemMeter;
-import org.perfidix.meter.TimeMeter;
 import org.perfidix.ouput.TabularSummaryOutput;
 import org.perfidix.result.BenchmarkResult;
 
@@ -118,9 +116,9 @@ public final class StackBenchmark {
 
     /**
      * Simple setUp of a benchmark. The {@link Benchmark} is initialized with
-     * two Meters ({@link TimeMeter} and {@link MemMeter}). Afterwards the
-     * benchmark is running with a TabularOutput as a listener registered. The
-     * result of the benchmark is displayed in a complete table at the end.
+     * two Meters (<code>TimeMeter</code> and <code>MemMeter</code>). Afterwards
+     * the benchmark is running with a TabularOutput as a listener registered.
+     * The result of the benchmark is displayed in a complete table at the end.
      * 
      * @param args
      *            not used here

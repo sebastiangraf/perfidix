@@ -21,7 +21,6 @@
 package org.perfidix;
 
 import org.perfidix.AbstractConfig.StandardConfig;
-import org.perfidix.ouput.AbstractOutput;
 import org.perfidix.ouput.TabularSummaryOutput;
 import org.perfidix.result.BenchmarkResult;
 
@@ -57,7 +56,6 @@ import org.perfidix.result.BenchmarkResult;
  * 
  * @see AbstractConfig
  * @see BenchmarkResult
- * @see AbstractOutput
  * @author Sebastian Graf, University of Konstanz
  */
 public final class Perfidix {

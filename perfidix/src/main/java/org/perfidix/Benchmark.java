@@ -39,7 +39,6 @@ import org.perfidix.element.BenchmarkMethod;
 import org.perfidix.exceptions.PerfidixMethodCheckException;
 import org.perfidix.exceptions.PerfidixMethodInvocationException;
 import org.perfidix.meter.AbstractMeter;
-import org.perfidix.ouput.AbstractOutput;
 import org.perfidix.result.BenchmarkResult;
 
 /**
@@ -66,7 +65,7 @@ import org.perfidix.result.BenchmarkResult;
  *         //Running benchmark
  *         final BenchmarkResult result = benchmark.run();
  * 
- *         //Printint out Result in a Tabular, every AbstractOutput implementing class is allowed.
+ *         //Printing out Result in a Tabular, every AbstractOutput implementing class is allowed.
  *         new TabularSummaryOutput().visitBenchmark(result);
  * 
  *     }
@@ -78,7 +77,6 @@ import org.perfidix.result.BenchmarkResult;
  * 
  * @see AbstractConfig
  * @see BenchmarkResult
- * @see AbstractOutput
  * @author Sebastian Graf, University of Konstanz
  */
 public final class Benchmark {
