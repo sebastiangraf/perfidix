@@ -39,11 +39,46 @@ import org.perfidix.element.BenchmarkMethod;
 import org.perfidix.exceptions.PerfidixMethodCheckException;
 import org.perfidix.exceptions.PerfidixMethodInvocationException;
 import org.perfidix.meter.AbstractMeter;
+import org.perfidix.ouput.AbstractOutput;
 import org.perfidix.result.BenchmarkResult;
 
 /**
  * Class to hold all classes which want to be benchmarked.
+ * <p>
  * 
+ * <pre>
+ * 
+ * 
+ * public class MyBenchmark {
+ * 
+ *     public static void main(final String[] args) {
+ *         //Build up own config
+ *         final AbstractConfig config = new MyConfig();
+ * 
+ *         //Initialise benchmark with config
+ *         final Benchmark benchmark = new Benchmark(config);
+ * 
+ *         //Adding Classes to benchmark
+ *         benchmark.add(Class1.class);
+ *         benchmark.add(Class2.class);
+ *         benchmark.add(Object3); //of Class3, every class is allowed to be inserted only once
+ * 
+ *         //Running benchmark
+ *         final BenchmarkResult result = benchmark.run();
+ * 
+ *         //Printint out Result in a Tabular, every AbstractOutput implementing class is allowed.
+ *         new TabularSummaryOutput().visitBenchmark(result);
+ * 
+ *     }
+ * }
+ * 
+ * </pre>
+ * 
+ * </p>
+ * 
+ * @see AbstractConfig
+ * @see BenchmarkResult
+ * @see AbstractOutput
  * @author Sebastian Graf, University of Konstanz
  */
 public final class Benchmark {
