@@ -36,7 +36,7 @@
                </with>
             </enablement>
          </contextualLaunch>
-         <perspective
+         <!-- <perspective
                id="org.eclipse.jdt.ui.JavaPerspective">
          </perspective>
          <perspective
@@ -47,7 +47,7 @@
          </perspective>
          <perspective
                id="org.eclipse.debug.ui.DebugPerspective">
-         </perspective>
+         </perspective> -->
       </shortcut>
    </extension>
    <extension
@@ -73,14 +73,15 @@
             delegate="org.perfidix.perclipse.launcher.PerfidixLaunchConfiguration"
             modes="run, debug"
             id="org.perfidix.configureBench">
-         <fileExtension
+
+<!--         <fileExtension
                default="false"
                extension="java">
          </fileExtension>
          <fileExtension
                default="false"
                extension="class">
-         </fileExtension>
+         </fileExtension> -->
       </launchConfigurationType>
    </extension>
    <extension point="org.eclipse.ui.views">

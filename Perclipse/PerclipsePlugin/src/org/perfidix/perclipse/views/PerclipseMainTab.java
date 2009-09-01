@@ -21,7 +21,6 @@
 package org.perfidix.perclipse.views; // NOPMD by lewandow on 8/31/09 2:27 PM
 
 import java.lang.reflect.InvocationTargetException;
-import java.net.URL;
 import java.text.MessageFormat;
 
 import org.eclipse.core.resources.IProject;
@@ -29,10 +28,8 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Path;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
 import org.eclipse.debug.ui.AbstractLaunchConfigurationTab;
@@ -72,7 +69,6 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.ElementListSelectionDialog;
 import org.eclipse.ui.dialogs.SelectionDialog;
-import org.osgi.framework.Bundle;
 import org.perfidix.perclipse.launcher.PerclipseActivator;
 import org.perfidix.perclipse.launcher.PerfidixLaunchConfiguration;
 import org.perfidix.perclipse.util.BenchSearchEngine;
@@ -119,11 +115,7 @@ public class PerclipseMainTab extends AbstractLaunchConfigurationTab { // NOPMD
     private transient final ILabelProvider jElementLP =
             new JavaElementLabelProvider();
     private transient String origBenchMethName;
-    private transient final IPath iconPath = new Path("icons/time.png");
-    private transient final Image fTabIcon =
-            createImageDescriptor(
-                    PerclipseActivator.getDefault().getBundle(), iconPath, true)
-                    .createImage();
+    private transient final Image fTabIcon = createImage("icons/time.png");
 
     /** {@inheritDoc} */
     public void createControl(final Composite parent) {
@@ -896,33 +888,25 @@ public class PerclipseMainTab extends AbstractLaunchConfigurationTab { // NOPMD
                 IJavaLaunchConfigurationConstants.ATTR_PROJECT_NAME, name);
     }
 
+
+    
     /**
-     * The createImageDescriptor method creates a {@link ImageDescriptor} from a
-     * bundle and a relative path. Within the method ImageDescriptor is made by
-     * a specified {@link URL}. The URL consists of the params bundle and path.
+     * This method is responsible for creation an image within the view.
      * 
-     * @param bundle
-     *            is the param which specify the destination bundle of the
-     *            current project files
-     * @param path
-     *            is the relative path of a given image
-     * @param missIDescr
-     *            is the boolean value that specifies if an ImageDescriptor can
-     *            consist of a shared descriptor for a missing image
-     * @return an ImageDescriptor created of an URL or of a shared image
-     *         descriptor for a missing image
+     * @param string
+     *            The String name/path of the image.
+     * @return It retruns the created image.
      */
-    private static ImageDescriptor createImageDescriptor(
-            final Bundle bundle, final IPath path, final boolean missIDescr) {
-        ImageDescriptor retDescriptor = null;
-        final URL url = FileLocator.find(bundle, path, null);
-        if (url != null) {
-            retDescriptor = ImageDescriptor.createFromURL(url);
+    private static Image createImage(final String string) {
+        Image retImage = null;
+        if (string != null) {
+            final ImageDescriptor imageDescriptor =
+                    PerclipseActivator.getImageDescriptor(string);
+            if (imageDescriptor != null) {
+                retImage = imageDescriptor.createImage();
+            }
         }
-        if (missIDescr) {
-            retDescriptor = ImageDescriptor.getMissingImageDescriptor();
-        }
-        return retDescriptor;
+        return retImage;
     }
 
     /**
