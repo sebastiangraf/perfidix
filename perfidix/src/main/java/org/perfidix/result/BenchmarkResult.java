@@ -29,9 +29,13 @@ import org.perfidix.meter.AbstractMeter;
 import org.perfidix.ouput.AbstractOutput;
 
 /**
- * This class holds the data of the whole benchmark in different
- * {@link ClassResult} objects.
+ * This class holds the data of a complete Benchmark. Only one
+ * <code>BenchmarkResult</code> is generated per Benchmark-Run. The different
+ * components are {@link ClassResult} objects. This class is the container for
+ * the results of a Benchmark and therefore the input for different Outputs.
  * 
+ * @see org.perfidix.Benchmark
+ * @see AbstractOutput
  * @author Sebastian Graf, University of Konstanz
  * @author Alexander Onea, neue Couch
  */

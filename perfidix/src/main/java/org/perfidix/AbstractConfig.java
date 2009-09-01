@@ -29,7 +29,31 @@ import org.perfidix.ouput.AbstractOutput;
 /**
  * Configuration for Benchmark. Simple pass this class through the
  * Perfidix-Class. Each setting is hold over here. This class must be inherited
- * by a constructor which has no arguments to provide easy instantiation!
+ * by a constructor which has no arguments to provide easy instantiation. This
+ * can be done in the following way:
+ * <p>
+ * 
+ * <pre>
+ * 
+ * &#064;BenchmarkConfig
+ * public class Config extends AbstractConfig {
+ *     private final static int RUNS = 100;
+ *     private final static AbstractMeter[] METERS =
+ *             { new TimeMeter(Time.MilliSeconds), new MemMeter(Memory.Byte) };
+ *     private final static AbstractOutput[] OUTPUT =
+ *             { new TabularSummaryOutput() };
+ *     private final static KindOfArrangement ARRAN =
+ *             KindOfArrangement.SequentialMethodArrangement;
+ *     private final static double GCPROB = 1.0d;
+ * 
+ *     public Config() {
+ *         super(RUNS, METERS, OUTPUT, ARRAN, GCPROB);
+ *     }
+ * }
+ * 
+ * </pre>
+ * 
+ * </p>
  * 
  * @author Sebastian Graf, University of Konstanz
  */

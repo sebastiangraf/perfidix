@@ -21,13 +21,43 @@
 package org.perfidix;
 
 import org.perfidix.AbstractConfig.StandardConfig;
+import org.perfidix.ouput.AbstractOutput;
 import org.perfidix.ouput.TabularSummaryOutput;
 import org.perfidix.result.BenchmarkResult;
 
 /**
  * This is the main class, consisting of all the factory methods needed in order
- * to perform a benchmark run.
+ * to perform a benchmark run. Instead of running the bench with a
+ * {@link Benchmark} instance, this class just takes all classes as a String and
+ * gives less control over the Benchmark itself. The Classes to be given are
+ * either Benchmark-Classes or (one single) Config-Class. Additionaly, this
+ * class holds multiple utility-methods to get Bench-Classes and Config out of a
+ * set of Strings.
+ * <p>
  * 
+ * <pre>
+ * 
+ * public class MyBenchmark {
+ * 
+ *     public static void main(final String[] args) {
+ *         final String classNames = { &quot;Class1&quot;, &quot;Class2&quot;, &quot;Class3&quot;, &quot;MyConfig1&quot; };
+ * 
+ *         //either...
+ *         final BenchmarkResult result = Perfidix.runBenchs(classNames);
+ *         new TabularSummaryOutput.visitBenchmark(result);
+ * 
+ *         //...or...
+ *         Perfidix.main(classNames);
+ *     }
+ * }
+ * 
+ * </pre>
+ * 
+ * </p>
+ * 
+ * @see AbstractConfig
+ * @see BenchmarkResult
+ * @see AbstractOutput
  * @author Sebastian Graf, University of Konstanz
  */
 public final class Perfidix {
