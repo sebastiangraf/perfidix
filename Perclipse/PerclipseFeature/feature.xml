@@ -2,22 +2,47 @@
 <feature
       id="PerclipseFeature"
       label="PerclipseFeature"
-      version="1.0.0.qualifier">
+      version="1.0.0"
+      provider-name="Distributed Systems Group, University of Konstanz, Germany">
 
-   <description url="http://www.example.com/description">
-      [Enter Feature Description here.]
+   <description url="http://www.perfidix.org/">
+      Perfidix is a tool for developers to conveniently and consistently benchmark Java code. It can quickly answer which implementation is faster. Without the need to launch a full-fledged profiling application or rewrite the same Java code to measure the execution time again and again.
+
+Eventhough Perfidix is simple to use, it still provides a sound statistical output for taking a decision.
+
+Perfidix is intentionally designed to be used like JUnit 4.x, i.e., it provides annotations to discover which methods should be benchmarked how many times. The eclipse plugin or custom code allows to run a package, class, or project as a Perfidix benchmark and to collect the execution time statistics for each method in the console as text, CVS, or XML output.
    </description>
 
-   <copyright url="http://www.example.com/copyright">
-      [Enter Copyright Description here.]
+   <copyright url="http://www.perfidix.org/">
+      Copyright 2009 Distributed Systems Group, University of Konstanz
+Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+http://www.apache.org/licenses/LICENSE-2.0
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+or implied.
+See the License for the specific language governing permissions
+and limitations under the License.
    </copyright>
 
-   <license url="http://www.example.com/license">
-      [Enter License Description here.]
+   <license url="http://www.perfidix.org/">
+      Copyright 2009 Distributed Systems Group, University of Konstanz
+Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+http://www.apache.org/licenses/LICENSE-2.0
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+or implied.
+See the License for the specific language governing permissions
+and limitations under the License.
    </license>
 
    <plugin
-         id="org.perfidix.Perclipse"
+         id="org.perfidix.perclipse"
          download-size="0"
          install-size="0"
          version="0.0.0"
