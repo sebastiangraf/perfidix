@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-   <feature url="features/org.perfidix.Perclipse.Feature_1.0.0.jar" id="org.perfidix.Perclipse.Feature" version="1.0.0">
+   <feature url="features/org.perfidix.perclipse.feature_1.0.0.jar" id="org.perfidix.perclipse.feature" version="1.0.0">
       <category name="Perclipse the Perfidix plug-in"/>
    </feature>
    <category-def name="Perclipse the Perfidix plug-in" label="Perclipse the Perfidix plug-in"/>
