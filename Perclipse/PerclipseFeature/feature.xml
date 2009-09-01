@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="PerclipseFeature"
+      id="org.perfidix.perclipse.feature"
       label="PerclipseFeature"
       version="1.0.0"
       provider-name="Distributed Systems Group, University of Konstanz, Germany">
