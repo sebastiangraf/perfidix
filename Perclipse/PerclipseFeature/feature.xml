@@ -41,11 +41,9 @@ or implied.
 See the License for the specific language governing permissions
 and limitations under the License.
    </license>
-
    <url>
       <update label="http://perfidix.disy.inf.uni-konstanz.de/updateSite" url="http://perfidix.disy.inf.uni-konstanz.de/updateSite"/>
    </url>
-
    <plugin
          id="org.perfidix.perclipse.plugin"
          download-size="0"
