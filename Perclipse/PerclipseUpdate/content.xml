@@ -3,13 +3,13 @@
 <repository name='file:/nfs_homes/lewandow/Documents/workspace/PerclipseUpdate/ - metadata' type='org.eclipse.equinox.internal.p2.metadata.repository.LocalMetadataRepository' version='1'>
   <properties size='2'>
     <property name='p2.compressed' value='false'/>
-    <property name='p2.timestamp' value='1251811153928'/>
+    <property name='p2.timestamp' value='1251882535392'/>
   </properties>
   <units size='9'>
     <unit id='org.perfidix.perclipse' version='1.0.0'>
       <update id='org.perfidix.perclipse' range='[0.0.0,1.0.0)' severity='0'/>
       <properties size='2'>
-        <property name='org.eclipse.equinox.p2.name' value='Perfidix Plug-in'/>
+        <property name='org.eclipse.equinox.p2.name' value='Perclipse - The Perfidix plug-in'/>
         <property name='org.eclipse.equinox.p2.provider' value='University of Konstanz'/>
       </properties>
       <provides size='9'>
@@ -45,7 +45,7 @@
       <touchpointData size='1'>
         <instructions size='1'>
           <instruction key='manifest'>
-            Bundle-RequiredExecutionEnvironment: J2SE-1.5&#xA;Bundle-Name: Perfidix Plug-in&#xA;Bundle-Activator: org.perfidix.perclipse.launcher.PerclipseActivator&#xA;Manifest-Version: 1.0&#xA;Bundle-Vendor: University of Konstanz&#xA;Bundle-ClassPath: .&#xA;Bundle-ActivationPolicy: lazy&#xA;Bundle-SymbolicName: org.perfidix.perclipse;singleton:=true&#xA;Import-Package: org.eclipse.jface.text,org.eclipse.jface.text.contentassist&#xA;Bundle-ManifestVersion: 2&#xA;Bundle-Version: 1.0.0&#xA;Export-Package: org.perfidix.perclipse.buildpath,org.perfidix.perclipse.launcher,org.perfidix.perclipse.model,org.perfidix.perclipse.util,org.perfidix.perclipse.viewtreedata,org.perfidix.perclipse.views&#xA;Require-Bundle: org.eclipse.ui,org.eclipse.core.runtime,org.eclipse.debug.core,org.eclipse.debug.ui,org.eclipse.jdt.launching;bundle-version=&quot;3.4.1&quot;,org.eclipse.jdt.debug;bundle-version=&quot;3.4.1&quot;,org.eclipse.jdt.ui;bundle-version=&quot;3.4.2&quot;,org.eclipse.jdt.core;bundle-version=&quot;3.4.4&quot;,org.eclipse.jdt.debug.ui;bundle-version=&quot;3.3.1&quot;,org.eclipse.ui.ide;bundle-version=&quot;3.4.2&quot;,org.junit4&#xA;
+            Bundle-RequiredExecutionEnvironment: J2SE-1.5&#xA;Bundle-Name: Perclipse - The Perfidix plug-in&#xA;Bundle-Activator: org.perfidix.perclipse.launcher.PerclipseActivator&#xA;Manifest-Version: 1.0&#xA;Bundle-Vendor: University of Konstanz&#xA;Bundle-ClassPath: .&#xA;Bundle-ActivationPolicy: lazy&#xA;Bundle-SymbolicName: org.perfidix.perclipse;singleton:=true&#xA;Import-Package: org.eclipse.jface.text,org.eclipse.jface.text.contentassist&#xA;Bundle-ManifestVersion: 2&#xA;Bundle-Version: 1.0.0&#xA;Export-Package: org.perfidix.perclipse.buildpath,org.perfidix.perclipse.launcher,org.perfidix.perclipse.model,org.perfidix.perclipse.util,org.perfidix.perclipse.viewtreedata,org.perfidix.perclipse.views&#xA;Require-Bundle: org.eclipse.ui,org.eclipse.core.runtime,org.eclipse.debug.core,org.eclipse.debug.ui,org.eclipse.jdt.launching;bundle-version=&quot;3.4.1&quot;,org.eclipse.jdt.debug;bundle-version=&quot;3.4.1&quot;,org.eclipse.jdt.ui;bundle-version=&quot;3.4.2&quot;,org.eclipse.jdt.core;bundle-version=&quot;3.4.4&quot;,org.eclipse.jdt.debug.ui;bundle-version=&quot;3.3.1&quot;,org.eclipse.ui.ide;bundle-version=&quot;3.4.2&quot;,org.junit4&#xA;
           </instruction>
         </instructions>
       </touchpointData>
@@ -161,8 +161,9 @@
       </touchpointData>
     </unit>
     <unit id='Perclipse the Perfidix plug-in' version='0.0.0'>
-      <properties size='2'>
+      <properties size='3'>
         <property name='org.eclipse.equinox.p2.name' value='Perclipse the Perfidix plug-in'/>
+        <property name='org.eclipse.equinox.p2.description' value='This Perclipse feature includes the Perclipse plug-in, which contain the Perfidix JAR. Perclipse - Bench Your Code!'/>
         <property name='org.eclipse.equinox.p2.type.category' value='true'/>
       </properties>
       <provides size='1'>
@@ -175,11 +176,12 @@
     </unit>
     <unit id='org.perfidix.perclipse.feature.feature.jar' version='1.0.0'>
       <update id='org.perfidix.perclipse.feature.feature.jar' range='[0.0.0,1.0.0)' severity='0'/>
-      <properties size='4'>
+      <properties size='5'>
         <property name='org.eclipse.equinox.p2.name' value='PerclipseFeature'/>
         <property name='org.eclipse.equinox.p2.description' value='Perfidix is a tool for developers to conveniently and consistently benchmark Java code. It can quickly answer which implementation is faster. Without the need to launch a full-fledged profiling application or rewrite the same Java code to measure the execution time again and again.&#xA;&#xA;Eventhough Perfidix is simple to use, it still provides a sound statistical output for taking a decision.&#xA;&#xA;Perfidix is intentionally designed to be used like JUnit 4.x, i.e., it provides annotations to discover which methods should be benchmarked how many times. The eclipse plugin or custom code allows to run a package, class, or project as a Perfidix benchmark and to collect the execution time statistics for each method in the console as text, CVS, or XML output.'/>
         <property name='org.eclipse.equinox.p2.description.url' value='http://www.perfidix.org/'/>
         <property name='org.eclipse.equinox.p2.provider' value='Distributed Systems Group, University of Konstanz, Germany'/>
+        <property name='org.eclipse.update.feature.plugin' value='org.perfidix.perclipse'/>
       </properties>
       <provides size='3'>
         <provided namespace='org.eclipse.equinox.p2.iu' name='org.perfidix.perclipse.feature.feature.jar' version='1.0.0'/>
