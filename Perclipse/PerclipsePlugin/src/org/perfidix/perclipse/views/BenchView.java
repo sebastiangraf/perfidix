@@ -20,9 +20,7 @@
  */
 package org.perfidix.perclipse.views;
 
-import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -139,24 +137,24 @@ public class BenchView extends ViewPart {
         return benchCounterPanel;
     }
 
-    /**
-     * This method is responsible for creation an image within the view.
-     * 
-     * @param string
-     *            The String name/path of the image.
-     * @return It retruns the created image.
-     */
-    public static Image createImage(final String string) {
-        Image retImage = null;
-        if (string != null) {
-            final ImageDescriptor imageDescriptor =
-                    PerclipseActivator.getImageDescriptor(string);
-            if (imageDescriptor != null) {
-                retImage = imageDescriptor.createImage();
-            }
-        }
-        return retImage;
-    }
+//    /**
+//     * This method is responsible for creation an image within the view.
+//     * 
+//     * @param string
+//     *            The String name/path of the image.
+//     * @return It retruns the created image.
+//     */
+//    public static Image createImage(final String string) {
+//        Image retImage = null;
+//        if (string != null) {
+//            final ImageDescriptor imageDescriptor =
+//                    PerclipseActivator.getImageDescriptor(string);
+//            if (imageDescriptor != null) {
+//                retImage = imageDescriptor.createImage();
+//            }
+//        }
+//        return retImage;
+//    }
 
     /**
      * This method starts to update the view with the data of a given bench run

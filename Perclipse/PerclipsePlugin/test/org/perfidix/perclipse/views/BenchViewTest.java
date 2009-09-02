@@ -21,7 +21,6 @@
 package org.perfidix.perclipse.views;
 
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -92,21 +91,6 @@ public class BenchViewTest {
         assertNotNull("Tests if view is not null", view);
     }
 
-    /**
-     * Tests the method
-     * {@link org.perfidix.perclipse.views.BenchView#createImage(String)} .
-     */
-    @Test
-    public void testCreateImage() {
-        assertNotNull(
-                "Test if creation of right image is successful and not null",
-                BenchView.createImage("icons/time.png"));
-        assertNull("Test if a not existing image returns null", BenchView
-                .createImage("icons/timme.png"));
-        assertNull(
-                "Tests if the parameter null returns a null image", BenchView
-                        .createImage(null));
-    }
 
     /**
      * Tests the method

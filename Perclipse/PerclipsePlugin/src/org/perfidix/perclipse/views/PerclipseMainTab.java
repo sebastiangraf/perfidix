@@ -21,6 +21,7 @@
 package org.perfidix.perclipse.views; // NOPMD by lewandow on 8/31/09 2:27 PM
 
 import java.lang.reflect.InvocationTargetException;
+import java.net.URL;
 import java.text.MessageFormat;
 
 import org.eclipse.core.resources.IProject;
@@ -28,8 +29,10 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
 import org.eclipse.debug.ui.AbstractLaunchConfigurationTab;
@@ -69,6 +72,7 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.ElementListSelectionDialog;
 import org.eclipse.ui.dialogs.SelectionDialog;
+import org.osgi.framework.Bundle;
 import org.perfidix.perclipse.launcher.PerclipseActivator;
 import org.perfidix.perclipse.launcher.PerfidixLaunchConfiguration;
 import org.perfidix.perclipse.util.BenchSearchEngine;
@@ -115,7 +119,11 @@ public class PerclipseMainTab extends AbstractLaunchConfigurationTab { // NOPMD
     private transient final ILabelProvider jElementLP =
             new JavaElementLabelProvider();
     private transient String origBenchMethName;
-    private transient final Image fTabIcon = createImage("icons/time.png");
+//    private transient final Image fTabIcon = createImage("icons/time.png");
+    private transient final IPath iconPath=new Path("icons/time.png");
+    private transient final Image fTabIcon =createImageDescriptor(
+            PerclipseActivator.getDefault().getBundle(), iconPath, true)
+            .createImage();
 
     /** {@inheritDoc} */
     public void createControl(final Composite parent) {
@@ -890,23 +898,36 @@ public class PerclipseMainTab extends AbstractLaunchConfigurationTab { // NOPMD
 
 
     
+//    private static Image createImage(final String string) {
+//        Image retImage = null;
+//        if (string != null) {
+//            final ImageDescriptor imageDescriptor =
+//                    PerclipseActivator.getImageDescriptor(string);
+//            if (imageDescriptor != null) {
+//                retImage = imageDescriptor.createImage();
+//            }
+//        }
+//        return retImage;
+//    }
     /**
      * This method is responsible for creation an image within the view.
      * 
-     * @param string
-     *            The String name/path of the image.
+     * @param bundle The Perclipse bundle.
+     * @param path The String name/path of the image.
+     * @param useMisImDesc  The image descripot
      * @return It retruns the created image.
      */
-    private static Image createImage(final String string) {
-        Image retImage = null;
-        if (string != null) {
-            final ImageDescriptor imageDescriptor =
-                    PerclipseActivator.getImageDescriptor(string);
-            if (imageDescriptor != null) {
-                retImage = imageDescriptor.createImage();
-            }
+    private static ImageDescriptor createImageDescriptor(final 
+            Bundle bundle, final IPath path, final boolean useMisImDesc) {
+        ImageDescriptor retDescriptor=null;
+        final URL url = FileLocator.find(bundle, path, null);
+        if (url == null) {
+            retDescriptor= ImageDescriptor.getMissingImageDescriptor();
         }
-        return retImage;
+        else if (useMisImDesc) {
+            retDescriptor= ImageDescriptor.createFromURL(url);
+        }
+        return retDescriptor;
     }
 
     /**

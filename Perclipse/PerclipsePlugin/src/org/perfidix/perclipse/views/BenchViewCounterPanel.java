@@ -20,6 +20,12 @@
  */
 package org.perfidix.perclipse.views;
 
+import java.net.URL;
+
+import org.eclipse.core.runtime.FileLocator;
+import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.Path;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
@@ -29,10 +35,12 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
+import org.osgi.framework.Bundle;
+import org.perfidix.perclipse.launcher.PerclipseActivator;
 
 /**
  * This class is responsible for the counter panel in the eclipse view of
- * Perclipse. It updates the counter (runs, errors) which are sended by the
+ * Perclipse. It updates the counter (runs, errors) which are sent by the
  * perfidix benching process.
  * 
  * @author Lewandowski Lukas, DiSy, University of Konstanz
@@ -42,10 +50,13 @@ public class BenchViewCounterPanel extends Composite {
     private transient final Text benchRuns;
     private transient final Text benchErrors;
     private transient int totalRuns;
-    private transient final Image benchRunImage =
-            BenchView.createImage("icons/time.png");
-    private transient final Image benchErrorImage =
-            BenchView.createImage("icons/error.png");
+    private transient final Image benchRunImage =createImageDescriptor(
+            PerclipseActivator.getDefault().getBundle(), new Path("icons/time.png"), true)
+            .createImage();
+    private transient final IPath iconPath=new Path("icons/error.png");
+    private transient final Image benchErrorImage =createImageDescriptor(
+            PerclipseActivator.getDefault().getBundle(), iconPath, true)
+            .createImage();
 
     /**
      * The constructor creates the counter panel for the BenchView.
@@ -166,6 +177,27 @@ public class BenchViewCounterPanel extends Composite {
     public void setBenchErrors(final int benchErrors) {
         this.benchErrors.setText(Integer.toString(benchErrors));
         redraw();
+    }
+    
+    /**
+     * This method is responsible for creation an image within the view.
+     * 
+     * @param bundle The Perclipse bundle.
+     * @param path The String name/path of the image.
+     * @param useMisImageDesc  The image descripot
+     * @return It retruns the created image.
+     */
+    private static ImageDescriptor createImageDescriptor(final 
+            Bundle bundle, final IPath path, final boolean useMisImageDesc) {
+        ImageDescriptor retDescriptor=null;
+        final URL url = FileLocator.find(bundle, path, null);
+        if (url == null) {
+            retDescriptor= ImageDescriptor.getMissingImageDescriptor();
+        }
+        else if (useMisImageDesc) {
+            retDescriptor= ImageDescriptor.createFromURL(url);
+        }
+        return retDescriptor;
     }
 
     /**
