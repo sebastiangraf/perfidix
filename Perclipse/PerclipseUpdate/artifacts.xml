@@ -3,7 +3,7 @@
 <repository name='file:/nfs_homes/lewandow/Documents/workspace/PerclipseUpdate/ - artifacts' type='org.eclipse.equinox.p2.artifact.repository.simpleRepository' version='1'>
   <properties size='2'>
     <property name='p2.compressed' value='false'/>
-    <property name='p2.timestamp' value='1251882535378'/>
+    <property name='p2.timestamp' value='1251888067146'/>
   </properties>
   <mappings size='3'>
     <rule filter='(&amp; (classifier=osgi.bundle))' output='${repoUrl}/plugins/${id}_${version}.jar'/>

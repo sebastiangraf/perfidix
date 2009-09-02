@@ -3,7 +3,7 @@
 <repository name='file:/nfs_homes/lewandow/Documents/workspace/PerclipseUpdate/ - metadata' type='org.eclipse.equinox.internal.p2.metadata.repository.LocalMetadataRepository' version='1'>
   <properties size='2'>
     <property name='p2.compressed' value='false'/>
-    <property name='p2.timestamp' value='1251882535392'/>
+    <property name='p2.timestamp' value='1251888067159'/>
   </properties>
   <units size='9'>
     <unit id='org.perfidix.perclipse' version='1.0.0'>
