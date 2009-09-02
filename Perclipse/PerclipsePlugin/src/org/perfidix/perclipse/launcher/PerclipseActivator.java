@@ -24,7 +24,6 @@ import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
@@ -164,21 +163,21 @@ public class PerclipseActivator extends AbstractUIPlugin {
         getDefault().getLog().log(status);
     }
 
-    /**
-     * Returns an image descriptor for the image file at the given plug-in
-     * relative path
-     * 
-     * @param path
-     *            the path
-     * @return the image descriptor
-     */
-    public static ImageDescriptor getImageDescriptor(final String path) {
-        ImageDescriptor imageDescriptor = null;
-        if (path != null) {
-            imageDescriptor = imageDescriptorFromPlugin(PLUGIN_ID, path);
-        }
-        return imageDescriptor;
-    }
+//    /**
+//     * Returns an image descriptor for the image file at the given plug-in
+//     * relative path
+//     * 
+//     * @param path
+//     *            the path
+//     * @return the image descriptor
+//     */
+//    public static ImageDescriptor getImageDescriptor(final String path) {
+//        ImageDescriptor imageDescriptor = null;
+//        if (path != null) {
+//            imageDescriptor = imageDescriptorFromPlugin(PLUGIN_ID, path);
+//        }
+//        return imageDescriptor;
+//    }
 
     /**
      * @return This method returns the active workbench window of this plug-in.

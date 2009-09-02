@@ -154,20 +154,6 @@ public class PerclipseActivatorTest {
                 .getStatusList().contains("MyStatus"));
     }
 
-    /**
-     * Test method for
-     * {@link org.perfidix.perclipse.launcher.PerclipseActivator#getImageDescriptor(java.lang.String)}
-     * .
-     */
-    @Test
-    public void testGetImageDescriptor() {
-        assertNotNull(NNULL_MESSAGE, PerclipseActivator
-                .getImageDescriptor("icons/time.png"));
-        assertNull("Tests if the object is null", PerclipseActivator
-                .getImageDescriptor("icons/tiiiime.png"));
-        assertNull("Tests if the object is  null", PerclipseActivator
-                .getImageDescriptor(null));
-    }
 
     /**
      * Test method for
