@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="org.perfidix.perclipse.feature"
-      label="PerclipseFeature"
-      version="1.0.0"
+      label="Perclipse"
+      version="2.0.0"
       provider-name="Distributed Systems Group, University of Konstanz, Germany"
-      plugin="org.perfidix.perclipse">
+      plugin="org.perfidix.perclipse.plugin">
 
    <description url="http://www.perfidix.org/">
       Perfidix is a tool for developers to conveniently and consistently benchmark Java code. It can quickly answer which implementation is faster. Without the need to launch a full-fledged profiling application or rewrite the same Java code to measure the execution time again and again.
@@ -42,8 +42,12 @@ See the License for the specific language governing permissions
 and limitations under the License.
    </license>
 
+   <url>
+      <update label="http://perfidix.disy.inf.uni-konstanz.de/updateSite" url="http://perfidix.disy.inf.uni-konstanz.de/updateSite"/>
+   </url>
+
    <plugin
-         id="org.perfidix.perclipse"
+         id="org.perfidix.perclipse.plugin"
          download-size="0"
          install-size="0"
          version="0.0.0"
