@@ -1,8 +1,8 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Perclipse - The Perfidix plug-in
-Bundle-SymbolicName: org.perfidix.perclipse;singleton:=true
-Bundle-Version: 1.0.0
+Bundle-SymbolicName: org.perfidix.perclipse.plugin;singleton:=true
+Bundle-Version: 2.0.0
 Bundle-Activator: org.perfidix.perclipse.launcher.PerclipseActivator
 Bundle-Vendor: University of Konstanz
 Require-Bundle: org.eclipse.ui,
