@@ -6,7 +6,7 @@
 	<artifactId>perfidix</artifactId>
 	<packaging>jar</packaging>
 	<name>Perfidix Project</name>
-	<version>3.4</version>
+	<version>3.6</version>
 	<description>Perfidix comes as a light-weight Java Benchmarking Tool which allows to make simple measurements of source code without intsalling heavy profilers or using special IDEs. Perfidix comes as a simple jar which has to be included in the classpath. Methods which should be benched are annotated similar to JUnit testcases. With these simple modifications  fast evaluation and real-time measurements can be made with existing source code without adapting the program.</description>
 	<url>http://www.perfidix.org</url>
 	<licenses>
@@ -29,6 +29,16 @@
 		<system>Sourceforge Tracker</system>
 		<url>https://sourceforge.net/tracker2/?group_id=187026</url>
 	</issueManagement>
+	<distributionManagement>
+    	<repository>
+      	<id>xen5</id>
+      	<url>scp://xen5.disy.inf.uni-konstanz.de/home/disyadmin/repo/repository</url>
+    	</repository>
+		<snapshotRepository>
+      	<id>xen5</id>
+      	<url>scp://xen5.disy.inf.uni-konstanz.de/home/disyadmin/repo/snapshotRepository</url>
+    	</snapshotRepository>
+	</distributionManagement>
 	<developers>
 		<developer>
 			<id>sebastiangraf</id>
@@ -126,7 +136,14 @@
 				</configuration>
 			</plugin>
 		</plugins>
+		
 		<extensions>
+      	<extension>
+        	<groupId>org.apache.maven.wagon</groupId>
+         	<artifactId>wagon-file</artifactId>
+        	 <version>1.0-alpha-3</version>
+    	 </extension>
+    
 		</extensions>
 	</build>
 	<dependencies>
