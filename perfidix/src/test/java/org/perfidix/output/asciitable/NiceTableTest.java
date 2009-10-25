@@ -70,7 +70,7 @@ public class NiceTableTest {
 
     /**
      * Test method for
-     * {@link org.perfidix.ouput.asciitable.NiceTable#addHeader(String, char, Alignment)}
+     * {@link org.perfidix.ouput.asciitable.NiceTable#addHeader(String, char, org.perfidix.ouput.asciitable.AbstractTabularComponent.Alignment)}
      */
     @Test
     public void testAddHeaderStringCharAlignment() {

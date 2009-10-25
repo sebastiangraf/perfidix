@@ -57,7 +57,7 @@ public abstract class AbstractResult {
     /**
      * Constructor with a given name.
      * 
-     * @param paramRelatedElement
+     * @param paramElement
      *            element to this result.
      */
     protected AbstractResult(final Object paramElement) {
