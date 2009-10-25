@@ -41,7 +41,7 @@ public abstract class AbstractResultContainer<ResultType extends AbstractResult>
     /**
      * Constructor.
      * 
-     * @param paramRelatedElement
+     * @param paramElem
      *            related element
      */
     protected AbstractResultContainer(final Object paramElem) {
