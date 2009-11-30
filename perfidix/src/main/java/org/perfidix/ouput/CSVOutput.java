@@ -25,8 +25,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
 import java.lang.reflect.Method;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.Hashtable;
+import java.util.Map;
 
 import org.perfidix.exceptions.AbstractPerfidixMethodException;
 import org.perfidix.meter.AbstractMeter;
@@ -62,7 +62,7 @@ public final class CSVOutput extends AbstractOutput {
     /**
      * Set for deleting old files in the beginning.
      */
-    private transient final Set<File> usedFiles;
+    private transient final Map<File, PrintStream> usedFiles;
 
     /**
      * Constructor for piping the result to elsewhere.
@@ -79,7 +79,7 @@ public final class CSVOutput extends AbstractOutput {
         }
         firstResult = true;
         firstException = true;
-        usedFiles = new HashSet<File>();
+        usedFiles = new Hashtable<File, PrintStream>();
     }
 
     /**
@@ -154,11 +154,9 @@ public final class CSVOutput extends AbstractOutput {
                     }
 
                     currentWriter.flush();
-
                 }
             }
         }
-
         // Printing the exceptions
         final PrintStream currentWriter =
                 setUpNewPrintStream(true, "Exceptions");
@@ -177,7 +175,13 @@ public final class CSVOutput extends AbstractOutput {
         }
 
         currentWriter.flush();
+        tearDownAllStreams();
+    }
 
+    private void tearDownAllStreams() {
+        for (final PrintStream stream : usedFiles.values()) {
+            stream.close();
+        }
     }
 
     /**
@@ -203,15 +207,17 @@ public final class CSVOutput extends AbstractOutput {
             }
         } else {
             final File toWriteTo = new File(folder, buildFileName(names));
-            if (!usedFiles.contains(toWriteTo)) {
-                toWriteTo.delete();
-                usedFiles.add(toWriteTo);
-                firstResult = true;
-            }
             try {
-                out =
-                        new PrintStream(new FileOutputStream(
-                                toWriteTo, !visitorStream));
+                if (!usedFiles.containsKey(toWriteTo)) {
+                    toWriteTo.delete();
+                    out =
+                            new PrintStream(new FileOutputStream(
+                                    toWriteTo, !visitorStream));
+                    usedFiles.put(toWriteTo, out);
+                    firstResult = true;
+                } else {
+                    out = usedFiles.get(toWriteTo);
+                }
             } catch (final FileNotFoundException e) {
                 throw new IllegalStateException(e);
             }
