@@ -44,7 +44,7 @@ public final class CSVOutput extends AbstractOutput {
     /**
      * Separator to distinguish between class, meter and method.
      */
-    private static final String SEPARATOR = "$";
+    private static final String SEPARATOR = "-";
 
     /** Print stream where the result should end. */
     private transient final File folder;
