@@ -435,16 +435,28 @@ public class BenchmarkMethodTest {
 
             assertEquals("3 methods should be found", 3, meths.length);
 
-            assertEquals("Check of name of method1", "bench1", meths[0]
-                    .getName());
-            assertEquals("Check of runs of method1", 10, BenchmarkMethod
-                    .getNumberOfAnnotatedRuns(meths[0]));
-            assertEquals("Check of name of method2", "bench2", meths[1]
-                    .getName());
-            assertEquals("Check of runs of method2", 20, BenchmarkMethod
-                    .getNumberOfAnnotatedRuns(meths[1]));
-            assertEquals("Check of name of method3", "bench3", meths[2]
-                    .getName());
+            for (Method meth : meths) {
+
+                if (meth.getName().equals("bench1")) {
+                    assertEquals("Check of name of method1", "bench1", meth
+                            .getName());
+                    assertEquals(
+                            "Check of runs of method1", 10, BenchmarkMethod
+                                    .getNumberOfAnnotatedRuns(meth));
+                }
+                if (meth.getName().equals("bench2")) {
+                    assertEquals("Check of name of method2", "bench2", meth
+                            .getName());
+                    assertEquals(
+                            "Check of runs of method2", 20, BenchmarkMethod
+                                    .getNumberOfAnnotatedRuns(meth));
+                }
+                if (meth.getName().equals("bench3")) {
+                    assertEquals("Check of name of method3", "bench3", meth
+                            .getName());
+                }
+            }
+
             try {
                 BenchmarkMethod.getNumberOfAnnotatedRuns(meths[2]);
                 fail("Must throw IllegalStateException!");
