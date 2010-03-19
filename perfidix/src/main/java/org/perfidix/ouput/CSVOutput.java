@@ -208,15 +208,15 @@ public final class CSVOutput extends AbstractOutput {
         } else {
             final File toWriteTo = new File(folder, buildFileName(names));
             try {
-                if (!usedFiles.containsKey(toWriteTo)) {
+                if (usedFiles.containsKey(toWriteTo)) {
+                    out = usedFiles.get(toWriteTo);
+                } else {
                     toWriteTo.delete();
                     out =
                             new PrintStream(new FileOutputStream(
                                     toWriteTo, !visitorStream));
                     usedFiles.put(toWriteTo, out);
                     firstResult = true;
-                } else {
-                    out = usedFiles.get(toWriteTo);
                 }
             } catch (final FileNotFoundException e) {
                 throw new IllegalStateException(e);
