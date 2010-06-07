@@ -29,20 +29,17 @@
 		<url>https://sourceforge.net/tracker2/?group_id=187026</url>
 	</issueManagement>
 	<distributionManagement>
-		<site>
-			<id>xen5</id>
-			<name>Xen5 Project sites</name>
-			<url>scp://xen5.disy.inf.uni-konstanz.de/home/mavenadmin/doku/perfidix/perfidix/${project.version}</url>
-		</site>
-		<repository>
-			<id>xen5</id>
-			<url>scp://xen5.disy.inf.uni-konstanz.de/home/mavenadmin/repo/repository</url>
-		</repository>
-		<snapshotRepository>
-			<id>xen5</id>
-			<url>scp://xen5.disy.inf.uni-konstanz.de/home/mavenadmin/repo/snapshotRepository</url>
-		</snapshotRepository>
-	</distributionManagement>
+			<repository>
+				<id>disyInternal</id>
+				<url>http://xen5.disy.inf.uni-konstanz.de:8080/archiva/repository/disyInternal/</url>
+				<uniqueVersion>false</uniqueVersion>
+			</repository>
+			<snapshotRepository>
+				<id>disyInternalSnapshot</id>
+				<url>http://xen5.disy.inf.uni-konstanz.de:8080/archiva/repository/disyInternalSnapshot/</url>
+				<uniqueVersion>false</uniqueVersion>
+			</snapshotRepository>
+		</distributionManagement>
 	<developers>
 		<developer>
 			<id>sebastiangraf</id>
