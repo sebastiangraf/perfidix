@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>perfidix</groupId>
+	<artifactId>perfidix</artifactId>
+	<packaging>jar</packaging>
+	<name>Perfidix Project</name>
+	<version>3.6.3-SNAPSHOT</version>
+	<description>Perfidix comes as a light-weight Java Benchmarking Tool which allows to make simple measurements of source code without intsalling heavy profilers or using special IDEs. Perfidix comes as a simple jar which has to be included in the classpath. Methods which should be benched are annotated similar to JUnit testcases. With these simple modifications  fast evaluation and real-time measurements can be made with existing source code without adapting the program.</description>
+	<url>http://www.perfidix.org</url>
+	<licenses>
+		<license>
+			<name>The Apache Software License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+		</license>
+	</licenses>
+	<scm>
+		<connection>scm:svn:https://perfidix.svn.sourceforge.net/svnroot/perfidix/tags/perfidix-3.6.2</connection>
+		<developerConnection>scm:svn:https://perfidix.svn.sourceforge.net/svnroot/perfidix/tags/perfidix-3.6.2</developerConnection>
+		<url>https://perfidix.svn.sourceforge.net/svnroot/perfidix/tags/perfidix-3.6.2</url>
+	</scm>
+	<organization>
+		<name>University of Konstanz, Distributed Systems Lab</name>
+		<url>http://www.informatik.uni-konstanz.de/ags/disy/
+		</url>
+	</organization>
+	<issueManagement>
+		<system>Sourceforge Tracker</system>
+		<url>https://sourceforge.net/tracker2/?group_id=187026</url>
+	</issueManagement>
+	<distributionManagement>
+			<repository>
+				<id>disyInternal</id>
+				<url>http://xen5.disy.inf.uni-konstanz.de:8080/archiva/repository/disyInternal/</url>
+				<uniqueVersion>false</uniqueVersion>
+			</repository>
+			<snapshotRepository>
+				<id>disyInternalSnapshot</id>
+				<url>http://xen5.disy.inf.uni-konstanz.de:8080/archiva/repository/disyInternalSnapshot/</url>
+				<uniqueVersion>false</uniqueVersion>
+			</snapshotRepository>
+		</distributionManagement>
+	<developers>
+		<developer>
+			<id>sebastiangraf</id>
+			<name>Sebastian Graf</name>
+			<email>Sebastian.Graf@uni-konstanz.de</email>
+			<roles>
+				<role>Project Manager</role>
+				<role>Architect</role>
+			</roles>
+			<url>http://www.informatik.uni-konstanz.de/arbeitsgruppen/Verteilte-Systeme/mitglieder/Sebastian-Graf</url>
+			<organization>University of Konstanz, Distributed Systems Lab</organization>
+			<organizationUrl>http://www.informatik.uni-konstanz.de/ags/disy/</organizationUrl>
+			<timezone>+1</timezone>
+		</developer>
+		<developer>
+			<id>lewandowskil</id>
+			<name>Lukas Lewandowski</name>
+			<email>lukas.lewandowski@uni-konstanz.de</email>
+			<url>http://www.informatik.uni-konstanz.de/arbeitsgruppen/Verteilte-Systeme/mitglieder</url>
+			<organization>University of Konstanz, Distributed Systems Lab</organization>
+			<organizationUrl>http://www.informatik.uni-konstanz.de/ags/disy/</organizationUrl>
+			<timezone>+1</timezone>
+			<roles>
+				<role>Developer</role>
+			</roles>
+		</developer>
+	</developers>
+	<mailingLists>
+		<mailingList>
+			<name>Perfidix Developers</name>
+			<subscribe>perfidix-developers-request@lists.sourceforge.net</subscribe>
+			<unsubscribe>perfidix-developers-request@lists.sourceforge.net</unsubscribe>
+			<post>perfidix-developers@lists.sourceforge.net</post>
+			<archive>https://sourceforge.net/mailarchive/forum.php?forum_name=perfidix-developers</archive>
+		</mailingList>
+		<mailingList>
+			<name>Perfidix Users</name>
+			<subscribe>perfidix-users-request@lists.sourceforge.net</subscribe>
+			<unsubscribe>perfidix-users-request@lists.sourceforge.net</unsubscribe>
+			<post>perfidix-users@lists.sourceforge.net</post>
+			<archive>https://sourceforge.net/mailarchive/forum.php?forum_name=perfidix-users</archive>
+		</mailingList>
+	</mailingLists>
+	<reporting>
+		<plugins>
+			<plugin>
+				<artifactId>maven-javadoc-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<artifactId>maven-surefire-report-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-pmd-plugin</artifactId>
+				<version>2.3</version>
+				<configuration>
+					<sourceEncoding>utf-8</sourceEncoding>
+					<minimumTokens>100</minimumTokens>
+					<targetJdk>${compileSource}</targetJdk>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jxr-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</reporting>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-pmd-plugin</artifactId>
+				<version>2.4</version>
+				<configuration>
+					<sourceEncoding>utf-8</sourceEncoding>
+					<minimumTokens>100</minimumTokens>
+					<targetJdk>${compileSource}</targetJdk>
+				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<sourceEncoding>utf-8</sourceEncoding>
+					<source>${compileSource}</source>
+					<target>${compileSource}</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<configuration>
+					<sourceEncoding>utf-8</sourceEncoding>
+					<descriptors>
+						<descriptor>src/main/assembly/jarAssembly.xml</descriptor>
+					</descriptors>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+
+		<extensions>
+			<extension>
+				<groupId>org.apache.maven.wagon</groupId>
+				<artifactId>wagon-file</artifactId>
+				<version>1.0-alpha-3</version>
+			</extension>
+
+		</extensions>
+	</build>
+	<dependencies>
+		<dependency>
+			<groupId>commons-primitives</groupId>
+			<artifactId>commons-primitives</artifactId>
+			<version>1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.4</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>commons-math</groupId>
+			<artifactId>commons-math</artifactId>
+			<version>1.2</version>
+		</dependency>
+	</dependencies>
+	<properties>
+		<compileSource>1.5</compileSource>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+</project>
