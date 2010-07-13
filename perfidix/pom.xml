@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>perfidix</groupId>
 	<artifactId>perfidix</artifactId>
@@ -15,9 +16,11 @@
 		</license>
 	</licenses>
 	<scm>
-		<connection>scm:svn:https://perfidix.svn.sourceforge.net/svnroot/perfidix/tags/perfidix-3.6.2</connection>
-		<developerConnection>scm:svn:https://perfidix.svn.sourceforge.net/svnroot/perfidix/tags/perfidix-3.6.2</developerConnection>
-		<url>https://perfidix.svn.sourceforge.net/svnroot/perfidix/tags/perfidix-3.6.2</url>
+		<!-- <connection>scm:svn:https://perfidix.svn.sourceforge.net/svnroot/perfidix/tags/perfidix-3.6.2</connection> 
+			<developerConnection>scm:svn:https://perfidix.svn.sourceforge.net/svnroot/perfidix/tags/perfidix-3.6.2</developerConnection> 
+			<url>https://perfidix.svn.sourceforge.net/svnroot/perfidix/tags/perfidix-3.6.2</url> -->
+		<connection>scm:hg:https://hg.uni-konstanz.de/disy/perfidix</connection>
+		<developerConnection>scm:hg:https://hg.uni-konstanz.de/disy/perfidix</developerConnection> 
 	</scm>
 	<organization>
 		<name>University of Konstanz, Distributed Systems Lab</name>
@@ -29,17 +32,17 @@
 		<url>https://sourceforge.net/tracker2/?group_id=187026</url>
 	</issueManagement>
 	<distributionManagement>
-			<repository>
-				<id>disyInternal</id>
-				<url>http://xen5.disy.inf.uni-konstanz.de:8080/archiva/repository/disyInternal/</url>
-				<uniqueVersion>false</uniqueVersion>
-			</repository>
-			<snapshotRepository>
-				<id>disyInternalSnapshot</id>
-				<url>http://xen5.disy.inf.uni-konstanz.de:8080/archiva/repository/disyInternalSnapshot/</url>
-				<uniqueVersion>false</uniqueVersion>
-			</snapshotRepository>
-		</distributionManagement>
+		<repository>
+			<id>disyInternal</id>
+			<url>http://xen5.disy.inf.uni-konstanz.de:8080/archiva/repository/disyInternal/</url>
+			<uniqueVersion>false</uniqueVersion>
+		</repository>
+		<snapshotRepository>
+			<id>disyInternalSnapshot</id>
+			<url>http://xen5.disy.inf.uni-konstanz.de:8080/archiva/repository/disyInternalSnapshot/</url>
+			<uniqueVersion>false</uniqueVersion>
+		</snapshotRepository>
+	</distributionManagement>
 	<developers>
 		<developer>
 			<id>sebastiangraf</id>
