@@ -7,7 +7,7 @@
 	<packaging>jar</packaging>
 	<name>Perfidix Project</name>
 	<version>3.6.3-SNAPSHOT</version>
-	<description>Perfidix comes as a light-weight Java Benchmarking Tool which allows to make simple measurements of source code without intsalling heavy profilers or using special IDEs. Perfidix comes as a simple jar which has to be included in the classpath. Methods which should be benched are annotated similar to JUnit testcases. With these simple modifications  fast evaluation and real-time measurements can be made with existing source code without adapting the program.</description>
+	<description>Perfidix comes as a light-weight Java Benchmarking Tool which allows to make simple measurements of source code without installing heavy profilers or using special IDEs. Perfidix comes as a simple jar which has to be included in the classpath. Methods which should be benched are annotated similar to JUnit testcases. With these simple modifications  fast evaluation and real-time measurements can be made with existing source code without adapting the program.</description>
 	<url>http://www.perfidix.org</url>
 	<licenses>
 		<license>
@@ -16,11 +16,8 @@
 		</license>
 	</licenses>
 	<scm>
-		<!-- <connection>scm:svn:https://perfidix.svn.sourceforge.net/svnroot/perfidix/tags/perfidix-3.6.2</connection> 
-			<developerConnection>scm:svn:https://perfidix.svn.sourceforge.net/svnroot/perfidix/tags/perfidix-3.6.2</developerConnection> 
-			<url>https://perfidix.svn.sourceforge.net/svnroot/perfidix/tags/perfidix-3.6.2</url> -->
-		<connection>scm:hg:https://hg.uni-konstanz.de/disy/perfidix</connection>
-		<developerConnection>scm:hg:https://hg.uni-konstanz.de/disy/perfidix</developerConnection> 
+		<connection>http://perfidix.hg.sourceforge.net:8000/hgroot/perfidix/perfidix</connection>
+		<developerConnection>http://perfidix.hg.sourceforge.net:8000/hgroot/perfidix/perfidix</developerConnection> 
 	</scm>
 	<organization>
 		<name>University of Konstanz, Distributed Systems Lab</name>
