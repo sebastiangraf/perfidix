@@ -16,7 +16,8 @@
 	</licenses>
 	<scm>
 		<connection>scm:hg:http://perfidix.hg.sourceforge.net:8000/hgroot/perfidix/perfidix</connection>
-		<developerConnection>scm:hg:http://perfidix.hg.sourceforge.net:8000/hgroot/perfidix/perfidix</developerConnection> 
+		<developerConnection>scm:hg:ssh://sebastiangraf@perfidix.hg.sourceforge.net/hgroot/perfidix/perfidix</developerConnection>
+		<url>scm:hg:http://perfidix.hg.sourceforge.net:8000/hgroot/perfidix/perfidix</url>
 	</scm>
 	<organization>
 		<name>University of Konstanz, Distributed Systems Lab</name>
