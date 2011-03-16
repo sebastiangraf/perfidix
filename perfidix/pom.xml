@@ -27,10 +27,6 @@
 		<url>http://www.informatik.uni-konstanz.de/ags/disy/
 		</url>
 	</organization>
-	<issueManagement>
-		<system>Sourceforge Tracker</system>
-		<url>https://sourceforge.net/tracker2/?group_id=187026</url>
-	</issueManagement>
 	<distributionManagement>
 		<repository>
 			<id>disyInternal</id>
@@ -70,26 +66,12 @@
 			</roles>
 		</developer>
 	</developers>
-	<mailingLists>
-		<mailingList>
-			<name>Perfidix Developers</name>
-			<subscribe>perfidix-developers-request@lists.sourceforge.net</subscribe>
-			<unsubscribe>perfidix-developers-request@lists.sourceforge.net</unsubscribe>
-			<post>perfidix-developers@lists.sourceforge.net</post>
-			<archive>https://sourceforge.net/mailarchive/forum.php?forum_name=perfidix-developers</archive>
-		</mailingList>
-		<mailingList>
-			<name>Perfidix Users</name>
-			<subscribe>perfidix-users-request@lists.sourceforge.net</subscribe>
-			<unsubscribe>perfidix-users-request@lists.sourceforge.net</unsubscribe>
-			<post>perfidix-users@lists.sourceforge.net</post>
-			<archive>https://sourceforge.net/mailarchive/forum.php?forum_name=perfidix-users</archive>
-		</mailingList>
-	</mailingLists>
 	<reporting>
 		<plugins>
 			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>2.7</version>
 			</plugin>
 			<plugin>
 				<artifactId>maven-surefire-report-plugin</artifactId>
@@ -97,7 +79,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-pmd-plugin</artifactId>
-				<version>2.3</version>
+				<version>2.5</version>
 				<configuration>
 					<sourceEncoding>utf-8</sourceEncoding>
 					<minimumTokens>100</minimumTokens>
@@ -107,6 +89,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jxr-plugin</artifactId>
+				<version>2.2</version>
 			</plugin>
 		</plugins>
 	</reporting>
@@ -115,7 +98,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-pmd-plugin</artifactId>
-				<version>2.4</version>
+				<version>2.5</version>
 				<configuration>
 					<sourceEncoding>utf-8</sourceEncoding>
 					<minimumTokens>100</minimumTokens>
@@ -123,7 +106,9 @@
 				</configuration>
 			</plugin>
 			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.3.2</version>
 				<configuration>
 					<sourceEncoding>utf-8</sourceEncoding>
 					<source>${compileSource}</source>
@@ -131,7 +116,9 @@
 				</configuration>
 			</plugin>
 			<plugin>
+			    <groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-assembly-plugin</artifactId>
+				<version>2.2.1</version>
 				<configuration>
 					<sourceEncoding>utf-8</sourceEncoding>
 					<descriptors>
@@ -142,6 +129,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-source-plugin</artifactId>
+				<version>2.1.2</version>
 				<executions>
 					<execution>
 						<id>attach-sources</id>
@@ -157,9 +145,8 @@
 			<extension>
 				<groupId>org.apache.maven.wagon</groupId>
 				<artifactId>wagon-file</artifactId>
-				<version>1.0-alpha-3</version>
+				<version>1.0-beta-7</version>
 			</extension>
-
 		</extensions>
 	</build>
 	<dependencies>
@@ -171,7 +158,7 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.4</version>
+			<version>4.8.2</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
