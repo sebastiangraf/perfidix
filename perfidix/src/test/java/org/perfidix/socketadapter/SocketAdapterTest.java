@@ -72,13 +72,4 @@ public class SocketAdapterTest {
         Thread.sleep(10);
     }
 
-    /**
-     * Test for ClassNotFoundException
-     */
-    @Test(expected = IllegalStateException.class)
-    public void testExceptionClassNotFound() {
-        final String[] args = { "org.some.Unknown", "-Port", "6777" };
-        SocketAdapter.main(args);
-    }
-
 }
