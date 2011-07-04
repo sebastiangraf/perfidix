@@ -1,3 +1,4 @@
 
 syntax: regexp
 ^perfidix/target$
+^perfidix/.settings$
