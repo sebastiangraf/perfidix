@@ -1,0 +1,47 @@
+Information	
+	
+	Perfidix is a tool for developers to conveniently and 
+	consistently benchmark Java code. It can quickly answer which 
+	implementation is faster. Without the need to launch a full-
+	fledged profiling application or rewrite the same Java code to 
+	measure the execution time again and again.
+
+	Eventhough Perfidix is simple to use, it still provides a sound 
+	statistical output for taking a decision.
+	
+JUnit like handling
+
+	Perfidix is intentionally designed to be used like JUnit 4.x, i.e.,
+	it provides annotations to discover which methods should be 
+	benchmarked how many times. The eclipse plugin or custom 
+	code allows to run a package, class, or method as a Perfidix 
+	benchmark and to collect the execution time statistics for each 
+	method in the console as text or CVS output.
+
+	The output includes package, class, and method name together 
+	with the number of runs, min, max, average, standard 
+	deviation, and confidence intervals. The number of runs 
+	can individually be specified per package, class, or method. 
+	Besides this, the number of runs can be chosen by a probability 
+	distribution function to simulate typical workloads.
+	
+Do a quick benchmark, analyze later.
+
+	Perfidix was created at the University of Konstanz at the 
+	{{{http://www.informatik.uni-konstanz.de/arbeitsgruppen/disy/}Distributed Systems Group}}.
+	
+	It greatly assisted the research by allowing for quick
+	benchmarking of different algorithms and data structures. 
+	Furthermore, all benchmark results could easily be made 
+	persistent for later analysis and compilation into charts.
+
+	Perfidix is hosted with {{{https://sourceforge.net/projects/perfidix/}Sourceforge}} 
+	under the {{{http://www.opensource.org/licenses/BSD-3-Clause}BSD License}}.
+	
+Documentation
+
+	Besides the Maven Documentation, the following Documents are provided:
+	
+	* {{{perfidix.pdf}Submission}} as a <Work in Progress> to the <Jazoon 07>. 
+	
+	* Description of available {{{Annotations.pdf}annotations}}.

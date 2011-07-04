@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Sample Project">
+  <bannerLeft>
+    <name>Perfidix</name>
+    <src>images/logo.png</src>
+    <href>http://www.perfidix.org</href>
+  </bannerLeft>
+  <body>
+    <menu name="Information">
+      <item name="Overview" href="index.html"/>
+      <item name="Tutorial" href="tutorial.html"/>
+    </menu>
+    <menu ref="reports"/>
+  </body>
+</project>
