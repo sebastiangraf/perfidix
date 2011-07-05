@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document xmlns="http://maven.apache.org/XDOC/2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
+
+	<properties>
+		<title>Tutorial</title>
+		<author email="sebastian.graf@uni-konstanz.de">Sebastian Graf</author>
+	</properties>
+
+
+	<body>
+
+		<!-- The body of the document contains a number of sections -->
+		<section name="Screencast">
+			<p>
+				<iframe width="425" height="349"
+					src="http://www.youtube.com/embed/WaYQUjNtDps"></iframe>
+			</p>
+			<p>
+				The video is available as a
+				<a href="mov/ScreenRecording.mov">Video</a>
+				as well.
+			</p>
+		</section>
+
+		<section name="Step by Step Tutorial">
+
+			<p>Three steps to bench your code in Eclipse:</p>
+
+			<subsection name="Install Perfidix within Eclipse">
+				<p>
+					Download latest release of Perfidix at
+					<a href="https://sourceforge.net/projects/perfidix/">Sourceforge</a>
+					.
+				</p>
+			</subsection>
+
+			<subsection name="Modify your code">
+				<p>
+					Annotate your code you want to see benched with the Perfidix
+					annotations. A small example can be seen below:
+				</p>
+			</subsection>
+
+
+		</section>
+
+	</body>
+
+</document>
