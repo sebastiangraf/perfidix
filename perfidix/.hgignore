@@ -8,6 +8,9 @@ target
 .settings
 .project
 .classpath
+.pmd
+.checkstyle
+.factorypath
 
 syntax: regexp
 
