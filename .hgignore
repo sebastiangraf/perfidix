@@ -2,3 +2,5 @@
 syntax: regexp
 ^perfidix/target$
 ^perfidix/.settings$
+^perfidix/.project
+^perfidix/.classpath
