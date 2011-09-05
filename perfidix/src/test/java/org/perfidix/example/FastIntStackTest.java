@@ -11,21 +11,31 @@ import org.junit.Test;
 
 /**
  * @author Nuray Guerler, University of Konstanz
- *
+ * This is a class that tests the {@link FastIntStack} class with all its methods
  */
 public class FastIntStackTest
 {
 
-    private FastIntStack stack;
-    private static int[] r = new int[5];
     /**
-     * Create array with raandom integer values
+     * This member variable contains a FastIntStack object.
+     */
+    private FastIntStack stack;
+    /**
+     * Create constant to determine size of test data
+     */
+    private static final int SIZE = 5;
+    /**
+     * This integer array contains five random values to test FastIntStack methods
+     */
+    private static int[] r = new int[SIZE];
+    /**
+     * Fill integer array with raandom values
      */
     @BeforeClass
     public static void initR()
     {
         java.util.Random random = new java.util.Random();
-        for(int i=0;i<r.length;i++)
+        for(int i=0;i<SIZE;i++)
         {
             r[i] = random.nextInt();
         }
@@ -33,6 +43,10 @@ public class FastIntStackTest
     /**
      * @throws java.lang.Exception
      */
+    /**
+     * initialize stack
+     * @throws Exception
+    */
     @Before
     public void setUp() throws Exception
     {
@@ -46,15 +60,14 @@ public class FastIntStackTest
     public void testPushSizeGetPeekPop()
     {
         assertEquals("Stack should be empty", 0, stack.size());
-        for(int i=0;i<r.length;i++)
+        for(int i=0;i<SIZE;i++)
         {
             stack.push(r[i]);
         }
-        assertEquals("Size of stack is r.length", r.length, stack.size());
-        for(int i=r.length-1;i>=0;i--)
+        assertEquals("Size of stack is "+ SIZE, SIZE, stack.size());
+        for(int i=SIZE-1;i>=0;i--)
         {
-            assertEquals("element i from stack is returned", r[i]
-                    , stack.get(i));
+            assertEquals("stack position is returned", r[i], stack.get(i));
             assertEquals("Stack element contains r[i]", r[i], stack.peek());
             assertEquals("Element r[i] is removed from stack", r[i], stack.pop());
         }
@@ -66,11 +79,11 @@ public class FastIntStackTest
     @Test
     public void testClear()
     {
-        for(int i=0;i<r.length;i++)
+        for(int i=0;i<SIZE;i++)
         {
             stack.push(r[i]);
         }
-        assertEquals("Size of stack is r.length", r.length, stack.size());
+        assertEquals("Size of stack is "+ SIZE, SIZE, stack.size());
         stack.clear();
     }
 
