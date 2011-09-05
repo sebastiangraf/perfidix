@@ -108,7 +108,7 @@ public final class BenchmarkTest {
         assertTrue("The mapping contains the number of estimated runs", mapping
                 .values().contains(NormalCompleteBench.RUNS));
         final BenchmarkResult benchRes = benchmark.run();
-        assertEquals("Only one meter is registered", 1, benchRes
+assertEquals("Only one meter is registered", 1, benchRes
                 .getRegisteredMeters().size());
         assertEquals("No expcetion was thrown", 0, benchRes
                 .getExceptions().size());
