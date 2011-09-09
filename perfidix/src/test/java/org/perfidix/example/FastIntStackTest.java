@@ -64,11 +64,11 @@ public class FastIntStackTest
         {
             stack.push(r[i]);
         }
-        assertEquals("Size of stack is "+ SIZE, SIZE, stack.size());
+        assertEquals(new StringBuilder("Size of stack is ").append(SIZE).toString(), SIZE, stack.size());
         for(int i=SIZE-1;i>=0;i--)
         {
-            assertEquals("stack position is returned", r[i], stack.get(i));
-            assertEquals("Stack element contains r[i]", r[i], stack.peek());
+            assertEquals(new StringBuilder("value of position ").append(i).append(" is returned").toString(), r[i], stack.get(i));
+            assertEquals(new StringBuilder("Stack element contains").append(r[i]).toString(), r[i], stack.peek());
             assertEquals("Element r[i] is removed from stack", r[i], stack.pop());
         }
     }

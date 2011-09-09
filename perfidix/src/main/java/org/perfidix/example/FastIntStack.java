@@ -26,6 +26,8 @@
  */
 package org.perfidix.example;
 
+import java.util.LinkedList;
+
 /**
  * <h1>FastLongStack</h1>
  * <p>
@@ -37,37 +39,23 @@ package org.perfidix.example;
  */
 public final class FastIntStack {
 
-    /** Constant for static int stackSize. */
-    private static final int INIT_STACK_SIZE = 32;
-
-    /** Internal array to store stack elements. */
-    private transient int[] stack;
-
-    /** Current stackSize of stack. */
-    private transient int stackSize;
+    /** Internal linked list to store stack elements. */
+    private transient LinkedList<Integer>  stack;
 
     /**
      * Constructor.
      */
     public FastIntStack() {
-        stack = new int[INIT_STACK_SIZE];
-        stackSize = 0;
+        stack = new LinkedList<Integer>();
     }
 
     /**
-     * Place new element on top of stack. This might require to double the
-     * stackSize of the internal array.
-     * 
+     * Place new element on top of stack. 
      * @param element
      *            Element to push.
      */
     public void push(final int element) {
-        if (stack.length == stackSize) {
-            final int[] biggerStack = new int[stack.length << 1];
-            System.arraycopy(stack, 0, biggerStack, 0, stack.length);
-            stack = biggerStack;
-        }
-        stack[stackSize++] = element;
+         stack.addLast(element);
     }
 
     /**
@@ -77,7 +65,7 @@ public final class FastIntStack {
      * @return Topmost stack element.
      */
     public int peek() {
-        return stack[stackSize - 1];
+        return stack.getLast().intValue();
     }
 
     /**
@@ -89,7 +77,7 @@ public final class FastIntStack {
      * @return Stack element at given position.
      */
     public int get(final int position) {
-        return stack[position];
+        return stack.get(position);
     }
 
     /**
@@ -98,23 +86,25 @@ public final class FastIntStack {
      * @return Removed topmost element of stack.
      */
     public int pop() {
-        return stack[--stackSize];
+        int last = stack.getLast();
+        stack.removeLast();
+        return last;
     }
 
     /**
      * Reset the stack.
      */
     public void clear() {
-        stackSize = 0;
+        stack.clear();
     }
 
     /**
      * Get the current stackSize of the stack.
      * 
-     * @return Current stackSize of stack.
+     * @return stackSize of stack.
      */
     public int size() {
-        return stackSize;
+        return stack.size();
     }
 
 }
