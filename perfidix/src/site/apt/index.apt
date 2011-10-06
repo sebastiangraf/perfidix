@@ -1,8 +1,8 @@
 ~~
 ~~ Copyright (c) 2011, University of Konstanz, Distributed Systems Group
+~~ Redistribution and use in source and binary forms, with or without
 ~~ All rights reserved.
 ~~
-~~ Redistribution and use in source and binary forms, with or without
 ~~ modification, are permitted provided that the following conditions are met:
 ~~     * Redistributions of source code must retain the above copyright
 ~~       notice, this list of conditions and the following disclaimer.
@@ -33,13 +33,14 @@ Information
 	fledged profiling application or rewrite the same Java code to 
 	measure the execution time again and again.
 
-	Eventhough Perfidix is simple to use, it still provides a sound 
+	Even though Perfidix is simple to use, it still provides a sound 
 	statistical output for taking a decision.
 	
 JUnit like handling
 
-	Perfidix is intentionally designed to be used like JUnit 4.x, i.e.,
-	it provides annotations to discover which methods should be 
+	Perfidix is intentionally designed to be used like 
+	{{{http://www.junit.org/}JUnit 4.x}}, 
+	i.e., it provides annotations to discover which methods should be 
 	benchmarked how many times. The eclipse plugin or custom 
 	code allows to run a package, class, or method as a Perfidix 
 	benchmark and to collect the execution time statistics for each 
@@ -54,7 +55,8 @@ JUnit like handling
 	
 Do a quick benchmark, analyze later.
 
-	Perfidix was created at the University of Konstanz at the 
+	Perfidix was created at the 
+	{{{http://www.uni-konstanz.de/}University of Konstanz}} at the 
 	{{{http://www.informatik.uni-konstanz.de/arbeitsgruppen/disy/}Distributed Systems Group}}.
 	
 	It greatly assisted the research by allowing for quick
@@ -67,7 +69,7 @@ Do a quick benchmark, analyze later.
 	
 Documentation
 
-	Besides the Maven Documentation, the following Documents are provided:
+	Besides the {{{http://www.google.de/url?sa=t&source=web&cd=2&sqi=2&ved=0CCcQjBAwAQ&url=http%3A%2F%2Fmaven.apache.org%2Fguides%2Fgetting-started%2Findex.html&rct=j&q=maven%20documentation&ei=nx2MToXvCMv34QT06uysCQ&usg=AFQjCNEzWjMcVfntjRwAyZNoGEfeKiiw8w}Maven Documentation}}, the following Documents are provided:
 	
 	* {{{perfidix.pdf}Submission}} as a <Work in Progress> to the <Jazoon 07>. 
 	

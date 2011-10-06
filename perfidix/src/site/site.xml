@@ -35,7 +35,7 @@
   </bannerLeft>
   <body>
     <menu name="Information">
-      <item name="Overview" href="overview.html"/>
+      <item name="Overview" href="index.html"/>
       <item name="Tutorial" href="tutorial.html"/>
     </menu>
     <menu ref="reports"/>
