@@ -7,6 +7,32 @@
 	<packaging>jar</packaging>
 	<name>Perfidix Library</name>
 	<version>3.6.4-SNAPSHOT</version>
+	<description>Perfidix comes as a light-weight Java Benchmarking Tool which allows to make simple measurements of source code without installing heavy profilers or using special IDEs. Perfidix comes as a simple jar which has to be included in the classpath. Methods which should be benched are annotated similar to JUnit testcases. With these simple modifications  fast evaluation and real-time measurements can be made with existing source code without adapting the program.</description>
+ 	<url>http://www.perfidix.org</url>
+	<licenses>
+		<license>
+			<name>New BSD</name>
+			<url>http://www.opensource.org/licenses/bsd-license.php</url>
+			<comments>3-clause BSD License</comments>
+		</license>
+	</licenses>
+	<issueManagement>
+		<url>https://projects.uni-konstanz.de/</url>
+		</issueManagement>
+	<ciManagement>
+		<system>jenkins</system>
+		<url>http://ci.disy.inf.uni-konstanz.de</url>
+	</ciManagement>
+	<scm>
+		<connection>scm:hg:http://perfidix.hg.sourceforge.net:8000/hgroot/perfidix/perfidix</connection>
+		<developerConnection>scm:hg:ssh://sebastiangraf@perfidix.hg.sourceforge.net/hgroot/perfidix/perfidix</developerConnection>
+		<url>scm:hg:http://perfidix.hg.sourceforge.net:8000/hgroot/perfidix/perfidix</url>
+	</scm>
+	<organization>
+		<name>University of Konstanz, Distributed Systems Lab</name>
+		<url>http://www.informatik.uni-konstanz.de/ags/disy/
+		</url>
+	</organization>
 	<distributionManagement>
 		<repository>
 			<id>disyInternal</id>
@@ -23,6 +49,33 @@
 			<url>ftp://web.uni-konstanz.de/html/</url>
 			</site>
 	</distributionManagement>
+	<developers>
+		<developer>
+			<id>sebastiangraf</id>
+			<name>Sebastian Graf</name>
+			<email>Sebastian.Graf@uni-konstanz.de</email>
+			<roles>
+				<role>Project Manager</role>
+				<role>Architect</role>
+			</roles>
+			<url>http://www.informatik.uni-konstanz.de/arbeitsgruppen/Verteilte-Systeme/mitglieder/Sebastian-Graf</url>
+			<organization>University of Konstanz, Distributed Systems Lab</organization>
+			<organizationUrl>http://www.informatik.uni-konstanz.de/ags/disy/</organizationUrl>
+			<timezone>+1</timezone>
+		</developer>
+		<developer>
+			<id>lewandowskil</id>
+			<name>Lukas Lewandowski</name>
+			<email>lukas.lewandowski@uni-konstanz.de</email>
+			<url>http://www.informatik.uni-konstanz.de/arbeitsgruppen/Verteilte-Systeme/mitglieder</url>
+			<organization>University of Konstanz, Distributed Systems Lab</organization>
+			<organizationUrl>http://www.informatik.uni-konstanz.de/ags/disy/</organizationUrl>
+			<timezone>+1</timezone>
+			<roles>
+				<role>Developer</role>
+			</roles>
+		</developer>
+	</developers>
 	<build>
 		<pluginManagement>
 		<plugins>
@@ -142,7 +195,6 @@
 <artifactId> wagon-ssh-external </artifactId>
 			<version> 1.0-beta-6 </version>
 			</extension>
-			
 		</extensions>
 	</build>
 	<dependencies>
