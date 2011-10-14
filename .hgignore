@@ -1,3 +1,4 @@
+.DS_Store
 
 syntax: regexp
 ^perfidix/target$
