@@ -44,12 +44,6 @@
 			<url>http://mavenrepo.disy.inf.uni-konstanz.de/repository/disyInternalSnapshot/</url>
 			<uniqueVersion>false</uniqueVersion>
 		</snapshotRepository>
-		<site>
-			<id>sf</id>
-			<url>scp://shell.sf.net/home/project-web/perfidix/htdocs/</url>
-			<!-- <url>sftp://web.sf.net/home/project-web/perfidix/htdocs/</url> -->
-			<!-- <id>perfidix-rz</id> <url>sftp://web.uni-konstanz.de/html</url> -->
-		</site>
 	</distributionManagement>
 	<developers>
 		<developer>

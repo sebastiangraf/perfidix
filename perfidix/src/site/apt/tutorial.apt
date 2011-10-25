@@ -35,8 +35,7 @@ Screencast
   
 ** Install Perfidix with Eclipse
 
-  Download latest release of Perfidix at Sourceforge.
-~~ Download latest release of Perclipse (Perfidix plugin) at Sourceforge
+  Download latest release of Perfidix and the latest release of Perclipse (Perfidix plugin) at Sourceforge
 ~~ or install it via {{{http://perfidix.disy.inf.uni-konstanz.de/updateSite}Updatesite}}.
 
 ** Modify your code

@@ -30,16 +30,6 @@
 		</dependency>
 	</dependencies>
 	<distributionManagement>
-		<repository>
-			<id>disyInternal</id>
-			<url>http://mavenrepo.disy.inf.uni-konstanz.de/repository/disyInternal/</url>
-			<uniqueVersion>false</uniqueVersion>
-		</repository>
-		<snapshotRepository>
-			<id>disyInternalSnapshot</id>
-			<url>http://mavenrepo.disy.inf.uni-konstanz.de/repository/disyInternalSnapshot/</url>
-			<uniqueVersion>false</uniqueVersion>
-		</snapshotRepository>
 		<site>
 			<id>sf</id>
 			<url>scp://shell.sf.net/home/project-web/perfidix/htdocs/</url>
