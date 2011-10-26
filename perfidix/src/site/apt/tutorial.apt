@@ -132,8 +132,4 @@ public class FastIntStackTest {
 ---
 
 ** Run the bench out of Eclipse
-
-	Insert the Perfidix.jar into your classpath and right-click on your project where the code to be benched is located in like seen below:
-
-
-
+Insert the Perfidix.jar into your classpath and right-click on your project where the code to be benched is located in.>
