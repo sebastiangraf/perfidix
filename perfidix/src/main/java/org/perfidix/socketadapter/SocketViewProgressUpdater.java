@@ -42,7 +42,7 @@ import org.perfidix.meter.AbstractMeter;
  * 
  * @author Lewandowski Lukas, University of Konstanz
  */
-public final class SocketViewProgressUpdater {
+public final class SocketViewProgressUpdater implements IUpdater {
 
     private final transient SocketViewStub viewStub;
     private transient int meterHash = 0;
