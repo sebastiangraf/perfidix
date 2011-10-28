@@ -41,6 +41,7 @@ import java.util.Set;
  * 
  * @author Lewandowski Lukas, University of Konstanz
  */
+@Deprecated
 public final class PerclipseViewSkeletonSimulator extends Thread {
     private transient Map<String, Integer> receivedMap;
     private transient Map<String, MethodWhichIsBenchin> benchElements =
