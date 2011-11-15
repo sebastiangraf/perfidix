@@ -1,18 +1,18 @@
 /**
  * Copyright (c) 2011, University of Konstanz, Distributed Systems Group
  * All rights reserved.
- *
+ * 
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- *     * Redistributions of source code must retain the above copyright
- *       notice, this list of conditions and the following disclaimer.
- *     * Redistributions in binary form must reproduce the above copyright
- *       notice, this list of conditions and the following disclaimer in the
- *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the University of Konstanz nor the
- *       names of its contributors may be used to endorse or promote products
- *       derived from this software without specific prior written permission.
- *
+ * * Redistributions of source code must retain the above copyright
+ * notice, this list of conditions and the following disclaimer.
+ * * Redistributions in binary form must reproduce the above copyright
+ * notice, this list of conditions and the following disclaimer in the
+ * documentation and/or other materials provided with the distribution.
+ * * Neither the name of the University of Konstanz nor the
+ * names of its contributors may be used to endorse or promote products
+ * derived from this software without specific prior written permission.
+ * 
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
  * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -38,12 +38,12 @@ import org.junit.Test;
 import org.perfidix.annotation.Bench;
 import org.perfidix.element.BenchmarkMethod;
 import org.perfidix.exceptions.PerfidixMethodCheckException;
+import org.perfidix.exceptions.SocketViewException;
 import org.perfidix.meter.Time;
 import org.perfidix.meter.TimeMeter;
 
 /**
- * This class tests the java class
- * {@link org.perfidix.socketadapter.SocketListener}.
+ * This class tests the java class {@link org.perfidix.socketadapter.SocketListener}.
  * 
  * @author Lewandowski Lukas, DiSy, University of Konstanz
  */
@@ -72,10 +72,12 @@ public class SocketListenerTest {
     /**
      * Simple tearDown
      * 
-     * @throws java.lang.Exception
+     * @throws SocketViewException
+     * @throws InterruptedException
+     * 
      */
     @After
-    public void tearDown() throws Exception {
+    public void tearDown() throws SocketViewException, InterruptedException {
         if (!socketFinished) {
             viewUpdater.finished();
             Thread.sleep(10);
@@ -84,8 +86,7 @@ public class SocketListenerTest {
 
     /**
      * Test method for
-     * {@link org.perfidix.socketadapter.SocketListener#visitBenchmark(org.perfidix.result.BenchmarkResult)}
-     * .
+     * {@link org.perfidix.socketadapter.SocketListener#visitBenchmark(org.perfidix.result.BenchmarkResult)} .
      */
     @Test(expected = UnsupportedOperationException.class)
     public void testVisitBenchmark() {
@@ -109,14 +110,11 @@ public class SocketListenerTest {
                 method1 = new BenchmarkMethod(method);
             }
         }
-        socketListener
-                .listenToResultSet(method1.getMethodToBench(), new TimeMeter(
-                        Time.MilliSeconds), 0);
+        socketListener.listenToResultSet(method1.getMethodToBench(), new TimeMeter(Time.MilliSeconds), 0);
         Thread.sleep(10);
-        assertEquals(
-                "Tests if the sent item has been received",
-                "org.perfidix.socketadapter.BenchWithException.benchMe",
-                skeletonSimulator.getReceivedStringObject());
+        assertEquals("Tests if the sent item has been received",
+            "org.perfidix.socketadapter.BenchWithException.benchMe", skeletonSimulator
+                .getReceivedStringObject());
     }
 
     /**
@@ -136,15 +134,13 @@ public class SocketListenerTest {
                 method1 = new BenchmarkMethod(method);
             }
         }
-        socketListener.listenToException(new PerfidixMethodCheckException(
-                new IOException(), method1.getMethodToBench(), Bench.class));
+        socketListener.listenToException(new PerfidixMethodCheckException(new IOException(), method1
+            .getMethodToBench(), Bench.class));
         Thread.sleep(10);
-        assertNotNull(
-                "Checks if sent error method name has been received",
-                skeletonSimulator.getReceivedStringObject());
-        assertNotNull(
-                "Checks if the sent exception occurred has been reveived",
-                skeletonSimulator.getErrorStringObject());
+        assertNotNull("Checks if sent error method name has been received", skeletonSimulator
+            .getReceivedStringObject());
+        assertNotNull("Checks if the sent exception occurred has been reveived", skeletonSimulator
+            .getErrorStringObject());
     }
 
     /**

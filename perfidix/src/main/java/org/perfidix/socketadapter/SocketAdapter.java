@@ -1,18 +1,18 @@
 /**
  * Copyright (c) 2011, University of Konstanz, Distributed Systems Group
  * All rights reserved.
- *
+ * 
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- *     * Redistributions of source code must retain the above copyright
- *       notice, this list of conditions and the following disclaimer.
- *     * Redistributions in binary form must reproduce the above copyright
- *       notice, this list of conditions and the following disclaimer in the
- *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the University of Konstanz nor the
- *       names of its contributors may be used to endorse or promote products
- *       derived from this software without specific prior written permission.
- *
+ * * Redistributions of source code must retain the above copyright
+ * notice, this list of conditions and the following disclaimer.
+ * * Redistributions in binary form must reproduce the above copyright
+ * notice, this list of conditions and the following disclaimer in the
+ * documentation and/or other materials provided with the distribution.
+ * * Neither the name of the University of Konstanz nor the
+ * names of its contributors may be used to endorse or promote products
+ * derived from this software without specific prior written permission.
+ * 
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
  * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -26,8 +26,6 @@
  */
 package org.perfidix.socketadapter;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 import org.perfidix.AbstractConfig;
@@ -46,8 +44,7 @@ import org.perfidix.result.BenchmarkResult;
  * @author Lukas Lewandowski, University of Konstanz
  * @author Sebastian Graf, University of Konstanz
  */
-public final class SocketAdapter
-{
+public final class SocketAdapter {
 
     /** Instance for this run of the adapter */
     private transient Benchmark benchmark;
@@ -63,27 +60,21 @@ public final class SocketAdapter
      * @throws ClassNotFoundException
      * @throws SocketViewException
      */
-    public SocketAdapter(final int port, final IUpdater update,
-            final String... classes) throws SocketViewException,
-            ClassNotFoundException, InstantiationException,
-            IllegalAccessException
-    {
+    public SocketAdapter(final int port, final IUpdater update, final String... classes)
+        throws SocketViewException, ClassNotFoundException, InstantiationException, IllegalAccessException {
         view = update;
 
         // config adaptions for including the view
         final AbstractConfig oldConf = Perfidix.getConfiguration(classes);
-        final AbstractOutput[] outputs = new AbstractOutput[oldConf
-                .getListener().length + 1];
-        System.arraycopy(oldConf.getListener(), 0, outputs, 0,
-                oldConf.getListener().length);
+        final AbstractOutput[] outputs = new AbstractOutput[oldConf.getListener().length + 1];
+        System.arraycopy(oldConf.getListener(), 0, outputs, 0, oldConf.getListener().length);
         outputs[outputs.length - 1] = new SocketListener(view);
 
         // Building up the benchmark object
-        final AbstractConfig newConf = new AbstractConfig(oldConf.getRuns(),
-                oldConf.getMeters(), outputs, oldConf.getArrangement(),
-                oldConf.getGcProb())
-        {
-        };
+        final AbstractConfig newConf =
+            new AbstractConfig(oldConf.getRuns(), oldConf.getMeters(), outputs, oldConf.getArrangement(),
+                oldConf.getGcProb()) {
+            };
         benchmark = new Benchmark(newConf);
 
     }
@@ -95,20 +86,14 @@ public final class SocketAdapter
      * @param classNames
      *            the names of the classes to be benched
      */
-    public void registerClasses(final String... classNames)
-            throws SocketViewException
-    {
-        try
-        {
+    public void registerClasses(final String... classNames) throws SocketViewException {
+        try {
             benchmark = Perfidix.setUpBenchmark(classNames, benchmark);
 
-            final Map<BenchmarkMethod, Integer> vals = benchmark
-                    .getNumberOfMethodsAndRuns();
+            final Map<BenchmarkMethod, Integer> vals = benchmark.getNumberOfMethodsAndRuns();
             view.initProgressView(vals);
 
-        }
-        catch (final ClassNotFoundException e2)
-        {
+        } catch (final ClassNotFoundException e2) {
             view.updateErrorInElement(e2.toString(), e2);
         }
     }
@@ -118,8 +103,7 @@ public final class SocketAdapter
      * 
      * @throws SocketViewException
      */
-    public void runBenchmark() throws SocketViewException
-    {
+    public void runBenchmark() throws SocketViewException {
         // final BenchmarkResult res = benchmark.run(new SocketListener(view));
         final BenchmarkResult res = benchmark.run();
         new TabularSummaryOutput().visitBenchmark(res);
