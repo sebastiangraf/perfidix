@@ -39,8 +39,8 @@
 		<site>
 			<id>sf</id>
 			<url>scp://shell.sf.net/home/project-web/perfidix/htdocs/</url>
-			<!-- <url>sftp://web.sf.net/home/project-web/perfidix/htdocs/</url> -->
-			<!-- <id>perfidix-rz</id> <url>sftp://web.uni-konstanz.de/html</url> -->
+			<!-- <url>ftps://web.sf.net/home/project-web/perfidix/htdocs/</url> -->
+			<!-- <id>perfidix-rz</id> <url>ftps://web.uni-konstanz.de/html</url> -->
 		</site>
 	</distributionManagement>
 </project>
