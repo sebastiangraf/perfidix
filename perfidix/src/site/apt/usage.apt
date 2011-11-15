@@ -1,0 +1,35 @@
+Description
+
+	Using Perfidix is quite straight-forward and even easier if you are familiar with Unit-Testing like JUnit.
+	The aim of Perfidix is to reduce any generation of benchmarking code but to utilize existing testing-code:\
+	What is more convenient than to use Unit-tests?
+	
+Annotations
+
+	Perfidix relies on the following two components:
+	
+	* The execution framework (either our Eclipse Plugin Perclipse) or a container class
+	
+	* Methods and Classes to be benchmarked
+	
+	While the first component relies on classes, the second component consists out of Annotations 
+	applicable on all methods which are parameter-free and void. Similar to JUnit, setup and teardown methods
+	can be applied to the benchmarks even though Perfidix offers finer granularity of those utility methods.
+	
+	The annotations including suitable parameters are as follows:
+
+* @BenchClass
+	
+	* Has to be placed before the class declaraion
+	
+	* Each void-method without parameters and any bench annotation is benched
+	
+** @ BenchClass(runs=)
+
+	* Sets the number of runs for all benchs
+	
+	* Can be overridden by the Bench-annotation with own run-parameter
+	
+
+
+	 
