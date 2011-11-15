@@ -68,8 +68,9 @@ public class SocketAdapterTest
             ClassNotFoundException, InstantiationException,
             IllegalAccessException
     {
+        IUpdater update = new SocketViewProgressUpdater(null, 6777);
         SocketAdapter myInstance = new SocketAdapter(6777,
-                "org.perfidix.example.Config",
+                update, "org.perfidix.example.Config",
                 "org.perfidix.example.StackBenchmark",
                 "org.perfidix.socketadapter.BenchWithException");
 
