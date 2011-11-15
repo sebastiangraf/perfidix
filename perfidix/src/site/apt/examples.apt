@@ -33,7 +33,7 @@ Example 1
 	
 ---
 public class SomeAnnoBenchmark { 
-	CompressedHandler c ; SimpleFileHandler s ;
+	CompressedHandler c; SimpleFileHandler s;
 	
 	//setUp , invoked before each run
 	@BeforeEachBenchRun
@@ -80,7 +80,7 @@ Example 2
 	
 ---
 public class SomeSpecificSetUpTearDownBenchmark { 
-	CompressedHandler c ;SimpleFileHandler s ;
+	CompressedHandler c; SimpleFileHandler s;
 	
 	//setUp for benchCRead/benchCWrite . Invoked via @Bench−params
 	public void setUpCompressed () {
@@ -139,9 +139,9 @@ Example 3
 public class ClassAnnoBenchmark {
 	CompressedHandler c ; SimpleFileHandler s ;
 	
-	String toTest ; long testLength ;
-	//classwide setUp , invoked just one time , just setting the length
+	String toTest; long testLength;
 	
+	//classwide setUp , invoked just one time , just setting the length
 	@BeforeBenchClass
 	public void beforeClass () {
 		Math.abs(testLength = new Random().nextInt(100));
