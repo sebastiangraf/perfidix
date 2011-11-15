@@ -44,7 +44,7 @@ public final class SocketListener extends AbstractOutput {
     /**
      * Instance to the perclipse view.
      */
-    private transient final SocketViewProgressUpdater view;
+    private transient final IUpdater view;
 
     /**
      * Constructor with the port for initalising the connection to the view.
@@ -52,7 +52,7 @@ public final class SocketListener extends AbstractOutput {
      * @param paramView
      *            connection to the perclipse view
      */
-    public SocketListener(final SocketViewProgressUpdater paramView) {
+    public SocketListener(final IUpdater paramView) {
         super();
         view = paramView;
     }

@@ -31,6 +31,7 @@ import static org.junit.Assert.assertNotNull;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.perfidix.exceptions.SocketViewException;
 
 /**
  * This class tests the java class
@@ -38,7 +39,8 @@ import org.junit.Test;
  * 
  * @author Lewandowski Lukas, DiSy, University of Konstanz
  */
-public class SocketAdapterTest {
+public class SocketAdapterTest
+{
     private transient PerclipseViewSkeletonSimulator skeletonSimulator = null;
 
     /**
@@ -47,7 +49,8 @@ public class SocketAdapterTest {
      * @throws java.lang.Exception
      */
     @Before
-    public void setUp() throws Exception {
+    public void setUp() throws Exception
+    {
         skeletonSimulator = new PerclipseViewSkeletonSimulator(6777);
         skeletonSimulator.start();
     }
@@ -61,20 +64,28 @@ public class SocketAdapterTest {
      *             Exception occurred.
      */
     @Test
-    public void testMain() throws InterruptedException {
-        final String[] args =
-                {
-                        "org.perfidix.example.Config",
-                        "org.perfidix.example.StackBenchmark",
-                        "org.perfidix.socketadapter.BenchWithException",
-                        "-Port", "6777" };
-        SocketAdapter.main(args);
+    public void testMain() throws InterruptedException, SocketViewException,
+            ClassNotFoundException, InstantiationException,
+            IllegalAccessException
+    {
+        SocketAdapter myInstance = new SocketAdapter(6777,
+                "org.perfidix.example.Config",
+                "org.perfidix.example.StackBenchmark",
+                "org.perfidix.socketadapter.BenchWithException");
+
+        myInstance.registerClasses("org.perfidix.example.Config",
+                "org.perfidix.example.StackBenchmark",
+                "org.perfidix.socketadapter.BenchWithException");
+        myInstance.runBenchmark();
         assertNotNull("Dummy", skeletonSimulator);
         Thread.sleep(10);
-        assertEquals("Test if benchcounts are right", 100, skeletonSimulator
-                .getElements()
-                .get("org.perfidix.example.StackBenchmark.benchNormalIntPush")
-                .getCurrentRun());
+        assertEquals(
+                "Test if benchcounts are right",
+                100,
+                skeletonSimulator
+                        .getElements()
+                        .get("org.perfidix.example.StackBenchmark.benchNormalIntPush")
+                        .getCurrentRun());
         Thread.sleep(10);
     }
 

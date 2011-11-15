@@ -52,17 +52,17 @@ public final class SocketAdapter {
     private transient Benchmark benchmark;
 
     /** View instance for communicating with the perclipse plugin */
-    private transient final SocketViewProgressUpdater view;
+    private transient final IUpdater view;
 
     /**
-     * private constructor.
+     * public constructor.
      * 
      * @throws IllegalAccessException
      * @throws InstantiationException
      * @throws ClassNotFoundException
      * @throws SocketViewException
      */
-    private SocketAdapter(final int port, final String[] classes)
+    public SocketAdapter(final int port, final String... classes)
             throws SocketViewException, ClassNotFoundException,
             InstantiationException, IllegalAccessException {
         view = new SocketViewProgressUpdater(null, port);
@@ -92,7 +92,7 @@ public final class SocketAdapter {
      * @param classNames
      *            the names of the classes to be benched
      */
-    private void registerClasses(final String[] classNames)
+    public void registerClasses(final String... classNames)
             throws SocketViewException {
         try {
             benchmark = Perfidix.setUpBenchmark(classNames, benchmark);
@@ -111,55 +111,12 @@ public final class SocketAdapter {
      * 
      * @throws SocketViewException
      */
-    private void runBenchmark() throws SocketViewException {
+    public void runBenchmark() throws SocketViewException {
         // final BenchmarkResult res = benchmark.run(new SocketListener(view));
         final BenchmarkResult res = benchmark.run();
         new TabularSummaryOutput().visitBenchmark(res);
         view.finished();
     }
 
-    /**
-     * Main method for invoking benchs with classes as strings.
-     * 
-     * @param args
-     *            the classes
-     */
-    public static void main(final String[] args) {
-        // init of the connection to the plugin
-        int viewPort = 0;
-        final List<String> classList = new ArrayList<String>();
-        for (int i = 0; i < args.length; i++) {
-            if (args[i].equals("-Port")) {
-                if (args[i + 1] != null) {
-                    viewPort = Integer.parseInt(args[i + 1]);
-                }
-                break;
-            } else {
-                classList.add(args[i]);
-            }
-        }
-        try {
-            final SocketAdapter adapter =
-                    new SocketAdapter(viewPort, classList
-                            .toArray(new String[classList.size()]));
-
-            adapter.registerClasses(classList.toArray(new String[classList
-                    .size()]));
-            adapter.runBenchmark();
-        } catch (final SocketViewException e) {
-            throw new IllegalStateException(e);
-        } catch (ClassNotFoundException e) {
-            throw new IllegalStateException(e);
-        } catch (InstantiationException e) {
-            throw new IllegalStateException(e);
-        } catch (IllegalAccessException e) {
-            throw new IllegalStateException(e);
-        }
-
-        //
-
-        /****/
-
-    }
 
 }
