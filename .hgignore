@@ -1,0 +1,7 @@
+.DS_Store
+
+syntax: regexp
+^perfidix/target$
+^perfidix/.settings$
+^perfidix/.project
+^perfidix/.classpath
