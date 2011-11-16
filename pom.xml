@@ -7,10 +7,10 @@
 	<name>Perfidix Root</name>
 	<version>1.0.0-SNAPSHOT</version>
 	<description>Perfidix comes as a light-weight Java Benchmarking Tool which allows to make simple measurements of source code without installing heavy profilers or using special IDEs. Perfidix comes as a simple jar which has to be included in the classpath. Methods which should be benched are annotated similar to JUnit testcases. With these simple modifications  fast evaluation and real-time measurements can be made with existing source code without adapting the program.</description>
-	<url>http://www.perfidix.org</url>
+	<url>https://github.com/sebastiangraf/perfidix</url>
 	<issueManagement>
-		<system>Redmine</system>
-		<url>https://projects.uni-konstanz.de/</url>
+		<url>https://github.com/sebastiangraf/perfidix/issues</url>
+		<system>GitHub Issues</system>
 	</issueManagement>
 	<licenses>
 		<license>
@@ -24,13 +24,13 @@
 		<url>http://ci.disy.inf.uni-konstanz.de</url>
 	</ciManagement>
 	<scm>
-		<connection>scm:hg:http://perfidix.hg.sourceforge.net/hgweb/perfidix/perfidix</connection>
-		<developerConnection>scm:hg:ssh://USER@perfidix.hg.sourceforge.net/hgroot/perfidix/perfidix</developerConnection>
-		<url>scm:hg:http://perfidix.hg.sourceforge.net/hgweb/perfidix/perfidix</url>
+		<url>https://github.com/sebastiangraf/Perfidix</url>
+		<connection>scm:git:git://github.com/sebastiangraf/perfidix.git</connection>
+		<developerConnection>scm:git:git@github.com:sebastiangraf/perfidix.git</developerConnection>
 	</scm>
 	<organization>
 		<name>University of Konstanz, Distributed System Group</name>
-		<url>http://www.informatik.uni-konstanz.de/ags/disy/
+		<url>http://www.informatik.uni-konstanz.de/arbeitsgruppen/disy/
 		</url>
 	</organization>
 	<distributionManagement>
@@ -54,22 +54,10 @@
 				<role>Project Manager</role>
 				<role>Architect</role>
 			</roles>
-			<url>http://www.informatik.uni-konstanz.de/arbeitsgruppen/Verteilte-Systeme/mitglieder/Sebastian-Graf</url>
-			<organization>University of Konstanz, Distributed Systems Lab</organization>
-			<organizationUrl>http://www.informatik.uni-konstanz.de/ags/disy/</organizationUrl>
+			<url>http://www.informatik.uni-konstanz.de/arbeitsgruppen/disy/members/sebastian-graf/</url>
+			<organization>University of Konstanz, Distributed Systems Group</organization>
+			<organizationUrl>http://www.informatik.uni-konstanz.de/arbeitsgruppen/disy/</organizationUrl>
 			<timezone>+1</timezone>
-		</developer>
-		<developer>
-			<id>lewandowskil</id>
-			<name>Lukas Lewandowski</name>
-			<email>lukas.lewandowski@uni-konstanz.de</email>
-			<url>http://www.informatik.uni-konstanz.de/arbeitsgruppen/Verteilte-Systeme/mitglieder</url>
-			<organization>University of Konstanz, Distributed Systems Lab</organization>
-			<organizationUrl>http://www.informatik.uni-konstanz.de/ags/disy/</organizationUrl>
-			<timezone>+1</timezone>
-			<roles>
-				<role>Developer</role>
-			</roles>
 		</developer>
 	</developers>
 	<modules>
