@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (c) 2011, University of Konstanz, Distributed Systems Group
+    All rights reserved.
+
+    Redistribution and use in source and binary forms, with or without
+    modification, are permitted provided that the following conditions are met:
+        * Redistributions of source code must retain the above copyright
+          notice, this list of conditions and the following disclaimer.
+        * Redistributions in binary form must reproduce the above copyright
+          notice, this list of conditions and the following disclaimer in the
+          documentation and/or other materials provided with the distribution.
+        * Neither the name of the University of Konstanz nor the
+          names of its contributors may be used to endorse or promote products
+          derived from this software without specific prior written permission.
+
+    THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+    ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+    WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+    DISCLAIMED. IN NO EVENT SHALL <COPYRIGHT HOLDER> BE LIABLE FOR ANY
+    DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+    (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+    LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+    ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+    (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+    SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+-->
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.debug.ui.launchShortcuts">
+         <shortcut
+            label="Perfidix Bench"
+            icon="icons/time.png"
+            helpContextId=""
+            class="org.perfidix.perclipse.launcher.PerfidixLaunchShortcut"
+            modes="run, debug"
+            id="org.perfidix.perclipseShortcut">
+         <contextualLaunch>
+            <enablement>
+               <with
+                     variable="selection">
+                  <count
+                        value="1">
+                  </count>
+               		<iterate>
+	                 		<or>
+		                 		<and>
+	                 				<test property="org.eclipse.jdt.launching.isContainer"/>
+	                 				<or>
+		                 				<test property="org.eclipse.jdt.launching.buildpathReference" args="perfidix"/>
+ 		                 				<test property="org.eclipse.jdt.launching.buildpathReference" args="Perfidix"/>
+	                 				</or>
+	                 			</and>
+	                            <test property="org.eclipse.jdt.launching.hasMethodWithAnnotation" args="Bench, public"/>
+	                            <test property="org.eclipse.jdt.launching.hasMethodWithAnnotation" args="Bench, public final"/>
+	                            <test property="org.eclipse.jdt.launching.hasTypeWithAnnotation" args="BenchClass, public"/>                            
+	                            <test property="org.eclipse.jdt.launching.hasTypeWithAnnotation" args="BenchClass, public final"/>                            
+	                 		</or>
+
+               		</iterate>
+               </with>
+            </enablement>
+         </contextualLaunch>
+         <!-- <perspective
+               id="org.eclipse.jdt.ui.JavaPerspective">
+         </perspective>
+         <perspective
+               id="org.eclipse.jdt.ui.JavaHierarchyPerspective">
+         </perspective>
+         <perspective
+               id="org.eclipse.jdt.ui.JavaBrowsingPerspective">
+         </perspective>
+         <perspective
+               id="org.eclipse.debug.ui.DebugPerspective">
+         </perspective> -->
+      </shortcut>
+   </extension>
+   <extension
+         point="org.eclipse.debug.ui.launchConfigurationTabGroups">
+        <launchConfigurationTabGroup
+        	type="org.perfidix.configureBench"
+	        class="org.perfidix.perclipse.views.PerclipseTabGroup"
+    	    id="org.perfidix.lauchConfigurationTabGroup">
+	    </launchConfigurationTabGroup>
+   </extension>
+   <extension
+         point="org.eclipse.debug.ui.launchConfigurationTypeImages">
+         	    <launchConfigurationTypeImage
+    	    icon="icons/time.png"
+	        configTypeID="org.perfidix.configureBench"
+        	id="org.perfidix.launchConfigurationTypeImage">
+    	</launchConfigurationTypeImage>
+   </extension>
+   <extension
+         point="org.eclipse.debug.core.launchConfigurationTypes">
+         <launchConfigurationType
+            name="Perfidix Bench"
+            delegate="org.perfidix.perclipse.launcher.PerfidixLaunchConfiguration"
+            modes="run, debug"
+            id="org.perfidix.configureBench">
+
+<!--         <fileExtension
+               default="false"
+               extension="java">
+         </fileExtension>
+         <fileExtension
+               default="false"
+               extension="class">
+         </fileExtension> -->
+      </launchConfigurationType>
+   </extension>
+   <extension point="org.eclipse.ui.views">
+   		<category name="Bench Category"	id="org.perfidix.perclipse.BenchCategory">
+		</category>
+		<view
+        category="org.perfidix.perclipse.BenchCategory"
+        class="org.perfidix.perclipse.views.BenchView"
+        icon="icons/time.png"
+        id="org.perfidix.perclipse.views.BenchView"
+        name="Perfidix Bench">
+		</view>
+   </extension>
+    <extension
+         id="org.perfidix.perclipse.PERFIDIX_CONTAINER"
+         name="PerfidixContainer"
+         point="org.eclipse.jdt.core.classpathContainerInitializer">
+      <classpathContainerInitializer
+            class="org.perfidix.perclipse.buildpath.PerfidixContainerInitializer"
+            id="org.perfidix.perclipse.PERFIDIX_CONTAINER">
+      </classpathContainerInitializer>
+   </extension>
+   <extension
+         id="org.perfidix.perclipse.PERFIDIX_VAR_INIT"
+         name="PerfidixVar"
+         point="org.eclipse.jdt.core.classpathVariableInitializer">
+      <classpathVariableInitializer
+            class="org.perfidix.perclipse.buildpath.PerfidixVariableInitializer"
+            variable="PERFIDIX_HOME">
+      </classpathVariableInitializer>
+   </extension>
+   <extension
+         point="org.eclipse.jdt.ui.quickFixProcessors">
+      <quickFixProcessor
+            class="org.perfidix.perclipse.buildpath.Quickfixprocessor"
+            id="org.perfidix.perclipse.buildpath.quickfixprocessor"
+            name="Perfidix Quickfix Processor">
+      </quickFixProcessor>
+   </extension>
+   
+
+</plugin>

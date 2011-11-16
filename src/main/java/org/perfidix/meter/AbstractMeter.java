@@ -20,6 +20,8 @@
  */
 package org.perfidix.meter;
 
+import java.io.Serializable;
+
 /**
  * For benchmarking in a widen sense, several different meters should be
  * implemented. The first one is obviously the time. Nevertheless, besides the
@@ -28,7 +30,11 @@ package org.perfidix.meter;
  * @author Alexander Onea, neue Couch
  * @author Sebastian Graf, University of Konstanz
  */
-public abstract class AbstractMeter {
+public abstract class AbstractMeter
+        implements Serializable, Comparable<AbstractMeter> {
+
+    /** the serial version uid. */
+    private static final long serialVersionUID = 3725390286604775874L;
 
     /**
      * Constructor.
@@ -93,4 +99,12 @@ public abstract class AbstractMeter {
     @Override
     public abstract boolean equals(final Object obj);
 
+    /** {@inheritDoc} */
+    public int compareTo(AbstractMeter o) {
+        // TODO: Handle meters with the same name but different units
+        if (o == null)
+            return -1;
+        else
+            return this.getName().compareTo(o.getName());
+    }
 }
