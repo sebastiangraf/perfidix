@@ -11,9 +11,9 @@
 		<artifactId>complete</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
-	<build>
+	<!--		<build>
 		<plugins>
-			<plugin>
+	<plugin>
 				<groupId>com.github.github</groupId>
 				<artifactId>downloads-maven-plugin</artifactId>
 				<version>0.2</version>
@@ -49,7 +49,7 @@
 				</executions>
 			</plugin>
 		</plugins>
-	</build>
+	</build>-->
 	<dependencies>
 		<dependency>
 			<groupId>commons-primitives</groupId>
