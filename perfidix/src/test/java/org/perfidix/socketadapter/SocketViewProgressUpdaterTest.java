@@ -1,18 +1,18 @@
 /**
  * Copyright (c) 2011, University of Konstanz, Distributed Systems Group
  * All rights reserved.
- *
+ * 
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- *     * Redistributions of source code must retain the above copyright
- *       notice, this list of conditions and the following disclaimer.
- *     * Redistributions in binary form must reproduce the above copyright
- *       notice, this list of conditions and the following disclaimer in the
- *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the University of Konstanz nor the
- *       names of its contributors may be used to endorse or promote products
- *       derived from this software without specific prior written permission.
- *
+ * * Redistributions of source code must retain the above copyright
+ * notice, this list of conditions and the following disclaimer.
+ * * Redistributions in binary form must reproduce the above copyright
+ * notice, this list of conditions and the following disclaimer in the
+ * documentation and/or other materials provided with the distribution.
+ * * Neither the name of the University of Konstanz nor the
+ * names of its contributors may be used to endorse or promote products
+ * derived from this software without specific prior written permission.
+ * 
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
  * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -44,8 +44,7 @@ import org.perfidix.exceptions.SocketViewException;
 import org.perfidix.meter.TimeMeter;
 
 /**
- * This class tests the java class
- * {@link org.perfidix.socketadapter.SocketViewProgressUpdater}.
+ * This class tests the java class {@link org.perfidix.socketadapter.SocketViewProgressUpdater}.
  * 
  * @author Lewandowski Lukas, DiSy, University of Konstanz
  */
@@ -106,8 +105,7 @@ public class SocketViewProgressUpdaterTest {
 
     /**
      * Test method for
-     * {@link org.perfidix.socketadapter.SocketViewProgressUpdater#initProgressView(java.util.Map)}
-     * .
+     * {@link org.perfidix.socketadapter.SocketViewProgressUpdater#initProgressView(java.util.Map)} .
      * 
      * @throws InterruptedException
      *             Thread exception.
@@ -116,16 +114,11 @@ public class SocketViewProgressUpdaterTest {
     public void testInitProgressView() throws InterruptedException {
         try {
             viewUpdater.initProgressView(dataForView);
-            final Map<String, Integer> sentData =
-                    new HashMap<String, Integer>();
-            sentData
-                    .put(
-                            "org.perfidix.socketadapter.BenchWithException.benchMe",
-                            45);
+            final Map<String, Integer> sentData = new HashMap<String, Integer>();
+            sentData.put("org.perfidix.socketadapter.BenchWithException.benchMe", 45);
             Thread.sleep(10);
-            assertEquals(
-                    "Checks if the sent data is equal to the received",
-                    skeletonSimulator.getTheMap(), sentData);
+            assertEquals("Checks if the sent data is equal to the received", skeletonSimulator.getTheMap(),
+                sentData);
 
         } catch (SocketViewException e) {
             fail(e.toString());
@@ -144,14 +137,11 @@ public class SocketViewProgressUpdaterTest {
     public void testUpdateCurrentElement() throws InterruptedException {
         try {
             viewUpdater.initProgressView(dataForView);
-            final String sentItem =
-                    "org.perfidix.socketadapter.BenchWithException.benchMe";
-            viewUpdater.updateCurrentElement(new TimeMeter(
-                    org.perfidix.meter.Time.MilliSeconds), sentItem);
-            Thread.sleep(10);
-            assertEquals(
-                    "Test if sent string is the same that has been received",
-                    sentItem, skeletonSimulator.getReceivedStringObject());
+            final String sentItem = "org.perfidix.socketadapter.BenchWithException.benchMe";
+            viewUpdater.updateCurrentElement(new TimeMeter(org.perfidix.meter.Time.MilliSeconds), sentItem);
+            Thread.sleep(20);
+            assertEquals("Test if sent string is the same that has been received", sentItem,
+                skeletonSimulator.getReceivedStringObject());
         } catch (SocketViewException e) {
             fail(e.toString());
         }
@@ -170,29 +160,23 @@ public class SocketViewProgressUpdaterTest {
     public void testUpdateErrorInElement() throws InterruptedException {
         try {
             viewUpdater.initProgressView(dataForView);
-            final String errorItem =
-                    "org.perfidix.socketadapter.BenchWithException.benchMe";
-            viewUpdater.updateErrorInElement(
-                    errorItem, new SocketViewException(new IOException()));
+            final String errorItem = "org.perfidix.socketadapter.BenchWithException.benchMe";
+            viewUpdater.updateErrorInElement(errorItem, new SocketViewException(new IOException()));
             Thread.sleep(10);
             final IOException exce = new IOException();
             viewUpdater.updateErrorInElement(errorItem, exce);
             Thread.sleep(10);
-            assertEquals(
-                    "Test if sent errorItem string is the same that has been received",
-                    errorItem, skeletonSimulator.getReceivedStringObject());
-            assertEquals(
-                    "Test if sent exceptino string is the same as received",
-                    exce.getClass().getSimpleName(), skeletonSimulator
-                            .getErrorStringObject());
+            assertEquals("Test if sent errorItem string is the same that has been received", errorItem,
+                skeletonSimulator.getReceivedStringObject());
+            assertEquals("Test if sent exceptino string is the same as received", exce.getClass()
+                .getSimpleName(), skeletonSimulator.getErrorStringObject());
         } catch (SocketViewException e) {
             fail(e.toString());
         }
     }
 
     /**
-     * Test method for
-     * {@link org.perfidix.socketadapter.SocketViewProgressUpdater#finished()}.
+     * Test method for {@link org.perfidix.socketadapter.SocketViewProgressUpdater#finished()}.
      * 
      * @throws InterruptedException
      *             Thread exception.
@@ -203,9 +187,8 @@ public class SocketViewProgressUpdaterTest {
             viewUpdater.finished();
             socketFinished = true;
             Thread.sleep(10);
-            assertTrue(
-                    "Test to see if the socket has been closed on server side",
-                    skeletonSimulator.isFinsihed());
+            assertTrue("Test to see if the socket has been closed on server side", skeletonSimulator
+                .isFinsihed());
         } catch (SocketViewException e) {
             fail(e.toString());
         }
