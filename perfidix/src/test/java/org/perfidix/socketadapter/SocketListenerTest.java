@@ -65,7 +65,7 @@ public class SocketListenerTest {
         skeletonSimulator = new PerclipseViewSkeletonSimulator(port);
         skeletonSimulator.start();
         Thread.sleep(10);
-        viewUpdater = new SocketViewProgressUpdater(null, port);
+        viewUpdater = new SocketViewProgressUpdater(null, 8989);
         socketListener = new SocketListener(viewUpdater);
     }
 

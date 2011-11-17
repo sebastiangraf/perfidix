@@ -69,8 +69,7 @@ public class SocketAdapterTest
             IllegalAccessException
     {
         IUpdater update = new SocketViewProgressUpdater(null, 6777);
-        SocketAdapter myInstance = new SocketAdapter(6777,
-                update, "org.perfidix.example.Config",
+        SocketAdapter myInstance = new SocketAdapter(update, "org.perfidix.example.Config",
                 "org.perfidix.example.StackBenchmark",
                 "org.perfidix.socketadapter.BenchWithException");
 

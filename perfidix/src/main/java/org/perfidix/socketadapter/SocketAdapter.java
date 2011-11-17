@@ -44,7 +44,8 @@ import org.perfidix.result.BenchmarkResult;
  * @author Lukas Lewandowski, University of Konstanz
  * @author Sebastian Graf, University of Konstanz
  */
-public final class SocketAdapter {
+public final class SocketAdapter
+{
 
     /** Instance for this run of the adapter */
     private transient Benchmark benchmark;
@@ -60,8 +61,11 @@ public final class SocketAdapter {
      * @throws ClassNotFoundException
      * @throws SocketViewException
      */
-    public SocketAdapter(final int port, final IUpdater update, final String... classes)
-        throws SocketViewException, ClassNotFoundException, InstantiationException, IllegalAccessException {
+    public SocketAdapter(final IUpdater update,
+            final String... classes) throws SocketViewException,
+            ClassNotFoundException, InstantiationException,
+            IllegalAccessException
+    {
         view = update;
 
         // config adaptions for including the view
@@ -93,7 +97,9 @@ public final class SocketAdapter {
             final Map<BenchmarkMethod, Integer> vals = benchmark.getNumberOfMethodsAndRuns();
             view.initProgressView(vals);
 
-        } catch (final ClassNotFoundException e2) {
+        }
+        catch (final ClassNotFoundException e2)
+        {
             view.updateErrorInElement(e2.toString(), e2);
         }
     }
@@ -103,7 +109,8 @@ public final class SocketAdapter {
      * 
      * @throws SocketViewException
      */
-    public void runBenchmark() throws SocketViewException {
+    public void runBenchmark() throws SocketViewException
+    {
         // final BenchmarkResult res = benchmark.run(new SocketListener(view));
         final BenchmarkResult res = benchmark.run();
         new TabularSummaryOutput().visitBenchmark(res);
