@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <title></title>
+    <title>Source Repository</title>
     <style type="text/css" media="all">
       @import url("./css/maven-base.css");
       @import url("./css/maven-theme.css");
@@ -44,8 +44,8 @@
                                 <h5>Information</h5>
                   <ul>
                   <li class="none">
-            <strong>Overview</strong>
-          </li>
+                          <a href="index.html" title="Overview">Overview</a>
+            </li>
                   <li class="none">
                           <a href="usage.html" title="Usage">Usage</a>
             </li>
@@ -68,8 +68,8 @@
                           <a href="distribution-management.html" title="Distribution Management">Distribution Management</a>
             </li>
                       <li class="none">
-            <strong>About</strong>
-          </li>
+                          <a href="index.html" title="About">About</a>
+            </li>
                       <li class="none">
                           <a href="dependencies.html" title="Dependencies">Dependencies</a>
             </li>
@@ -92,8 +92,8 @@
                           <a href="team-list.html" title="Project Team">Project Team</a>
             </li>
                       <li class="none">
-                          <a href="source-repository.html" title="Source Repository">Source Repository</a>
-            </li>
+            <strong>Source Repository</strong>
+          </li>
                       <li class="none">
                           <a href="plugin-management.html" title="Plugin Management">Plugin Management</a>
             </li>
@@ -115,7 +115,7 @@
     </div>
     <div id="bodyColumn">
       <div id="contentBox">
-        <!--  --><!-- Copyright (c) 2011, University of Konstanz, Distributed Systems Group --><!-- All rights reserved. --><!--  --><!-- Redistribution and use in source and binary forms, with or without --><!-- modification, are permitted provided that the following conditions are met: --><!-- * Redistributions of source code must retain the above copyright --><!-- notice, this list of conditions and the following disclaimer. --><!-- * Redistributions in binary form must reproduce the above copyright --><!-- notice, this list of conditions and the following disclaimer in the --><!-- documentation and/or other materials provided with the distribution. --><!-- * Neither the name of the University of Konstanz nor the --><!-- names of its contributors may be used to endorse or promote products --><!-- derived from this software without specific prior written permission. --><!--  --><!-- THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND --><!-- ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED --><!-- WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE --><!-- DISCLAIMED. IN NO EVENT SHALL <COPYRIGHT HOLDER> BE LIABLE FOR ANY --><!-- DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES --><!-- (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; --><!-- LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND --><!-- ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT --><!-- (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS --><!-- SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. --><!--  --><div class="section"><h2>Information <a name="Information"></a></h2><p>Perfidix is a tool for developers to conveniently and consistently benchmark Java code. It can quickly answer which implementation is faster. Without the need to launch a full-fledged profiling application or rewrite the same Java code to measure the execution time again and again.</p><p>Even though Perfidix is simple to use, it still provides a sound statistical output for taking a decision.</p></div><div class="section"><h2>JUnit like handling<a name="JUnit_like_handling"></a></h2><p>Perfidix is intentionally designed to be used like <a class="externalLink" href="http://www.junit.org/">JUnit 4.x</a>, i.e., it provides annotations to discover which methods should be benchmarked how many times. The eclipse plugin or custom code allows to run a package, class, or method as a Perfidix benchmark and to collect the execution time statistics for each method in the console as text or CVS output.</p><p>The output includes package, class, and method name together with the number of runs, min, max, average, standard deviation, and confidence intervals. The number of runs can individually be specified per package, class, or method. Besides this, the number of runs can be chosen by a probability distribution function to simulate typical workloads.</p></div><div class="section"><h2>Define your own meters<a name="Define_your_own_meters"></a></h2><p>Even though equipped with multiple meters to measure your source code (time, memory, threads), Perfidix offers the ability to inject own meters just by implement one single Interface. This enables Perfidix not only to act as a out-of-the-box usable tool, but also to be adapted to the specific program environment and therefore to any resulting problems. </p></div><div class="section"><h2>Do a quick benchmark, analyze later.<a name="Do_a_quick_benchmark_analyze_later."></a></h2><p>Convenient outputs ranging from common ascii-tables to plain csv-output offer not only a quick overlook about the benchmark but also in-depth analysis techniques with the help of any third-party program. Therefore, all benchmark results could easily be made persistent for later analysis and compilation into charts. </p></div><div class="section"><h2>Own needs, own requirements<a name="Own_needs_own_requirements"></a></h2><p>Perfidix was created at the <a class="externalLink" href="http://www.uni-konstanz.de/">University of Konstanz</a> at the <a class="externalLink" href="http://www.informatik.uni-konstanz.de/arbeitsgruppen/disy/">Distributed Systems Group</a> out of the necessity to provide an architecture for evaluating own implementations. </p><p>It greatly assisted the research by allowing for quick benchmarking of different algorithms and data structures. Although not directly mentioned, Perfidix represents the benchmarking framework for multiple thesis' within our working group and is maintained continuously since 2007.</p><p>Perfidix is hosted with <a class="externalLink" href="https://sourceforge.net/projects/perfidix/">Sourceforge</a> under the <a class="externalLink" href="http://www.opensource.org/licenses/BSD-3-Clause">BSD License</a>.</p></div>
+        <div class="section"><h2>Overview<a name="Overview"></a></h2><a name="Overview"></a><p>This project uses a Source Content Management System to manage its source code.</p></div><div class="section"><h2>Web Access<a name="Web_Access"></a></h2><a name="Web_Access"></a><p>The following is a link to the online source repository.</p><div class="source"><pre><a class="externalLink" href="https://github.com/sebastiangraf/Perfidix/perfidix">https://github.com/sebastiangraf/Perfidix/perfidix</a></pre></div></div><div class="section"><h2>Anonymous access<a name="Anonymous_access"></a></h2><a name="Anonymous_access"></a><p>Refer to the documentation of the SCM used for more information about anonymously check out. The connection url is:</p><div class="source"><pre>git:git://github.com/sebastiangraf/perfidix.git/perfidix</pre></div></div><div class="section"><h2>Developer access<a name="Developer_access"></a></h2><a name="Developer_access"></a><p>Refer to the documentation of the SCM used for more information about developer check out. The connection url is:</p><div class="source"><pre>git:git@github.com:sebastiangraf/perfidix.git/perfidix</pre></div></div><div class="section"><h2>Access from behind a firewall<a name="Access_from_behind_a_firewall"></a></h2><a name="Access_from_behind_a_firewall"></a><p>Refer to the documentation of the SCM used for more information about access behind a firewall.</p></div>
       </div>
     </div>
     <div class="clear">

@@ -1,0 +1,76 @@
+/**
+ * Copyright (c) 2011, University of Konstanz, Distributed Systems Group
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *     * Redistributions of source code must retain the above copyright
+ *       notice, this list of conditions and the following disclaimer.
+ *     * Redistributions in binary form must reproduce the above copyright
+ *       notice, this list of conditions and the following disclaimer in the
+ *       documentation and/or other materials provided with the distribution.
+ *     * Neither the name of the University of Konstanz nor the
+ *       names of its contributors may be used to endorse or promote products
+ *       derived from this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ * DISCLAIMED. IN NO EVENT SHALL <COPYRIGHT HOLDER> BE LIABLE FOR ANY
+ * DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ * ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+/* perfidix website styles. 
+ *     author: johannes froehlich (http://www.jfroehlich.net/) */
+body {font: 80% Verdana, sans-serif; margin: 0; color: #333; background: #867D6D; }
+a {color: #932b0e; text-decoration: none; border-bottom: 1px dashed #9A4042;}
+a:visited {color: #773435;}
+a:hover {color: #bd432d; border-bottom: 1px solid #bd432d;}
+#header {margin: 0 10px; padding-top: 3em;}
+#header h1 {text-align: left; padding-left: 1.5em;}
+#header h1 span {display: none;}
+#header h2 {display: none;}
+#header h1 img {height: 81px;}
+
+/* #header h1 {margin: 0 20px 0 30px; font-size: 4em; padding: 0; color: #932b0e;}
+ * #header h2 {margin: -.5em 20px 20px 35px; font-size: 1.2em; padding: 0; color: #bd432d;}
+ */
+#navigation {margin: 0 10px 30px 10px; background:url('../img/nav-back.png') repeat-x;
+    border: 1px solid #5F584D; border-left: 0; border-right: 0;}
+#navigation ul {margin: 0; padding: .6em 30px}
+#navigation li {display: inline; margin-right: 1em;}
+#navigation a {color: #ccc; font-weight: bold; text-decoration: none; border: 0;}
+#navigation a:hover {color: #fff; border: 0;}
+#mainblock {margin: 0 10px;border-bottom: 1px solid #867D6D; height: 100%;}
+#related {float: right; width: 250px; padding: 0 30px 20px 0;}
+#related blockquote {margin: 0; font: italic 1.1em Georgia, serif;}
+#related .cite {text-align: right; margin-top: 0em;}
+#related dt {font-weight: bold; margin-top: 1em; border-top: 3px solid #555; padding: .3em 0;}
+#related dd {margin: 0 0 1em 0; border-top: 1px dotted #555; padding: .5em 0 0 0;}
+#related .section {padding: 0; margin: 0;}
+#related .section li {list-style-type: none; margin: 2px 0;}
+#related .section a {background: #DBCFBB; display: block; padding: .5em; 
+    color: #5F584D; text-decoration: none;}
+#related .section .current a {background: #BBB1A2;  display: block; padding: .5em; 
+        color: #fff; text-decoration: none;}
+#related .section a:hover {background: #BBB1A2;  display: block; padding: .5em; 
+    color: #fff; text-decoration: none;}
+#content {padding: 0 320px 20px 30px;}
+#content h2 {font-weight: normal;}
+#content dt {font-weight: bold;}
+#content dd {margin: .3em auto 1em 1em; }
+#footer {background: url('../img/content-back-dark.png') repeat-y; margin: 0 0 2em 0;
+    padding: 0; clear: both;}
+#footer p {margin: 0; padding: 1em 10px 2em 10px; text-align: center; font-size: .9em;
+    color: #555; background: url('../img/footer-back.png') bottom no-repeat;}
+
+.container {width: 800px; margin: 0 auto;
+    background: #DBCFBB url('../img/content-back.png') repeat-y;}
+.splitter {clear: both; border: 0;}
+
+/* Section based styles */
+#navigation li.current a {color: #fff;}
