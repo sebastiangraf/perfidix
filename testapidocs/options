@@ -16,6 +16,8 @@
 'UTF-8'
 -doctitle
 'Perfidix Library 3.6.4-SNAPSHOT Test API'
+-link
+'../apidocs'
 -linkoffline
 'http://download.oracle.com/javase/6/docs/api' '/Users/sebi/Documents/workspace/perfidix/trunk/perfidix/target/javadoc-bundle-options'
 -use
