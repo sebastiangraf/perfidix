@@ -36,10 +36,11 @@
   <body>
     <menu name="Information">
       <item name="Overview" href="index.html"/>
+      <item name="Screenshots" href="screenshots.html"/>
       <item name="Usage" href="usage.html"/>
       <item name="Examples" href="examples.html"/>
       <item name="Tutorial" href="tutorial.html"/>
-      <item name="Sourceforge Site" href="https://sourceforge.net/projects/perfidix/"/>
+      <item name="Github Site" href="https://github.com/sebastiangraf/perfidix"/>
     </menu>
     <menu ref="reports"/>
   </body>
