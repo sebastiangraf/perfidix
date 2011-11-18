@@ -85,20 +85,6 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/sebastiangraf/perfidix/perfidix/checkstyle.html#org.perfidix.result.package-info.java">org/perfidix/result/package-info.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  3
-                </td>
-              </tr>
-                          <tr>
-                <td>
                   <a href="https://github.com/sebastiangraf/perfidix/perfidix/checkstyle.html#org.perfidix.annotation.BenchClass.java">org/perfidix/annotation/BenchClass.java</a>
                 </td>
                 <td>
@@ -109,6 +95,20 @@
                 </td>
                 <td>
                   2
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/sebastiangraf/perfidix/perfidix/checkstyle.html#org.perfidix.result.package-info.java">org/perfidix/result/package-info.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  3
                 </td>
               </tr>
                           <tr>
@@ -603,20 +603,6 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/sebastiangraf/perfidix/perfidix/checkstyle.html#org.perfidix.result.AbstractResultContainer.java">org/perfidix/result/AbstractResultContainer.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  7
-                </td>
-              </tr>
-                          <tr>
-                <td>
                   <a href="https://github.com/sebastiangraf/perfidix/perfidix/checkstyle.html#org.perfidix.element.package-info.java">org/perfidix/element/package-info.java</a>
                 </td>
                 <td>
@@ -627,6 +613,20 @@
                 </td>
                 <td>
                   3
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/sebastiangraf/perfidix/perfidix/checkstyle.html#org.perfidix.result.AbstractResultContainer.java">org/perfidix/result/AbstractResultContainer.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  7
                 </td>
               </tr>
                           <tr>
@@ -743,20 +743,6 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/sebastiangraf/perfidix/perfidix/checkstyle.html#org.perfidix.ouput.asciitable.Util.java">org/perfidix/ouput/asciitable/Util.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  16
-                </td>
-              </tr>
-                          <tr>
-                <td>
                   <a href="https://github.com/sebastiangraf/perfidix/perfidix/checkstyle.html#org.perfidix.ouput.CSVOutput.java">org/perfidix/ouput/CSVOutput.java</a>
                 </td>
                 <td>
@@ -767,6 +753,20 @@
                 </td>
                 <td>
                   10
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/sebastiangraf/perfidix/perfidix/checkstyle.html#org.perfidix.ouput.asciitable.Util.java">org/perfidix/ouput/asciitable/Util.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  16
                 </td>
               </tr>
                           <tr>
@@ -827,20 +827,6 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="https://github.com/sebastiangraf/perfidix/perfidix/checkstyle.html#org.perfidix.Perfidix.java">org/perfidix/Perfidix.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  15
-                </td>
-              </tr>
-                          <tr>
-                <td>
                   <a href="https://github.com/sebastiangraf/perfidix/perfidix/checkstyle.html#org.perfidix.annotation.Bench.java">org/perfidix/annotation/Bench.java</a>
                 </td>
                 <td>
@@ -855,7 +841,35 @@
               </tr>
                           <tr>
                 <td>
+                  <a href="https://github.com/sebastiangraf/perfidix/perfidix/checkstyle.html#org.perfidix.Perfidix.java">org/perfidix/Perfidix.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  15
+                </td>
+              </tr>
+                          <tr>
+                <td>
                   <a href="https://github.com/sebastiangraf/perfidix/perfidix/checkstyle.html#org.perfidix.element.AbstractMethodArrangement.java">org/perfidix/element/AbstractMethodArrangement.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  7
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/sebastiangraf/perfidix/perfidix/checkstyle.html#org.perfidix.example.FastIntStack.java">org/perfidix/example/FastIntStack.java</a>
                 </td>
                 <td>
                   0
@@ -893,20 +907,6 @@
                 </td>
                 <td>
                   22
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="https://github.com/sebastiangraf/perfidix/perfidix/checkstyle.html#org.perfidix.example.FastIntStack.java">org/perfidix/example/FastIntStack.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  7
                 </td>
               </tr>
                           <tr>

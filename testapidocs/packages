@@ -1,9 +1,9 @@
-org.perfidix
 org.perfidix.benchmarktests
-org.perfidix.element
-org.perfidix.example
-org.perfidix.meter
-org.perfidix.output.asciitable
-org.perfidix.output
 org.perfidix.result
+org.perfidix
+org.perfidix.meter
 org.perfidix.socketadapter
+org.perfidix.element
+org.perfidix.output
+org.perfidix.output.asciitable
+org.perfidix.example

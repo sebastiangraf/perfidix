@@ -1,25 +1,23 @@
 -classpath
-'/Users/sebi/Documents/workspace/perfidix/trunk/perfidix/target/classes:/Users/sebi/Documents/workspace/perfidix/trunk/perfidix/target/test-classes:/Users/sebi/.m2/repository/org/objenesis/objenesis/1.0/objenesis-1.0.jar:/Users/sebi/.m2/repository/org/mockito/mockito-core/1.9.0-rc1/mockito-core-1.9.0-rc1.jar:/Users/sebi/.m2/repository/commons-math/commons-math/1.2/commons-math-1.2.jar:/Users/sebi/.m2/repository/commons-primitives/commons-primitives/1.0/commons-primitives-1.0.jar:/Users/sebi/.m2/repository/org/hamcrest/hamcrest-core/1.1/hamcrest-core-1.1.jar:/Users/sebi/.m2/repository/junit/junit/4.8.2/junit-4.8.2.jar'
+'/home/tomcatdata/jenkins/jobs/Perfidix/workspace/perfidix/target/classes:/home/tomcatdata/jenkins/jobs/Perfidix/workspace/perfidix/target/test-classes:/usr/share/tomcat6/.m2/repository/org/objenesis/objenesis/1.0/objenesis-1.0.jar:/usr/share/tomcat6/.m2/repository/org/mockito/mockito-core/1.9.0-rc1/mockito-core-1.9.0-rc1.jar:/usr/share/tomcat6/.m2/repository/commons-math/commons-math/1.2/commons-math-1.2.jar:/usr/share/tomcat6/.m2/repository/commons-primitives/commons-primitives/1.0/commons-primitives-1.0.jar:/usr/share/tomcat6/.m2/repository/org/hamcrest/hamcrest-core/1.1/hamcrest-core-1.1.jar:/usr/share/tomcat6/.m2/repository/junit/junit/4.8.2/junit-4.8.2.jar'
 -encoding
 'UTF-8'
 -protected
 -sourcepath
-'/Users/sebi/Documents/workspace/perfidix/trunk/perfidix/src/test/java'
+'/home/tomcatdata/jenkins/jobs/Perfidix/workspace/perfidix/src/test/java'
 -author
 -bottom
 'Copyright &#169; 2011 <a href="http://www.informatik.uni-konstanz.de/arbeitsgruppen/disy/">University of Konstanz, Distributed System Group</a>. All Rights Reserved.'
 -charset
 'UTF-8'
 -d
-'/Users/sebi/Documents/workspace/perfidix/trunk/perfidix/target/site/testapidocs'
+'/home/tomcatdata/jenkins/jobs/Perfidix/workspace/perfidix/target/site/testapidocs'
 -docencoding
 'UTF-8'
 -doctitle
 'Perfidix Library 3.6.4-SNAPSHOT Test API'
--link
-'../apidocs'
 -linkoffline
-'http://download.oracle.com/javase/6/docs/api' '/Users/sebi/Documents/workspace/perfidix/trunk/perfidix/target/javadoc-bundle-options'
+'http://download.oracle.com/javase/6/docs/api' '/home/tomcatdata/jenkins/jobs/Perfidix/workspace/perfidix/target/javadoc-bundle-options'
 -use
 -version
 -windowtitle
