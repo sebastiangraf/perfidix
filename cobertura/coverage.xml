@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE coverage SYSTEM "http://cobertura.sourceforge.net/xml/coverage-04.dtd">
 
-<coverage line-rate="0.8438247011952191" branch-rate="0.7369519832985386" lines-covered="1059" lines-valid="1255" branches-covered="353" branches-valid="479" complexity="2.2285714285714286" version="1.9.4.1" timestamp="1321755670665">
+<coverage line-rate="0.8438247011952191" branch-rate="0.7369519832985386" lines-covered="1059" lines-valid="1255" branches-covered="353" branches-valid="479" complexity="2.2285714285714286" version="1.9.4.1" timestamp="1321766464963">
 	<sources>
 		<source>--source</source>
 		<source>/home/tomcatdata/jenkins/jobs/Perfidix/workspace/perfidix/src/main/java</source>
@@ -4834,12 +4834,12 @@
 						<method name="repeat" signature="(Ljava/lang/String;I)Ljava/lang/String;" line-rate="1.0" branch-rate="1.0">
 							<lines>
 								<line number="148" hits="289" branch="false"/>
-								<line number="150" hits="6039" branch="true" condition-coverage="100% (2/2)">
+								<line number="150" hits="6038" branch="true" condition-coverage="100% (2/2)">
 									<conditions>
 										<condition number="0" type="jump" coverage="100%"/>
 									</conditions>
 								</line>
-								<line number="151" hits="5750" branch="false"/>
+								<line number="151" hits="5749" branch="false"/>
 								<line number="153" hits="289" branch="false"/>
 							</lines>
 						</method>
@@ -4889,12 +4889,12 @@
 						<line number="132" hits="194" branch="false"/>
 						<line number="135" hits="34" branch="false"/>
 						<line number="148" hits="289" branch="false"/>
-						<line number="150" hits="6039" branch="true" condition-coverage="100% (2/2)">
+						<line number="150" hits="6038" branch="true" condition-coverage="100% (2/2)">
 							<conditions>
 								<condition number="0" type="jump" coverage="100%"/>
 							</conditions>
 						</line>
-						<line number="151" hits="5750" branch="false"/>
+						<line number="151" hits="5749" branch="false"/>
 						<line number="153" hits="289" branch="false"/>
 						<line number="167" hits="2" branch="false"/>
 						<line number="179" hits="2" branch="false"/>
