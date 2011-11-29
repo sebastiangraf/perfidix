@@ -7,9 +7,9 @@
 	<name>Perfidix Root</name>
 	<version>1.0.0-SNAPSHOT</version>
 	<description>Perfidix comes as a light-weight Java Benchmarking Tool which allows to make simple measurements of source code without installing heavy profilers or using special IDEs. Perfidix comes as a simple jar which has to be included in the classpath. Methods which should be benched are annotated similar to JUnit testcases. With these simple modifications  fast evaluation and real-time measurements can be made with existing source code without adapting the program.</description>
-	<url>https://github.com/sebastiangraf/perfidix</url>
+	<url>https://github.com/disy/perfidix</url>
 	<issueManagement>
-		<url>https://github.com/sebastiangraf/perfidix/issues</url>
+		<url>https://github.com/disy/perfidix/issues</url>
 		<system>GitHub Issues</system>
 	</issueManagement>
 	<licenses>
@@ -24,9 +24,9 @@
 		<url>http://ci.disy.inf.uni-konstanz.de</url>
 	</ciManagement>
 	<scm>
-		<url>https://github.com/sebastiangraf/Perfidix</url>
-		<connection>scm:git:git://github.com/sebastiangraf/perfidix.git</connection>
-		<developerConnection>scm:git:git@github.com:sebastiangraf/perfidix.git</developerConnection>
+		<url>https://github.com/disy/Perfidix</url>
+		<connection>scm:git:git://github.com/disy/perfidix.git</connection>
+		<developerConnection>scm:git:git@github.com:disy/perfidix.git</developerConnection>
 	</scm>
 	<organization>
 		<name>University of Konstanz, Distributed System Group</name>
