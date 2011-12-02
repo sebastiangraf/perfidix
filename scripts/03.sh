@@ -33,5 +33,7 @@
 set +e
 #committing to svn
 git svn dcommit
+###(SVN->GITHUB SYNCING)###
 #switching to master branch
+git checkout master
 exit 0
