@@ -1,10 +1,10 @@
-org.perfidix.result
-org.perfidix.exceptions
 org.perfidix
 org.perfidix.annotation
+org.perfidix.element
+org.perfidix.example
+org.perfidix.exceptions
 org.perfidix.meter
 org.perfidix.ouput
 org.perfidix.ouput.asciitable
+org.perfidix.result
 org.perfidix.socketadapter
-org.perfidix.element
-org.perfidix.example
