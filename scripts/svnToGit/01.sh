@@ -33,4 +33,6 @@
 set +e
 #getting the github data
 git pull
+#getting disy data
+git svn fetch
 exit 0
