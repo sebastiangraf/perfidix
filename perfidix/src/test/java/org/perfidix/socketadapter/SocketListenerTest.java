@@ -51,6 +51,10 @@ import static org.mockito.Mockito.mock;
  * 
  * @author Lewandowski Lukas, DiSy, University of Konstanz
  */
+
+/*
+ * Da der IUpdaterMock keine Ports nutzt, kann auf diese Klasse verzichtet werden.
+ */
 public class SocketListenerTest
 {
     private transient SocketListener socketListener;

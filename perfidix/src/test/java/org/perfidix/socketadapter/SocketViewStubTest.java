@@ -45,6 +45,10 @@ import org.perfidix.exceptions.SocketViewException;
  * 
  * @author Lewandowski Lukas, DiSy, University of Konstanz
  */
+/*
+ * Klasse wird nicht gebraucht, da der IUpdaterMock die Funktion des PerclipseViewSkeletonSimulators übernimmt. 
+ */
+
 public class SocketViewStubTest {
 
     /** Convenient variable for testcase */

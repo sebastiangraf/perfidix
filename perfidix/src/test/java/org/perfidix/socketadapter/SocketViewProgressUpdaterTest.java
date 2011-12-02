@@ -49,6 +49,8 @@ import org.perfidix.meter.TimeMeter;
  * 
  * @author Lewandowski Lukas, DiSy, University of Konstanz
  */
+/* Klasse wird nicht gebraucht, wenn PerclipseViewSkeletonSimulator durch IUpdaterMock ersetzt wird.
+ */
 public class SocketViewProgressUpdaterTest {
     transient private SocketViewProgressUpdater viewUpdater;
     transient private PerclipseViewSkeletonSimulator skeletonSimulator;
