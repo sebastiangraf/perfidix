@@ -31,7 +31,7 @@
 #setting error to false, not beautiful but efficient because of updating/merging
 set +e
 #getting github data 
-git fetch origin
+git pull origin
 #getting disy data
 git svn fetch
 git checkout refs/remotes/git-svn
