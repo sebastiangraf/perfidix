@@ -28,7 +28,7 @@ package org.perfidix.socketadapter;
 
 // import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.*;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
@@ -44,13 +44,15 @@ import org.perfidix.meter.Time;
 import org.perfidix.meter.TimeMeter;
 
 /**
- * This class tests the java class {@link org.perfidix.socketadapter.SocketListener}.
+ * This class tests the java class
+ * {@link org.perfidix.socketadapter.SocketListener}.
  * 
  * @author Lewandowski Lukas, DiSy, University of Konstanz
  */
 
 /*
- * Da der IUpdaterMock keine Ports nutzt, kann auf diese Klasse verzichtet werden.
+ * Da der IUpdaterMock keine Ports nutzt, kann auf diese Klasse verzichtet
+ * werden.
  */
 public class SocketListenerTest
 {
@@ -64,28 +66,20 @@ public class SocketListenerTest
      * @throws java.lang.Exception
      */
     @Before
-    public void setUp() throws Exception {
-        // TODO Initialisieren von SocketListener und IUpdater
-    }
-
-    /**
-     * Simple tearDown
-     * 
-     * @throws SocketViewException
-     * @throws InterruptedException
-     * 
-     */
-    @After
-    public void tearDown() throws SocketViewException, InterruptedException {
-        // TODO Falls man den Mock runterfahren muss, muss das hierher. Muss man in der Doku schauen
+    public void setUp() throws Exception
+    {
+        iUpdaterMock = mock(IUpdater.class);
+        socketListener = new SocketListener(iUpdaterMock);
     }
 
     /**
      * Test method for
-     * {@link org.perfidix.socketadapter.SocketListener#visitBenchmark(org.perfidix.result.BenchmarkResult)} .
+     * {@link org.perfidix.socketadapter.SocketListener#visitBenchmark(org.perfidix.result.BenchmarkResult)}
+     * .
      */
     @Test(expected = UnsupportedOperationException.class)
-    public void testVisitBenchmark() {
+    public void testVisitBenchmark()
+    {
         socketListener = new SocketListener(iUpdaterMock);
         socketListener.visitBenchmark(null);
     }
@@ -99,19 +93,22 @@ public class SocketListenerTest
      *             Thread sleep exception.
      */
     @Test
-    public void testListenToResultSet() throws InterruptedException {
-        //TODO Aufsetzen des Mocks mit when->then damit SocketListener.listenToResultSet -> true ergibt
-        
-        SocketListener myInstance = new SocketListener(iUpdaterMock);
+    public void testListenToResultSet() throws InterruptedException
+    {
         final Method[] methods = BenchWithException.class.getMethods();
         BenchmarkMethod method1 = null;
-        for (Method method : methods) {
-            if (method.getName().equals("benchMe")) {
+        for (Method method : methods)
+        {
+            if (method.getName().equals("benchMe"))
+            {
                 method1 = new BenchmarkMethod(method);
             }
         }
-        assertTrue(myInstance.listenToResultSet(method1.getMethodToBench(), new TimeMeter(Time.MilliSeconds),
-            0));
+        when(socketListener.listenToResultSet(method1.getMethodToBench(),
+                new TimeMeter(Time.MilliSeconds), 0)).thenReturn(true);
+        SocketListener myInstance = new SocketListener(iUpdaterMock);
+        assertTrue(myInstance.listenToResultSet(method1.getMethodToBench(),
+                new TimeMeter(Time.MilliSeconds), 0));
     }
 
     /**
@@ -123,18 +120,23 @@ public class SocketListenerTest
      *             Thread exception occurred.
      */
     @Test
-    public void testListenToException() throws InterruptedException {
+    public void testListenToException() throws InterruptedException
+    {
         SocketListener myInstance = new SocketListener(iUpdaterMock);
         ;
         final Method[] methods = BenchWithException.class.getMethods();
         BenchmarkMethod method1 = null;
-        for (Method method : methods) {
-            if (method.getName().equals("benchMe")) {
+        for (Method method : methods)
+        {
+            if (method.getName().equals("benchMe"))
+            {
                 method1 = new BenchmarkMethod(method);
             }
         }
-        assertTrue(myInstance.listenToException(new PerfidixMethodCheckException(new IOException(), method1
-            .getMethodToBench(), Bench.class)));
+        assertTrue(myInstance
+                .listenToException(new PerfidixMethodCheckException(
+                        new IOException(), method1.getMethodToBench(),
+                        Bench.class)));
     }
 
 }

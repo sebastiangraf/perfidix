@@ -74,10 +74,8 @@ public final class SocketListener extends AbstractOutput {
     /** {@inheritDoc} */
     @Override
     public boolean listenToResultSet(final Method meth, final AbstractMeter meter, final double data) {
-        // TODO nicht einfach return true zurückgeben sondern den Rückgabewert der Methode
         try {
-            view.updateCurrentElement(meter, (meth.getDeclaringClass().getName() + "." + meth.getName()));
-            return true;
+            return view.updateCurrentElement(meter, (meth.getDeclaringClass().getName() + "." + meth.getName()));
         } catch (final SocketViewException e) {
             throw new IllegalStateException(e);
         }
