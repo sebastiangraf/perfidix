@@ -32,9 +32,10 @@
 ###FIRST STEP, GETTING THE DATA
 set +e
 #getting the github data
-git pull 
+git pull
 #getting disy data
 git svn fetch
 #switching to svn-branch, only temporary since it is for testing only
+#normally: git checkout refs/remotes/git-svn
 git checkout refs/remotes/git-svn
 exit 0
