@@ -17,7 +17,7 @@
  * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
  * DISCLAIMED. IN NO EVENT SHALL <COPYRIGHT HOLDER> BE LIABLE FOR ANY
- * DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+34 * DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
  * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
  * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
  * ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
@@ -26,11 +26,18 @@
  */
 package org.perfidix.socketadapter;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+//import static org.junit.Assert.assertEquals;
+//import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.*;
+
+import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.perfidix.Benchmark;
+import org.perfidix.Perfidix;
+import org.perfidix.element.BenchmarkMethod;
 import org.perfidix.exceptions.SocketViewException;
 
 /**
@@ -41,7 +48,8 @@ import org.perfidix.exceptions.SocketViewException;
  */
 public class SocketAdapterTest
 {
-    private transient PerclipseViewSkeletonSimulator skeletonSimulator = null;
+    // private transient PerclipseViewSkeletonSimulator skeletonSimulator = null;
+    private transient IUpdater iUpdaterMock = null;
 
     /**
      * Simple setUp
@@ -49,11 +57,12 @@ public class SocketAdapterTest
      * @throws java.lang.Exception
      */
     @Before
-    public void setUp() throws Exception
+/*    public void setUp() throws Exception
     {
         skeletonSimulator = new PerclipseViewSkeletonSimulator(6777);
         skeletonSimulator.start();
-    }
+
+    }*/
 
     /**
      * Test method for
@@ -68,25 +77,36 @@ public class SocketAdapterTest
             ClassNotFoundException, InstantiationException,
             IllegalAccessException
     {
-        IUpdater update = new SocketViewProgressUpdater(null, 6777);
-        SocketAdapter myInstance = new SocketAdapter(update, "org.perfidix.example.Config",
+        // IUpdater update = new SocketViewProgressUpdater(null, 6777);
+        iUpdaterMock = mock(IUpdater.class);
+        final String[] classes = { "org.perfidix.example.Config",
+                "org.perfidix.example.StackBenchmark",
+                "org.perfidix.socketadapter.BenchWithException" };
+        final Benchmark tmpBench = Perfidix.setUpBenchmark(classes,
+                new Benchmark(Perfidix.getConfiguration(classes)));
+        final Map<BenchmarkMethod, Integer> vals = tmpBench
+                .getNumberOfMethodsAndRuns();
+        when(iUpdaterMock.initProgressView(vals)).thenReturn(true);
+
+/*         SocketAdapter myInstance = new SocketAdapter(update,
+                 "org.perfidix.example.Config", "org.perfidix.example.StackBenchmark",
+                 "org.perfidix.socketadapter.BenchWithException");
+*/        SocketAdapter myInstance = new SocketAdapter(iUpdaterMock,
+                "org.perfidix.example.Config",
                 "org.perfidix.example.StackBenchmark",
                 "org.perfidix.socketadapter.BenchWithException");
 
-        myInstance.registerClasses("org.perfidix.example.Config",
-                "org.perfidix.example.StackBenchmark",
-                "org.perfidix.socketadapter.BenchWithException");
-        myInstance.runBenchmark();
-        assertNotNull("Dummy", skeletonSimulator);
-        Thread.sleep(10);
-        assertEquals(
-                "Test if benchcounts are right",
-                100,
-                skeletonSimulator
-                        .getElements()
-                        .get("org.perfidix.example.StackBenchmark.benchNormalIntPush")
-                        .getCurrentRun());
-        Thread.sleep(10);
+        assertTrue(myInstance.registerClasses(classes));
+        assertTrue(myInstance.runBenchmark());
+        // myInstance.runBenchmark();
+        // assertNotNull("Dummy", skeletonSimulator);
+        /*
+         * assertEquals( "Test if benchcounts are right", 100, skeletonSimulator
+         * .getElements()
+         * .get("org.perfidix.example.StackBenchmark.benchNormalIntPush")
+         * .getCurrentRun());
+         */
+        // Thread.sleep(10);
     }
 
 }

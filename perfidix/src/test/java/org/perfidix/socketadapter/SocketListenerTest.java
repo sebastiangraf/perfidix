@@ -26,7 +26,8 @@
  */
 package org.perfidix.socketadapter;
 
-import static org.junit.Assert.assertEquals;
+//import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertNotNull;
 
 import java.io.IOException;
@@ -42,16 +43,21 @@ import org.perfidix.exceptions.SocketViewException;
 import org.perfidix.meter.Time;
 import org.perfidix.meter.TimeMeter;
 
+import static org.mockito.Mockito.mock;
+
 /**
- * This class tests the java class {@link org.perfidix.socketadapter.SocketListener}.
+ * This class tests the java class
+ * {@link org.perfidix.socketadapter.SocketListener}.
  * 
  * @author Lewandowski Lukas, DiSy, University of Konstanz
  */
-public class SocketListenerTest {
+public class SocketListenerTest
+{
     private transient SocketListener socketListener;
-    private transient SocketViewProgressUpdater viewUpdater;
-    private transient boolean socketFinished;
-    private transient PerclipseViewSkeletonSimulator skeletonSimulator;
+    // private transient SocketViewProgressUpdater viewUpdater;
+    // private transient boolean socketFinished;
+    // private transient PerclipseViewSkeletonSimulator skeletonSimulator;
+    private transient IUpdater iUpdaterMock = mock(IUpdater.class);
 
     /**
      * Simple setUp
@@ -59,15 +65,16 @@ public class SocketListenerTest {
      * @throws java.lang.Exception
      */
     @Before
-    public void setUp() throws Exception {
-        socketFinished = false;
-        final int port = 8989;
-        skeletonSimulator = new PerclipseViewSkeletonSimulator(port);
-        skeletonSimulator.start();
-        Thread.sleep(10);
-        viewUpdater = new SocketViewProgressUpdater(null, port);
-        socketListener = new SocketListener(viewUpdater);
-    }
+    public void setUp() throws Exception
+    {
+        /*
+         * socketFinished = false; final int port = 8989; skeletonSimulator =
+         * new PerclipseViewSkeletonSimulator(port); 
+         * skeletonSimulator.start();
+         * Thread.sleep(10); viewUpdater = new SocketViewProgressUpdater(null,
+         *     port); 
+         * socketListener = new SocketListener(viewUpdater); 
+         */}
 
     /**
      * Simple tearDown
@@ -77,19 +84,22 @@ public class SocketListenerTest {
      * 
      */
     @After
-    public void tearDown() throws SocketViewException, InterruptedException {
-        if (!socketFinished) {
-            viewUpdater.finished();
-            Thread.sleep(10);
-        }
-    }
+    public void tearDown() throws SocketViewException, InterruptedException
+    {
+        /*
+         * if (!socketFinished) { viewUpdater.finished(); Thread.sleep(10);
+         * viewUpdater.finished(); }
+         */}
 
     /**
      * Test method for
-     * {@link org.perfidix.socketadapter.SocketListener#visitBenchmark(org.perfidix.result.BenchmarkResult)} .
+     * {@link org.perfidix.socketadapter.SocketListener#visitBenchmark(org.perfidix.result.BenchmarkResult)}
+     * .
      */
     @Test(expected = UnsupportedOperationException.class)
-    public void testVisitBenchmark() {
+    public void testVisitBenchmark()
+    {
+        socketListener = new SocketListener(iUpdaterMock);
         socketListener.visitBenchmark(null);
     }
 
@@ -102,19 +112,26 @@ public class SocketListenerTest {
      *             Thread sleep exception.
      */
     @Test
-    public void testListenToResultSet() throws InterruptedException {
+    public void testListenToResultSet() throws InterruptedException
+    {
+        SocketListener myInstance = new SocketListener(iUpdaterMock);
         final Method[] methods = BenchWithException.class.getMethods();
         BenchmarkMethod method1 = null;
-        for (Method method : methods) {
-            if (method.getName().equals("benchMe")) {
+        for (Method method : methods)
+        {
+            if (method.getName().equals("benchMe"))
+            {
                 method1 = new BenchmarkMethod(method);
             }
         }
-        socketListener.listenToResultSet(method1.getMethodToBench(), new TimeMeter(Time.MilliSeconds), 0);
-        Thread.sleep(10);
-        assertEquals("Tests if the sent item has been received",
-            "org.perfidix.socketadapter.BenchWithException.benchMe", skeletonSimulator
-                .getReceivedStringObject());
+        assertTrue(myInstance.listenToResultSet(method1.getMethodToBench(),
+                new TimeMeter(Time.MilliSeconds), 0));
+        /*
+         * Thread.sleep(10);
+         * assertEquals("Tests if the sent item has been received",
+         * "org.perfidix.socketadapter.BenchWithException.benchMe",
+         * skeletonSimulator.getReceivedStringObject());
+         */
     }
 
     /**
@@ -126,30 +143,29 @@ public class SocketListenerTest {
      *             Thread exception occurred.
      */
     @Test
-    public void testListenToException() throws InterruptedException {
+    public void testListenToException() throws InterruptedException
+    {
+        SocketListener myInstance = new SocketListener(iUpdaterMock);
+        ;
         final Method[] methods = BenchWithException.class.getMethods();
         BenchmarkMethod method1 = null;
-        for (Method method : methods) {
-            if (method.getName().equals("benchMe")) {
+        for (Method method : methods)
+        {
+            if (method.getName().equals("benchMe"))
+            {
                 method1 = new BenchmarkMethod(method);
             }
         }
-        socketListener.listenToException(new PerfidixMethodCheckException(new IOException(), method1
-            .getMethodToBench(), Bench.class));
-        Thread.sleep(10);
-        assertNotNull("Checks if sent error method name has been received", skeletonSimulator
-            .getReceivedStringObject());
-        assertNotNull("Checks if the sent exception occurred has been reveived", skeletonSimulator
-            .getErrorStringObject());
+        assertTrue(myInstance.listenToException(new PerfidixMethodCheckException(
+                        new IOException(), method1.getMethodToBench(),
+                        Bench.class)));
+        /*
+         * Thread.sleep(10);
+         * assertNotNull("Checks if sent error method name has been received",
+         * skeletonSimulator.getReceivedStringObject()); assertNotNull(
+         * "Checks if the sent exception occurred has been reveived",
+         * skeletonSimulator.getErrorStringObject());
+         */
     }
 
-    /**
-     * Test method for
-     * {@link org.perfidix.socketadapter.SocketListener#SocketListener(org.perfidix.socketadapter.SocketViewProgressUpdater)}
-     * .
-     */
-    @Test
-    public void testSocketListener() {
-        assertNotNull("Test object if it is null", socketListener);
-    }
 }

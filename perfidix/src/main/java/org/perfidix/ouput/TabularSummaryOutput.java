@@ -170,7 +170,7 @@ public final class TabularSummaryOutput extends AbstractOutput {
      * {@inheritDoc}
      */
     @Override
-    public void listenToResultSet(
+    public boolean listenToResultSet(
             final Method meth, final AbstractMeter meter, final double data) {
         final StringBuilder builder = new StringBuilder();
         builder.append("Class: ").append(
@@ -179,11 +179,12 @@ public final class TabularSummaryOutput extends AbstractOutput {
         builder.append("\nMeter: ").append(meter.getName());
         builder.append("\nData: ").append(data).append("\n");
         out.println(builder.toString());
+        return true;
     }
 
     /** {@inheritDoc} */
     @Override
-    public void listenToException(final AbstractPerfidixMethodException exec) {
+    public boolean listenToException(final AbstractPerfidixMethodException exec) {
         final StringBuilder builder = new StringBuilder();
         if (exec.getMethod() != null) {
             builder
@@ -201,6 +202,7 @@ public final class TabularSummaryOutput extends AbstractOutput {
                         exec.getExec().toString());
         out.println(builder.toString());
         exec.getExec().printStackTrace(out);
+        return true;
 
     }
 

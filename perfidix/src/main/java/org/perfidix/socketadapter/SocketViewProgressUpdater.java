@@ -42,7 +42,8 @@ import org.perfidix.meter.AbstractMeter;
  * 
  * @author Lewandowski Lukas, University of Konstanz
  */
-public final class SocketViewProgressUpdater implements IUpdater {
+public final class SocketViewProgressUpdater implements IUpdater
+{
 
     private final transient SocketViewStub viewStub;
     private transient int meterHash = 0;
@@ -59,9 +60,11 @@ public final class SocketViewProgressUpdater implements IUpdater {
      * @throws SocketViewException
      */
     public SocketViewProgressUpdater(final String host, final int port)
-            throws SocketViewException {
+            throws SocketViewException
+    {
         String strubParam = host;
-        if (host == null || host.equals("")) {
+        if (host == null || host.equals(""))
+        {
             strubParam = "localhost";
         }
         viewStub = new SocketViewStub(strubParam, port);
@@ -76,21 +79,24 @@ public final class SocketViewProgressUpdater implements IUpdater {
      *            a mapping with all methods to benchmark and the related runs
      * @throws SocketViewException
      */
-    public void initProgressView(final Map<BenchmarkMethod, Integer> mapping)
-            throws SocketViewException {
-        if (mapping != null) {
+    public boolean initProgressView(final Map<BenchmarkMethod, Integer> mapping)
+            throws SocketViewException
+    {
+        if (mapping != null)
+        {
             final Set<BenchmarkMethod> methodSet = mapping.keySet();
 
-            final Map<String, Integer> finalMap =
-                    new HashMap<String, Integer>();
-            for (BenchmarkMethod benchmarkMethod : methodSet) {
+            final Map<String, Integer> finalMap = new HashMap<String, Integer>();
+            for (BenchmarkMethod benchmarkMethod : methodSet)
+            {
 
-                finalMap.put(benchmarkMethod.getMethodWithClassName(), mapping
-                        .get(benchmarkMethod));
+                finalMap.put(benchmarkMethod.getMethodWithClassName(),
+                        mapping.get(benchmarkMethod));
             }
 
             viewStub.initTotalBenchProgress(finalMap);
         }
+        return true;
     }
 
     /**
@@ -103,15 +109,18 @@ public final class SocketViewProgressUpdater implements IUpdater {
      *            benched and which is fully qualified.
      * @throws SocketViewException
      */
-    public void updateCurrentElement(
-            final AbstractMeter meter, final String name)
-            throws SocketViewException {
-        if (meter != null && !regMeterHash) {
+    public boolean updateCurrentElement(final AbstractMeter meter,
+            final String name) throws SocketViewException
+    {
+        if (meter != null && !regMeterHash)
+        {
             registerFirstMeterHash(meter);
         }
-        if (name != null && meter.hashCode() == (getRegMeter())) {
+        if (name != null && meter.hashCode() == (getRegMeter()))
+        {
             viewStub.updateCurrentRun(name);
         }
+        return true;
     }
 
     /**
@@ -125,23 +134,25 @@ public final class SocketViewProgressUpdater implements IUpdater {
      *            The exception caused by the element.
      * @throws SocketViewException
      */
-    public void updateErrorInElement(
-            final String name, final Exception exception)
-            throws SocketViewException {
-        if (name != null && exception != null) {
-            if (exception instanceof AbstractPerfidixMethodException) {
-                final AbstractPerfidixMethodException exc =
-                        (AbstractPerfidixMethodException) exception;
-                viewStub.updateError(name, exc
-                        .getExec().getClass().getSimpleName());
+    public boolean updateErrorInElement(final String name,
+            final Exception exception) throws SocketViewException
+    {
+        if (name != null && exception != null)
+        {
+            if (exception instanceof AbstractPerfidixMethodException)
+            {
+                final AbstractPerfidixMethodException exc = (AbstractPerfidixMethodException) exception;
+                viewStub.updateError(name, exc.getExec().getClass()
+                        .getSimpleName());
             }
-            if (exception instanceof SocketViewException) {
-                final SocketViewException viewException =
-                        (SocketViewException) exception;
-                viewStub.updateError(name, viewException
-                        .getExc().getClass().getSimpleName());
+            if (exception instanceof SocketViewException)
+            {
+                final SocketViewException viewException = (SocketViewException) exception;
+                viewStub.updateError(name, viewException.getExc().getClass()
+                        .getSimpleName());
             }
         }
+        return true;
     }
 
     /**
@@ -150,7 +161,8 @@ public final class SocketViewProgressUpdater implements IUpdater {
      * 
      * @throws SocketViewException
      */
-    public void finished() throws SocketViewException {
+    public void finished() throws SocketViewException
+    {
         viewStub.finishedBenchRuns();
         regMeterHash = false;
     }
@@ -162,7 +174,8 @@ public final class SocketViewProgressUpdater implements IUpdater {
      * @param meterHash
      *            The hash of the meter.
      */
-    private void registerFirstMeterHash(final AbstractMeter meterHash) {
+    private void registerFirstMeterHash(final AbstractMeter meterHash)
+    {
         this.meterHash = meterHash.hashCode();
         regMeterHash = true;
     }
@@ -172,7 +185,8 @@ public final class SocketViewProgressUpdater implements IUpdater {
      * 
      * @return The meter hash of the registered hash;
      */
-    private int getRegMeter() {
+    private int getRegMeter()
+    {
         return meterHash;
     }
 

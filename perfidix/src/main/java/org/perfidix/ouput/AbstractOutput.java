@@ -71,7 +71,7 @@ public abstract class AbstractOutput {
      * @param data
      *            the related data
      */
-    public abstract void listenToResultSet(
+    public abstract boolean listenToResultSet(
             final Method meth, final AbstractMeter meter, final double data);
 
     /**
@@ -80,7 +80,7 @@ public abstract class AbstractOutput {
      * @param exec
      *            an {@link AbstractPerfidixMethodException} instance
      */
-    public abstract void listenToException(
+    public abstract boolean listenToException(
             final AbstractPerfidixMethodException exec);
 
     /**

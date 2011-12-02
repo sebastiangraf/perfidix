@@ -51,7 +51,7 @@ public interface IUpdater {
      *            a mapping with all methods to benchmark and the related runs
      * @throws SocketViewException
      */
-    public void initProgressView(final Map<BenchmarkMethod, Integer> mapping) throws SocketViewException;
+    public boolean initProgressView(final Map<BenchmarkMethod, Integer> mapping) throws SocketViewException;
 
     /**
      * This method notifies the eclipse view which element is currently benched.
@@ -63,7 +63,7 @@ public interface IUpdater {
      *            benched and which is fully qualified.
      * @throws SocketViewException
      */
-    public void updateCurrentElement(final AbstractMeter meter, final String name) throws SocketViewException;
+    public boolean updateCurrentElement(final AbstractMeter meter, final String name) throws SocketViewException;
 
     /**
      * This method informs the view that an error occurred while benching the
@@ -76,7 +76,7 @@ public interface IUpdater {
      *            The exception caused by the element.
      * @throws SocketViewException
      */
-    public void updateErrorInElement(final String name, final Exception exception) throws SocketViewException;
+    public boolean updateErrorInElement(final String name, final Exception exception) throws SocketViewException;
 
     /**
      * This method notifies the view that all benches have been executed and the
