@@ -1,18 +1,18 @@
 /**
  * Copyright (c) 2011, University of Konstanz, Distributed Systems Group
  * All rights reserved.
- *
+ * 
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- *     * Redistributions of source code must retain the above copyright
- *       notice, this list of conditions and the following disclaimer.
- *     * Redistributions in binary form must reproduce the above copyright
- *       notice, this list of conditions and the following disclaimer in the
- *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the University of Konstanz nor the
- *       names of its contributors may be used to endorse or promote products
- *       derived from this software without specific prior written permission.
- *
+ * * Redistributions of source code must retain the above copyright
+ * notice, this list of conditions and the following disclaimer.
+ * * Redistributions in binary form must reproduce the above copyright
+ * notice, this list of conditions and the following disclaimer in the
+ * documentation and/or other materials provided with the distribution.
+ * * Neither the name of the University of Konstanz nor the
+ * names of its contributors may be used to endorse or promote products
+ * derived from this software without specific prior written permission.
+ * 
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
  * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -39,8 +39,7 @@ import org.perfidix.result.BenchmarkResult;
  * 
  * @author Sebastian Graf, University of Konstanz
  */
-public final class SocketListener extends AbstractOutput
-{
+public final class SocketListener extends AbstractOutput {
 
     /**
      * Instance to the perclipse view.
@@ -53,25 +52,20 @@ public final class SocketListener extends AbstractOutput
      * @param paramView
      *            connection to the perclipse view
      */
-    public SocketListener(final IUpdater paramView)
-    {
+    public SocketListener(final IUpdater paramView) {
         super();
         view = paramView;
     }
 
     /** {@inheritDoc} */
     @Override
-    public boolean listenToException(final AbstractPerfidixMethodException exec)
-    {
-        try
-        {
-            view.updateErrorInElement((exec.getMethod().getDeclaringClass()
-                    .getName()
-                    + "." + exec.getMethod().getName()), exec);
+    public boolean listenToException(final AbstractPerfidixMethodException exec) {
+        try {
+            // TODO nicht einfach return true zurückgeben sondern den Rückgabewert der Methode
+            view.updateErrorInElement((exec.getMethod().getDeclaringClass().getName() + "." + exec
+                .getMethod().getName()), exec);
             return true;
-        }
-        catch (final SocketViewException e)
-        {
+        } catch (final SocketViewException e) {
             throw new IllegalStateException(e);
         }
 
@@ -79,25 +73,19 @@ public final class SocketListener extends AbstractOutput
 
     /** {@inheritDoc} */
     @Override
-    public boolean listenToResultSet(final Method meth, final AbstractMeter meter,
-            final double data)
-    {
-        try
-        {
-            view.updateCurrentElement(meter, (meth.getDeclaringClass()
-                    .getName() + "." + meth.getName()));
+    public boolean listenToResultSet(final Method meth, final AbstractMeter meter, final double data) {
+        // TODO nicht einfach return true zurückgeben sondern den Rückgabewert der Methode
+        try {
+            view.updateCurrentElement(meter, (meth.getDeclaringClass().getName() + "." + meth.getName()));
             return true;
-        }
-        catch (final SocketViewException e)
-        {
+        } catch (final SocketViewException e) {
             throw new IllegalStateException(e);
         }
     }
 
     /** {@inheritDoc} */
     @Override
-    public void visitBenchmark(final BenchmarkResult res)
-    {
+    public void visitBenchmark(final BenchmarkResult res) {
         throw new UnsupportedOperationException("Operation is not permitted!");
     }
 
