@@ -32,9 +32,5 @@
 ###FIFTH STEP, PUSHING DATA TO GITHUB
 set +e
 #pushing back to github
-<<<<<<< HEAD
-git push master origin
-=======
 git push
->>>>>>> master
 exit 0
