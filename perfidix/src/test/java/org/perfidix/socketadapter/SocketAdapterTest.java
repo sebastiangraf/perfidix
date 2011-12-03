@@ -80,7 +80,7 @@ public class SocketAdapterTest
         // IUpdater update = new SocketViewProgressUpdater(null, 6777);
         iUpdaterMock = mock(IUpdater.class);
         final String[] classes = { "org.perfidix.example.Config",
-                "org.perfidix.example.StackBenchmark",
+                "org.perfidix.example.stack.StackBenchmark",
                 "org.perfidix.socketadapter.BenchWithException" };
         final Benchmark tmpBench = Perfidix.setUpBenchmark(classes,
                 new Benchmark(Perfidix.getConfiguration(classes)));
@@ -93,7 +93,7 @@ public class SocketAdapterTest
                  "org.perfidix.socketadapter.BenchWithException");
 */        SocketAdapter myInstance = new SocketAdapter(iUpdaterMock,
                 "org.perfidix.example.Config",
-                "org.perfidix.example.StackBenchmark",
+                "org.perfidix.example.stack.StackBenchmark",
                 "org.perfidix.socketadapter.BenchWithException");
 
         assertTrue(myInstance.registerClasses(classes));
