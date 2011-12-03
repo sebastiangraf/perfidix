@@ -24,7 +24,7 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package org.perfidix.example;
+package org.perfidix.example.stack;
 
 import java.util.Random;
 import java.util.Stack;
@@ -32,6 +32,7 @@ import java.util.Stack;
 import org.perfidix.Benchmark;
 import org.perfidix.annotation.BeforeBenchClass;
 import org.perfidix.annotation.Bench;
+import org.perfidix.example.Config;
 import org.perfidix.ouput.TabularSummaryOutput;
 import org.perfidix.result.BenchmarkResult;
 
