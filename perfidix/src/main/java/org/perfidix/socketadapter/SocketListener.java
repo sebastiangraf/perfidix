@@ -61,7 +61,7 @@ public final class SocketListener extends AbstractOutput {
     @Override
     public boolean listenToException(final AbstractPerfidixMethodException exec) {
         try {
-            // TODO nicht einfach return true zurückgeben sondern den Rückgabewert der Methode
+            // [SG] nicht einfach return true zurückgeben sondern den Rückgabewert der Methode
             view.updateErrorInElement((exec.getMethod().getDeclaringClass().getName() + "." + exec
                 .getMethod().getName()), exec);
             return true;
