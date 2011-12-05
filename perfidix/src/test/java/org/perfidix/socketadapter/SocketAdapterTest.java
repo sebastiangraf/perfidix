@@ -26,8 +26,6 @@
  */
 package org.perfidix.socketadapter;
 
-//import static org.junit.Assert.assertEquals;
-//import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.*;
 
@@ -72,7 +70,7 @@ public class SocketAdapterTest
                 .getNumberOfMethodsAndRuns();
         when(iUpdaterMock.initProgressView(vals)).thenReturn(true);
 
-          SocketAdapter myInstance = new SocketAdapter(iUpdaterMock,
+        SocketAdapter myInstance = new SocketAdapter(iUpdaterMock,
                 "org.perfidix.example.Config",
                 "org.perfidix.example.stack.StackBenchmark",
                 "org.perfidix.socketadapter.BenchWithException");

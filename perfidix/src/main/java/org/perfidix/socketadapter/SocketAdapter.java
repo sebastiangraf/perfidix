@@ -116,7 +116,6 @@ public final class SocketAdapter
      */
     public boolean runBenchmark() throws SocketViewException
     {
-        // final BenchmarkResult res = benchmark.run(new SocketListener(view));
         final BenchmarkResult res = benchmark.run();
         new TabularSummaryOutput().visitBenchmark(res);
         view.finished();
