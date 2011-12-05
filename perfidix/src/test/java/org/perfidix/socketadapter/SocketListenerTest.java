@@ -106,6 +106,7 @@ public class SocketListenerTest {
 	 */
 /*	@Test
 	public void testListenToException() throws InterruptedException {
+		SocketListener myInstance = new SocketListener(iUpdaterMock);
 		final Method[] methods = BenchWithException.class.getMethods();
 		BenchmarkMethod method1 = null;
 		for (Method method : methods) {
