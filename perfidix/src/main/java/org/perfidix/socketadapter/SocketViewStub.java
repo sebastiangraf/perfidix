@@ -136,12 +136,13 @@ public final class SocketViewStub implements IBenchRunSessionListener {
     }
 
     /** {@inheritDoc} */
-    public void finishedBenchRuns() throws SocketViewException {
+    public boolean finishedBenchRuns() throws SocketViewException {
         command = "finished";
         try {
             outputStream.writeObject(command);
             outputStream.close();
             socket.close();
+            return true;
         } catch (final IOException e) {
             throw new SocketViewException(e);
         }
