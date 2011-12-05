@@ -101,13 +101,11 @@ public final class SocketAdapter
 
             final Map<BenchmarkMethod, Integer> vals = benchmark
                     .getNumberOfMethodsAndRuns();
-            view.initProgressView(vals);
-            return true;
+            return view.initProgressView(vals);
         }
         catch (final ClassNotFoundException e2)
         {
-            view.updateErrorInElement(e2.toString(), e2);
-            return false;
+            return view.updateErrorInElement(e2.toString(), e2);
         }
     }
 

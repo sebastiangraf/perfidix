@@ -84,6 +84,6 @@ public interface IBenchRunSessionListener {
      * @throws SocketViewException
      *             if finish-update fails
      */
-    void finishedBenchRuns() throws SocketViewException;
+    boolean finishedBenchRuns() throws SocketViewException;
 
 }
