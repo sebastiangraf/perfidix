@@ -46,81 +46,81 @@ import org.perfidix.meter.TimeMeter;
  * @author Lewandowski Lukas, DiSy, University of Konstanz
  */
 
-public class SocketListenerTest {
+public class SocketListenerTest
+{
 
-	private transient SocketListener socketListener;
+    private transient SocketListener socketListener;
 
-	/**
-	 * Simple setUp
-	 * 
-	 * @throws java.lang.Exception
-	 */
-	@Before
-	public void setUp() throws Exception {
-		socketListener = new SocketListener(mock(IUpdater.class));
-	}
+    /**
+     * Simple setUp
+     * 
+     * @throws java.lang.Exception
+     */
+    @Before
+    public void setUp() throws Exception
+    {
+        socketListener = new SocketListener(mock(IUpdater.class));
+    }
 
-	/**
-	 * Test method for
-	 * {@link org.perfidix.socketadapter.SocketListener#visitBenchmark(org.perfidix.result.BenchmarkResult)}
-	 * .
-	 */
-	@Test(expected = UnsupportedOperationException.class)
-	public void testVisitBenchmark() {
-		socketListener = new SocketListener(mock(IUpdater.class));
-		socketListener.visitBenchmark(null);
-	}
+    /**
+     * Test method for
+     * {@link org.perfidix.socketadapter.SocketListener#visitBenchmark(org.perfidix.result.BenchmarkResult)}
+     * .
+     */
+    @Test(expected = UnsupportedOperationException.class)
+    public void testVisitBenchmark()
+    {
+        socketListener = new SocketListener(mock(IUpdater.class));
+        socketListener.visitBenchmark(null);
+    }
 
-	/**
-	 * Test method for
-	 * {@link org.perfidix.socketadapter.SocketListener#listenToResultSet(java.lang.reflect.Method, org.perfidix.meter.AbstractMeter, double)}
-	 * .
-	 * 
-	 * @throws InterruptedException
-	 *             Thread sleep exception.
-	 */
-/*	@Test
-	public void testListenToResultSet() throws InterruptedException {
-		final Method[] methods = BenchWithException.class.getMethods();
-		BenchmarkMethod method1 = null;
-		for (Method method : methods) {
-			if (method.getName().equals("benchMe")) {
-				method1 = new BenchmarkMethod(method);
-			}
-		}
-		when(
-				socketListener.listenToResultSet(method1.getMethodToBench(),
-						new TimeMeter(Time.MilliSeconds), 0) == true).thenReturn(true);
-		SocketListener myInstance = socketListener;
-		assertTrue(myInstance.listenToResultSet(method1.getMethodToBench(),
-				new TimeMeter(Time.MilliSeconds), 0));
-	}
+    /**
+     * Test method for
+     * {@link org.perfidix.socketadapter.SocketListener#listenToResultSet(java.lang.reflect.Method, org.perfidix.meter.AbstractMeter, double)}
+     * .
+     * 
+     * @throws InterruptedException
+     *             Thread sleep exception.
+     */
+    /*
+     * @Test public void testListenToResultSet() throws InterruptedException {
+     * final Method[] methods = BenchWithException.class.getMethods();
+     * BenchmarkMethod method1 = null; for (Method method : methods) { if
+     * (method.getName().equals("benchMe")) { method1 = new
+     * BenchmarkMethod(method); } } when(
+     * socketListener.listenToResultSet(method1.getMethodToBench(), new
+     * TimeMeter(Time.MilliSeconds), 0) == true).thenReturn(true);
+     * SocketListener myInstance = socketListener;
+     * assertTrue(myInstance.listenToResultSet(method1.getMethodToBench(), new
+     * TimeMeter(Time.MilliSeconds), 0)); }
+     * 
+     * /** Test method for {@link
+     * org.perfidix.socketadapter.SocketListener#listenToException
+     * (org.perfidix.exceptions.AbstractPerfidixMethodException)} .
+     * 
+     * @throws InterruptedException Thread exception occurred.
+     */
+/*    @Test
+    public void testListenToException() throws InterruptedException
+    {
+        final Method[] methods = BenchWithException.class.getMethods();
+        BenchmarkMethod method1 = null;
+        for (Method method : methods)
+        {
+            if (method.getName().equals("benchMe"))
+            {
+                method1 = new BenchmarkMethod(method);
+            }
+        }
+        SocketListener myInstance = new SocketListener(iUpdaterMock);
 
-	/**
-	 * Test method for
-	 * {@link org.perfidix.socketadapter.SocketListener#listenToException(org.perfidix.exceptions.AbstractPerfidixMethodException)}
-	 * .
-	 * 
-	 * @throws InterruptedException
-	 *             Thread exception occurred.
-	 */
-/*	@Test
-	public void testListenToException() throws InterruptedException {
-		SocketListener myInstance = new SocketListener(iUpdaterMock);
-		final Method[] methods = BenchWithException.class.getMethods();
-		BenchmarkMethod method1 = null;
-		for (Method method : methods) {
-			if (method.getName().equals("benchMe")) {
-				method1 = new BenchmarkMethod(method);
-			}
-		}
-  SocketListener myInstance = socketListener;
-
-//Nach der Anpassung der Methode "listenToResultSet()" ist das Assert fehlerhaft. Ich vermute, ich muss noch eine When-Anweisung vor der Instanziierung machen. Woraus baue ich die aber?
- 		assertTrue(myInstance
-				.listenToException(new PerfidixMethodCheckException(
-						new IOException(), method1.getMethodToBench(),
-						Bench.class)));
-	}*/
-
+        // Nach der Anpassung der Methode "listenToResultSet()" ist das Assert
+        // fehlerhaft. Ich vermute, ich muss noch eine When-Anweisung vor der
+        // Instanziierung machen. Woraus baue ich die aber?
+        assertTrue(myInstance
+                .listenToException(new PerfidixMethodCheckException(
+                        new IOException(), method1.getMethodToBench(),
+                        Bench.class)));
+    }
+*/
 }
