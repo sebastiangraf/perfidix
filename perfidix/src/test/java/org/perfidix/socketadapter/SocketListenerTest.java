@@ -82,19 +82,23 @@ public class SocketListenerTest
      * @throws InterruptedException
      *             Thread sleep exception.
      */
-    /*
-     * @Test public void testListenToResultSet() throws InterruptedException {
-     * final Method[] methods = BenchWithException.class.getMethods();
-     * BenchmarkMethod method1 = null; for (Method method : methods) { if
-     * (method.getName().equals("benchMe")) { method1 = new
-     * BenchmarkMethod(method); } } when(
-     * socketListener.listenToResultSet(method1.getMethodToBench(), new
-     * TimeMeter(Time.MilliSeconds), 0) == true).thenReturn(true);
-     * SocketListener myInstance = socketListener;
-     * assertTrue(myInstance.listenToResultSet(method1.getMethodToBench(), new
-     * TimeMeter(Time.MilliSeconds), 0)); }
-     * 
-     * /** Test method for {@link
+/*     @Test 
+     public void testListenToResultSet() throws InterruptedException {
+     final Method[] methods = BenchWithException.class.getMethods();
+     BenchmarkMethod method1 = null; 
+     for (Method method : methods) { 
+         if(method.getName().equals("benchMe")) { 
+             method1 = new BenchmarkMethod(method); 
+             } 
+         } 
+     when(socketListener.listenToResultSet(method1.getMethodToBench(), new
+             TimeMeter(Time.MilliSeconds), 0) == true).thenReturn(true);
+     SocketListener myInstance = new SocketListener(mock(IUpdater.class));
+     assertTrue(myInstance.listenToResultSet(method1.getMethodToBench(), new
+             TimeMeter(Time.MilliSeconds), 0)); 
+     }*/
+ 
+     /** Test method for {@link
      * org.perfidix.socketadapter.SocketListener#listenToException
      * (org.perfidix.exceptions.AbstractPerfidixMethodException)} .
      * 
