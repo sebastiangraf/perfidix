@@ -61,9 +61,8 @@ public final class SocketListener extends AbstractOutput {
     @Override
     public boolean listenToException(final AbstractPerfidixMethodException exec) {
         try {
-            view.updateErrorInElement((exec.getMethod().getDeclaringClass().getName() + "." + exec
+            return view.updateErrorInElement((exec.getMethod().getDeclaringClass().getName() + "." + exec
                 .getMethod().getName()), exec);
-            return true;
         } catch (final SocketViewException e) {
             throw new IllegalStateException(e);
         }
