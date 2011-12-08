@@ -40,7 +40,7 @@
       <item name="Usage" href="usage.html"/>
       <item name="Examples" href="examples.html"/>
       <item name="Tutorial" href="tutorial.html"/>
-      <item name="Github Site" href="https://github.com/sebastiangraf/perfidix"/>
+      <item name="Github Site" href="https://github.com/disy/perfidix"/>
     </menu>
     <menu ref="reports"/>
   </body>
