@@ -34,16 +34,12 @@
     <href>http://www.perfidix.org</href>
   </bannerLeft>
   <body>
-	<links>
-		<item name="Github Sources" href="https://github.com/disy/perfidix" target="_blank"/>
-	</links>
     <menu name="Information">
       <item name="Overview" href="index.html"/>
       <item name="Screenshots" href="screenshots.html"/>
       <item name="Usage" href="usage.html"/>
       <item name="Examples" href="examples.html"/>
       <item name="Tutorial" href="tutorial.html"/>
-	  <item name="Github Sources" href="https://github.com/disy/perfidix" target="_blank"/>
     </menu>
     <menu ref="reports"/>
   </body>
