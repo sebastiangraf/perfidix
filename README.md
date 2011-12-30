@@ -33,6 +33,12 @@ Within the invocation of these methods, flexible measurements are performed.
 		<enabled>true</enabled>
 	</snapshots>
 </repository>
+
+<dependency>
+	<groupId>perfidix</groupId>
+	<artifactId>perfidix</artifactId>
+	<version>3.6.3</version>
+</dependency>
 ```
 2. Annotate your methods to bench with "@Bench". Note that these methods have to have the following layout: "public (final) void method()" 
 3. Create a new "Benchmark" object and add the class with the annotated methods to it.
