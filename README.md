@@ -9,7 +9,6 @@ Within the invocation of these methods, flexible measurements are performed.
 -------
 
 1. Download the latest .jar from github and Insert the jar into your classpath OR insert the disy-repo in your pom.xml
-
 ```xml
 <repository>
 	<id>disyInternal</id>
