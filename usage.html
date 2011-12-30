@@ -4,44 +4,84 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title></title>
-    <style type="text/css" media="all">
-      @import url("./css/maven-base.css");
-      @import url("./css/maven-theme.css");
-      @import url("./css/site.css");
-    </style>
-    <link rel="stylesheet" href="./css/print.css" type="text/css" media="print" />
+    <link rel="stylesheet" href="./css/apache-maven-fluido.min.css" />
+    <link rel="stylesheet" href="./css/site.css" />
+    <link rel="stylesheet" href="./css/print.css" media="print" />
+        <style>body{padding-top: 60px;}</style>
+    
+    <script type="text/javascript" src="./js/apache-maven-fluido.min.js"></script>
+
+    
     <meta name="Date-Revision-yyyymmdd" content="20111230" />
     <meta http-equiv="Content-Language" content="en" />
-        
+    
         </head>
-  <body class="composite">
-    <div id="banner">
-                        <a href="http://www.perfidix.org" id="bannerLeft">
-                                                <img src="images/logo.png" alt="Perfidix" />
+  <body>
+                
+                    
+        <div id="topbar" class="topbar" data-dropdown="dropdown">
+      <div class="topbar-inner">
+                <div class="container-fluid">
+                
+                    
+          <ul>
+                        <li class="dropdown" data-dropdown="dropdown" >
+        <a href="#" class="dropdown-toggle">Information</a>
+        <ul class="dropdown-menu">
+                      <li>      <a href="index.html"  title="Overview">Overview</a>
+</li>
+                      <li>      <a href="screenshots.html"  title="Screenshots">Screenshots</a>
+</li>
+                      <li>      <a href="usage.html"  title="Usage">Usage</a>
+</li>
+                      <li>      <a href="examples.html"  title="Examples">Examples</a>
+</li>
+                      <li>      <a href="tutorial.html"  title="Tutorial">Tutorial</a>
+</li>
+                      <li>      <a href=".."  title="Github Site">Github Site</a>
+</li>
+                  </ul>
+      </li>
+                <li class="dropdown" data-dropdown="dropdown" >
+        <a href="#" class="dropdown-toggle">Project Documentation</a>
+        <ul class="dropdown-menu">
+                      <li>      <a href="project-info.html"  title="Project Information">Project Information</a>
+</li>
+                      <li>      <a href="project-reports.html"  title="Project Reports">Project Reports</a>
+</li>
+                  </ul>
+      </li>
+                </ul>
+                            </div>
+      </div>
+    </div>
+    
+        <div class="container-fluid">
+                <div id="banner">
+        <div class="pull-left">                  <a href="http://www.perfidix.org" id="bannerLeft">
+                                                <img src="images/logo.png" alt="Perfidix"/>
                 </a>
-                    <div class="clear">
-        <hr/>
       </div>
-    </div>
-    <div id="breadcrumbs">
-            
-        
-                <div class="xleft">
-        <span id="publishDate">Last Published: 2011-12-30</span>
-                  &nbsp;| <span id="projectVersion">Version: 3.6.4-SNAPSHOT</span>
-                      </div>
-            <div class="xright">        
-        
+        <div class="pull-right">  </div>
+        <div class="clear"><hr/></div>
       </div>
-      <div class="clear">
-        <hr/>
-      </div>
-    </div>
-    <div id="leftColumn">
-      <div id="navcolumn">
-             
+      
+      <div id="breadcrumbs">
+        <ul class="breadcrumb">
+                
         
-                                <h5>Information</h5>
+                  <li id="publishDate">Last Published: 2011-12-30</li>
+                  <li class="divider">|</li> <li id="projectVersion">Version: 3.6.4-SNAPSHOT</li>
+                                      
+        
+              </ul>
+      </div>
+
+            <div id="leftColumn" class="sidebar">
+        <div class="well">
+                
+        
+                                   <h5>Information</h5>
                   <ul>
                   <li class="none">
                           <a href="index.html" title="Overview">Overview</a>
@@ -71,31 +111,35 @@
                           <a href="project-reports.html" title="Project Reports">Project Reports</a>
                   </li>
           </ul>
-                             <a href="http://maven.apache.org/" title="Built by Maven" class="poweredBy">
+                      
+        
+      
+          
+          <div id="poweredBy">
+                            <a href="http://maven.apache.org/" title="Built by Maven" class="poweredBy">
         <img class="poweredBy" alt="Built by Maven" src="./images/logos/maven-feather.png" />
       </a>
-                   
-        
-            </div>
-    </div>
-    <div id="bodyColumn">
-      <div id="contentBox">
-        <div class="section"><h2>Description<a name="Description"></a></h2><p>Using Perfidix is quite straight-forward and even easier if you are familiar with Unit-Testing like JUnit. The aim of Perfidix is to reduce any generation of benchmarking code but to utilize existing testing-code:<br />What is more convenient than to use Unit-tests?</p></div><div class="section"><h2>Annotations<a name="Annotations"></a></h2><p>Perfidix relies on the following two components:</p><ul><li>The execution framework (either our Eclipse Plugin Perclipse) or a container class</li><li>Annotations for methods and classes to be benchmarked<p>While the first component relies on classes, the second component consists out of Annotations applicable on all methods which are parameter-free and void. Similar to JUnit, setup and teardown methods can be applied to the benchmarks even though Perfidix offers finer granularity of those utility methods.</p><p>The annotations including suitable parameters are as follows:</p></li></ul><div class="section"><h3>@BenchClass<a name="aBenchClass"></a></h3><ul><li>Has to be placed before the class declaraion</li><li>Each void-method without parameters and any bench annotation is benched</li></ul><div class="section"><h4>@BenchClass(runs=)<a name="aBenchClassruns"></a></h4><ul><li>Sets the number of runs for all benchs</li><li>Can be overridden by the Bench-annotation with own run-parameter</li></ul></div></div><div class="section"><h3>@BeforeFirstBenchRun<a name="aBeforeFirstBenchRun"></a></h3><ul><li>Executed before every bench-method and after the BeforeBenchClass-annotated method</li><li>Executed for all bench-methods but just once for all runs</li></ul></div><div class="section"><h3>@BeforeEachBenchRun<a name="aBeforeEachBenchRun"></a></h3><ul><li>Executed before every bench-method and after the BeforeFirstBenchRun-annotated method</li><li>Executed for all bench-methods before every run</li></ul></div><div class="section"><h3>@Bench<a name="aBench"></a></h3><ul><li>Annotates the method to bench</li></ul><div class="section"><h4>@Bench(beforeFirstBenchRun=)<a name="aBenchbeforeFirstBenchRun"></a></h4><ul><li>Specific setUp-method for this bench for settings before the bench</li><li>is executed once for this bench</li></ul></div><div class="section"><h4>@Bench(beforeEachBenchRun=)<a name="aBenchbeforeEachBenchRun"></a></h4><ul><li>Specific setUp-method for this bench for settings before the bench</li><li>is executed for every run for this bench</li></ul></div><div class="section"><h4>@Bench(afterEachBenchRun=)<a name="aBenchafterEachBenchRun"></a></h4><ul><li>Specific tearDown-method for this bench after the bench</li><li>is executed after every run for this bench</li></ul></div><div class="section"><h4>@Bench(afterLastBenchRun=)<a name="aBenchafterLastBenchRun"></a></h4><ul><li>Specific tearDown-method for this bench after the bench</li><li>is executed after the last run of this bench</li></ul></div><div class="section"><h4>@Bench(runs=)<a name="aBenchruns"></a></h4><ul><li>Sets the number of runs for this method.</li><li>Overrides the default value and a possible setting from a BenchClass annotation of the corresponding class.</li></ul></div></div><div class="section"><h3>@AfterEachBenchRun<a name="aAfterEachBenchRun"></a></h3><ul><li>Executed after every bench-method</li><li>Executed for all bench-methods after every run</li></ul></div><div class="section"><h3>@AfterLastBenchMethod<a name="aAfterLastBenchMethod"></a></h3><ul><li>Executed after every bench-method and after the AfterEachBenchRun-annotated method</li><li>Executed for all bench-methods after the last run</li></ul></div><div class="section"><h3>@AfterBenchClass<a name="aAfterBenchClass"></a></h3><ul><li>Executed after the last bench-method and after the AfterLastBenchRun-annotated method</li><li>Executed once per class</li></ul></div><div class="section"><h3>@SkipBench<a name="aSkipBench"></a></h3><ul><li>Will be ignored by perfidix except the method is invoked as a specfic setUp-/tearDown method</li><li>Useful in combination with the BenchClass annotation and a specific setUp-/tearDown method of one bench.</li></ul></div></div><div class="section"><h2>Execution<a name="Execution"></a></h2><p>The methods, marked by the defined annotations, need to be executed by a suitable framework aware of the meters to benchmark on the one hand plus the outputs to be generated on the other hand. The execution takes place either by a provided Eclipse-Plugin or by a suitable Benchmarking-Object executable as normal Java-program.</p><div class="section"><h3>Perclipse Framework<a name="Perclipse_Framework"></a></h3><p>blubb</p></div><div class="section"><h3>Benchmarking-Class<a name="Benchmarking-Class"></a></h3><p>bla</p></div></div>
+                </div>
+        </div>
+      </div>
+      
+      <div id="bodyColumn" class="content">
+        <div id="contentBox">
+                              
+          <div class="section"><h2>Description<a name="Description"></a></h2><p>Using Perfidix is quite straight-forward and even easier if you are familiar with Unit-Testing like JUnit. The aim of Perfidix is to reduce any generation of benchmarking code but to utilize existing testing-code:<br />What is more convenient than to use Unit-tests?</p></div><div class="section"><h2>Annotations<a name="Annotations"></a></h2><p>Perfidix relies on the following two components:</p><ul><li>The execution framework (either our Eclipse Plugin Perclipse) or a container class</li><li>Annotations for methods and classes to be benchmarked<p>While the first component relies on classes, the second component consists out of Annotations applicable on all methods which are parameter-free and void. Similar to JUnit, setup and teardown methods can be applied to the benchmarks even though Perfidix offers finer granularity of those utility methods.</p><p>The annotations including suitable parameters are as follows:</p></li></ul><div class="section"><h3>@BenchClass<a name="aBenchClass"></a></h3><ul><li>Has to be placed before the class declaraion</li><li>Each void-method without parameters and any bench annotation is benched</li></ul><div class="section"><h4>@BenchClass(runs=)<a name="aBenchClassruns"></a></h4><ul><li>Sets the number of runs for all benchs</li><li>Can be overridden by the Bench-annotation with own run-parameter</li></ul></div></div><div class="section"><h3>@BeforeFirstBenchRun<a name="aBeforeFirstBenchRun"></a></h3><ul><li>Executed before every bench-method and after the BeforeBenchClass-annotated method</li><li>Executed for all bench-methods but just once for all runs</li></ul></div><div class="section"><h3>@BeforeEachBenchRun<a name="aBeforeEachBenchRun"></a></h3><ul><li>Executed before every bench-method and after the BeforeFirstBenchRun-annotated method</li><li>Executed for all bench-methods before every run</li></ul></div><div class="section"><h3>@Bench<a name="aBench"></a></h3><ul><li>Annotates the method to bench</li></ul><div class="section"><h4>@Bench(beforeFirstBenchRun=)<a name="aBenchbeforeFirstBenchRun"></a></h4><ul><li>Specific setUp-method for this bench for settings before the bench</li><li>is executed once for this bench</li></ul></div><div class="section"><h4>@Bench(beforeEachBenchRun=)<a name="aBenchbeforeEachBenchRun"></a></h4><ul><li>Specific setUp-method for this bench for settings before the bench</li><li>is executed for every run for this bench</li></ul></div><div class="section"><h4>@Bench(afterEachBenchRun=)<a name="aBenchafterEachBenchRun"></a></h4><ul><li>Specific tearDown-method for this bench after the bench</li><li>is executed after every run for this bench</li></ul></div><div class="section"><h4>@Bench(afterLastBenchRun=)<a name="aBenchafterLastBenchRun"></a></h4><ul><li>Specific tearDown-method for this bench after the bench</li><li>is executed after the last run of this bench</li></ul></div><div class="section"><h4>@Bench(runs=)<a name="aBenchruns"></a></h4><ul><li>Sets the number of runs for this method.</li><li>Overrides the default value and a possible setting from a BenchClass annotation of the corresponding class.</li></ul></div></div><div class="section"><h3>@AfterEachBenchRun<a name="aAfterEachBenchRun"></a></h3><ul><li>Executed after every bench-method</li><li>Executed for all bench-methods after every run</li></ul></div><div class="section"><h3>@AfterLastBenchMethod<a name="aAfterLastBenchMethod"></a></h3><ul><li>Executed after every bench-method and after the AfterEachBenchRun-annotated method</li><li>Executed for all bench-methods after the last run</li></ul></div><div class="section"><h3>@AfterBenchClass<a name="aAfterBenchClass"></a></h3><ul><li>Executed after the last bench-method and after the AfterLastBenchRun-annotated method</li><li>Executed once per class</li></ul></div><div class="section"><h3>@SkipBench<a name="aSkipBench"></a></h3><ul><li>Will be ignored by perfidix except the method is invoked as a specfic setUp-/tearDown method</li><li>Useful in combination with the BenchClass annotation and a specific setUp-/tearDown method of one bench.</li></ul></div></div><div class="section"><h2>Execution<a name="Execution"></a></h2><p>The methods, marked by the defined annotations, need to be executed by a suitable framework aware of the meters to benchmark on the one hand plus the outputs to be generated on the other hand. The execution takes place either by a provided Eclipse-Plugin or by a suitable Benchmarking-Object executable as normal Java-program.</p><div class="section"><h3>Perclipse Framework<a name="Perclipse_Framework"></a></h3><p>blubb</p></div><div class="section"><h3>Benchmarking-Class<a name="Benchmarking-Class"></a></h3><p>bla</p></div></div>
+                  </div>
       </div>
     </div>
-    <div class="clear">
-      <hr/>
-    </div>
-    <div id="footer">
-      <div class="xright">
-              Copyright &#169;                    2011
+
+    <footer class="footer">
+            <div class="container-fluid">
+              <div class="row span16">Copyright &copy;                    2011
                         <a href="http://www.informatik.uni-konstanz.de/arbeitsgruppen/disy/">University of Konstanz, Distributed System Group</a>.
             All Rights Reserved.      
         
-                  </div>
-      <div class="clear">
-        <hr/>
       </div>
-    </div>
+
+                      </div>
+    </footer>
   </body>
 </html>

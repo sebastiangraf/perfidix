@@ -4,44 +4,84 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title></title>
-    <style type="text/css" media="all">
-      @import url("./css/maven-base.css");
-      @import url("./css/maven-theme.css");
-      @import url("./css/site.css");
-    </style>
-    <link rel="stylesheet" href="./css/print.css" type="text/css" media="print" />
+    <link rel="stylesheet" href="./css/apache-maven-fluido.min.css" />
+    <link rel="stylesheet" href="./css/site.css" />
+    <link rel="stylesheet" href="./css/print.css" media="print" />
+        <style>body{padding-top: 60px;}</style>
+    
+    <script type="text/javascript" src="./js/apache-maven-fluido.min.js"></script>
+
+    
     <meta name="Date-Revision-yyyymmdd" content="20111230" />
     <meta http-equiv="Content-Language" content="en" />
-        
+    
         </head>
-  <body class="composite">
-    <div id="banner">
-                        <a href="http://www.perfidix.org" id="bannerLeft">
-                                                <img src="images/logo.png" alt="Perfidix" />
+  <body>
+                
+                    
+        <div id="topbar" class="topbar" data-dropdown="dropdown">
+      <div class="topbar-inner">
+                <div class="container-fluid">
+                
+                    
+          <ul>
+                        <li class="dropdown" data-dropdown="dropdown" >
+        <a href="#" class="dropdown-toggle">Information</a>
+        <ul class="dropdown-menu">
+                      <li>      <a href="index.html"  title="Overview">Overview</a>
+</li>
+                      <li>      <a href="screenshots.html"  title="Screenshots">Screenshots</a>
+</li>
+                      <li>      <a href="usage.html"  title="Usage">Usage</a>
+</li>
+                      <li>      <a href="examples.html"  title="Examples">Examples</a>
+</li>
+                      <li>      <a href="tutorial.html"  title="Tutorial">Tutorial</a>
+</li>
+                      <li>      <a href=".."  title="Github Site">Github Site</a>
+</li>
+                  </ul>
+      </li>
+                <li class="dropdown" data-dropdown="dropdown" >
+        <a href="#" class="dropdown-toggle">Project Documentation</a>
+        <ul class="dropdown-menu">
+                      <li>      <a href="project-info.html"  title="Project Information">Project Information</a>
+</li>
+                      <li>      <a href="project-reports.html"  title="Project Reports">Project Reports</a>
+</li>
+                  </ul>
+      </li>
+                </ul>
+                            </div>
+      </div>
+    </div>
+    
+        <div class="container-fluid">
+                <div id="banner">
+        <div class="pull-left">                  <a href="http://www.perfidix.org" id="bannerLeft">
+                                                <img src="images/logo.png" alt="Perfidix"/>
                 </a>
-                    <div class="clear">
-        <hr/>
       </div>
-    </div>
-    <div id="breadcrumbs">
-            
-        
-                <div class="xleft">
-        <span id="publishDate">Last Published: 2011-12-30</span>
-                  &nbsp;| <span id="projectVersion">Version: 3.6.4-SNAPSHOT</span>
-                      </div>
-            <div class="xright">        
-        
+        <div class="pull-right">  </div>
+        <div class="clear"><hr/></div>
       </div>
-      <div class="clear">
-        <hr/>
-      </div>
-    </div>
-    <div id="leftColumn">
-      <div id="navcolumn">
-             
+      
+      <div id="breadcrumbs">
+        <ul class="breadcrumb">
+                
         
-                                <h5>Information</h5>
+                  <li id="publishDate">Last Published: 2011-12-30</li>
+                  <li class="divider">|</li> <li id="projectVersion">Version: 3.6.4-SNAPSHOT</li>
+                                      
+        
+              </ul>
+      </div>
+
+            <div id="leftColumn" class="sidebar">
+        <div class="well">
+                
+        
+                                   <h5>Information</h5>
                   <ul>
                   <li class="none">
             <strong>Overview</strong>
@@ -112,31 +152,35 @@
                           <a href="project-reports.html" title="Project Reports">Project Reports</a>
                   </li>
           </ul>
-                             <a href="http://maven.apache.org/" title="Built by Maven" class="poweredBy">
+                      
+        
+      
+          
+          <div id="poweredBy">
+                            <a href="http://maven.apache.org/" title="Built by Maven" class="poweredBy">
         <img class="poweredBy" alt="Built by Maven" src="./images/logos/maven-feather.png" />
       </a>
-                   
-        
-            </div>
-    </div>
-    <div id="bodyColumn">
-      <div id="contentBox">
-        <!--  --><!-- Copyright (c) 2011, University of Konstanz, Distributed Systems Group --><!-- All rights reserved. --><!--  --><!-- Redistribution and use in source and binary forms, with or without --><!-- modification, are permitted provided that the following conditions are met: --><!-- * Redistributions of source code must retain the above copyright --><!-- notice, this list of conditions and the following disclaimer. --><!-- * Redistributions in binary form must reproduce the above copyright --><!-- notice, this list of conditions and the following disclaimer in the --><!-- documentation and/or other materials provided with the distribution. --><!-- * Neither the name of the University of Konstanz nor the --><!-- names of its contributors may be used to endorse or promote products --><!-- derived from this software without specific prior written permission. --><!--  --><!-- THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND --><!-- ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED --><!-- WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE --><!-- DISCLAIMED. IN NO EVENT SHALL <COPYRIGHT HOLDER> BE LIABLE FOR ANY --><!-- DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES --><!-- (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; --><!-- LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND --><!-- ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT --><!-- (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS --><!-- SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. --><!--  --><div class="section"><h2>Information <a name="Information"></a></h2><p>Perfidix is a tool for developers to conveniently and consistently benchmark Java code. It can quickly answer which implementation is faster. Without the need to launch a full-fledged profiling application or rewrite the same Java code to measure the execution time again and again.</p><p>Even though Perfidix is simple to use, it still provides a sound statistical output for taking a decision.</p></div><div class="section"><h2>JUnit like handling<a name="JUnit_like_handling"></a></h2><p>Perfidix is intentionally designed to be used like <a class="externalLink" href="http://www.junit.org/">JUnit 4.x</a>, i.e., it provides annotations to discover which methods should be benchmarked how many times. The eclipse plugin or custom code allows to run a package, class, or method as a Perfidix benchmark and to collect the execution time statistics for each method in the console as text or CVS output.</p><p>The output includes package, class, and method name together with the number of runs, min, max, average, standard deviation, and confidence intervals. The number of runs can individually be specified per package, class, or method. Besides this, the number of runs can be chosen by a probability distribution function to simulate typical workloads.</p></div><div class="section"><h2>Define your own meters<a name="Define_your_own_meters"></a></h2><p>Even though equipped with multiple meters to measure your source code (time, memory, threads), Perfidix offers the ability to inject own meters just by implement one single Interface. This enables Perfidix not only to act as a out-of-the-box usable tool, but also to be adapted to the specific program environment and therefore to any resulting problems. </p></div><div class="section"><h2>Do a quick benchmark, analyze later.<a name="Do_a_quick_benchmark_analyze_later."></a></h2><p>Convenient outputs ranging from common ascii-tables to plain csv-output offer not only a quick overlook about the benchmark but also in-depth analysis techniques with the help of any third-party program. Therefore, all benchmark results could easily be made persistent for later analysis and compilation into charts. </p></div><div class="section"><h2>Own needs, own requirements<a name="Own_needs_own_requirements"></a></h2><p>Perfidix was created at the <a class="externalLink" href="http://www.uni-konstanz.de/">University of Konstanz</a> at the <a class="externalLink" href="http://www.informatik.uni-konstanz.de/arbeitsgruppen/disy/">Distributed Systems Group</a> out of the necessity to provide an architecture for evaluating own implementations. </p><p>It greatly assisted the research by allowing for quick benchmarking of different algorithms and data structures. Although not directly mentioned, Perfidix represents the benchmarking framework for multiple thesis' within our working group and is maintained continuously since 2007.</p><p>Perfidix is hosted with <a class="externalLink" href="https://sourceforge.net/projects/perfidix/">Sourceforge</a> under the <a class="externalLink" href="http://www.opensource.org/licenses/BSD-3-Clause">BSD License</a>.</p></div>
+                </div>
+        </div>
+      </div>
+      
+      <div id="bodyColumn" class="content">
+        <div id="contentBox">
+                              
+          <!--  --><!-- Copyright (c) 2011, University of Konstanz, Distributed Systems Group --><!-- All rights reserved. --><!--  --><!-- Redistribution and use in source and binary forms, with or without --><!-- modification, are permitted provided that the following conditions are met: --><!-- * Redistributions of source code must retain the above copyright --><!-- notice, this list of conditions and the following disclaimer. --><!-- * Redistributions in binary form must reproduce the above copyright --><!-- notice, this list of conditions and the following disclaimer in the --><!-- documentation and/or other materials provided with the distribution. --><!-- * Neither the name of the University of Konstanz nor the --><!-- names of its contributors may be used to endorse or promote products --><!-- derived from this software without specific prior written permission. --><!--  --><!-- THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND --><!-- ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED --><!-- WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE --><!-- DISCLAIMED. IN NO EVENT SHALL <COPYRIGHT HOLDER> BE LIABLE FOR ANY --><!-- DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES --><!-- (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; --><!-- LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND --><!-- ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT --><!-- (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS --><!-- SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. --><!--  --><div class="section"><h2>Information <a name="Information"></a></h2><p>Perfidix is a tool for developers to conveniently and consistently benchmark Java code. It can quickly answer which implementation is faster. Without the need to launch a full-fledged profiling application or rewrite the same Java code to measure the execution time again and again.</p><p>Even though Perfidix is simple to use, it still provides a sound statistical output for taking a decision.</p></div><div class="section"><h2>JUnit like handling<a name="JUnit_like_handling"></a></h2><p>Perfidix is intentionally designed to be used like <a class="externalLink" href="http://www.junit.org/">JUnit 4.x</a>, i.e., it provides annotations to discover which methods should be benchmarked how many times. The eclipse plugin or custom code allows to run a package, class, or method as a Perfidix benchmark and to collect the execution time statistics for each method in the console as text or CVS output.</p><p>The output includes package, class, and method name together with the number of runs, min, max, average, standard deviation, and confidence intervals. The number of runs can individually be specified per package, class, or method. Besides this, the number of runs can be chosen by a probability distribution function to simulate typical workloads.</p></div><div class="section"><h2>Define your own meters<a name="Define_your_own_meters"></a></h2><p>Even though equipped with multiple meters to measure your source code (time, memory, threads), Perfidix offers the ability to inject own meters just by implement one single Interface. This enables Perfidix not only to act as a out-of-the-box usable tool, but also to be adapted to the specific program environment and therefore to any resulting problems. </p></div><div class="section"><h2>Do a quick benchmark, analyze later.<a name="Do_a_quick_benchmark_analyze_later."></a></h2><p>Convenient outputs ranging from common ascii-tables to plain csv-output offer not only a quick overlook about the benchmark but also in-depth analysis techniques with the help of any third-party program. Therefore, all benchmark results could easily be made persistent for later analysis and compilation into charts. </p></div><div class="section"><h2>Own needs, own requirements<a name="Own_needs_own_requirements"></a></h2><p>Perfidix was created at the <a class="externalLink" href="http://www.uni-konstanz.de/">University of Konstanz</a> at the <a class="externalLink" href="http://www.informatik.uni-konstanz.de/arbeitsgruppen/disy/">Distributed Systems Group</a> out of the necessity to provide an architecture for evaluating own implementations. </p><p>It greatly assisted the research by allowing for quick benchmarking of different algorithms and data structures. Although not directly mentioned, Perfidix represents the benchmarking framework for multiple thesis' within our working group and is maintained continuously since 2007.</p><p>Perfidix is hosted with <a class="externalLink" href="https://sourceforge.net/projects/perfidix/">Sourceforge</a> under the <a class="externalLink" href="http://www.opensource.org/licenses/BSD-3-Clause">BSD License</a>.</p></div>
+                  </div>
       </div>
     </div>
-    <div class="clear">
-      <hr/>
-    </div>
-    <div id="footer">
-      <div class="xright">
-              Copyright &#169;                    2011
+
+    <footer class="footer">
+            <div class="container-fluid">
+              <div class="row span16">Copyright &copy;                    2011
                         <a href="http://www.informatik.uni-konstanz.de/arbeitsgruppen/disy/">University of Konstanz, Distributed System Group</a>.
             All Rights Reserved.      
         
-                  </div>
-      <div class="clear">
-        <hr/>
       </div>
-    </div>
+
+                      </div>
+    </footer>
   </body>
 </html>

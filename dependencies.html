@@ -4,44 +4,84 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title>Project Dependencies</title>
-    <style type="text/css" media="all">
-      @import url("./css/maven-base.css");
-      @import url("./css/maven-theme.css");
-      @import url("./css/site.css");
-    </style>
-    <link rel="stylesheet" href="./css/print.css" type="text/css" media="print" />
+    <link rel="stylesheet" href="./css/apache-maven-fluido.min.css" />
+    <link rel="stylesheet" href="./css/site.css" />
+    <link rel="stylesheet" href="./css/print.css" media="print" />
+        <style>body{padding-top: 60px;}</style>
+    
+    <script type="text/javascript" src="./js/apache-maven-fluido.min.js"></script>
+
+    
     <meta name="Date-Revision-yyyymmdd" content="20111230" />
     <meta http-equiv="Content-Language" content="en" />
-        
+    
         </head>
-  <body class="composite">
-    <div id="banner">
-                        <a href="http://www.perfidix.org" id="bannerLeft">
-                                                <img src="images/logo.png" alt="Perfidix" />
+  <body>
+                
+                    
+        <div id="topbar" class="topbar" data-dropdown="dropdown">
+      <div class="topbar-inner">
+                <div class="container-fluid">
+                
+                    
+          <ul>
+                        <li class="dropdown" data-dropdown="dropdown" >
+        <a href="#" class="dropdown-toggle">Information</a>
+        <ul class="dropdown-menu">
+                      <li>      <a href="index.html"  title="Overview">Overview</a>
+</li>
+                      <li>      <a href="screenshots.html"  title="Screenshots">Screenshots</a>
+</li>
+                      <li>      <a href="usage.html"  title="Usage">Usage</a>
+</li>
+                      <li>      <a href="examples.html"  title="Examples">Examples</a>
+</li>
+                      <li>      <a href="tutorial.html"  title="Tutorial">Tutorial</a>
+</li>
+                      <li>      <a href=".."  title="Github Site">Github Site</a>
+</li>
+                  </ul>
+      </li>
+                <li class="dropdown" data-dropdown="dropdown" >
+        <a href="#" class="dropdown-toggle">Project Documentation</a>
+        <ul class="dropdown-menu">
+                      <li>      <a href="project-info.html"  title="Project Information">Project Information</a>
+</li>
+                      <li>      <a href="project-reports.html"  title="Project Reports">Project Reports</a>
+</li>
+                  </ul>
+      </li>
+                </ul>
+                            </div>
+      </div>
+    </div>
+    
+        <div class="container-fluid">
+                <div id="banner">
+        <div class="pull-left">                  <a href="http://www.perfidix.org" id="bannerLeft">
+                                                <img src="images/logo.png" alt="Perfidix"/>
                 </a>
-                    <div class="clear">
-        <hr/>
       </div>
-    </div>
-    <div id="breadcrumbs">
-            
-        
-                <div class="xleft">
-        <span id="publishDate">Last Published: 2011-12-30</span>
-                  &nbsp;| <span id="projectVersion">Version: 3.6.4-SNAPSHOT</span>
-                      </div>
-            <div class="xright">        
-        
+        <div class="pull-right">  </div>
+        <div class="clear"><hr/></div>
       </div>
-      <div class="clear">
-        <hr/>
-      </div>
-    </div>
-    <div id="leftColumn">
-      <div id="navcolumn">
-             
+      
+      <div id="breadcrumbs">
+        <ul class="breadcrumb">
+                
         
-                                <h5>Information</h5>
+                  <li id="publishDate">Last Published: 2011-12-30</li>
+                  <li class="divider">|</li> <li id="projectVersion">Version: 3.6.4-SNAPSHOT</li>
+                                      
+        
+              </ul>
+      </div>
+
+            <div id="leftColumn" class="sidebar">
+        <div class="well">
+                
+        
+                                   <h5>Information</h5>
                   <ul>
                   <li class="none">
                           <a href="index.html" title="Overview">Overview</a>
@@ -112,16 +152,22 @@
                           <a href="project-reports.html" title="Project Reports">Project Reports</a>
                   </li>
           </ul>
-                             <a href="http://maven.apache.org/" title="Built by Maven" class="poweredBy">
+                      
+        
+      
+          
+          <div id="poweredBy">
+                            <a href="http://maven.apache.org/" title="Built by Maven" class="poweredBy">
         <img class="poweredBy" alt="Built by Maven" src="./images/logos/maven-feather.png" />
       </a>
-                   
-        
-            </div>
-    </div>
-    <div id="bodyColumn">
-      <div id="contentBox">
-        <a name="Project_Dependencies"></a><div class="section"><h2>Project Dependencies<a name="Project_Dependencies"></a></h2><a name="Project_Dependencies_compile"></a><div class="section"><h3>compile<a name="compile"></a></h3><p>The following is a list of compile dependencies for this project. These dependencies are required to compile and run the application:</p><table border="0" class="bodyTable"><tr class="a"><th>GroupId</th><th>ArtifactId</th><th>Version</th><th>Type</th><th>License</th></tr><tr class="b"><td>commons-math</td><td><a class="externalLink" href="http://commons.apache.org/math/">commons-math</a></td><td>1.2</td><td>jar</td><td><a class="externalLink" href="http://www.apache.org/licenses/LICENSE-2.0.txt">The Apache Software License, Version 2.0</a></td></tr><tr class="a"><td>commons-primitives</td><td>commons-primitives</td><td>1.0</td><td>jar</td><td>-</td></tr></table></div><a name="Project_Dependencies_test"></a><div class="section"><h3>test<a name="test"></a></h3><p>The following is a list of test dependencies for this project. These dependencies are only required to compile and run unit tests for the application:</p><table border="0" class="bodyTable"><tr class="a"><th>GroupId</th><th>ArtifactId</th><th>Version</th><th>Type</th><th>License</th></tr><tr class="b"><td>junit</td><td><a class="externalLink" href="http://junit.org">junit</a></td><td>4.8.2</td><td>jar</td><td><a class="externalLink" href="http://www.opensource.org/licenses/cpl1.0.txt">Common Public License Version 1.0</a></td></tr><tr class="a"><td>org.mockito</td><td><a class="externalLink" href="http://www.mockito.org">mockito-core</a></td><td>1.9.0-rc1</td><td>jar</td><td><a class="externalLink" href="http://code.google.com/p/mockito/wiki/License">The MIT License</a></td></tr></table></div></div><a name="Project_Transitive_Dependencies"></a><div class="section"><h2>Project Transitive Dependencies<a name="Project_Transitive_Dependencies"></a></h2><p>The following is a list of transitive dependencies for this project. Transitive dependencies are the dependencies of the project dependencies.</p><a name="Project_Transitive_Dependencies_test"></a><div class="section"><h3>test<a name="test"></a></h3><p>The following is a list of test dependencies for this project. These dependencies are only required to compile and run unit tests for the application:</p><table border="0" class="bodyTable"><tr class="a"><th>GroupId</th><th>ArtifactId</th><th>Version</th><th>Type</th><th>License</th></tr><tr class="b"><td>org.hamcrest</td><td>hamcrest-core</td><td>1.1</td><td>jar</td><td><a class="externalLink" href="http://www.opensource.org/licenses/bsd-license.php">BSD style</a></td></tr><tr class="a"><td>org.objenesis</td><td><a class="externalLink" href="http://objenesis.googlecode.com/svn/docs/index.html">objenesis</a></td><td>1.0</td><td>jar</td><td><a class="externalLink" href="http://objenesis.googlecode.com/svn/docs/license.html">MIT License</a></td></tr></table></div></div><a name="Project_Dependency_Graph"></a><div class="section"><h2>Project Dependency Graph<a name="Project_Dependency_Graph"></a></h2><script language="javascript" type="text/javascript">
+                </div>
+        </div>
+      </div>
+      
+      <div id="bodyColumn" class="content">
+        <div id="contentBox">
+                              
+          <a name="Project_Dependencies"></a><div class="section"><h2>Project Dependencies<a name="Project_Dependencies"></a></h2><a name="Project_Dependencies_compile"></a><div class="section"><h3>compile<a name="compile"></a></h3><p>The following is a list of compile dependencies for this project. These dependencies are required to compile and run the application:</p><table border="0" class="zebra-striped"><tr class="a"><th>GroupId</th><th>ArtifactId</th><th>Version</th><th>Type</th><th>License</th></tr><tr class="b"><td>commons-math</td><td><a class="externalLink" href="http://commons.apache.org/math/">commons-math</a></td><td>1.2</td><td>jar</td><td><a class="externalLink" href="http://www.apache.org/licenses/LICENSE-2.0.txt">The Apache Software License, Version 2.0</a></td></tr><tr class="a"><td>commons-primitives</td><td>commons-primitives</td><td>1.0</td><td>jar</td><td>-</td></tr></table></div><a name="Project_Dependencies_test"></a><div class="section"><h3>test<a name="test"></a></h3><p>The following is a list of test dependencies for this project. These dependencies are only required to compile and run unit tests for the application:</p><table border="0" class="zebra-striped"><tr class="a"><th>GroupId</th><th>ArtifactId</th><th>Version</th><th>Type</th><th>License</th></tr><tr class="b"><td>junit</td><td><a class="externalLink" href="http://junit.org">junit</a></td><td>4.8.2</td><td>jar</td><td><a class="externalLink" href="http://www.opensource.org/licenses/cpl1.0.txt">Common Public License Version 1.0</a></td></tr><tr class="a"><td>org.mockito</td><td><a class="externalLink" href="http://www.mockito.org">mockito-core</a></td><td>1.9.0-rc1</td><td>jar</td><td><a class="externalLink" href="http://code.google.com/p/mockito/wiki/License">The MIT License</a></td></tr></table></div></div><a name="Project_Transitive_Dependencies"></a><div class="section"><h2>Project Transitive Dependencies<a name="Project_Transitive_Dependencies"></a></h2><p>The following is a list of transitive dependencies for this project. Transitive dependencies are the dependencies of the project dependencies.</p><a name="Project_Transitive_Dependencies_test"></a><div class="section"><h3>test<a name="test"></a></h3><p>The following is a list of test dependencies for this project. These dependencies are only required to compile and run unit tests for the application:</p><table border="0" class="zebra-striped"><tr class="a"><th>GroupId</th><th>ArtifactId</th><th>Version</th><th>Type</th><th>License</th></tr><tr class="b"><td>org.hamcrest</td><td>hamcrest-core</td><td>1.1</td><td>jar</td><td><a class="externalLink" href="http://www.opensource.org/licenses/bsd-license.php">BSD style</a></td></tr><tr class="a"><td>org.objenesis</td><td><a class="externalLink" href="http://objenesis.googlecode.com/svn/docs/index.html">objenesis</a></td><td>1.0</td><td>jar</td><td><a class="externalLink" href="http://objenesis.googlecode.com/svn/docs/license.html">MIT License</a></td></tr></table></div></div><a name="Project_Dependency_Graph"></a><div class="section"><h2>Project Dependency Graph<a name="Project_Dependency_Graph"></a></h2><script language="javascript" type="text/javascript">
       function toggleDependencyDetail( divId, imgId )
       {
         var div = document.getElementById( divId );
@@ -138,22 +184,20 @@
         }
       }
 </script>
-<a name="Dependency_Tree"></a><div class="section"><h3>Dependency Tree<a name="Dependency_Tree"></a></h3><ul><li>perfidix:perfidix:jar:3.6.4-SNAPSHOT <img id="_639511732" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_1333547059', '_639511732' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_1333547059" style="display:none"><table border="0" class="bodyTable"><tr class="a"><th>Perfidix Library</th></tr><tr class="b"><td><p><b>Description: </b>Perfidix comes as a light-weight Java Benchmarking Tool which allows to make simple measurements of source code without installing heavy profilers or using special IDEs. Perfidix comes as a simple jar which has to be included in the classpath. Methods which should be benched are annotated similar to JUnit testcases. With these simple modifications  fast evaluation and real-time measurements can be made with existing source code without adapting the program.</p><p><b>URL: </b><a class="externalLink" href="https://github.com/disy/perfidix/perfidix">https://github.com/disy/perfidix/perfidix</a></p><p><b>Project License: </b><a class="externalLink" href="http://www.opensource.org/licenses/BSD-3-Clause">New BSD</a></p></td></tr></table></div><ul><li>commons-primitives:commons-primitives:jar:1.0 (compile) <img id="_1709631848" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_717758315', '_1709631848' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_717758315" style="display:none"><table border="0" class="bodyTable"><tr class="a"><th>commons-primitives</th></tr><tr class="b"><td><p><b>Description: </b>There is currently no description associated with this project.</p><p><b>Project License: </b>No project license is defined for this project.</p></td></tr></table></div></li><li>junit:junit:jar:4.8.2 (test) <img id="_1258056233" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_586026930', '_1258056233' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_586026930" style="display:none"><table border="0" class="bodyTable"><tr class="a"><th>JUnit</th></tr><tr class="b"><td><p><b>Description: </b>JUnit is a regression testing framework. It is used by the developer who implements unit tests in Java.</p><p><b>URL: </b><a class="externalLink" href="http://junit.org">http://junit.org</a></p><p><b>Project License: </b><a class="externalLink" href="http://www.opensource.org/licenses/cpl1.0.txt">Common Public License Version 1.0</a></p></td></tr></table></div></li><li>commons-math:commons-math:jar:1.2 (compile) <img id="_1450554143" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_1584846546', '_1450554143' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_1584846546" style="display:none"><table border="0" class="bodyTable"><tr class="a"><th>Commons Math</th></tr><tr class="b"><td><p><b>Description: </b>The Math project is a library of lightweight, self-contained mathematics and statistics components addressing the most common practical problems not immediately available in the Java programming language or commons-lang.</p><p><b>URL: </b><a class="externalLink" href="http://commons.apache.org/math/">http://commons.apache.org/math/</a></p><p><b>Project License: </b><a class="externalLink" href="http://www.apache.org/licenses/LICENSE-2.0.txt">The Apache Software License, Version 2.0</a></p></td></tr></table></div></li><li>org.mockito:mockito-core:jar:1.9.0-rc1 (test) <img id="_1311045222" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_851838905', '_1311045222' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_851838905" style="display:none"><table border="0" class="bodyTable"><tr class="a"><th>Mockito</th></tr><tr class="b"><td><p><b>Description: </b>Mock objects library for java</p><p><b>URL: </b><a class="externalLink" href="http://www.mockito.org">http://www.mockito.org</a></p><p><b>Project License: </b><a class="externalLink" href="http://code.google.com/p/mockito/wiki/License">The MIT License</a></p></td></tr></table></div><ul><li>org.hamcrest:hamcrest-core:jar:1.1 (test) <img id="_1631768904" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_817042735', '_1631768904' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_817042735" style="display:none"><table border="0" class="bodyTable"><tr class="a"><th>Hamcrest Core</th></tr><tr class="b"><td><p><b>Description: </b>There is currently no description associated with this project.</p><p><b>Project License: </b><a class="externalLink" href="http://www.opensource.org/licenses/bsd-license.php">BSD style</a></p></td></tr></table></div></li><li>org.objenesis:objenesis:jar:1.0 (test) <img id="_1138878729" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_1518630996', '_1138878729' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_1518630996" style="display:none"><table border="0" class="bodyTable"><tr class="a"><th>Objenesis</th></tr><tr class="b"><td><p><b>Description: </b>A library for instantiating Java objects</p><p><b>URL: </b><a class="externalLink" href="http://objenesis.googlecode.com/svn/docs/index.html">http://objenesis.googlecode.com/svn/docs/index.html</a></p><p><b>Project License: </b><a class="externalLink" href="http://objenesis.googlecode.com/svn/docs/license.html">MIT License</a></p></td></tr></table></div></li></ul></li></ul></li></ul></div></div><a name="Licenses"></a><div class="section"><h2>Licenses<a name="Licenses"></a></h2><p><b>BSD style: </b>Hamcrest Core</p><p><b>Unknown: </b>commons-primitives</p><p><b>New BSD: </b>Perfidix Library</p><p><b>Common Public License Version 1.0: </b>JUnit</p><p><b>MIT License: </b>Objenesis</p><p><b>The Apache Software License, Version 2.0: </b>Commons Math</p><p><b>The MIT License: </b>Mockito</p></div><a name="Dependency_File_Details"></a><div class="section"><h2>Dependency File Details<a name="Dependency_File_Details"></a></h2><table border="0" class="bodyTable"><tr class="a"><th>Filename</th><th>Size</th><th>Entries</th><th>Classes</th><th>Packages</th><th>JDK Rev</th><th>Debug</th></tr><tr class="b"><td>commons-math-1.2.jar</td><td>330.55 kB</td><td>269</td><td>236</td><td>21</td><td>1.3</td><td>debug</td></tr><tr class="a"><td>commons-primitives-1.0.jar</td><td>254.07 kB</td><td>271</td><td>259</td><td>4</td><td>1.1</td><td>debug</td></tr><tr class="b"><td>junit-4.8.2.jar</td><td>231.78 kB</td><td>267</td><td>230</td><td>30</td><td>1.5</td><td>debug</td></tr><tr class="a"><td>hamcrest-core-1.1.jar</td><td>74.85 kB</td><td>54</td><td>21</td><td>3</td><td>1.5</td><td>debug</td></tr><tr class="b"><td>mockito-core-1.9.0-rc1.jar</td><td>1.35 MB</td><td>1,165</td><td>603</td><td>56</td><td>1.5</td><td>debug</td></tr><tr class="a"><td>objenesis-1.0.jar</td><td>27.90 kB</td><td>45</td><td>30</td><td>7</td><td>1.3</td><td>debug</td></tr><tr class="b"><th>Total</th><th>Size</th><th>Entries</th><th>Classes</th><th>Packages</th><th>JDK Rev</th><th>Debug</th></tr><tr class="a"><td>6</td><td>2.24 MB</td><td>2,071</td><td>1,379</td><td>121</td><td>1.5</td><td>6</td></tr><tr class="b"><td>compile: 2</td><td>compile: 584.63 kB</td><td>compile: 540</td><td>compile: 495</td><td>compile: 25</td><td>-</td><td>compile: 2</td></tr><tr class="a"><td>test: 4</td><td>test: 1.67 MB</td><td>test: 1,531</td><td>test: 884</td><td>test: 96</td><td>-</td><td>test: 4</td></tr></table></div><a name="Dependency_Repository_Locations"></a><div class="section"><h2>Dependency Repository Locations<a name="Dependency_Repository_Locations"></a></h2><table border="0" class="bodyTable"><tr class="a"><th>Repo ID</th><th>URL</th><th>Release</th><th>Snapshot</th></tr><tr class="b"><td>disyInternalSnapshot</td><td><a class="externalLink" href="http://mavenrepo.disy.inf.uni-konstanz.de/repository/disyInternalSnapshot">http://mavenrepo.disy.inf.uni-konstanz.de/repository/disyInternalSnapshot</a></td><td>Yes</td><td>Yes</td><td>-</td></tr><tr class="a"><td>apache.snapshots</td><td><a class="externalLink" href="http://people.apache.org/repo/m2-snapshot-repository">http://people.apache.org/repo/m2-snapshot-repository</a></td><td>-</td><td>Yes</td><td>-</td></tr><tr class="b"><td>central</td><td><a class="externalLink" href="http://repo1.maven.org/maven2">http://repo1.maven.org/maven2</a></td><td>Yes</td><td>-</td><td>-</td></tr><tr class="a"><td>disyInternal</td><td><a class="externalLink" href="http://mavenrepo.disy.inf.uni-konstanz.de/repository/disyInternal">http://mavenrepo.disy.inf.uni-konstanz.de/repository/disyInternal</a></td><td>Yes</td><td>-</td><td>-</td></tr></table><p>Repository locations for each of the Dependencies.</p><table border="0" class="bodyTable"><tr class="a"><th>Artifact</th><th>disyInternalSnapshot</th><th>apache.snapshots</th><th>central</th><th>disyInternal</th></tr><tr class="b"><td>commons-math:commons-math:jar:1.2</td><td>-</td><td>-</td><td><a class="externalLink" href="http://repo1.maven.org/maven2/commons-math/commons-math/1.2/commons-math-1.2.jar"><img alt="Found at http://repo1.maven.org/maven2" src="images/icon_success_sml.gif" /></a></td><td>-</td></tr><tr class="a"><td>commons-primitives:commons-primitives:jar:1.0</td><td>-</td><td>-</td><td><a class="externalLink" href="http://repo1.maven.org/maven2/commons-primitives/commons-primitives/1.0/commons-primitives-1.0.jar"><img alt="Found at http://repo1.maven.org/maven2" src="images/icon_success_sml.gif" /></a></td><td>-</td></tr><tr class="b"><td>junit:junit:jar:4.8.2</td><td>-</td><td>-</td><td><a class="externalLink" href="http://repo1.maven.org/maven2/junit/junit/4.8.2/junit-4.8.2.jar"><img alt="Found at http://repo1.maven.org/maven2" src="images/icon_success_sml.gif" /></a></td><td>-</td></tr><tr class="a"><td>org.hamcrest:hamcrest-core:jar:1.1</td><td>-</td><td>-</td><td><a class="externalLink" href="http://repo1.maven.org/maven2/org/hamcrest/hamcrest-core/1.1/hamcrest-core-1.1.jar"><img alt="Found at http://repo1.maven.org/maven2" src="images/icon_success_sml.gif" /></a></td><td>-</td></tr><tr class="b"><td>org.mockito:mockito-core:jar:1.9.0-rc1</td><td>-</td><td>-</td><td><a class="externalLink" href="http://repo1.maven.org/maven2/org/mockito/mockito-core/1.9.0-rc1/mockito-core-1.9.0-rc1.jar"><img alt="Found at http://repo1.maven.org/maven2" src="images/icon_success_sml.gif" /></a></td><td>-</td></tr><tr class="a"><td>org.objenesis:objenesis:jar:1.0</td><td>-</td><td>-</td><td><a class="externalLink" href="http://repo1.maven.org/maven2/org/objenesis/objenesis/1.0/objenesis-1.0.jar"><img alt="Found at http://repo1.maven.org/maven2" src="images/icon_success_sml.gif" /></a></td><td>-</td></tr><tr class="b"><th>Total</th><th>disyInternalSnapshot</th><th>apache.snapshots</th><th>central</th><th>disyInternal</th></tr><tr class="a"><td>6 (compile: 2, test: 4)</td><td>0</td><td>0</td><td>6</td><td>0</td></tr></table></div>
+<a name="Dependency_Tree"></a><div class="section"><h3>Dependency Tree<a name="Dependency_Tree"></a></h3><ul><li>perfidix:perfidix:jar:3.6.4-SNAPSHOT <img id="_1135501532" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_912702570', '_1135501532' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_912702570" style="display:none"><table border="0" class="zebra-striped"><tr class="a"><th>Perfidix Library</th></tr><tr class="b"><td><p><b>Description: </b>Perfidix comes as a light-weight Java Benchmarking Tool which allows to make simple measurements of source code without installing heavy profilers or using special IDEs. Perfidix comes as a simple jar which has to be included in the classpath. Methods which should be benched are annotated similar to JUnit testcases. With these simple modifications  fast evaluation and real-time measurements can be made with existing source code without adapting the program.</p><p><b>URL: </b><a class="externalLink" href="https://github.com/disy/perfidix/perfidix">https://github.com/disy/perfidix/perfidix</a></p><p><b>Project License: </b><a class="externalLink" href="http://www.opensource.org/licenses/BSD-3-Clause">New BSD</a></p></td></tr></table></div><ul><li>commons-primitives:commons-primitives:jar:1.0 (compile) <img id="_1022191008" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_430386567', '_1022191008' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_430386567" style="display:none"><table border="0" class="zebra-striped"><tr class="a"><th>commons-primitives</th></tr><tr class="b"><td><p><b>Description: </b>There is currently no description associated with this project.</p><p><b>Project License: </b>No project license is defined for this project.</p></td></tr></table></div></li><li>junit:junit:jar:4.8.2 (test) <img id="_1335162649" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_1050454985', '_1335162649' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_1050454985" style="display:none"><table border="0" class="zebra-striped"><tr class="a"><th>JUnit</th></tr><tr class="b"><td><p><b>Description: </b>JUnit is a regression testing framework. It is used by the developer who implements unit tests in Java.</p><p><b>URL: </b><a class="externalLink" href="http://junit.org">http://junit.org</a></p><p><b>Project License: </b><a class="externalLink" href="http://www.opensource.org/licenses/cpl1.0.txt">Common Public License Version 1.0</a></p></td></tr></table></div></li><li>commons-math:commons-math:jar:1.2 (compile) <img id="_343636454" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_628026981', '_343636454' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_628026981" style="display:none"><table border="0" class="zebra-striped"><tr class="a"><th>Commons Math</th></tr><tr class="b"><td><p><b>Description: </b>The Math project is a library of lightweight, self-contained mathematics and statistics components addressing the most common practical problems not immediately available in the Java programming language or commons-lang.</p><p><b>URL: </b><a class="externalLink" href="http://commons.apache.org/math/">http://commons.apache.org/math/</a></p><p><b>Project License: </b><a class="externalLink" href="http://www.apache.org/licenses/LICENSE-2.0.txt">The Apache Software License, Version 2.0</a></p></td></tr></table></div></li><li>org.mockito:mockito-core:jar:1.9.0-rc1 (test) <img id="_1683545182" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_1898620877', '_1683545182' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_1898620877" style="display:none"><table border="0" class="zebra-striped"><tr class="a"><th>Mockito</th></tr><tr class="b"><td><p><b>Description: </b>Mock objects library for java</p><p><b>URL: </b><a class="externalLink" href="http://www.mockito.org">http://www.mockito.org</a></p><p><b>Project License: </b><a class="externalLink" href="http://code.google.com/p/mockito/wiki/License">The MIT License</a></p></td></tr></table></div><ul><li>org.hamcrest:hamcrest-core:jar:1.1 (test) <img id="_1790601890" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_2063835418', '_1790601890' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_2063835418" style="display:none"><table border="0" class="zebra-striped"><tr class="a"><th>Hamcrest Core</th></tr><tr class="b"><td><p><b>Description: </b>There is currently no description associated with this project.</p><p><b>Project License: </b><a class="externalLink" href="http://www.opensource.org/licenses/bsd-license.php">BSD style</a></p></td></tr></table></div></li><li>org.objenesis:objenesis:jar:1.0 (test) <img id="_1093930016" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_360525250', '_1093930016' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_360525250" style="display:none"><table border="0" class="zebra-striped"><tr class="a"><th>Objenesis</th></tr><tr class="b"><td><p><b>Description: </b>A library for instantiating Java objects</p><p><b>URL: </b><a class="externalLink" href="http://objenesis.googlecode.com/svn/docs/index.html">http://objenesis.googlecode.com/svn/docs/index.html</a></p><p><b>Project License: </b><a class="externalLink" href="http://objenesis.googlecode.com/svn/docs/license.html">MIT License</a></p></td></tr></table></div></li></ul></li></ul></li></ul></div></div><a name="Licenses"></a><div class="section"><h2>Licenses<a name="Licenses"></a></h2><p><b>BSD style: </b>Hamcrest Core</p><p><b>Unknown: </b>commons-primitives</p><p><b>New BSD: </b>Perfidix Library</p><p><b>Common Public License Version 1.0: </b>JUnit</p><p><b>MIT License: </b>Objenesis</p><p><b>The Apache Software License, Version 2.0: </b>Commons Math</p><p><b>The MIT License: </b>Mockito</p></div><a name="Dependency_File_Details"></a><div class="section"><h2>Dependency File Details<a name="Dependency_File_Details"></a></h2><table border="0" class="zebra-striped"><tr class="a"><th>Filename</th><th>Size</th><th>Entries</th><th>Classes</th><th>Packages</th><th>JDK Rev</th><th>Debug</th></tr><tr class="b"><td>commons-math-1.2.jar</td><td>330.55 kB</td><td>269</td><td>236</td><td>21</td><td>1.3</td><td>debug</td></tr><tr class="a"><td>commons-primitives-1.0.jar</td><td>254.07 kB</td><td>271</td><td>259</td><td>4</td><td>1.1</td><td>debug</td></tr><tr class="b"><td>junit-4.8.2.jar</td><td>231.78 kB</td><td>267</td><td>230</td><td>30</td><td>1.5</td><td>debug</td></tr><tr class="a"><td>hamcrest-core-1.1.jar</td><td>74.85 kB</td><td>54</td><td>21</td><td>3</td><td>1.5</td><td>debug</td></tr><tr class="b"><td>mockito-core-1.9.0-rc1.jar</td><td>1.35 MB</td><td>1,165</td><td>603</td><td>56</td><td>1.5</td><td>debug</td></tr><tr class="a"><td>objenesis-1.0.jar</td><td>27.90 kB</td><td>45</td><td>30</td><td>7</td><td>1.3</td><td>debug</td></tr><tr class="b"><th>Total</th><th>Size</th><th>Entries</th><th>Classes</th><th>Packages</th><th>JDK Rev</th><th>Debug</th></tr><tr class="a"><td>6</td><td>2.24 MB</td><td>2,071</td><td>1,379</td><td>121</td><td>1.5</td><td>6</td></tr><tr class="b"><td>compile: 2</td><td>compile: 584.63 kB</td><td>compile: 540</td><td>compile: 495</td><td>compile: 25</td><td>-</td><td>compile: 2</td></tr><tr class="a"><td>test: 4</td><td>test: 1.67 MB</td><td>test: 1,531</td><td>test: 884</td><td>test: 96</td><td>-</td><td>test: 4</td></tr></table></div><a name="Dependency_Repository_Locations"></a><div class="section"><h2>Dependency Repository Locations<a name="Dependency_Repository_Locations"></a></h2><table border="0" class="zebra-striped"><tr class="a"><th>Repo ID</th><th>URL</th><th>Release</th><th>Snapshot</th></tr><tr class="b"><td>disyInternalSnapshot</td><td><a class="externalLink" href="http://mavenrepo.disy.inf.uni-konstanz.de/repository/disyInternalSnapshot">http://mavenrepo.disy.inf.uni-konstanz.de/repository/disyInternalSnapshot</a></td><td>Yes</td><td>Yes</td><td>-</td></tr><tr class="a"><td>apache.snapshots</td><td><a class="externalLink" href="http://people.apache.org/repo/m2-snapshot-repository">http://people.apache.org/repo/m2-snapshot-repository</a></td><td>-</td><td>Yes</td><td>-</td></tr><tr class="b"><td>central</td><td><a class="externalLink" href="http://repo1.maven.org/maven2">http://repo1.maven.org/maven2</a></td><td>Yes</td><td>-</td><td>-</td></tr><tr class="a"><td>disyInternal</td><td><a class="externalLink" href="http://mavenrepo.disy.inf.uni-konstanz.de/repository/disyInternal">http://mavenrepo.disy.inf.uni-konstanz.de/repository/disyInternal</a></td><td>Yes</td><td>-</td><td>-</td></tr></table><p>Repository locations for each of the Dependencies.</p><table border="0" class="zebra-striped"><tr class="a"><th>Artifact</th><th>disyInternalSnapshot</th><th>apache.snapshots</th><th>central</th><th>disyInternal</th></tr><tr class="b"><td>commons-math:commons-math:jar:1.2</td><td>-</td><td>-</td><td><a class="externalLink" href="http://repo1.maven.org/maven2/commons-math/commons-math/1.2/commons-math-1.2.jar"><img alt="Found at http://repo1.maven.org/maven2" src="images/icon_success_sml.gif" /></a></td><td>-</td></tr><tr class="a"><td>commons-primitives:commons-primitives:jar:1.0</td><td>-</td><td>-</td><td><a class="externalLink" href="http://repo1.maven.org/maven2/commons-primitives/commons-primitives/1.0/commons-primitives-1.0.jar"><img alt="Found at http://repo1.maven.org/maven2" src="images/icon_success_sml.gif" /></a></td><td>-</td></tr><tr class="b"><td>junit:junit:jar:4.8.2</td><td>-</td><td>-</td><td><a class="externalLink" href="http://repo1.maven.org/maven2/junit/junit/4.8.2/junit-4.8.2.jar"><img alt="Found at http://repo1.maven.org/maven2" src="images/icon_success_sml.gif" /></a></td><td>-</td></tr><tr class="a"><td>org.hamcrest:hamcrest-core:jar:1.1</td><td>-</td><td>-</td><td><a class="externalLink" href="http://repo1.maven.org/maven2/org/hamcrest/hamcrest-core/1.1/hamcrest-core-1.1.jar"><img alt="Found at http://repo1.maven.org/maven2" src="images/icon_success_sml.gif" /></a></td><td>-</td></tr><tr class="b"><td>org.mockito:mockito-core:jar:1.9.0-rc1</td><td>-</td><td>-</td><td><a class="externalLink" href="http://repo1.maven.org/maven2/org/mockito/mockito-core/1.9.0-rc1/mockito-core-1.9.0-rc1.jar"><img alt="Found at http://repo1.maven.org/maven2" src="images/icon_success_sml.gif" /></a></td><td>-</td></tr><tr class="a"><td>org.objenesis:objenesis:jar:1.0</td><td>-</td><td>-</td><td><a class="externalLink" href="http://repo1.maven.org/maven2/org/objenesis/objenesis/1.0/objenesis-1.0.jar"><img alt="Found at http://repo1.maven.org/maven2" src="images/icon_success_sml.gif" /></a></td><td>-</td></tr><tr class="b"><th>Total</th><th>disyInternalSnapshot</th><th>apache.snapshots</th><th>central</th><th>disyInternal</th></tr><tr class="a"><td>6 (compile: 2, test: 4)</td><td>0</td><td>0</td><td>6</td><td>0</td></tr></table></div>
+                  </div>
       </div>
     </div>
-    <div class="clear">
-      <hr/>
-    </div>
-    <div id="footer">
-      <div class="xright">
-              Copyright &#169;                    2011
+
+    <footer class="footer">
+            <div class="container-fluid">
+              <div class="row span16">Copyright &copy;                    2011
                         <a href="http://www.informatik.uni-konstanz.de/arbeitsgruppen/disy/">University of Konstanz, Distributed System Group</a>.
             All Rights Reserved.      
         
-                  </div>
-      <div class="clear">
-        <hr/>
       </div>
-    </div>
+
+                      </div>
+    </footer>
   </body>
 </html>

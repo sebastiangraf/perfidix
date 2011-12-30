@@ -4,44 +4,84 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title></title>
-    <style type="text/css" media="all">
-      @import url("./css/maven-base.css");
-      @import url("./css/maven-theme.css");
-      @import url("./css/site.css");
-    </style>
-    <link rel="stylesheet" href="./css/print.css" type="text/css" media="print" />
+    <link rel="stylesheet" href="./css/apache-maven-fluido.min.css" />
+    <link rel="stylesheet" href="./css/site.css" />
+    <link rel="stylesheet" href="./css/print.css" media="print" />
+        <style>body{padding-top: 60px;}</style>
+    
+    <script type="text/javascript" src="./js/apache-maven-fluido.min.js"></script>
+
+    
     <meta name="Date-Revision-yyyymmdd" content="20111230" />
     <meta http-equiv="Content-Language" content="en" />
-        
+    
         </head>
-  <body class="composite">
-    <div id="banner">
-                        <a href="http://www.perfidix.org" id="bannerLeft">
-                                                <img src="images/logo.png" alt="Perfidix" />
+  <body>
+                
+                    
+        <div id="topbar" class="topbar" data-dropdown="dropdown">
+      <div class="topbar-inner">
+                <div class="container-fluid">
+                
+                    
+          <ul>
+                        <li class="dropdown" data-dropdown="dropdown" >
+        <a href="#" class="dropdown-toggle">Information</a>
+        <ul class="dropdown-menu">
+                      <li>      <a href="index.html"  title="Overview">Overview</a>
+</li>
+                      <li>      <a href="screenshots.html"  title="Screenshots">Screenshots</a>
+</li>
+                      <li>      <a href="usage.html"  title="Usage">Usage</a>
+</li>
+                      <li>      <a href="examples.html"  title="Examples">Examples</a>
+</li>
+                      <li>      <a href="tutorial.html"  title="Tutorial">Tutorial</a>
+</li>
+                      <li>      <a href=".."  title="Github Site">Github Site</a>
+</li>
+                  </ul>
+      </li>
+                <li class="dropdown" data-dropdown="dropdown" >
+        <a href="#" class="dropdown-toggle">Project Documentation</a>
+        <ul class="dropdown-menu">
+                      <li>      <a href="project-info.html"  title="Project Information">Project Information</a>
+</li>
+                      <li>      <a href="project-reports.html"  title="Project Reports">Project Reports</a>
+</li>
+                  </ul>
+      </li>
+                </ul>
+                            </div>
+      </div>
+    </div>
+    
+        <div class="container-fluid">
+                <div id="banner">
+        <div class="pull-left">                  <a href="http://www.perfidix.org" id="bannerLeft">
+                                                <img src="images/logo.png" alt="Perfidix"/>
                 </a>
-                    <div class="clear">
-        <hr/>
       </div>
-    </div>
-    <div id="breadcrumbs">
-            
-        
-                <div class="xleft">
-        <span id="publishDate">Last Published: 2011-12-30</span>
-                  &nbsp;| <span id="projectVersion">Version: 3.6.4-SNAPSHOT</span>
-                      </div>
-            <div class="xright">        
-        
+        <div class="pull-right">  </div>
+        <div class="clear"><hr/></div>
       </div>
-      <div class="clear">
-        <hr/>
-      </div>
-    </div>
-    <div id="leftColumn">
-      <div id="navcolumn">
-             
+      
+      <div id="breadcrumbs">
+        <ul class="breadcrumb">
+                
         
-                                <h5>Information</h5>
+                  <li id="publishDate">Last Published: 2011-12-30</li>
+                  <li class="divider">|</li> <li id="projectVersion">Version: 3.6.4-SNAPSHOT</li>
+                                      
+        
+              </ul>
+      </div>
+
+            <div id="leftColumn" class="sidebar">
+        <div class="well">
+                
+        
+                                   <h5>Information</h5>
                   <ul>
                   <li class="none">
                           <a href="index.html" title="Overview">Overview</a>
@@ -71,16 +111,22 @@
                           <a href="project-reports.html" title="Project Reports">Project Reports</a>
                   </li>
           </ul>
-                             <a href="http://maven.apache.org/" title="Built by Maven" class="poweredBy">
+                      
+        
+      
+          
+          <div id="poweredBy">
+                            <a href="http://maven.apache.org/" title="Built by Maven" class="poweredBy">
         <img class="poweredBy" alt="Built by Maven" src="./images/logos/maven-feather.png" />
       </a>
-                   
-        
-            </div>
-    </div>
-    <div id="bodyColumn">
-      <div id="contentBox">
-        <!--  --><!-- Copyright (c) 2011, University of Konstanz, Distributed Systems Group --><!-- All rights reserved. --><!--  --><!-- Redistribution and use in source and binary forms, with or without --><!-- modification, are permitted provided that the following conditions are met: --><!-- * Redistributions of source code must retain the above copyright --><!-- notice, this list of conditions and the following disclaimer. --><!-- * Redistributions in binary form must reproduce the above copyright --><!-- notice, this list of conditions and the following disclaimer in the --><!-- documentation and/or other materials provided with the distribution. --><!-- * Neither the name of the University of Konstanz nor the --><!-- names of its contributors may be used to endorse or promote products --><!-- derived from this software without specific prior written permission. --><!--  --><!-- THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND --><!-- ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED --><!-- WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE --><!-- DISCLAIMED. IN NO EVENT SHALL <COPYRIGHT HOLDER> BE LIABLE FOR ANY --><!-- DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES --><!-- (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; --><!-- LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND --><!-- ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT --><!-- (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS --><!-- SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. --><!--  --><div class="section"><h2>Screencast<a name="Screencast"></a></h2><p>A video describing the following steps is available as a download (<a class="externalLink" href="http://rz15.wwwdns.rz.uni-konstanz.de/ScreenRecording.mov">Video</a>) or at Youtube (<a class="externalLink" href="http://www.youtube.com/watch?v=WaYQUjNtDps">http://www.youtube.com/watch?v=WaYQUjNtDps</a>).</p><div class="section"><h3>Step by Step Tutorial<a name="Step_by_Step_Tutorial"></a></h3><p>Three steps to bench your code in Eclipse:</p><div class="section"><h4>Install Perfidix with Eclipse<a name="Install_Perfidix_with_Eclipse"></a></h4><p>Download latest release of Perfidix and the latest release of Perclipse (Perfidix plugin) at Sourceforge</p><!-- or install it via {{{http://perfidix.disy.inf.uni-konstanz.de/updateSite}Updatesite}}. --></div><div class="section"><h4>Modify your code<a name="Modify_your_code"></a></h4><p>Annotate your code you want to see benched with the Perfidix annotations. A small example can be seen below:</p><div><pre>import static org.junit.Assert.assertEquals;
+                </div>
+        </div>
+      </div>
+      
+      <div id="bodyColumn" class="content">
+        <div id="contentBox">
+                              
+          <!--  --><!-- Copyright (c) 2011, University of Konstanz, Distributed Systems Group --><!-- All rights reserved. --><!--  --><!-- Redistribution and use in source and binary forms, with or without --><!-- modification, are permitted provided that the following conditions are met: --><!-- * Redistributions of source code must retain the above copyright --><!-- notice, this list of conditions and the following disclaimer. --><!-- * Redistributions in binary form must reproduce the above copyright --><!-- notice, this list of conditions and the following disclaimer in the --><!-- documentation and/or other materials provided with the distribution. --><!-- * Neither the name of the University of Konstanz nor the --><!-- names of its contributors may be used to endorse or promote products --><!-- derived from this software without specific prior written permission. --><!--  --><!-- THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND --><!-- ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED --><!-- WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE --><!-- DISCLAIMED. IN NO EVENT SHALL <COPYRIGHT HOLDER> BE LIABLE FOR ANY --><!-- DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES --><!-- (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; --><!-- LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND --><!-- ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT --><!-- (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS --><!-- SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. --><!--  --><div class="section"><h2>Screencast<a name="Screencast"></a></h2><p>A video describing the following steps is available as a download (<a class="externalLink" href="http://rz15.wwwdns.rz.uni-konstanz.de/ScreenRecording.mov">Video</a>) or at Youtube (<a class="externalLink" href="http://www.youtube.com/watch?v=WaYQUjNtDps">http://www.youtube.com/watch?v=WaYQUjNtDps</a>).</p><div class="section"><h3>Step by Step Tutorial<a name="Step_by_Step_Tutorial"></a></h3><p>Three steps to bench your code in Eclipse:</p><div class="section"><h4>Install Perfidix with Eclipse<a name="Install_Perfidix_with_Eclipse"></a></h4><p>Download latest release of Perfidix and the latest release of Perclipse (Perfidix plugin) at Sourceforge</p><!-- or install it via {{{http://perfidix.disy.inf.uni-konstanz.de/updateSite}Updatesite}}. --></div><div class="section"><h4>Modify your code<a name="Modify_your_code"></a></h4><p>Annotate your code you want to see benched with the Perfidix annotations. A small example can be seen below:</p><div><pre>import static org.junit.Assert.assertEquals;
 
 import java.util.Random; import java.util.Stack;
 
@@ -166,21 +212,19 @@ Hello        }
 
     }
 }</pre></div></div><div class="section"><h4>Run the bench out of Eclipse Insert the Perfidix.jar into your classpath and right-click on your project where the code to be benched is located in.&gt;<a name="Run_the_bench_out_of_Eclipse_Insert_the_Perfidix.jar_into_your_classpath_and_right-click_on_your_project_where_the_code_to_be_benched_is_located_in."></a></h4></div></div></div>
+                  </div>
       </div>
     </div>
-    <div class="clear">
-      <hr/>
-    </div>
-    <div id="footer">
-      <div class="xright">
-              Copyright &#169;                    2011
+
+    <footer class="footer">
+            <div class="container-fluid">
+              <div class="row span16">Copyright &copy;                    2011
                         <a href="http://www.informatik.uni-konstanz.de/arbeitsgruppen/disy/">University of Konstanz, Distributed System Group</a>.
             All Rights Reserved.      
         
-                  </div>
-      <div class="clear">
-        <hr/>
       </div>
-    </div>
+
+                      </div>
+    </footer>
   </body>
 </html>

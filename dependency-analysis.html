@@ -4,44 +4,84 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title>Dependencies Report</title>
-    <style type="text/css" media="all">
-      @import url("./css/maven-base.css");
-      @import url("./css/maven-theme.css");
-      @import url("./css/site.css");
-    </style>
-    <link rel="stylesheet" href="./css/print.css" type="text/css" media="print" />
+    <link rel="stylesheet" href="./css/apache-maven-fluido.min.css" />
+    <link rel="stylesheet" href="./css/site.css" />
+    <link rel="stylesheet" href="./css/print.css" media="print" />
+        <style>body{padding-top: 60px;}</style>
+    
+    <script type="text/javascript" src="./js/apache-maven-fluido.min.js"></script>
+
+    
     <meta name="Date-Revision-yyyymmdd" content="20111230" />
     <meta http-equiv="Content-Language" content="en" />
-        
+    
         </head>
-  <body class="composite">
-    <div id="banner">
-                        <a href="http://www.perfidix.org" id="bannerLeft">
-                                                <img src="images/logo.png" alt="Perfidix" />
+  <body>
+                
+                    
+        <div id="topbar" class="topbar" data-dropdown="dropdown">
+      <div class="topbar-inner">
+                <div class="container-fluid">
+                
+                    
+          <ul>
+                        <li class="dropdown" data-dropdown="dropdown" >
+        <a href="#" class="dropdown-toggle">Information</a>
+        <ul class="dropdown-menu">
+                      <li>      <a href="index.html"  title="Overview">Overview</a>
+</li>
+                      <li>      <a href="screenshots.html"  title="Screenshots">Screenshots</a>
+</li>
+                      <li>      <a href="usage.html"  title="Usage">Usage</a>
+</li>
+                      <li>      <a href="examples.html"  title="Examples">Examples</a>
+</li>
+                      <li>      <a href="tutorial.html"  title="Tutorial">Tutorial</a>
+</li>
+                      <li>      <a href=".."  title="Github Site">Github Site</a>
+</li>
+                  </ul>
+      </li>
+                <li class="dropdown" data-dropdown="dropdown" >
+        <a href="#" class="dropdown-toggle">Project Documentation</a>
+        <ul class="dropdown-menu">
+                      <li>      <a href="project-info.html"  title="Project Information">Project Information</a>
+</li>
+                      <li>      <a href="project-reports.html"  title="Project Reports">Project Reports</a>
+</li>
+                  </ul>
+      </li>
+                </ul>
+                            </div>
+      </div>
+    </div>
+    
+        <div class="container-fluid">
+                <div id="banner">
+        <div class="pull-left">                  <a href="http://www.perfidix.org" id="bannerLeft">
+                                                <img src="images/logo.png" alt="Perfidix"/>
                 </a>
-                    <div class="clear">
-        <hr/>
       </div>
-    </div>
-    <div id="breadcrumbs">
-            
-        
-                <div class="xleft">
-        <span id="publishDate">Last Published: 2011-12-30</span>
-                  &nbsp;| <span id="projectVersion">Version: 3.6.4-SNAPSHOT</span>
-                      </div>
-            <div class="xright">        
-        
+        <div class="pull-right">  </div>
+        <div class="clear"><hr/></div>
       </div>
-      <div class="clear">
-        <hr/>
-      </div>
-    </div>
-    <div id="leftColumn">
-      <div id="navcolumn">
-             
+      
+      <div id="breadcrumbs">
+        <ul class="breadcrumb">
+                
         
-                                <h5>Information</h5>
+                  <li id="publishDate">Last Published: 2011-12-30</li>
+                  <li class="divider">|</li> <li id="projectVersion">Version: 3.6.4-SNAPSHOT</li>
+                                      
+        
+              </ul>
+      </div>
+
+            <div id="leftColumn" class="sidebar">
+        <div class="well">
+                
+        
+                                   <h5>Information</h5>
                   <ul>
                   <li class="none">
                           <a href="index.html" title="Overview">Overview</a>
@@ -91,31 +131,35 @@
               </ul>
         </li>
           </ul>
-                             <a href="http://maven.apache.org/" title="Built by Maven" class="poweredBy">
+                      
+        
+      
+          
+          <div id="poweredBy">
+                            <a href="http://maven.apache.org/" title="Built by Maven" class="poweredBy">
         <img class="poweredBy" alt="Built by Maven" src="./images/logos/maven-feather.png" />
       </a>
-                   
-        
-            </div>
-    </div>
-    <div id="bodyColumn">
-      <div id="contentBox">
-        <div class="section"><h2>Dependency Analysis<a name="Dependency_Analysis"></a></h2><div class="section"><h3>Used and declared dependencies<a name="Used_and_declared_dependencies"></a></h3><table border="0" class="bodyTable"><tr class="a"><td><b>GroupId</b></td><td><b>ArtifactId</b></td><td><b>Version</b></td><td><b>Scope</b></td><td><b>Classifier</b></td><td><b>Type</b></td><td><b>Optional</b></td></tr><tr class="b"><td>commons-primitives</td><td>commons-primitives</td><td>1.0</td><td>compile</td><td></td><td>jar</td><td>false</td></tr><tr class="a"><td>junit</td><td>junit</td><td>4.8.2</td><td>test</td><td></td><td>jar</td><td>false</td></tr><tr class="b"><td>commons-math</td><td>commons-math</td><td>1.2</td><td>compile</td><td></td><td>jar</td><td>false</td></tr><tr class="a"><td>org.mockito</td><td>mockito-core</td><td>1.9.0-rc1</td><td>test</td><td></td><td>jar</td><td>false</td></tr></table><hr /></div><div class="section"><h3>Used but undeclared dependencies<a name="Used_but_undeclared_dependencies"></a></h3><p>None</p><hr /></div><div class="section"><h3>Unused but declared dependencies<a name="Unused_but_declared_dependencies"></a></h3><p>None</p><hr /></div></div>
+                </div>
+        </div>
+      </div>
+      
+      <div id="bodyColumn" class="content">
+        <div id="contentBox">
+                              
+          <div class="section"><h2>Dependency Analysis<a name="Dependency_Analysis"></a></h2><div class="section"><h3>Used and declared dependencies<a name="Used_and_declared_dependencies"></a></h3><table border="0" class="zebra-striped"><tr class="a"><td><b>GroupId</b></td><td><b>ArtifactId</b></td><td><b>Version</b></td><td><b>Scope</b></td><td><b>Classifier</b></td><td><b>Type</b></td><td><b>Optional</b></td></tr><tr class="b"><td>commons-primitives</td><td>commons-primitives</td><td>1.0</td><td>compile</td><td></td><td>jar</td><td>false</td></tr><tr class="a"><td>junit</td><td>junit</td><td>4.8.2</td><td>test</td><td></td><td>jar</td><td>false</td></tr><tr class="b"><td>commons-math</td><td>commons-math</td><td>1.2</td><td>compile</td><td></td><td>jar</td><td>false</td></tr><tr class="a"><td>org.mockito</td><td>mockito-core</td><td>1.9.0-rc1</td><td>test</td><td></td><td>jar</td><td>false</td></tr></table><hr /></div><div class="section"><h3>Used but undeclared dependencies<a name="Used_but_undeclared_dependencies"></a></h3><p>None</p><hr /></div><div class="section"><h3>Unused but declared dependencies<a name="Unused_but_declared_dependencies"></a></h3><p>None</p><hr /></div></div>
+                  </div>
       </div>
     </div>
-    <div class="clear">
-      <hr/>
-    </div>
-    <div id="footer">
-      <div class="xright">
-              Copyright &#169;                    2011
+
+    <footer class="footer">
+            <div class="container-fluid">
+              <div class="row span16">Copyright &copy;                    2011
                         <a href="http://www.informatik.uni-konstanz.de/arbeitsgruppen/disy/">University of Konstanz, Distributed System Group</a>.
             All Rights Reserved.      
         
-                  </div>
-      <div class="clear">
-        <hr/>
       </div>
-    </div>
+
+                      </div>
+    </footer>
   </body>
 </html>
