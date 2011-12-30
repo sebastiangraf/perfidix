@@ -24,8 +24,6 @@
 ~~ (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 ~~ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ~~
-
-Information	
 	
 	Perfidix is a tool for developers to conveniently and 
 	consistently benchmark Java code. It can quickly answer which 
@@ -78,5 +76,5 @@ Own needs, own requirements
 	Although not directly mentioned, Perfidix represents the benchmarking framework for multiple thesis' within
 	our working group and is maintained continuously since 2007.
 
-	Perfidix is hosted with {{{https://sourceforge.net/projects/perfidix/}Sourceforge}} under the {{{http://www.opensource.org/licenses/BSD-3-Clause}BSD License}}.
+	Perfidix is hosted with {{{https://github.com/disy/perfidix}Github}} under the {{{http://www.opensource.org/licenses/BSD-3-Clause}BSD License}}.
 	
