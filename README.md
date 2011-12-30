@@ -5,15 +5,39 @@ Perfidix is a light-weight java library enabling users to benchmark sourcecode.
 Similar to JUnit, annotations can be placed before methods.
 Within the invocation of these methods, flexible measurements are performed.
 
-6 steps how to use Perfidix
+5 steps how to use Perfidix
 -------
 
-1. Download the latest .jar from sourceforge or check out the latest build from the repository
-2. Insert the jar into your classpath
-3. Annotate your methods to bench with "@Bench". Note that these methods have to have the following layout: "public (final) void method()" 
-4. Create a new "Benchmark" object and add the class with the annotated methods to it.
-5. Get the BenchmarkResult by typing "benchmarkObj.run()"
-6. Display the result with the TabularSummaryOutput.visit(benchmarkResultObj). 
+1. Download the latest .jar from github and Insert the jar into your classpath OR insert the disy-repo in your pom.xml
+
+```xml
+<repository>
+	<id>disyInternal</id>
+	<name>Internal Repository for the Distributed System Group</name>
+	<url>http://mavenrepo.disy.inf.uni-konstanz.de/repository/disyInternal</url>
+	<releases>
+		<enabled>true</enabled>
+	</releases>
+	<snapshots>
+		<enabled>false</enabled>
+	</snapshots>
+</repository>
+<repository>
+	<id>disyInternalSnapshot</id>
+	<name>Internal Snapshot Repository for the Distributed System Group</name>
+	<url>http://mavenrepo.disy.inf.uni-konstanz.de/repository/disyInternalSnapshot</url>
+	<releases>
+		<enabled>true</enabled>
+	</releases>
+	<snapshots>
+		<enabled>true</enabled>
+	</snapshots>
+</repository>
+```
+2. Annotate your methods to bench with "@Bench". Note that these methods have to have the following layout: "public (final) void method()" 
+3. Create a new "Benchmark" object and add the class with the annotated methods to it.
+4. Get the BenchmarkResult by typing "benchmarkObj.run()"
+5. Display the result with the TabularSummaryOutput.visit(benchmarkResultObj). 
 
 For further documentation and as an example, please refer to the org.perfidix.example package.
 
