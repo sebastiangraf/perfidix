@@ -39,7 +39,8 @@ import org.perfidix.result.BenchmarkResult;
  * 
  * @author Sebastian Graf, University of Konstanz
  */
-public final class SocketListener extends AbstractOutput {
+public final class SocketListener extends AbstractOutput
+{
 
     /**
      * Instance to the perclipse view.
@@ -52,18 +53,24 @@ public final class SocketListener extends AbstractOutput {
      * @param paramView
      *            connection to the perclipse view
      */
-    public SocketListener(final IUpdater paramView) {
+    public SocketListener(final IUpdater paramView)
+    {
         super();
         view = paramView;
     }
 
     /** {@inheritDoc} */
     @Override
-    public boolean listenToException(final AbstractPerfidixMethodException exec) {
-        try {
-            return view.updateErrorInElement((exec.getMethod().getDeclaringClass().getName() + "." + exec
-                .getMethod().getName()), exec);
-        } catch (final SocketViewException e) {
+    public boolean listenToException(final AbstractPerfidixMethodException exec)
+    {
+        try
+        {
+            return view.updateErrorInElement((exec.getMethod()
+                    .getDeclaringClass().getName()
+                    + "." + exec.getMethod().getName()), exec);
+        }
+        catch (final SocketViewException e)
+        {
             throw new IllegalStateException(e);
         }
 
@@ -71,17 +78,24 @@ public final class SocketListener extends AbstractOutput {
 
     /** {@inheritDoc} */
     @Override
-    public boolean listenToResultSet(final Method meth, final AbstractMeter meter, final double data) {
-        try {
-            return view.updateCurrentElement(meter, (meth.getDeclaringClass().getName() + "." + meth.getName()));
-        } catch (final SocketViewException e) {
+    public boolean listenToResultSet(final Method meth,
+            final AbstractMeter meter, final double data)
+    {
+        try
+        {
+            return view.updateCurrentElement(meter, (meth.getDeclaringClass()
+                    .getName() + "." + meth.getName()));
+        }
+        catch (final SocketViewException e)
+        {
             throw new IllegalStateException(e);
         }
     }
 
-    /** {@inheritDoc} */
+    /** {@inher itDoc} */
     @Override
-    public void visitBenchmark(final BenchmarkResult res) {
+    public void visitBenchmark(final BenchmarkResult res)
+    {
         throw new UnsupportedOperationException("Operation is not permitted!");
     }
 
