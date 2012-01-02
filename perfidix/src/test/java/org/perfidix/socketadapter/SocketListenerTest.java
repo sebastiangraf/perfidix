@@ -48,7 +48,8 @@ import org.perfidix.meter.TimeMeter;
  * @author Lewandowski Lukas, DiSy, University of Konstanz
  */
 
-public class SocketListenerTest {
+public class SocketListenerTest
+{
 
     private transient SocketListener socketListener;
 
@@ -60,7 +61,8 @@ public class SocketListenerTest {
      * @throws java.lang.Exception
      */
     @Before
-    public void setUp() throws Exception {
+    public void setUp() throws Exception
+    {
         updater = mock(IUpdater.class);
         socketListener = new SocketListener(updater);
     }
@@ -71,7 +73,8 @@ public class SocketListenerTest {
      * .
      */
     @Test(expected = UnsupportedOperationException.class)
-    public void testVisitBenchmark() {
+    public void testVisitBenchmark()
+    {
         socketListener = new SocketListener(updater);
         socketListener.visitBenchmark(null);
     }
@@ -87,11 +90,14 @@ public class SocketListenerTest {
      */
     @Test
     public void testListenToResultSet() throws InterruptedException,
-            SocketViewException {
+            SocketViewException
+    {
         final Method[] methods = BenchWithException.class.getMethods();
         BenchmarkMethod method1 = null;
-        for (Method method : methods) {
-            if (method.getName().equals("benchMe")) {
+        for (Method method : methods)
+        {
+            if (method.getName().equals("benchMe"))
+            {
                 method1 = new BenchmarkMethod(method);
             }
         }
@@ -106,6 +112,7 @@ public class SocketListenerTest {
         assertTrue(myInstance.listenToResultSet(method1.getMethodToBench(),
                 meter, 0));
     }
+    
     /**
      * Test method for
      * {@link org.perfidix.socketadapter.SocketListener#listenToException (org.perfidix.exceptions.AbstractPerfidixMethodException)}
@@ -114,18 +121,28 @@ public class SocketListenerTest {
      * @throws InterruptedException
      *             Thread exception occurred.
      */
-    /*
-     * @Test public void testListenToException() throws InterruptedException {
-     * final Method[] methods = BenchWithException.class.getMethods();
-     * BenchmarkMethod method1 = null; for (Method method : methods) { if
-     * (method.getName().equals("benchMe")) { method1 = new
-     * BenchmarkMethod(method); } } SocketListener myInstance = new
-     * SocketListener(iUpdaterMock);
-     * 
-     * // Nach der Anpassung der Methode "listenToResultSet()" ist das Assert //
-     * fehlerhaft. Ich vermute, ich muss noch eine When-Anweisung vor der //
-     * Instanziierung machen. Woraus baue ich die aber? assertTrue(myInstance
-     * .listenToException(new PerfidixMethodCheckException( new IOException(),
-     * method1.getMethodToBench(), Bench.class))); }
-     */
+     @Test 
+     public void testListenToException() throws InterruptedException, SocketViewException
+     {
+         final Method[] methods = BenchWithException.class.getMethods();
+         BenchmarkMethod method1 = null; 
+         for (Method method : methods) 
+         { 
+             if (method.getName().equals("benchMe")) 
+             { 
+                 method1 = new BenchmarkMethod(method); 
+             } 
+         }
+         final AbstractMeter meter = new TimeMeter(Time.MilliSeconds);
+         final String methodName = method1.getMethodToBench()
+                 .getDeclaringClass().getName()
+                 + "." + method1.getMethodToBench().getName();
+
+         when(updater.updateCurrentElement(meter, methodName)).thenReturn(true);
+
+         SocketListener myInstance = new SocketListener(updater);
+         assertTrue(myInstance.listenToResultSet(method1.getMethodToBench(),
+                 meter, 0));
+         
+     }
 }
