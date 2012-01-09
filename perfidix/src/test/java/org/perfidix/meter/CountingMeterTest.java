@@ -48,7 +48,7 @@ public class CountingMeterTest {
     /**
      * Range of the countingMeter.
      */
-    private static final int RANGE = Integer.MAX_VALUE / 2;
+    private static final int RANGE = Integer.MAX_VALUE / 20000;
 
     /**
      * Instance to test.
