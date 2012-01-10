@@ -26,6 +26,7 @@
  */
 package org.perfidix.example.stack;
 
+import java.util.ArrayDeque;
 import java.util.Random;
 import java.util.Stack;
 
@@ -42,7 +43,8 @@ import org.perfidix.result.BenchmarkResult;
  * 
  * @author Sebastian Graf, University of Konstanz
  */
-public final class StackBenchmark {
+public final class StackBenchmark
+{
 
     /**
      * Number of runs.
@@ -63,15 +65,18 @@ public final class StackBenchmark {
     /** Stack instance. */
     private transient Stack<Integer> normalInt;
 
+    private transient ArrayDeque<Integer> arrayDeque;
     /**
      * Generating the data, just once per runtime.
      */
     @BeforeBenchClass
-    public void generateData() {
+    public void generateData()
+    {
         final Random ran = new Random();
         intData = new int[ARRAYSIZE];
         int counter = 0;
-        while (counter < ARRAYSIZE) {
+        while (counter < ARRAYSIZE)
+        {
             intData[counter] = ran.nextInt();
             counter++;
         }
@@ -81,9 +86,11 @@ public final class StackBenchmark {
      * Bench for pushing the data to the {@link FastIntStack}.
      */
     @Bench(runs = RUNS)
-    public void benchFastIntPush() {
+    public void benchFastIntPush()
+    {
         fastInt = new FastIntStack();
-        for (final int i : intData) {
+        for (final int i : intData)
+        {
             fastInt.push(i);
         }
     }
@@ -92,9 +99,11 @@ public final class StackBenchmark {
      * Bench for popping the data from the {@link FastIntStack}.
      */
     @Bench(runs = RUNS, beforeEachRun = "benchFastIntPush")
-    public void benchFastIntStackPop() {
+    public void benchFastIntStackPop()
+    {
 
-        while (fastInt.size() > 0) {
+        while (fastInt.size() > 0)
+        {
             fastInt.pop();
 
         }
@@ -104,9 +113,11 @@ public final class StackBenchmark {
      * Bench for pushing the data to the {@link Stack}.
      */
     @Bench(runs = RUNS)
-    public void benchNormalIntPush() {
+    public void benchNormalIntPush()
+    {
         normalInt = new Stack<Integer>();
-        for (final int i : intData) {
+        for (final int i : intData)
+        {
             normalInt.push(i);
         }
     }
@@ -115,9 +126,38 @@ public final class StackBenchmark {
      * Bench for popping the data from the {@link Stack}.
      */
     @Bench(runs = RUNS, beforeEachRun = "benchNormalIntPush")
-    public void benchNormalIntPop() {
-        while (normalInt.size() > 0) {
+    public void benchNormalIntPop()
+    {
+        while (normalInt.size() > 0)
+        {
             normalInt.pop();
+        }
+    }
+
+    @Bench(runs = RUNS)
+    /**
+     * Bench for pushing the data to the {@link ArrayDeque}.
+     */
+    public void benchArrayDequePush()
+    {
+        arrayDeque = new ArrayDeque<Integer>();
+        for (final int i : intData)
+        {
+            arrayDeque.push(i);
+        }
+    }
+
+    /**
+     *  Bench for popping the data from the {@link ArrayDeque}.
+     */
+    @Bench(runs = RUNS, beforeEachRun = "benchArrayDequePush")
+    public void benchArrayDequeStackPop()
+    {
+
+        while (arrayDeque.size() > 0)
+        {
+            arrayDeque.pop();
+
         }
     }
 
@@ -130,7 +170,8 @@ public final class StackBenchmark {
      * @param args
      *            not used here
      */
-    public static void main(final String[] args) {
+    public static void main(final String[] args)
+    {
 
         final Benchmark bench = new Benchmark(new Config());
         bench.add(StackBenchmark.class);
