@@ -42,7 +42,7 @@ import org.perfidix.example.stack.FastIntStack;
  * @author Nuray Guerler, University of Konstanz This is a class that tests the
  *         {@link FastIntStack} class with all its methods
  */
-public class StackBenchmarkTest
+public class FastIntStackTest
 {
 
     /**
