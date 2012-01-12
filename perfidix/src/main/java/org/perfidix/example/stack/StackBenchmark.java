@@ -157,7 +157,6 @@ public final class StackBenchmark
         while (arrayDeque.size() > 0)
         {
             arrayDeque.pop();
-
         }
     }
 
