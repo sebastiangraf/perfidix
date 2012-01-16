@@ -63,6 +63,11 @@
 					</execution>
 				</executions>
 			</plugin>
+			<plugin>
+				<groupId> net.ju-n.maven.doxia</groupId>
+				<artifactId> doxia-module-markdown</artifactId>
+				<version> 1.0.0</version>
+			</plugin>
 		</plugins>
 	</build>
 
