@@ -47,7 +47,7 @@
 					</execution>
 				</executions>
 			</plugin>
-			<plugin>
+<!--			<plugin>
 				<groupId>com.github.github</groupId>
 				<artifactId>site-maven-plugin</artifactId>
 				<version>0.2</version>
@@ -62,10 +62,10 @@
 						<phase>site</phase>
 					</execution>
 				</executions>
-			</plugin>
+			</plugin>-->
 			<plugin>
-				<groupId> net.ju-n.maven.doxia</groupId>
-				<artifactId> doxia-module-markdown</artifactId>
+				<groupId>net.ju-n.maven.doxia</groupId>
+				<artifactId>doxia-module-markdown</artifactId>
 				<version> 1.0.0</version>
 			</plugin>
 		</plugins>
