@@ -1,3 +1,4 @@
+<!--
 ~~
 ~~ Copyright (c) 2011, University of Konstanz, Distributed Systems Group
 ~~ All rights reserved.
@@ -24,6 +25,7 @@
 ~~ (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 ~~ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ~~
+-->
 
 Screenshots
 ==========
