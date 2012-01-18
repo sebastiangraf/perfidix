@@ -144,6 +144,13 @@
 							</plugin>
 						</reportPlugins>
 					</configuration>
+					<dependencies>
+			          <dependency>
+			            <groupId>net.ju-n.maven.doxia</groupId>
+			            <artifactId>doxia-module-markdown</artifactId>
+			            <version>1.0.0</version>
+			          </dependency>
+			        </dependencies>
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
