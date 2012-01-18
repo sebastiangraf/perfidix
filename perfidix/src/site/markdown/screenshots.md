@@ -36,11 +36,11 @@ Perclipse GUI
 
 Perclipse is the Eclipse plugin shipped with perfidix.
 
-[Invocation example](images/eclipse01.jpg "Eclipse1")
+![Invocation example](images/eclipse01.jpg)
 
 The image shows the invocation of perfidix within Eclipse.
 
-[Annotation of class](images/eclipse02.jpg "Eclipse2")
+![Annotation of class](images/eclipse02.jpg)
 
 The image shows the annotation of an existing class.
 
@@ -49,6 +49,6 @@ Commando Line
 
 The output is piped to the commando as an example.
 
-[Result of a bench](images/result.jpg] "Result")
-The image shows a result of an bench run on the commando line.
-	
+![Result of a bench](images/result.jpg)
+The image shows a result of a bench run on the commando line.
+
