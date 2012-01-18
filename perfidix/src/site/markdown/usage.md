@@ -34,7 +34,7 @@ Description
 --------
 
 Using Perfidix is quite straight-forward and even easier if you are familiar with Unit-Testing like JUnit.
-The aim of Perfidix is to reduce any generation of benchmarking code but to utilize existing testing-code:\
+The aim of Perfidix is to reduce any generation of benchmarking code but to utilize existing testing-code:
 What is more convenient than to use Unit-tests?
 
 Annotations
