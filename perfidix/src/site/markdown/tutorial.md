@@ -1,3 +1,4 @@
+<!--
 ~~
 ~~ Copyright (c) 2011, University of Konstanz, Distributed Systems Group
 ~~ All rights reserved.
@@ -24,36 +25,41 @@
 ~~ (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 ~~ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ~~
+-->
 
-# Screencast
+Tutorial
+==========
 
-  A video describing the following steps is available as a download [](http://rz15.wwwdns.rz.uni-konstanz.de/)ScreenRecording.mov "Video") or at Youtube []http://www.youtube.com/watch?v=WaYQUjNtDps "Youtube").
+Screencast
+----------
 
-* Step by Step Tutorial
+A video describing the following steps is available as a download (http://rz15.wwwdns.rz.uni-konstanz.de/ScreenRecording.mov) Video or at [Youtube] (http://www.youtube.com/watch?v=WaYQUjNtDps).
 
-  Three steps to bench your code in Eclipse:
+Step by Step Tutorial
+----------
+
+Three steps to bench your code in Eclipse:
   
-** Install Perfidix with Eclipse
+* Install Perfidix with Eclipse
 
-  Download latest release of Perfidix and the latest release of Perclipse (Perfidix plugin) at Sourceforge
-~~ or install it via [](http://perfidix.disy.inf.uni-konstanz.de/updateSite}Updatesite).
+Download latest release of Perfidix and the latest release of Perclipse (Perfidix plugin) at Sourceforge
+or install it via (http://perfidix.disy.inf.uni-konstanz.de/updateSite}Updatesite).
 
-** Modify your code
+* Modify your code
 
-  Annotate your code you want to see benched with the Perfidix annotations. A small example can be seen below:
+Annotate your code you want to see benched with the Perfidix annotations. A small example can be seen below:
 
------------------
-import static org.junit.Assert.assertEquals;
+    import static org.junit.Assert.assertEquals;
 
-import java.util.Random; import java.util.Stack;
+    import java.util.Random; import java.util.Stack;
 
-import org.junit.BeforeClass;  
-import org.junit.Test;  
-import org.perfidix.BeforeBenchClass;  
-import org.perfidix.BenchClass;
+    import org.junit.BeforeClass;  
+    import org.junit.Test;  
+    import org.perfidix.BeforeBenchClass;  
+    import org.perfidix.BenchClass;
 
-@BenchClass(runs = 100)
-public class FastIntStackTest {
+   @BenchClass(runs = 100)
+    public class FastIntStackTest {
 
     private static int[] data = new int[15];
 
@@ -73,7 +79,7 @@ public class FastIntStackTest {
         }
         for (int i = data.length - 1; i > 0; i--) {
             assertEquals(data[i], myStack.pop());
-Hello        }
+        }
     }
 
     @Test
@@ -129,7 +135,6 @@ Hello        }
 
     }
 }
----------------
 
-** Run the bench out of Eclipse
-Insert the Perfidix.jar into your classpath and right-click on your project where the code to be benched is located in.>
+* Run the bench out of Eclipse
+Insert the Perfidix.jar into your classpath and right-click on your project where the code to be benched is located in.

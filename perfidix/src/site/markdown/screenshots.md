@@ -1,3 +1,4 @@
+<!--
 ~~
 ~~ Copyright (c) 2011, University of Konstanz, Distributed Systems Group
 ~~ All rights reserved.
@@ -24,25 +25,30 @@
 ~~ (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 ~~ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ~~
+-->
 
-	Perfidix comes with a programming interface for invoking the source and with an Eclipse plugin. The following screenshots represents examples of the interaction:
-	
-# Perclipse GUI
-	
-	Perclipse is the Eclipse plugin shipped with perfidix.
-	
-[Invocation example](images/eclipse01.jpg "Eclipse1")
+Screenshots
+==========
+Perfidix comes with a programming interface for invoking the source and with an Eclipse plugin. The following screenshots represents examples of the interaction:
 
-	The image shows the invocation of perfidix within Eclipse.
-	
-[Annotation of class](images/eclipse02.jpg "Eclipse2")
+Perclipse GUI
+----------
 
-	The image shows the annotation of an existing class.
-	
-# Commando Line
+Perclipse is the Eclipse plugin shipped with perfidix.
 
-	The output is piped to the commando as an example.
-	
-[Result of a bench](mages/result.jpg] "Result")
-	The image shows a result of an bench run on the commando line.
-	
+![Invocation example](images/eclipse01.jpg)
+
+The image shows the invocation of perfidix within Eclipse.
+
+![Annotation of class](images/eclipse02.jpg)
+
+The image shows the annotation of an existing class.
+
+Commando Line
+----------
+
+The output is piped to the commando as an example.
+
+![Result of a bench](images/result.jpg)
+The image shows a result of a bench run on the commando line.
+
