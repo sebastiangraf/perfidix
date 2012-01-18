@@ -28,7 +28,7 @@
 -->
 
 Tutorial
-==========#
+==========
 
 Screencast
 ----------
@@ -80,7 +80,7 @@ public class FastIntStackTest {
         }
         for (int i = data.length - 1; i > 0; i--) {
             assertEquals(data[i], myStack.pop());
-Hello        }
+        }
     }
 
     @Test
