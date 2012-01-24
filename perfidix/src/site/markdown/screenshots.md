@@ -50,5 +50,6 @@ Commando Line
 The output is piped to the commando as an example.
 
 ![Result of a bench](images/result.jpg)
+
 The image shows a result of a bench run on the commando line.
 

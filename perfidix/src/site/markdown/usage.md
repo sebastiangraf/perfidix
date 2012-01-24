@@ -110,11 +110,4 @@ Execution
 ----------
 
 The methods, marked by the defined annotations, need to be executed by a suitable framework aware of the meters to benchmark on the one hand plus the outputs to be generated on the other hand. The execution takes place either by a provided Eclipse-Plugin or by a suitable Benchmarking-Object executable as normal Java-program.
-
-* Perclipse Framework
-blubb
-
-* Benchmarking-Class
-bla
-
  
