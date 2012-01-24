@@ -11,8 +11,30 @@
 		<artifactId>complete</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
-
-
+	<repositories>
+		<repository>
+			<id>disyInternal</id>
+			<name>Internal Repository for the Distributed System Group</name>
+			<url>http://mavenrepo.disy.inf.uni-konstanz.de/repository/disyInternal/</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+		<repository>
+			<id>disyInternalSnapshot</id>
+			<name>Internal Snapshot Repository for the Distributed System Group</name>
+			<url>http://mavenrepo.disy.inf.uni-konstanz.de/repository/disyInternalSnapshot/</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
 	<build>
 		<plugins>
 			<plugin>
