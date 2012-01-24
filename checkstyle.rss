@@ -8,8 +8,8 @@
     <language>en-us</language>
     <copyright>&#169;2012 University of Konstanz, Distributed System Group</copyright>
     <item>
-      <title>File: 68,
-             Errors: 1195,
+      <title>File: 69,
+             Errors: 1213,
              Warnings: 0,
              Infos: 0
       </title>
@@ -374,7 +374,7 @@
                   0
                 </td>
                 <td>
-                  79
+                  19
                 </td>
               </tr>
                           <tr>
@@ -389,6 +389,20 @@
                 </td>
                 <td>
                   2
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/disy/perfidix/perfidix/checkstyle.html#org.perfidix.example.list.ListBenchmark.java">org/perfidix/example/list/ListBenchmark.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  60
                 </td>
               </tr>
                           <tr>
@@ -584,7 +598,7 @@
                   0
                 </td>
                 <td>
-                  3
+                  21
                 </td>
               </tr>
                           <tr>
