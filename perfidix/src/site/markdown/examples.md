@@ -62,7 +62,6 @@ The setUp() and tear-Down() methods are invoked before each run of each method.
     public void benchSRead() {
     s.read();
     } 
-    }
 
     //bench Method 2
     @Bench
@@ -74,6 +73,7 @@ The setUp() and tear-Down() methods are invoked before each run of each method.
     @Bench
     public void benchCRead() {
     c.read();
+    }
     }
 
 Example 2
@@ -202,4 +202,4 @@ Additional to that, every possible setUp and tearDown method is used in this exa
     public void benchSRead() {
     s.read();
     }
-}
+    }
