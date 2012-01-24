@@ -65,10 +65,10 @@
           </ul>
                        <h5>Project Documentation</h5>
                   <ul>
-                                                                                                                                                                                                                                                                                            <li class="collapsed">
+                                                                                                                                                                                                                                                                          <li class="collapsed">
                           <a href="project-info.html" title="Project Information">Project Information</a>
                   </li>
-                                                                                                                                                              <li class="collapsed">
+                                                                                                                                                                                                  <li class="collapsed">
                           <a href="project-reports.html" title="Project Reports">Project Reports</a>
                   </li>
           </ul>
@@ -112,10 +112,10 @@
 ~~ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 ~~ (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 ~~ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-~~ --><h1>Tutorial</h1><div class="section"><h2>Screencast<a name="Screencast"></a></h2><p>A video describing the following steps is available as a download (<a class="externalLink" href="http://rz15.wwwdns.rz.uni-konstanz.de/ScreenRecording.mov">http://rz15.wwwdns.rz.uni-konstanz.de/ScreenRecording.mov</a>) Video or at <a class="externalLink" href="http://www.youtube.com/watch?v=WaYQUjNtDps">Youtube</a>.</p></div><div class="section"><h2>Step by Step Tutorial<a name="Step_by_Step_Tutorial"></a></h2><p>Three steps to bench your code in Eclipse:</p>
+~~ --><h1>Tutorial</h1><div class="section"><h2>Screencast<a name="Screencast"></a></h2><p>A video describing the following steps is available at <a class="externalLink" href="http://www.youtube.com/watch?v=WaYQUjNtDps">Youtube</a>.</p></div><div class="section"><h2>Step by Step Tutorial<a name="Step_by_Step_Tutorial"></a></h2><p>Three steps to bench your code in Eclipse:</p>
 <ul>
   <li>Install Perfidix with Eclipse</li>
-</ul><p>Download latest release of Perfidix and the latest release of Perclipse (Perfidix plugin) at Sourceforge or install it via (<a class="externalLink" href="http://perfidix.disy.inf.uni-konstanz.de/updateSite}Updatesite)">http://perfidix.disy.inf.uni-konstanz.de/updateSite}Updatesite)</a>.</p>
+</ul><p>Download latest release of Perfidix and the latest release of Perclipse (Perfidix plugin).</p>
 <ul>
   <li>Modify your code</li>
 </ul><p>Annotate your code you want to see benched with the Perfidix annotations. A small example can be seen below:</p>
@@ -127,8 +127,11 @@ import org.junit.BeforeClass;
 import org.junit.Test;  
 import org.perfidix.BeforeBenchClass;  
 import org.perfidix.BenchClass;
-</pre></div><p>@BenchClass(runs = 100)  public class FastIntStackTest {</p>
-<div class="source"><pre class="prettyprint">private static int[] data = new int[15];
+
+@BenchClass(runs = 100)
+public class FastIntStackTest {
+
+private static int[] data = new int[15];
 
 @BeforeBenchClass
 @BeforeClass
@@ -201,7 +204,8 @@ final class FastIntStack {
     }
 
 }
-</pre></div><p>}</p>
+}  
+</pre></div>
 <ul>
   <li>Run the bench out of Eclipse Insert the Perfidix.jar into your classpath and right-click on your project where the code to be benched is located in.</li>
 </ul></div>

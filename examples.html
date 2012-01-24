@@ -65,10 +65,10 @@
           </ul>
                        <h5>Project Documentation</h5>
                   <ul>
-                                                                                                                                                                                                                                                                                            <li class="collapsed">
+                                                                                                                                                                                                                                                                          <li class="collapsed">
                           <a href="project-info.html" title="Project Information">Project Information</a>
                   </li>
-                                                                                                                                                              <li class="collapsed">
+                                                                                                                                                                                                  <li class="collapsed">
                           <a href="project-reports.html" title="Project Reports">Project Reports</a>
                   </li>
           </ul>
@@ -139,7 +139,6 @@ c.write(&#x201d;hello world&#x201d;);
 public void benchSRead() {
 s.read();
 } 
-}
 
 //bench Method 2
 @Bench
@@ -151,6 +150,7 @@ s.write(&#x201d;hello world&#x201d;); 4
 @Bench
 public void benchCRead() {
 c.read();
+}
 }
 </pre></div><p>Example 2  </p><p>In the following example, you see the usage of specific setUp and tearDown methods. These methods have the same behavior than methods with the BeforeBenchRun annotation.</p>
 <div class="source"><pre class="prettyprint">public class SomeSpecificSetUpTearDownBenchmark { 
@@ -267,7 +267,8 @@ c.read();
 public void benchSRead() {
 s.read();
 }
-</pre></div><p>}</p></div>
+}
+</pre></div></div>
                   </div>
       </div>
     </div>
