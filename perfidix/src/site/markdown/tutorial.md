@@ -33,7 +33,7 @@ Tutorial
 Screencast
 ----------
 
-A video describing the following steps is available as a download (http://rz15.wwwdns.rz.uni-konstanz.de/ScreenRecording.mov) Video or at [Youtube] (http://www.youtube.com/watch?v=WaYQUjNtDps).
+A video describing the following steps is available at [Youtube](http://www.youtube.com/watch?v=WaYQUjNtDps).
 
 Step by Step Tutorial
 ----------
@@ -42,8 +42,7 @@ Three steps to bench your code in Eclipse:
   
 * Install Perfidix with Eclipse
 
-Download latest release of Perfidix and the latest release of Perclipse (Perfidix plugin) at Sourceforge
-or install it via (http://perfidix.disy.inf.uni-konstanz.de/updateSite}Updatesite).
+Download latest release of Perfidix and the latest release of Perclipse (Perfidix plugin).
 
 * Modify your code
 
@@ -58,7 +57,7 @@ Annotate your code you want to see benched with the Perfidix annotations. A smal
     import org.perfidix.BeforeBenchClass;  
     import org.perfidix.BenchClass;
 
-   @BenchClass(runs = 100)
+    @BenchClass(runs = 100)
     public class FastIntStackTest {
 
     private static int[] data = new int[15];
@@ -134,7 +133,7 @@ Annotate your code you want to see benched with the Perfidix annotations. A smal
         }
 
     }
-}
+    }  
 
 * Run the bench out of Eclipse
 Insert the Perfidix.jar into your classpath and right-click on your project where the code to be benched is located in.
