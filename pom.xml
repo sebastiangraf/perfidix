@@ -87,25 +87,6 @@
 			</snapshots>
 		</repository>
 	</repositories>
-	<dependencies>
-		<dependency>
-			<groupId>org.apache.maven.doxia</groupId>
-			<artifactId>doxia-core</artifactId>
-			<version>${doxia.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.pegdown</groupId>
-			<artifactId>pegdown</artifactId>
-			<version>${pegdown.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.maven.doxia</groupId>
-			<artifactId>doxia-core</artifactId>
-			<type>test-jar</type>
-			<scope>test</scope>
-			<version>${doxia.version}</version>
-		</dependency>
-	</dependencies>
 	<build>
 		<pluginManagement>
 			<plugins>
