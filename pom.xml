@@ -209,7 +209,5 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>1.6</maven.compiler.source>
 		<maven.compiler.target>1.6</maven.compiler.target>
-		<doxia.version>1.2</doxia.version>
-		<pegdown.version>0.9.2</pegdown.version>
 	</properties>
 </project>
