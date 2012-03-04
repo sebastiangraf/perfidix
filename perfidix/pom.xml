@@ -4,11 +4,11 @@
 	<artifactId>perfidix</artifactId>
 	<packaging>jar</packaging>
 	<name>Perfidix Library</name>
-	<version>3.6.4</version>
+	<version>3.6.5-SNAPSHOT</version>
 	<parent>
 		<groupId>perfidix</groupId>
 		<artifactId>complete</artifactId>
-		<version>1.0.0</version>
+		<version>1.0.1-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 	<repositories>
