@@ -5,6 +5,8 @@ Perfidix is a light-weight java library enabling users to benchmark sourcecode.
 Similar to JUnit, annotations can be placed before methods.
 Within the invocation of these methods, flexible measurements are performed.
 
+[![Build Status](https://secure.travis-ci.org/disy/perfidix.png)](http://travis-ci.org/disy/perfidix)
+
 5 steps how to use Perfidix
 -------
 
