@@ -2,3 +2,6 @@ language: java
 branches:
   only:
     - master
+notifications:
+    on_success: never
+    on_failure: always
