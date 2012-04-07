@@ -2,7 +2,7 @@ language: java
 branches:
   only:
     - master
-script: mvn clean install -U
+script: mvn clean test -U
 notifications:
     on_success: never
     on_failure: always
