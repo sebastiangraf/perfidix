@@ -25,7 +25,7 @@
         <url>http://travis-ci.org/#!/disy/perfidix</url>
     </ciManagement>
     <scm>
-        <url>https://github.com/disy/Perfidix</url>
+        <url>git@github.com:disy/perfidix.git</url>
         <connection>scm:git:git@github.com:disy/perfidix.git</connection>
         <developerConnection>scm:git:git@github.com:disy/perfidix.git</developerConnection>
     </scm>
@@ -231,6 +231,23 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
+    <distributionManagement>
+        <repository>
+            <id>disyInternal</id>
+            <url>http://mavenrepo.disy.inf.uni-konstanz.de/repository/disyInternal</url>
+            <uniqueVersion>false</uniqueVersion>
+        </repository>
+        <snapshotRepository>
+            <id>disyInternalSnapshot</id>
+            <url>http://mavenrepo.disy.inf.uni-konstanz.de/repository/disyInternalSnapshot</url>
+            <uniqueVersion>false</uniqueVersion>
+        </snapshotRepository>
+        <site>
+            <id>github</id>
+            <url>gitsite:git@github.com/disy/treetank.git</url>
+        </site>
+    </distributionManagement>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.6</maven.compiler.source>
