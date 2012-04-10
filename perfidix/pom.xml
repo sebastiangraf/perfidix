@@ -69,6 +69,7 @@
             </plugin>
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
+                <version>2.3</version>
                 <configuration>
                     <sourceEncoding>${project.build.sourceEncoding}</sourceEncoding>
                     <descriptors>
@@ -103,7 +104,6 @@
                 </executions>
             </plugin>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>2.2</version>
                 <executions>
@@ -151,29 +151,16 @@
                 </executions>
             </plugin>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-site-plugin</artifactId>
                 <version>3.0</version>
                 <configuration>
                     <plugin>
                         <artifactId>maven-project-info-reports-plugin</artifactId>
                         <version>2.4</version>
-                        <configuration>
-                            <dependencyDetailsEnabled>false</dependencyDetailsEnabled>
-                            <dependencyLocationsEnabled>false</dependencyLocationsEnabled>
-                        </configuration>
                     </plugin>
                     <plugin>
                         <artifactId>maven-javadoc-plugin</artifactId>
                         <version>2.8</version>
-					  	<executions>
-					    	<execution>
-					      		<id>attach-javadocs</id>
-					      		<goals>
-					        		<goal>jar</goal>
-					      		</goals>
-					    	</execution>
-					  	</executions>
                     </plugin>
                     <plugin>
                         <artifactId>maven-jxr-plugin</artifactId>
