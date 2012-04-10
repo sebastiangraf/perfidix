@@ -1,18 +1,18 @@
 /**
- * Copyright (c) 2011, University of Konstanz, Distributed Systems Group
+ * Copyright (c) 2012, University of Konstanz, Distributed Systems Group
  * All rights reserved.
- *
+ * 
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- *     * Redistributions of source code must retain the above copyright
- *       notice, this list of conditions and the following disclaimer.
- *     * Redistributions in binary form must reproduce the above copyright
- *       notice, this list of conditions and the following disclaimer in the
- *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the University of Konstanz nor the
- *       names of its contributors may be used to endorse or promote products
- *       derived from this software without specific prior written permission.
- *
+ * * Redistributions of source code must retain the above copyright
+ * notice, this list of conditions and the following disclaimer.
+ * * Redistributions in binary form must reproduce the above copyright
+ * notice, this list of conditions and the following disclaimer in the
+ * documentation and/or other materials provided with the distribution.
+ * * Neither the name of the University of Konstanz nor the
+ * names of its contributors may be used to endorse or promote products
+ * derived from this software without specific prior written permission.
+ * 
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
  * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -45,8 +45,7 @@ import org.perfidix.result.MethodResult;
  * 
  * @author Sebastian Graf, University of Konstanz
  */
-public final class CSVOutput extends AbstractOutput
-{
+public final class CSVOutput extends AbstractOutput {
 
     /**
      * Separator to distinguish between class, meter and method.
@@ -77,15 +76,12 @@ public final class CSVOutput extends AbstractOutput
      * @param paramFolder
      *            an {@link File} object which has to be a folder to write to
      */
-    public CSVOutput(final File paramFolder)
-    {
+    public CSVOutput(final File paramFolder) {
         super();
         folder = paramFolder;
-        if (folder != null && !folder.isDirectory())
-        {
-            throw new IllegalStateException(new StringBuilder(
-                    paramFolder.toString()).append(" has to be a folder!")
-                    .toString());
+        if (folder != null && !folder.isDirectory()) {
+            throw new IllegalStateException(new StringBuilder(paramFolder.toString()).append(
+                " has to be a folder!").toString());
         }
         firstResult = true;
         firstException = true;
@@ -95,8 +91,7 @@ public final class CSVOutput extends AbstractOutput
     /**
      * Constructor for output to {@link System#out}.
      */
-    public CSVOutput()
-    {
+    public CSVOutput() {
         this(null);
     }
 
@@ -104,14 +99,11 @@ public final class CSVOutput extends AbstractOutput
      * {@inheritDoc}
      */
     @Override
-    public boolean listenToResultSet(final Method meth,
-            final AbstractMeter meter, final double data)
-    {
-        final PrintStream stream = setUpNewPrintStream(false, meth
-                .getDeclaringClass().getSimpleName(), meth.getName(),
-                meter.getName());
-        if (!firstResult)
-        {
+    public boolean listenToResultSet(final Method meth, final AbstractMeter meter, final double data) {
+        final PrintStream stream =
+            setUpNewPrintStream(false, meth.getDeclaringClass().getSimpleName(), meth.getName(), meter
+                .getName());
+        if (!firstResult) {
             stream.append(",");
         }
         stream.append(Double.toString(data));
@@ -123,20 +115,15 @@ public final class CSVOutput extends AbstractOutput
 
     /** {@inheritDoc} */
     @Override
-    public boolean listenToException(final AbstractPerfidixMethodException exec)
-    {
-        final PrintStream currentWriter = setUpNewPrintStream(false,
-                "Exceptions");
-        if (!firstException)
-        {
+    public boolean listenToException(final AbstractPerfidixMethodException exec) {
+        final PrintStream currentWriter = setUpNewPrintStream(false, "Exceptions");
+        if (!firstException) {
             currentWriter.append("\n");
         }
         currentWriter.append(exec.getRelatedAnno().getSimpleName());
         currentWriter.append(",");
-        if (exec.getMethod() != null)
-        {
-            currentWriter.append(exec.getMethod().getDeclaringClass()
-                    .getSimpleName());
+        if (exec.getMethod() != null) {
+            currentWriter.append(exec.getMethod().getDeclaringClass().getSimpleName());
             currentWriter.append("#");
             currentWriter.append(exec.getMethod().getName());
             currentWriter.append(",");
@@ -150,30 +137,21 @@ public final class CSVOutput extends AbstractOutput
 
     /** {@inheritDoc} */
     @Override
-    public void visitBenchmark(final BenchmarkResult res)
-    {
+    public void visitBenchmark(final BenchmarkResult res) {
         // Printing the data
-        for (final ClassResult classRes : res.getIncludedResults())
-        {
-            for (final MethodResult methRes : classRes.getIncludedResults())
-            {
-                for (final AbstractMeter meter : methRes.getRegisteredMeters())
-                {
-                    final PrintStream currentWriter = setUpNewPrintStream(true,
-                            classRes.getElementName(),
-                            methRes.getElementName(), meter.getName());
+        for (final ClassResult classRes : res.getIncludedResults()) {
+            for (final MethodResult methRes : classRes.getIncludedResults()) {
+                for (final AbstractMeter meter : methRes.getRegisteredMeters()) {
+                    final PrintStream currentWriter =
+                        setUpNewPrintStream(true, classRes.getElementName(), methRes.getElementName(), meter
+                            .getName());
                     boolean first = true;
-                    for (final Double d : methRes.getResultSet(meter))
-                    {
-                        if (first)
-                        {
+                    for (final Double d : methRes.getResultSet(meter)) {
+                        if (first) {
                             currentWriter.append(d.toString());
                             first = false;
-                        }
-                        else
-                        {
-                            currentWriter.append(new StringBuilder(",").append(
-                                    d.toString()).toString());
+                        } else {
+                            currentWriter.append(new StringBuilder(",").append(d.toString()).toString());
                         }
                     }
 
@@ -182,17 +160,13 @@ public final class CSVOutput extends AbstractOutput
             }
         }
         // Printing the exceptions
-        final PrintStream currentWriter = setUpNewPrintStream(true,
-                "Exceptions");
+        final PrintStream currentWriter = setUpNewPrintStream(true, "Exceptions");
 
-        for (final AbstractPerfidixMethodException exec : res.getExceptions())
-        {
+        for (final AbstractPerfidixMethodException exec : res.getExceptions()) {
             currentWriter.append(exec.getRelatedAnno().getSimpleName());
-            if (exec.getMethod() != null)
-            {
+            if (exec.getMethod() != null) {
                 currentWriter.append(":");
-                currentWriter.append(exec.getMethod().getDeclaringClass()
-                        .getSimpleName());
+                currentWriter.append(exec.getMethod().getDeclaringClass().getSimpleName());
                 currentWriter.append("#");
                 currentWriter.append(exec.getMethod().getName());
             }
@@ -204,10 +178,8 @@ public final class CSVOutput extends AbstractOutput
         tearDownAllStreams();
     }
 
-    private void tearDownAllStreams()
-    {
-        for (final PrintStream stream : usedFiles.values())
-        {
+    private void tearDownAllStreams() {
+        for (final PrintStream stream : usedFiles.values()) {
             stream.close();
         }
     }
@@ -224,39 +196,26 @@ public final class CSVOutput extends AbstractOutput
      * @throws FileNotFoundException
      *             if something goes wrong with the file
      */
-    private PrintStream setUpNewPrintStream(final boolean visitorStream,
-            final String... names)
-    {
+    private PrintStream setUpNewPrintStream(final boolean visitorStream, final String... names) {
 
         PrintStream out = System.out;
 
-        if (folder == null)
-        {
-            if (visitorStream)
-            {
+        if (folder == null) {
+            if (visitorStream) {
                 out.println();
             }
-        }
-        else
-        {
+        } else {
             final File toWriteTo = new File(folder, buildFileName(names));
-            try
-            {
-                if (usedFiles.containsKey(toWriteTo))
-                {
+            try {
+                if (usedFiles.containsKey(toWriteTo)) {
                     out = usedFiles.get(toWriteTo);
-                }
-                else
-                {
+                } else {
                     toWriteTo.delete();
-                    out = new PrintStream(new FileOutputStream(toWriteTo,
-                            !visitorStream));
+                    out = new PrintStream(new FileOutputStream(toWriteTo, !visitorStream));
                     usedFiles.put(toWriteTo, out);
                     firstResult = true;
                 }
-            }
-            catch (final FileNotFoundException e)
-            {
+            } catch (final FileNotFoundException e) {
                 throw new IllegalStateException(e);
             }
 
@@ -272,14 +231,11 @@ public final class CSVOutput extends AbstractOutput
      *            different names to be combined
      * @return a String for a suitable file name
      */
-    private String buildFileName(final String... names)
-    {
+    private String buildFileName(final String... names) {
         final StringBuilder builder = new StringBuilder();
-        for (int i = 0; i < names.length; i++)
-        {
+        for (int i = 0; i < names.length; i++) {
             builder.append(names[i]);
-            if (i < names.length - 1)
-            {
+            if (i < names.length - 1) {
                 builder.append(SEPARATOR);
             }
         }

@@ -1,18 +1,18 @@
 /**
- * Copyright (c) 2011, University of Konstanz, Distributed Systems Group
+ * Copyright (c) 2012, University of Konstanz, Distributed Systems Group
  * All rights reserved.
- *
+ * 
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- *     * Redistributions of source code must retain the above copyright
- *       notice, this list of conditions and the following disclaimer.
- *     * Redistributions in binary form must reproduce the above copyright
- *       notice, this list of conditions and the following disclaimer in the
- *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the University of Konstanz nor the
- *       names of its contributors may be used to endorse or promote products
- *       derived from this software without specific prior written permission.
- *
+ * * Redistributions of source code must retain the above copyright
+ * notice, this list of conditions and the following disclaimer.
+ * * Redistributions in binary form must reproduce the above copyright
+ * notice, this list of conditions and the following disclaimer in the
+ * documentation and/or other materials provided with the distribution.
+ * * Neither the name of the University of Konstanz nor the
+ * names of its contributors may be used to endorse or promote products
+ * derived from this software without specific prior written permission.
+ * 
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
  * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -53,8 +53,7 @@ import java.util.Map.Entry;
  * bench1
  * </code>
  */
-public final class SequentialMethodArrangement
-        extends AbstractMethodArrangement {
+public final class SequentialMethodArrangement extends AbstractMethodArrangement {
 
     /**
      * Simple Constructor-
@@ -67,12 +66,10 @@ public final class SequentialMethodArrangement
 
     /** {@inheritDoc} */
     @Override
-    protected List<BenchmarkElement> arrangeList(
-            final Set<BenchmarkElement> elements) {
+    protected List<BenchmarkElement> arrangeList(final Set<BenchmarkElement> elements) {
         final Map<BenchmarkMethod, ArrayList<BenchmarkElement>> table =
-                new Hashtable<BenchmarkMethod, ArrayList<BenchmarkElement>>();
-        final List<BenchmarkElement> returnVal =
-                new ArrayList<BenchmarkElement>();
+            new Hashtable<BenchmarkMethod, ArrayList<BenchmarkElement>>();
+        final List<BenchmarkElement> returnVal = new ArrayList<BenchmarkElement>();
 
         // Having a table
         for (final BenchmarkElement elem : elements) {
@@ -90,15 +87,12 @@ public final class SequentialMethodArrangement
 
         // Defining order to execute, start with the one with the most elements
         final Set<Entry<BenchmarkMethod, ArrayList<BenchmarkElement>>> compareMethods =
-                new TreeSet<Entry<BenchmarkMethod, ArrayList<BenchmarkElement>>>(
-                        new BenchmarkElementComparator());
-        for (final Entry<BenchmarkMethod, ArrayList<BenchmarkElement>> entry : table
-                .entrySet()) {
+            new TreeSet<Entry<BenchmarkMethod, ArrayList<BenchmarkElement>>>(new BenchmarkElementComparator());
+        for (final Entry<BenchmarkMethod, ArrayList<BenchmarkElement>> entry : table.entrySet()) {
             compareMethods.add(entry);
         }
 
-        final ArrayList<BenchmarkMethod> methods =
-                new ArrayList<BenchmarkMethod>();
+        final ArrayList<BenchmarkMethod> methods = new ArrayList<BenchmarkMethod>();
         for (Entry<BenchmarkMethod, ArrayList<BenchmarkElement>> entry : compareMethods) {
             methods.add(entry.getKey());
         }
@@ -128,14 +122,12 @@ public final class SequentialMethodArrangement
      * 
      * @author Sebastian Graf, University of Konstanz
      */
-    class BenchmarkElementComparator
-            implements
-            Comparator<Entry<BenchmarkMethod, ArrayList<BenchmarkElement>>> {
+    class BenchmarkElementComparator implements
+        Comparator<Entry<BenchmarkMethod, ArrayList<BenchmarkElement>>> {
 
         /** {@inheritDoc} */
-        public int compare(
-                final Entry<BenchmarkMethod, ArrayList<BenchmarkElement>> object1,
-                final Entry<BenchmarkMethod, ArrayList<BenchmarkElement>> object2) {
+        public int compare(final Entry<BenchmarkMethod, ArrayList<BenchmarkElement>> object1,
+            final Entry<BenchmarkMethod, ArrayList<BenchmarkElement>> object2) {
             int returnVal = 0;
             if (object1.getValue().size() > object2.getValue().size()) {
                 returnVal = -1;

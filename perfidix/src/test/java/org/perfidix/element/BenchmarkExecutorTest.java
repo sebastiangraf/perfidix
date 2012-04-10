@@ -1,18 +1,18 @@
 /**
- * Copyright (c) 2011, University of Konstanz, Distributed Systems Group
+ * Copyright (c) 2012, University of Konstanz, Distributed Systems Group
  * All rights reserved.
- *
+ * 
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- *     * Redistributions of source code must retain the above copyright
- *       notice, this list of conditions and the following disclaimer.
- *     * Redistributions in binary form must reproduce the above copyright
- *       notice, this list of conditions and the following disclaimer in the
- *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the University of Konstanz nor the
- *       names of its contributors may be used to endorse or promote products
- *       derived from this software without specific prior written permission.
- *
+ * * Redistributions of source code must retain the above copyright
+ * notice, this list of conditions and the following disclaimer.
+ * * Redistributions in binary form must reproduce the above copyright
+ * notice, this list of conditions and the following disclaimer in the
+ * documentation and/or other materials provided with the distribution.
+ * * Neither the name of the University of Konstanz nor the
+ * names of its contributors may be used to endorse or promote products
+ * derived from this software without specific prior written permission.
+ * 
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
  * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -112,10 +112,8 @@ public class BenchmarkExecutorTest {
             final BenchmarkMethod elem1 = new BenchmarkMethod(meth);
             final BenchmarkMethod elem2 = new BenchmarkMethod(meth);
 
-            final BenchmarkExecutor exec1 =
-                    BenchmarkExecutor.getExecutor(new BenchmarkElement(elem1));
-            final BenchmarkExecutor exec2 =
-                    BenchmarkExecutor.getExecutor(new BenchmarkElement(elem2));
+            final BenchmarkExecutor exec1 = BenchmarkExecutor.getExecutor(new BenchmarkElement(elem1));
+            final BenchmarkExecutor exec2 = BenchmarkExecutor.getExecutor(new BenchmarkElement(elem2));
 
             assertEquals("Singleton test of executor", exec1, exec2);
         } catch (final SecurityException e) {
@@ -126,8 +124,7 @@ public class BenchmarkExecutorTest {
     }
 
     /**
-     * Test method for
-     * {@link org.perfidix.element.BenchmarkExecutor#executeBeforeMethods(java.lang.Object)}
+     * Test method for {@link org.perfidix.element.BenchmarkExecutor#executeBeforeMethods(java.lang.Object)}
      */
     @Test
     public void testExecuteBeforeMethods() {
@@ -137,8 +134,7 @@ public class BenchmarkExecutorTest {
 
             final BenchmarkMethod elem = new BenchmarkMethod(meth);
 
-            final BenchmarkExecutor exec =
-                    BenchmarkExecutor.getExecutor(new BenchmarkElement(elem));
+            final BenchmarkExecutor exec = BenchmarkExecutor.getExecutor(new BenchmarkElement(elem));
 
             exec.executeBeforeMethods(objToExecute);
             exec.executeBeforeMethods(objToExecute);
@@ -158,8 +154,7 @@ public class BenchmarkExecutorTest {
     }
 
     /**
-     * Test method for
-     * {@link org.perfidix.element.BenchmarkExecutor#executeBench(Object)} .
+     * Test method for {@link org.perfidix.element.BenchmarkExecutor#executeBench(Object)} .
      */
     @Test
     public void testExecuteBench() {
@@ -167,39 +162,26 @@ public class BenchmarkExecutorTest {
             final Method meth = NormalClass.class.getMethod(METHODNAME);
             final Object objToExecute = NormalClass.class.newInstance();
             final BenchmarkMethod elem = new BenchmarkMethod(meth);
-            final BenchmarkExecutor exec =
-                    BenchmarkExecutor.getExecutor(new BenchmarkElement(elem));
+            final BenchmarkExecutor exec = BenchmarkExecutor.getExecutor(new BenchmarkElement(elem));
             exec.executeBench(objToExecute);
 
             assertEquals("Each is invoked just once", 1, each);
-            assertEquals(
-                    "Set should be included in the frameworks as well", meter,
-                    res.getRegisteredMeters());
-            final Iterator<ClassResult> classResIter =
-                    res.getIncludedResults().iterator();
+            assertEquals("Set should be included in the frameworks as well", meter, res.getRegisteredMeters());
+            final Iterator<ClassResult> classResIter = res.getIncludedResults().iterator();
             final ClassResult classRes = classResIter.next();
-            assertFalse(
-                    "Iterator of classes should only contain one element",
-                    classResIter.hasNext());
-            assertEquals("Meters should all be registered", meter, classRes
-                    .getRegisteredMeters());
-            assertEquals(
-                    "Classes has to be included in a correct way", objToExecute
-                            .getClass(), classRes.getRelatedElement());
-            assertEquals(
-                    "The NormalClass should be included", NormalClass.class,
-                    classRes.getRelatedElement());
+            assertFalse("Iterator of classes should only contain one element", classResIter.hasNext());
+            assertEquals("Meters should all be registered", meter, classRes.getRegisteredMeters());
+            assertEquals("Classes has to be included in a correct way", objToExecute.getClass(), classRes
+                .getRelatedElement());
+            assertEquals("The NormalClass should be included", NormalClass.class, classRes
+                .getRelatedElement());
 
-            final Iterator<MethodResult> methResIter =
-                    classRes.getIncludedResults().iterator();
+            final Iterator<MethodResult> methResIter = classRes.getIncludedResults().iterator();
             final MethodResult methRes = methResIter.next();
-            assertFalse("Only one result should be there", methResIter
-                    .hasNext());
-            assertEquals("The set has to match", meter, methRes
-                    .getRegisteredMeters());
-            assertEquals(
-                    "The method should be the same than for the related element",
-                    meth, methRes.getRelatedElement());
+            assertFalse("Only one result should be there", methResIter.hasNext());
+            assertEquals("The set has to match", meter, methRes.getRegisteredMeters());
+            assertEquals("The method should be the same than for the related element", meth, methRes
+                .getRelatedElement());
         } catch (final SecurityException e) {
             fail(e.getMessage());
         } catch (final NoSuchMethodException e) {
@@ -213,8 +195,7 @@ public class BenchmarkExecutorTest {
     }
 
     /**
-     * Test method for
-     * {@link org.perfidix.element.BenchmarkExecutor#executeAfterMethods(java.lang.Object)}
+     * Test method for {@link org.perfidix.element.BenchmarkExecutor#executeAfterMethods(java.lang.Object)}
      */
     @Test
     public void testExecuteAfterMethods() {
@@ -224,8 +205,7 @@ public class BenchmarkExecutorTest {
 
             final BenchmarkMethod elem = new BenchmarkMethod(meth);
 
-            final BenchmarkExecutor exec =
-                    BenchmarkExecutor.getExecutor(new BenchmarkElement(elem));
+            final BenchmarkExecutor exec = BenchmarkExecutor.getExecutor(new BenchmarkElement(elem));
 
             exec.executeAfterMethods(objToExecute);
             exec.executeAfterMethods(objToExecute);
@@ -245,9 +225,7 @@ public class BenchmarkExecutorTest {
     }
 
     /**
-     * Test method for
-     * {@link org.perfidix.element.BenchmarkExecutor#checkMethod(Object, Method, Class)}
-     * and
+     * Test method for {@link org.perfidix.element.BenchmarkExecutor#checkMethod(Object, Method, Class)} and
      * {@link org.perfidix.element.BenchmarkExecutor#invokeMethod(Object, Method, Class)}
      */
     @Test
@@ -256,37 +234,29 @@ public class BenchmarkExecutorTest {
             final Object falseObj = new Object();
             final Object correctObj = new CheckAndExecuteClass();
 
-            assertEquals("Two methods should be included", 2, correctObj
-                    .getClass().getDeclaredMethods().length);
+            assertEquals("Two methods should be included", 2,
+                correctObj.getClass().getDeclaredMethods().length);
 
-            final Method correctMethod =
-                    CheckAndExecuteClass.class.getMethod("correctMethod");
-            final Method falseMethod =
-                    CheckAndExecuteClass.class.getMethod("incorrectMethod");
+            final Method correctMethod = CheckAndExecuteClass.class.getMethod("correctMethod");
+            final Method falseMethod = CheckAndExecuteClass.class.getMethod("incorrectMethod");
 
             final PerfidixMethodCheckException excep1 =
-                    BenchmarkExecutor.checkMethod(
-                            falseObj, correctMethod, SkipBench.class);
+                BenchmarkExecutor.checkMethod(falseObj, correctMethod, SkipBench.class);
             assertNotNull("Exception 1 shouldn't be null", excep1);
 
             final PerfidixMethodCheckException excep2 =
-                    BenchmarkExecutor.checkMethod(
-                            correctObj, falseMethod, SkipBench.class);
+                BenchmarkExecutor.checkMethod(correctObj, falseMethod, SkipBench.class);
             assertNotNull("Exception 2 shouldn't be null", excep2);
 
             final PerfidixMethodCheckException excep3 =
-                    BenchmarkExecutor.checkMethod(
-                            correctObj, correctMethod, SkipBench.class);
+                BenchmarkExecutor.checkMethod(correctObj, correctMethod, SkipBench.class);
             assertNull("Exception 3 shouldn't be null", excep3);
 
             final PerfidixMethodInvocationException excep4 =
-                    BenchmarkExecutor.invokeMethod(
-                            correctObj, correctMethod, SkipBench.class);
+                BenchmarkExecutor.invokeMethod(correctObj, correctMethod, SkipBench.class);
             assertNull("Exception 4 shouldn't be null", excep4);
 
-            assertEquals(
-                    "invokation of beforeFirst should be occured just once", 1,
-                    once);
+            assertEquals("invokation of beforeFirst should be occured just once", 1, once);
         } catch (final SecurityException e) {
             fail(e.getMessage());
         } catch (final NoSuchMethodException e) {

@@ -1,18 +1,18 @@
 /**
- * Copyright (c) 2011, University of Konstanz, Distributed Systems Group
+ * Copyright (c) 2012, University of Konstanz, Distributed Systems Group
  * All rights reserved.
- *
+ * 
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- *     * Redistributions of source code must retain the above copyright
- *       notice, this list of conditions and the following disclaimer.
- *     * Redistributions in binary form must reproduce the above copyright
- *       notice, this list of conditions and the following disclaimer in the
- *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the University of Konstanz nor the
- *       names of its contributors may be used to endorse or promote products
- *       derived from this software without specific prior written permission.
- *
+ * * Redistributions of source code must retain the above copyright
+ * notice, this list of conditions and the following disclaimer.
+ * * Redistributions in binary form must reproduce the above copyright
+ * notice, this list of conditions and the following disclaimer in the
+ * documentation and/or other materials provided with the distribution.
+ * * Neither the name of the University of Konstanz nor the
+ * names of its contributors may be used to endorse or promote products
+ * derived from this software without specific prior written permission.
+ * 
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
  * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -78,13 +78,12 @@ public final class Util {
      * @param totalWidth
      *            the total width of the result string
      */
-    protected static String pad(
-            final String data, final char doPadWithThis, final int totalWidth,
-            final Alignment orientation) {
+    protected static String pad(final String data, final char doPadWithThis, final int totalWidth,
+        final Alignment orientation) {
 
-        final String pad =
-                repeat(new String(new char[] { doPadWithThis }), Math.max(
-                        0, totalWidth - data.length()));
+        final String pad = repeat(new String(new char[] {
+            doPadWithThis
+        }), Math.max(0, totalWidth - data.length()));
         String returnVal = "";
         if (orientation == null) {
             returnVal = new StringBuilder(data).append(pad).toString();
@@ -92,9 +91,7 @@ public final class Util {
             switch (orientation) {
             case Center:
                 returnVal =
-                        pad.substring(0, pad.length() / 2)
-                                + data
-                                + pad.substring(pad.length() / 2, pad.length());
+                    pad.substring(0, pad.length() / 2) + data + pad.substring(pad.length() / 2, pad.length());
                 break;
             case Right:
                 returnVal = new StringBuilder(pad).append(data).toString();
@@ -116,10 +113,12 @@ public final class Util {
      *            the glue string to use.
      * 
      *            <pre>
-     * String[] what = { &quot;a&quot;, &quot;b&quot;, &quot;c&quot; };
+     * String[] what = {
+     *     &quot;a&quot;, &quot;b&quot;, &quot;c&quot;
+     * };
      * 
      * String s = Util.implode(&quot;-&quot;, what);
-     * //result is &quot;a-b-c&quot;
+     * // result is &quot;a-b-c&quot;
      * </pre>
      * @return String
      */
@@ -162,8 +161,7 @@ public final class Util {
      * @param toBeSplitted
      *            the string to be splitted
      */
-    private static String[] explode(
-            final char splitter, final String toBeSplitted) {
+    private static String[] explode(final char splitter, final String toBeSplitted) {
         return toBeSplitted.split("\\" + splitter);
     }
 
@@ -179,8 +177,9 @@ public final class Util {
         final char[] arr = toExamine.toCharArray();
         int result = 0;
         for (char ch : arr) {
-            if (AbstractTabularComponent.NEWLINE.equals(new String(
-                    new char[] { ch }))) {
+            if (AbstractTabularComponent.NEWLINE.equals(new String(new char[] {
+                ch
+            }))) {
                 result++;
             }
         }

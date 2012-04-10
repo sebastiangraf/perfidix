@@ -1,18 +1,18 @@
 /**
- * Copyright (c) 2011, University of Konstanz, Distributed Systems Group
+ * Copyright (c) 2012, University of Konstanz, Distributed Systems Group
  * All rights reserved.
- *
+ * 
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- *     * Redistributions of source code must retain the above copyright
- *       notice, this list of conditions and the following disclaimer.
- *     * Redistributions in binary form must reproduce the above copyright
- *       notice, this list of conditions and the following disclaimer in the
- *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the University of Konstanz nor the
- *       names of its contributors may be used to endorse or promote products
- *       derived from this software without specific prior written permission.
- *
+ * * Redistributions of source code must retain the above copyright
+ * notice, this list of conditions and the following disclaimer.
+ * * Redistributions in binary form must reproduce the above copyright
+ * notice, this list of conditions and the following disclaimer in the
+ * documentation and/or other materials provided with the distribution.
+ * * Neither the name of the University of Konstanz nor the
+ * names of its contributors may be used to endorse or promote products
+ * derived from this software without specific prior written permission.
+ * 
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
  * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -35,8 +35,8 @@ import java.math.MathContext;
  * Because Perfidix-processes are influencing the used memory as well, a small
  * increasment of used memory is normal. However, because being based only on
  * the Runtime-class of Java, no extraction of the perfidix processes themselves
- * is possible. The MemMeter is only usable with an instance of the
- * {@link Memory} enumeration for formatting purposes. This choose must be made
+ * is possible. The MemMeter is only usable with an instance of the {@link Memory} enumeration for formatting
+ * purposes. This choose must be made
  * by instantiation of the meter.
  * 
  * @see Memory
@@ -71,11 +71,9 @@ public final class MemMeter extends AbstractMeter {
     @Override
     public double getValue() {
         final Runtime runtime = Runtime.getRuntime();
-        memAlreadyUsed =
-                memAlreadyUsed + runtime.totalMemory() - runtime.freeMemory();
+        memAlreadyUsed = memAlreadyUsed + runtime.totalMemory() - runtime.freeMemory();
         return new BigDecimal(memAlreadyUsed, MathContext.DECIMAL128).divide(
-                new BigDecimal(scale.getNumberOfBytes()),
-                MathContext.DECIMAL128).doubleValue();
+            new BigDecimal(scale.getNumberOfBytes()), MathContext.DECIMAL128).doubleValue();
     }
 
     /** {@inheritDoc} */
@@ -120,7 +118,7 @@ public final class MemMeter extends AbstractMeter {
         if (getClass() != obj.getClass()) {
             returnVal = false;
         }
-        final MemMeter other = (MemMeter) obj;
+        final MemMeter other = (MemMeter)obj;
         if (scale == null) {
             if (other.scale != null) {
                 returnVal = false;

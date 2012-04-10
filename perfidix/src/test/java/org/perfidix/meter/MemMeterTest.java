@@ -1,18 +1,18 @@
 /**
- * Copyright (c) 2011, University of Konstanz, Distributed Systems Group
+ * Copyright (c) 2012, University of Konstanz, Distributed Systems Group
  * All rights reserved.
- *
+ * 
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- *     * Redistributions of source code must retain the above copyright
- *       notice, this list of conditions and the following disclaimer.
- *     * Redistributions in binary form must reproduce the above copyright
- *       notice, this list of conditions and the following disclaimer in the
- *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the University of Konstanz nor the
- *       names of its contributors may be used to endorse or promote products
- *       derived from this software without specific prior written permission.
- *
+ * * Redistributions of source code must retain the above copyright
+ * notice, this list of conditions and the following disclaimer.
+ * * Redistributions in binary form must reproduce the above copyright
+ * notice, this list of conditions and the following disclaimer in the
+ * documentation and/or other materials provided with the distribution.
+ * * Neither the name of the University of Konstanz nor the
+ * names of its contributors may be used to endorse or promote products
+ * derived from this software without specific prior written permission.
+ * 
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
  * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -78,12 +78,9 @@ public final class MemMeterTest {
         final double dataKB1 = kibiByteMeter.getValue();
         final double dataMB1 = mebiByteMeter.getValue();
 
-        assertTrue("Data check for byte", dataB1 > EPSILON
-                / Memory.Byte.getNumberOfBytes());
-        assertTrue("Data check for KibiByte", dataKB1 > EPSILON
-                / Memory.KibiByte.getNumberOfBytes());
-        assertTrue("Data check for MebiByte", dataMB1 > EPSILON
-                / Memory.Mebibyte.getNumberOfBytes());
+        assertTrue("Data check for byte", dataB1 > EPSILON / Memory.Byte.getNumberOfBytes());
+        assertTrue("Data check for KibiByte", dataKB1 > EPSILON / Memory.KibiByte.getNumberOfBytes());
+        assertTrue("Data check for MebiByte", dataMB1 > EPSILON / Memory.Mebibyte.getNumberOfBytes());
     }
 
     /**
@@ -91,13 +88,9 @@ public final class MemMeterTest {
      */
     @Test
     public void testGetUnit() {
-        assertEquals(
-                "Data check for unit for byte", Memory.Byte.getUnit(),
-                byteMeter.getUnit());
-        assertEquals("Data check for unit for kibiByte", Memory.KibiByte
-                .getUnit(), kibiByteMeter.getUnit());
-        assertEquals("Data check for unit for mebiByte", Memory.Mebibyte
-                .getUnit(), mebiByteMeter.getUnit());
+        assertEquals("Data check for unit for byte", Memory.Byte.getUnit(), byteMeter.getUnit());
+        assertEquals("Data check for unit for kibiByte", Memory.KibiByte.getUnit(), kibiByteMeter.getUnit());
+        assertEquals("Data check for unit for mebiByte", Memory.Mebibyte.getUnit(), mebiByteMeter.getUnit());
     }
 
     /**
@@ -105,12 +98,12 @@ public final class MemMeterTest {
      */
     @Test
     public void testGetDescription() {
-        assertEquals("Data check for describtion for byte", Memory.Byte
-                .getUnitDescription(), byteMeter.getUnitDescription());
-        assertEquals("Data check for describtion for kibiByte", Memory.KibiByte
-                .getUnitDescription(), kibiByteMeter.getUnitDescription());
-        assertEquals("Data check for describtion for mebiByte", Memory.Mebibyte
-                .getUnitDescription(), mebiByteMeter.getUnitDescription());
+        assertEquals("Data check for describtion for byte", Memory.Byte.getUnitDescription(), byteMeter
+            .getUnitDescription());
+        assertEquals("Data check for describtion for kibiByte", Memory.KibiByte.getUnitDescription(),
+            kibiByteMeter.getUnitDescription());
+        assertEquals("Data check for describtion for mebiByte", Memory.Mebibyte.getUnitDescription(),
+            mebiByteMeter.getUnitDescription());
 
     }
 }

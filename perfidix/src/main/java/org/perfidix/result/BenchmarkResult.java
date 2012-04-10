@@ -1,18 +1,18 @@
 /**
- * Copyright (c) 2011, University of Konstanz, Distributed Systems Group
+ * Copyright (c) 2012, University of Konstanz, Distributed Systems Group
  * All rights reserved.
- *
+ * 
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- *     * Redistributions of source code must retain the above copyright
- *       notice, this list of conditions and the following disclaimer.
- *     * Redistributions in binary form must reproduce the above copyright
- *       notice, this list of conditions and the following disclaimer in the
- *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the University of Konstanz nor the
- *       names of its contributors may be used to endorse or promote products
- *       derived from this software without specific prior written permission.
- *
+ * * Redistributions of source code must retain the above copyright
+ * notice, this list of conditions and the following disclaimer.
+ * * Redistributions in binary form must reproduce the above copyright
+ * notice, this list of conditions and the following disclaimer in the
+ * documentation and/or other materials provided with the distribution.
+ * * Neither the name of the University of Konstanz nor the
+ * names of its contributors may be used to endorse or promote products
+ * derived from this software without specific prior written permission.
+ * 
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
  * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -35,8 +35,8 @@ import org.perfidix.meter.AbstractMeter;
 import org.perfidix.ouput.AbstractOutput;
 
 /**
- * This class holds the data of a complete Benchmark. Only one
- * <code>BenchmarkResult</code> is generated per Benchmark-Run. The different
+ * This class holds the data of a complete Benchmark. Only one <code>BenchmarkResult</code> is generated per
+ * Benchmark-Run. The different
  * components are {@link ClassResult} objects. This class is the container for
  * the results of a Benchmark and therefore the input for different Outputs.
  * 
@@ -82,8 +82,7 @@ public final class BenchmarkResult extends AbstractResultContainer<ClassResult> 
      * @param data
      *            the data itself
      */
-    public void addData(
-            final Method meth, final AbstractMeter meter, final double data) {
+    public void addData(final Method meth, final AbstractMeter meter, final double data) {
 
         final Class<?> clazz = meth.getDeclaringClass();
         if (!elements.containsKey(clazz)) {

@@ -1,18 +1,18 @@
 /**
- * Copyright (c) 2011, University of Konstanz, Distributed Systems Group
+ * Copyright (c) 2012, University of Konstanz, Distributed Systems Group
  * All rights reserved.
- *
+ * 
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- *     * Redistributions of source code must retain the above copyright
- *       notice, this list of conditions and the following disclaimer.
- *     * Redistributions in binary form must reproduce the above copyright
- *       notice, this list of conditions and the following disclaimer in the
- *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the University of Konstanz nor the
- *       names of its contributors may be used to endorse or promote products
- *       derived from this software without specific prior written permission.
- *
+ * * Redistributions of source code must retain the above copyright
+ * notice, this list of conditions and the following disclaimer.
+ * * Redistributions in binary form must reproduce the above copyright
+ * notice, this list of conditions and the following disclaimer in the
+ * documentation and/or other materials provided with the distribution.
+ * * Neither the name of the University of Konstanz nor the
+ * names of its contributors may be used to endorse or promote products
+ * derived from this software without specific prior written permission.
+ * 
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
  * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -41,13 +41,13 @@ import org.perfidix.benchmarktests.ToTestConfig;
 public class PerfidixTest {
 
     /**
-     * Test method for
-     * {@link org.perfidix.Perfidix#runBenchs(java.lang.String[])}.
+     * Test method for {@link org.perfidix.Perfidix#runBenchs(java.lang.String[])}.
      */
     @Test
     public void testRunBenchs() {
-        final String[] benchs =
-                { "org.perfidix.benchmarktests.NormalCompleteBench" };
+        final String[] benchs = {
+            "org.perfidix.benchmarktests.NormalCompleteBench"
+        };
         try {
             Perfidix.runBenchs(benchs);
         } catch (final ClassNotFoundException e) {
@@ -61,13 +61,13 @@ public class PerfidixTest {
 
     /**
      * Test method for
-     * {@link org.perfidix.Perfidix#setUpBenchmark(java.lang.String[], org.perfidix.Benchmark)}
-     * .
+     * {@link org.perfidix.Perfidix#setUpBenchmark(java.lang.String[], org.perfidix.Benchmark)} .
      */
     @Test
     public void testSetUpBenchmark() {
-        final String[] benchs =
-                { "org.perfidix.benchmarktests.NormalCompleteBench" };
+        final String[] benchs = {
+            "org.perfidix.benchmarktests.NormalCompleteBench"
+        };
         final Benchmark bench = new Benchmark();
         try {
             Perfidix.setUpBenchmark(benchs, bench);
@@ -77,29 +77,20 @@ public class PerfidixTest {
     }
 
     /**
-     * Test method for
-     * {@link org.perfidix.Perfidix#getConfiguration(java.lang.String[])}.
+     * Test method for {@link org.perfidix.Perfidix#getConfiguration(java.lang.String[])}.
      */
     @Test
     public void testGetConfiguration() {
-        final String[] confs = { "org.perfidix.benchmarktests.ToTestConfig" };
+        final String[] confs = {
+            "org.perfidix.benchmarktests.ToTestConfig"
+        };
         try {
             final AbstractConfig conf = Perfidix.getConfiguration(confs);
-            assertEquals(
-                    "runs must be the same", conf.getRuns(),
-                    ToTestConfig.TESTRUNS);
-            assertArrayEquals(
-                    "meters must be the same", conf.getMeters(),
-                    ToTestConfig.TESTMETERS);
-            assertArrayEquals(
-                    "listeners must be the same", conf.getListener(),
-                    ToTestConfig.TESTLISTENER);
-            assertEquals(
-                    "arrangement must be the same", conf.getArrangement(),
-                    ToTestConfig.TESTARR);
-            assertEquals(
-                    "gc prob must be the same", conf.getGcProb(),
-                    ToTestConfig.TESTGC, 0);
+            assertEquals("runs must be the same", conf.getRuns(), ToTestConfig.TESTRUNS);
+            assertArrayEquals("meters must be the same", conf.getMeters(), ToTestConfig.TESTMETERS);
+            assertArrayEquals("listeners must be the same", conf.getListener(), ToTestConfig.TESTLISTENER);
+            assertEquals("arrangement must be the same", conf.getArrangement(), ToTestConfig.TESTARR);
+            assertEquals("gc prob must be the same", conf.getGcProb(), ToTestConfig.TESTGC, 0);
         } catch (final ClassNotFoundException e) {
             fail(e.toString());
         } catch (final InstantiationException e) {
@@ -114,8 +105,9 @@ public class PerfidixTest {
      */
     @Test
     public void testMain() {
-        final String[] benchs =
-                { "org.perfidix.benchmarktests.NormalCompleteBench" };
+        final String[] benchs = {
+            "org.perfidix.benchmarktests.NormalCompleteBench"
+        };
         try {
             Perfidix.runBenchs(benchs);
         } catch (final ClassNotFoundException e) {

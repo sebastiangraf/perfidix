@@ -1,18 +1,18 @@
 /**
- * Copyright (c) 2011, University of Konstanz, Distributed Systems Group
+ * Copyright (c) 2012, University of Konstanz, Distributed Systems Group
  * All rights reserved.
- *
+ * 
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- *     * Redistributions of source code must retain the above copyright
- *       notice, this list of conditions and the following disclaimer.
- *     * Redistributions in binary form must reproduce the above copyright
- *       notice, this list of conditions and the following disclaimer in the
- *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the University of Konstanz nor the
- *       names of its contributors may be used to endorse or promote products
- *       derived from this software without specific prior written permission.
- *
+ * * Redistributions of source code must retain the above copyright
+ * notice, this list of conditions and the following disclaimer.
+ * * Redistributions in binary form must reproduce the above copyright
+ * notice, this list of conditions and the following disclaimer in the
+ * documentation and/or other materials provided with the distribution.
+ * * Neither the name of the University of Konstanz nor the
+ * names of its contributors may be used to endorse or promote products
+ * derived from this software without specific prior written permission.
+ * 
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
  * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -88,10 +88,8 @@ public final class CSVOutputTest {
         }
 
         testException =
-                new PerfidixMethodInvocationException(
-                        new IOException(), new Class1()
-                                .getClass().getDeclaredMethod("method1"),
-                        Bench.class);
+            new PerfidixMethodInvocationException(new IOException(), new Class1().getClass()
+                .getDeclaredMethod("method1"), Bench.class);
 
         benchRes.addException(testException);
         consoleOut = System.out;
@@ -117,8 +115,7 @@ public final class CSVOutputTest {
 
     /**
      * Test method for
-     * {@link org.perfidix.ouput.CSVOutput#visitBenchmark(org.perfidix.result.BenchmarkResult)}
-     * .
+     * {@link org.perfidix.ouput.CSVOutput#visitBenchmark(org.perfidix.result.BenchmarkResult)} .
      */
     @Test
     public void testVisitSystemOut() {
@@ -127,18 +124,15 @@ public final class CSVOutputTest {
         output.visitBenchmark(benchRes);
         final StringBuilder builderData1 = new StringBuilder();
         builderData1.append("1.0,2.0,3.0,4.0,5.0,6.0,7.0,8.0,9.0,10.0");
-        assertTrue("first bunch of must be the same", bytes
-                .toString().contains(builderData1.toString()));
+        assertTrue("first bunch of must be the same", bytes.toString().contains(builderData1.toString()));
 
         final StringBuilder builderData2 = new StringBuilder();
         builderData2.append("0.5,1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0");
-        assertTrue("second bunch of must be the same", bytes
-                .toString().contains(builderData2.toString()));
+        assertTrue("second bunch of must be the same", bytes.toString().contains(builderData2.toString()));
 
         final StringBuilder builderException = new StringBuilder();
         builderException.append("Bench:Class1#method1\njava.io.IOException");
-        assertTrue("third bunch of must be the same", bytes
-                .toString().contains(builderException.toString()));
+        assertTrue("third bunch of must be the same", bytes.toString().contains(builderException.toString()));
 
     }
 
@@ -149,28 +143,23 @@ public final class CSVOutputTest {
      */
     @Test
     public void testListenSystemOut() {
-        final ClassResult classRes =
-                benchRes.getIncludedResults().iterator().next();
+        final ClassResult classRes = benchRes.getIncludedResults().iterator().next();
         final CSVOutput output = new CSVOutput();
 
-        final AbstractMeter meter =
-                classRes.getRegisteredMeters().iterator().next();
+        final AbstractMeter meter = classRes.getRegisteredMeters().iterator().next();
         for (final MethodResult methRes : classRes.getIncludedResults()) {
 
             for (final double d : methRes.getResultSet(meter)) {
-                output.listenToResultSet(
-                        (Method) methRes.getRelatedElement(), meter, d);
+                output.listenToResultSet((Method)methRes.getRelatedElement(), meter, d);
             }
         }
         final StringBuilder builderData1 = new StringBuilder();
         builderData1.append("1.0,2.0,3.0,4.0,5.0,6.0,7.0,8.0,9.0,10.0");
-        assertTrue("first bunch of in the test string", bytes
-                .toString().contains(builderData1.toString()));
+        assertTrue("first bunch of in the test string", bytes.toString().contains(builderData1.toString()));
 
         final StringBuilder builderData2 = new StringBuilder();
         builderData2.append("0.5,1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0");
-        assertTrue("second bunch of in the test string", bytes
-                .toString().contains(builderData2.toString()));
+        assertTrue("second bunch of in the test string", bytes.toString().contains(builderData2.toString()));
 
     }
 
@@ -185,36 +174,28 @@ public final class CSVOutputTest {
         final CSVOutput output = new CSVOutput();
         output.listenToException(testException);
         assertTrue("Testcase for exceptions", bytes.toString().startsWith(
-                "Bench,Class1#method1,java.io.IOException"));
+            "Bench,Class1#method1,java.io.IOException"));
 
     }
 
     /**
      * Test method for
-     * {@link org.perfidix.ouput.CSVOutput#visitBenchmark(org.perfidix.result.BenchmarkResult)}
-     * .
+     * {@link org.perfidix.ouput.CSVOutput#visitBenchmark(org.perfidix.result.BenchmarkResult)} .
      */
     @Test
     public void testVisitListenSystemOut() {
         final CSVOutput output = new CSVOutput();
 
-        final ClassResult classRes =
-                benchRes.getIncludedResults().iterator().next();
-        final AbstractMeter meter =
-                classRes.getRegisteredMeters().iterator().next();
+        final ClassResult classRes = benchRes.getIncludedResults().iterator().next();
+        final AbstractMeter meter = classRes.getRegisteredMeters().iterator().next();
         for (final MethodResult methRes : classRes.getIncludedResults()) {
             for (final double d : methRes.getResultSet(meter)) {
-                output.listenToResultSet(
-                        (Method) methRes.getRelatedElement(), meter, d);
+                output.listenToResultSet((Method)methRes.getRelatedElement(), meter, d);
             }
         }
         output.visitBenchmark(benchRes);
-        assertTrue(
-                "first bunch of numbers must be in the test string",
-                bytes
-                        .toString()
-                        .contains(
-                                "0.5,1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,1.0,2.0,3.0,4.0,5.0,6.0,7.0,8.0,9.0,10.0"));
+        assertTrue("first bunch of numbers must be in the test string", bytes.toString().contains(
+            "0.5,1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,1.0,2.0,3.0,4.0,5.0,6.0,7.0,8.0,9.0,10.0"));
 
     }
 

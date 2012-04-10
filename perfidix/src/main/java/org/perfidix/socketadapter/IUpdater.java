@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2011, University of Konstanz, Distributed Systems Group
+ * Copyright (c) 2012, University of Konstanz, Distributed Systems Group
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -24,7 +24,6 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-
 package org.perfidix.socketadapter;
 
 import java.util.Map;
@@ -63,7 +62,8 @@ public interface IUpdater {
      *            benched and which is fully qualified.
      * @throws SocketViewException
      */
-    public boolean updateCurrentElement(final AbstractMeter meter, final String name) throws SocketViewException;
+    public boolean updateCurrentElement(final AbstractMeter meter, final String name)
+        throws SocketViewException;
 
     /**
      * This method informs the view that an error occurred while benching the
@@ -76,7 +76,8 @@ public interface IUpdater {
      *            The exception caused by the element.
      * @throws SocketViewException
      */
-    public boolean updateErrorInElement(final String name, final Exception exception) throws SocketViewException;
+    public boolean updateErrorInElement(final String name, final Exception exception)
+        throws SocketViewException;
 
     /**
      * This method notifies the view that all benches have been executed and the

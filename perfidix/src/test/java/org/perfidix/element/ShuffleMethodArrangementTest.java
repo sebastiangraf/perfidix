@@ -1,18 +1,18 @@
 /**
- * Copyright (c) 2011, University of Konstanz, Distributed Systems Group
+ * Copyright (c) 2012, University of Konstanz, Distributed Systems Group
  * All rights reserved.
- *
+ * 
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- *     * Redistributions of source code must retain the above copyright
- *       notice, this list of conditions and the following disclaimer.
- *     * Redistributions in binary form must reproduce the above copyright
- *       notice, this list of conditions and the following disclaimer in the
- *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the University of Konstanz nor the
- *       names of its contributors may be used to endorse or promote products
- *       derived from this software without specific prior written permission.
- *
+ * * Redistributions of source code must retain the above copyright
+ * notice, this list of conditions and the following disclaimer.
+ * * Redistributions in binary form must reproduce the above copyright
+ * notice, this list of conditions and the following disclaimer in the
+ * documentation and/or other materials provided with the distribution.
+ * * Neither the name of the University of Konstanz nor the
+ * names of its contributors may be used to endorse or promote products
+ * derived from this software without specific prior written permission.
+ * 
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
  * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -69,19 +69,17 @@ public class ShuffleMethodArrangementTest {
         try {
 
             final AbstractMethodArrangement arrangement =
-                    AbstractMethodArrangement.getMethodArrangement(
-                            elemSet, KindOfArrangement.ShuffleArrangement);
-            final String[] expectedNames = { "bench1", "bench2", "bench4" };
+                AbstractMethodArrangement.getMethodArrangement(elemSet, KindOfArrangement.ShuffleArrangement);
+            final String[] expectedNames = {
+                "bench1", "bench2", "bench4"
+            };
             final Iterator<BenchmarkElement> iterBench = arrangement.iterator();
             final BenchmarkElement elem1 = iterBench.next();
             final BenchmarkElement elem2 = iterBench.next();
             final BenchmarkElement elem3 = iterBench.next();
-            if ((expectedNames[0].equals(elem1
-                    .getMeth().getMethodToBench().getName()))
-                    && (expectedNames[1].equals(elem2
-                            .getMeth().getMethodToBench().getName()))
-                    && (expectedNames[2].equals(elem3
-                            .getMeth().getMethodToBench().getName()))) {
+            if ((expectedNames[0].equals(elem1.getMeth().getMethodToBench().getName()))
+                && (expectedNames[1].equals(elem2.getMeth().getMethodToBench().getName()))
+                && (expectedNames[2].equals(elem3.getMeth().getMethodToBench().getName()))) {
                 fail("Something has to be arranged in a different way!");
 
             }

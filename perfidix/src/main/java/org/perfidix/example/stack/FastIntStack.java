@@ -1,18 +1,18 @@
 /**
- * Copyright (c) 2011, University of Konstanz, Distributed Systems Group
+ * Copyright (c) 2012, University of Konstanz, Distributed Systems Group
  * All rights reserved.
- *
+ * 
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- *     * Redistributions of source code must retain the above copyright
- *       notice, this list of conditions and the following disclaimer.
- *     * Redistributions in binary form must reproduce the above copyright
- *       notice, this list of conditions and the following disclaimer in the
- *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the University of Konstanz nor the
- *       names of its contributors may be used to endorse or promote products
- *       derived from this software without specific prior written permission.
- *
+ * * Redistributions of source code must retain the above copyright
+ * notice, this list of conditions and the following disclaimer.
+ * * Redistributions in binary form must reproduce the above copyright
+ * notice, this list of conditions and the following disclaimer in the
+ * documentation and/or other materials provided with the distribution.
+ * * Neither the name of the University of Konstanz nor the
+ * names of its contributors may be used to endorse or promote products
+ * derived from this software without specific prior written permission.
+ * 
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
  * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -31,8 +31,7 @@ import java.util.LinkedList;
 /**
  * <h1>FastLongStack</h1>
  * <p>
- * Unsynchronized stack optimized for long primitive type. Is significantly
- * faster than a normal Stack.
+ * Unsynchronized stack optimized for long primitive type. Is significantly faster than a normal Stack.
  * </p>
  * 
  * @author Marc Kramis, University of Konstanz / Seabix
@@ -40,7 +39,7 @@ import java.util.LinkedList;
 public final class FastIntStack {
 
     /** Internal linked list to store stack elements. */
-    private transient LinkedList<Integer>  stack;
+    private transient LinkedList<Integer> stack;
 
     /**
      * Constructor.
@@ -50,12 +49,13 @@ public final class FastIntStack {
     }
 
     /**
-     * Place new element on top of stack. 
+     * Place new element on top of stack.
+     * 
      * @param element
      *            Element to push.
      */
     public void push(final int element) {
-         stack.addLast(element);
+        stack.addLast(element);
     }
 
     /**

@@ -24,34 +24,8 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package org.perfidix.result;
-
-import java.lang.reflect.Method;
-
 /**
- * Class to hold the result related to one method. That means that all
- * information is inherited from the {@link ClassResult} plus the possibility to
- * add additional datasets.
- * 
- * @author Sebastian Graf, University of Konstanz
- * @author Alexander Onea, neue Couch
- */
-public final class MethodResult extends AbstractResult {
-
-    /**
-     * Simple Constructor.
-     * 
-     * @param paramMethod
-     *            , the method related to these results
-     */
-    public MethodResult(final Method paramMethod) {
-        super(paramMethod);
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public String getElementName() {
-        return ((Method)getRelatedElement()).getName();
-    }
-
-}
+ * This package offers classes which are used for an ascii-based tabluar output. Several modules are given to
+ * build an ascii-based tabluar based on row, columnds and headers.
+ **/
+package org.perfidix.ouput.asciitable;

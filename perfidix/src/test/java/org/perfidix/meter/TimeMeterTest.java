@@ -1,18 +1,18 @@
 /**
- * Copyright (c) 2011, University of Konstanz, Distributed Systems Group
+ * Copyright (c) 2012, University of Konstanz, Distributed Systems Group
  * All rights reserved.
- *
+ * 
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- *     * Redistributions of source code must retain the above copyright
- *       notice, this list of conditions and the following disclaimer.
- *     * Redistributions in binary form must reproduce the above copyright
- *       notice, this list of conditions and the following disclaimer in the
- *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the University of Konstanz nor the
- *       names of its contributors may be used to endorse or promote products
- *       derived from this software without specific prior written permission.
- *
+ * * Redistributions of source code must retain the above copyright
+ * notice, this list of conditions and the following disclaimer.
+ * * Redistributions in binary form must reproduce the above copyright
+ * notice, this list of conditions and the following disclaimer in the
+ * documentation and/or other materials provided with the distribution.
+ * * Neither the name of the University of Konstanz nor the
+ * names of its contributors may be used to endorse or promote products
+ * derived from this software without specific prior written permission.
+ * 
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
  * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -96,30 +96,25 @@ public final class TimeMeterTest {
      */
     @Test
     public void testGetUnit() {
-        assertEquals("Unit for nanos", Time.NanoSeconds.getUnit(), nano
-                .getUnit());
-        assertEquals("Unit for millis", Time.MilliSeconds.getUnit(), milli
-                .getUnit());
-        assertEquals("Unit for seconds", Time.Seconds.getUnit(), second
-                .getUnit());
-        assertEquals("Unit for minutes", Time.Minutes.getUnit(), minute
-                .getUnit());
+        assertEquals("Unit for nanos", Time.NanoSeconds.getUnit(), nano.getUnit());
+        assertEquals("Unit for millis", Time.MilliSeconds.getUnit(), milli.getUnit());
+        assertEquals("Unit for seconds", Time.Seconds.getUnit(), second.getUnit());
+        assertEquals("Unit for minutes", Time.Minutes.getUnit(), minute.getUnit());
     }
 
     /**
-     * Test method for {@link org.perfidix.meter.TimeMeter#getUnitDescription()}
-     * .
+     * Test method for {@link org.perfidix.meter.TimeMeter#getUnitDescription()} .
      */
     @Test
     public void testGetDescription() {
-        assertEquals("Description for nanos", Time.NanoSeconds
-                .getUnitDescription(), nano.getUnitDescription());
-        assertEquals("Description for millis", Time.MilliSeconds
-                .getUnitDescription(), milli.getUnitDescription());
-        assertEquals("Description for seconds", Time.Seconds
-                .getUnitDescription(), second.getUnitDescription());
-        assertEquals("Description for minutes", Time.Minutes
-                .getUnitDescription(), minute.getUnitDescription());
+        assertEquals("Description for nanos", Time.NanoSeconds.getUnitDescription(), nano
+            .getUnitDescription());
+        assertEquals("Description for millis", Time.MilliSeconds.getUnitDescription(), milli
+            .getUnitDescription());
+        assertEquals("Description for seconds", Time.Seconds.getUnitDescription(), second
+            .getUnitDescription());
+        assertEquals("Description for minutes", Time.Minutes.getUnitDescription(), minute
+            .getUnitDescription());
 
     }
 

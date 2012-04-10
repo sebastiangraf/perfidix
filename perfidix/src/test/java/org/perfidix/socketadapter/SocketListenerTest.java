@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2011, University of Konstanz, Distributed Systems Group
+ * Copyright (c) 2012, University of Konstanz, Distributed Systems Group
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -42,14 +42,12 @@ import org.perfidix.meter.Time;
 import org.perfidix.meter.TimeMeter;
 
 /**
- * This class tests the java class
- * {@link org.perfidix.socketadapter.SocketListener}.
+ * This class tests the java class {@link org.perfidix.socketadapter.SocketListener}.
  * 
  * @author Lewandowski Lukas, DiSy, University of Konstanz
  */
 
-public class SocketListenerTest
-{
+public class SocketListenerTest {
 
     private transient SocketListener socketListener;
 
@@ -61,20 +59,17 @@ public class SocketListenerTest
      * @throws java.lang.Exception
      */
     @Before
-    public void setUp() throws Exception
-    {
+    public void setUp() throws Exception {
         updater = mock(IUpdater.class);
         socketListener = new SocketListener(updater);
     }
 
     /**
      * Test method for
-     * {@link org.perfidix.socketadapter.SocketListener#visitBenchmark(org.perfidix.result.BenchmarkResult)}
-     * .
+     * {@link org.perfidix.socketadapter.SocketListener#visitBenchmark(org.perfidix.result.BenchmarkResult)} .
      */
     @Test(expected = UnsupportedOperationException.class)
-    public void testVisitBenchmark()
-    {
+    public void testVisitBenchmark() {
         socketListener = new SocketListener(updater);
         socketListener.visitBenchmark(null);
     }
@@ -89,30 +84,25 @@ public class SocketListenerTest
      * @throws SocketViewException
      */
     @Test
-    public void testListenToResultSet() throws InterruptedException,
-            SocketViewException
-    {
+    public void testListenToResultSet() throws InterruptedException, SocketViewException {
         final Method[] methods = BenchWithException.class.getMethods();
         BenchmarkMethod method1 = null;
-        for (Method method : methods)
-        {
-            if (method.getName().equals("benchMe"))
-            {
+        for (Method method : methods) {
+            if (method.getName().equals("benchMe")) {
                 method1 = new BenchmarkMethod(method);
             }
         }
         final AbstractMeter meter = new TimeMeter(Time.MilliSeconds);
-        final String methodName = method1.getMethodToBench()
-                .getDeclaringClass().getName()
-                + "." + method1.getMethodToBench().getName();
+        final String methodName =
+            method1.getMethodToBench().getDeclaringClass().getName() + "."
+                + method1.getMethodToBench().getName();
 
         when(updater.updateCurrentElement(meter, methodName)).thenReturn(true);
 
         SocketListener myInstance = new SocketListener(updater);
-        assertTrue(myInstance.listenToResultSet(method1.getMethodToBench(),
-                meter, 0));
+        assertTrue(myInstance.listenToResultSet(method1.getMethodToBench(), meter, 0));
     }
-    
+
     /**
      * Test method for
      * {@link org.perfidix.socketadapter.SocketListener#listenToException (org.perfidix.exceptions.AbstractPerfidixMethodException)}
@@ -121,28 +111,24 @@ public class SocketListenerTest
      * @throws InterruptedException
      *             Thread exception occurred.
      */
-     @Test 
-     public void testListenToException() throws InterruptedException, SocketViewException
-     {
-         final Method[] methods = BenchWithException.class.getMethods();
-         BenchmarkMethod method1 = null; 
-         for (Method method : methods) 
-         { 
-             if (method.getName().equals("benchMe")) 
-             { 
-                 method1 = new BenchmarkMethod(method); 
-             } 
-         }
-         final AbstractMeter meter = new TimeMeter(Time.MilliSeconds);
-         final String methodName = method1.getMethodToBench()
-                 .getDeclaringClass().getName()
-                 + "." + method1.getMethodToBench().getName();
+    @Test
+    public void testListenToException() throws InterruptedException, SocketViewException {
+        final Method[] methods = BenchWithException.class.getMethods();
+        BenchmarkMethod method1 = null;
+        for (Method method : methods) {
+            if (method.getName().equals("benchMe")) {
+                method1 = new BenchmarkMethod(method);
+            }
+        }
+        final AbstractMeter meter = new TimeMeter(Time.MilliSeconds);
+        final String methodName =
+            method1.getMethodToBench().getDeclaringClass().getName() + "."
+                + method1.getMethodToBench().getName();
 
-         when(updater.updateCurrentElement(meter, methodName)).thenReturn(true);
+        when(updater.updateCurrentElement(meter, methodName)).thenReturn(true);
 
-         SocketListener myInstance = new SocketListener(updater);
-         assertTrue(myInstance.listenToResultSet(method1.getMethodToBench(),
-                 meter, 0));
-         
-     }
+        SocketListener myInstance = new SocketListener(updater);
+        assertTrue(myInstance.listenToResultSet(method1.getMethodToBench(), meter, 0));
+
+    }
 }

@@ -1,18 +1,18 @@
 /**
- * Copyright (c) 2011, University of Konstanz, Distributed Systems Group
+ * Copyright (c) 2012, University of Konstanz, Distributed Systems Group
  * All rights reserved.
- *
+ * 
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- *     * Redistributions of source code must retain the above copyright
- *       notice, this list of conditions and the following disclaimer.
- *     * Redistributions in binary form must reproduce the above copyright
- *       notice, this list of conditions and the following disclaimer in the
- *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the University of Konstanz nor the
- *       names of its contributors may be used to endorse or promote products
- *       derived from this software without specific prior written permission.
- *
+ * * Redistributions of source code must retain the above copyright
+ * notice, this list of conditions and the following disclaimer.
+ * * Redistributions in binary form must reproduce the above copyright
+ * notice, this list of conditions and the following disclaimer in the
+ * documentation and/or other materials provided with the distribution.
+ * * Neither the name of the University of Konstanz nor the
+ * names of its contributors may be used to endorse or promote products
+ * derived from this software without specific prior written permission.
+ * 
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
  * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -72,8 +72,7 @@ public class BenchmarkMethodTest {
     }
 
     /**
-     * Test method for
-     * {@link org.perfidix.element.BenchmarkMethod#isBenchmarkable(Method)} .
+     * Test method for {@link org.perfidix.element.BenchmarkMethod#isBenchmarkable(Method)} .
      */
     @Test
     public void testCheckThisMethodAsBenchmarkable1() {
@@ -97,8 +96,7 @@ public class BenchmarkMethodTest {
     }
 
     /**
-     * Test method for
-     * {@link org.perfidix.element.BenchmarkMethod#isBenchmarkable(Method)} .
+     * Test method for {@link org.perfidix.element.BenchmarkMethod#isBenchmarkable(Method)} .
      */
     @Test
     public void testCheckThisMethodAsBenchmarkable2() {
@@ -133,17 +131,14 @@ public class BenchmarkMethodTest {
      *             should be thrown if something weird happen
      */
     @Test(expected = PerfidixMethodCheckException.class)
-    public void testFindAndCheckAnyMethodByAnnotation()
-            throws PerfidixMethodCheckException {
+    public void testFindAndCheckAnyMethodByAnnotation() throws PerfidixMethodCheckException {
         toTest = new TestFindAndCheckBenchClass();
-        BenchmarkMethod.findAndCheckAnyMethodByAnnotation(
-                toTest.getClass(), ShouldOccureOnce.class);
+        BenchmarkMethod.findAndCheckAnyMethodByAnnotation(toTest.getClass(), ShouldOccureOnce.class);
     }
 
     /**
      * Test method for
-     * {@link org.perfidix.element.BenchmarkMethod#isReflectedExecutable(java.lang.reflect.Method)}
-     * .
+     * {@link org.perfidix.element.BenchmarkMethod#isReflectedExecutable(java.lang.reflect.Method)} .
      */
     @Test
     public void testIsReflectedExecutable() {
@@ -165,8 +160,7 @@ public class BenchmarkMethodTest {
     }
 
     /**
-     * Test method for
-     * {@link org.perfidix.element.BenchmarkMethod#findBeforeFirstRun()}.
+     * Test method for {@link org.perfidix.element.BenchmarkMethod#findBeforeFirstRun()}.
      */
     @Test
     public void testFindBeforeFirstRun1() {
@@ -198,8 +192,7 @@ public class BenchmarkMethodTest {
     }
 
     /**
-     * Test method for
-     * {@link org.perfidix.element.BenchmarkMethod#findBeforeFirstRun()}.
+     * Test method for {@link org.perfidix.element.BenchmarkMethod#findBeforeFirstRun()}.
      */
     @Test
     public void testFindBeforeFirstRun2() {
@@ -231,8 +224,7 @@ public class BenchmarkMethodTest {
     }
 
     /**
-     * Test method for
-     * {@link org.perfidix.element.BenchmarkMethod#findBeforeEachRun()}.
+     * Test method for {@link org.perfidix.element.BenchmarkMethod#findBeforeEachRun()}.
      */
     @Test
     public void testFindBeforeEachRun1() {
@@ -264,8 +256,7 @@ public class BenchmarkMethodTest {
     }
 
     /**
-     * Test method for
-     * {@link org.perfidix.element.BenchmarkMethod#findBeforeEachRun()}.
+     * Test method for {@link org.perfidix.element.BenchmarkMethod#findBeforeEachRun()}.
      */
     @Test
     public void testFindBeforeEachRun2() {
@@ -297,8 +288,7 @@ public class BenchmarkMethodTest {
     }
 
     /**
-     * Test method for
-     * {@link org.perfidix.element.BenchmarkMethod#findBeforeEachRun()}.
+     * Test method for {@link org.perfidix.element.BenchmarkMethod#findBeforeEachRun()}.
      */
     @Test
     public void testFindAfterEachRun1() {
@@ -330,8 +320,7 @@ public class BenchmarkMethodTest {
     }
 
     /**
-     * Test method for
-     * {@link org.perfidix.element.BenchmarkMethod#findAfterEachRun()}.
+     * Test method for {@link org.perfidix.element.BenchmarkMethod#findAfterEachRun()}.
      */
     @Test
     public void testFindAfterEachRun2() {
@@ -363,8 +352,7 @@ public class BenchmarkMethodTest {
     }
 
     /**
-     * Test method for
-     * {@link org.perfidix.element.BenchmarkMethod#findAfterLastRun()}.
+     * Test method for {@link org.perfidix.element.BenchmarkMethod#findAfterLastRun()}.
      */
     @Test
     public void testFindAfterLastRun1() {
@@ -396,8 +384,7 @@ public class BenchmarkMethodTest {
     }
 
     /**
-     * Test method for
-     * {@link org.perfidix.element.BenchmarkMethod#findAfterLastRun()}.
+     * Test method for {@link org.perfidix.element.BenchmarkMethod#findAfterLastRun()}.
      */
     @Test
     public void testFindAfterLastRun2() {
@@ -429,9 +416,7 @@ public class BenchmarkMethodTest {
     }
 
     /**
-     * Test method for
-     * {@link org.perfidix.element.BenchmarkMethod#getNumberOfAnnotatedRuns(Method)}
-     * .
+     * Test method for {@link org.perfidix.element.BenchmarkMethod#getNumberOfAnnotatedRuns(Method)} .
      */
     @Test
     public void testNumberOfAnnotatedRuns() {
@@ -444,22 +429,17 @@ public class BenchmarkMethodTest {
             for (Method meth : meths) {
 
                 if (meth.getName().equals("bench1")) {
-                    assertEquals("Check of name of method1", "bench1", meth
-                            .getName());
-                    assertEquals(
-                            "Check of runs of method1", 10, BenchmarkMethod
-                                    .getNumberOfAnnotatedRuns(meth));
+                    assertEquals("Check of name of method1", "bench1", meth.getName());
+                    assertEquals("Check of runs of method1", 10, BenchmarkMethod
+                        .getNumberOfAnnotatedRuns(meth));
                 }
                 if (meth.getName().equals("bench2")) {
-                    assertEquals("Check of name of method2", "bench2", meth
-                            .getName());
-                    assertEquals(
-                            "Check of runs of method2", 20, BenchmarkMethod
-                                    .getNumberOfAnnotatedRuns(meth));
+                    assertEquals("Check of name of method2", "bench2", meth.getName());
+                    assertEquals("Check of runs of method2", 20, BenchmarkMethod
+                        .getNumberOfAnnotatedRuns(meth));
                 }
                 if (meth.getName().equals("bench3")) {
-                    assertEquals("Check of name of method3", "bench3", meth
-                            .getName());
+                    assertEquals("Check of name of method3", "bench3", meth.getName());
                 }
             }
 
@@ -467,8 +447,7 @@ public class BenchmarkMethodTest {
                 BenchmarkMethod.getNumberOfAnnotatedRuns(meths[2]);
                 fail("Must throw IllegalStateException!");
             } catch (final IllegalArgumentException e) {
-                assertTrue("Methodexception must match a pattern", e
-                        .getMessage().startsWith("Method"));
+                assertTrue("Methodexception must match a pattern", e.getMessage().startsWith("Method"));
             }
 
         } catch (final Exception e) {
