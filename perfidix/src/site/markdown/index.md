@@ -43,7 +43,7 @@ JUnit like handling
 ----------
 
 Perfidix is intentionally designed to be used like 
-http://www.junit.org/ JUnit 4.x, 
+[JUnit 4.x](http://www.junit.org/), 
 i.e., it provides annotations to discover which methods should be 
 benchmarked how many times. The eclipse plugin or custom 
 code allows to run a package, class, or method as a Perfidix 
@@ -76,13 +76,10 @@ compilation into charts.
 Own needs, own requirements
 ----------
 
-Perfidix was created at the 
-http://www.uni-konstanz.de/ University of Konstanz at the 
-http://www.disy.uni-konstanz.de Distributed Systems Group}} out of the necessity
-to provide an architecture for evaluating own implementations. 
+Perfidix was created at the [University of Konstanz](http://www.uni-konstanz.de/) at the [Distributed Systems Group](http://www.disy.uni-konstanz.de) out of the necessity to provide an architecture for evaluating own implementations. 
 
 It greatly assisted the research by allowing for quick benchmarking of different algorithms and data structures. 
 Although not directly mentioned, Perfidix represents the benchmarking framework for multiple thesis' within
 our working group and is maintained continuously since 2007.
 
-Perfidix is hosted with https://github.com/disy/perfidix under the {{{http://www.opensource.org/licenses/BSD-3-Clause}BSD License}}.
+Perfidix is hosted with https://github.com/disy/perfidix under the [BSD License](http://www.opensource.org/licenses/BSD-3-Clause).
