@@ -132,10 +132,10 @@
 				</configuration>
 				<executions>
 					<execution>
+						<phase>integration-test</phase>
 						<goals>
 							<goal>upload</goal>
 						</goals>
-						<phase>deploy</phase>
 					</execution>
 				</executions>
 			</plugin>
