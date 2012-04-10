@@ -60,79 +60,79 @@ Annotate your code you want to see benched with the Perfidix annotations. A smal
     @BenchClass(runs = 100)
     public class FastIntStackTest {
 
-    private static int[] data = new int[15];
+    	private static int[] data = new int[15];
 
-    @BeforeBenchClass
-    @BeforeClass
-    public static void beforeClass() {
-        for (int i = 0; i < data.length; i++) {
-        data[i] = new Random().nextInt();
-        }
-    }
+    	@BeforeBenchClass
+    	@BeforeClass
+    	public static void beforeClass() {
+        	for (int i = 0; i < data.length; i++) {
+        		data[i] = new Random().nextInt();
+        	}
+    	}
 
-    @Test
-    public void myStackTest() {
-        final FastIntStack myStack = new FastIntStack();
-        for (int i = 0; i < data.length; i++) {
-            myStack.push(data[i]);
-        }
-        for (int i = data.length - 1; i > 0; i--) {
-            assertEquals(data[i], myStack.pop());
-        }
-    }
+    	@Test
+    	public void myStackTest() {
+        	final FastIntStack myStack = new FastIntStack();
+        	for (int i = 0; i < data.length; i++) {
+            	myStack.push(data[i]);
+        	}
+        	for (int i = data.length - 1; i > 0; i--) {
+            	assertEquals(data[i], myStack.pop());
+        	}
+    	}
 
-    @Test
-    public void normalStackTest() {
-        final Stack<Integer> normalStack = new Stack<Integer>();
-        for (int i = 0; i < data.length; i++) {
-            normalStack.push(data[i]);
-        }
-        for (int i = data.length - 1; i > 0; i--) {
-            assertEquals(data[i], normalStack.pop());
-        }
-    }
+    	@Test
+    	public void normalStackTest() {
+        	final Stack<Integer> normalStack = new Stack<Integer>();
+        	for (int i = 0; i < data.length; i++) {
+            	normalStack.push(data[i]);
+        	}
+        	for (int i = data.length - 1; i > 0; i--) {
+            	assertEquals(data[i], normalStack.pop());
+        	}
+    	}
 
-    final class FastIntStack {
+    	final class FastIntStack {
 
-        private int[] stack;
+        	private int[] stack;
 
-        private int size;
+        	private int size;
 
-        FastIntStack() {
-            stack = new int[32];
-            size = 0;
-        }
+        	FastIntStack() {
+            	stack = new int[32];
+            	size = 0;
+        	}
 
-        final void push(final int element) {
-            if (stack.length == size) {
-                int[] biggerStack = new int[stack.length << 1];
-                System.arraycopy(stack, 0, biggerStack, 0, stack.length);
-                stack = biggerStack;
-            }
-            stack[size++] = element;
-        }
+        	final void push(final int element) {
+            	if (stack.length == size) {
+                	int[] biggerStack = new int[stack.length << 1];
+                	System.arraycopy(stack, 0, biggerStack, 0, stack.length);
+                	stack = biggerStack;
+            	}
+            	stack[size++] = element;
+        	}
 
-        final int peek() {
-            return stack[size - 1];
-        }
+        	final int peek() {
+            	return stack[size - 1];
+        	}
 
-        final int get(final int position) {
-            return stack[position];
-        }
+        	final int get(final int position) {
+            	return stack[position];
+        	}
 
-        final int pop() {
-            return stack[--size];
-        }
+        	final int pop() {
+            	return stack[--size];
+        	}
 
-        final void clear() {
-            size = 0;
-        }
+        	final void clear() {
+            	size = 0;
+        	}
 
-        final int size() {
-            return size;
-        }
+        	final int size() {
+            	return size;
+        	}
 
-    }
+    	}
     }  
 
 * Run the bench out of Eclipse
