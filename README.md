@@ -10,10 +10,11 @@ Within the invocation of these methods, flexible measurements are performed.
 5 steps how to use Perfidix
 -------
 
-* Download the latest .jar from github and Insert the jar into your classpath OR insert the disy-repo in your pom.xml
+* Download the latest .jar from github and Insert the jar into your classpath OR refer directly to perfidix over maven. Starting 3.6.5-SNAPSHOT, we will work against the central repo, before you need to add the disy-repo in your pom.xml. Please note that we had to adapt the group starting 3.6.5-SNAPSHOT from perfidix to org.perfidix.
 
 ```xml
-<repository>
+<!-- Only needed when accessing perfidix 3.6.4 or older -->
+<!--<repository>
 	<id>disyInternal</id>
 	<name>Internal Repository for the Distributed System Group</name>
 	<url>http://mavenrepo.disy.inf.uni-konstanz.de/repository/disyInternal</url>
@@ -34,12 +35,13 @@ Within the invocation of these methods, flexible measurements are performed.
 	<snapshots>
 		<enabled>true</enabled>
 	</snapshots>
-</repository>
+</repository>-->
+
 
 <dependency>
-	<groupId>perfidix</groupId>
+	<groupId>org.perfidix</groupId>
 	<artifactId>perfidix</artifactId>
-	<version>3.6.3</version>
+	<version>3.6.5-SNAPSHOT</version>
 </dependency>
 ```
 
