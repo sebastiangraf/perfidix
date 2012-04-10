@@ -36,98 +36,98 @@ Example 1
 
 The setUp() and tear-Down() methods are invoked before each run of each method.
 
-    public class SomeAnnoBenchmark { 
-    CompressedHandler c; SimpleFileHandler s;
+	public class SomeAnnoBenchmark { 
+    	CompressedHandler c; SimpleFileHandler s;
     
-    //setUp , invoked before each run
-    @BeforeEachBenchRun
-    public void setUp() {
-    	c = new CompressedHandler ( ) ; s = new SimpleFileHandler ();
-    }
+    	//setUp , invoked before each run
+    	@BeforeEachBenchRun
+    	public void setUp() {
+    		c = new CompressedHandler ( ) ; s = new SimpleFileHandler ();
+    	}
 
-    //tearDown , invoked after each run
-    @AfterEachBenchRun 
-    public void tearDown() {
-    	c = null; s = null;
-    }
+    	//tearDown , invoked after each run
+    	@AfterEachBenchRun 
+    	public void tearDown() {
+    		c = null; s = null;
+    	}
 
-    //bench Method 1
-    @Bench
-    public void benchCWrite() {
-    c.write(”hello world”);
-    }
+    	//bench Method 1
+    	@Bench
+    	public void benchCWrite() {
+    		c.write(”hello world”);
+    	}
 
-    //bench Method 1
-    @Bench
-    public void benchSRead() {
-    s.read();
-    } 
+    	//bench Method 1
+    	@Bench
+    	public void benchSRead() {
+    		s.read();
+    	} 
 
-    //bench Method 2
-    @Bench
-    public void benchSWrite () {
-    s.write(”hello world”); 4
-    }
+    	//bench Method 2
+    	@Bench
+    	public void benchSWrite () {
+    		s.write(”hello world”); 
+    	}
 
-    //bench Method 3
-    @Bench
-    public void benchCRead() {
-    c.read();
-    }
-    }
+    	//bench Method 3
+    	@Bench
+    	public void benchCRead() {
+    		c.read();
+    	}
+	}
 
 Example 2
 ----------- 
 
 In the following example, you see the usage of specific setUp and tearDown methods. These methods have the same behavior than methods with the BeforeBenchRun annotation.
 
-    public class SomeSpecificSetUpTearDownBenchmark { 
-    CompressedHandler c; SimpleFileHandler s;
+	public class SomeSpecificSetUpTearDownBenchmark { 
+    	CompressedHandler c; SimpleFileHandler s;
     
-    //setUp for benchCRead/benchCWrite . Invoked via @Bench−params
-    public void setUpCompressed () {
-    c = new CompressedHandler ( ) ;
-    }
+    	//setUp for benchCRead/benchCWrite . Invoked via @Bench−params
+    	public void setUpCompressed () {
+    		c = new CompressedHandler ( ) ;
+    	}
 
-    //tearDown for benchCRead/benchCWrite . Invoked via @Bench−params
-    public void tearDownCompressed() {
-    c = null;
-    }
+    	//tearDown for benchCRead/benchCWrite . Invoked via @Bench−params
+    	public void tearDownCompressed() {
+    		c = null;
+    	}
 
-    //setUp for benchSRead/benchSWrite . Invoked via @Bench−params
-    public void setUpSimple () {
-    s = new SimpleFileHandler ();
-    }
+    	//setUp for benchSRead/benchSWrite . Invoked via @Bench−params
+    	public void setUpSimple () {
+    		s = new SimpleFileHandler ();
+    	}
 
-    //tearDown for benchSRead/benchSWrite . Invoked via @Bench−params 
-    public void tearDownSimple () {
-    s = null;
-    }
+    	//tearDown for benchSRead/benchSWrite . Invoked via @Bench−params 
+    	public void tearDownSimple () {
+    		s = null;
+    	}
 
-    //bench Method 1
-    @Bench(beforeEachBenchRun=”setUpCompressed” ,afterEachBenchRun=”tearDownCompressed”)
-    public void benchCWrite() { 
-    c.write(”hello world”);
-    }
+    	//bench Method 1
+    	@Bench(beforeEachBenchRun=”setUpCompressed” ,afterEachBenchRun=”tearDownCompressed”)
+    	public void benchCWrite() { 
+    		c.write(”hello world”);
+    	}
 
-    //bench Method 2
-    @Bench(beforeEachBenchRun =”setUpSimple”, afterEachBenchRun =”tearDownSimple”)
-    public void benchSWrite () { 
-    s.write(”hello world”);
-    }
+    	//bench Method 2
+    	@Bench(beforeEachBenchRun =”setUpSimple”, afterEachBenchRun =”tearDownSimple”)
+    	public void benchSWrite () { 
+    		s.write(”hello world”);
+    	}
 
-    //bench Method 3
-    @Bench(beforeEachBenchRun =”setUpCompressed”, afterEachBenchRun=”tearDownCompressed”)
-    public void benchCRead() { 
-    c.read();
-    }
+    	//bench Method 3
+    	@Bench(beforeEachBenchRun =”setUpCompressed”, afterEachBenchRun=”tearDownCompressed”)
+    	public void benchCRead() { 
+    		c.read();
+    	}
 
-    //bench Method 4
-    @Bench(beforeEachBenchRun =”setUpSimple”, afterEachBenchRun =”tearDownSimple”)
-    public void benchSRead() { 
-    s.read();
-    }
-    }
+    	//bench Method 4
+    	@Bench(beforeEachBenchRun =”setUpSimple”, afterEachBenchRun =”tearDownSimple”)
+    	public void benchSRead() { 
+    		s.read();
+    	}
+	}
 
 Example 3
 ----------
@@ -138,68 +138,68 @@ Additional to that, every possible setUp and tearDown method is used in this exa
 
     @BenchClass(runs=10)
     public class ClassAnnoBenchmark {
-    CompressedHandler c ; SimpleFileHandler s ;
+    	CompressedHandler c ; SimpleFileHandler s ;
 
-    String toTest; long testLength;
+    	String toTest; long testLength;
 
-    //classwide setUp , invoked just one time , just setting the length
-    @BeforeBenchClass
-    public void beforeClass () {
-    Math.abs(testLength = new Random().nextInt(100));
-    }
+    	//classwide setUp , invoked just one time , just setting the length
+    	@BeforeBenchClass
+    	public void beforeClass () {
+    		Math.abs(testLength = new Random().nextInt(100));
+    	}
 
-    //methodWide setUp , invoked just one time per method , building a
-    @BeforeFirstBenchRun
-    public void beforeMethod () {
-    for(int i = 0; i<testLength; i++) {
-    toTest = toTest + (char)(new Random(). nextInt(Ch
-    }
-    }
+    	//methodWide setUp , invoked just one time per method , building a
+    	@BeforeFirstBenchRun
+    	public void beforeMethod () {
+    		for(int i = 0; i<testLength; i++) {
+    			toTest = toTest + (char)(new Random(). nextInt(Ch
+    			}
+    		}
 
-    //normal setUp , invoked one time per method per run, instantiating
-    @BeforeEachBenchRun
-    public void beforeRun () {
-    c = new CompressedHandler ( ) ; 
-    s = new SimpleFileHandler ();
-    }
+    		//normal setUp , invoked one time per method per run, instantiating
+    		@BeforeEachBenchRun
+    	public void beforeRun () {
+    		c = new CompressedHandler ( ) ; 
+    		s = new SimpleFileHandler ();
+    	}
 
-    //normal tearDown , invoked one time per method per run , removing
-    @AfterEachBenchRun 
-    public void afterRun () {
-    c = null;
-    s = null;
-    }
+    	//normal tearDown , invoked one time per method per run , removing
+    	@AfterEachBenchRun 
+    	public void afterRun () {
+    		c = null;
+    		s = null;
+    	}
 
-    //methodWide tearDown , invoked just one time
-    @AfterLastBenchRun
-    public void afterMethod () {
-    toTest = null;
-    }
+    	//methodWide tearDown , invoked just one time
+    	@AfterLastBenchRun
+    	public void afterMethod () {
+    		toTest = null;
+    	}
 
-    //classwide tearDown , invoked just one time ,
-    @AfterBenchClass
-    public void afterClass () {
-    testLength = −1;
-    }
+    	//classwide tearDown , invoked just one time ,
+    	@AfterBenchClass
+    	public void afterClass () {
+    		testLength = −1;
+    	}
 
-    //bench 1, invoked because of class−annotation
-    public void benchCWrite() {
-    c.write(”hello world”);
-    }
+    	//bench 1, invoked because of class−annotation
+    	public void benchCWrite() {
+    		c.write(”hello world”);
+    	}
 
-    //bench 2, invoked because of method−annotation 
-    @Bench(runs=60)
-    public void benchSWrite () {
-    s.write(”hello world”);
-    }
+    	//bench 2, invoked because of method−annotation 
+    	@Bench(runs=60)
+    	public void benchSWrite () {
+    		s.write(”hello world”);
+    	}
 
-    //bench 3, invoked because of class−annotation 
-    public void benchCRead() {
-    c.read();
-    }
+    	//bench 3, invoked because of class−annotation 
+    	public void benchCRead() {
+    		c.read();
+    	}
 
-    //bench 4, invoked because of class−annotation
-    public void benchSRead() {
-    s.read();
-    }
-    }
+    	//bench 4, invoked because of class−annotation
+    	public void benchSRead() {
+    		s.read();
+    	}
+	}

@@ -78,7 +78,7 @@ Own needs, own requirements
 
 Perfidix was created at the 
 http://www.uni-konstanz.de/ University of Konstanz at the 
-http://www.informatik.uni-konstanz.de/arbeitsgruppen/disy/ Distributed Systems Group}} out of the necessity
+http://www.disy.uni-konstanz.de Distributed Systems Group}} out of the necessity
 to provide an architecture for evaluating own implementations. 
 
 It greatly assisted the research by allowing for quick benchmarking of different algorithms and data structures. 
