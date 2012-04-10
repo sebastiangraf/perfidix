@@ -9,5 +9,5 @@
     <modules>
         <module>perfidix</module>
     </modules>
-
+	<description>This project is just a container for making the real project (the perfidix module) accessible over maven directly from this folder. The second project in this folder is the eclipse-plugin not mavenized. For detailed information of Perfidix, please refer to the perfidix module representing all functionalities.</description>
 </project>
