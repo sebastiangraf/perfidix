@@ -128,79 +128,79 @@ import org.perfidix.BenchClass;
 @BenchClass(runs = 100)
 public class FastIntStackTest {
 
-private static int[] data = new int[15];
+    private static int[] data = new int[15];
 
-@BeforeBenchClass
-@BeforeClass
-public static void beforeClass() {
-    for (int i = 0; i &lt; data.length; i++) {
-    data[i] = new Random().nextInt();
-    }
-}
-
-@Test
-public void myStackTest() {
-    final FastIntStack myStack = new FastIntStack();
-    for (int i = 0; i &lt; data.length; i++) {
-        myStack.push(data[i]);
-    }
-    for (int i = data.length - 1; i &gt; 0; i--) {
-        assertEquals(data[i], myStack.pop());
-    }
-}
-
-@Test
-public void normalStackTest() {
-    final Stack&lt;Integer&gt; normalStack = new Stack&lt;Integer&gt;();
-    for (int i = 0; i &lt; data.length; i++) {
-        normalStack.push(data[i]);
-    }
-    for (int i = data.length - 1; i &gt; 0; i--) {
-        assertEquals(data[i], normalStack.pop());
-    }
-}
-
-final class FastIntStack {
-
-    private int[] stack;
-
-    private int size;
-
-    FastIntStack() {
-        stack = new int[32];
-        size = 0;
-    }
-
-    final void push(final int element) {
-        if (stack.length == size) {
-            int[] biggerStack = new int[stack.length &lt;&lt; 1];
-            System.arraycopy(stack, 0, biggerStack, 0, stack.length);
-            stack = biggerStack;
+    @BeforeBenchClass
+    @BeforeClass
+    public static void beforeClass() {
+        for (int i = 0; i &lt; data.length; i++) {
+           data[i] = new Random().nextInt();
         }
-        stack[size++] = element;
     }
 
-    final int peek() {
-        return stack[size - 1];
+    @Test
+    public void myStackTest() {
+        final FastIntStack myStack = new FastIntStack();
+        for (int i = 0; i &lt; data.length; i++) {
+            myStack.push(data[i]);
+        }
+        for (int i = data.length - 1; i &gt; 0; i--) {
+            assertEquals(data[i], myStack.pop());
+        }
     }
 
-    final int get(final int position) {
-        return stack[position];
+    @Test
+    public void normalStackTest() {
+        final Stack&lt;Integer&gt; normalStack = new Stack&lt;Integer&gt;();
+        for (int i = 0; i &lt; data.length; i++) {
+            normalStack.push(data[i]);
+        }
+        for (int i = data.length - 1; i &gt; 0; i--) {
+            assertEquals(data[i], normalStack.pop());
+        }
     }
 
-    final int pop() {
-        return stack[--size];
-    }
+    final class FastIntStack {
 
-    final void clear() {
-        size = 0;
-    }
+        private int[] stack;
 
-    final int size() {
-        return size;
-    }
+        private int size;
 
-}
+        FastIntStack() {
+            stack = new int[32];
+            size = 0;
+        }
+
+        final void push(final int element) {
+            if (stack.length == size) {
+                int[] biggerStack = new int[stack.length &lt;&lt; 1];
+                System.arraycopy(stack, 0, biggerStack, 0, stack.length);
+                stack = biggerStack;
+            }
+            stack[size++] = element;
+        }
+
+        final int peek() {
+            return stack[size - 1];
+        }
+
+        final int get(final int position) {
+            return stack[position];
+        }
+
+        final int pop() {
+            return stack[--size];
+        }
+
+        final void clear() {
+            size = 0;
+        }
+
+        final int size() {
+            return size;
+        }
+
+    }
 }  
 </pre></div>
 <ul>
