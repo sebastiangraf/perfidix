@@ -39,6 +39,8 @@ measure the execution time again and again.
 Even though Perfidix is simple to use, it still provides a sound 
 statistical output for taking a decision.
 
+Perfidix was presented 2007 as a *Work in Progess* at the Jazoon. The related paper can be found over [here](http://nbn-resolving.de/urn:nbn:de:bsz:352-opus-84446).
+
 JUnit like handling
 ----------
 
