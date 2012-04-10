@@ -84,4 +84,5 @@ It greatly assisted the research by allowing for quick benchmarking of different
 Although not directly mentioned, Perfidix represents the benchmarking framework for multiple thesis' within
 our working group and is maintained continuously since 2007.
 
-Perfidix is hosted with https://github.com/disy/perfidix under the [BSD License](http://www.opensource.org/licenses/BSD-3-Clause).
+Perfidix is hosted with https://github.com/disy/perfidix under the [BSD License](http://www.opensource.org/licenses/BSD-3-Clause) and guarded by Travis-CI: 
+[![Build Status](https://secure.travis-ci.org/disy/perfidix.png)](http://travis-ci.org/disy/perfidix)

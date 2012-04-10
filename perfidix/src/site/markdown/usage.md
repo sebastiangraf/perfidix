@@ -50,61 +50,71 @@ While the first component relies on classes, the second component consists out o
 applicable on all methods which are parameter-free and void. Similar to JUnit, setup and teardown methods
 can be applied to the benchmarks even though Perfidix offers finer granularity of those utility methods.
 
-The annotations including suitable parameters are as follows:
+The following annotations are applied on methoding including suitable parameters
 
-* @BenchClass
- Has to be placed before the class declaration
-Each void-method without parameters and any bench annotation is benched
+### @BenchClass
 
-* @BenchClass(runs=)
- Sets the number of runs for all benchs
-Can be overridden by the Bench-annotation with own run-parameter
+* Has to be placed before the class declaration
+* Each void-method without parameters and any bench annotation is benched
 
-* @BeforeFirstBenchRun
-Executed before every bench-method and after the BeforeBenchClass-annotated method
-Executed for all bench-methods but just once for all runs
+#### @BenchClass(runs=)
 
-* @BeforeEachBenchRun
- Executed before every bench-method and after the BeforeFirstBenchRun-annotated method
- Executed for all bench-methods before every run
+* Sets the number of runs for all benchs
+* Can be overridden by the Bench-annotation with own run-parameter
 
-* @Bench
-Annotates the method to bench
-@Bench(beforeFirstBenchRun=)
-Specific setUp-method for this bench for settings before the bench
-is executed once for this bench
+### @BeforeFirstBenchRun
 
-* @Bench(beforeEachBenchRun=)
-Specific setUp-method for this bench for settings before the bench
-is executed for every run for this bench
+* Executed before every bench-method and after the BeforeBenchClass-annotated method
+* Executed for all bench-methods but just once for all runs
 
-* @Bench(afterEachBenchRun=)
-Specific tearDown-method for this bench after the bench
-is executed after every run for this bench
+### @BeforeEachBenchRun
 
-* @Bench(afterLastBenchRun=)
-Specific tearDown-method for this bench after the bench
-is executed after the last run of this bench
+* Executed before every bench-method and after the BeforeFirstBenchRun-annotated method
+* Executed for all bench-methods before every run
 
-* @Bench(runs=)
-Sets the number of runs for this method.
-Overrides the default value and a possible setting from a BenchClass annotation of the corresponding class.
+### @Bench
 
-* @AfterEachBenchRun
-Executed after every bench-method
-Executed for all bench-methods after every run
+* Annotates the method to bench
 
-* @AfterLastBenchMethod
-Executed after every bench-method and after the AfterEachBenchRun-annotated method
-Executed for all bench-methods after the last run
+#### @Bench(beforeFirstBenchRun=)
 
-* @AfterBenchClass
-Executed after the last bench-method and after the AfterLastBenchRun-annotated method
-Executed once per class
+* Specific setUp-method for this bench for settings before the bench is executed once for this bench
 
-* @SkipBench
-Will be ignored by perfidix except the method is invoked as a specfic setUp-/tearDown method
-Useful in combination with the BenchClass annotation and a specific setUp-/tearDown method of one bench.
+#### @Bench(beforeEachBenchRun=)
+
+* Specific setUp-method for this bench for settings before the bench is executed for every run for this bench
+
+#### @Bench(afterEachBenchRun=)
+
+* Specific tearDown-method for this bench after the bench is executed after every run for this bench
+
+#### @Bench(afterLastBenchRun=)
+
+* Specific tearDown-method for this bench after the bench is executed after the last run of this bench
+
+#### @Bench(runs=)
+
+* Sets the number of runs for this method. Overrides the default value and a possible setting from a BenchClass annotation of the corresponding class.
+
+### @AfterEachBenchRun
+
+* Executed after every bench-method
+* Executed for all bench-methods after every run
+
+### @AfterLastBenchMethod
+
+* Executed after every bench-method and after the AfterEachBenchRun-annotated method
+* Executed for all bench-methods after the last run
+
+### @AfterBenchClass
+
+* Executed after the last bench-method and after the AfterLastBenchRun-annotated method
+* Executed once per class
+
+### @SkipBench
+
+* Will be ignored by perfidix except the method is invoked as a specfic setUp-/tearDown method
+* Useful in combination with the BenchClass annotation and a specific setUp-/tearDown method of one bench.
 
 Execution
 ----------
