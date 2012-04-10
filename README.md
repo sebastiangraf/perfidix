@@ -72,8 +72,8 @@ Further information
 
 The documentation so far is accessible under http://perfidix.org (pointing to http://disy.github.com/perfidix/).
 
-The framework was presented at the Jazoon '07 as work in progress:
-http://kops.ub.uni-konstanz.de/handle/urn:nbn:de:bsz:352-opus-84446
+The framework was presented at the Jazoon '07 as work in progress. The paper can be found over [here](http://nbn-resolving.de/urn:nbn:de:bsz:352-opus-84446).
+
 
 Any questions, just contact sebastian.graf AT uni-konstanz.de
 
