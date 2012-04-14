@@ -58,8 +58,7 @@ Content
 README					this readme file
 LICENSE	 				license file
 Perclipse				Source folder for Eclipse-Perfidix Plugin
-perfidix				Source folder for perfidix itself
-scripts					bash scripts for syncing against disy-internal repo.
+src						Source folder for perfidix itself
 pom.xml					Simple pom (yes we do use Maven)
 
 License
