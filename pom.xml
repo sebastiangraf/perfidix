@@ -5,7 +5,7 @@
     <artifactId>perfidix</artifactId>
     <packaging>jar</packaging>
     <name>Perfidix Library</name>
-    <version>3.6.6-SNAPSHOT</version>
+    <version>3.6.5-SNAPSHOT</version>
     <parent>
         <groupId>org.sonatype.oss</groupId>
         <artifactId>oss-parent</artifactId>
@@ -262,10 +262,6 @@
             <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
             <uniqueVersion>false</uniqueVersion>
         </snapshotRepository>
-        <site>
-            <id>github</id>
-            <url>gitsite:git@github.com/disy/perfidix.git</url>
-        </site>
     </distributionManagement>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
