@@ -10,10 +10,10 @@ Within the invocation of these methods, flexible measurements are performed.
 5 steps how to use Perfidix
 -------
 
-* Download the latest .jar from github and Insert the jar into your classpath OR refer directly to perfidix over maven. Starting 3.6.5-SNAPSHOT, we will work against the central repo, before you need to add the disy-repo in your pom.xml. Please note that we had to adapt the group starting 3.6.5-SNAPSHOT from perfidix to org.perfidix.
+* Get the lastest jar over Github or Maven
 
 ```xml
-<!-- Only needed when accessing perfidix 3.6.4 or older -->
+<!-- Only needed when accessing perfidix 3.6.4 or older. Note that the group changed within 3.6.5 from "perfidix" to "org.perfidix" -->
 <!--<repository>
 	<id>disyInternal</id>
 	<name>Internal Repository for the Distributed System Group</name>
@@ -86,10 +86,11 @@ Perfidix is maintained by:
 
 Concluded subprojects were:
 
-* Nuray Gürler (Mocking)
+* Nuray Gürler (Mocking and Maven-Website)
 * Lukas Lewandowski (Perclipse Plugin)
 * Bastian Lemke (Graph Output)
 * Alexander Onea (first release of the core)
 * Tim Petrowski (first release of the core)
+* Marc Kramis (Project Lead until 2007)
 
 
