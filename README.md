@@ -41,7 +41,7 @@ Within the invocation of these methods, flexible measurements are performed.
 <dependency>
 	<groupId>org.perfidix</groupId>
 	<artifactId>perfidix</artifactId>
-	<version>3.6.5-SNAPSHOT</version>
+	<version>3.6.5</version>
 </dependency>
 ```
 
@@ -55,11 +55,11 @@ For further documentation and as an example, please refer to the org.perfidix.ex
 Content
 -------
 
-README					this readme file
-LICENSE	 				license file
-Perclipse				Source folder for Eclipse-Perfidix Plugin
-src						Source folder for perfidix itself
-pom.xml					Simple pom (yes we do use Maven)
+* README					this readme file
+* LICENSE	 				license file
+* Perclipse				Source folder for Eclipse-Perfidix Plugin
+* src						Source folder for perfidix itself
+* pom.xml					Simple pom (yes we do use Maven)
 
 License
 -------
