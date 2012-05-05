@@ -38,24 +38,19 @@
             <id>sebastiangraf</id>
             <name>Sebastian Graf</name>
             <email>Sebastian.Graf@uni-konstanz.de</email>
-            <roles>
-                <role>Project Manager</role>
-                <role>Architect</role>
-            </roles>
-            <url>http://www.disy.uni-konstanz.de/</url>
+            <url>http://www.disy.uni-konstanz.de/en/members/sebastian-graf/</url>
             <organization>University of Konstanz, Distributed Systems Group</organization>
             <organizationUrl>http://www.disy.uni-konstanz.de/</organizationUrl>
             <timezone>+1</timezone>
         </developer>
     </developers>
     <organization>
-        <name>University of Konstanz, Distributed System Group</name>
+        <name>University of Konstanz, Distributed Systems Group</name>
         <url>http://www.disy.uni-konstanz.de</url>
     </organization>
     <build>
         <plugins>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>2.3.2</version>
                 <configuration>
