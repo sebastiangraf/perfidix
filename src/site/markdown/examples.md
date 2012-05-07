@@ -27,6 +27,8 @@
 ~~
 -->
 
+<a href="https://github.com/disy/perfidix"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png" alt="Fork me on GitHub"/></a>
+
 Examples
 ==========
 Perfidix offers a very flexible usage based on annotation. The examples contains all the same usecase but are different implemented. A compressed file access is compared to a normal file access. The code in the following examples therefore are doing exactly the same.
