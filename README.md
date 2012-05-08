@@ -1,5 +1,4 @@
-Perfidix - No discussions, Just facts.
-=============
+#Perfidix - No discussions, Just facts.
 
 Perfidix is a light-weight java library enabling users to benchmark sourcecode.
 Similar to JUnit, annotations can be placed before methods.
@@ -7,8 +6,7 @@ Within the invocation of these methods, flexible measurements are performed.
 
 [![Build Status](https://secure.travis-ci.org/disy/perfidix.png)](http://travis-ci.org/disy/perfidix)
 
-5 steps how to use Perfidix
--------
+##5 steps how to use Perfidix
 
 * Get the lastest jar over Github or Maven
 
@@ -52,22 +50,19 @@ Within the invocation of these methods, flexible measurements are performed.
 
 For further documentation and as an example, please refer to the org.perfidix.example package.
 
-Content
--------
+##Content
 
-* README					this readme file
-* LICENSE	 				license file
-* Perclipse				Source folder for Eclipse-Perfidix Plugin
-* src						Source folder for perfidix itself
-* pom.xml					Simple pom (yes we do use Maven)
+* README:					this readme file
+* LICENSE:	 				license file
+* Perclipse:				Source folder for Eclipse-Perfidix Plugin
+* src:						Source folder for perfidix itself
+* pom.xml:					Simple pom (yes we use Maven)
 
-License
--------
+##License
 
 This work is released in the public domain under the BSD 3-clause license
 
-Further information
--------
+##Further information
 
 The documentation so far is accessible under http://perfidix.org (pointing to http://disy.github.com/perfidix/).
 
@@ -76,8 +71,7 @@ The framework was presented at the Jazoon '07 as work in progress. The paper can
 
 Any questions, just contact sebastian.graf AT uni-konstanz.de
 
-Involved People
--------
+##Involved People
 
 Perfidix is maintained by:
 
