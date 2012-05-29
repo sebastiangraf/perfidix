@@ -31,7 +31,7 @@
 
 Screenshots
 ==========
-Perfidix comes with a programming interface for invoking the source and with an Eclipse plugin. The following screenshots represents examples of the interaction:
+Perfidix comes with a programming interface for invoking the source and with an Eclipse plugin accessible over the update site __http://disy.github.com/perclipse/__. The following screenshots represents examples of the interaction:
 
 Perclipse GUI
 ----------

@@ -3,6 +3,7 @@
 Perfidix is a light-weight java library enabling users to benchmark sourcecode.
 Similar to JUnit, annotations can be placed before methods.
 Within the invocation of these methods, flexible measurements are performed.
+An eclipse plugin (Perclipse, available under https://github.com/disy/perclipse) offers easy usage of any annotated methods.
 
 [![Build Status](https://secure.travis-ci.org/disy/perfidix.png)](http://travis-ci.org/disy/perfidix)
 
@@ -39,14 +40,18 @@ Within the invocation of these methods, flexible measurements are performed.
 <dependency>
 	<groupId>org.perfidix</groupId>
 	<artifactId>perfidix</artifactId>
-	<version>3.6.5</version>
+	<version>3.6.6</version>
 </dependency>
 ```
 
 * Annotate your methods to bench with "@Bench". Note that these methods have to have the following layout: "public (final) void method()" 
-* Create a new "Benchmark" object and add the class with the annotated methods to it.
+* Create a new "Benchmark" object and add the class with the annotated methods to it
 * Get the BenchmarkResult by typing "benchmarkObj.run()"
 * Display the result with the TabularSummaryOutput.visit(benchmarkResultObj). 
+
+OR
+
+* install the Perclipse Plugin over its update site (http://disy.github.com/perclipse/) and run over "Run As" (see the Perclipse-Readme for further information: https://github.com/disy/perclipse)
 
 For further documentation and as an example, please refer to the org.perfidix.example package.
 
@@ -54,7 +59,6 @@ For further documentation and as an example, please refer to the org.perfidix.ex
 
 * README:					this readme file
 * LICENSE:	 				license file
-* Perclipse:				Source folder for Eclipse-Perfidix Plugin
 * src:						Source folder for perfidix itself
 * pom.xml:					Simple pom (yes we use Maven)
 
@@ -80,7 +84,6 @@ Perfidix is maintained by:
 Concluded subprojects were:
 
 * Nuray Gürler (Mocking and Maven-Website)
-* Lukas Lewandowski (Perclipse Plugin)
 * Bastian Lemke (Graph Output)
 * Alexander Onea (first release of the core)
 * Tim Petrowski (first release of the core)
