@@ -471,10 +471,6 @@ public final class BenchmarkMethod {
         if (meth.getGenericParameterTypes().length > 0) {
             returnVal = false;
         }
-        // if method is throwing exceptions, the method is not benchmarkable
-        if (meth.getGenericExceptionTypes().length > 0) {
-            returnVal = false;
-        }
         // if method is static, the method is not benchmarkable
         if (Modifier.isStatic(meth.getModifiers())) {
             returnVal = false;

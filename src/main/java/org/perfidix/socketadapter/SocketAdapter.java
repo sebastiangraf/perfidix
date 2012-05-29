@@ -26,6 +26,8 @@
  */
 package org.perfidix.socketadapter;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import org.perfidix.AbstractConfig;
@@ -107,6 +109,46 @@ public final class SocketAdapter {
         new TabularSummaryOutput().visitBenchmark(res);
         view.finished();
         return true;
+    }
+
+    /**
+     * Main method for invoking benchs with classes as strings.
+     * 
+     * @param args
+     *            the classes
+     */
+    public static void main(final String[] args) {
+        // init of the connection to the plugin
+        int viewPort = 0;
+        final List<String> classList = new ArrayList<String>();
+        for (int i = 0; i < args.length; i++) {
+            if (args[i].equals("-Port")) {
+                if (args[i + 1] != null) {
+                    viewPort = Integer.parseInt(args[i + 1]);
+                }
+                break;
+            } else {
+                classList.add(args[i]);
+            }
+        }
+        try {
+
+            final IUpdater updater = new SocketViewProgressUpdater(null, viewPort);
+
+            final SocketAdapter adapter =
+                new SocketAdapter(updater, classList.toArray(new String[classList.size()]));
+
+            adapter.registerClasses(classList.toArray(new String[classList.size()]));
+            adapter.runBenchmark();
+        } catch (final SocketViewException e) {
+            throw new IllegalStateException(e);
+        } catch (ClassNotFoundException e) {
+            throw new IllegalStateException(e);
+        } catch (InstantiationException e) {
+            throw new IllegalStateException(e);
+        } catch (IllegalAccessException e) {
+            throw new IllegalStateException(e);
+        }
     }
 
 }

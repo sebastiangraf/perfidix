@@ -49,10 +49,8 @@ JUnit like handling
 Perfidix is intentionally designed to be used like 
 [JUnit 4.x](http://www.junit.org/), 
 i.e., it provides annotations to discover which methods should be 
-benchmarked how many times. The eclipse plugin or custom 
-code allows to run a package, class, or method as a Perfidix 
-benchmark and to collect the execution time statistics for each 
-method in the console as text or CVS output.
+benchmarked how many times. Annotated classes or methods as Perfidix 
+benchmarks are collected regarding flexible statistics e.g. execution time returned in the console or CVS output.
 
 The output includes package, class, and method name together 
 with the number of runs, min, max, average, standard 

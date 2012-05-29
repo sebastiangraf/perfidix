@@ -30,7 +30,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import java.io.IOException;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -598,10 +597,6 @@ public class BenchmarkMethodTest {
 
         public final void paramMethod(final Object obj) {
             fail("Only param-less methods allowed");
-        }
-
-        public final void exceptionMethod() throws IOException {
-            fail("Only methods without an exception allowed");
         }
 
         protected final void notPublicMethod() {
