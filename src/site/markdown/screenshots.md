@@ -31,27 +31,41 @@
 
 Screenshots
 ==========
-Perfidix comes with a programming interface for invoking the source and with an Eclipse plugin accessible over the update site __http://disy.github.com/perclipse/__. The following screenshots represents examples of the interaction:
+Perfidix comes with a programming interface for invoking the source and with an Eclipse plugin accessible over the update site http://disy.github.com/perclipse/. 
 
-Perclipse GUI
+Please note that you need to have the perfidix-jar in your classpath to make Perclipse work. This can either happen over
+
+* maven, by inserting perfidix to your dependency:
+
+```xml
+<dependency>
+	<groupId>org.perfidix</groupId>
+	<artifactId>perfidix</artifactId>
+	<version>3.6.6</version>
+</dependency>
+```
+
+* eclipse, by adding perfidix as library over a QuickFix as shown in the screenshot below
+
+![Insertion as Library](images/library.jpg)
+
+Invocation
 ----------
 
-Perclipse is the Eclipse plugin shipped with perfidix.
+The following screenshots represents examples of invoking perfidix over perclipse :
 
 ![Invocation example](images/eclipse01.jpg)
 
-The image shows the invocation of perfidix within Eclipse.
+Annotating methods
+----------
+
+The following image shows the annotation of an existing class:
 
 ![Annotation of class](images/eclipse02.jpg)
 
-The image shows the annotation of an existing class.
-
-Commando Line
+Results
 ----------
 
 The output is piped to the commando as an example.
 
 ![Result of a bench](images/result.jpg)
-
-The image shows a result of a bench run on the commando line.
-
