@@ -1,0 +1,12 @@
+org.perfidix
+org.perfidix.annotation
+org.perfidix.element
+org.perfidix.example
+org.perfidix.example.list
+org.perfidix.example.stack
+org.perfidix.exceptions
+org.perfidix.meter
+org.perfidix.ouput
+org.perfidix.ouput.asciitable
+org.perfidix.result
+org.perfidix.socketadapter
