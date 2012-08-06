@@ -31,89 +31,88 @@ package org.perfidix.example;
 
 import static org.junit.Assert.assertEquals;
 
-import org.junit.Before;
+import java.util.Random;
+import java.util.Stack;
+
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.perfidix.example.stack.FastIntStack;
+import org.perfidix.annotation.BeforeBenchClass;
+import org.perfidix.annotation.BenchClass;
 
-/**
- * This is a class that tests the {@link FastIntStack} class
- * with all its methods
- * 
- * @author Nuray Guerler, University of Konstanz
- */
+@BenchClass(runs = 100)
 public class FastIntStackTest {
 
-    /**
-     * This member variable contains a FastIntStack object.
-     */
-    private FastIntStack stack;
-    /**
-     * Create constant to determine size of test data
-     */
-    private static final int SIZE = 5;
-    /**
-     * This integer array contains five random values to test FastIntStack
-     * methods
-     */
-    private static int[] r = new int[SIZE];
+    private static int[] data = new int[15];
 
-    /**
-     * Fill integer array with raandom values
-     */
+    @BeforeBenchClass
     @BeforeClass
-    public static void initR() {
-        java.util.Random random = new java.util.Random();
-        for (int i = 0; i < SIZE; i++) {
-            r[i] = random.nextInt();
+    public static void beforeClass() {
+        for (int i = 0; i < data.length; i++) {
+            data[i] = new Random().nextInt();
         }
     }
 
-    /**
-     * @throws java.lang.Exception
-     */
-    /**
-     * initialize stack
-     * 
-     * @throws Exception
-     */
-    @Before
-    public void setUp() throws Exception {
-        stack = new FastIntStack();
-    }
-
-    /**
-     * Test method for {@link org.perfidix.example.stack.FastIntStack#push(int)}.,
-     * {@link org.perfidix.example.stack.FastIntStack#get(int)}.,
-     * {@link org.perfidix.example.stack.FastIntStack#peek()}. and
-     * {@link org.perfidix.example.stack.FastIntStack#pop()}.
-     */
     @Test
-    public void testStackPushSizeGetPeekPop() {
-        assertEquals("Stack should be empty", 0, stack.size());
-        for (int i = 0; i < SIZE; i++) {
-            stack.push(r[i]);
+    public void myStackTest() {
+        final FastIntStack myStack = new FastIntStack();
+        for (int i = 0; i < data.length; i++) {
+            myStack.push(data[i]);
         }
-        assertEquals(new StringBuilder("Size of stack is ").append(SIZE).toString(), SIZE, stack.size());
-        for (int i = SIZE - 1; i >= 0; i--) {
-            assertEquals(new StringBuilder("value of position ").append(i).append(" is returned").toString(),
-                r[i], stack.get(i));
-            assertEquals(new StringBuilder("Stack element contains").append(r[i]).toString(), r[i], stack
-                .peek());
-            assertEquals("Element r[i] is removed from stack", r[i], stack.pop());
+        for (int i = data.length - 1; i > 0; i--) {
+            assertEquals(data[i], myStack.pop());
         }
     }
 
-    /**
-     * Test method for {@link org.perfidix.example.stack.FastIntStack#clear()}.
-     */
     @Test
-    public void testStackClear() {
-        for (int i = 0; i < SIZE; i++) {
-            stack.push(r[i]);
+    public void normalStackTest() {
+        final Stack<Integer> normalStack = new Stack<Integer>();
+        for (int i = 0; i < data.length; i++) {
+            normalStack.push(data[i]);
         }
-        assertEquals("Size of stack is " + SIZE, SIZE, stack.size());
-        stack.clear();
+        for (int i = data.length - 1; i > 0; i--) {
+            assertEquals(data[i], normalStack.pop().intValue());
+        }
     }
 
+    final class FastIntStack {
+
+        private int[] stack;
+
+        private int size;
+
+        FastIntStack() {
+            stack = new int[32];
+            size = 0;
+        }
+
+        final void push(final int element) {
+            if (stack.length == size) {
+                int[] biggerStack = new int[stack.length << 1];
+                System.arraycopy(stack, 0, biggerStack, 0, stack.length);
+                stack = biggerStack;
+            }
+            stack[size++] = element;
+        }
+
+        final int peek() {
+            return stack[size - 1];
+        }
+
+        final int get(final int position) {
+            return stack[position];
+        }
+
+        final int pop() {
+            return stack[--size];
+        }
+
+        final void clear() {
+            size = 0;
+        }
+
+        final int size() {
+            return size;
+        }
+
+    }
 }

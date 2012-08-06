@@ -56,8 +56,8 @@ Annotate your code you want to see benched with the Perfidix annotations. A smal
 
     import org.junit.BeforeClass;  
     import org.junit.Test;  
-    import org.perfidix.BeforeBenchClass;  
-    import org.perfidix.BenchClass;
+	import org.perfidix.annotation.BeforeBenchClass;
+	import org.perfidix.annotation.BenchClass;
 
     @BenchClass(runs = 100)
     public class FastIntStackTest {
@@ -90,7 +90,7 @@ Annotate your code you want to see benched with the Perfidix annotations. A smal
             	normalStack.push(data[i]);
         	}
         	for (int i = data.length - 1; i > 0; i--) {
-            	assertEquals(data[i], normalStack.pop());
+            	assertEquals(data[i], normalStack.pop().intValue());
         	}
     	}
 
