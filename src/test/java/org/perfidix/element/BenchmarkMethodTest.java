@@ -147,7 +147,7 @@ public class BenchmarkMethodTest {
             final Method[] meths = toTest.getClass().getDeclaredMethods();
             int numOfMethods = 0;
             for (final Method meth : meths) {
-                if (BenchmarkMethod.isReflectedExecutable(meth)) {
+                if (BenchmarkMethod.isReflectedExecutable(meth, Bench.class)) {
                     meth.invoke(toTest, param);
                     numOfMethods++;
                 }
