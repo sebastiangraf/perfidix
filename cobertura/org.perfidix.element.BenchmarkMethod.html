@@ -12,7 +12,7 @@
 <div class="separator">&nbsp;</div>
 <table class="report">
 <thead><tr>  <td class="heading">Classes in this File</td>  <td class="heading"><a class="dfn" href="help.html" onclick="popupwindow('help.html'); return false;">Line Coverage</a></td>  <td class="heading"><a class="dfn" href="help.html" onclick="popupwindow('help.html'); return false;">Branch Coverage</a></td>  <td class="heading"><a class="dfn" href="help.html" onclick="popupwindow('help.html'); return false;">Complexity</a></td></tr></thead>
-  <tr><td><a href="org.perfidix.element.BenchmarkMethod.html">BenchmarkMethod</a></td><td><table cellpadding="0px" cellspacing="0px" class="percentgraph"><tr class="percentgraph"><td align="right" class="percentgraph" width="40">80%</td><td class="percentgraph"><div class="percentgraph"><div class="greenbar" style="width:80px"><span class="text">120/150</span></div></div></td></tr></table></td><td><table cellpadding="0px" cellspacing="0px" class="percentgraph"><tr class="percentgraph"><td align="right" class="percentgraph" width="40">77%</td><td class="percentgraph"><div class="percentgraph"><div class="greenbar" style="width:77px"><span class="text">79/102</span></div></div></td></tr></table></td><td class="value"><span class="hidden">6.357142857142857;</span>6.357</td></tr>
+  <tr><td><a href="org.perfidix.element.BenchmarkMethod.html">BenchmarkMethod</a></td><td><table cellpadding="0px" cellspacing="0px" class="percentgraph"><tr class="percentgraph"><td align="right" class="percentgraph" width="40">0 %</td><td class="percentgraph"><div class="percentgraph"><div class="greenbar" style="width:0px"><span class="text">0/150</span></div></div></td></tr></table></td><td><table cellpadding="0px" cellspacing="0px" class="percentgraph"><tr class="percentgraph"><td align="right" class="percentgraph" width="40">0 %</td><td class="percentgraph"><div class="percentgraph"><div class="greenbar" style="width:0px"><span class="text">0/102</span></div></div></td></tr></table></td><td class="value"><span class="hidden">6.357142857142857;</span>6.357</td></tr>
 
 </table>
 <div class="separator">&nbsp;</div>
@@ -161,9 +161,9 @@
   <td class="src"><pre class="src">&nbsp;<span class="comment">     *            method to be benched (eventually)</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;72</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;<span class="comment">     */</span></pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;73</td>  <td class="nbHitsCovered">&nbsp;65</td>  <td class="src"><pre class="src">&nbsp;    <span class="keyword">public</span> BenchmarkMethod(<span class="keyword">final</span> Method paramMethod) {</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;74</td>  <td class="nbHitsCovered">&nbsp;65</td>  <td class="src"><pre class="src">&nbsp;        methodToBench = paramMethod;</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;75</td>  <td class="nbHitsUncovered"><a title="Line 75: Conditional coverage 50% (1/2).">&nbsp;65</a></td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;<a title="Line 75: Conditional coverage 50% (1/2).">        <span class="keyword">if</span> (!isBenchmarkable(methodToBench)) {</a></span></pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;73</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;    <span class="keyword">public</span> BenchmarkMethod(<span class="keyword">final</span> Method paramMethod) {</span></pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;74</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;        methodToBench = paramMethod;</span></pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;75</td>  <td class="nbHitsUncovered"><a title="Line 75: Conditional coverage 0 % (0/2).">&nbsp;0</a></td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;<a title="Line 75: Conditional coverage 0 % (0/2).">        <span class="keyword">if</span> (!isBenchmarkable(methodToBench)) {</a></span></pre></td></tr>
 <tr>  <td class="numLineCover">&nbsp;76</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="keyword">new</span> StringBuilder(</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;77</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;                <span class="string">"Only benchmarkable methods allowed but method "</span>).append(paramMethod).append(</pre></td></tr>
@@ -171,7 +171,7 @@
   <td class="src"><pre class="src">&nbsp;                <span class="string">" is not benchmarkable."</span>).toString());</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;79</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;        }</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;80</td>  <td class="nbHitsCovered">&nbsp;65</td>  <td class="src"><pre class="src">&nbsp;    }</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;80</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;    }</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;81</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;82</td>  <td class="nbHits">&nbsp;</td>
@@ -210,21 +210,21 @@
   <td class="src"><pre class="src">&nbsp;    <span class="keyword">public</span> Method findBeforeFirstRun() <span class="keyword">throws</span> PerfidixMethodCheckException {</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;99</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;100</td>  <td class="nbHitsCovered">&nbsp;20</td>  <td class="src"><pre class="src">&nbsp;        Method method = <span class="keyword">null</span>;</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;100</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;        Method method = <span class="keyword">null</span>;</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;101</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;102</td>  <td class="nbHitsCovered">&nbsp;20</td>  <td class="src"><pre class="src">&nbsp;        <span class="keyword">final</span> Bench benchAnno = getMethodToBench().getAnnotation(Bench.<span class="keyword">class</span>);</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;103</td>  <td class="nbHitsUncovered"><a title="Line 103: Conditional coverage 75% (3/4) [each condition: 50%, 100%].">&nbsp;20</a></td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;<a title="Line 103: Conditional coverage 75% (3/4) [each condition: 50%, 100%].">        <span class="keyword">if</span> (benchAnno != <span class="keyword">null</span> &amp;&amp; !benchAnno.beforeFirstRun().equals(<span class="string">""</span>)) {</a></span></pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;102</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;        <span class="keyword">final</span> Bench benchAnno = getMethodToBench().getAnnotation(Bench.<span class="keyword">class</span>);</span></pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;103</td>  <td class="nbHitsUncovered"><a title="Line 103: Conditional coverage 0 % (0/4) [each condition: 0 %, 0 %].">&nbsp;0</a></td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;<a title="Line 103: Conditional coverage 0 % (0/4) [each condition: 0 %, 0 %].">        <span class="keyword">if</span> (benchAnno != <span class="keyword">null</span> &amp;&amp; !benchAnno.beforeFirstRun().equals(<span class="string">""</span>)) {</a></span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;104</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;            <span class="keyword">try</span> {</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;105</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;                <span class="comment">// variable to instantiate the method by name.</span></pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;106</td>  <td class="nbHitsCovered">&nbsp;1</td>  <td class="src"><pre class="src">&nbsp;                <span class="keyword">final</span> Class&lt;?&gt;[] setUpParams = {};</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;106</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;                <span class="keyword">final</span> Class&lt;?&gt;[] setUpParams = {};</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;107</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;108</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;                <span class="comment">// getting the method by name</span></pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;109</td>  <td class="nbHitsCovered">&nbsp;1</td>  <td class="src"><pre class="src">&nbsp;                method =</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;109</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;                method =</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;110</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;                    getMethodToBench().getDeclaringClass().getDeclaredMethod(benchAnno.beforeFirstRun(),</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;111</td>  <td class="nbHits">&nbsp;</td>
@@ -233,7 +233,7 @@
 <tr>  <td class="numLineCover">&nbsp;113</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;                <span class="keyword">throw</span> <span class="keyword">new</span> PerfidixMethodCheckException(e, method, BeforeFirstRun.<span class="keyword">class</span>);</span></pre></td></tr>
 <tr>  <td class="numLineCover">&nbsp;114</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;            } <span class="keyword">catch</span> (<span class="keyword">final</span> NoSuchMethodException e) {</span></pre></td></tr>
 <tr>  <td class="numLineCover">&nbsp;115</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;                <span class="keyword">throw</span> <span class="keyword">new</span> PerfidixMethodCheckException(e, method, BeforeFirstRun.<span class="keyword">class</span>);</span></pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;116</td>  <td class="nbHitsCovered">&nbsp;1</td>  <td class="src"><pre class="src">&nbsp;            }</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;116</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;            }</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;117</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;        }</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;118</td>  <td class="nbHits">&nbsp;</td>
@@ -242,9 +242,9 @@
   <td class="src"><pre class="src">&nbsp;        <span class="comment">// if there was no name, a scan over the class occurs, otherwise the</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;120</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;        <span class="comment">// designated method is checked.</span></pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;121</td>  <td class="nbHitsCovered">&nbsp;20</td>  <td class="src"><pre class="src">&nbsp;        Method returnVal = <span class="keyword">null</span>;</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;122</td>  <td class="nbHitsCovered"><a title="Line 122: Conditional coverage 100% (2/2).">&nbsp;20</a></td>  <td class="src"><pre class="src">&nbsp;<a title="Line 122: Conditional coverage 100% (2/2).">        <span class="keyword">if</span> (method == <span class="keyword">null</span>) {</a></pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;123</td>  <td class="nbHitsCovered">&nbsp;19</td>  <td class="src"><pre class="src">&nbsp;            returnVal =</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;121</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;        Method returnVal = <span class="keyword">null</span>;</span></pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;122</td>  <td class="nbHitsUncovered"><a title="Line 122: Conditional coverage 0 % (0/2).">&nbsp;0</a></td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;<a title="Line 122: Conditional coverage 0 % (0/2).">        <span class="keyword">if</span> (method == <span class="keyword">null</span>) {</a></span></pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;123</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;            returnVal =</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;124</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;                findAndCheckAnyMethodByAnnotation(getMethodToBench().getDeclaringClass(),</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;125</td>  <td class="nbHits">&nbsp;</td>
@@ -253,8 +253,8 @@
   <td class="src"><pre class="src">&nbsp;</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;127</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;        } <span class="keyword">else</span> {</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;128</td>  <td class="nbHitsUncovered"><a title="Line 128: Conditional coverage 50% (1/2).">&nbsp;1</a></td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;<a title="Line 128: Conditional coverage 50% (1/2).">            <span class="keyword">if</span> (isReflectedExecutable(method, BeforeFirstRun.<span class="keyword">class</span>)) {</a></span></pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;129</td>  <td class="nbHitsCovered">&nbsp;1</td>  <td class="src"><pre class="src">&nbsp;                returnVal = method;</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;128</td>  <td class="nbHitsUncovered"><a title="Line 128: Conditional coverage 0 % (0/2).">&nbsp;0</a></td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;<a title="Line 128: Conditional coverage 0 % (0/2).">            <span class="keyword">if</span> (isReflectedExecutable(method, BeforeFirstRun.<span class="keyword">class</span>)) {</a></span></pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;129</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;                returnVal = method;</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;130</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;            } <span class="keyword">else</span> {</pre></td></tr>
 <tr>  <td class="numLineCover">&nbsp;131</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;                <span class="keyword">throw</span> <span class="keyword">new</span> PerfidixMethodCheckException(<span class="keyword">new</span> IllegalAccessException(<span class="keyword">new</span> StringBuilder(</span></pre></td></tr>
@@ -266,7 +266,7 @@
   <td class="src"><pre class="src">&nbsp;            }</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;135</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;        }</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;136</td>  <td class="nbHitsCovered">&nbsp;20</td>  <td class="src"><pre class="src">&nbsp;        <span class="keyword">return</span> returnVal;</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;136</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;        <span class="keyword">return</span> returnVal;</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;137</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;138</td>  <td class="nbHits">&nbsp;</td>
@@ -309,21 +309,21 @@
   <td class="src"><pre class="src">&nbsp;    <span class="keyword">public</span> Method findBeforeEachRun() <span class="keyword">throws</span> PerfidixMethodCheckException {</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;157</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;158</td>  <td class="nbHitsCovered">&nbsp;789</td>  <td class="src"><pre class="src">&nbsp;        Method method = <span class="keyword">null</span>;</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;158</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;        Method method = <span class="keyword">null</span>;</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;159</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;160</td>  <td class="nbHitsCovered">&nbsp;789</td>  <td class="src"><pre class="src">&nbsp;        <span class="keyword">final</span> Bench benchAnno = getMethodToBench().getAnnotation(Bench.<span class="keyword">class</span>);</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;161</td>  <td class="nbHitsUncovered"><a title="Line 161: Conditional coverage 75% (3/4) [each condition: 50%, 100%].">&nbsp;789</a></td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;<a title="Line 161: Conditional coverage 75% (3/4) [each condition: 50%, 100%].">        <span class="keyword">if</span> (benchAnno != <span class="keyword">null</span> &amp;&amp; !benchAnno.beforeEachRun().equals(<span class="string">""</span>)) {</a></span></pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;160</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;        <span class="keyword">final</span> Bench benchAnno = getMethodToBench().getAnnotation(Bench.<span class="keyword">class</span>);</span></pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;161</td>  <td class="nbHitsUncovered"><a title="Line 161: Conditional coverage 0 % (0/4) [each condition: 0 %, 0 %].">&nbsp;0</a></td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;<a title="Line 161: Conditional coverage 0 % (0/4) [each condition: 0 %, 0 %].">        <span class="keyword">if</span> (benchAnno != <span class="keyword">null</span> &amp;&amp; !benchAnno.beforeEachRun().equals(<span class="string">""</span>)) {</a></span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;162</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;            <span class="keyword">try</span> {</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;163</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;                <span class="comment">// variable to instantiate the method by name.</span></pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;164</td>  <td class="nbHitsCovered">&nbsp;301</td>  <td class="src"><pre class="src">&nbsp;                <span class="keyword">final</span> Class&lt;?&gt;[] setUpParams = {};</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;164</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;                <span class="keyword">final</span> Class&lt;?&gt;[] setUpParams = {};</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;165</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;166</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;                <span class="comment">// getting the method by name</span></pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;167</td>  <td class="nbHitsCovered">&nbsp;301</td>  <td class="src"><pre class="src">&nbsp;                method =</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;167</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;                method =</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;168</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;                    getMethodToBench().getDeclaringClass().getDeclaredMethod(benchAnno.beforeEachRun(),</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;169</td>  <td class="nbHits">&nbsp;</td>
@@ -332,7 +332,7 @@
 <tr>  <td class="numLineCover">&nbsp;171</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;                <span class="keyword">throw</span> <span class="keyword">new</span> PerfidixMethodCheckException(e, method, BeforeEachRun.<span class="keyword">class</span>);</span></pre></td></tr>
 <tr>  <td class="numLineCover">&nbsp;172</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;            } <span class="keyword">catch</span> (NoSuchMethodException e) {</span></pre></td></tr>
 <tr>  <td class="numLineCover">&nbsp;173</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;                <span class="keyword">throw</span> <span class="keyword">new</span> PerfidixMethodCheckException(e, method, BeforeEachRun.<span class="keyword">class</span>);</span></pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;174</td>  <td class="nbHitsCovered">&nbsp;301</td>  <td class="src"><pre class="src">&nbsp;            }</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;174</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;            }</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;175</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;        }</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;176</td>  <td class="nbHits">&nbsp;</td>
@@ -343,14 +343,14 @@
   <td class="src"><pre class="src">&nbsp;        <span class="comment">// designated method is checked.</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;179</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;        Method returnVal;</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;180</td>  <td class="nbHitsCovered"><a title="Line 180: Conditional coverage 100% (2/2).">&nbsp;789</a></td>  <td class="src"><pre class="src">&nbsp;<a title="Line 180: Conditional coverage 100% (2/2).">        <span class="keyword">if</span> (method == <span class="keyword">null</span>) {</a></pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;181</td>  <td class="nbHitsCovered">&nbsp;488</td>  <td class="src"><pre class="src">&nbsp;            returnVal =</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;180</td>  <td class="nbHitsUncovered"><a title="Line 180: Conditional coverage 0 % (0/2).">&nbsp;0</a></td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;<a title="Line 180: Conditional coverage 0 % (0/2).">        <span class="keyword">if</span> (method == <span class="keyword">null</span>) {</a></span></pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;181</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;            returnVal =</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;182</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;                findAndCheckAnyMethodByAnnotation(getMethodToBench().getDeclaringClass(), BeforeEachRun.<span class="keyword">class</span>);</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;183</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;        } <span class="keyword">else</span> {</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;184</td>  <td class="nbHitsUncovered"><a title="Line 184: Conditional coverage 50% (1/2).">&nbsp;301</a></td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;<a title="Line 184: Conditional coverage 50% (1/2).">            <span class="keyword">if</span> (isReflectedExecutable(method, BeforeEachRun.<span class="keyword">class</span>)) {</a></span></pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;185</td>  <td class="nbHitsCovered">&nbsp;301</td>  <td class="src"><pre class="src">&nbsp;                returnVal = method;</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;184</td>  <td class="nbHitsUncovered"><a title="Line 184: Conditional coverage 0 % (0/2).">&nbsp;0</a></td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;<a title="Line 184: Conditional coverage 0 % (0/2).">            <span class="keyword">if</span> (isReflectedExecutable(method, BeforeEachRun.<span class="keyword">class</span>)) {</a></span></pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;185</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;                returnVal = method;</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;186</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;            } <span class="keyword">else</span> {</pre></td></tr>
 <tr>  <td class="numLineCover">&nbsp;187</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;                <span class="keyword">throw</span> <span class="keyword">new</span> PerfidixMethodCheckException(<span class="keyword">new</span> IllegalAccessException(<span class="keyword">new</span> StringBuilder(</span></pre></td></tr>
@@ -362,7 +362,7 @@
   <td class="src"><pre class="src">&nbsp;            }</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;191</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;        }</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;192</td>  <td class="nbHitsCovered">&nbsp;789</td>  <td class="src"><pre class="src">&nbsp;        <span class="keyword">return</span> returnVal;</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;192</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;        <span class="keyword">return</span> returnVal;</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;193</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;    }</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;194</td>  <td class="nbHits">&nbsp;</td>
@@ -403,21 +403,21 @@
   <td class="src"><pre class="src">&nbsp;    <span class="keyword">public</span> Method findAfterEachRun() <span class="keyword">throws</span> PerfidixMethodCheckException {</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;212</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;213</td>  <td class="nbHitsCovered">&nbsp;789</td>  <td class="src"><pre class="src">&nbsp;        Method method = <span class="keyword">null</span>;</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;213</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;        Method method = <span class="keyword">null</span>;</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;214</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;215</td>  <td class="nbHitsCovered">&nbsp;789</td>  <td class="src"><pre class="src">&nbsp;        <span class="keyword">final</span> Bench benchAnno = getMethodToBench().getAnnotation(Bench.<span class="keyword">class</span>);</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;216</td>  <td class="nbHitsUncovered"><a title="Line 216: Conditional coverage 75% (3/4) [each condition: 50%, 100%].">&nbsp;789</a></td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;<a title="Line 216: Conditional coverage 75% (3/4) [each condition: 50%, 100%].">        <span class="keyword">if</span> (benchAnno != <span class="keyword">null</span> &amp;&amp; !benchAnno.afterEachRun().equals(<span class="string">""</span>)) {</a></span></pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;215</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;        <span class="keyword">final</span> Bench benchAnno = getMethodToBench().getAnnotation(Bench.<span class="keyword">class</span>);</span></pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;216</td>  <td class="nbHitsUncovered"><a title="Line 216: Conditional coverage 0 % (0/4) [each condition: 0 %, 0 %].">&nbsp;0</a></td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;<a title="Line 216: Conditional coverage 0 % (0/4) [each condition: 0 %, 0 %].">        <span class="keyword">if</span> (benchAnno != <span class="keyword">null</span> &amp;&amp; !benchAnno.afterEachRun().equals(<span class="string">""</span>)) {</a></span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;217</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;            <span class="keyword">try</span> {</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;218</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;                <span class="comment">// variable to instantiate the method by name.</span></pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;219</td>  <td class="nbHitsCovered">&nbsp;1</td>  <td class="src"><pre class="src">&nbsp;                <span class="keyword">final</span> Class&lt;?&gt;[] setUpParams = {};</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;219</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;                <span class="keyword">final</span> Class&lt;?&gt;[] setUpParams = {};</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;220</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;221</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;                <span class="comment">// getting the method by name</span></pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;222</td>  <td class="nbHitsCovered">&nbsp;1</td>  <td class="src"><pre class="src">&nbsp;                method =</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;222</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;                method =</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;223</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;                    getMethodToBench().getDeclaringClass().getDeclaredMethod(benchAnno.afterEachRun(),</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;224</td>  <td class="nbHits">&nbsp;</td>
@@ -426,7 +426,7 @@
 <tr>  <td class="numLineCover">&nbsp;226</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;                <span class="keyword">throw</span> <span class="keyword">new</span> PerfidixMethodCheckException(e, method, AfterEachRun.<span class="keyword">class</span>);</span></pre></td></tr>
 <tr>  <td class="numLineCover">&nbsp;227</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;            } <span class="keyword">catch</span> (NoSuchMethodException e) {</span></pre></td></tr>
 <tr>  <td class="numLineCover">&nbsp;228</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;                <span class="keyword">throw</span> <span class="keyword">new</span> PerfidixMethodCheckException(e, method, AfterEachRun.<span class="keyword">class</span>);</span></pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;229</td>  <td class="nbHitsCovered">&nbsp;1</td>  <td class="src"><pre class="src">&nbsp;            }</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;229</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;            }</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;230</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;        }</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;231</td>  <td class="nbHits">&nbsp;</td>
@@ -437,14 +437,14 @@
   <td class="src"><pre class="src">&nbsp;        <span class="comment">// designated method is checked.</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;234</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;        Method returnVal;</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;235</td>  <td class="nbHitsCovered"><a title="Line 235: Conditional coverage 100% (2/2).">&nbsp;789</a></td>  <td class="src"><pre class="src">&nbsp;<a title="Line 235: Conditional coverage 100% (2/2).">        <span class="keyword">if</span> (method == <span class="keyword">null</span>) {</a></pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;236</td>  <td class="nbHitsCovered">&nbsp;788</td>  <td class="src"><pre class="src">&nbsp;            returnVal =</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;235</td>  <td class="nbHitsUncovered"><a title="Line 235: Conditional coverage 0 % (0/2).">&nbsp;0</a></td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;<a title="Line 235: Conditional coverage 0 % (0/2).">        <span class="keyword">if</span> (method == <span class="keyword">null</span>) {</a></span></pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;236</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;            returnVal =</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;237</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;                findAndCheckAnyMethodByAnnotation(getMethodToBench().getDeclaringClass(), AfterEachRun.<span class="keyword">class</span>);</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;238</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;        } <span class="keyword">else</span> {</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;239</td>  <td class="nbHitsUncovered"><a title="Line 239: Conditional coverage 50% (1/2).">&nbsp;1</a></td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;<a title="Line 239: Conditional coverage 50% (1/2).">            <span class="keyword">if</span> (isReflectedExecutable(method, AfterEachRun.<span class="keyword">class</span>)) {</a></span></pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;240</td>  <td class="nbHitsCovered">&nbsp;1</td>  <td class="src"><pre class="src">&nbsp;                returnVal = method;</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;239</td>  <td class="nbHitsUncovered"><a title="Line 239: Conditional coverage 0 % (0/2).">&nbsp;0</a></td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;<a title="Line 239: Conditional coverage 0 % (0/2).">            <span class="keyword">if</span> (isReflectedExecutable(method, AfterEachRun.<span class="keyword">class</span>)) {</a></span></pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;240</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;                returnVal = method;</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;241</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;            } <span class="keyword">else</span> {</pre></td></tr>
 <tr>  <td class="numLineCover">&nbsp;242</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;                <span class="keyword">throw</span> <span class="keyword">new</span> PerfidixMethodCheckException(</span></pre></td></tr>
@@ -456,7 +456,7 @@
   <td class="src"><pre class="src">&nbsp;            }</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;246</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;        }</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;247</td>  <td class="nbHitsCovered">&nbsp;789</td>  <td class="src"><pre class="src">&nbsp;        <span class="keyword">return</span> returnVal;</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;247</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;        <span class="keyword">return</span> returnVal;</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;248</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;    }</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;249</td>  <td class="nbHits">&nbsp;</td>
@@ -497,21 +497,21 @@
   <td class="src"><pre class="src">&nbsp;    <span class="keyword">public</span> Method findAfterLastRun() <span class="keyword">throws</span> PerfidixMethodCheckException {</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;267</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;268</td>  <td class="nbHitsCovered">&nbsp;20</td>  <td class="src"><pre class="src">&nbsp;        Method method = <span class="keyword">null</span>;</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;268</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;        Method method = <span class="keyword">null</span>;</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;269</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;270</td>  <td class="nbHitsCovered">&nbsp;20</td>  <td class="src"><pre class="src">&nbsp;        <span class="keyword">final</span> Bench benchAnno = getMethodToBench().getAnnotation(Bench.<span class="keyword">class</span>);</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;271</td>  <td class="nbHitsUncovered"><a title="Line 271: Conditional coverage 75% (3/4) [each condition: 50%, 100%].">&nbsp;20</a></td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;<a title="Line 271: Conditional coverage 75% (3/4) [each condition: 50%, 100%].">        <span class="keyword">if</span> (benchAnno != <span class="keyword">null</span> &amp;&amp; !benchAnno.afterLastRun().equals(<span class="string">""</span>)) {</a></span></pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;270</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;        <span class="keyword">final</span> Bench benchAnno = getMethodToBench().getAnnotation(Bench.<span class="keyword">class</span>);</span></pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;271</td>  <td class="nbHitsUncovered"><a title="Line 271: Conditional coverage 0 % (0/4) [each condition: 0 %, 0 %].">&nbsp;0</a></td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;<a title="Line 271: Conditional coverage 0 % (0/4) [each condition: 0 %, 0 %].">        <span class="keyword">if</span> (benchAnno != <span class="keyword">null</span> &amp;&amp; !benchAnno.afterLastRun().equals(<span class="string">""</span>)) {</a></span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;272</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;            <span class="keyword">try</span> {</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;273</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;                <span class="comment">// variable to instantiate the method by name.</span></pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;274</td>  <td class="nbHitsCovered">&nbsp;1</td>  <td class="src"><pre class="src">&nbsp;                <span class="keyword">final</span> Class&lt;?&gt;[] setUpParams = {};</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;274</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;                <span class="keyword">final</span> Class&lt;?&gt;[] setUpParams = {};</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;275</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;276</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;                <span class="comment">// getting the method by name</span></pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;277</td>  <td class="nbHitsCovered">&nbsp;1</td>  <td class="src"><pre class="src">&nbsp;                method =</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;277</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;                method =</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;278</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;                    getMethodToBench().getDeclaringClass().getDeclaredMethod(benchAnno.afterLastRun(),</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;279</td>  <td class="nbHits">&nbsp;</td>
@@ -520,7 +520,7 @@
 <tr>  <td class="numLineCover">&nbsp;281</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;                <span class="keyword">throw</span> <span class="keyword">new</span> PerfidixMethodCheckException(e, method, AfterLastRun.<span class="keyword">class</span>);</span></pre></td></tr>
 <tr>  <td class="numLineCover">&nbsp;282</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;            } <span class="keyword">catch</span> (<span class="keyword">final</span> NoSuchMethodException e) {</span></pre></td></tr>
 <tr>  <td class="numLineCover">&nbsp;283</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;                <span class="keyword">throw</span> <span class="keyword">new</span> PerfidixMethodCheckException(e, method, AfterLastRun.<span class="keyword">class</span>);</span></pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;284</td>  <td class="nbHitsCovered">&nbsp;1</td>  <td class="src"><pre class="src">&nbsp;            }</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;284</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;            }</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;285</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;        }</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;286</td>  <td class="nbHits">&nbsp;</td>
@@ -531,14 +531,14 @@
   <td class="src"><pre class="src">&nbsp;        <span class="comment">// designated method is checked.</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;289</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;        Method returnVal;</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;290</td>  <td class="nbHitsCovered"><a title="Line 290: Conditional coverage 100% (2/2).">&nbsp;20</a></td>  <td class="src"><pre class="src">&nbsp;<a title="Line 290: Conditional coverage 100% (2/2).">        <span class="keyword">if</span> (method == <span class="keyword">null</span>) {</a></pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;291</td>  <td class="nbHitsCovered">&nbsp;19</td>  <td class="src"><pre class="src">&nbsp;            returnVal =</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;290</td>  <td class="nbHitsUncovered"><a title="Line 290: Conditional coverage 0 % (0/2).">&nbsp;0</a></td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;<a title="Line 290: Conditional coverage 0 % (0/2).">        <span class="keyword">if</span> (method == <span class="keyword">null</span>) {</a></span></pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;291</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;            returnVal =</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;292</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;                findAndCheckAnyMethodByAnnotation(getMethodToBench().getDeclaringClass(), AfterLastRun.<span class="keyword">class</span>);</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;293</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;        } <span class="keyword">else</span> {</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;294</td>  <td class="nbHitsUncovered"><a title="Line 294: Conditional coverage 50% (1/2).">&nbsp;1</a></td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;<a title="Line 294: Conditional coverage 50% (1/2).">            <span class="keyword">if</span> (isReflectedExecutable(method, AfterLastRun.<span class="keyword">class</span>)) {</a></span></pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;295</td>  <td class="nbHitsCovered">&nbsp;1</td>  <td class="src"><pre class="src">&nbsp;                returnVal = method;</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;294</td>  <td class="nbHitsUncovered"><a title="Line 294: Conditional coverage 0 % (0/2).">&nbsp;0</a></td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;<a title="Line 294: Conditional coverage 0 % (0/2).">            <span class="keyword">if</span> (isReflectedExecutable(method, AfterLastRun.<span class="keyword">class</span>)) {</a></span></pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;295</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;                returnVal = method;</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;296</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;            } <span class="keyword">else</span> {</pre></td></tr>
 <tr>  <td class="numLineCover">&nbsp;297</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;                <span class="keyword">throw</span> <span class="keyword">new</span> PerfidixMethodCheckException(</span></pre></td></tr>
@@ -550,7 +550,7 @@
   <td class="src"><pre class="src">&nbsp;            }</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;301</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;        }</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;302</td>  <td class="nbHitsCovered">&nbsp;20</td>  <td class="src"><pre class="src">&nbsp;        <span class="keyword">return</span> returnVal;</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;302</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;        <span class="keyword">return</span> returnVal;</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;303</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;    }</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;304</td>  <td class="nbHits">&nbsp;</td>
@@ -567,7 +567,7 @@
   <td class="src"><pre class="src">&nbsp;<span class="comment">     */</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;310</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;    <span class="keyword">public</span> Method getMethodToBench() {</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;311</td>  <td class="nbHitsCovered">&nbsp;6251</td>  <td class="src"><pre class="src">&nbsp;        <span class="keyword">return</span> methodToBench;</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;311</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;        <span class="keyword">return</span> methodToBench;</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;312</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;    }</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;313</td>  <td class="nbHits">&nbsp;</td>
@@ -594,24 +594,24 @@
   <td class="src"><pre class="src">&nbsp;<span class="comment">     */</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;324</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> getNumberOfAnnotatedRuns(<span class="keyword">final</span> Method meth) {</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;325</td>  <td class="nbHitsCovered"><a title="Line 325: Conditional coverage 100% (2/2).">&nbsp;37</a></td>  <td class="src"><pre class="src">&nbsp;<a title="Line 325: Conditional coverage 100% (2/2).">        <span class="keyword">if</span> (!isBenchmarkable(meth)) {</a></pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;326</td>  <td class="nbHitsCovered">&nbsp;1</td>  <td class="src"><pre class="src">&nbsp;            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="keyword">new</span> StringBuilder(<span class="string">"Method "</span>).append(meth).append(</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;325</td>  <td class="nbHitsUncovered"><a title="Line 325: Conditional coverage 0 % (0/2).">&nbsp;0</a></td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;<a title="Line 325: Conditional coverage 0 % (0/2).">        <span class="keyword">if</span> (!isBenchmarkable(meth)) {</a></span></pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;326</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="keyword">new</span> StringBuilder(<span class="string">"Method "</span>).append(meth).append(</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;327</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;                <span class="string">" must be a benchmarkable method."</span>).toString());</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;328</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;        }</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;329</td>  <td class="nbHitsCovered">&nbsp;36</td>  <td class="src"><pre class="src">&nbsp;        <span class="keyword">final</span> Bench benchAnno = meth.getAnnotation(Bench.<span class="keyword">class</span>);</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;330</td>  <td class="nbHitsCovered">&nbsp;36</td>  <td class="src"><pre class="src">&nbsp;        <span class="keyword">final</span> BenchClass benchClassAnno = meth.getDeclaringClass().getAnnotation(BenchClass.<span class="keyword">class</span>);</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;329</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;        <span class="keyword">final</span> Bench benchAnno = meth.getAnnotation(Bench.<span class="keyword">class</span>);</span></pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;330</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;        <span class="keyword">final</span> BenchClass benchClassAnno = meth.getDeclaringClass().getAnnotation(BenchClass.<span class="keyword">class</span>);</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;331</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;        <span class="keyword">int</span> returnVal;</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;332</td>  <td class="nbHitsCovered"><a title="Line 332: Conditional coverage 100% (2/2).">&nbsp;36</a></td>  <td class="src"><pre class="src">&nbsp;<a title="Line 332: Conditional coverage 100% (2/2).">        <span class="keyword">if</span> (benchAnno == <span class="keyword">null</span>) {</a></pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;333</td>  <td class="nbHitsCovered">&nbsp;1</td>  <td class="src"><pre class="src">&nbsp;            returnVal = benchClassAnno.runs();</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;332</td>  <td class="nbHitsUncovered"><a title="Line 332: Conditional coverage 0 % (0/2).">&nbsp;0</a></td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;<a title="Line 332: Conditional coverage 0 % (0/2).">        <span class="keyword">if</span> (benchAnno == <span class="keyword">null</span>) {</a></span></pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;333</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;            returnVal = benchClassAnno.runs();</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;334</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;        } <span class="keyword">else</span> {</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;335</td>  <td class="nbHitsCovered">&nbsp;35</td>  <td class="src"><pre class="src">&nbsp;            returnVal = benchAnno.runs();</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;335</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;            returnVal = benchAnno.runs();</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;336</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;        }</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;337</td>  <td class="nbHitsCovered">&nbsp;36</td>  <td class="src"><pre class="src">&nbsp;        <span class="keyword">return</span> returnVal;</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;337</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;        <span class="keyword">return</span> returnVal;</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;338</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;    }</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;339</td>  <td class="nbHits">&nbsp;</td>
@@ -652,25 +652,25 @@
   <td class="src"><pre class="src">&nbsp;        <span class="keyword">final</span> Class&lt;? <span class="keyword">extends</span> Annotation&gt; anno) <span class="keyword">throws</span> PerfidixMethodCheckException {</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;357</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;        <span class="comment">// needed variables, one for check for duplicates</span></pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;358</td>  <td class="nbHitsCovered">&nbsp;1334</td>  <td class="src"><pre class="src">&nbsp;        Method anyMethod = <span class="keyword">null</span>;</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;358</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;        Method anyMethod = <span class="keyword">null</span>;</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;359</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;360</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;        <span class="comment">// Scanning all methods</span></pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;361</td>  <td class="nbHitsCovered">&nbsp;1334</td>  <td class="src"><pre class="src">&nbsp;        <span class="keyword">final</span> Method[] possAnnoMethods = clazz.getDeclaredMethods();</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;362</td>  <td class="nbHitsCovered"><a title="Line 362: Conditional coverage 100% (2/2).">&nbsp;15169</a></td>  <td class="src"><pre class="src">&nbsp;<a title="Line 362: Conditional coverage 100% (2/2).">        <span class="keyword">for</span> (<span class="keyword">final</span> Method meth : possAnnoMethods) {</a></pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;363</td>  <td class="nbHitsCovered"><a title="Line 363: Conditional coverage 100% (2/2).">&nbsp;13836</a></td>  <td class="src"><pre class="src">&nbsp;<a title="Line 363: Conditional coverage 100% (2/2).">            <span class="keyword">if</span> (meth.getAnnotation(anno) != <span class="keyword">null</span>) {</a></pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;361</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;        <span class="keyword">final</span> Method[] possAnnoMethods = clazz.getDeclaredMethods();</span></pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;362</td>  <td class="nbHitsUncovered"><a title="Line 362: Conditional coverage 0 % (0/2).">&nbsp;0</a></td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;<a title="Line 362: Conditional coverage 0 % (0/2).">        <span class="keyword">for</span> (<span class="keyword">final</span> Method meth : possAnnoMethods) {</a></span></pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;363</td>  <td class="nbHitsUncovered"><a title="Line 363: Conditional coverage 0 % (0/2).">&nbsp;0</a></td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;<a title="Line 363: Conditional coverage 0 % (0/2).">            <span class="keyword">if</span> (meth.getAnnotation(anno) != <span class="keyword">null</span>) {</a></span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;364</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;                <span class="comment">// Check if there are multiple annotated methods, throwing</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;365</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;                <span class="comment">// IllegalAccessException otherwise.</span></pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;366</td>  <td class="nbHitsCovered"><a title="Line 366: Conditional coverage 100% (2/2).">&nbsp;394</a></td>  <td class="src"><pre class="src">&nbsp;<a title="Line 366: Conditional coverage 100% (2/2).">                <span class="keyword">if</span> (anyMethod == <span class="keyword">null</span>) {</a></pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;366</td>  <td class="nbHitsUncovered"><a title="Line 366: Conditional coverage 0 % (0/2).">&nbsp;0</a></td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;<a title="Line 366: Conditional coverage 0 % (0/2).">                <span class="keyword">if</span> (anyMethod == <span class="keyword">null</span>) {</a></span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;367</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;                    <span class="comment">// Check if method is valid (no param, no returnval,</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;368</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;                    <span class="comment">// etc.), throwing IllegalAccessException otherwise.</span></pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;369</td>  <td class="nbHitsUncovered"><a title="Line 369: Conditional coverage 50% (1/2).">&nbsp;393</a></td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;<a title="Line 369: Conditional coverage 50% (1/2).">                    <span class="keyword">if</span> (isReflectedExecutable(meth, anno)) {</a></span></pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;370</td>  <td class="nbHitsCovered">&nbsp;393</td>  <td class="src"><pre class="src">&nbsp;                        anyMethod = meth;</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;369</td>  <td class="nbHitsUncovered"><a title="Line 369: Conditional coverage 0 % (0/2).">&nbsp;0</a></td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;<a title="Line 369: Conditional coverage 0 % (0/2).">                    <span class="keyword">if</span> (isReflectedExecutable(meth, anno)) {</a></span></pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;370</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;                        anyMethod = meth;</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;371</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;                    } <span class="keyword">else</span> {</pre></td></tr>
 <tr>  <td class="numLineCover">&nbsp;372</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;                        <span class="keyword">throw</span> <span class="keyword">new</span> PerfidixMethodCheckException(<span class="keyword">new</span> IllegalAccessException(<span class="keyword">new</span> StringBuilder(</span></pre></td></tr>
@@ -682,7 +682,7 @@
   <td class="src"><pre class="src">&nbsp;                    }</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;376</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;                } <span class="keyword">else</span> {</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;377</td>  <td class="nbHitsCovered">&nbsp;1</td>  <td class="src"><pre class="src">&nbsp;                    <span class="keyword">throw</span> <span class="keyword">new</span> PerfidixMethodCheckException(<span class="keyword">new</span> IllegalAccessException(<span class="keyword">new</span> StringBuilder(</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;377</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;                    <span class="keyword">throw</span> <span class="keyword">new</span> PerfidixMethodCheckException(<span class="keyword">new</span> IllegalAccessException(<span class="keyword">new</span> StringBuilder(</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;378</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;                        <span class="string">"Please use only one "</span>).append(anno.toString()).append(<span class="string">"-annotation in one class."</span>)</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;379</td>  <td class="nbHits">&nbsp;</td>
@@ -695,7 +695,7 @@
   <td class="src"><pre class="src">&nbsp;        }</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;383</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;384</td>  <td class="nbHitsCovered">&nbsp;1333</td>  <td class="src"><pre class="src">&nbsp;        <span class="keyword">return</span> anyMethod;</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;384</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;        <span class="keyword">return</span> anyMethod;</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;385</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;    }</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;386</td>  <td class="nbHits">&nbsp;</td>
@@ -720,23 +720,23 @@
   <td class="src"><pre class="src">&nbsp;<span class="comment">     */</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;396</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">boolean</span> isBenchmarkable(<span class="keyword">final</span> Method meth) {</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;397</td>  <td class="nbHitsCovered">&nbsp;273</td>  <td class="src"><pre class="src">&nbsp;        <span class="keyword">boolean</span> returnVal = <span class="keyword">true</span>;</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;397</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;        <span class="keyword">boolean</span> returnVal = <span class="keyword">true</span>;</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;398</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;399</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;        <span class="comment">// Check if bench-anno is given. For testing purposes against</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;400</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;        <span class="comment">// before/after annos</span></pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;401</td>  <td class="nbHitsCovered">&nbsp;273</td>  <td class="src"><pre class="src">&nbsp;        <span class="keyword">final</span> Bench benchAnno = meth.getAnnotation(Bench.<span class="keyword">class</span>);</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;401</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;        <span class="keyword">final</span> Bench benchAnno = meth.getAnnotation(Bench.<span class="keyword">class</span>);</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;402</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;403</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;        <span class="comment">// if method is annotated with SkipBench, the method is never</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;404</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;        <span class="comment">// benchmarkable.</span></pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;405</td>  <td class="nbHitsCovered">&nbsp;273</td>  <td class="src"><pre class="src">&nbsp;        <span class="keyword">final</span> SkipBench skipBenchAnno = meth.getAnnotation(SkipBench.<span class="keyword">class</span>);</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;406</td>  <td class="nbHitsCovered"><a title="Line 406: Conditional coverage 100% (2/2).">&nbsp;273</a></td>  <td class="src"><pre class="src">&nbsp;<a title="Line 406: Conditional coverage 100% (2/2).">        <span class="keyword">if</span> (skipBenchAnno != <span class="keyword">null</span>) {</a></pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;407</td>  <td class="nbHitsCovered">&nbsp;2</td>  <td class="src"><pre class="src">&nbsp;            returnVal = <span class="keyword">false</span>;</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;405</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;        <span class="keyword">final</span> SkipBench skipBenchAnno = meth.getAnnotation(SkipBench.<span class="keyword">class</span>);</span></pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;406</td>  <td class="nbHitsUncovered"><a title="Line 406: Conditional coverage 0 % (0/2).">&nbsp;0</a></td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;<a title="Line 406: Conditional coverage 0 % (0/2).">        <span class="keyword">if</span> (skipBenchAnno != <span class="keyword">null</span>) {</a></span></pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;407</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;            returnVal = <span class="keyword">false</span>;</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;408</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;        }</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;409</td>  <td class="nbHits">&nbsp;</td>
@@ -749,44 +749,44 @@
   <td class="src"><pre class="src">&nbsp;        <span class="comment">// either be a before/after class or afterwards be benchmarkable through</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;413</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;        <span class="comment">// the BenchClass annotation.</span></pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;414</td>  <td class="nbHitsCovered">&nbsp;273</td>  <td class="src"><pre class="src">&nbsp;        <span class="keyword">final</span> BeforeBenchClass beforeClass = meth.getAnnotation(BeforeBenchClass.<span class="keyword">class</span>);</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;415</td>  <td class="nbHitsUncovered"><a title="Line 415: Conditional coverage 75% (3/4) [each condition: 100%, 50%].">&nbsp;273</a></td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;<a title="Line 415: Conditional coverage 75% (3/4) [each condition: 100%, 50%].">        <span class="keyword">if</span> (beforeClass != <span class="keyword">null</span> &amp;&amp; benchAnno == <span class="keyword">null</span>) {</a></span></pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;416</td>  <td class="nbHitsCovered">&nbsp;10</td>  <td class="src"><pre class="src">&nbsp;            returnVal = <span class="keyword">false</span>;</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;414</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;        <span class="keyword">final</span> BeforeBenchClass beforeClass = meth.getAnnotation(BeforeBenchClass.<span class="keyword">class</span>);</span></pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;415</td>  <td class="nbHitsUncovered"><a title="Line 415: Conditional coverage 0 % (0/4) [each condition: 0 %, 0 %].">&nbsp;0</a></td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;<a title="Line 415: Conditional coverage 0 % (0/4) [each condition: 0 %, 0 %].">        <span class="keyword">if</span> (beforeClass != <span class="keyword">null</span> &amp;&amp; benchAnno == <span class="keyword">null</span>) {</a></span></pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;416</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;            returnVal = <span class="keyword">false</span>;</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;417</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;        }</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;418</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;419</td>  <td class="nbHitsCovered">&nbsp;273</td>  <td class="src"><pre class="src">&nbsp;        <span class="keyword">final</span> BeforeFirstRun beforeFirstRun = meth.getAnnotation(BeforeFirstRun.<span class="keyword">class</span>);</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;420</td>  <td class="nbHitsUncovered"><a title="Line 420: Conditional coverage 75% (3/4) [each condition: 100%, 50%].">&nbsp;273</a></td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;<a title="Line 420: Conditional coverage 75% (3/4) [each condition: 100%, 50%].">        <span class="keyword">if</span> (beforeFirstRun != <span class="keyword">null</span> &amp;&amp; benchAnno == <span class="keyword">null</span>) {</a></span></pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;421</td>  <td class="nbHitsCovered">&nbsp;9</td>  <td class="src"><pre class="src">&nbsp;            returnVal = <span class="keyword">false</span>;</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;419</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;        <span class="keyword">final</span> BeforeFirstRun beforeFirstRun = meth.getAnnotation(BeforeFirstRun.<span class="keyword">class</span>);</span></pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;420</td>  <td class="nbHitsUncovered"><a title="Line 420: Conditional coverage 0 % (0/4) [each condition: 0 %, 0 %].">&nbsp;0</a></td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;<a title="Line 420: Conditional coverage 0 % (0/4) [each condition: 0 %, 0 %].">        <span class="keyword">if</span> (beforeFirstRun != <span class="keyword">null</span> &amp;&amp; benchAnno == <span class="keyword">null</span>) {</a></span></pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;421</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;            returnVal = <span class="keyword">false</span>;</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;422</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;        }</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;423</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;424</td>  <td class="nbHitsCovered">&nbsp;273</td>  <td class="src"><pre class="src">&nbsp;        <span class="keyword">final</span> BeforeEachRun beforeEachRun = meth.getAnnotation(BeforeEachRun.<span class="keyword">class</span>);</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;425</td>  <td class="nbHitsUncovered"><a title="Line 425: Conditional coverage 75% (3/4) [each condition: 100%, 50%].">&nbsp;273</a></td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;<a title="Line 425: Conditional coverage 75% (3/4) [each condition: 100%, 50%].">        <span class="keyword">if</span> (beforeEachRun != <span class="keyword">null</span> &amp;&amp; benchAnno == <span class="keyword">null</span>) {</a></span></pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;426</td>  <td class="nbHitsCovered">&nbsp;9</td>  <td class="src"><pre class="src">&nbsp;            returnVal = <span class="keyword">false</span>;</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;424</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;        <span class="keyword">final</span> BeforeEachRun beforeEachRun = meth.getAnnotation(BeforeEachRun.<span class="keyword">class</span>);</span></pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;425</td>  <td class="nbHitsUncovered"><a title="Line 425: Conditional coverage 0 % (0/4) [each condition: 0 %, 0 %].">&nbsp;0</a></td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;<a title="Line 425: Conditional coverage 0 % (0/4) [each condition: 0 %, 0 %].">        <span class="keyword">if</span> (beforeEachRun != <span class="keyword">null</span> &amp;&amp; benchAnno == <span class="keyword">null</span>) {</a></span></pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;426</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;            returnVal = <span class="keyword">false</span>;</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;427</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;        }</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;428</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;429</td>  <td class="nbHitsCovered">&nbsp;273</td>  <td class="src"><pre class="src">&nbsp;        <span class="keyword">final</span> AfterEachRun afterEachRun = meth.getAnnotation(AfterEachRun.<span class="keyword">class</span>);</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;430</td>  <td class="nbHitsUncovered"><a title="Line 430: Conditional coverage 75% (3/4) [each condition: 100%, 50%].">&nbsp;273</a></td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;<a title="Line 430: Conditional coverage 75% (3/4) [each condition: 100%, 50%].">        <span class="keyword">if</span> (afterEachRun != <span class="keyword">null</span> &amp;&amp; benchAnno == <span class="keyword">null</span>) {</a></span></pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;431</td>  <td class="nbHitsCovered">&nbsp;9</td>  <td class="src"><pre class="src">&nbsp;            returnVal = <span class="keyword">false</span>;</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;429</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;        <span class="keyword">final</span> AfterEachRun afterEachRun = meth.getAnnotation(AfterEachRun.<span class="keyword">class</span>);</span></pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;430</td>  <td class="nbHitsUncovered"><a title="Line 430: Conditional coverage 0 % (0/4) [each condition: 0 %, 0 %].">&nbsp;0</a></td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;<a title="Line 430: Conditional coverage 0 % (0/4) [each condition: 0 %, 0 %].">        <span class="keyword">if</span> (afterEachRun != <span class="keyword">null</span> &amp;&amp; benchAnno == <span class="keyword">null</span>) {</a></span></pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;431</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;            returnVal = <span class="keyword">false</span>;</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;432</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;        }</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;433</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;434</td>  <td class="nbHitsCovered">&nbsp;273</td>  <td class="src"><pre class="src">&nbsp;        <span class="keyword">final</span> AfterLastRun afterLastRun = meth.getAnnotation(AfterLastRun.<span class="keyword">class</span>);</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;435</td>  <td class="nbHitsUncovered"><a title="Line 435: Conditional coverage 75% (3/4) [each condition: 100%, 50%].">&nbsp;273</a></td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;<a title="Line 435: Conditional coverage 75% (3/4) [each condition: 100%, 50%].">        <span class="keyword">if</span> (afterLastRun != <span class="keyword">null</span> &amp;&amp; benchAnno == <span class="keyword">null</span>) {</a></span></pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;436</td>  <td class="nbHitsCovered">&nbsp;9</td>  <td class="src"><pre class="src">&nbsp;            returnVal = <span class="keyword">false</span>;</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;434</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;        <span class="keyword">final</span> AfterLastRun afterLastRun = meth.getAnnotation(AfterLastRun.<span class="keyword">class</span>);</span></pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;435</td>  <td class="nbHitsUncovered"><a title="Line 435: Conditional coverage 0 % (0/4) [each condition: 0 %, 0 %].">&nbsp;0</a></td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;<a title="Line 435: Conditional coverage 0 % (0/4) [each condition: 0 %, 0 %].">        <span class="keyword">if</span> (afterLastRun != <span class="keyword">null</span> &amp;&amp; benchAnno == <span class="keyword">null</span>) {</a></span></pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;436</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;            returnVal = <span class="keyword">false</span>;</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;437</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;        }</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;438</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;439</td>  <td class="nbHitsCovered">&nbsp;273</td>  <td class="src"><pre class="src">&nbsp;        <span class="keyword">final</span> AfterBenchClass afterClass = meth.getAnnotation(AfterBenchClass.<span class="keyword">class</span>);</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;440</td>  <td class="nbHitsUncovered"><a title="Line 440: Conditional coverage 75% (3/4) [each condition: 100%, 50%].">&nbsp;273</a></td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;<a title="Line 440: Conditional coverage 75% (3/4) [each condition: 100%, 50%].">        <span class="keyword">if</span> (afterClass != <span class="keyword">null</span> &amp;&amp; benchAnno == <span class="keyword">null</span>) {</a></span></pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;441</td>  <td class="nbHitsCovered">&nbsp;6</td>  <td class="src"><pre class="src">&nbsp;            returnVal = <span class="keyword">false</span>;</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;439</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;        <span class="keyword">final</span> AfterBenchClass afterClass = meth.getAnnotation(AfterBenchClass.<span class="keyword">class</span>);</span></pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;440</td>  <td class="nbHitsUncovered"><a title="Line 440: Conditional coverage 0 % (0/4) [each condition: 0 %, 0 %].">&nbsp;0</a></td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;<a title="Line 440: Conditional coverage 0 % (0/4) [each condition: 0 %, 0 %].">        <span class="keyword">if</span> (afterClass != <span class="keyword">null</span> &amp;&amp; benchAnno == <span class="keyword">null</span>) {</a></span></pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;441</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;            returnVal = <span class="keyword">false</span>;</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;442</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;        }</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;443</td>  <td class="nbHits">&nbsp;</td>
@@ -797,20 +797,20 @@
   <td class="src"><pre class="src">&nbsp;        <span class="comment">// BenchClass, the method is never benchmarkable.</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;446</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;447</td>  <td class="nbHitsCovered">&nbsp;273</td>  <td class="src"><pre class="src">&nbsp;        <span class="keyword">final</span> BenchClass classBenchAnno = meth.getDeclaringClass().getAnnotation(BenchClass.<span class="keyword">class</span>);</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;448</td>  <td class="nbHitsCovered"><a title="Line 448: Conditional coverage 100% (4/4) [each condition: 100%, 100%].">&nbsp;273</a></td>  <td class="src"><pre class="src">&nbsp;<a title="Line 448: Conditional coverage 100% (4/4) [each condition: 100%, 100%].">        <span class="keyword">if</span> (benchAnno == <span class="keyword">null</span> &amp;&amp; classBenchAnno == <span class="keyword">null</span>) {</a></pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;449</td>  <td class="nbHitsCovered">&nbsp;113</td>  <td class="src"><pre class="src">&nbsp;            returnVal = <span class="keyword">false</span>;</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;447</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;        <span class="keyword">final</span> BenchClass classBenchAnno = meth.getDeclaringClass().getAnnotation(BenchClass.<span class="keyword">class</span>);</span></pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;448</td>  <td class="nbHitsUncovered"><a title="Line 448: Conditional coverage 0 % (0/4) [each condition: 0 %, 0 %].">&nbsp;0</a></td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;<a title="Line 448: Conditional coverage 0 % (0/4) [each condition: 0 %, 0 %].">        <span class="keyword">if</span> (benchAnno == <span class="keyword">null</span> &amp;&amp; classBenchAnno == <span class="keyword">null</span>) {</a></span></pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;449</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;            returnVal = <span class="keyword">false</span>;</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;450</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;        }</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;451</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;452</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;        <span class="comment">// check if method is executable for perfidix purposes.</span></pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;453</td>  <td class="nbHitsCovered"><a title="Line 453: Conditional coverage 100% (2/2).">&nbsp;273</a></td>  <td class="src"><pre class="src">&nbsp;<a title="Line 453: Conditional coverage 100% (2/2).">        <span class="keyword">if</span> (!isReflectedExecutable(meth, Bench.<span class="keyword">class</span>)) {</a></pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;454</td>  <td class="nbHitsCovered">&nbsp;58</td>  <td class="src"><pre class="src">&nbsp;            returnVal = <span class="keyword">false</span>;</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;453</td>  <td class="nbHitsUncovered"><a title="Line 453: Conditional coverage 0 % (0/2).">&nbsp;0</a></td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;<a title="Line 453: Conditional coverage 0 % (0/2).">        <span class="keyword">if</span> (!isReflectedExecutable(meth, Bench.<span class="keyword">class</span>)) {</a></span></pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;454</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;            returnVal = <span class="keyword">false</span>;</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;455</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;        }</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;456</td>  <td class="nbHitsCovered">&nbsp;273</td>  <td class="src"><pre class="src">&nbsp;        <span class="keyword">return</span> returnVal;</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;456</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;        <span class="keyword">return</span> returnVal;</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;457</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;    }</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;458</td>  <td class="nbHits">&nbsp;</td>
@@ -841,36 +841,36 @@
   <td class="src"><pre class="src">&nbsp;<span class="comment">     */</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;471</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">boolean</span> isReflectedExecutable(<span class="keyword">final</span> Method meth, <span class="keyword">final</span> Class&lt;? <span class="keyword">extends</span> Annotation&gt; anno) {</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;472</td>  <td class="nbHitsCovered">&nbsp;1665</td>  <td class="src"><pre class="src">&nbsp;        <span class="keyword">boolean</span> returnVal = <span class="keyword">true</span>;</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;472</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;        <span class="keyword">boolean</span> returnVal = <span class="keyword">true</span>;</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;473</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;        <span class="comment">// if method has parameters, the method is not benchmarkable</span></pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;474</td>  <td class="nbHitsCovered"><a title="Line 474: Conditional coverage 100% (2/2).">&nbsp;1665</a></td>  <td class="src"><pre class="src">&nbsp;<a title="Line 474: Conditional coverage 100% (2/2).">        <span class="keyword">if</span> (meth.getGenericParameterTypes().length &gt; 0) {</a></pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;475</td>  <td class="nbHitsCovered">&nbsp;4</td>  <td class="src"><pre class="src">&nbsp;            returnVal = <span class="keyword">false</span>;</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;474</td>  <td class="nbHitsUncovered"><a title="Line 474: Conditional coverage 0 % (0/2).">&nbsp;0</a></td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;<a title="Line 474: Conditional coverage 0 % (0/2).">        <span class="keyword">if</span> (meth.getGenericParameterTypes().length &gt; 0) {</a></span></pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;475</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;            returnVal = <span class="keyword">false</span>;</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;476</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;        }</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;477</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;        <span class="comment">// if method is static, the method is not benchmarkable</span></pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;478</td>  <td class="nbHitsCovered"><a title="Line 478: Conditional coverage 100% (4/4) [each condition: 100%, 100%].">&nbsp;1665</a></td>  <td class="src"><pre class="src">&nbsp;<a title="Line 478: Conditional coverage 100% (4/4) [each condition: 100%, 100%].">        <span class="keyword">if</span> (!(anno.equals(BeforeBenchClass.<span class="keyword">class</span>)) &amp;&amp; Modifier.isStatic(meth.getModifiers())) {</a></pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;479</td>  <td class="nbHitsCovered">&nbsp;57</td>  <td class="src"><pre class="src">&nbsp;            returnVal = <span class="keyword">false</span>;</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;478</td>  <td class="nbHitsUncovered"><a title="Line 478: Conditional coverage 0 % (0/4) [each condition: 0 %, 0 %].">&nbsp;0</a></td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;<a title="Line 478: Conditional coverage 0 % (0/4) [each condition: 0 %, 0 %].">        <span class="keyword">if</span> (!(anno.equals(BeforeBenchClass.<span class="keyword">class</span>)) &amp;&amp; Modifier.isStatic(meth.getModifiers())) {</a></span></pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;479</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;            returnVal = <span class="keyword">false</span>;</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;480</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;        }</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;481</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;        <span class="comment">// if method is not public, the method is not benchmarkable</span></pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;482</td>  <td class="nbHitsCovered"><a title="Line 482: Conditional coverage 100% (2/2).">&nbsp;1665</a></td>  <td class="src"><pre class="src">&nbsp;<a title="Line 482: Conditional coverage 100% (2/2).">        <span class="keyword">if</span> (!Modifier.isPublic(meth.getModifiers())) {</a></pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;483</td>  <td class="nbHitsCovered">&nbsp;1</td>  <td class="src"><pre class="src">&nbsp;            returnVal = <span class="keyword">false</span>;</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;482</td>  <td class="nbHitsUncovered"><a title="Line 482: Conditional coverage 0 % (0/2).">&nbsp;0</a></td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;<a title="Line 482: Conditional coverage 0 % (0/2).">        <span class="keyword">if</span> (!Modifier.isPublic(meth.getModifiers())) {</a></span></pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;483</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;            returnVal = <span class="keyword">false</span>;</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;484</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;        }</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;485</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;        <span class="comment">// if method has another returnValue than void, the method is not</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;486</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;        <span class="comment">// benchmarkable</span></pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;487</td>  <td class="nbHitsCovered"><a title="Line 487: Conditional coverage 100% (2/2).">&nbsp;1665</a></td>  <td class="src"><pre class="src">&nbsp;<a title="Line 487: Conditional coverage 100% (2/2).">        <span class="keyword">if</span> (!meth.getGenericReturnType().equals(Void.TYPE)) {</a></pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;488</td>  <td class="nbHitsCovered">&nbsp;51</td>  <td class="src"><pre class="src">&nbsp;            returnVal = <span class="keyword">false</span>;</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;487</td>  <td class="nbHitsUncovered"><a title="Line 487: Conditional coverage 0 % (0/2).">&nbsp;0</a></td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;<a title="Line 487: Conditional coverage 0 % (0/2).">        <span class="keyword">if</span> (!meth.getGenericReturnType().equals(Void.TYPE)) {</a></span></pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;488</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;            returnVal = <span class="keyword">false</span>;</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;489</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;        }</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;490</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;491</td>  <td class="nbHitsCovered">&nbsp;1665</td>  <td class="src"><pre class="src">&nbsp;        <span class="keyword">return</span> returnVal;</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;491</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;        <span class="keyword">return</span> returnVal;</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;492</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;    }</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;493</td>  <td class="nbHits">&nbsp;</td>
@@ -881,18 +881,18 @@
   <td class="src"><pre class="src">&nbsp;    @Override</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;496</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;    <span class="keyword">public</span> <span class="keyword">int</span> hashCode() {</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;497</td>  <td class="nbHitsCovered">&nbsp;8350</td>  <td class="src"><pre class="src">&nbsp;        <span class="keyword">final</span> <span class="keyword">int</span> prime = 31;</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;498</td>  <td class="nbHitsCovered">&nbsp;8350</td>  <td class="src"><pre class="src">&nbsp;        <span class="keyword">int</span> result = 1;</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;499</td>  <td class="nbHitsUncovered"><a title="Line 499: Conditional coverage 50% (1/2).">&nbsp;8350</a></td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;<a title="Line 499: Conditional coverage 50% (1/2).">        <span class="keyword">if</span> (methodToBench == <span class="keyword">null</span>) {</a></span></pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;497</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;        <span class="keyword">final</span> <span class="keyword">int</span> prime = 31;</span></pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;498</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;        <span class="keyword">int</span> result = 1;</span></pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;499</td>  <td class="nbHitsUncovered"><a title="Line 499: Conditional coverage 0 % (0/2).">&nbsp;0</a></td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;<a title="Line 499: Conditional coverage 0 % (0/2).">        <span class="keyword">if</span> (methodToBench == <span class="keyword">null</span>) {</a></span></pre></td></tr>
 <tr>  <td class="numLineCover">&nbsp;500</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;            result = prime * result;</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;501</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;        } <span class="keyword">else</span> {</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;502</td>  <td class="nbHitsCovered">&nbsp;8350</td>  <td class="src"><pre class="src">&nbsp;            result = prime * result + methodToBench.hashCode();</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;502</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;            result = prime * result + methodToBench.hashCode();</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;503</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;        }</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;504</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;505</td>  <td class="nbHitsCovered">&nbsp;8350</td>  <td class="src"><pre class="src">&nbsp;        <span class="keyword">return</span> result;</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;505</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;        <span class="keyword">return</span> result;</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;506</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;    }</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;507</td>  <td class="nbHits">&nbsp;</td>
@@ -903,28 +903,28 @@
   <td class="src"><pre class="src">&nbsp;    @Override</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;510</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;    <span class="keyword">public</span> <span class="keyword">boolean</span> equals(<span class="keyword">final</span> Object obj) {</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;511</td>  <td class="nbHitsCovered">&nbsp;7108</td>  <td class="src"><pre class="src">&nbsp;        <span class="keyword">boolean</span> returnVal = <span class="keyword">true</span>;</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;512</td>  <td class="nbHitsCovered"><a title="Line 512: Conditional coverage 100% (2/2).">&nbsp;7108</a></td>  <td class="src"><pre class="src">&nbsp;<a title="Line 512: Conditional coverage 100% (2/2).">        <span class="keyword">if</span> (<span class="keyword">this</span> == obj) {</a></pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;513</td>  <td class="nbHitsCovered">&nbsp;6646</td>  <td class="src"><pre class="src">&nbsp;            returnVal = <span class="keyword">true</span>;</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;511</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;        <span class="keyword">boolean</span> returnVal = <span class="keyword">true</span>;</span></pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;512</td>  <td class="nbHitsUncovered"><a title="Line 512: Conditional coverage 0 % (0/2).">&nbsp;0</a></td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;<a title="Line 512: Conditional coverage 0 % (0/2).">        <span class="keyword">if</span> (<span class="keyword">this</span> == obj) {</a></span></pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;513</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;            returnVal = <span class="keyword">true</span>;</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;514</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;        }</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;515</td>  <td class="nbHitsUncovered"><a title="Line 515: Conditional coverage 50% (1/2).">&nbsp;7108</a></td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;<a title="Line 515: Conditional coverage 50% (1/2).">        <span class="keyword">if</span> (obj == <span class="keyword">null</span>) {</a></span></pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;515</td>  <td class="nbHitsUncovered"><a title="Line 515: Conditional coverage 0 % (0/2).">&nbsp;0</a></td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;<a title="Line 515: Conditional coverage 0 % (0/2).">        <span class="keyword">if</span> (obj == <span class="keyword">null</span>) {</a></span></pre></td></tr>
 <tr>  <td class="numLineCover">&nbsp;516</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;            returnVal = <span class="keyword">false</span>;</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;517</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;        }</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;518</td>  <td class="nbHitsUncovered"><a title="Line 518: Conditional coverage 50% (1/2).">&nbsp;7108</a></td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;<a title="Line 518: Conditional coverage 50% (1/2).">        <span class="keyword">if</span> (getClass() != obj.getClass()) {</a></span></pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;518</td>  <td class="nbHitsUncovered"><a title="Line 518: Conditional coverage 0 % (0/2).">&nbsp;0</a></td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;<a title="Line 518: Conditional coverage 0 % (0/2).">        <span class="keyword">if</span> (getClass() != obj.getClass()) {</a></span></pre></td></tr>
 <tr>  <td class="numLineCover">&nbsp;519</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;            returnVal = <span class="keyword">false</span>;</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;520</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;        }</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;521</td>  <td class="nbHitsCovered">&nbsp;7108</td>  <td class="src"><pre class="src">&nbsp;        <span class="keyword">final</span> BenchmarkMethod other = (BenchmarkMethod)obj;</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;522</td>  <td class="nbHitsUncovered"><a title="Line 522: Conditional coverage 50% (1/2).">&nbsp;7108</a></td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;<a title="Line 522: Conditional coverage 50% (1/2).">        <span class="keyword">if</span> (methodToBench == <span class="keyword">null</span>) {</a></span></pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;523</td>  <td class="nbHitsUncovered"><a title="Line 523: Conditional coverage 0% (0/2).">&nbsp;0</a></td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;<a title="Line 523: Conditional coverage 0% (0/2).">            <span class="keyword">if</span> (other.methodToBench != <span class="keyword">null</span>) {</a></span></pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;521</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;        <span class="keyword">final</span> BenchmarkMethod other = (BenchmarkMethod)obj;</span></pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;522</td>  <td class="nbHitsUncovered"><a title="Line 522: Conditional coverage 0 % (0/2).">&nbsp;0</a></td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;<a title="Line 522: Conditional coverage 0 % (0/2).">        <span class="keyword">if</span> (methodToBench == <span class="keyword">null</span>) {</a></span></pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;523</td>  <td class="nbHitsUncovered"><a title="Line 523: Conditional coverage 0 % (0/2).">&nbsp;0</a></td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;<a title="Line 523: Conditional coverage 0 % (0/2).">            <span class="keyword">if</span> (other.methodToBench != <span class="keyword">null</span>) {</a></span></pre></td></tr>
 <tr>  <td class="numLineCover">&nbsp;524</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;                returnVal = <span class="keyword">false</span>;</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;525</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;            }</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;526</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;        } <span class="keyword">else</span> {</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;527</td>  <td class="nbHitsUncovered"><a title="Line 527: Conditional coverage 50% (1/2).">&nbsp;7108</a></td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;<a title="Line 527: Conditional coverage 50% (1/2).">            <span class="keyword">if</span> (!methodToBench.equals(other.methodToBench)) {</a></span></pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;527</td>  <td class="nbHitsUncovered"><a title="Line 527: Conditional coverage 0 % (0/2).">&nbsp;0</a></td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;<a title="Line 527: Conditional coverage 0 % (0/2).">            <span class="keyword">if</span> (!methodToBench.equals(other.methodToBench)) {</a></span></pre></td></tr>
 <tr>  <td class="numLineCover">&nbsp;528</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;                returnVal = <span class="keyword">false</span>;</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;529</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;</pre></td></tr>
@@ -932,7 +932,7 @@
   <td class="src"><pre class="src">&nbsp;            }</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;531</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;        }</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;532</td>  <td class="nbHitsCovered">&nbsp;7108</td>  <td class="src"><pre class="src">&nbsp;        <span class="keyword">return</span> returnVal;</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;532</td>  <td class="nbHitsUncovered">&nbsp;0</td>  <td class="src"><pre class="src"><span class="srcUncovered">&nbsp;        <span class="keyword">return</span> returnVal;</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;533</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;    }</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;534</td>  <td class="nbHits">&nbsp;</td>
@@ -979,6 +979,6 @@
   <td class="src"><pre class="src">&nbsp;}</pre></td></tr>
 </table>
 
-<div class="footer">Report generated by <a href="http://cobertura.sourceforge.net/" target="_top">Cobertura</a> 1.9.4.1 on 8/6/12 9:56 AM.</div>
+<div class="footer">Report generated by <a href="http://cobertura.sourceforge.net/" target="_top">Cobertura</a> 1.9.4.1 on 21.10.12 15:42.</div>
 </body>
 </html>

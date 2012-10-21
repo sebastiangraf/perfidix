@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<pmd version="4.3" timestamp="2012-08-06T09:56:17.103">
+<pmd version="4.3" timestamp="2012-10-21T15:42:40.710">
 <file name="/Users/sebi/Dropbox/github/perfidix/src/main/java/org/perfidix/example/list/ElementList.java">
 <violation beginline="29" endline="29" begincolumn="1" endcolumn="39" rule="ImportFromSamePackage" ruleset="Import Statement Rules" package="org.perfidix.example.list" externalInfoUrl="http://pmd.sourceforge.net/rules/imports.html#ImportFromSamePackage" priority="3">
 No need to import a type that lives in the same package
