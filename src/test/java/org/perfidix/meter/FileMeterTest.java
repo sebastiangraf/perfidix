@@ -30,6 +30,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.RandomAccessFile;
 import java.util.Random;
 
 import org.junit.Before;
@@ -44,13 +47,8 @@ import com.google.common.io.Files;
  */
 public class FileMeterTest {
 
-    /**
-     * Seed for random testing.
-     */
-    private static final long SEED = 1234;
-
     /** Standard Random Generator. */
-    private static final Random RAN = new Random(SEED);
+    private static final Random RAN = new Random();
     /**
      * Byte meter variable.
      */
@@ -71,14 +69,16 @@ public class FileMeterTest {
 
     /**
      * Setting up the meter.
+     * 
+     * @throws IOException
      */
     @Before
-    public void setUp() {
+    public void setUp() throws IOException {
         final File file = Files.createTempDir();
         byteMeter = new FileMeter(file, Memory.Byte);
         kibiByteMeter = new FileMeter(file, Memory.KibiByte);
         mebiByteMeter = new FileMeter(file, Memory.Mebibyte);
-        initializeStorage();
+        size = initializeStorage(file);
     }
 
     /**
@@ -123,12 +123,65 @@ public class FileMeterTest {
      * Method for initializing the storage for testing.
      * 
      * @return long regarding the fileserver.
+     * @throws IOException
      */
-    private long initializeStorage() {
-        
-        
-        
-        return 0;
+    private long initializeStorage(File toCreate) throws IOException {
+        long size = 0;
+        final double goDownThreshold = 0.6;
+        final double createThreshold = 0.8;
+        final long maxSize = 500;
+        int i = 1;
+        do {
+            toCreate = new File(toCreate, "folder" + i);
+            toCreate.mkdir();
+            int j = 0;
+            do {
+                File nextFile = new File(toCreate, "file" + j);
+                long sizeToSet = Math.abs(RAN.nextLong() % maxSize);
+                createStorageVolume(nextFile, sizeToSet);
+                size = size + sizeToSet;
+                j++;
+            } while (RAN.nextDouble() < createThreshold);
+            i++;
+        } while (RAN.nextDouble() < goDownThreshold);
+
+        return size;
     }
 
+    /**
+     * Creating a new file if not existing at the path defined in the config.
+     * Note that it is advised to create the file beforehand.
+     * 
+     * @param pConf
+     *            configuration to be updated
+     * @return true if creation successful, false if file already exists.
+     * @throws IOException
+     *             if anything weird happens
+     */
+    private static synchronized boolean createStorageVolume(final File pToCreate, final long pLength)
+        throws IOException {
+        try {
+            // if file exists, remove it after questioning.
+            if (pToCreate.exists()) {
+                if (!pToCreate.delete()) {
+                    return false;
+                }
+            }
+
+            // create file
+            final File parent = pToCreate.getCanonicalFile().getParentFile();
+            if (!parent.exists() && !parent.mkdirs()) {
+                throw new FileNotFoundException("Unable to create directory: " + parent.getAbsolutePath());
+            }
+
+            pToCreate.createNewFile();
+            RandomAccessFile file = new RandomAccessFile(pToCreate, "rw");
+            file.setLength(pLength);
+            file.close();
+            return true;
+        } catch (IOException e) {
+            throw e;
+        }
+
+    }
 }
