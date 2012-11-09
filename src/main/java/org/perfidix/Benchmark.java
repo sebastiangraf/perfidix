@@ -303,11 +303,11 @@ public final class Benchmark {
                     // ... or the beforeMethod will be executed and a
                     // possible exception stored to the result...
                     final PerfidixMethodCheckException beforeByCheck =
-                        BenchmarkExecutor.checkMethod(objectToUse, beforeClassMeth, BeforeBenchClass.class);
+                        BenchmarkExecutor.checkMethod(objectToUse, BeforeBenchClass.class, beforeClassMeth);
                     if (beforeByCheck == null) {
                         final PerfidixMethodInvocationException beforeByInvok =
-                            BenchmarkExecutor.invokeMethod(objectToUse, beforeClassMeth,
-                                BeforeBenchClass.class);
+                            BenchmarkExecutor.invokeMethod(objectToUse, BeforeBenchClass.class,
+                                beforeClassMeth);
                         if (beforeByInvok == null) {
                             returnVal.put(clazz, objectToUse);
                         } else {
@@ -349,11 +349,11 @@ public final class Benchmark {
                 // possible failures will be stored in the BenchmarkResult
                 if (afterClassMeth != null) {
                     final PerfidixMethodCheckException afterByCheck =
-                        BenchmarkExecutor.checkMethod(objectToUse, afterClassMeth, AfterBenchClass.class);
+                        BenchmarkExecutor.checkMethod(objectToUse, AfterBenchClass.class, afterClassMeth);
                     if (afterByCheck == null) {
                         final PerfidixMethodInvocationException afterByInvok =
                             BenchmarkExecutor
-                                .invokeMethod(objectToUse, afterClassMeth, AfterBenchClass.class);
+                                .invokeMethod(objectToUse, AfterBenchClass.class, afterClassMeth);
                         if (afterByInvok != null) {
                             res.addException(afterByInvok);
                         }

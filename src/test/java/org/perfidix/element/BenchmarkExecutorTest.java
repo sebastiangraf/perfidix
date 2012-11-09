@@ -241,19 +241,19 @@ public class BenchmarkExecutorTest {
             final Method falseMethod = CheckAndExecuteClass.class.getMethod("incorrectMethod");
 
             final PerfidixMethodCheckException excep1 =
-                BenchmarkExecutor.checkMethod(falseObj, correctMethod, SkipBench.class);
+                BenchmarkExecutor.checkMethod(falseObj, SkipBench.class, correctMethod);
             assertNotNull("Exception 1 shouldn't be null", excep1);
 
             final PerfidixMethodCheckException excep2 =
-                BenchmarkExecutor.checkMethod(correctObj, falseMethod, SkipBench.class);
+                BenchmarkExecutor.checkMethod(correctObj, SkipBench.class, falseMethod);
             assertNotNull("Exception 2 shouldn't be null", excep2);
 
             final PerfidixMethodCheckException excep3 =
-                BenchmarkExecutor.checkMethod(correctObj, correctMethod, SkipBench.class);
+                BenchmarkExecutor.checkMethod(correctObj, SkipBench.class, correctMethod);
             assertNull("Exception 3 shouldn't be null", excep3);
 
             final PerfidixMethodInvocationException excep4 =
-                BenchmarkExecutor.invokeMethod(correctObj, correctMethod, SkipBench.class);
+                BenchmarkExecutor.invokeMethod(correctObj, SkipBench.class, correctMethod);
             assertNull("Exception 4 shouldn't be null", excep4);
 
             assertEquals("invokation of beforeFirst should be occured just once", 1, once);

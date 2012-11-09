@@ -46,6 +46,7 @@ import org.perfidix.annotation.Bench;
 import org.perfidix.annotation.BenchClass;
 import org.perfidix.annotation.SkipBench;
 import org.perfidix.exceptions.PerfidixMethodCheckException;
+import static org.junit.Assert.assertFalse;
 
 /**
  * This class acts as a testcase for the BenchmarkElement-class.
@@ -182,8 +183,10 @@ public class BenchmarkMethodTest {
                 }
             }
 
-            final Method meth = elem.findBeforeFirstRun();
-            meth.invoke(toTest, param);
+            final Method[] returnedMeths = elem.findBeforeFirstRun();
+            for (Method meth : returnedMeths) {
+                meth.invoke(toTest, param);
+            }
 
         } catch (final Exception e) {
             fail(e.toString());
@@ -214,8 +217,10 @@ public class BenchmarkMethodTest {
                 }
             }
 
-            final Method meth = elem.findBeforeFirstRun();
-            meth.invoke(toTest, param);
+            final Method[] returnedMeths = elem.findBeforeFirstRun();
+            for (Method meth : returnedMeths) {
+                meth.invoke(toTest, param);
+            }
 
         } catch (final Exception e) {
             fail(e.toString());
@@ -246,8 +251,10 @@ public class BenchmarkMethodTest {
                 }
             }
 
-            final Method meth = elem.findBeforeEachRun();
-            meth.invoke(toTest, param);
+            final Method[] returnedMeths = elem.findBeforeEachRun();
+            for (Method meth : returnedMeths) {
+                meth.invoke(toTest, param);
+            }
 
         } catch (final Exception e) {
             fail(e.toString());
@@ -278,8 +285,10 @@ public class BenchmarkMethodTest {
                 }
             }
 
-            final Method meth = elem.findBeforeEachRun();
-            meth.invoke(toTest, param);
+            final Method[] returnedMeths = elem.findBeforeEachRun();
+            for (Method meth : returnedMeths) {
+                meth.invoke(toTest, param);
+            }
 
         } catch (final Exception e) {
             fail(e.toString());
@@ -310,8 +319,10 @@ public class BenchmarkMethodTest {
                 }
             }
 
-            final Method meth = elem.findAfterEachRun();
-            meth.invoke(toTest, param);
+            final Method[] returnedMeths = elem.findAfterEachRun();
+            for (Method meth : returnedMeths) {
+                meth.invoke(toTest, param);
+            }
 
         } catch (final Exception e) {
             fail(e.toString());
@@ -342,8 +353,10 @@ public class BenchmarkMethodTest {
                 }
             }
 
-            final Method meth = elem.findAfterEachRun();
-            meth.invoke(toTest, param);
+            final Method[] returnedMeths = elem.findAfterEachRun();
+            for (Method meth : returnedMeths) {
+                meth.invoke(toTest, param);
+            }
 
         } catch (final Exception e) {
             fail(e.toString());
@@ -374,8 +387,10 @@ public class BenchmarkMethodTest {
                 }
             }
 
-            final Method meth = elem.findAfterLastRun();
-            meth.invoke(toTest, param);
+            final Method[] returnedMeths = elem.findAfterLastRun();
+            for (Method meth : returnedMeths) {
+                meth.invoke(toTest, param);
+            }
 
         } catch (final Exception e) {
             fail(e.toString());
@@ -406,8 +421,10 @@ public class BenchmarkMethodTest {
                 }
             }
 
-            final Method meth = elem.findAfterLastRun();
-            meth.invoke(toTest, param);
+            final Method[] returnedMeths = elem.findAfterLastRun();
+            for (Method meth : returnedMeths) {
+                meth.invoke(toTest, param);
+            }
 
         } catch (final Exception e) {
             fail(e.toString());
@@ -488,16 +505,23 @@ public class BenchmarkMethodTest {
 
     class TestAfterLastRun1 {
 
+        boolean order = true;
+
         @AfterLastRun
         public final void afterLastRunAnno() {
             fail("Should be ignored because of designated afterLastRun");
         }
 
         public final void afterLastRun() {
-            // Just for having an AfterLastRun
+            assertTrue(order);
+            order = false;
         }
 
-        @Bench(afterLastRun = "afterLastRun")
+        public final void afterLastRun2() {
+            assertFalse(order);
+        }
+
+        @Bench(afterLastRun = "afterLastRun, afterLastRun2")
         public final void bench() {
             // Just a bench
         }
@@ -518,16 +542,23 @@ public class BenchmarkMethodTest {
 
     class TestAfterEachRun1 {
 
+        boolean order = true;
+
         @AfterEachRun
         public final void afterEachRunAnno() {
             fail("Should be ignored because of designated after each run");
         }
 
         public final void afterEachRun() {
-            // Just the afterEachRun
+            assertTrue(order);
+            order = false;
         }
 
-        @Bench(afterEachRun = "afterEachRun")
+        public final void afterEachRun2() {
+            assertFalse(order);
+        }
+
+        @Bench(afterEachRun = "afterEachRun, afterEachRun2")
         public final void bench() {
             // Just the bench
         }
@@ -548,16 +579,23 @@ public class BenchmarkMethodTest {
 
     class TestBeforeEachRun1 {
 
+        boolean order = true;
+
         @BeforeEachRun
         public final void beforeEachRunAnno() {
             fail("Should be ignored because of designated before each run!");
         }
 
         public final void beforeEachRun() {
-            // Just the before each run
+            assertTrue(order);
+            order = false;
         }
 
-        @Bench(beforeEachRun = "beforeEachRun")
+        public final void beforeEachRun2() {
+            assertFalse(order);
+        }
+
+        @Bench(beforeEachRun = "beforeEachRun, beforeEachRun2")
         public final void bench() {
             // Just the bench
         }
@@ -578,16 +616,23 @@ public class BenchmarkMethodTest {
 
     class TestBeforeFirstRun1 {
 
+        boolean order = true;
+
         @BeforeFirstRun
         public final void beforeFirstRunAnno() {
             fail("Should be ignored because of designated before first anno");
         }
 
         public final void beforeFirstRun() {
-            // Just the before first anno
+            assertTrue(order);
+            order = false;
         }
 
-        @Bench(beforeFirstRun = "beforeFirstRun")
+        public final void beforeFirstRun2() {
+            assertFalse(order);
+        }
+
+        @Bench(beforeFirstRun = "beforeFirstRun, beforeFirstRun2")
         public final void bench() {
             // Just the bench
         }

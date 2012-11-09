@@ -29,6 +29,8 @@ package org.perfidix.element;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.perfidix.annotation.AfterBenchClass;
 import org.perfidix.annotation.AfterEachRun;
@@ -95,20 +97,34 @@ public final class BenchmarkMethod {
      * @throws PerfidixMethodCheckException
      *             if integrity check of class and method fails.
      */
-    public Method findBeforeFirstRun() throws PerfidixMethodCheckException {
+    public Method[] findBeforeFirstRun() throws PerfidixMethodCheckException {
 
         Method method = null;
 
         final Bench benchAnno = getMethodToBench().getAnnotation(Bench.class);
         if (benchAnno != null && !benchAnno.beforeFirstRun().equals("")) {
+            List<Method> returnval = new ArrayList<Method>();
+
             try {
                 // variable to instantiate the method by name.
                 final Class<?>[] setUpParams = {};
 
-                // getting the method by name
-                method =
-                    getMethodToBench().getDeclaringClass().getDeclaredMethod(benchAnno.beforeFirstRun(),
-                        setUpParams);
+                String[] methods = benchAnno.beforeFirstRun().split(",");
+                for (String methodString : methods) {
+                    // getting the method by name
+                    method =
+                        getMethodToBench().getDeclaringClass().getDeclaredMethod(methodString.trim(), setUpParams);
+
+                    if (isReflectedExecutable(method, BeforeFirstRun.class)) {
+                        returnval.add(method);
+                    } else {
+                        throw new PerfidixMethodCheckException(new IllegalAccessException(new StringBuilder(
+                            "Failed to execute BeforeFirstRun-annotated method ").append(method).toString()),
+                            method, BeforeFirstRun.class);
+                    }
+                }
+                return returnval.toArray(new Method[returnval.size()]);
+
             } catch (final SecurityException e) {
                 throw new PerfidixMethodCheckException(e, method, BeforeFirstRun.class);
             } catch (final NoSuchMethodException e) {
@@ -118,22 +134,19 @@ public final class BenchmarkMethod {
 
         // if there was no name, a scan over the class occurs, otherwise the
         // designated method is checked.
-        Method returnVal = null;
-        if (method == null) {
-            returnVal =
+
+        else {
+            Method meth =
                 findAndCheckAnyMethodByAnnotation(getMethodToBench().getDeclaringClass(),
                     BeforeFirstRun.class);
-
-        } else {
-            if (isReflectedExecutable(method, BeforeFirstRun.class)) {
-                returnVal = method;
+            if (meth == null) {
+                return new Method[0];
             } else {
-                throw new PerfidixMethodCheckException(new IllegalAccessException(new StringBuilder(
-                    "Failed to execute BeforeFirstRun-annotated method ").append(method).toString()), method,
-                    BeforeFirstRun.class);
+                return new Method[] {
+                    meth
+                };
             }
         }
-        return returnVal;
 
     }
 
@@ -153,43 +166,54 @@ public final class BenchmarkMethod {
      * @throws PerfidixMethodCheckException
      *             if integrity check of class and method fails.
      */
-    public Method findBeforeEachRun() throws PerfidixMethodCheckException {
+    public Method[] findBeforeEachRun() throws PerfidixMethodCheckException {
 
         Method method = null;
 
         final Bench benchAnno = getMethodToBench().getAnnotation(Bench.class);
         if (benchAnno != null && !benchAnno.beforeEachRun().equals("")) {
+            List<Method> returnval = new ArrayList<Method>();
             try {
                 // variable to instantiate the method by name.
                 final Class<?>[] setUpParams = {};
 
-                // getting the method by name
-                method =
-                    getMethodToBench().getDeclaringClass().getDeclaredMethod(benchAnno.beforeEachRun(),
-                        setUpParams);
+                String[] methods = benchAnno.beforeEachRun().split(",");
+                for (String methodString : methods) {
+
+                    // getting the method by name
+                    method =
+                        getMethodToBench().getDeclaringClass().getDeclaredMethod(methodString.trim(), setUpParams);
+
+                    if (isReflectedExecutable(method, BeforeEachRun.class)) {
+                        returnval.add(method);
+                    } else {
+                        throw new PerfidixMethodCheckException(new IllegalAccessException(new StringBuilder(
+                            " Failed to execute BeforeEachRun-annotated method ").append(method).toString()),
+                            method, BeforeEachRun.class);
+                    }
+                }
+                return returnval.toArray(new Method[returnval.size()]);
+
             } catch (SecurityException e) {
                 throw new PerfidixMethodCheckException(e, method, BeforeEachRun.class);
             } catch (NoSuchMethodException e) {
                 throw new PerfidixMethodCheckException(e, method, BeforeEachRun.class);
             }
-        }
-
-        // if there was no name, a scan over the class occurs, otherwise the
-        // designated method is checked.
-        Method returnVal;
-        if (method == null) {
-            returnVal =
-                findAndCheckAnyMethodByAnnotation(getMethodToBench().getDeclaringClass(), BeforeEachRun.class);
         } else {
-            if (isReflectedExecutable(method, BeforeEachRun.class)) {
-                returnVal = method;
+
+            // if there was no name, a scan over the class occurs, otherwise the
+            // designated method is checked.
+            Method meth =
+                findAndCheckAnyMethodByAnnotation(getMethodToBench().getDeclaringClass(), BeforeEachRun.class);
+            if (meth == null) {
+                return new Method[0];
             } else {
-                throw new PerfidixMethodCheckException(new IllegalAccessException(new StringBuilder(
-                    " Failed to execute BeforeEachRun-annotated method ").append(method).toString()), method,
-                    BeforeEachRun.class);
+                return new Method[] {
+                    meth
+                };
             }
+
         }
-        return returnVal;
     }
 
     /**
@@ -208,43 +232,50 @@ public final class BenchmarkMethod {
      * @throws PerfidixMethodCheckException
      *             if integrity check of class and method fails.
      */
-    public Method findAfterEachRun() throws PerfidixMethodCheckException {
+    public Method[] findAfterEachRun() throws PerfidixMethodCheckException {
 
         Method method = null;
 
         final Bench benchAnno = getMethodToBench().getAnnotation(Bench.class);
         if (benchAnno != null && !benchAnno.afterEachRun().equals("")) {
+            List<Method> returnval = new ArrayList<Method>();
             try {
                 // variable to instantiate the method by name.
                 final Class<?>[] setUpParams = {};
 
-                // getting the method by name
-                method =
-                    getMethodToBench().getDeclaringClass().getDeclaredMethod(benchAnno.afterEachRun(),
-                        setUpParams);
+                String[] methods = benchAnno.afterEachRun().split(",");
+                for (String methodString : methods) {
+                    // getting the method by name
+                    method =
+                        getMethodToBench().getDeclaringClass().getDeclaredMethod(methodString.trim(), setUpParams);
+                    if (isReflectedExecutable(method, AfterEachRun.class)) {
+                        returnval.add(method);
+                    } else {
+                        throw new PerfidixMethodCheckException(new IllegalAccessException(new StringBuilder(
+                            "AfterEachRun-annotated method ").append(method).append(" is not executable.")
+                            .toString()), method, AfterEachRun.class);
+                    }
+                }
+                return returnval.toArray(new Method[returnval.size()]);
             } catch (SecurityException e) {
                 throw new PerfidixMethodCheckException(e, method, AfterEachRun.class);
             } catch (NoSuchMethodException e) {
                 throw new PerfidixMethodCheckException(e, method, AfterEachRun.class);
             }
-        }
-
-        // if there was no name, a scan over the class occurs, otherwise the
-        // designated method is checked.
-        Method returnVal;
-        if (method == null) {
-            returnVal =
-                findAndCheckAnyMethodByAnnotation(getMethodToBench().getDeclaringClass(), AfterEachRun.class);
         } else {
-            if (isReflectedExecutable(method, AfterEachRun.class)) {
-                returnVal = method;
+            // if there was no name, a scan over the class occurs, otherwise the
+            // designated method is checked.
+            Method meth =
+                findAndCheckAnyMethodByAnnotation(getMethodToBench().getDeclaringClass(), AfterEachRun.class);
+            if (meth == null) {
+                return new Method[0];
             } else {
-                throw new PerfidixMethodCheckException(
-                    new IllegalAccessException(new StringBuilder("AfterEachRun-annotated method ").append(
-                        method).append(" is not executable.").toString()), method, AfterEachRun.class);
+                return new Method[] {
+                    meth
+                };
             }
+
         }
-        return returnVal;
     }
 
     /**
@@ -263,43 +294,50 @@ public final class BenchmarkMethod {
      * @throws PerfidixMethodCheckException
      *             if integrity check of class and method fails.
      */
-    public Method findAfterLastRun() throws PerfidixMethodCheckException {
+    public Method[] findAfterLastRun() throws PerfidixMethodCheckException {
 
         Method method = null;
 
         final Bench benchAnno = getMethodToBench().getAnnotation(Bench.class);
         if (benchAnno != null && !benchAnno.afterLastRun().equals("")) {
+            List<Method> returnval = new ArrayList<Method>();
             try {
                 // variable to instantiate the method by name.
                 final Class<?>[] setUpParams = {};
 
-                // getting the method by name
-                method =
-                    getMethodToBench().getDeclaringClass().getDeclaredMethod(benchAnno.afterLastRun(),
-                        setUpParams);
+                String[] methods = benchAnno.afterLastRun().split(",");
+                for (String methodString : methods) {
+                    // getting the method by name
+                    method =
+                        getMethodToBench().getDeclaringClass().getDeclaredMethod(methodString.trim(), setUpParams);
+
+                    if (isReflectedExecutable(method, AfterLastRun.class)) {
+                        returnval.add(method);
+                    } else {
+                        throw new PerfidixMethodCheckException(new IllegalAccessException(new StringBuilder(
+                            "AfterLastRun-annotated method ").append(method).append(" is not executable.")
+                            .toString()), method, AfterLastRun.class);
+                    }
+                }
+                return returnval.toArray(new Method[returnval.size()]);
             } catch (final SecurityException e) {
                 throw new PerfidixMethodCheckException(e, method, AfterLastRun.class);
             } catch (final NoSuchMethodException e) {
                 throw new PerfidixMethodCheckException(e, method, AfterLastRun.class);
             }
-        }
-
-        // if there was no name, a scan over the class occurs, otherwise the
-        // designated method is checked.
-        Method returnVal;
-        if (method == null) {
-            returnVal =
-                findAndCheckAnyMethodByAnnotation(getMethodToBench().getDeclaringClass(), AfterLastRun.class);
         } else {
-            if (isReflectedExecutable(method, AfterLastRun.class)) {
-                returnVal = method;
+            // if there was no name, a scan over the class occurs, otherwise the
+            // designated method is checked.
+            Method meth =
+                findAndCheckAnyMethodByAnnotation(getMethodToBench().getDeclaringClass(), AfterLastRun.class);
+            if (meth == null) {
+                return new Method[0];
             } else {
-                throw new PerfidixMethodCheckException(
-                    new IllegalAccessException(new StringBuilder("AfterLastRun-annotated method ").append(
-                        method).append(" is not executable.").toString()), method, AfterLastRun.class);
+                return new Method[] {
+                    meth
+                };
             }
         }
-        return returnVal;
     }
 
     /**
