@@ -29,7 +29,6 @@ package org.perfidix.element;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 /**
  * This method defines an order for the execution of all methods. A collection
@@ -55,7 +54,7 @@ public abstract class AbstractMethodArrangement implements Iterable<BenchmarkEle
      * @param elements
      *            definitly benchmarkable objects.
      */
-    protected AbstractMethodArrangement(final Set<BenchmarkElement> elements) {
+    protected AbstractMethodArrangement(final List<BenchmarkElement> elements) {
         final List<BenchmarkElement> arrangedList = arrangeList(elements);
         this.elementList = Collections.unmodifiableList(arrangedList);
     }
@@ -67,7 +66,7 @@ public abstract class AbstractMethodArrangement implements Iterable<BenchmarkEle
      *            to be arranged
      * @return the arranged methods.
      */
-    protected abstract List<BenchmarkElement> arrangeList(final Set<BenchmarkElement> methods);
+    protected abstract List<BenchmarkElement> arrangeList(final List<BenchmarkElement> methods);
 
     /** {@inheritDoc} */
     public final Iterator<BenchmarkElement> iterator() {
@@ -84,7 +83,7 @@ public abstract class AbstractMethodArrangement implements Iterable<BenchmarkEle
      *            for the method arrangement
      * @return the arrangement, mainly an iterator
      */
-    public static final AbstractMethodArrangement getMethodArrangement(final Set<BenchmarkElement> elements,
+    public static final AbstractMethodArrangement getMethodArrangement(final List<BenchmarkElement> elements,
         final KindOfArrangement kind) {
         AbstractMethodArrangement arrang = null;
         switch (kind) {

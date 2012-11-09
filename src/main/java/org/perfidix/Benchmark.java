@@ -27,9 +27,11 @@
 package org.perfidix;
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
@@ -166,7 +168,7 @@ public final class Benchmark {
      */
     public Map<BenchmarkMethod, Integer> getNumberOfMethodsAndRuns() {
         final Map<BenchmarkMethod, Integer> returnVal = new HashMap<BenchmarkMethod, Integer>();
-        final Set<BenchmarkMethod> meths = getBenchmarkMethods();
+        final List<BenchmarkMethod> meths = getBenchmarkMethods();
         for (final BenchmarkMethod meth : meths) {
             int numberOfRuns = BenchmarkMethod.getNumberOfAnnotatedRuns(meth.getMethodToBench());
             if (numberOfRuns == Bench.NONE_RUN) {
@@ -187,7 +189,7 @@ public final class Benchmark {
         BenchmarkExecutor.initialize(meters, res);
 
         // getting Benchmarkables
-        final Set<BenchmarkElement> elements = getBenchmarkElements();
+        final List<BenchmarkElement> elements = getBenchmarkElements();
 
         // arranging them
         final AbstractMethodArrangement arrangement =
@@ -370,9 +372,9 @@ public final class Benchmark {
      * 
      * @return a Set with {@link BenchmarkMethod}
      */
-    public Set<BenchmarkMethod> getBenchmarkMethods() {
+    public List<BenchmarkMethod> getBenchmarkMethods() {
         // Generating Set for returnVal
-        final Set<BenchmarkMethod> elems = new LinkedHashSet<BenchmarkMethod>();
+        final List<BenchmarkMethod> elems = new ArrayList<BenchmarkMethod>();
         // Getting all Methods and testing if its benchmarkable
         for (final Class<?> clazz : clazzes) {
             for (final Method meth : clazz.getDeclaredMethods()) {
@@ -392,12 +394,11 @@ public final class Benchmark {
      * 
      * @return a Set with {@link BenchmarkMethod}
      */
-    public Set<BenchmarkElement> getBenchmarkElements() {
+    public List<BenchmarkElement> getBenchmarkElements() {
 
-        // Generating Set for returnVal
-        final Set<BenchmarkElement> elems = new LinkedHashSet<BenchmarkElement>();
+        final List<BenchmarkElement> elems = new ArrayList<BenchmarkElement>();
 
-        final Set<BenchmarkMethod> meths = getBenchmarkMethods();
+        final List<BenchmarkMethod> meths = getBenchmarkMethods();
 
         for (final BenchmarkMethod meth : meths) {
             int numberOfRuns = BenchmarkMethod.getNumberOfAnnotatedRuns(meth.getMethodToBench());

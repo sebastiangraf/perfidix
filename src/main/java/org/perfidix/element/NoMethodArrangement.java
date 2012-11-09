@@ -28,7 +28,6 @@ package org.perfidix.element;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 
 /**
  * This class does no arrangement for methods. That means that the order of the
@@ -46,7 +45,7 @@ public final class NoMethodArrangement extends AbstractMethodArrangement {
      * @param elements
      *            with benchmarkable elements.
      */
-    protected NoMethodArrangement(final Set<BenchmarkElement> elements) {
+    protected NoMethodArrangement(final List<BenchmarkElement> elements) {
         super(elements);
     }
 
@@ -59,7 +58,7 @@ public final class NoMethodArrangement extends AbstractMethodArrangement {
      * @return the input.
      */
     @Override
-    protected List<BenchmarkElement> arrangeList(final Set<BenchmarkElement> elements) {
+    protected List<BenchmarkElement> arrangeList(final List<BenchmarkElement> elements) {
         final List<BenchmarkElement> elementList = new LinkedList<BenchmarkElement>();
         elementList.addAll(elements);
         return elementList;

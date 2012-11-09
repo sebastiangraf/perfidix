@@ -30,9 +30,9 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.fail;
 
 import java.lang.reflect.Method;
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Set;
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -45,7 +45,7 @@ import org.perfidix.annotation.Bench;
  */
 public class SequentialMethodArrangementTest {
 
-    private transient Set<BenchmarkElement> elemSet;
+    private transient List<BenchmarkElement> elemSet;
 
     private final static String BENCH1NAME = "bench1";
     private final static String BENCH2NAME = "bench2";
@@ -59,7 +59,7 @@ public class SequentialMethodArrangementTest {
      */
     @Before
     public void setUp() throws Exception {
-        elemSet = new HashSet<BenchmarkElement>();
+        elemSet = new ArrayList<BenchmarkElement>();
         final Class<?> testClazz = TestBenchClass.class;
         for (final Method meth : testClazz.getDeclaredMethods()) {
             if (BenchmarkMethod.isBenchmarkable(meth)) {

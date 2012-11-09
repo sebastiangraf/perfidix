@@ -31,9 +31,9 @@ import java.util.Comparator;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeSet;
-import java.util.Map.Entry;
 
 /**
  * This class represents an arrangement where each method is executed after
@@ -60,13 +60,13 @@ public final class SequentialMethodArrangement extends AbstractMethodArrangement
      * 
      * @param elements
      */
-    protected SequentialMethodArrangement(final Set<BenchmarkElement> elements) {
+    protected SequentialMethodArrangement(final List<BenchmarkElement> elements) {
         super(elements);
     }
 
     /** {@inheritDoc} */
     @Override
-    protected List<BenchmarkElement> arrangeList(final Set<BenchmarkElement> elements) {
+    protected List<BenchmarkElement> arrangeList(final List<BenchmarkElement> elements) {
         final Map<BenchmarkMethod, ArrayList<BenchmarkElement>> table =
             new Hashtable<BenchmarkMethod, ArrayList<BenchmarkElement>>();
         final List<BenchmarkElement> returnVal = new ArrayList<BenchmarkElement>();

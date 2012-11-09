@@ -30,7 +30,6 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
-import java.util.Set;
 
 /**
  * This class represents a shuffle random arrangement of elements. All elements
@@ -51,13 +50,13 @@ public final class ShuffleMethodArrangement extends AbstractMethodArrangement {
      * @param elements
      *            with benchmarkable elements.
      */
-    protected ShuffleMethodArrangement(final Set<BenchmarkElement> elements) {
+    protected ShuffleMethodArrangement(final List<BenchmarkElement> elements) {
         super(elements);
     }
 
     /** {@inheritDoc} */
     @Override
-    protected List<BenchmarkElement> arrangeList(final Set<BenchmarkElement> methods) {
+    protected List<BenchmarkElement> arrangeList(final List<BenchmarkElement> methods) {
         final Random ran = new Random(SEED);
         final List<BenchmarkElement> inputList = new LinkedList<BenchmarkElement>();
         inputList.addAll(methods);

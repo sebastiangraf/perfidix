@@ -31,9 +31,9 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.fail;
 
 import java.lang.reflect.Method;
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Set;
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -46,14 +46,14 @@ import org.perfidix.annotation.Bench;
  */
 public class NoMethodArrangementTest {
 
-    private transient Set<BenchmarkElement> elemSet;
+    private transient List<BenchmarkElement> elemSet;
 
     /**
      * Before method to setUp Benchmarkables.
      */
     @Before
     public void setUp() {
-        elemSet = new HashSet<BenchmarkElement>();
+        elemSet = new ArrayList<BenchmarkElement>();
         final Class<?> testClazz = TestBenchClass.class;
         for (final Method meth : testClazz.getDeclaredMethods()) {
             if (BenchmarkMethod.isBenchmarkable(meth)) {
