@@ -440,7 +440,7 @@ public class BenchmarkMethodTest {
             toTest = new TestNumberOfAnnotatedRuns();
             final Method[] meths = toTest.getClass().getDeclaredMethods();
 
-            assertEquals("3 methods should be found", 3, meths.length);
+            assertEquals("4 methods should be found", 4, meths.length);
 
             for (Method meth : meths) {
 
@@ -456,6 +456,11 @@ public class BenchmarkMethodTest {
                 }
                 if (meth.getName().equals("bench3")) {
                     assertEquals("Check of name of method3", "bench3", meth.getName());
+                }
+                if (meth.getName().equals("bench4")) {
+                    assertEquals("Check of name of method2", "bench4", meth.getName());
+                    assertEquals("Check of runs of method4", 20, BenchmarkMethod
+                        .getNumberOfAnnotatedRuns(meth));
                 }
             }
 
@@ -487,6 +492,12 @@ public class BenchmarkMethodTest {
             // Just for getting the method3
             return -1;
         }
+
+        @Bench
+        public void bench4() {
+            // Just for getting the method4
+        }
+
 
     }
 
