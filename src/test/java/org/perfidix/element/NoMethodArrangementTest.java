@@ -32,6 +32,8 @@ import static org.junit.Assert.fail;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
@@ -60,6 +62,17 @@ public class NoMethodArrangementTest {
                 elemSet.add(new BenchmarkElement(new BenchmarkMethod(meth)));
             }
         }
+
+        // Put methods in a specific order, since Class.getDeclaredMethods()
+        // makes no such guarantees, causing the test to fail otherwise
+        // cf. http://bugs.sun.com/view_bug.do?bug_id=7023180
+        Collections.sort(elemSet, new Comparator<BenchmarkElement>() {
+
+            @Override
+            public int compare(BenchmarkElement a, BenchmarkElement b) {
+                return a.getMeth().getMethodWithClassName().compareTo(b.getMeth().getMethodWithClassName());
+            }
+        });
     }
 
     /**
