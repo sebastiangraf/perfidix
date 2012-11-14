@@ -371,6 +371,10 @@ public final class BenchmarkMethod {
             returnVal = benchClassAnno.runs();
         } else {
             returnVal = benchAnno.runs();
+            // use runs from @BenchClass if none is set on method (issue #4)
+            if((returnVal == Bench.NONE_RUN) && (benchClassAnno != null)) {
+                returnVal = benchClassAnno.runs();
+            }
         }
         return returnVal;
     }
