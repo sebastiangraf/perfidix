@@ -26,6 +26,9 @@
  */
 package org.perfidix.benchmarktests;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.perfidix.AbstractConfig;
 import org.perfidix.element.KindOfArrangement;
 import org.perfidix.meter.AbstractMeter;
@@ -47,20 +50,22 @@ public final class ToTestConfig extends AbstractConfig {
     public final static int TESTRUNS = 54;
 
     /** Test meters */
-    public final static AbstractMeter[] TESTMETERS = {
-        new TimeMeter(Time.MilliSeconds), new MemMeter(Memory.Byte)
-    };
+    public final static Set<AbstractMeter> TESTMETERS = new HashSet<AbstractMeter>();
 
     /** Test listener */
-    public final static AbstractOutput[] TESTLISTENER = {
-        new TabularSummaryOutput()
-    };
+    public final static Set<AbstractOutput> TESTLISTENER = new HashSet<AbstractOutput>();
 
     /** Test arrangement */
     public final static KindOfArrangement TESTARR = KindOfArrangement.SequentialMethodArrangement;
 
     /** Test gc-prob */
     public final static double TESTGC = 0d;
+
+    static {
+        TESTMETERS.add(new TimeMeter(Time.MilliSeconds));
+        TESTMETERS.add(new MemMeter(Memory.Byte));
+        TESTLISTENER.add(new TabularSummaryOutput());
+    };
 
     /**
      * Simple Constructors, taking the statics

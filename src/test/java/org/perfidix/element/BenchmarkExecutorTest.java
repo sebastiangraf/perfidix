@@ -33,13 +33,13 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
 
 import java.lang.reflect.Method;
+import java.util.HashSet;
 import java.util.Iterator;
-import java.util.LinkedHashSet;
 import java.util.Set;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.perfidix.AbstractConfig;
 import org.perfidix.annotation.AfterEachRun;
 import org.perfidix.annotation.AfterLastRun;
 import org.perfidix.annotation.BeforeEachRun;
@@ -82,20 +82,13 @@ public class BenchmarkExecutorTest {
     @Before
     public void setUp() {
         res = new BenchmarkResult();
-        meter = new LinkedHashSet<AbstractMeter>();
+        meter = new HashSet<AbstractMeter>();
         meter.add(new TimeMeter(Time.MilliSeconds));
         meter.add(new CountingMeter());
+
         once = 0;
         each = 0;
-        BenchmarkExecutor.initialize(meter, res);
-    }
-
-    /**
-     * Simple tearDown.
-     */
-    @After
-    public void tearDown() {
-        meter.clear();
+        BenchmarkExecutor.initialize(new CheckConfig(meter), res);
     }
 
     /**
@@ -322,4 +315,12 @@ class BeforeClass {
         BenchmarkExecutorTest.each++;
     }
 
+}
+
+class CheckConfig extends AbstractConfig {
+
+    protected CheckConfig(Set<AbstractMeter> meter) {
+        super(1, meter, AbstractConfig.LISTENERS, AbstractConfig.ARRAN,
+            AbstractConfig.GARBAGE_PROB);
+    }
 }

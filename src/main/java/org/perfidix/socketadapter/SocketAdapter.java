@@ -27,14 +27,18 @@
 package org.perfidix.socketadapter;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.perfidix.AbstractConfig;
 import org.perfidix.Benchmark;
 import org.perfidix.Perfidix;
 import org.perfidix.element.BenchmarkMethod;
 import org.perfidix.exceptions.SocketViewException;
+import org.perfidix.meter.AbstractMeter;
 import org.perfidix.ouput.AbstractOutput;
 import org.perfidix.ouput.TabularSummaryOutput;
 import org.perfidix.result.BenchmarkResult;
@@ -72,10 +76,16 @@ public final class SocketAdapter {
         System.arraycopy(oldConf.getListener(), 0, outputs, 0, oldConf.getListener().length);
         outputs[outputs.length - 1] = new SocketListener(view);
 
+        Set<AbstractMeter> meters = new HashSet<AbstractMeter>();
+        meters.addAll(Arrays.asList(oldConf.getMeters()));
+
+        Set<AbstractOutput> listeners = new HashSet<AbstractOutput>();
+        listeners.addAll(Arrays.asList(outputs));
+
         // Building up the benchmark object
         final AbstractConfig newConf =
-            new AbstractConfig(oldConf.getRuns(), oldConf.getMeters(), outputs, oldConf.getArrangement(),
-                oldConf.getGcProb()) {
+            new AbstractConfig(oldConf.getRuns(), meters, listeners, oldConf.getArrangement(), oldConf
+                .getGcProb()) {
             };
         benchmark = new Benchmark(newConf);
 

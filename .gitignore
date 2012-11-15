@@ -3,6 +3,7 @@ target
 .settings
 .project
 .classpath
+test-output
 
 syntax: regexp
 ^perfidix/target$

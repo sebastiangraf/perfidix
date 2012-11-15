@@ -89,9 +89,6 @@ import org.perfidix.result.BenchmarkResult;
  */
 public final class Benchmark {
 
-    /** Set with all registered meters. */
-    private transient final Set<AbstractMeter> meters;
-
     /** Set with all used classes. */
     private transient final Set<Class<?>> clazzes;
 
@@ -112,13 +109,9 @@ public final class Benchmark {
      */
     public Benchmark(final AbstractConfig paramConf) {
         conf = paramConf;
-        this.meters = new LinkedHashSet<AbstractMeter>();
         this.clazzes = new LinkedHashSet<Class<?>>();
         this.objects = new LinkedHashSet<Object>();
 
-        for (final AbstractMeter meter : conf.getMeters()) {
-            this.meters.add(meter);
-        }
     }
 
     /**
@@ -186,7 +179,7 @@ public final class Benchmark {
      */
     public BenchmarkResult run() {
         final BenchmarkResult res = new BenchmarkResult(conf.getListener());
-        BenchmarkExecutor.initialize(meters, res);
+        BenchmarkExecutor.initialize(conf, res);
 
         // getting Benchmarkables
         final List<BenchmarkElement> elements = getBenchmarkElements();

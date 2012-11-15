@@ -26,6 +26,9 @@
  */
 package org.perfidix.example;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.perfidix.AbstractConfig;
 import org.perfidix.annotation.BenchmarkConfig;
 import org.perfidix.element.KindOfArrangement;
@@ -45,15 +48,18 @@ import org.perfidix.ouput.AbstractOutput;
 public class Config extends AbstractConfig {
 
     private final static int RUNS = 100;
-    private final static AbstractMeter[] METERS = {
-        new TimeMeter(Time.MilliSeconds), new MemMeter(Memory.Byte)
-    };
-    private final static AbstractOutput[] OUTPUT = {/*
-                                                     * new
-                                                     * TabularSummaryOutput()
-                                                     */};
+    private final static Set<AbstractMeter> METERS = new HashSet<AbstractMeter>();
+    private final static Set<AbstractOutput> OUTPUT = new HashSet<AbstractOutput>();
+
     private final static KindOfArrangement ARRAN = KindOfArrangement.SequentialMethodArrangement;
     private final static double GCPROB = 1.0d;
+
+    static {
+        METERS.add(new TimeMeter(Time.MilliSeconds));
+        METERS.add(new MemMeter(Memory.Byte));
+
+        // OUTPUT.add(new TabularSummaryOutput());
+    }
 
     /**
      * Public constructor.

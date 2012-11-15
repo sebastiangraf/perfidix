@@ -29,11 +29,13 @@ package org.perfidix.element;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Arrays;
 import java.util.Hashtable;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 
+import org.perfidix.AbstractConfig;
 import org.perfidix.annotation.AfterEachRun;
 import org.perfidix.annotation.AfterLastRun;
 import org.perfidix.annotation.BeforeEachRun;
@@ -62,17 +64,20 @@ public final class BenchmarkExecutor {
     private static final Map<BenchmarkMethod, BenchmarkExecutor> EXECUTOR =
         new Hashtable<BenchmarkMethod, BenchmarkExecutor>();
 
+    /** Static Mapping of runs to occur for each BenchmarkMethod.} */
+    private static final Map<BenchmarkMethod, Integer> RUNS = new Hashtable<BenchmarkMethod, Integer>();
+
     /** Set with all meters to be benched automatically. */
     private static final Set<AbstractMeter> METERS_TO_BENCH = new LinkedHashSet<AbstractMeter>();
 
     /** Result for all Benchmarks. */
-    private static BenchmarkResult benchRes;
+    private static BenchmarkResult BENCHRES;
+
+    /** Config for all Benchmarks. */
+    private static AbstractConfig CONFIG;
 
     /** Boolean to be sure that the beforeFirstRun was not executed yet. */
     private transient boolean beforeFirstRun;
-
-    /** Boolean to be sure that the afterLastRun was not executed yet. */
-    private transient boolean afterLastRun;
 
     /**
      * Corresponding BenchmarkElement of this executor to get the before/after
@@ -90,7 +95,6 @@ public final class BenchmarkExecutor {
      */
     private BenchmarkExecutor(final BenchmarkMethod paramElement) {
         beforeFirstRun = false;
-        afterLastRun = false;
         element = paramElement;
     }
 
@@ -104,13 +108,18 @@ public final class BenchmarkExecutor {
      *         BenchmarkElement
      */
     public static BenchmarkExecutor getExecutor(final BenchmarkElement meth) {
-        if (benchRes == null) {
+        if (BENCHRES == null) {
             throw new IllegalStateException("Call initialize method first!");
         }
 
         // check if new instance needs to be created
         if (!EXECUTOR.containsKey(meth.getMeth())) {
             EXECUTOR.put(meth.getMeth(), new BenchmarkExecutor(meth.getMeth()));
+            int runsOnAnno = BenchmarkMethod.getNumberOfAnnotatedRuns(meth.getMeth().getMethodToBench());
+            if (runsOnAnno < 0) {
+                runsOnAnno = CONFIG.getRuns();
+            }
+            RUNS.put(meth.getMeth(), runsOnAnno);
         }
 
         // returning the executor
@@ -121,16 +130,17 @@ public final class BenchmarkExecutor {
     /**
      * Initializing the executor.
      * 
-     * @param meters
+     * @param config
      *            to be benched
      * @param result
      *            to be stored to
      */
-    public static void initialize(final Set<AbstractMeter> meters, final BenchmarkResult result) {
+    public static void initialize(final AbstractConfig config, final BenchmarkResult result) {
         METERS_TO_BENCH.clear();
-        METERS_TO_BENCH.addAll(meters);
+        METERS_TO_BENCH.addAll(Arrays.asList(config.getMeters()));
         EXECUTOR.clear();
-        benchRes = result;
+        BENCHRES = result;
+        CONFIG = config;
 
     }
 
@@ -151,7 +161,7 @@ public final class BenchmarkExecutor {
             try {
                 beforeFirst = element.findBeforeFirstRun();
             } catch (final PerfidixMethodCheckException e) {
-                benchRes.addException(e);
+                BENCHRES.addException(e);
             }
             if (beforeFirst.length != 0) {
                 checkAndExectuteBeforeAfters(obj, BeforeFirstRun.class, beforeFirst);
@@ -163,7 +173,7 @@ public final class BenchmarkExecutor {
         try {
             beforeEach = element.findBeforeEachRun();
         } catch (final PerfidixMethodCheckException e) {
-            benchRes.addException(e);
+            BENCHRES.addException(e);
         }
         if (beforeEach.length != 0) {
             checkAndExectuteBeforeAfters(obj, BeforeEachRun.class, beforeEach);
@@ -202,11 +212,11 @@ public final class BenchmarkExecutor {
         if (res == null) {
             meterIndex1 = 0;
             for (final AbstractMeter meter : METERS_TO_BENCH) {
-                benchRes.addData(element.getMethodToBench(), meter, meterResults[meterIndex1]);
+                BENCHRES.addData(element.getMethodToBench(), meter, meterResults[meterIndex1]);
                 meterIndex1++;
             }
         } else {
-            benchRes.addException(res);
+            BENCHRES.addException(res);
         }
 
     }
@@ -219,15 +229,17 @@ public final class BenchmarkExecutor {
      *            the object of the class where the bench runs currently in.
      */
     public void executeAfterMethods(final Object obj) {
+        int runs = RUNS.get(element);
+        runs--;
+        RUNS.put(element, runs);
 
         // invoking once the beforeFirstRun-method
-        if (!afterLastRun) {
-            afterLastRun = true;
+        if (RUNS.get(element) == 0) {
             Method[] afterLast = null;
             try {
                 afterLast = element.findAfterLastRun();
             } catch (final PerfidixMethodCheckException e) {
-                benchRes.addException(e);
+                BENCHRES.addException(e);
             }
             if (afterLast.length != 0) {
                 checkAndExectuteBeforeAfters(obj, AfterLastRun.class, afterLast);
@@ -240,7 +252,7 @@ public final class BenchmarkExecutor {
         try {
             afterEach = element.findAfterEachRun();
         } catch (final PerfidixMethodCheckException e) {
-            benchRes.addException(e);
+            BENCHRES.addException(e);
         }
         if (afterEach != null) {
             checkAndExectuteBeforeAfters(obj, AfterEachRun.class, afterEach);
@@ -264,11 +276,11 @@ public final class BenchmarkExecutor {
         if (checkExc == null) {
             final PerfidixMethodInvocationException invoExc = invokeMethod(obj, anno, meths);
             if (invoExc != null) {
-                benchRes.addException(invoExc);
+                BENCHRES.addException(invoExc);
             }
 
         } else {
-            benchRes.addException(checkExc);
+            BENCHRES.addException(checkExc);
         }
     }
 

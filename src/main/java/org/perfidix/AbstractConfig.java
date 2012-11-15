@@ -26,6 +26,9 @@
  */
 package org.perfidix;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.perfidix.element.KindOfArrangement;
 import org.perfidix.meter.AbstractMeter;
 import org.perfidix.meter.Time;
@@ -67,21 +70,19 @@ import org.perfidix.ouput.AbstractOutput;
 public abstract class AbstractConfig {
 
     /** Standard runs */
-    private final static int RUNS = 10;
+    public final static int RUNS = 10;
 
     /** Standard meters */
-    private final static AbstractMeter[] METERS = {
-        new TimeMeter(Time.MilliSeconds)
-    };
+    public final static Set<AbstractMeter> METERS = new HashSet<AbstractMeter>();
 
     /** Standard listeners */
-    private final static AbstractOutput[] LISTENERS = {};
+    public final static Set<AbstractOutput> LISTENERS = new HashSet<AbstractOutput>();
 
     /** Standard arrangement */
-    private final static KindOfArrangement ARRAN = KindOfArrangement.NoArrangement;
+    public final static KindOfArrangement ARRAN = KindOfArrangement.NoArrangement;
 
     /** Standard gc-prob */
-    private final static double GARBAGE_PROB = 1d;
+    public final static double GARBAGE_PROB = 1d;
 
     /** actual value for runs */
     private transient final int runs;
@@ -98,18 +99,19 @@ public abstract class AbstractConfig {
     /** actual value for gcProb */
     private transient final double gcProb;
 
+    static {
+        METERS.add(new TimeMeter(Time.MilliSeconds));
+    }
+
     /**
      * Simple constructor.
      */
-    protected AbstractConfig(final int paramRuns, final AbstractMeter[] paramMeters,
-        final AbstractOutput[] paramOutput, final KindOfArrangement paramArr, final double paramGC) {
+    protected AbstractConfig(final int paramRuns, final Set<AbstractMeter> paramMeters,
+        final Set<AbstractOutput> paramOutput, final KindOfArrangement paramArr, final double paramGC) {
         runs = paramRuns;
 
-        meters = new AbstractMeter[paramMeters.length];
-        System.arraycopy(paramMeters, 0, meters, 0, meters.length);
-
-        listeners = new AbstractOutput[paramOutput.length];
-        System.arraycopy(paramOutput, 0, listeners, 0, listeners.length);
+        meters = paramMeters.toArray(new AbstractMeter[paramMeters.size()]);
+        listeners = paramOutput.toArray(new AbstractOutput[paramOutput.size()]);
 
         arrangement = paramArr;
         gcProb = paramGC;

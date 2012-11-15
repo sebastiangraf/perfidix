@@ -32,6 +32,8 @@ import static org.junit.Assert.fail;
 
 import org.junit.Test;
 import org.perfidix.benchmarktests.ToTestConfig;
+import org.perfidix.meter.AbstractMeter;
+import org.perfidix.ouput.AbstractOutput;
 
 /**
  * Testcase for {@link Perfidix}
@@ -87,8 +89,10 @@ public class PerfidixTest {
         try {
             final AbstractConfig conf = Perfidix.getConfiguration(confs);
             assertEquals("runs must be the same", conf.getRuns(), ToTestConfig.TESTRUNS);
-            assertArrayEquals("meters must be the same", conf.getMeters(), ToTestConfig.TESTMETERS);
-            assertArrayEquals("listeners must be the same", conf.getListener(), ToTestConfig.TESTLISTENER);
+            assertArrayEquals("meters must be the same", conf.getMeters(), ToTestConfig.TESTMETERS
+                .toArray(new AbstractMeter[ToTestConfig.TESTMETERS.size()]));
+            assertArrayEquals("listeners must be the same", conf.getListener(), ToTestConfig.TESTLISTENER
+                .toArray(new AbstractOutput[ToTestConfig.LISTENERS.size()]));
             assertEquals("arrangement must be the same", conf.getArrangement(), ToTestConfig.TESTARR);
             assertEquals("gc prob must be the same", conf.getGcProb(), ToTestConfig.TESTGC, 0);
         } catch (final ClassNotFoundException e) {

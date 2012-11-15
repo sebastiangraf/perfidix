@@ -456,6 +456,12 @@ public class BenchmarkMethodTest {
                 }
                 if (meth.getName().equals("bench3")) {
                     assertEquals("Check of name of method3", "bench3", meth.getName());
+                    try {
+                        BenchmarkMethod.getNumberOfAnnotatedRuns(meth);
+                        fail("Must throw IllegalStateException!");
+                    } catch (final IllegalArgumentException e) {
+                        assertTrue("Methodexception must match a pattern", e.getMessage().startsWith("Method"));
+                    }
                 }
                 if (meth.getName().equals("bench4")) {
                     assertEquals("Check of name of method2", "bench4", meth.getName());
@@ -464,12 +470,7 @@ public class BenchmarkMethodTest {
                 }
             }
 
-            try {
-                BenchmarkMethod.getNumberOfAnnotatedRuns(meths[2]);
-                fail("Must throw IllegalStateException!");
-            } catch (final IllegalArgumentException e) {
-                assertTrue("Methodexception must match a pattern", e.getMessage().startsWith("Method"));
-            }
+            
 
         } catch (final Exception e) {
             fail("Should never fail in testRuns!");
