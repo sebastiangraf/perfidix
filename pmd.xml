@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<pmd version="4.3" timestamp="2012-10-21T15:42:40.710">
-<file name="/Users/sebi/Dropbox/github/perfidix/src/main/java/org/perfidix/example/list/ElementList.java">
+<pmd version="4.3" timestamp="2013-10-30T22:41:29.754">
+<file name="/Users/sebi/Documents/workspace/perfidix/src/main/java/org/perfidix/Benchmark.java">
+<violation beginline="49" endline="49" begincolumn="1" endcolumn="40" rule="UnusedImports" ruleset="Import Statement Rules" package="org.perfidix" externalInfoUrl="http://pmd.sourceforge.net/rules/imports.html#UnusedImports" priority="4">
+Avoid unused imports such as 'org.perfidix.meter.AbstractMeter'
+</violation>
+</file>
+<file name="/Users/sebi/Documents/workspace/perfidix/src/main/java/org/perfidix/example/list/ElementList.java">
 <violation beginline="29" endline="29" begincolumn="1" endcolumn="39" rule="ImportFromSamePackage" ruleset="Import Statement Rules" package="org.perfidix.example.list" externalInfoUrl="http://pmd.sourceforge.net/rules/imports.html#ImportFromSamePackage" priority="3">
 No need to import a type that lives in the same package
 </violation>
 </file>
-<file name="/Users/sebi/Dropbox/github/perfidix/src/main/java/org/perfidix/example/list/IntArrayList.java">
+<file name="/Users/sebi/Documents/workspace/perfidix/src/main/java/org/perfidix/example/list/IntArrayList.java">
 <violation beginline="31" endline="31" begincolumn="1" endcolumn="39" rule="ImportFromSamePackage" ruleset="Import Statement Rules" package="org.perfidix.example.list" externalInfoUrl="http://pmd.sourceforge.net/rules/imports.html#ImportFromSamePackage" priority="3">
 No need to import a type that lives in the same package
 </violation>
