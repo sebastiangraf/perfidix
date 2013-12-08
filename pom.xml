@@ -240,9 +240,11 @@
 			<url>file:${site.deploy.dir}</url>
 		</site>
 	</distributionManagement>
+
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>1.6</maven.compiler.source>
 		<maven.compiler.target>1.6</maven.compiler.target>
+		<site.deploy.dir>/tmp/deploy</site.deploy.dir>
 	</properties>
 </project>
