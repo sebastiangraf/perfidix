@@ -235,6 +235,10 @@
 			<url>https://oss.sonatype.org/content/repositories/snapshots/</url>
 			<uniqueVersion>false</uniqueVersion>
 		</snapshotRepository>
+		<site>
+			<id>file</id>
+			<url>file:${site.deploy.dir}</url>
+		</site>
 	</distributionManagement>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
