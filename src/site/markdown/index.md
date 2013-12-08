@@ -86,3 +86,5 @@ our working group and is maintained continuously since 2007.
 
 Perfidix is hosted with https://github.com/disy/perfidix under the [BSD License](http://www.opensource.org/licenses/BSD-3-Clause) and guarded by Travis-CI: 
 [![Build Status](https://secure.travis-ci.org/disy/perfidix.png)](http://travis-ci.org/disy/perfidix)
+
+<script type="text/javascript" src="http://www.ohloh.net/p/30989/widgets/project_factoids_stats.js"></script>
