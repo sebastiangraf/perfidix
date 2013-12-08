@@ -40,9 +40,9 @@
 <a class="jxr_linenumber" name="30" href="#30">30</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> org.junit.Assert.fail;
 <a class="jxr_linenumber" name="31" href="#31">31</a>  
 <a class="jxr_linenumber" name="32" href="#32">32</a>  <strong class="jxr_keyword">import</strong> java.lang.reflect.Method;
-<a class="jxr_linenumber" name="33" href="#33">33</a>  <strong class="jxr_keyword">import</strong> java.util.HashSet;
+<a class="jxr_linenumber" name="33" href="#33">33</a>  <strong class="jxr_keyword">import</strong> java.util.ArrayList;
 <a class="jxr_linenumber" name="34" href="#34">34</a>  <strong class="jxr_keyword">import</strong> java.util.Iterator;
-<a class="jxr_linenumber" name="35" href="#35">35</a>  <strong class="jxr_keyword">import</strong> java.util.Set;
+<a class="jxr_linenumber" name="35" href="#35">35</a>  <strong class="jxr_keyword">import</strong> java.util.List;
 <a class="jxr_linenumber" name="36" href="#36">36</a>  
 <a class="jxr_linenumber" name="37" href="#37">37</a>  <strong class="jxr_keyword">import</strong> org.junit.Before;
 <a class="jxr_linenumber" name="38" href="#38">38</a>  <strong class="jxr_keyword">import</strong> org.junit.Test;
@@ -55,7 +55,7 @@
 <a class="jxr_linenumber" name="45" href="#45">45</a>  <em class="jxr_javadoccomment"> */</em>
 <a class="jxr_linenumber" name="46" href="#46">46</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a href="../../../org/perfidix/element/SequentialMethodArrangementTest.html">SequentialMethodArrangementTest</a> {
 <a class="jxr_linenumber" name="47" href="#47">47</a>  
-<a class="jxr_linenumber" name="48" href="#48">48</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">transient</strong> Set&lt;BenchmarkElement&gt; elemSet;
+<a class="jxr_linenumber" name="48" href="#48">48</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">transient</strong> List&lt;BenchmarkElement&gt; elemSet;
 <a class="jxr_linenumber" name="49" href="#49">49</a>  
 <a class="jxr_linenumber" name="50" href="#50">50</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">static</strong> String BENCH1NAME = <span class="jxr_string">"bench1"</span>;
 <a class="jxr_linenumber" name="51" href="#51">51</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">static</strong> String BENCH2NAME = <span class="jxr_string">"bench2"</span>;
@@ -69,7 +69,7 @@
 <a class="jxr_linenumber" name="59" href="#59">59</a>  <em class="jxr_javadoccomment">     */</em>
 <a class="jxr_linenumber" name="60" href="#60">60</a>      @Before
 <a class="jxr_linenumber" name="61" href="#61">61</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> setUp() <strong class="jxr_keyword">throws</strong> Exception {
-<a class="jxr_linenumber" name="62" href="#62">62</a>          elemSet = <strong class="jxr_keyword">new</strong> HashSet&lt;BenchmarkElement&gt;();
+<a class="jxr_linenumber" name="62" href="#62">62</a>          elemSet = <strong class="jxr_keyword">new</strong> ArrayList&lt;BenchmarkElement&gt;();
 <a class="jxr_linenumber" name="63" href="#63">63</a>          <strong class="jxr_keyword">final</strong> Class&lt;?&gt; testClazz = TestBenchClass.<strong class="jxr_keyword">class</strong>;
 <a class="jxr_linenumber" name="64" href="#64">64</a>          <strong class="jxr_keyword">for</strong> (<strong class="jxr_keyword">final</strong> Method meth : testClazz.getDeclaredMethods()) {
 <a class="jxr_linenumber" name="65" href="#65">65</a>              <strong class="jxr_keyword">if</strong> (BenchmarkMethod.isBenchmarkable(meth)) {

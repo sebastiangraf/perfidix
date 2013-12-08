@@ -41,9 +41,9 @@
 <a class="jxr_linenumber" name="31" href="#31">31</a>  <strong class="jxr_keyword">import</strong> java.util.Hashtable;
 <a class="jxr_linenumber" name="32" href="#32">32</a>  <strong class="jxr_keyword">import</strong> java.util.List;
 <a class="jxr_linenumber" name="33" href="#33">33</a>  <strong class="jxr_keyword">import</strong> java.util.Map;
-<a class="jxr_linenumber" name="34" href="#34">34</a>  <strong class="jxr_keyword">import</strong> java.util.Set;
-<a class="jxr_linenumber" name="35" href="#35">35</a>  <strong class="jxr_keyword">import</strong> java.util.TreeSet;
-<a class="jxr_linenumber" name="36" href="#36">36</a>  <strong class="jxr_keyword">import</strong> java.util.Map.Entry;
+<a class="jxr_linenumber" name="34" href="#34">34</a>  <strong class="jxr_keyword">import</strong> java.util.Map.Entry;
+<a class="jxr_linenumber" name="35" href="#35">35</a>  <strong class="jxr_keyword">import</strong> java.util.Set;
+<a class="jxr_linenumber" name="36" href="#36">36</a>  <strong class="jxr_keyword">import</strong> java.util.TreeSet;
 <a class="jxr_linenumber" name="37" href="#37">37</a>  
 <a class="jxr_linenumber" name="38" href="#38">38</a>  <em class="jxr_javadoccomment">/**</em>
 <a class="jxr_linenumber" name="39" href="#39">39</a>  <em class="jxr_javadoccomment"> * This class represents an arrangement where each method is executed after</em>
@@ -70,13 +70,13 @@
 <a class="jxr_linenumber" name="60" href="#60">60</a>  <em class="jxr_javadoccomment">     * </em>
 <a class="jxr_linenumber" name="61" href="#61">61</a>  <em class="jxr_javadoccomment">     * @param elements</em>
 <a class="jxr_linenumber" name="62" href="#62">62</a>  <em class="jxr_javadoccomment">     */</em>
-<a class="jxr_linenumber" name="63" href="#63">63</a>      <strong class="jxr_keyword">protected</strong> <a href="../../../org/perfidix/element/SequentialMethodArrangement.html">SequentialMethodArrangement</a>(<strong class="jxr_keyword">final</strong> Set&lt;BenchmarkElement&gt; elements) {
+<a class="jxr_linenumber" name="63" href="#63">63</a>      <strong class="jxr_keyword">protected</strong> <a href="../../../org/perfidix/element/SequentialMethodArrangement.html">SequentialMethodArrangement</a>(<strong class="jxr_keyword">final</strong> List&lt;BenchmarkElement&gt; elements) {
 <a class="jxr_linenumber" name="64" href="#64">64</a>          <strong class="jxr_keyword">super</strong>(elements);
 <a class="jxr_linenumber" name="65" href="#65">65</a>      }
 <a class="jxr_linenumber" name="66" href="#66">66</a>  
 <a class="jxr_linenumber" name="67" href="#67">67</a>      <em class="jxr_javadoccomment">/**</em><em class="jxr_javadoccomment"> {@inheritDoc} */</em>
 <a class="jxr_linenumber" name="68" href="#68">68</a>      @Override
-<a class="jxr_linenumber" name="69" href="#69">69</a>      <strong class="jxr_keyword">protected</strong> List&lt;BenchmarkElement&gt; arrangeList(<strong class="jxr_keyword">final</strong> Set&lt;BenchmarkElement&gt; elements) {
+<a class="jxr_linenumber" name="69" href="#69">69</a>      <strong class="jxr_keyword">protected</strong> List&lt;BenchmarkElement&gt; arrangeList(<strong class="jxr_keyword">final</strong> List&lt;BenchmarkElement&gt; elements) {
 <a class="jxr_linenumber" name="70" href="#70">70</a>          <strong class="jxr_keyword">final</strong> Map&lt;BenchmarkMethod, ArrayList&lt;BenchmarkElement&gt;&gt; table =
 <a class="jxr_linenumber" name="71" href="#71">71</a>              <strong class="jxr_keyword">new</strong> Hashtable&lt;BenchmarkMethod, ArrayList&lt;BenchmarkElement&gt;&gt;();
 <a class="jxr_linenumber" name="72" href="#72">72</a>          <strong class="jxr_keyword">final</strong> List&lt;BenchmarkElement&gt; returnVal = <strong class="jxr_keyword">new</strong> ArrayList&lt;BenchmarkElement&gt;();

@@ -6,10 +6,10 @@
     <link>https://github.com/disy/perfidix</link>
     <description>Perfidix Library - Checkstyle report</description>
     <language>en-us</language>
-    <copyright>&#169;2012 University of Konstanz, Distributed Systems Group</copyright>
+    <copyright>&#169;2013 University of Konstanz, Distributed Systems Group</copyright>
     <item>
       <title>File: 71,
-             Errors: 1005,
+             Errors: 1023,
              Warnings: 0,
              Infos: 0
       </title>
@@ -80,7 +80,7 @@
                   0
                 </td>
                 <td>
-                  65
+                  64
                 </td>
               </tr>
                           <tr>
@@ -136,7 +136,7 @@
                   0
                 </td>
                 <td>
-                  15
+                  17
                 </td>
               </tr>
                           <tr>
@@ -262,7 +262,7 @@
                   0
                 </td>
                 <td>
-                  66
+                  68
                 </td>
               </tr>
                           <tr>
@@ -542,7 +542,7 @@
                   0
                 </td>
                 <td>
-                  36
+                  49
                 </td>
               </tr>
                           <tr>
@@ -1018,7 +1018,7 @@
                   0
                 </td>
                 <td>
-                  49
+                  51
                 </td>
               </tr>
                       </tbody>
