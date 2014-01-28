@@ -27,6 +27,7 @@
 package org.perfidix.element;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
@@ -65,6 +66,11 @@ public final class BenchmarkMethod {
     private transient final Method methodToBench;
 
     /**
+     * Possible input parameters
+     */
+    private transient final Object[] inputParamSet;
+
+    /**
      * Constructor, with a definite method to bench. The method has to be
      * checked with {@link BenchmarkMethod#isBenchmarkable(Method)} first,
      * otherwise an IllegalArgumentException could arise.
@@ -73,7 +79,12 @@ public final class BenchmarkMethod {
      *            method to be benched (eventually)
      */
     public BenchmarkMethod(final Method paramMethod) {
+        this(paramMethod, null);
+    }
+
+    public BenchmarkMethod(final Method paramMethod, Object[] paramInputParamSet) {
         methodToBench = paramMethod;
+        inputParamSet = paramInputParamSet;
         if (!isBenchmarkable(methodToBench)) {
             throw new IllegalArgumentException(new StringBuilder(
                 "Only benchmarkable methods allowed but method ").append(paramMethod).append(
@@ -349,6 +360,10 @@ public final class BenchmarkMethod {
         return methodToBench;
     }
 
+    public Object[] getArgs() {
+        return inputParamSet;
+    }
+
     /**
      * Getting the number of runs corresponding to a given method. The method
      * MUST be a benchmarkable method, otherwise an IllegalStateException
@@ -512,8 +527,8 @@ public final class BenchmarkMethod {
      */
     public static boolean isReflectedExecutable(final Method meth, final Class<? extends Annotation> anno) {
         boolean returnVal = true;
-        // if method has parameters, the method is not benchmarkable
-        if (meth.getGenericParameterTypes().length > 0) {
+        // if method has parameters but no data provider set, the method is not benchmarkable
+        if (meth.getGenericParameterTypes().length > 0 && !usesDataProvider(meth)) {
             returnVal = false;
         }
         // if method is static, the method is not benchmarkable
@@ -570,6 +585,15 @@ public final class BenchmarkMethod {
                 returnVal = false;
 
             }
+            if (inputParamSet == null) {
+                if (other.inputParamSet != null) {
+                    returnVal = false;
+                }
+            } else {
+                if (!inputParamSet.equals(other.inputParamSet)) {
+                    returnVal = false;
+                }
+            }
         }
         return returnVal;
     }
@@ -593,5 +617,69 @@ public final class BenchmarkMethod {
 
         return new StringBuilder(methodToBench.getDeclaringClass().getName() + "." + methodToBench.getName())
             .toString();
+    }
+
+    /**
+     * This method checks whether a method uses a data provider for dynamic
+     * input
+     * 
+     * @param meth
+     *            method to be checked
+     * @return
+     */
+    public static boolean usesDataProvider(Method meth) {
+        boolean returnVal = false;
+
+        final Bench benchAnno = meth.getAnnotation(Bench.class);
+        if (benchAnno == null) {
+            returnVal = false;
+        } else if (benchAnno != null && benchAnno.dataProvider() != "") {
+            returnVal = true;
+        }
+
+        // TODO check whether the data provider is valid, such that it exists
+        // and returns the proper object set!
+
+        return returnVal;
+    }
+
+    public static Object[][] getDataProviderContent(Method meth) {
+        if (!isBenchmarkable(meth)) {
+            throw new IllegalArgumentException(new StringBuilder("Method ")
+                    .append(meth).append(" must be a benchmarkable method.")
+                    .toString());
+        }
+        if (!usesDataProvider(meth)) {
+            throw new IllegalArgumentException(new StringBuilder("Method ")
+                    .append(meth).append(" must use a data provider.")
+                    .toString());
+        }
+
+        String dataProviderMethod = meth.getAnnotation(Bench.class)
+                .dataProvider();
+
+        Method m;
+        try {
+            m = meth.getDeclaringClass().getMethod(dataProviderMethod);
+        } catch (NoSuchMethodException | SecurityException e) {
+            throw new IllegalArgumentException(new StringBuilder("Method ")
+                    .append(meth)
+                    .append(" uses a non-existing data provider "
+                            + dataProviderMethod).toString());
+        }
+
+        Object[][] res;
+        try {
+            res = (Object[][]) m.invoke(null);
+        } catch (IllegalAccessException | IllegalArgumentException
+                | InvocationTargetException e) {
+            throw new IllegalArgumentException(new StringBuilder("Method ")
+                    .append(meth)
+                    .append(" uses the data provider " + dataProviderMethod
+                            + " which threw an exception on invocation")
+                    .toString());
+        }
+
+        return res;
     }
 }

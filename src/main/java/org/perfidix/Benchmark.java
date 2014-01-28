@@ -46,7 +46,6 @@ import org.perfidix.element.BenchmarkExecutor;
 import org.perfidix.element.BenchmarkMethod;
 import org.perfidix.exceptions.PerfidixMethodCheckException;
 import org.perfidix.exceptions.PerfidixMethodInvocationException;
-import org.perfidix.meter.AbstractMeter;
 import org.perfidix.result.BenchmarkResult;
 
 /**
@@ -302,7 +301,7 @@ public final class Benchmark {
                     if (beforeByCheck == null) {
                         final PerfidixMethodInvocationException beforeByInvok =
                             BenchmarkExecutor.invokeMethod(objectToUse, BeforeBenchClass.class,
-                                beforeClassMeth);
+                                beforeClassMeth, null);
                         if (beforeByInvok == null) {
                             returnVal.put(clazz, objectToUse);
                         } else {
@@ -348,7 +347,7 @@ public final class Benchmark {
                     if (afterByCheck == null) {
                         final PerfidixMethodInvocationException afterByInvok =
                             BenchmarkExecutor
-                                .invokeMethod(objectToUse, AfterBenchClass.class, afterClassMeth);
+                                .invokeMethod(objectToUse, AfterBenchClass.class, afterClassMeth, null);
                         if (afterByInvok != null) {
                             res.addException(afterByInvok);
                         }
@@ -373,8 +372,19 @@ public final class Benchmark {
             for (final Method meth : clazz.getDeclaredMethods()) {
                 // Check if benchmarkable, if so, insert to returnVal;
                 if (BenchmarkMethod.isBenchmarkable(meth)) {
-                    final BenchmarkMethod benchmarkMeth = new BenchmarkMethod(meth);
-                    elems.add(benchmarkMeth);
+                    if (BenchmarkMethod.usesDataProvider(meth)) {
+                        Object[][] inputParamSets = BenchmarkMethod
+                                .getDataProviderContent(meth);
+                        for (Object[] singleInputParamSet : inputParamSets) {
+                            final BenchmarkMethod benchmarkMeth = new BenchmarkMethod(
+                                    meth, singleInputParamSet);
+                            elems.add(benchmarkMeth);
+                        }
+                    } else {
+                        final BenchmarkMethod benchmarkMeth = new BenchmarkMethod(
+                                meth);
+                        elems.add(benchmarkMeth);
+                    }
                 }
             }
         }

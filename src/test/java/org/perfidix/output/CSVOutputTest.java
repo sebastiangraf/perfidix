@@ -37,6 +37,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.perfidix.annotation.Bench;
+import org.perfidix.element.BenchmarkMethod;
 import org.perfidix.exceptions.AbstractPerfidixMethodException;
 import org.perfidix.exceptions.PerfidixMethodInvocationException;
 import org.perfidix.meter.AbstractMeter;
@@ -83,8 +84,8 @@ public final class CSVOutputTest {
 
         for (int i = 0; i < NUMBER_OF_TICKS; i++) {
             meter.tick();
-            benchRes.addData(meth11, meter, meter.getValue());
-            benchRes.addData(meth12, meter, meter.getValue() / 2);
+            benchRes.addData(new BenchmarkMethod(meth11), meter, meter.getValue());
+            benchRes.addData(new BenchmarkMethod(meth12), meter, meter.getValue() / 2);
         }
 
         testException =
@@ -150,7 +151,7 @@ public final class CSVOutputTest {
         for (final MethodResult methRes : classRes.getIncludedResults()) {
 
             for (final double d : methRes.getResultSet(meter)) {
-                output.listenToResultSet((Method)methRes.getRelatedElement(), meter, d);
+                output.listenToResultSet((BenchmarkMethod)methRes.getRelatedElement(), meter, d);
             }
         }
         final StringBuilder builderData1 = new StringBuilder();
@@ -190,7 +191,7 @@ public final class CSVOutputTest {
         final AbstractMeter meter = classRes.getRegisteredMeters().iterator().next();
         for (final MethodResult methRes : classRes.getIncludedResults()) {
             for (final double d : methRes.getResultSet(meter)) {
-                output.listenToResultSet((Method)methRes.getRelatedElement(), meter, d);
+                output.listenToResultSet((BenchmarkMethod)methRes.getRelatedElement(), meter, d);
             }
         }
         output.visitBenchmark(benchRes);
@@ -377,10 +378,12 @@ public final class CSVOutputTest {
     // }
 
     class Class1 {
+        @Bench
         public void method1() {
             // empty skeleton
         }
 
+        @Bench
         public void method2() {
             // empty skeleton
         }

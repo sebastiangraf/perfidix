@@ -28,6 +28,7 @@ package org.perfidix.socketadapter;
 
 import java.lang.reflect.Method;
 
+import org.perfidix.element.BenchmarkMethod;
 import org.perfidix.exceptions.AbstractPerfidixMethodException;
 import org.perfidix.exceptions.SocketViewException;
 import org.perfidix.meter.AbstractMeter;
@@ -71,10 +72,12 @@ public final class SocketListener extends AbstractOutput {
 
     /** {@inheritDoc} */
     @Override
-    public boolean listenToResultSet(final Method meth, final AbstractMeter meter, final double data) {
+    public boolean listenToResultSet(final BenchmarkMethod meth,
+            final AbstractMeter meter, final double data) {
+        Method m = meth.getMethodToBench();
         try {
-            return view.updateCurrentElement(meter, (meth.getDeclaringClass().getName() + "." + meth
-                .getName()));
+            return view.updateCurrentElement(meter, (m.getDeclaringClass()
+                    .getName() + "." + m.getName()));
         } catch (final SocketViewException e) {
             throw new IllegalStateException(e);
         }

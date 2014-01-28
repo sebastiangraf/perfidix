@@ -194,6 +194,7 @@ public final class BenchmarkExecutor {
         final double[] meterResults = new double[METERS_TO_BENCH.size()];
 
         final Method meth = element.getMethodToBench();
+        final Object[] args = element.getArgs();
 
         int meterIndex1 = 0;
         int meterIndex2 = 0;
@@ -202,7 +203,7 @@ public final class BenchmarkExecutor {
             meterIndex1++;
         }
 
-        final PerfidixMethodInvocationException res = invokeMethod(objToExecute, Bench.class, meth);
+        final PerfidixMethodInvocationException res = invokeMethod(objToExecute, Bench.class, meth, args);
 
         for (final AbstractMeter meter : METERS_TO_BENCH) {
             meterResults[meterIndex2] = meter.getValue() - meterResults[meterIndex2];
@@ -212,7 +213,7 @@ public final class BenchmarkExecutor {
         if (res == null) {
             meterIndex1 = 0;
             for (final AbstractMeter meter : METERS_TO_BENCH) {
-                BENCHRES.addData(element.getMethodToBench(), meter, meterResults[meterIndex1]);
+                BENCHRES.addData(element, meter, meterResults[meterIndex1]);
                 meterIndex1++;
             }
         } else {
@@ -274,11 +275,13 @@ public final class BenchmarkExecutor {
         Method... meths) {
         final PerfidixMethodCheckException checkExc = checkMethod(obj, anno, meths);
         if (checkExc == null) {
-            final PerfidixMethodInvocationException invoExc = invokeMethod(obj, anno, meths);
-            if (invoExc != null) {
-                BENCHRES.addException(invoExc);
+            for (Method m : meths) {
+                final PerfidixMethodInvocationException invoExc = invokeMethod(
+                        obj, anno, m, null);
+                if (invoExc != null) {
+                    BENCHRES.addException(invoExc);
+                }
             }
-
         } else {
             BENCHRES.addException(checkExc);
         }
@@ -289,19 +292,20 @@ public final class BenchmarkExecutor {
      * 
      * @param obj
      *            on which the execution takes place
-     * @param meth
-     *            to be executed
      * @param relatedAnno
      *            related annotation for the execution
+     * @param meth
+     *            to be executed
+     * @param args
+     *            args for that method
      * @return {@link PerfidixMethodInvocationException} if invocation fails,
      *         null otherwise.
      */
     public static PerfidixMethodInvocationException invokeMethod(final Object obj,
-        final Class<? extends Annotation> relatedAnno, Method... meths) {
-        final Object[] args = {};
-        for (Method meth : meths) {
+        final Class<? extends Annotation> relatedAnno, Method meth, Object[] args) {
             try {
                 meth.invoke(obj, args);
+                return null;
             } catch (final IllegalArgumentException e) {
                 return new PerfidixMethodInvocationException(e, meth, relatedAnno);
             } catch (final IllegalAccessException e) {
@@ -309,8 +313,6 @@ public final class BenchmarkExecutor {
             } catch (final InvocationTargetException e) {
                 return new PerfidixMethodInvocationException(e.getCause(), meth, relatedAnno);
             }
-        }
-        return null;
     }
 
     /**

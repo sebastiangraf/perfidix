@@ -100,7 +100,7 @@ public class SocketListenerTest {
         when(updater.updateCurrentElement(meter, methodName)).thenReturn(true);
 
         SocketListener myInstance = new SocketListener(updater);
-        assertTrue(myInstance.listenToResultSet(method1.getMethodToBench(), meter, 0));
+        assertTrue(myInstance.listenToResultSet(method1, meter, 0));
     }
 
     /**
@@ -128,7 +128,7 @@ public class SocketListenerTest {
         when(updater.updateCurrentElement(meter, methodName)).thenReturn(true);
 
         SocketListener myInstance = new SocketListener(updater);
-        assertTrue(myInstance.listenToResultSet(method1.getMethodToBench(), meter, 0));
+        assertTrue(myInstance.listenToResultSet(method1, meter, 0));
 
     }
 }

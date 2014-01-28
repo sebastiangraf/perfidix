@@ -38,6 +38,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.perfidix.annotation.Bench;
+import org.perfidix.element.BenchmarkMethod;
 import org.perfidix.exceptions.AbstractPerfidixMethodException;
 import org.perfidix.exceptions.PerfidixMethodInvocationException;
 import org.perfidix.meter.AbstractMeter;
@@ -86,7 +87,7 @@ public class TabularSummaryOutputTest {
 
         for (int i = 0; i < NUMBEROFTICKS; i++) {
             meter.tick();
-            benchRes.addData(meth11, meter, meter.getValue());
+            benchRes.addData(new BenchmarkMethod(meth11), meter, meter.getValue());
         }
 
         testException =
@@ -171,7 +172,7 @@ public class TabularSummaryOutputTest {
         final AbstractMeter meter = methRes.getRegisteredMeters().iterator().next();
         final TabularSummaryOutput output = new TabularSummaryOutput();
         for (final double d : methRes.getResultSet(meter)) {
-            output.listenToResultSet((Method)methRes.getRelatedElement(), meter, d);
+            output.listenToResultSet((BenchmarkMethod)methRes.getRelatedElement(), meter, d);
         }
         final StringBuilder builder = new StringBuilder();
 
@@ -238,6 +239,7 @@ public class TabularSummaryOutputTest {
     }
 
     class Class1 {
+        @Bench
         public void method1() {
             // Simple skeleton
         }

@@ -35,6 +35,7 @@ import java.lang.reflect.Method;
 import org.junit.Before;
 import org.junit.Test;
 import org.perfidix.annotation.Bench;
+import org.perfidix.element.BenchmarkMethod;
 import org.perfidix.exceptions.PerfidixMethodInvocationException;
 import org.perfidix.meter.CountingMeter;
 
@@ -78,7 +79,7 @@ public class ResultContainerTest {
         final Class<?> class1 = Class1.class;
         final Class<?> class2 = Class2.class;
 
-        final Method meth11 = class1.getDeclaredMethod("method1");
+        final BenchmarkMethod meth11 = new BenchmarkMethod(class1.getDeclaredMethod("method1"));
 
         meter = new CountingMeter("Meter1");
 
@@ -87,21 +88,21 @@ public class ResultContainerTest {
             benchRes.addData(meth11, meter, meter.getValue());
         }
 
-        final Method meth12 = class1.getDeclaredMethod("method2");
+        final BenchmarkMethod meth12 = new BenchmarkMethod(class1.getDeclaredMethod("method2"));
 
         for (int i = 0; i < NUMBEROFTICKS * TICKFACTOR; i++) {
             meter.tick();
             benchRes.addData(meth12, meter, meter.getValue());
         }
 
-        final Method meth21 = class2.getDeclaredMethod("method1");
+        final BenchmarkMethod meth21 = new BenchmarkMethod(class2.getDeclaredMethod("method1"));
 
         for (int i = 0; i < NUMBEROFTICKS * TICKFACTOR * TICKFACTOR; i++) {
             meter.tick();
             benchRes.addData(meth21, meter, meter.getValue());
         }
 
-        final Method meth22 = class2.getDeclaredMethod("method2");
+        final BenchmarkMethod meth22 = new BenchmarkMethod(class2.getDeclaredMethod("method2"));
         for (int i = 0; i < NUMBEROFTICKS * TICKFACTOR * TICKFACTOR * TICKFACTOR; i++) {
             meter.tick();
             benchRes.addData(meth22, meter, meter.getValue());
@@ -116,7 +117,7 @@ public class ResultContainerTest {
         methodRes21 = classRes2.getResultForObject(meth21);
         methodRes22 = classRes2.getResultForObject(meth22);
 
-        benchRes.addException(new PerfidixMethodInvocationException(testException, meth11, Bench.class));
+        benchRes.addException(new PerfidixMethodInvocationException(testException, meth11.getMethodToBench(), Bench.class));
 
     }
 
@@ -129,7 +130,7 @@ public class ResultContainerTest {
     public void testResultWithException() {
         assertTrue("Check if benchRes.exceptions contains the desired exception", benchRes.getExceptions()
             .contains(
-                new PerfidixMethodInvocationException(testException, (Method)methodRes11.getRelatedElement(),
+                new PerfidixMethodInvocationException(testException, (Method)((BenchmarkMethod)methodRes11.getRelatedElement()).getMethodToBench(),
                     Bench.class)));
     }
 
@@ -269,20 +270,24 @@ public class ResultContainerTest {
     }
 
     class Class1 {
+        @Bench
         public void method1() {
             // empty method for class1#method1 invocation
         }
 
+        @Bench
         public void method2() {
             // empty method for class1#method2 invocation
         }
     }
 
     class Class2 {
+        @Bench
         public void method1() {
             // empty method for class2#method1 invocation
         }
 
+        @Bench
         public void method2() {
             // empty method for class2#method2 invocation
         }

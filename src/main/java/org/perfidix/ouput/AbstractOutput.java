@@ -30,6 +30,7 @@ import java.lang.reflect.Method;
 import java.util.Formatter;
 import java.util.Locale;
 
+import org.perfidix.element.BenchmarkMethod;
 import org.perfidix.exceptions.AbstractPerfidixMethodException;
 import org.perfidix.meter.AbstractMeter;
 import org.perfidix.result.BenchmarkResult;
@@ -72,7 +73,7 @@ public abstract class AbstractOutput {
      *            the related data
      */
     public abstract boolean
-        listenToResultSet(final Method meth, final AbstractMeter meter, final double data);
+        listenToResultSet(final BenchmarkMethod meth, final AbstractMeter meter, final double data);
 
     /**
      * Listening to an arised exception.
