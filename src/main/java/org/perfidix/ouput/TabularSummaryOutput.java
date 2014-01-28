@@ -22,6 +22,7 @@ package org.perfidix.ouput;
 import java.io.PrintStream;
 import java.lang.reflect.Method;
 
+import org.perfidix.element.BenchmarkMethod;
 import org.perfidix.exceptions.AbstractPerfidixMethodException;
 import org.perfidix.exceptions.PerfidixMethodInvocationException;
 import org.perfidix.meter.AbstractMeter;
@@ -133,9 +134,10 @@ public final class TabularSummaryOutput extends AbstractOutput {
      * {@inheritDoc}
      */
     @Override
-    public boolean listenToResultSet (final Method meth, final AbstractMeter meter, final double data) {
+    public boolean listenToResultSet (final BenchmarkMethod meth, final AbstractMeter meter, final double data) {
+        Method m = meth.getMethodToBench();
         final StringBuilder builder = new StringBuilder();
-        builder.append("Class: ").append(meth.getDeclaringClass().getSimpleName()).append("#").append(meth.getName());
+        builder.append("Class: ").append(m.getDeclaringClass().getSimpleName()).append("#").append(m.getName());
         builder.append("\nMeter: ").append(meter.getName());
         builder.append("\nData: ").append(data).append("\n");
         out.println(builder.toString());

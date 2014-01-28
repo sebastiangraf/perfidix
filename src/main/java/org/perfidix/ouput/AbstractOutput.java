@@ -23,6 +23,7 @@ import java.lang.reflect.Method;
 import java.util.Formatter;
 import java.util.Locale;
 
+import org.perfidix.element.BenchmarkMethod;
 import org.perfidix.exceptions.AbstractPerfidixMethodException;
 import org.perfidix.meter.AbstractMeter;
 import org.perfidix.result.BenchmarkResult;
@@ -58,7 +59,7 @@ public abstract class AbstractOutput {
      * @param meter the corresponding {@link AbstractMeter} instance where the result is related to
      * @param data the related data
      */
-    public abstract boolean listenToResultSet (final Method meth, final AbstractMeter meter, final double data);
+    public abstract boolean listenToResultSet (final BenchmarkMethod meth, final AbstractMeter meter, final double data);
 
     /**
      * Listening to an arised exception.

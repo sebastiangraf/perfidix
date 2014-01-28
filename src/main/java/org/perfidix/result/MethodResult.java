@@ -19,7 +19,7 @@
 package org.perfidix.result;
 
 
-import java.lang.reflect.Method;
+import org.perfidix.element.BenchmarkMethod;
 
 
 /**
@@ -31,19 +31,22 @@ import java.lang.reflect.Method;
  */
 public final class MethodResult extends AbstractResult {
 
+    private transient final Object[] inputParamSet;
+
     /**
      * Simple Constructor.
      * 
      * @param paramMethod , the method related to these results
      */
-    public MethodResult (final Method paramMethod) {
-        super(paramMethod);
+    public MethodResult (final BenchmarkMethod meth) {
+        super(meth);
+        this.inputParamSet = meth.getArgs();
     }
 
     /** {@inheritDoc} */
     @Override
     public String getElementName () {
-        return ((Method) getRelatedElement()).getName();
+        return ((BenchmarkMethod) getRelatedElement()).getMethodToBench().getName() + this.inputParamSet;
     }
 
 }

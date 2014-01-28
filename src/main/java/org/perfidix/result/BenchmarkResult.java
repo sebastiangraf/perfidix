@@ -19,10 +19,10 @@
 package org.perfidix.result;
 
 
-import java.lang.reflect.Method;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.perfidix.element.BenchmarkMethod;
 import org.perfidix.exceptions.AbstractPerfidixMethodException;
 import org.perfidix.meter.AbstractMeter;
 import org.perfidix.ouput.AbstractOutput;
@@ -70,14 +70,15 @@ public final class BenchmarkResult extends AbstractResultContainer<ClassResult> 
      * @param meter where the result is corresponding to
      * @param data the data itself
      */
-    public void addData (final Method meth, final AbstractMeter meter, final double data) {
+    public void addData (final BenchmarkMethod meth, final AbstractMeter meter, final double data) {
 
-        final Class<?> clazz = meth.getDeclaringClass();
+        final Class<?> clazz = meth.getMethodToBench().getDeclaringClass();
         if (!elements.containsKey(clazz)) {
             elements.put(clazz, new ClassResult(clazz));
         }
 
         final ClassResult clazzResult = elements.get(clazz);
+
         if (!clazzResult.elements.containsKey(meth)) {
             clazzResult.elements.put(meth, new MethodResult(meth));
         }

@@ -27,6 +27,7 @@ import java.lang.reflect.Method;
 import java.util.Hashtable;
 import java.util.Map;
 
+import org.perfidix.element.BenchmarkMethod;
 import org.perfidix.exceptions.AbstractPerfidixMethodException;
 import org.perfidix.meter.AbstractMeter;
 import org.perfidix.result.BenchmarkResult;
@@ -89,8 +90,10 @@ public final class CSVOutput extends AbstractOutput {
      * {@inheritDoc}
      */
     @Override
-    public boolean listenToResultSet (final Method meth, final AbstractMeter meter, final double data) {
-        final PrintStream stream = setUpNewPrintStream(false, meth.getDeclaringClass().getSimpleName(), meth.getName(), meter.getName());
+    public boolean listenToResultSet (final BenchmarkMethod meth, final AbstractMeter meter, final double data) {
+        Method m = meth.getMethodToBench();
+        final PrintStream stream = setUpNewPrintStream(false, m.getDeclaringClass().getSimpleName(), m.getName(), meter.getName());
+
         if (!firstResult) {
             stream.append(",");
         }
