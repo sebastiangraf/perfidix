@@ -163,14 +163,8 @@ public class BenchmarkExecutorTest {
             final MethodResult methRes = methResIter.next();
             assertFalse("Only one result should be there", methResIter.hasNext());
             assertEquals("The set has to match", meter, methRes.getRegisteredMeters());
-            assertEquals("The method should be the same than for the related element", meth, methRes.getRelatedElement());
-        } catch (final SecurityException e) {
-            fail(e.getMessage());
-        } catch (final NoSuchMethodException e) {
-            fail(e.getMessage());
-        } catch (final InstantiationException e) {
-            fail(e.getMessage());
-        } catch (final IllegalAccessException e) {
+            assertEquals("The method should be the same than for the related element", new BenchmarkMethod(meth), methRes.getRelatedElement());
+        } catch (final SecurityException | NoSuchMethodException | InstantiationException | IllegalAccessException e) {
             fail(e.getMessage());
         }
 
@@ -311,4 +305,5 @@ class CheckConfig extends AbstractConfig {
     protected CheckConfig (Set<AbstractMeter> meter) {
         super(1, meter, AbstractConfig.LISTENERS, AbstractConfig.ARRAN, AbstractConfig.GARBAGE_PROB);
     }
+
 }
