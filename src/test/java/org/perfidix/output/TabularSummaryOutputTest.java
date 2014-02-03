@@ -1,30 +1,23 @@
 /**
- * Copyright (c) 2012, University of Konstanz, Distributed Systems Group
- * All rights reserved.
+ * Copyright (c) 2012, University of Konstanz, Distributed Systems Group All rights reserved.
  * 
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
- * * Redistributions of source code must retain the above copyright
- * notice, this list of conditions and the following disclaimer.
- * * Redistributions in binary form must reproduce the above copyright
- * notice, this list of conditions and the following disclaimer in the
- * documentation and/or other materials provided with the distribution.
- * * Neither the name of the University of Konstanz nor the
- * names of its contributors may be used to endorse or promote products
- * derived from this software without specific prior written permission.
+ * Redistribution and use in source and binary forms, with or without modification, are permitted provided that the
+ * following conditions are met: * Redistributions of source code must retain the above copyright notice, this list of
+ * conditions and the following disclaimer. * Redistributions in binary form must reproduce the above copyright notice,
+ * this list of conditions and the following disclaimer in the documentation and/or other materials provided with the
+ * distribution. * Neither the name of the University of Konstanz nor the names of its contributors may be used to
+ * endorse or promote products derived from this software without specific prior written permission.
  * 
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
- * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
- * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
- * DISCLAIMED. IN NO EVENT SHALL <COPYRIGHT HOLDER> BE LIABLE FOR ANY
- * DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
- * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
- * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
- * ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
- * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
- * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES,
+ * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ * DISCLAIMED. IN NO EVENT SHALL <COPYRIGHT HOLDER> BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY,
+ * OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
+ * STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
+ * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 package org.perfidix.output;
+
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -46,6 +39,7 @@ import org.perfidix.meter.CountingMeter;
 import org.perfidix.ouput.TabularSummaryOutput;
 import org.perfidix.result.BenchmarkResult;
 import org.perfidix.result.MethodResult;
+
 
 /**
  * Test case for {@link TabularSummaryOutput}
@@ -70,13 +64,11 @@ public class TabularSummaryOutputTest {
     /**
      * Simple Constructor.
      * 
-     * @throws NoSuchMethodException
-     *             if declaration fails
-     * @throws SecurityException
-     *             if declaration fails
+     * @throws NoSuchMethodException if declaration fails
+     * @throws SecurityException if declaration fails
      */
     @Before
-    public void setUp() throws SecurityException, NoSuchMethodException {
+    public void setUp () throws SecurityException , NoSuchMethodException {
         benchRes = new BenchmarkResult();
 
         final Class<?> class1 = Class1.class;
@@ -90,9 +82,7 @@ public class TabularSummaryOutputTest {
             benchRes.addData(new BenchmarkMethod(meth11), meter, meter.getValue());
         }
 
-        testException =
-            new PerfidixMethodInvocationException(new IOException(), new Class1().getClass()
-                .getDeclaredMethod("method1"), Bench.class);
+        testException = new PerfidixMethodInvocationException(new IOException(), new Class1().getClass().getDeclaredMethod("method1"), Bench.class);
 
         benchRes.addException(testException);
         consoleOut = System.out;
@@ -106,7 +96,7 @@ public class TabularSummaryOutputTest {
      * @throws java.lang.Exception
      */
     @After
-    public void tearDown() throws Exception {
+    public void tearDown () throws Exception {
         System.setOut(consoleOut);
     }
 
@@ -115,44 +105,27 @@ public class TabularSummaryOutputTest {
      * {@link org.perfidix.ouput.TabularSummaryOutput#visitBenchmark(org.perfidix.result.BenchmarkResult)} .
      */
     @Test
-    public final void testVisitBenchmark() {
+    public final void testVisitBenchmark () {
         final TabularSummaryOutput output = new TabularSummaryOutput();
         output.visitBenchmark(benchRes);
         final StringBuilder builder = new StringBuilder();
-        builder
-            .append("|= Benchmark ======================================================================|\n");
-        builder
-            .append("| -       | unit  | sum   | min   | max   | avg   | stddev | conf95        | runs  |\n");
-        builder
-            .append("|===================================== Meter1 =====================================|\n");
-        builder
-            .append("|. Class1 .........................................................................|\n");
-        builder
-            .append("| method1 | ticks | 55.00 | 01.00 | 10.00 | 05.50 | 03.03  | [01.00-10.00] | 10.00 |\n");
-        builder
-            .append("|_ Summary for Class1 _____________________________________________________________|\n");
-        builder
-            .append("|         | ticks | 55.00 | 01.00 | 10.00 | 05.50 | 03.03  | [01.00-10.00] | 10.00 |\n");
-        builder
-            .append("|----------------------------------------------------------------------------------|\n");
-        builder
-            .append("|======================== Summary for the whole benchmark =========================|\n");
-        builder
-            .append("|         | ticks | 55.00 | 01.00 | 10.00 | 05.50 | 03.03  | [01.00-10.00] | 10.00 |\n");
-        builder
-            .append("|=================================== Exceptions ===================================|\n");
-        builder
-            .append("|  Related exception: IOException                                                  |\n");
-        builder
-            .append("|  Related place: method invocation                                                |\n");
-        builder
-            .append("|  Related method: method1                                                         |\n");
-        builder
-            .append("|  Related annotation: Bench                                                       |\n");
-        builder
-            .append("|----------------------------------------------------------------------------------|\n");
-        builder
-            .append("|==================================================================================|\n");
+        builder.append("|= Benchmark ======================================================================|\n");
+        builder.append("| -       | unit  | sum   | min   | max   | avg   | stddev | conf95        | runs  |\n");
+        builder.append("|===================================== Meter1 =====================================|\n");
+        builder.append("|. Class1 .........................................................................|\n");
+        builder.append("| method1 | ticks | 55.00 | 01.00 | 10.00 | 05.50 | 03.03  | [01.00-10.00] | 10.00 |\n");
+        builder.append("|_ Summary for Class1 _____________________________________________________________|\n");
+        builder.append("|         | ticks | 55.00 | 01.00 | 10.00 | 05.50 | 03.03  | [01.00-10.00] | 10.00 |\n");
+        builder.append("|----------------------------------------------------------------------------------|\n");
+        builder.append("|======================== Summary for the whole benchmark =========================|\n");
+        builder.append("|         | ticks | 55.00 | 01.00 | 10.00 | 05.50 | 03.03  | [01.00-10.00] | 10.00 |\n");
+        builder.append("|=================================== Exceptions ===================================|\n");
+        builder.append("|  Related exception: IOException                                                  |\n");
+        builder.append("|  Related place: method invocation                                                |\n");
+        builder.append("|  Related method: method1                                                         |\n");
+        builder.append("|  Related annotation: Bench                                                       |\n");
+        builder.append("|----------------------------------------------------------------------------------|\n");
+        builder.append("|==================================================================================|\n");
         final String result = bytes.toString();
         assertTrue("Complete Output check", result.startsWith(builder.toString()));
     }
@@ -165,14 +138,13 @@ public class TabularSummaryOutputTest {
      * @throws IOException
      */
     @Test
-    public final void testListenToResultSet() throws IOException {
+    public final void testListenToResultSet () throws IOException {
 
-        final MethodResult methRes =
-            benchRes.getIncludedResults().iterator().next().getIncludedResults().iterator().next();
+        final MethodResult methRes = benchRes.getIncludedResults().iterator().next().getIncludedResults().iterator().next();
         final AbstractMeter meter = methRes.getRegisteredMeters().iterator().next();
         final TabularSummaryOutput output = new TabularSummaryOutput();
         for (final double d : methRes.getResultSet(meter)) {
-            output.listenToResultSet((BenchmarkMethod)methRes.getRelatedElement(), meter, d);
+            output.listenToResultSet((BenchmarkMethod) methRes.getRelatedElement(), meter, d);
         }
         final StringBuilder builder = new StringBuilder();
 
@@ -226,7 +198,7 @@ public class TabularSummaryOutputTest {
      * .
      */
     @Test
-    public final void testListenToException() {
+    public final void testListenToException () {
         final TabularSummaryOutput output = new TabularSummaryOutput();
         output.listenToException(testException);
 
@@ -240,7 +212,7 @@ public class TabularSummaryOutputTest {
 
     class Class1 {
         @Bench
-        public void method1() {
+        public void method1 () {
             // Simple skeleton
         }
 
