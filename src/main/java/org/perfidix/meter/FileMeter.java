@@ -1,8 +1,10 @@
 package org.perfidix.meter;
 
+
 import java.io.File;
 import java.math.BigDecimal;
 import java.math.MathContext;
+
 
 /**
  * File meter for measuring the size of a file or directory registered beforehand.
@@ -24,12 +26,10 @@ public class FileMeter extends AbstractMeter {
     /**
      * Constructor.
      * 
-     * @param pFile
-     *            to be evaluated, is going to be traversed recursively
-     * @param pScale
-     *            for returning the data
+     * @param pFile to be evaluated, is going to be traversed recursively
+     * @param pScale for returning the data
      */
-    public FileMeter(final File pFile, final Memory pScale) {
+    public FileMeter (final File pFile, final Memory pScale) {
         super();
         mFile = pFile;
         mScale = pScale;
@@ -39,17 +39,16 @@ public class FileMeter extends AbstractMeter {
      * {@inheritDoc}
      */
     @Override
-    public double getValue() {
+    public double getValue () {
         long size = iterateRecursive(mFile);
-        return new BigDecimal(size, MathContext.DECIMAL128).divide(new BigDecimal(mScale.getNumberOfBytes()),
-            MathContext.DECIMAL128).doubleValue();
+        return new BigDecimal(size, MathContext.DECIMAL128).divide(new BigDecimal(mScale.getNumberOfBytes()), MathContext.DECIMAL128).doubleValue();
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public String getUnit() {
+    public String getUnit () {
         return mScale.getUnit();
     }
 
@@ -57,7 +56,7 @@ public class FileMeter extends AbstractMeter {
      * {@inheritDoc}
      */
     @Override
-    public String getUnitDescription() {
+    public String getUnitDescription () {
         return mScale.getUnitDescription();
     }
 
@@ -65,7 +64,7 @@ public class FileMeter extends AbstractMeter {
      * {@inheritDoc}
      */
     @Override
-    public String getName() {
+    public String getName () {
         return NAME;
     }
 
@@ -73,7 +72,7 @@ public class FileMeter extends AbstractMeter {
      * {@inheritDoc}
      */
     @Override
-    public int hashCode() {
+    public int hashCode () {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((mFile == null) ? 0 : mFile.hashCode());
@@ -84,23 +83,18 @@ public class FileMeter extends AbstractMeter {
      * {@inheritDoc}
      */
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        FileMeter other = (FileMeter)obj;
+    public boolean equals (Object obj) {
+        if (this == obj) return true;
+        if (obj == null) return false;
+        if (getClass() != obj.getClass()) return false;
+        FileMeter other = (FileMeter) obj;
         if (mFile == null) {
-            if (other.mFile != null)
-                return false;
-        } else if (!mFile.equals(other.mFile))
-            return false;
+            if (other.mFile != null) return false;
+        } else if (!mFile.equals(other.mFile)) return false;
         return true;
     }
 
-    private static long iterateRecursive(final File pFile) {
+    private static long iterateRecursive (final File pFile) {
         long size = 0;
         if (pFile.isDirectory()) {
             for (final File child : pFile.listFiles()) {

@@ -1,30 +1,23 @@
 /**
- * Copyright (c) 2012, University of Konstanz, Distributed Systems Group
- * All rights reserved.
+ * Copyright (c) 2012, University of Konstanz, Distributed Systems Group All rights reserved.
  * 
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
- * * Redistributions of source code must retain the above copyright
- * notice, this list of conditions and the following disclaimer.
- * * Redistributions in binary form must reproduce the above copyright
- * notice, this list of conditions and the following disclaimer in the
- * documentation and/or other materials provided with the distribution.
- * * Neither the name of the University of Konstanz nor the
- * names of its contributors may be used to endorse or promote products
- * derived from this software without specific prior written permission.
+ * Redistribution and use in source and binary forms, with or without modification, are permitted provided that the
+ * following conditions are met: * Redistributions of source code must retain the above copyright notice, this list of
+ * conditions and the following disclaimer. * Redistributions in binary form must reproduce the above copyright notice,
+ * this list of conditions and the following disclaimer in the documentation and/or other materials provided with the
+ * distribution. * Neither the name of the University of Konstanz nor the names of its contributors may be used to
+ * endorse or promote products derived from this software without specific prior written permission.
  * 
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
- * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
- * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
- * DISCLAIMED. IN NO EVENT SHALL <COPYRIGHT HOLDER> BE LIABLE FOR ANY
- * DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
- * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
- * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
- * ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
- * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
- * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES,
+ * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ * DISCLAIMED. IN NO EVENT SHALL <COPYRIGHT HOLDER> BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY,
+ * OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
+ * STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
+ * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 package org.perfidix.benchmarktests;
+
 
 import org.perfidix.annotation.AfterBenchClass;
 import org.perfidix.annotation.AfterEachRun;
@@ -33,6 +26,7 @@ import org.perfidix.annotation.BeforeBenchClass;
 import org.perfidix.annotation.BeforeEachRun;
 import org.perfidix.annotation.BeforeFirstRun;
 import org.perfidix.annotation.Bench;
+
 
 /**
  * One complete Bench, just looking if everthing is going well.
@@ -57,7 +51,7 @@ public final class NormalCompleteBench {
      * before benchclass
      */
     @BeforeBenchClass
-    public void beforeClass() {
+    public void beforeClass () {
         beforeClassC++;
     }
 
@@ -65,7 +59,7 @@ public final class NormalCompleteBench {
      * before firstrun
      */
     @BeforeFirstRun
-    public void beforeFirstRun() {
+    public void beforeFirstRun () {
         beforeFirstRunC++;
     }
 
@@ -73,15 +67,15 @@ public final class NormalCompleteBench {
      * before eachrun
      */
     @BeforeEachRun
-    public void beforeEachRun() {
+    public void beforeEachRun () {
         beforeEachRunC++;
     }
 
     /**
      * Bench
      */
-    @Bench(runs = RUNS)
-    public void bench1() {
+    @Bench (runs = RUNS)
+    public void bench1 () {
         benchC1++;
     }
 
@@ -89,7 +83,7 @@ public final class NormalCompleteBench {
      * Bench
      */
     @Bench
-    public void bench() {
+    public void bench () {
         benchC2++;
     }
 
@@ -97,7 +91,7 @@ public final class NormalCompleteBench {
      * after eachrun
      */
     @AfterEachRun
-    public void afterEachRun() {
+    public void afterEachRun () {
         afterEachC++;
     }
 
@@ -105,7 +99,7 @@ public final class NormalCompleteBench {
      * before eachrun
      */
     @AfterLastRun
-    public void afterLastRun() {
+    public void afterLastRun () {
         afterLastC++;
     }
 
@@ -113,14 +107,14 @@ public final class NormalCompleteBench {
      * after benchclass
      */
     @AfterBenchClass
-    public void afterClass() {
+    public void afterClass () {
         afterClassC++;
     }
 
     /**
      * Resetting everything
      */
-    public static void reset() {
+    public static void reset () {
         beforeClassC = 0;
         beforeEachRunC = 0;
         beforeFirstRunC = 0;
@@ -136,7 +130,7 @@ public final class NormalCompleteBench {
      * 
      * @return the beforeClassC
      */
-    public static int getBeforeClassCounter() {
+    public static int getBeforeClassCounter () {
         return beforeClassC;
     }
 
@@ -145,7 +139,7 @@ public final class NormalCompleteBench {
      * 
      * @return the beforeFirstRunC
      */
-    public static int getBeforeFirstRunCounter() {
+    public static int getBeforeFirstRunCounter () {
         return beforeFirstRunC;
     }
 
@@ -154,7 +148,7 @@ public final class NormalCompleteBench {
      * 
      * @return the beforeEachRunC
      */
-    public static int getBeforeEachRunCounter() {
+    public static int getBeforeEachRunCounter () {
         return beforeEachRunC;
     }
 
@@ -163,7 +157,7 @@ public final class NormalCompleteBench {
      * 
      * @return the benchC
      */
-    public static int getBenchCounter1() {
+    public static int getBenchCounter1 () {
         return benchC1;
     }
 
@@ -172,7 +166,7 @@ public final class NormalCompleteBench {
      * 
      * @return the benchC
      */
-    public static int getBenchCounter2() {
+    public static int getBenchCounter2 () {
         return benchC2;
     }
 
@@ -181,7 +175,7 @@ public final class NormalCompleteBench {
      * 
      * @return the afterEachC
      */
-    public static int getAfterEachRunCounter() {
+    public static int getAfterEachRunCounter () {
         return afterEachC;
     }
 
@@ -190,7 +184,7 @@ public final class NormalCompleteBench {
      * 
      * @return the afterLastC
      */
-    public static int getAfterLastRunCounter() {
+    public static int getAfterLastRunCounter () {
         return afterLastC;
     }
 
@@ -199,7 +193,7 @@ public final class NormalCompleteBench {
      * 
      * @return the afterClassC
      */
-    public static int getAfterClassCounter() {
+    public static int getAfterClassCounter () {
         return afterClassC;
     }
 

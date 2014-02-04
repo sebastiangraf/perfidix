@@ -1,30 +1,23 @@
 /**
- * Copyright (c) 2012, University of Konstanz, Distributed Systems Group
- * All rights reserved.
+ * Copyright (c) 2012, University of Konstanz, Distributed Systems Group All rights reserved.
  * 
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
- * * Redistributions of source code must retain the above copyright
- * notice, this list of conditions and the following disclaimer.
- * * Redistributions in binary form must reproduce the above copyright
- * notice, this list of conditions and the following disclaimer in the
- * documentation and/or other materials provided with the distribution.
- * * Neither the name of the University of Konstanz nor the
- * names of its contributors may be used to endorse or promote products
- * derived from this software without specific prior written permission.
+ * Redistribution and use in source and binary forms, with or without modification, are permitted provided that the
+ * following conditions are met: * Redistributions of source code must retain the above copyright notice, this list of
+ * conditions and the following disclaimer. * Redistributions in binary form must reproduce the above copyright notice,
+ * this list of conditions and the following disclaimer in the documentation and/or other materials provided with the
+ * distribution. * Neither the name of the University of Konstanz nor the names of its contributors may be used to
+ * endorse or promote products derived from this software without specific prior written permission.
  * 
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
- * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
- * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
- * DISCLAIMED. IN NO EVENT SHALL <COPYRIGHT HOLDER> BE LIABLE FOR ANY
- * DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
- * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
- * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
- * ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
- * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
- * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES,
+ * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ * DISCLAIMED. IN NO EVENT SHALL <COPYRIGHT HOLDER> BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY,
+ * OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
+ * STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
+ * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 package org.perfidix.element;
+
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -35,9 +28,9 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeSet;
 
+
 /**
- * This class represents an arrangement where each method is executed after
- * another. That means that <br/>
+ * This class represents an arrangement where each method is executed after another. That means that <br/>
  * <code>
  * 
  * &#064;Bench(runs=3) public bench1(){ .. }<br/>
@@ -60,15 +53,14 @@ public final class SequentialMethodArrangement extends AbstractMethodArrangement
      * 
      * @param elements
      */
-    protected SequentialMethodArrangement(final List<BenchmarkElement> elements) {
+    protected SequentialMethodArrangement (final List<BenchmarkElement> elements) {
         super(elements);
     }
 
     /** {@inheritDoc} */
     @Override
-    protected List<BenchmarkElement> arrangeList(final List<BenchmarkElement> elements) {
-        final Map<BenchmarkMethod, ArrayList<BenchmarkElement>> table =
-            new Hashtable<BenchmarkMethod, ArrayList<BenchmarkElement>>();
+    protected List<BenchmarkElement> arrangeList (final List<BenchmarkElement> elements) {
+        final Map<BenchmarkMethod , ArrayList<BenchmarkElement>> table = new Hashtable<BenchmarkMethod , ArrayList<BenchmarkElement>>();
         final List<BenchmarkElement> returnVal = new ArrayList<BenchmarkElement>();
 
         // Having a table
@@ -86,14 +78,13 @@ public final class SequentialMethodArrangement extends AbstractMethodArrangement
         }
 
         // Defining order to execute, start with the one with the most elements
-        final Set<Entry<BenchmarkMethod, ArrayList<BenchmarkElement>>> compareMethods =
-            new TreeSet<Entry<BenchmarkMethod, ArrayList<BenchmarkElement>>>(new BenchmarkElementComparator());
-        for (final Entry<BenchmarkMethod, ArrayList<BenchmarkElement>> entry : table.entrySet()) {
+        final Set<Entry<BenchmarkMethod , ArrayList<BenchmarkElement>>> compareMethods = new TreeSet<Entry<BenchmarkMethod , ArrayList<BenchmarkElement>>>(new BenchmarkElementComparator());
+        for (final Entry<BenchmarkMethod , ArrayList<BenchmarkElement>> entry : table.entrySet()) {
             compareMethods.add(entry);
         }
 
         final ArrayList<BenchmarkMethod> methods = new ArrayList<BenchmarkMethod>();
-        for (Entry<BenchmarkMethod, ArrayList<BenchmarkElement>> entry : compareMethods) {
+        for (Entry<BenchmarkMethod , ArrayList<BenchmarkElement>> entry : compareMethods) {
             methods.add(entry.getKey());
         }
 
@@ -117,17 +108,14 @@ public final class SequentialMethodArrangement extends AbstractMethodArrangement
     }
 
     /**
-     * Comparator to compare the different entries according to the size of the
-     * underlaying arraylist
+     * Comparator to compare the different entries according to the size of the underlaying arraylist
      * 
      * @author Sebastian Graf, University of Konstanz
      */
-    class BenchmarkElementComparator implements
-        Comparator<Entry<BenchmarkMethod, ArrayList<BenchmarkElement>>> {
+    class BenchmarkElementComparator implements Comparator<Entry<BenchmarkMethod , ArrayList<BenchmarkElement>>> {
 
         /** {@inheritDoc} */
-        public int compare(final Entry<BenchmarkMethod, ArrayList<BenchmarkElement>> object1,
-            final Entry<BenchmarkMethod, ArrayList<BenchmarkElement>> object2) {
+        public int compare (final Entry<BenchmarkMethod , ArrayList<BenchmarkElement>> object1, final Entry<BenchmarkMethod , ArrayList<BenchmarkElement>> object2) {
             int returnVal = 0;
             if (object1.getValue().size() > object2.getValue().size()) {
                 returnVal = -1;

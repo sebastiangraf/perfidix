@@ -1,30 +1,23 @@
 /**
- * Copyright (c) 2012, University of Konstanz, Distributed Systems Group
- * All rights reserved.
+ * Copyright (c) 2012, University of Konstanz, Distributed Systems Group All rights reserved.
  * 
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
- * * Redistributions of source code must retain the above copyright
- * notice, this list of conditions and the following disclaimer.
- * * Redistributions in binary form must reproduce the above copyright
- * notice, this list of conditions and the following disclaimer in the
- * documentation and/or other materials provided with the distribution.
- * * Neither the name of the University of Konstanz nor the
- * names of its contributors may be used to endorse or promote products
- * derived from this software without specific prior written permission.
+ * Redistribution and use in source and binary forms, with or without modification, are permitted provided that the
+ * following conditions are met: * Redistributions of source code must retain the above copyright notice, this list of
+ * conditions and the following disclaimer. * Redistributions in binary form must reproduce the above copyright notice,
+ * this list of conditions and the following disclaimer in the documentation and/or other materials provided with the
+ * distribution. * Neither the name of the University of Konstanz nor the names of its contributors may be used to
+ * endorse or promote products derived from this software without specific prior written permission.
  * 
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
- * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
- * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
- * DISCLAIMED. IN NO EVENT SHALL <COPYRIGHT HOLDER> BE LIABLE FOR ANY
- * DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
- * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
- * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
- * ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
- * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
- * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES,
+ * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ * DISCLAIMED. IN NO EVENT SHALL <COPYRIGHT HOLDER> BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY,
+ * OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
+ * STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
+ * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 package org.perfidix.output;
+
 
 import static org.junit.Assert.assertTrue;
 
@@ -45,6 +38,7 @@ import org.perfidix.ouput.CSVOutput;
 import org.perfidix.result.BenchmarkResult;
 import org.perfidix.result.ClassResult;
 import org.perfidix.result.MethodResult;
+
 
 /**
  * Testcase for CSVOutput.
@@ -71,7 +65,7 @@ public final class CSVOutputTest {
      * @throws java.lang.Exception
      */
     @Before
-    public void setUp() throws Exception {
+    public void setUp () throws Exception {
         benchRes = new BenchmarkResult();
 
         final Class<?> class1 = Class1.class;
@@ -87,9 +81,7 @@ public final class CSVOutputTest {
             benchRes.addData(meth12, meter, meter.getValue() / 2);
         }
 
-        testException =
-            new PerfidixMethodInvocationException(new IOException(), new Class1().getClass()
-                .getDeclaredMethod("method1"), Bench.class);
+        testException = new PerfidixMethodInvocationException(new IOException(), new Class1().getClass().getDeclaredMethod("method1"), Bench.class);
 
         benchRes.addException(testException);
         consoleOut = System.out;
@@ -105,7 +97,7 @@ public final class CSVOutputTest {
      * @throws java.lang.Exception
      */
     @After
-    public void tearDown() throws Exception {
+    public void tearDown () throws Exception {
         System.setOut(consoleOut);
         // for (final File file : TEST_FOLDER.listFiles()) {
         // file.delete();
@@ -114,11 +106,10 @@ public final class CSVOutputTest {
     }
 
     /**
-     * Test method for
-     * {@link org.perfidix.ouput.CSVOutput#visitBenchmark(org.perfidix.result.BenchmarkResult)} .
+     * Test method for {@link org.perfidix.ouput.CSVOutput#visitBenchmark(org.perfidix.result.BenchmarkResult)} .
      */
     @Test
-    public void testVisitSystemOut() {
+    public void testVisitSystemOut () {
 
         final CSVOutput output = new CSVOutput();
         output.visitBenchmark(benchRes);
@@ -142,7 +133,7 @@ public final class CSVOutputTest {
      * .
      */
     @Test
-    public void testListenSystemOut() {
+    public void testListenSystemOut () {
         final ClassResult classRes = benchRes.getIncludedResults().iterator().next();
         final CSVOutput output = new CSVOutput();
 
@@ -150,7 +141,7 @@ public final class CSVOutputTest {
         for (final MethodResult methRes : classRes.getIncludedResults()) {
 
             for (final double d : methRes.getResultSet(meter)) {
-                output.listenToResultSet((Method)methRes.getRelatedElement(), meter, d);
+                output.listenToResultSet((Method) methRes.getRelatedElement(), meter, d);
             }
         }
         final StringBuilder builderData1 = new StringBuilder();
@@ -165,37 +156,33 @@ public final class CSVOutputTest {
 
     /**
      * Test method for
-     * {@link org.perfidix.ouput.CSVOutput#listenToException(org.perfidix.exceptions.AbstractPerfidixMethodException)}
-     * .
+     * {@link org.perfidix.ouput.CSVOutput#listenToException(org.perfidix.exceptions.AbstractPerfidixMethodException)} .
      */
     @Test
-    public void testListenExceptionSystemOut() {
+    public void testListenExceptionSystemOut () {
 
         final CSVOutput output = new CSVOutput();
         output.listenToException(testException);
-        assertTrue("Testcase for exceptions", bytes.toString().startsWith(
-            "Bench,Class1#method1,java.io.IOException"));
+        assertTrue("Testcase for exceptions", bytes.toString().startsWith("Bench,Class1#method1,java.io.IOException"));
 
     }
 
     /**
-     * Test method for
-     * {@link org.perfidix.ouput.CSVOutput#visitBenchmark(org.perfidix.result.BenchmarkResult)} .
+     * Test method for {@link org.perfidix.ouput.CSVOutput#visitBenchmark(org.perfidix.result.BenchmarkResult)} .
      */
     @Test
-    public void testVisitListenSystemOut() {
+    public void testVisitListenSystemOut () {
         final CSVOutput output = new CSVOutput();
 
         final ClassResult classRes = benchRes.getIncludedResults().iterator().next();
         final AbstractMeter meter = classRes.getRegisteredMeters().iterator().next();
         for (final MethodResult methRes : classRes.getIncludedResults()) {
             for (final double d : methRes.getResultSet(meter)) {
-                output.listenToResultSet((Method)methRes.getRelatedElement(), meter, d);
+                output.listenToResultSet((Method) methRes.getRelatedElement(), meter, d);
             }
         }
         output.visitBenchmark(benchRes);
-        assertTrue("first bunch of numbers must be in the test string", bytes.toString().contains(
-            "0.5,1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,1.0,2.0,3.0,4.0,5.0,6.0,7.0,8.0,9.0,10.0"));
+        assertTrue("first bunch of numbers must be in the test string", bytes.toString().contains("0.5,1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,1.0,2.0,3.0,4.0,5.0,6.0,7.0,8.0,9.0,10.0"));
 
     }
 
@@ -377,11 +364,11 @@ public final class CSVOutputTest {
     // }
 
     class Class1 {
-        public void method1() {
+        public void method1 () {
             // empty skeleton
         }
 
-        public void method2() {
+        public void method2 () {
             // empty skeleton
         }
     }
