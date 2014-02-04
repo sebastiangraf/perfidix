@@ -68,8 +68,7 @@ public @interface Bench {
     int runs() default NONE_RUN;
 
     /**
-     * Data provider for multiple invocations of the same benchmarked method
-     * with different parameters
+     * Data provider for multiple invocations of the same benchmarked method with different parameters
      */
     String dataProvider() default "";
 }
