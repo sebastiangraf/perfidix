@@ -46,8 +46,7 @@ public final class MethodResult extends AbstractResult {
     /** {@inheritDoc} */
     @Override
     public String getElementName () {
-        // if inputParamSet is not set, take the plain name, otherwise append
-        // the paramset.
+        // if inputParamSet is not set, take the plain name, otherwise append the paramset.
         return this.inputParamSet == null ? ((BenchmarkMethod) getRelatedElement()).getMethodToBench().getName()
                 : ((BenchmarkMethod) getRelatedElement()).getMethodToBench().getName() + this.inputParamSet;
     }

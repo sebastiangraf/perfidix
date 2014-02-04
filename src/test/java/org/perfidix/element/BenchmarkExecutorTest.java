@@ -305,4 +305,5 @@ class CheckConfig extends AbstractConfig {
     protected CheckConfig (Set<AbstractMeter> meter) {
         super(1, meter, AbstractConfig.LISTENERS, AbstractConfig.ARRAN, AbstractConfig.GARBAGE_PROB);
     }
+
 }
