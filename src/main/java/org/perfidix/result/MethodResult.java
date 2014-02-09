@@ -50,5 +50,9 @@ public final class MethodResult extends AbstractResult {
         return this.inputParamSet == null ? ((BenchmarkMethod) getRelatedElement()).getMethodToBench().getName()
                 : ((BenchmarkMethod) getRelatedElement()).getMethodToBench().getName() + this.inputParamSet;
     }
+    
+    public Object[] getInputParamSet() {
+        return this.inputParamSet;
+    }
 
 }

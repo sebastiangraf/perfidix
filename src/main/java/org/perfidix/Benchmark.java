@@ -281,7 +281,7 @@ public final class Benchmark {
                 } else {
                     // ... or the beforeMethod will be executed and a
                     // possible exception stored to the result...
-                    final PerfidixMethodCheckException beforeByCheck = BenchmarkExecutor.checkMethod(objectToUse, BeforeBenchClass.class, beforeClassMeth);
+                    final PerfidixMethodCheckException beforeByCheck = BenchmarkExecutor.checkMethod(objectToUse, BeforeBenchClass.class, beforeClassMeth, null);
                     if (beforeByCheck == null) {
                         final PerfidixMethodInvocationException beforeByInvok = BenchmarkExecutor.invokeMethod(objectToUse, BeforeBenchClass.class, beforeClassMeth, null);
                         if (beforeByInvok == null) {
@@ -320,7 +320,7 @@ public final class Benchmark {
                 // if afterClassMethod exists, the method will be executed and
                 // possible failures will be stored in the BenchmarkResult
                 if (afterClassMeth != null) {
-                    final PerfidixMethodCheckException afterByCheck = BenchmarkExecutor.checkMethod(objectToUse, AfterBenchClass.class, afterClassMeth);
+                    final PerfidixMethodCheckException afterByCheck = BenchmarkExecutor.checkMethod(objectToUse, AfterBenchClass.class, afterClassMeth, null);
                     if (afterByCheck == null) {
                         final PerfidixMethodInvocationException afterByInvok = BenchmarkExecutor.invokeMethod(objectToUse, AfterBenchClass.class, afterClassMeth, null);
                         if (afterByInvok != null) {
