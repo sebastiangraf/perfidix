@@ -138,7 +138,7 @@ public class BenchmarkMethodTest {
             final Method[] meths = toTest.getClass().getDeclaredMethods();
             int numOfMethods = 0;
             for (final Method meth : meths) {
-                if (BenchmarkMethod.isReflectedExecutable(meth, Bench.class)) {
+                if (BenchmarkMethod.isReflectedExecutable(meth, false, Bench.class)) {
                     meth.invoke(toTest, param);
                     numOfMethods++;
                 }
@@ -241,7 +241,7 @@ public class BenchmarkMethodTest {
                 }
             }
 
-            final Method[] returnedMeths = elem.findBeforeEachRun();
+            final Method[] returnedMeths = elem.findBeforeEachRun(null);
             for (Method meth : returnedMeths) {
                 meth.invoke(toTest, param);
             }
@@ -275,7 +275,7 @@ public class BenchmarkMethodTest {
                 }
             }
 
-            final Method[] returnedMeths = elem.findBeforeEachRun();
+            final Method[] returnedMeths = elem.findBeforeEachRun(null);
             for (Method meth : returnedMeths) {
                 meth.invoke(toTest, param);
             }
@@ -309,7 +309,7 @@ public class BenchmarkMethodTest {
                 }
             }
 
-            final Method[] returnedMeths = elem.findAfterEachRun();
+            final Method[] returnedMeths = elem.findAfterEachRun(null);
             for (Method meth : returnedMeths) {
                 meth.invoke(toTest, param);
             }
@@ -343,7 +343,7 @@ public class BenchmarkMethodTest {
                 }
             }
 
-            final Method[] returnedMeths = elem.findAfterEachRun();
+            final Method[] returnedMeths = elem.findAfterEachRun(null);
             for (Method meth : returnedMeths) {
                 meth.invoke(toTest, param);
             }
