@@ -15,5 +15,9 @@ import java.lang.annotation.Target;
 @Retention (RetentionPolicy.RUNTIME)
 @Target (ElementType.METHOD)
 public @interface DataProvider {
-
+    
+    /**
+     * Data provider for multiple invocations of the same benchmarked method with different parameters
+     */
+    String name();
 }

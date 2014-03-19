@@ -73,7 +73,7 @@ public class ResultContainerTest {
         final Class<?> class1 = Class1.class;
         final Class<?> class2 = Class2.class;
 
-        final BenchmarkMethod meth11 = new BenchmarkMethod(class1.getDeclaredMethod("method1"));
+        final BenchmarkMethod meth11 = new BenchmarkMethod(class1.getDeclaredMethod("method1"), null);
 
         meter = new CountingMeter("Meter1");
 
@@ -82,21 +82,21 @@ public class ResultContainerTest {
             benchRes.addData(meth11, meter, meter.getValue());
         }
 
-        final BenchmarkMethod meth12 = new BenchmarkMethod(class1.getDeclaredMethod("method2"));
+        final BenchmarkMethod meth12 = new BenchmarkMethod(class1.getDeclaredMethod("method2"), null);
 
         for (int i = 0; i < NUMBEROFTICKS * TICKFACTOR; i++) {
             meter.tick();
             benchRes.addData(meth12, meter, meter.getValue());
         }
 
-        final BenchmarkMethod meth21 = new BenchmarkMethod(class2.getDeclaredMethod("method1"));
+        final BenchmarkMethod meth21 = new BenchmarkMethod(class2.getDeclaredMethod("method1"), null);
 
         for (int i = 0; i < NUMBEROFTICKS * TICKFACTOR * TICKFACTOR; i++) {
             meter.tick();
             benchRes.addData(meth21, meter, meter.getValue());
         }
 
-        final BenchmarkMethod meth22 = new BenchmarkMethod(class2.getDeclaredMethod("method2"));
+        final BenchmarkMethod meth22 = new BenchmarkMethod(class2.getDeclaredMethod("method2"), null);
         for (int i = 0; i < NUMBEROFTICKS * TICKFACTOR * TICKFACTOR * TICKFACTOR; i++) {
             meter.tick();
             benchRes.addData(meth22, meter, meter.getValue());

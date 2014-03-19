@@ -20,7 +20,6 @@ package org.perfidix.element;
 
 
 import java.lang.annotation.Annotation;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
@@ -62,19 +61,16 @@ public final class BenchmarkMethod {
     /**
      * Possible input parameters
      */
-    private transient final Object[] inputParamSet;
+    private transient final Object[][] inputParamSet;
 
     /**
      * Constructor, with a definite method to bench. The method has to be checked with
      * {@link BenchmarkMethod#isBenchmarkable(Method)} first, otherwise an IllegalArgumentException could arise.
      * 
      * @param paramMethod method to be benched (eventually)
+     * @param paramInputParamSet parameter for the invocation.
      */
-    public BenchmarkMethod (final Method paramMethod) {
-        this(paramMethod, null);
-    }
-
-    public BenchmarkMethod (final Method paramMethod, Object[] paramInputParamSet) {
+    public BenchmarkMethod (final Method paramMethod, final Object[][] paramInputParamSet) {
         methodToBench = paramMethod;
         inputParamSet = paramInputParamSet;
         if (!isBenchmarkable(methodToBench)) { throw new IllegalArgumentException(new StringBuilder("Only benchmarkable methods allowed but method ").append(paramMethod).append(" is not benchmarkable.").toString()); }
@@ -150,7 +146,7 @@ public final class BenchmarkMethod {
      * @return Annotated method with BeforeEachRun annotation, null of none exists
      * @throws PerfidixMethodCheckException if integrity check of class and method fails.
      */
-    public Method[] findBeforeEachRun (Object[] inputParams) throws PerfidixMethodCheckException {
+    public Method[] findBeforeEachRun (final Object[] inputParams) throws PerfidixMethodCheckException {
 
         Method method = null;
 
@@ -159,7 +155,7 @@ public final class BenchmarkMethod {
             List<Method> returnval = new ArrayList<Method>();
             try {
                 // variable to instantiate the method by name.
-                Class<?>[] setUpParams = new Class[]{};
+                Class<?>[] setUpParams = new Class[] {};
                 if (inputParams != null) {
                     setUpParams = new Class[inputParams.length];
                     for (int i = 0; i < inputParams.length; i++) {
@@ -173,16 +169,12 @@ public final class BenchmarkMethod {
 
                     // getting the method by name
                     try {
-                        method = getMethodToBench().getDeclaringClass()
-                                .getDeclaredMethod(methodString.trim(),
-                                        setUpParams);
+                        method = getMethodToBench().getDeclaringClass().getDeclaredMethod(methodString.trim(), setUpParams);
                         methodSupportsDataProvider = true;
                     } catch (NoSuchMethodException e) {
                         // If method *with params* does not exist, try to search
                         // for one without
-                        method = getMethodToBench().getDeclaringClass()
-                                .getDeclaredMethod(methodString.trim(),
-                                        new Class<?>[]{});                        
+                        method = getMethodToBench().getDeclaringClass().getDeclaredMethod(methodString.trim(), new Class<?>[] {});
                     }
 
                     if (isReflectedExecutable(method, methodSupportsDataProvider, BeforeEachRun.class)) {
@@ -224,7 +216,7 @@ public final class BenchmarkMethod {
      * @return Annotated method with AfterEachRun annotation, null of none exists
      * @throws PerfidixMethodCheckException if integrity check of class and method fails.
      */
-    public Method[] findAfterEachRun (Object[] inputParams) throws PerfidixMethodCheckException {
+    public Method[] findAfterEachRun (final Object inputParams) throws PerfidixMethodCheckException {
 
         Method method = null;
 
@@ -233,7 +225,7 @@ public final class BenchmarkMethod {
             List<Method> returnval = new ArrayList<Method>();
             try {
                 // variable to instantiate the method by name.
-                Class<?>[] setUpParams = new Class[]{};
+                Class<?>[] setUpParams = new Class[] {};
                 if (inputParams != null) {
                     setUpParams = new Class[inputParams.length];
                     for (int i = 0; i < inputParams.length; i++) {
@@ -244,19 +236,15 @@ public final class BenchmarkMethod {
                 String[] methods = benchAnno.afterEachRun().split(",");
                 for (String methodString : methods) {
                     boolean methodSupportsDataProvider = false;
-                    
+
                     // getting the method by name
                     try {
-                        method = getMethodToBench().getDeclaringClass()
-                                .getDeclaredMethod(methodString.trim(),
-                                        setUpParams);
+                        method = getMethodToBench().getDeclaringClass().getDeclaredMethod(methodString.trim(), setUpParams);
                         methodSupportsDataProvider = true;
                     } catch (NoSuchMethodException e) {
                         // If method *with params* does not exist, try to search
                         // for one without
-                        method = getMethodToBench().getDeclaringClass()
-                                .getDeclaredMethod(methodString.trim(),
-                                        new Class<?>[]{});                        
+                        method = getMethodToBench().getDeclaringClass().getDeclaredMethod(methodString.trim(), new Class<?>[] {});
                     }
                     if (isReflectedExecutable(method, methodSupportsDataProvider, AfterEachRun.class)) {
                         returnval.add(method);
@@ -344,7 +332,7 @@ public final class BenchmarkMethod {
         return methodToBench;
     }
 
-    public Object[] getArgs () {
+    public Object[][] getArgs () {
         return inputParamSet;
     }
 
@@ -579,7 +567,6 @@ public final class BenchmarkMethod {
      *         name
      */
     public String getMethodWithClassName () {
-
         return new StringBuilder(methodToBench.getDeclaringClass().getName() + "." + methodToBench.getName()).toString();
     }
 
@@ -587,39 +574,24 @@ public final class BenchmarkMethod {
      * This method checks whether a method uses a data provider for dynamic input
      * 
      * @param meth method to be checked
-     * @return
+     * @return true if method is parameterized, false otherwise
      */
-    public static boolean usesDataProvider (Method meth) {
+    public static boolean usesDataProvider (final Method meth) {
         boolean returnVal = false;
 
         final Bench benchAnno = meth.getAnnotation(Bench.class);
         if (benchAnno != null && !benchAnno.dataProvider().equals("")) {
-            returnVal = true;
+            try {
+                // check if method exists without parameter
+                final Method dataProvMeth = meth.getDeclaringClass().getDeclaredMethod(benchAnno.dataProvider());
+                // check if returnType suits the parametere of the method to bench
+                if (meth.getParameterTypes().length == 1 && dataProvMeth.getReturnType().equals(meth.getParameterTypes()[0])) {
+                    returnVal = true;
+                }
+            } catch (NoSuchMethodException | SecurityException e) {
+                // no data provider method, will be returned as false anyhow
+            }
         }
-
-        // TODO check whether the data provider is valid, such that it exists
-        // and returns the proper object set!
-
         return returnVal;
-    }
-
-    public static Object[][] getDataProviderContent (Method meth) {
-        final String dataProviderMethod = meth.getAnnotation(Bench.class).dataProvider();
-
-        Method m;
-        try {
-            m = meth.getDeclaringClass().getMethod(dataProviderMethod);
-        } catch (NoSuchMethodException | SecurityException e) {
-            throw new IllegalArgumentException(new StringBuilder("Method ").append(meth).append(" uses a non-existing data provider " + dataProviderMethod).toString());
-        }
-
-        Object[][] res;
-        try {
-            res = (Object[][]) m.invoke(null);
-        } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-            throw new IllegalArgumentException(new StringBuilder("Method ").append(meth).append(" uses the data provider " + dataProviderMethod + " which threw an exception on invocation").toString());
-        }
-
-        return res;
     }
 }

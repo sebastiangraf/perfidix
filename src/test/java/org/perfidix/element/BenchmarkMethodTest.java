@@ -76,7 +76,7 @@ public class BenchmarkMethodTest {
             int numOfMethods = 0;
             for (final Method meth : meths) {
                 if (BenchmarkMethod.isBenchmarkable(meth)) {
-                    final BenchmarkMethod elem = new BenchmarkMethod(meth);
+                    final BenchmarkMethod elem = new BenchmarkMethod(meth, null);
                     elem.getMethodToBench().invoke(toTest, param);
                     numOfMethods++;
                 }
@@ -103,7 +103,7 @@ public class BenchmarkMethodTest {
             int numOfMethods = 0;
             for (final Method meth : meths) {
                 if (BenchmarkMethod.isBenchmarkable(meth)) {
-                    final BenchmarkMethod elem = new BenchmarkMethod(meth);
+                    final BenchmarkMethod elem = new BenchmarkMethod(meth, null);
                     elem.getMethodToBench().invoke(toTest, param);
                     numOfMethods++;
                 }
@@ -163,7 +163,7 @@ public class BenchmarkMethodTest {
             BenchmarkMethod elem = null;
             for (final Method meth : meths) {
                 if (BenchmarkMethod.isBenchmarkable(meth)) {
-                    final BenchmarkMethod checkElem = new BenchmarkMethod(meth);
+                    final BenchmarkMethod checkElem = new BenchmarkMethod(meth, null);
 
                     if (elem == null) {
                         elem = checkElem;
@@ -197,7 +197,7 @@ public class BenchmarkMethodTest {
             BenchmarkMethod elem = null;
             for (final Method meth : meths) {
                 if (BenchmarkMethod.isBenchmarkable(meth)) {
-                    final BenchmarkMethod checkElem = new BenchmarkMethod(meth);
+                    final BenchmarkMethod checkElem = new BenchmarkMethod(meth, null);
 
                     if (elem == null) {
                         elem = checkElem;
@@ -231,7 +231,7 @@ public class BenchmarkMethodTest {
             BenchmarkMethod elem = null;
             for (final Method meth : meths) {
                 if (BenchmarkMethod.isBenchmarkable(meth)) {
-                    final BenchmarkMethod checkElem = new BenchmarkMethod(meth);
+                    final BenchmarkMethod checkElem = new BenchmarkMethod(meth, null);
 
                     if (elem == null) {
                         elem = checkElem;
@@ -265,7 +265,7 @@ public class BenchmarkMethodTest {
             BenchmarkMethod elem = null;
             for (final Method meth : meths) {
                 if (BenchmarkMethod.isBenchmarkable(meth)) {
-                    final BenchmarkMethod checkElem = new BenchmarkMethod(meth);
+                    final BenchmarkMethod checkElem = new BenchmarkMethod(meth, null);
 
                     if (elem == null) {
                         elem = checkElem;
@@ -299,7 +299,7 @@ public class BenchmarkMethodTest {
             BenchmarkMethod elem = null;
             for (final Method meth : meths) {
                 if (BenchmarkMethod.isBenchmarkable(meth)) {
-                    final BenchmarkMethod checkElem = new BenchmarkMethod(meth);
+                    final BenchmarkMethod checkElem = new BenchmarkMethod(meth, null);
 
                     if (elem == null) {
                         elem = checkElem;
@@ -333,7 +333,7 @@ public class BenchmarkMethodTest {
             BenchmarkMethod elem = null;
             for (final Method meth : meths) {
                 if (BenchmarkMethod.isBenchmarkable(meth)) {
-                    final BenchmarkMethod checkElem = new BenchmarkMethod(meth);
+                    final BenchmarkMethod checkElem = new BenchmarkMethod(meth, null);
 
                     if (elem == null) {
                         elem = checkElem;
@@ -367,7 +367,7 @@ public class BenchmarkMethodTest {
             BenchmarkMethod elem = null;
             for (final Method meth : meths) {
                 if (BenchmarkMethod.isBenchmarkable(meth)) {
-                    final BenchmarkMethod checkElem = new BenchmarkMethod(meth);
+                    final BenchmarkMethod checkElem = new BenchmarkMethod(meth, null);
 
                     if (elem == null) {
                         elem = checkElem;
@@ -401,7 +401,7 @@ public class BenchmarkMethodTest {
             BenchmarkMethod elem = null;
             for (final Method meth : meths) {
                 if (BenchmarkMethod.isBenchmarkable(meth)) {
-                    final BenchmarkMethod checkElem = new BenchmarkMethod(meth);
+                    final BenchmarkMethod checkElem = new BenchmarkMethod(meth, null);
 
                     if (elem == null) {
                         elem = checkElem;

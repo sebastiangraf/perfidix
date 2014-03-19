@@ -94,8 +94,8 @@ public class BenchmarkExecutorTest {
         try {
             meth = getInstanceClass.getClass().getMethod(METHODNAME);
 
-            final BenchmarkMethod elem1 = new BenchmarkMethod(meth);
-            final BenchmarkMethod elem2 = new BenchmarkMethod(meth);
+            final BenchmarkMethod elem1 = new BenchmarkMethod(meth, null);
+            final BenchmarkMethod elem2 = new BenchmarkMethod(meth, null);
 
             final BenchmarkExecutor exec1 = BenchmarkExecutor.getExecutor(new BenchmarkElement(elem1));
             final BenchmarkExecutor exec2 = BenchmarkExecutor.getExecutor(new BenchmarkElement(elem2));
@@ -117,7 +117,7 @@ public class BenchmarkExecutorTest {
             final Method meth = BeforeClass.class.getMethod("bench");
             final Object objToExecute = BeforeClass.class.newInstance();
 
-            final BenchmarkMethod elem = new BenchmarkMethod(meth);
+            final BenchmarkMethod elem = new BenchmarkMethod(meth, null);
 
             final BenchmarkExecutor exec = BenchmarkExecutor.getExecutor(new BenchmarkElement(elem));
 
@@ -146,7 +146,7 @@ public class BenchmarkExecutorTest {
         try {
             final Method meth = NormalClass.class.getMethod(METHODNAME);
             final Object objToExecute = NormalClass.class.newInstance();
-            final BenchmarkMethod elem = new BenchmarkMethod(meth);
+            final BenchmarkMethod elem = new BenchmarkMethod(meth, null);
             final BenchmarkExecutor exec = BenchmarkExecutor.getExecutor(new BenchmarkElement(elem));
             exec.executeBench(objToExecute);
 
@@ -163,7 +163,7 @@ public class BenchmarkExecutorTest {
             final MethodResult methRes = methResIter.next();
             assertFalse("Only one result should be there", methResIter.hasNext());
             assertEquals("The set has to match", meter, methRes.getRegisteredMeters());
-            assertEquals("The method should be the same than for the related element", new BenchmarkMethod(meth), methRes.getRelatedElement());
+            assertEquals("The method should be the same than for the related element", new BenchmarkMethod(meth, null), methRes.getRelatedElement());
         } catch (final SecurityException | NoSuchMethodException | InstantiationException | IllegalAccessException e) {
             fail(e.getMessage());
         }
@@ -179,7 +179,7 @@ public class BenchmarkExecutorTest {
             final Method meth = AfterClass.class.getMethod(METHODNAME);
             final Object objToExecute = AfterClass.class.newInstance();
 
-            final BenchmarkMethod elem = new BenchmarkMethod(meth);
+            final BenchmarkMethod elem = new BenchmarkMethod(meth, null);
 
             final BenchmarkExecutor exec = BenchmarkExecutor.getExecutor(new BenchmarkElement(elem));
 

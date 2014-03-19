@@ -265,7 +265,7 @@ public final class BenchmarkExecutor {
      * @param args args for that method
      * @return {@link PerfidixMethodInvocationException} if invocation fails, null otherwise.
      */
-    public static PerfidixMethodInvocationException invokeMethod (final Object obj, final Class<? extends Annotation> relatedAnno, Method meth, Object[] args) {
+    public static PerfidixMethodInvocationException invokeMethod (final Object obj, final Class<? extends Annotation> relatedAnno, final Method meth, final Object[] args) {
         try {
             meth.invoke(obj, args);
             return null;
@@ -279,9 +279,9 @@ public final class BenchmarkExecutor {
     }
 
     public static PerfidixMethodCheckException checkMethod (final Object obj, final Class<? extends Annotation> anno, Method meth, Object[] args) {
-        return checkMethod(obj, anno, new Method[]{meth}, args);
+        return checkMethod(obj, anno, new Method[] { meth }, args);
     }
-    
+
     /**
      * Checking a method if it is reflective executable and if the mapping to the object fits.
      * 

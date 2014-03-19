@@ -82,7 +82,7 @@ public class SocketListenerTest {
         BenchmarkMethod method1 = null;
         for (Method method : methods) {
             if (method.getName().equals("benchMe")) {
-                method1 = new BenchmarkMethod(method);
+                method1 = new BenchmarkMethod(method, null);
             }
         }
         final AbstractMeter meter = new TimeMeter(Time.MilliSeconds);
@@ -107,7 +107,7 @@ public class SocketListenerTest {
         BenchmarkMethod method1 = null;
         for (Method method : methods) {
             if (method.getName().equals("benchMe")) {
-                method1 = new BenchmarkMethod(method);
+                method1 = new BenchmarkMethod(method, null);
             }
         }
         final AbstractMeter meter = new TimeMeter(Time.MilliSeconds);
