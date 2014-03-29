@@ -79,7 +79,7 @@ public class TabularSummaryOutputTest {
 
         for (int i = 0; i < NUMBEROFTICKS; i++) {
             meter.tick();
-            benchRes.addData(new BenchmarkMethod(meth11, null), meter, meter.getValue());
+            benchRes.addData(new BenchmarkMethod(meth11), meter, meter.getValue());
         }
 
         testException = new PerfidixMethodInvocationException(new IOException(), new Class1().getClass().getDeclaredMethod("method1"), Bench.class);

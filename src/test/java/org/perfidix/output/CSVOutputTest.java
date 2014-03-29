@@ -78,8 +78,8 @@ public final class CSVOutputTest {
 
         for (int i = 0; i < NUMBER_OF_TICKS; i++) {
             meter.tick();
-            benchRes.addData(new BenchmarkMethod(meth11, null), meter, meter.getValue());
-            benchRes.addData(new BenchmarkMethod(meth12, null), meter, meter.getValue() / 2);
+            benchRes.addData(new BenchmarkMethod(meth11), meter, meter.getValue());
+            benchRes.addData(new BenchmarkMethod(meth12), meter, meter.getValue() / 2);
         }
 
         testException = new PerfidixMethodInvocationException(new IOException(), new Class1().getClass().getDeclaredMethod("method1"), Bench.class);

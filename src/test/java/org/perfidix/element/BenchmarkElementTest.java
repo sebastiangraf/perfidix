@@ -50,7 +50,7 @@ public class BenchmarkElementTest {
     public void setUp () throws Exception {
         final Class<?> clazz = BenchClass.class;
         final Method meth = clazz.getMethod("bench");
-        final BenchmarkMethod benchMeth = new BenchmarkMethod(meth,null);
+        final BenchmarkMethod benchMeth = new BenchmarkMethod(meth);
 
         benchClass1 = new BenchmarkElement(benchMeth);
         benchClass2 = new BenchmarkElement(benchMeth);

@@ -143,19 +143,19 @@ public final class BenchmarkExecutor {
                 BENCHRES.addException(e);
             }
             if (beforeFirst.length != 0) {
-                checkAndExectuteBeforeAfters(obj, BeforeFirstRun.class, beforeFirst, null);
+                checkAndExectuteBeforeAfters(obj, BeforeFirstRun.class, beforeFirst);
             }
         }
 
         // invoking the beforeEachRun-method
         Method[] beforeEach = null;
         try {
-            beforeEach = element.findBeforeEachRun(element.getArgs());
+            beforeEach = element.findBeforeEachRun();
         } catch (final PerfidixMethodCheckException e) {
             BENCHRES.addException(e);
         }
         if (beforeEach.length != 0) {
-            checkAndExectuteBeforeAfters(obj, BeforeEachRun.class, beforeEach, element.getArgs());
+            checkAndExectuteBeforeAfters(obj, BeforeEachRun.class, beforeEach);
         }
 
     }
@@ -165,12 +165,11 @@ public final class BenchmarkExecutor {
      * 
      * @param objToExecute the instance of the benchclass where the method should be executed with.
      */
-    public void executeBench (final Object objToExecute) {
+    public void executeBench (final Object objToExecute, final Object[][] args) {
 
         final double[] meterResults = new double[METERS_TO_BENCH.size()];
 
         final Method meth = element.getMethodToBench();
-        final Object[] args = element.getArgs();
 
         int meterIndex1 = 0;
         int meterIndex2 = 0;
@@ -217,7 +216,7 @@ public final class BenchmarkExecutor {
                 BENCHRES.addException(e);
             }
             if (afterLast.length != 0) {
-                checkAndExectuteBeforeAfters(obj, AfterLastRun.class, afterLast, null);
+                checkAndExectuteBeforeAfters(obj, AfterLastRun.class, afterLast);
             }
 
         }
@@ -225,12 +224,12 @@ public final class BenchmarkExecutor {
         // invoking the beforeEachRun-method
         Method[] afterEach = null;
         try {
-            afterEach = element.findAfterEachRun(element.getArgs());
+            afterEach = element.findAfterEachRun();
         } catch (final PerfidixMethodCheckException e) {
             BENCHRES.addException(e);
         }
         if (afterEach != null) {
-            checkAndExectuteBeforeAfters(obj, AfterEachRun.class, afterEach, null);
+            checkAndExectuteBeforeAfters(obj, AfterEachRun.class, afterEach);
         }
 
     }
@@ -242,11 +241,11 @@ public final class BenchmarkExecutor {
      * @param meth to be executed
      * @param anno the related annotation
      */
-    private void checkAndExectuteBeforeAfters (final Object obj, final Class<? extends Annotation> anno, final Method[] meths, final Object[] args) {
-        final PerfidixMethodCheckException checkExc = checkMethod(obj, anno, meths, args);
+    private void checkAndExectuteBeforeAfters (final Object obj, final Class<? extends Annotation> anno, final Method... meths) {
+        final PerfidixMethodCheckException checkExc = checkMethod(obj, anno, meths);
         if (checkExc == null) {
             for (Method m : meths) {
-                final PerfidixMethodInvocationException invoExc = invokeMethod(obj, anno, m, args);
+                final PerfidixMethodInvocationException invoExc = invokeMethod(obj, anno, m, null);
                 if (invoExc != null) {
                     BENCHRES.addException(invoExc);
                 }
@@ -278,10 +277,6 @@ public final class BenchmarkExecutor {
         }
     }
 
-    public static PerfidixMethodCheckException checkMethod (final Object obj, final Class<? extends Annotation> anno, Method meth, Object[] args) {
-        return checkMethod(obj, anno, new Method[] { meth }, args);
-    }
-
     /**
      * Checking a method if it is reflective executable and if the mapping to the object fits.
      * 
@@ -291,8 +286,7 @@ public final class BenchmarkExecutor {
      * @param args the arguments the methods should take
      * @return {@link PerfidixMethodCheckException} if something is wrong in the mapping, null otherwise.
      */
-    public static PerfidixMethodCheckException checkMethod (final Object obj, final Class<? extends Annotation> anno, Method[] meths, Object[] args) {
-
+    public static PerfidixMethodCheckException checkMethod (final Object obj, final Class<? extends Annotation> anno, final Method... meths) {
         for (Method meth : meths) {
             // check if the class of the object to be executed has the given
             // method
@@ -306,8 +300,7 @@ public final class BenchmarkExecutor {
             if (!classMethodCorr) { return new PerfidixMethodCheckException(new IllegalStateException(new StringBuilder("Object to execute ").append(obj).append(" is not having a Method named ").append(meth).append(".").toString()), meth, anno); }
 
             // check if the method is reflected executable
-            boolean methodSupportsDataProvider = BenchmarkMethod.usesDataProvider(meth) || args != null;
-            if (!BenchmarkMethod.isReflectedExecutable(meth, methodSupportsDataProvider, anno)) { return new PerfidixMethodCheckException(new IllegalAccessException(new StringBuilder("Method to execute ").append(meth).append(" is not reflected executable.").toString()), meth, anno); }
+            if (!BenchmarkMethod.isReflectedExecutable(meth, anno)) { return new PerfidixMethodCheckException(new IllegalAccessException(new StringBuilder("Method to execute ").append(meth).append(" is not reflected executable.").toString()), meth, anno); }
         }
         return null;
     }

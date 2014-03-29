@@ -155,9 +155,9 @@ public final class Benchmark {
     public Map<BenchmarkMethod , Integer> getNumberOfMethodsAndRuns () {
         final Map<BenchmarkMethod , Integer> returnVal = new HashMap<BenchmarkMethod , Integer>();
         // instantiate objects, just for getting runs
-        final Map<Class<?> , Object> instantiatedObjs = instantiateObjects(new BenchmarkResult());
-        final List<BenchmarkMethod> meths = getBenchmarkMethods(instantiatedObjs);
+        final List<BenchmarkMethod> meths = getBenchmarkMethods();
         for (final BenchmarkMethod meth : meths) {
+            // TODO respect data provider
             int numberOfRuns = BenchmarkMethod.getNumberOfAnnotatedRuns(meth.getMethodToBench());
             if (numberOfRuns == Bench.NONE_RUN) {
                 numberOfRuns = conf.getRuns();
@@ -201,7 +201,7 @@ public final class Benchmark {
             // check needed because of failed initialization of objects
             if (obj != null) {
                 exec.executeBeforeMethods(obj);
-                exec.executeBench(obj);
+                exec.executeBench(obj, elem.getParameter());
                 exec.executeAfterMethods(obj);
             }
         }
@@ -343,7 +343,7 @@ public final class Benchmark {
      * 
      * @return a Set with {@link BenchmarkMethod}
      */
-    public List<BenchmarkMethod> getBenchmarkMethods (final Map<Class<?> , Object> paramObjs) {
+    public List<BenchmarkMethod> getBenchmarkMethods () {
         // Generating Set for returnVal
         final List<BenchmarkMethod> elems = new ArrayList<BenchmarkMethod>();
         // Getting all Methods and testing if its benchmarkable
@@ -351,23 +351,8 @@ public final class Benchmark {
             for (final Method meth : clazz.getDeclaredMethods()) {
                 // Check if benchmarkable, if so, insert to returnVal;
                 if (BenchmarkMethod.isBenchmarkable(meth)) {
-                    if (BenchmarkMethod.usesDataProvider(meth)) {
-                        final Object toInvoke = paramObjs.get(meth.getDeclaringClass());
-                        final Object[][] inputParamSets = getDataProviderContent(meth, toInvoke);
-                        //
-                        //
-                        //
-                        // if (inputParamSets.getClass().isArray() || inputParamSets instanceof Iterable<?>) {
-                        // for (Object singleInputParamSet : (Iterable<?>) inputParamSets) {
-                        // final BenchmarkMethod benchmarkMeth = new BenchmarkMethod(meth, singleInputParamSet);
-                        // elems.add(benchmarkMeth);
-                        // }
-                        // }
-
-                    } else {
-                        final BenchmarkMethod benchmarkMeth = new BenchmarkMethod(meth, null);
-                        elems.add(benchmarkMeth);
-                    }
+                    final BenchmarkMethod benchmarkMeth = new BenchmarkMethod(meth);
+                    elems.add(benchmarkMeth);
                 }
             }
         }
@@ -410,11 +395,10 @@ public final class Benchmark {
      * @param paramObjs a set with all existing objects for getting data from the dataproviders
      * @return a Set with {@link BenchmarkMethod}
      */
-    public List<BenchmarkElement> getBenchmarkElements (final Map<Class<?> , Object> paramObjs) {
+    private List<BenchmarkElement> getBenchmarkElements (final Map<Class<?> , Object> paramObjs) {
 
         final List<BenchmarkElement> elems = new ArrayList<BenchmarkElement>();
-
-        final List<BenchmarkMethod> meths = getBenchmarkMethods(paramObjs);
+        final List<BenchmarkMethod> meths = getBenchmarkMethods();
 
         for (final BenchmarkMethod meth : meths) {
             int numberOfRuns = BenchmarkMethod.getNumberOfAnnotatedRuns(meth.getMethodToBench());

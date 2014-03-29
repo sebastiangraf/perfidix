@@ -8,8 +8,15 @@ import java.lang.annotation.Target;
 
 
 /**
- * Marks a data provider for each run of each method.
  * 
+ * Mark a method as supplying data for a bench method. The data provider name
+ * defaults to method name.
+ * The annotated method must return an Object[][] where each
+ * Object[] can be assigned the parameter list of the test method.
+ * The @Bench method that wants to receive data from this DataProvider
+ * needs to use a dataProvider name equals to the name of this annotation.
+ *
+ * @see DataProvider within TestNG
  * @author Nico Haase, Technische Universitaet Darmstadt
  */
 @Retention (RetentionPolicy.RUNTIME)
@@ -17,7 +24,7 @@ import java.lang.annotation.Target;
 public @interface DataProvider {
     
     /**
-     * Data provider for multiple invocations of the same benchmarked method with different parameters
+     * Name for this Data provider.
      */
-    String name();
+    String name() default "";
 }

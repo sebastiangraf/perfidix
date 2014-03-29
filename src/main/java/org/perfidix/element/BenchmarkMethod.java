@@ -33,6 +33,7 @@ import org.perfidix.annotation.BeforeEachRun;
 import org.perfidix.annotation.BeforeFirstRun;
 import org.perfidix.annotation.Bench;
 import org.perfidix.annotation.BenchClass;
+import org.perfidix.annotation.DataProvider;
 import org.perfidix.annotation.SkipBench;
 import org.perfidix.exceptions.PerfidixMethodCheckException;
 
@@ -59,21 +60,13 @@ public final class BenchmarkMethod {
     private transient final Method methodToBench;
 
     /**
-     * Possible input parameters
-     */
-    private transient final Object[][] inputParamSet;
-
-    /**
      * Constructor, with a definite method to bench. The method has to be checked with
      * {@link BenchmarkMethod#isBenchmarkable(Method)} first, otherwise an IllegalArgumentException could arise.
      * 
      * @param paramMethod method to be benched (eventually)
-     * @param paramInputParamSet parameter for the invocation.
      */
-    public BenchmarkMethod (final Method paramMethod, final Object[][] paramInputParamSet) {
+    public BenchmarkMethod (final Method paramMethod) {
         methodToBench = paramMethod;
-        inputParamSet = paramInputParamSet;
-        if (!isBenchmarkable(methodToBench)) { throw new IllegalArgumentException(new StringBuilder("Only benchmarkable methods allowed but method ").append(paramMethod).append(" is not benchmarkable.").toString()); }
     }
 
     /**
@@ -105,7 +98,7 @@ public final class BenchmarkMethod {
                     // getting the method by name
                     method = getMethodToBench().getDeclaringClass().getDeclaredMethod(methodString.trim(), setUpParams);
 
-                    if (isReflectedExecutable(method, false, BeforeFirstRun.class)) {
+                    if (isReflectedExecutable(method, BeforeFirstRun.class)) {
                         returnval.add(method);
                     } else {
                         throw new PerfidixMethodCheckException(new IllegalAccessException(new StringBuilder("Failed to execute BeforeFirstRun-annotated method ").append(method).toString()), method, BeforeFirstRun.class);
@@ -122,7 +115,6 @@ public final class BenchmarkMethod {
 
         // if there was no name, a scan over the class occurs, otherwise the
         // designated method is checked.
-
         else {
             Method meth = findAndCheckAnyMethodByAnnotation(getMethodToBench().getDeclaringClass(), BeforeFirstRun.class);
             if (meth == null) {
@@ -146,7 +138,7 @@ public final class BenchmarkMethod {
      * @return Annotated method with BeforeEachRun annotation, null of none exists
      * @throws PerfidixMethodCheckException if integrity check of class and method fails.
      */
-    public Method[] findBeforeEachRun (final Object[] inputParams) throws PerfidixMethodCheckException {
+    public Method[] findBeforeEachRun () throws PerfidixMethodCheckException {
 
         Method method = null;
 
@@ -154,30 +146,20 @@ public final class BenchmarkMethod {
         if (benchAnno != null && !benchAnno.beforeEachRun().equals("")) {
             List<Method> returnval = new ArrayList<Method>();
             try {
-                // variable to instantiate the method by name.
-                Class<?>[] setUpParams = new Class[] {};
-                if (inputParams != null) {
-                    setUpParams = new Class[inputParams.length];
-                    for (int i = 0; i < inputParams.length; i++) {
-                        setUpParams[i] = inputParams[i].getClass();
-                    }
-                }
 
                 String[] methods = benchAnno.beforeEachRun().split(",");
                 for (String methodString : methods) {
-                    boolean methodSupportsDataProvider = false;
 
                     // getting the method by name
                     try {
-                        method = getMethodToBench().getDeclaringClass().getDeclaredMethod(methodString.trim(), setUpParams);
-                        methodSupportsDataProvider = true;
+                        method = getMethodToBench().getDeclaringClass().getDeclaredMethod(methodString.trim());
                     } catch (NoSuchMethodException e) {
                         // If method *with params* does not exist, try to search
                         // for one without
                         method = getMethodToBench().getDeclaringClass().getDeclaredMethod(methodString.trim(), new Class<?>[] {});
                     }
 
-                    if (isReflectedExecutable(method, methodSupportsDataProvider, BeforeEachRun.class)) {
+                    if (isReflectedExecutable(method, BeforeEachRun.class)) {
                         returnval.add(method);
                     } else {
                         throw new PerfidixMethodCheckException(new IllegalAccessException(new StringBuilder(" Failed to execute BeforeEachRun-annotated method ").append(method).toString()), method, BeforeEachRun.class);
@@ -216,7 +198,7 @@ public final class BenchmarkMethod {
      * @return Annotated method with AfterEachRun annotation, null of none exists
      * @throws PerfidixMethodCheckException if integrity check of class and method fails.
      */
-    public Method[] findAfterEachRun (final Object inputParams) throws PerfidixMethodCheckException {
+    public Method[] findAfterEachRun () throws PerfidixMethodCheckException {
 
         Method method = null;
 
@@ -224,29 +206,13 @@ public final class BenchmarkMethod {
         if (benchAnno != null && !benchAnno.afterEachRun().equals("")) {
             List<Method> returnval = new ArrayList<Method>();
             try {
-                // variable to instantiate the method by name.
-                Class<?>[] setUpParams = new Class[] {};
-                if (inputParams != null) {
-                    setUpParams = new Class[inputParams.length];
-                    for (int i = 0; i < inputParams.length; i++) {
-                        setUpParams[i] = inputParams[i].getClass();
-                    }
-                }
 
                 String[] methods = benchAnno.afterEachRun().split(",");
                 for (String methodString : methods) {
-                    boolean methodSupportsDataProvider = false;
 
                     // getting the method by name
-                    try {
-                        method = getMethodToBench().getDeclaringClass().getDeclaredMethod(methodString.trim(), setUpParams);
-                        methodSupportsDataProvider = true;
-                    } catch (NoSuchMethodException e) {
-                        // If method *with params* does not exist, try to search
-                        // for one without
-                        method = getMethodToBench().getDeclaringClass().getDeclaredMethod(methodString.trim(), new Class<?>[] {});
-                    }
-                    if (isReflectedExecutable(method, methodSupportsDataProvider, AfterEachRun.class)) {
+                    method = getMethodToBench().getDeclaringClass().getDeclaredMethod(methodString.trim(), new Class<?>[] {});
+                    if (isReflectedExecutable(method, AfterEachRun.class)) {
                         returnval.add(method);
                     } else {
                         throw new PerfidixMethodCheckException(new IllegalAccessException(new StringBuilder("AfterEachRun-annotated method ").append(method).append(" is not executable.").toString()), method, AfterEachRun.class);
@@ -299,7 +265,7 @@ public final class BenchmarkMethod {
                     // getting the method by name
                     method = getMethodToBench().getDeclaringClass().getDeclaredMethod(methodString.trim(), setUpParams);
 
-                    if (isReflectedExecutable(method, false, AfterLastRun.class)) {
+                    if (isReflectedExecutable(method, AfterLastRun.class)) {
                         returnval.add(method);
                     } else {
                         throw new PerfidixMethodCheckException(new IllegalAccessException(new StringBuilder("AfterLastRun-annotated method ").append(method).append(" is not executable.").toString()), method, AfterLastRun.class);
@@ -324,16 +290,60 @@ public final class BenchmarkMethod {
     }
 
     /**
+     * This method checks whether a method uses a data provider for dynamic input
+     * 
+     * @param meth method to be checked
+     * @return true if method is parameterized, false otherwise
+     * @throws PerfidixMethodCheckException
+     */
+    public final Method findDataProvider () throws PerfidixMethodCheckException {
+
+        final Bench benchAnno = getMethodToBench().getAnnotation(Bench.class);
+        Method dataProvider = null;
+        if (benchAnno != null && !benchAnno.dataProvider().equals("")) {
+            try {
+                // Getting the String name for the dataProvider
+                final String dataProviderIdentifier = benchAnno.dataProvider();
+                // Check if there is a Dataprovider with the name as identifier
+                for (final Method eachMeth : getMethodToBench().getDeclaringClass().getMethods()) {
+                    DataProvider anno = eachMeth.getAnnotation(DataProvider.class);
+                    if (anno != null && anno.name().equals(dataProviderIdentifier)) {
+                        if (dataProvider != null) {
+                            dataProvider = eachMeth;
+                        } else {
+                            throw new PerfidixMethodCheckException(new RuntimeException("Only one Dataprovider allowed, but found " + dataProvider + " and " + eachMeth), eachMeth, DataProvider.class);
+                        }
+                    }
+                }
+                // if not, try to find a method with the name
+                if (dataProvider == null) {
+                    dataProvider = getMethodToBench().getDeclaringClass().getDeclaredMethod(dataProviderIdentifier);
+                }
+
+                // perform the checks same as testng: two dimensional array for return val, parameter is mapping of
+                // class, array of instances.
+                // checking return types of dataprovider method
+                final Class<?> returnType = dataProvider.getReturnType();
+                // final Class<?>[] parameters = meth.getParameterTypes();
+                if (Object[][].class.isAssignableFrom(returnType)) {
+                    // checking input types of bench method against the return types of the parameter
+                    // Class<Object[][]> castedReturnType = (Class<Object[][]>) returnType;
+                    // TODO implement check
+                }
+            } catch (NoSuchMethodException | SecurityException e) {
+                // no data provider method, will be returned as false anyhow
+            }
+        }
+        return dataProvider;
+    }
+
+    /**
      * Simple getter for encapsulated method.
      * 
      * @return the methodToBench
      */
     public Method getMethodToBench () {
         return methodToBench;
-    }
-
-    public Object[][] getArgs () {
-        return inputParamSet;
     }
 
     /**
@@ -362,7 +372,7 @@ public final class BenchmarkMethod {
     }
 
     /**
-     * This class finds any method with a given annotation. The method is allowed to occure only once in the class and
+     * This class finds any method with a given annotation. The method is allowed to occur only once in the class and
      * should match the requirements for Perfidix for an execution by reflection.
      * 
      * @param anno of the method to be found
@@ -374,7 +384,6 @@ public final class BenchmarkMethod {
     public static Method findAndCheckAnyMethodByAnnotation (final Class<?> clazz, final Class<? extends Annotation> anno) throws PerfidixMethodCheckException {
         // needed variables, one for check for duplicates
         Method anyMethod = null;
-        boolean methodSupportsDataProvider = false;
 
         // Scanning all methods
         final Method[] possAnnoMethods = clazz.getDeclaredMethods();
@@ -385,8 +394,7 @@ public final class BenchmarkMethod {
                 if (anyMethod == null) {
                     // Check if method is valid (no param, no returnval,
                     // etc.), throwing IllegalAccessException otherwise.
-                    methodSupportsDataProvider = usesDataProvider(meth);
-                    if (isReflectedExecutable(meth, methodSupportsDataProvider, anno)) {
+                    if (isReflectedExecutable(meth, anno)) {
                         anyMethod = meth;
                     } else {
                         throw new PerfidixMethodCheckException(new IllegalAccessException(new StringBuilder(anno.toString()).append("-annotated method ").append(meth).append(" is not executable.").toString()), meth, anno);
@@ -420,51 +428,15 @@ public final class BenchmarkMethod {
             returnVal = false;
         }
 
-        // Check if method is defined as beforeClass, beforeFirstRun,
-        // beforeEachRun, afterEachRun, afterLastRun, afterClass. A method can
-        // either be a before/after class or afterwards be benchmarkable through
-        // the BenchClass annotation.
-        final BeforeBenchClass beforeClass = meth.getAnnotation(BeforeBenchClass.class);
-        if (beforeClass != null && benchAnno == null) {
-            returnVal = false;
-        }
-
-        final BeforeFirstRun beforeFirstRun = meth.getAnnotation(BeforeFirstRun.class);
-        if (beforeFirstRun != null && benchAnno == null) {
-            returnVal = false;
-        }
-
-        final BeforeEachRun beforeEachRun = meth.getAnnotation(BeforeEachRun.class);
-        if (beforeEachRun != null && benchAnno == null) {
-            returnVal = false;
-        }
-
-        final AfterEachRun afterEachRun = meth.getAnnotation(AfterEachRun.class);
-        if (afterEachRun != null && benchAnno == null) {
-            returnVal = false;
-        }
-
-        final AfterLastRun afterLastRun = meth.getAnnotation(AfterLastRun.class);
-        if (afterLastRun != null && benchAnno == null) {
-            returnVal = false;
-        }
-
-        final AfterBenchClass afterClass = meth.getAnnotation(AfterBenchClass.class);
-        if (afterClass != null && benchAnno == null) {
-            returnVal = false;
-        }
-
         // if method is not annotated with Bench and class is not annotated with
         // BenchClass, the method is never benchmarkable.
-
         final BenchClass classBenchAnno = meth.getDeclaringClass().getAnnotation(BenchClass.class);
         if (benchAnno == null && classBenchAnno == null) {
             returnVal = false;
         }
 
         // check if method is executable for perfidix purposes.
-        boolean methodSupportsDataProvider = usesDataProvider(meth);
-        if (!isReflectedExecutable(meth, methodSupportsDataProvider, Bench.class)) {
+        if (!isReflectedExecutable(meth, Bench.class)) {
             returnVal = false;
         }
         return returnVal;
@@ -478,11 +450,14 @@ public final class BenchmarkMethod {
      * @param anno anno for method to be check, necessary since different attributes are possible depending on the anno
      * @return true if method matches requirements.
      */
-    public static boolean isReflectedExecutable (final Method meth, boolean usesDataProvider, final Class<? extends Annotation> anno) {
+    public static boolean isReflectedExecutable (final Method meth, final Class<? extends Annotation> anno) {
         boolean returnVal = true;
-        // if method has parameters but no data provider set, the method is not
-        // benchmarkable
-        if (meth.getGenericParameterTypes().length > 0 && !usesDataProvider) {
+        // Check if DataProvider is valid if set.
+        if (anno.equals(DataProvider.class) && !meth.getReturnType().isAssignableFrom(Object[][].class)) {
+            returnVal = false;
+        }
+        // if method has parameters, method must be at least benchmarkable
+        if (anno.equals(Bench.class) && (meth.getGenericParameterTypes().length % 2 != 0 || meth.getGenericParameterTypes().length == 0)) {
             returnVal = false;
         }
         // if method is static, the method is not benchmarkable
@@ -519,37 +494,7 @@ public final class BenchmarkMethod {
     /** {@inheritDoc} */
     @Override
     public boolean equals (final Object obj) {
-        boolean returnVal = true;
-        if (this == obj) {
-            returnVal = true;
-        }
-        if (obj == null) {
-            returnVal = false;
-        }
-        if (getClass() != obj.getClass()) {
-            returnVal = false;
-        }
-        final BenchmarkMethod other = (BenchmarkMethod) obj;
-        if (methodToBench == null) {
-            if (other.methodToBench != null) {
-                returnVal = false;
-            }
-        } else {
-            if (!methodToBench.equals(other.methodToBench)) {
-                returnVal = false;
-
-            }
-            if (inputParamSet == null) {
-                if (other.inputParamSet != null) {
-                    returnVal = false;
-                }
-            } else {
-                if (!inputParamSet.equals(other.inputParamSet)) {
-                    returnVal = false;
-                }
-            }
-        }
-        return returnVal;
+        return obj.hashCode() == this.hashCode();
     }
 
     /**
@@ -570,28 +515,4 @@ public final class BenchmarkMethod {
         return new StringBuilder(methodToBench.getDeclaringClass().getName() + "." + methodToBench.getName()).toString();
     }
 
-    /**
-     * This method checks whether a method uses a data provider for dynamic input
-     * 
-     * @param meth method to be checked
-     * @return true if method is parameterized, false otherwise
-     */
-    public static boolean usesDataProvider (final Method meth) {
-        boolean returnVal = false;
-
-        final Bench benchAnno = meth.getAnnotation(Bench.class);
-        if (benchAnno != null && !benchAnno.dataProvider().equals("")) {
-            try {
-                // check if method exists without parameter
-                final Method dataProvMeth = meth.getDeclaringClass().getDeclaredMethod(benchAnno.dataProvider());
-                // check if returnType suits the parametere of the method to bench
-                if (meth.getParameterTypes().length == 1 && dataProvMeth.getReturnType().equals(meth.getParameterTypes()[0])) {
-                    returnVal = true;
-                }
-            } catch (NoSuchMethodException | SecurityException e) {
-                // no data provider method, will be returned as false anyhow
-            }
-        }
-        return returnVal;
-    }
 }

@@ -31,8 +31,6 @@ import org.perfidix.element.BenchmarkMethod;
  */
 public final class MethodResult extends AbstractResult {
 
-    private transient final Object[] inputParamSet;
-
     /**
      * Simple Constructor.
      * 
@@ -40,19 +38,12 @@ public final class MethodResult extends AbstractResult {
      */
     public MethodResult (final BenchmarkMethod meth) {
         super(meth);
-        this.inputParamSet = meth.getArgs();
     }
 
     /** {@inheritDoc} */
     @Override
     public String getElementName () {
-        // if inputParamSet is not set, take the plain name, otherwise append the paramset.
-        return this.inputParamSet == null ? ((BenchmarkMethod) getRelatedElement()).getMethodToBench().getName()
-                : ((BenchmarkMethod) getRelatedElement()).getMethodToBench().getName() + this.inputParamSet;
-    }
-    
-    public Object[] getInputParamSet() {
-        return this.inputParamSet;
+        return ((BenchmarkMethod) getRelatedElement()).getMethodToBench().getName();
     }
 
 }

@@ -61,23 +61,23 @@ public final class StackBenchmarkParameterized {
     /**
      * Generating the data, just once per runtime.
      */
-    @DataProvider(name="generateData")
-    public int[] generateData () {
+    @DataProvider (name = "generateData")
+    public Object[][] generateData () {
         final Random ran = new Random();
-        final int[] intData = new int[ARRAYSIZE];
+        final Integer[] intData = new Integer[ARRAYSIZE];
         int counter = 0;
         while (counter < ARRAYSIZE) {
             intData[counter] = ran.nextInt();
             counter++;
         }
-        return intData;
+        return new Object[][] { { Integer[].class }, intData };
     }
 
     /**
      * Bench for pushing the data to the {@link FastIntStack}.
      */
     @Bench (runs = RUNS , dataProvider = "generateData")
-    public void benchFastIntPush (final int[] intData) {
+    public void benchFastIntPush (final Class<Integer[]> clazz, final Integer[] intData) {
         fastInt = new FastIntStack();
         for (final int i : intData) {
             fastInt.push(i);
@@ -100,7 +100,7 @@ public final class StackBenchmarkParameterized {
      * Bench for pushing the data to the {@link Stack}.
      */
     @Bench (runs = RUNS , dataProvider = "generateData")
-    public void benchNormalIntPush (int[] intData) {
+    public void benchNormalIntPush (final Class<Integer[]> clazz, final Integer[] intData) {
         normalInt = new Stack<Integer>();
         for (final int i : intData) {
             normalInt.push(i);
@@ -121,7 +121,7 @@ public final class StackBenchmarkParameterized {
      * Bench for pushing the data to the {@link ArrayDeque}.
      */
     @Bench (runs = RUNS , dataProvider = "generateData")
-    public void benchArrayDequePush (final int[] intData) {
+    public void benchArrayDequePush (final Class<Integer[]> clazz, final Integer[] intData) {
         arrayDeque = new ArrayDeque<Integer>();
         for (final int i : intData) {
             arrayDeque.push(i);

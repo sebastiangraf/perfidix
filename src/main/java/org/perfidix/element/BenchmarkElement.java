@@ -39,6 +39,11 @@ public final class BenchmarkElement {
     private transient final int elementId;
 
     /**
+     * Parameter for this benchmark.
+     */
+    private transient final Object[][] parameter;
+
+    /**
      * Static Mapping for BenchmarkMethod->Integer. Every BenchmarkMethod gains one unique elementId from this mapping.
      */
     private static final Map<BenchmarkMethod , Integer> ID_MAPPING = new Hashtable<BenchmarkMethod , Integer>();
@@ -47,15 +52,23 @@ public final class BenchmarkElement {
      * Constructor, simple taking the corresponding {@link BenchmarkMethod}.
      * 
      * @param paramMeth the related {@link BenchmarkMethod}
+     * @param paramParameter the parameter for this element if dataprovider is used
      */
-    public BenchmarkElement (final BenchmarkMethod paramMeth) {
+    public BenchmarkElement (final BenchmarkMethod paramMeth, final Object[][] paramParameter) {
         meth = paramMeth;
         if (!ID_MAPPING.containsKey(paramMeth)) {
             ID_MAPPING.put(getMeth(), 0);
         }
         elementId = ID_MAPPING.get(getMeth()) + 1;
         ID_MAPPING.put(getMeth(), getId());
+        this.parameter = paramParameter;
+    }
 
+    /**
+     * @return the parameter
+     */
+    public Object[][] getParameter () {
+        return parameter;
     }
 
     /**
@@ -93,30 +106,7 @@ public final class BenchmarkElement {
     /** {@inheritDoc} */
     @Override
     public boolean equals (final Object obj) {
-        boolean returnVal = true;
-        if (this == obj) {
-            returnVal = true;
-        }
-        if (obj == null) {
-            returnVal = false;
-        }
-        if (getClass() != obj.getClass()) {
-            returnVal = false;
-        }
-        final BenchmarkElement other = (BenchmarkElement) obj;
-        if (elementId != other.elementId) {
-            returnVal = false;
-        }
-        if (meth == null) {
-            if (other.meth != null) {
-                returnVal = false;
-            }
-        } else {
-            if (!meth.equals(other.meth)) {
-                returnVal = false;
-            }
-        }
-        return returnVal;
+        return hashCode() == obj.hashCode();
     }
 
     /**
