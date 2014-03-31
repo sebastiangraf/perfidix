@@ -4,9 +4,5 @@ target
 .project
 .classpath
 test-output
-
-syntax: regexp
-^perfidix/target$
-^perfidix/.settings$
-^perfidix/.project
-^perfidix/.classpath
+*.iml
+*.idea

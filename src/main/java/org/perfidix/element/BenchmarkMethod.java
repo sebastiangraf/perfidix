@@ -428,6 +428,40 @@ public final class BenchmarkMethod {
             returnVal = false;
         }
 
+        // Check if method is defined as beforeClass, beforeFirstRun,
+        // beforeEachRun, afterEachRun, afterLastRun, afterClass. A method can
+        // either be a before/after class or afterwards be benchmarkable through
+        // the BenchClass annotation.
+        final BeforeBenchClass beforeClass = meth.getAnnotation(BeforeBenchClass.class);
+        if (beforeClass != null && benchAnno == null) {
+            returnVal = false;
+        }
+
+        final BeforeFirstRun beforeFirstRun = meth.getAnnotation(BeforeFirstRun.class);
+        if (beforeFirstRun != null && benchAnno == null) {
+            returnVal = false;
+        }
+
+        final BeforeEachRun beforeEachRun = meth.getAnnotation(BeforeEachRun.class);
+        if (beforeEachRun != null && benchAnno == null) {
+            returnVal = false;
+        }
+
+        final AfterEachRun afterEachRun = meth.getAnnotation(AfterEachRun.class);
+        if (afterEachRun != null && benchAnno == null) {
+            returnVal = false;
+        }
+
+        final AfterLastRun afterLastRun = meth.getAnnotation(AfterLastRun.class);
+        if (afterLastRun != null && benchAnno == null) {
+            returnVal = false;
+        }
+
+        final AfterBenchClass afterClass = meth.getAnnotation(AfterBenchClass.class);
+        if (afterClass != null && benchAnno == null) {
+            returnVal = false;
+        }
+
         // if method is not annotated with Bench and class is not annotated with
         // BenchClass, the method is never benchmarkable.
         final BenchClass classBenchAnno = meth.getDeclaringClass().getAnnotation(BenchClass.class);
@@ -457,7 +491,7 @@ public final class BenchmarkMethod {
             returnVal = false;
         }
         // if method has parameters, method must be at least benchmarkable
-        if (anno.equals(Bench.class) && (meth.getGenericParameterTypes().length % 2 != 0 || meth.getGenericParameterTypes().length == 0)) {
+        if (anno.equals(Bench.class) && meth.getGenericParameterTypes().length % 2 != 0) {
             returnVal = false;
         }
         // if method is static, the method is not benchmarkable

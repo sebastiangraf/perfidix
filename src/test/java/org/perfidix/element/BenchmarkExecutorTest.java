@@ -97,8 +97,8 @@ public class BenchmarkExecutorTest {
             final BenchmarkMethod elem1 = new BenchmarkMethod(meth);
             final BenchmarkMethod elem2 = new BenchmarkMethod(meth);
 
-            final BenchmarkExecutor exec1 = BenchmarkExecutor.getExecutor(new BenchmarkElement(elem1));
-            final BenchmarkExecutor exec2 = BenchmarkExecutor.getExecutor(new BenchmarkElement(elem2));
+            final BenchmarkExecutor exec1 = BenchmarkExecutor.getExecutor(new BenchmarkElement(elem1, new Object[][] {}));
+            final BenchmarkExecutor exec2 = BenchmarkExecutor.getExecutor(new BenchmarkElement(elem2, new Object[][] {}));
 
             assertEquals("Singleton test of executor", exec1, exec2);
         } catch (final SecurityException e) {
@@ -119,7 +119,7 @@ public class BenchmarkExecutorTest {
 
             final BenchmarkMethod elem = new BenchmarkMethod(meth);
 
-            final BenchmarkExecutor exec = BenchmarkExecutor.getExecutor(new BenchmarkElement(elem));
+            final BenchmarkExecutor exec = BenchmarkExecutor.getExecutor(new BenchmarkElement(elem, new Object[][] {}));
 
             exec.executeBeforeMethods(objToExecute);
             exec.executeBeforeMethods(objToExecute);
@@ -147,8 +147,8 @@ public class BenchmarkExecutorTest {
             final Method meth = NormalClass.class.getMethod(METHODNAME);
             final Object objToExecute = NormalClass.class.newInstance();
             final BenchmarkMethod elem = new BenchmarkMethod(meth);
-            final BenchmarkExecutor exec = BenchmarkExecutor.getExecutor(new BenchmarkElement(elem));
-            exec.executeBench(objToExecute);
+            final BenchmarkExecutor exec = BenchmarkExecutor.getExecutor(new BenchmarkElement(elem, new Object[][] {}));
+            exec.executeBench(objToExecute, new Object[][] {});
 
             assertEquals("Each is invoked just once", 1, each);
             assertEquals("Set should be included in the frameworks as well", meter, res.getRegisteredMeters());
@@ -181,7 +181,7 @@ public class BenchmarkExecutorTest {
 
             final BenchmarkMethod elem = new BenchmarkMethod(meth);
 
-            final BenchmarkExecutor exec = BenchmarkExecutor.getExecutor(new BenchmarkElement(elem));
+            final BenchmarkExecutor exec = BenchmarkExecutor.getExecutor(new BenchmarkElement(elem, new Object[][] {}));
 
             exec.executeAfterMethods(objToExecute);
             exec.executeAfterMethods(objToExecute);
@@ -215,14 +215,14 @@ public class BenchmarkExecutorTest {
             final Method correctMethod = CheckAndExecuteClass.class.getMethod("correctMethod");
             final Method falseMethod = CheckAndExecuteClass.class.getMethod("incorrectMethod");
 
-            final PerfidixMethodCheckException excep1 = BenchmarkExecutor.checkMethod(falseObj, SkipBench.class, correctMethod, null);
+            final PerfidixMethodCheckException excep1 = BenchmarkExecutor.checkMethod(falseObj, SkipBench.class, correctMethod);
             assertNotNull("Exception 1 shouldn't be null", excep1);
 
-            final PerfidixMethodCheckException excep2 = BenchmarkExecutor.checkMethod(correctObj, SkipBench.class, falseMethod, null);
+            final PerfidixMethodCheckException excep2 = BenchmarkExecutor.checkMethod(correctObj, SkipBench.class, falseMethod);
             assertNotNull("Exception 2 shouldn't be null", excep2);
 
-            final PerfidixMethodCheckException excep3 = BenchmarkExecutor.checkMethod(correctObj, SkipBench.class, correctMethod, null);
-            assertNull("Exception 3 shouldn't be null", excep3);
+            final PerfidixMethodCheckException excep3 = BenchmarkExecutor.checkMethod(correctObj, SkipBench.class, correctMethod);
+            assertNull("Exception 3 should be null", excep3);
 
             final PerfidixMethodInvocationException excep4 = BenchmarkExecutor.invokeMethod(correctObj, SkipBench.class, correctMethod, null);
             assertNull("Exception 4 shouldn't be null", excep4);

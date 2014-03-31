@@ -180,34 +180,38 @@ public final class Benchmark {
         final Map<Class<?> , Object> instantiatedObjs = instantiateObjects(res);
 
         // getting Benchmarkables
-        final List<BenchmarkElement> elements = getBenchmarkElements(instantiatedObjs);
+        try {
+            final List<BenchmarkElement> elements = getBenchmarkElements(instantiatedObjs);
 
-        // arranging them
-        final AbstractMethodArrangement arrangement = AbstractMethodArrangement.getMethodArrangement(elements, conf.getArrangement());
+            // arranging them
+            final AbstractMethodArrangement arrangement = AbstractMethodArrangement.getMethodArrangement(elements, conf.getArrangement());
 
-        // getting the mapping and executing beforemethod
-        final Map<Class<?> , Object> objectsToExecute = executeBeforeBenchClass(instantiatedObjs, res);
+            // getting the mapping and executing beforemethod
+            final Map<Class<?> , Object> objectsToExecute = executeBeforeBenchClass(instantiatedObjs, res);
 
-        // executing the bench for the arrangement
-        for (final BenchmarkElement elem : arrangement) {
-            // invoking gc if possible
-            if (RAN.nextDouble() < conf.getGcProb()) {
-                System.gc();
+            // executing the bench for the arrangement
+            for (final BenchmarkElement elem : arrangement) {
+                // invoking gc if possible
+                if (RAN.nextDouble() < conf.getGcProb()) {
+                    System.gc();
+                }
+
+                final BenchmarkExecutor exec = BenchmarkExecutor.getExecutor(elem);
+
+                final Object obj = objectsToExecute.get(elem.getMeth().getMethodToBench().getDeclaringClass());
+                // check needed because of failed initialization of objects
+                if (obj != null) {
+                    exec.executeBeforeMethods(obj);
+                    exec.executeBench(obj, elem.getParameter());
+                    exec.executeAfterMethods(obj);
+                }
             }
 
-            final BenchmarkExecutor exec = BenchmarkExecutor.getExecutor(elem);
-
-            final Object obj = objectsToExecute.get(elem.getMeth().getMethodToBench().getDeclaringClass());
-            // check needed because of failed initialization of objects
-            if (obj != null) {
-                exec.executeBeforeMethods(obj);
-                exec.executeBench(obj, elem.getParameter());
-                exec.executeAfterMethods(obj);
-            }
+            // cleaning up methods to benchmark
+            tearDownObjectsToExecute(objectsToExecute, res);
+        } catch (PerfidixMethodCheckException exc) {
+            res.addException(exc);
         }
-
-        // cleaning up methods to benchmark
-        tearDownObjectsToExecute(objectsToExecute, res);
         return res;
     }
 
@@ -285,7 +289,7 @@ public final class Benchmark {
                 } else {
                     // ... or the beforeMethod will be executed and a
                     // possible exception stored to the result...
-                    final PerfidixMethodCheckException beforeByCheck = BenchmarkExecutor.checkMethod(objectToUse, BeforeBenchClass.class, beforeClassMeth, null);
+                    final PerfidixMethodCheckException beforeByCheck = BenchmarkExecutor.checkMethod(objectToUse, BeforeBenchClass.class, beforeClassMeth);
                     if (beforeByCheck == null) {
                         final PerfidixMethodInvocationException beforeByInvok = BenchmarkExecutor.invokeMethod(objectToUse, BeforeBenchClass.class, beforeClassMeth, null);
                         if (beforeByInvok == null) {
@@ -324,7 +328,7 @@ public final class Benchmark {
                 // if afterClassMethod exists, the method will be executed and
                 // possible failures will be stored in the BenchmarkResult
                 if (afterClassMeth != null) {
-                    final PerfidixMethodCheckException afterByCheck = BenchmarkExecutor.checkMethod(objectToUse, AfterBenchClass.class, afterClassMeth, null);
+                    final PerfidixMethodCheckException afterByCheck = BenchmarkExecutor.checkMethod(objectToUse, AfterBenchClass.class, afterClassMeth);
                     if (afterByCheck == null) {
                         final PerfidixMethodInvocationException afterByInvok = BenchmarkExecutor.invokeMethod(objectToUse, AfterBenchClass.class, afterClassMeth, null);
                         if (afterByInvok != null) {
@@ -394,22 +398,30 @@ public final class Benchmark {
      * 
      * @param paramObjs a set with all existing objects for getting data from the dataproviders
      * @return a Set with {@link BenchmarkMethod}
+     * @throws PerfidixMethodCheckException
      */
-    private List<BenchmarkElement> getBenchmarkElements (final Map<Class<?> , Object> paramObjs) {
+    private List<BenchmarkElement> getBenchmarkElements (final Map<Class<?> , Object> paramObjs) throws PerfidixMethodCheckException {
 
         final List<BenchmarkElement> elems = new ArrayList<BenchmarkElement>();
         final List<BenchmarkMethod> meths = getBenchmarkMethods();
 
         for (final BenchmarkMethod meth : meths) {
-            int numberOfRuns = BenchmarkMethod.getNumberOfAnnotatedRuns(meth.getMethodToBench());
-            if (numberOfRuns == Bench.NONE_RUN) {
-                numberOfRuns = conf.getRuns();
-            }
 
-            // getting the number of runs and adding this number of
-            // elements to the set to be evaluated.
-            for (int i = 0; i < numberOfRuns; i++) {
-                elems.add(new BenchmarkElement(meth));
+            final Method dataProv = meth.findDataProvider();
+            if (dataProv == null) {
+
+                int numberOfRuns = BenchmarkMethod.getNumberOfAnnotatedRuns(meth.getMethodToBench());
+                if (numberOfRuns == Bench.NONE_RUN) {
+                    numberOfRuns = conf.getRuns();
+                }
+
+                // getting the number of runs and adding this number of
+                // elements to the set to be evaluated.
+                for (int i = 0; i < numberOfRuns; i++) {
+                    elems.add(new BenchmarkElement(meth, new Object[][] {}));
+                }
+            } else {
+
             }
         }
 

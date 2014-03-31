@@ -52,8 +52,8 @@ public class BenchmarkElementTest {
         final Method meth = clazz.getMethod("bench");
         final BenchmarkMethod benchMeth = new BenchmarkMethod(meth);
 
-        benchClass1 = new BenchmarkElement(benchMeth);
-        benchClass2 = new BenchmarkElement(benchMeth);
+        benchClass1 = new BenchmarkElement(benchMeth, new Object[][] {});
+        benchClass2 = new BenchmarkElement(benchMeth, new Object[][] {});
     }
 
     /**

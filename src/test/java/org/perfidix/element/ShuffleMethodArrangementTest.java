@@ -50,7 +50,7 @@ public class ShuffleMethodArrangementTest {
         final Class<?> testClazz = TestBenchClass.class;
         for (final Method meth : testClazz.getDeclaredMethods()) {
             if (BenchmarkMethod.isBenchmarkable(meth)) {
-                elemSet.add(new BenchmarkElement(new BenchmarkMethod(meth)));
+                elemSet.add(new BenchmarkElement(new BenchmarkMethod(meth), new Object[][] {}));
             }
         }
     }

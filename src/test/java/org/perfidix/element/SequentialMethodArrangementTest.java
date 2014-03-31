@@ -56,15 +56,15 @@ public class SequentialMethodArrangementTest {
         final Class<?> testClazz = TestBenchClass.class;
         for (final Method meth : testClazz.getDeclaredMethods()) {
             if (BenchmarkMethod.isBenchmarkable(meth)) {
-                elemSet.add(new BenchmarkElement(new BenchmarkMethod(meth)));
+                elemSet.add(new BenchmarkElement(new BenchmarkMethod(meth), new Object[][] {}));
             }
         }
         Method meth = testClazz.getMethod(BENCH2NAME);
-        elemSet.add(new BenchmarkElement(new BenchmarkMethod(meth)));
+        elemSet.add(new BenchmarkElement(new BenchmarkMethod(meth), new Object[][] {}));
         meth = testClazz.getMethod(BENCH2NAME);
-        elemSet.add(new BenchmarkElement(new BenchmarkMethod(meth)));
+        elemSet.add(new BenchmarkElement(new BenchmarkMethod(meth), new Object[][] {}));
         meth = testClazz.getMethod(BENCH4NAME);
-        elemSet.add(new BenchmarkElement(new BenchmarkMethod(meth)));
+        elemSet.add(new BenchmarkElement(new BenchmarkMethod(meth), new Object[][] {}));
     }
 
     /**
