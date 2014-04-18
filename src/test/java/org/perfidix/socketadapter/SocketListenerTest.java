@@ -20,11 +20,6 @@ package org.perfidix.socketadapter;
 
 
 // import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-
-import java.lang.reflect.Method;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -33,6 +28,12 @@ import org.perfidix.exceptions.SocketViewException;
 import org.perfidix.meter.AbstractMeter;
 import org.perfidix.meter.Time;
 import org.perfidix.meter.TimeMeter;
+
+import java.lang.reflect.Method;
+
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 
 /**
@@ -49,11 +50,10 @@ public class SocketListenerTest {
 
     /**
      * Simple setUp
-     * 
-     * @throws java.lang.Exception
+     *
      */
     @Before
-    public void setUp () throws Exception {
+    public void setUp() {
         updater = mock(IUpdater.class);
         socketListener = new SocketListener(updater);
     }
@@ -70,11 +70,10 @@ public class SocketListenerTest {
 
     /**
      * Test method for
-     * {@link org.perfidix.socketadapter.SocketListener#listenToResultSet(java.lang.reflect.Method, org.perfidix.meter.AbstractMeter, double)}
-     * .
+     * {@link org.perfidix.socketadapter.SocketListener#listenToResultSet(org.perfidix.element.BenchmarkMethod, org.perfidix.meter.AbstractMeter, double)}.
      * 
      * @throws InterruptedException Thread sleep exception.
-     * @throws SocketViewException
+     * @throws SocketViewException if view is not correctly notified
      */
     @Test
     public void testListenToResultSet () throws InterruptedException , SocketViewException {

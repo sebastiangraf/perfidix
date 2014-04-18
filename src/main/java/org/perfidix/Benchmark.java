@@ -1,13 +1,13 @@
 /**
  * Copyright (c) 2012, University of Konstanz, Distributed Systems Group All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without modification, are permitted provided that the
  * following conditions are met: * Redistributions of source code must retain the above copyright notice, this list of
  * conditions and the following disclaimer. * Redistributions in binary form must reproduce the above copyright notice,
  * this list of conditions and the following disclaimer in the documentation and/or other materials provided with the
  * distribution. * Neither the name of the University of Konstanz nor the names of its contributors may be used to
  * endorse or promote products derived from this software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES,
  * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
  * DISCLAIMED. IN NO EVENT SHALL <COPYRIGHT HOLDER> BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY,
@@ -18,17 +18,6 @@
  */
 package org.perfidix;
 
-
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Hashtable;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-import java.util.Set;
 
 import org.perfidix.AbstractConfig.StandardConfig;
 import org.perfidix.annotation.AfterBenchClass;
@@ -43,67 +32,76 @@ import org.perfidix.exceptions.PerfidixMethodCheckException;
 import org.perfidix.exceptions.PerfidixMethodInvocationException;
 import org.perfidix.result.BenchmarkResult;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.*;
+
 
 /**
  * Class to hold all classes which want to be benchmarked.
  * <p>
- * 
+ * <p/>
  * <pre>
- * 
- * 
+ *
+ *
  * public class MyBenchmark {
- * 
+ *
  *     public static void main (final String[] args) {
  *         // Build up own config
  *         final AbstractConfig config = new MyConfig();
- * 
+ *
  *         // Initialise benchmark with config
  *         final Benchmark benchmark = new Benchmark(config);
- * 
+ *
  *         // Adding Classes to benchmark
  *         benchmark.add(Class1.class);
  *         benchmark.add(Class2.class);
  *         benchmark.add(Object3); // of Class3, every class is allowed to be
  *                                 // inserted only once
- * 
+ *
  *         // Running benchmark
  *         final BenchmarkResult result = benchmark.run();
- * 
+ *
  *         // Printing out Result in a Tabular, every AbstractOutput implementing
  *         // class is allowed.
  *         new TabularSummaryOutput().visitBenchmark(result);
- * 
+ *
  *     }
  * }
- * 
+ *
  * </pre>
- * 
+ * <p/>
  * </p>
- * 
+ *
+ * @author Sebastian Graf, University of Konstanz
  * @see AbstractConfig
  * @see BenchmarkResult
- * @author Sebastian Graf, University of Konstanz
  */
 public final class Benchmark {
 
-    /** Set with all used classes. */
-    private transient final Set<Class<?>> clazzes;
-
-    /** Already instantiated objects */
-    private transient final Set<Object> objects;
-
-    /** Simple random for gc-prob */
+    /**
+     * Simple random for gc-prob
+     */
     private transient static final Random RAN = new Random();
-
-    /** Configuration of benchmark, holding everything. */
+    /**
+     * Set with all used classes.
+     */
+    private transient final Set<Class<?>> clazzes;
+    /**
+     * Already instantiated objects
+     */
+    private transient final Set<Object> objects;
+    /**
+     * Configuration of benchmark, holding everything.
+     */
     private transient final AbstractConfig conf;
 
     /**
      * Constructor with a fixed set of used meters.
-     * 
+     *
      * @param paramConf Configuration for Benchmark
      */
-    public Benchmark (final AbstractConfig paramConf) {
+    public Benchmark(final AbstractConfig paramConf) {
         conf = paramConf;
         this.clazzes = new LinkedHashSet<Class<?>>();
         this.objects = new LinkedHashSet<Object>();
@@ -111,19 +109,55 @@ public final class Benchmark {
     }
 
     /**
-     * Convience constructor using the {@link StandardConfig}
+     * Convenience constructor using the {@link StandardConfig}
      */
-    public Benchmark () {
+    public Benchmark() {
         this(new StandardConfig());
+    }
+
+    public static Object[][] getDataProviderContent(final Method meth, final Object toInvoke) {
+        final String dataProviderMethod = meth.getAnnotation(Bench.class).dataProvider();
+
+        Method m = null;
+        try {
+            final Method[] methods = meth.getDeclaringClass().getMethods();
+            for (Method method : methods) {
+                final DataProvider provider = method.getAnnotation(DataProvider.class);
+                if (provider != null) {
+                    if (m != null) {
+                        throw new PerfidixMethodCheckException(new IllegalStateException("DataProvider arbitrary, please use only one DataProvider with the same name"), m, DataProvider.class);
+                    }
+                    if (provider.name().equals(dataProviderMethod)) {
+                        m = method;
+                    }
+                }
+            }
+
+        } catch (PerfidixMethodCheckException | SecurityException e) {
+            throw new IllegalArgumentException(new StringBuilder("Method ").append(meth).append(" uses a non-existing data provider " + dataProviderMethod).toString());
+        }
+
+        if (m == null) {
+            throw new IllegalStateException(new StringBuilder("Method ").append(meth.toString()).append(" refers to a method named ").append(dataProviderMethod).append(". Unfortunately there is none.").toString());
+        }
+
+        Object[][] res;
+        try {
+            res = (Object[][]) m.invoke(toInvoke);
+        } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+            throw new IllegalArgumentException(new StringBuilder("Method ").append(meth).append(" uses the data provider " + dataProviderMethod + " which threw an exception on invocation").toString());
+        }
+
+        return res;
     }
 
     /**
      * Adding a class to bench to this benchmark. This class should contain benchmarkable methods, otherwise it will be
      * ignored.
-     * 
+     *
      * @param clazz to be added.
      */
-    public void add (final Class<?> clazz) {
+    public void add(final Class<?> clazz) {
         if (this.clazzes.contains(clazz)) {
             throw new IllegalArgumentException("Only one class-instance per benchmark allowed");
         } else {
@@ -133,10 +167,10 @@ public final class Benchmark {
 
     /**
      * Adding a already instantiated objects to benchmark. Per benchmark, only one objects of each class is allowed.
-     * 
+     *
      * @param obj to be added
      */
-    public void add (final Object obj) {
+    public void add(final Object obj) {
         final Class<?> clazz = obj.getClass();
 
         if (this.clazzes.contains(clazz)) {
@@ -149,11 +183,11 @@ public final class Benchmark {
 
     /**
      * Getting the number of all methods and all runs
-     * 
+     *
      * @return a map with all methods and the runs.
      */
-    public Map<BenchmarkMethod , Integer> getNumberOfMethodsAndRuns () {
-        final Map<BenchmarkMethod , Integer> returnVal = new HashMap<BenchmarkMethod , Integer>();
+    public Map<BenchmarkMethod, Integer> getNumberOfMethodsAndRuns() {
+        final Map<BenchmarkMethod, Integer> returnVal = new HashMap<BenchmarkMethod, Integer>();
         // instantiate objects, just for getting runs
         final List<BenchmarkMethod> meths = getBenchmarkMethods();
         for (final BenchmarkMethod meth : meths) {
@@ -169,15 +203,15 @@ public final class Benchmark {
 
     /**
      * Running this benchmark
-     * 
+     *
      * @return {@link BenchmarkResult} the result in an {@link BenchmarkResult} container.
      */
-    public BenchmarkResult run () {
+    public BenchmarkResult run() {
         final BenchmarkResult res = new BenchmarkResult(conf.getListener());
         BenchmarkExecutor.initialize(conf, res);
 
         // instantiate methods
-        final Map<Class<?> , Object> instantiatedObjs = instantiateObjects(res);
+        final Map<Class<?>, Object> instantiatedObjs = instantiateObjects(res);
 
         // getting Benchmarkables
         try {
@@ -187,7 +221,7 @@ public final class Benchmark {
             final AbstractMethodArrangement arrangement = AbstractMethodArrangement.getMethodArrangement(elements, conf.getArrangement());
 
             // getting the mapping and executing beforemethod
-            final Map<Class<?> , Object> objectsToExecute = executeBeforeBenchClass(instantiatedObjs, res);
+            final Map<Class<?>, Object> objectsToExecute = executeBeforeBenchClass(instantiatedObjs, res);
 
             // executing the bench for the arrangement
             for (final BenchmarkElement elem : arrangement) {
@@ -219,13 +253,13 @@ public final class Benchmark {
      * Setting up executable objects for all registered classes and executing {@link BeforeBenchClass} annotated
      * methods. If an {@link Exception} occurs, this failure will be stored in the {@link BenchmarkResult} and the class
      * will not be instantiated
-     * 
+     *
      * @param res {@link BenchmarkResult} for storing possible failures.
      * @return a mapping with class->objects for all registered classes-
      */
-    private Map<Class<?> , Object> instantiateObjects (final BenchmarkResult res) {
+    private Map<Class<?>, Object> instantiateObjects(final BenchmarkResult res) {
         // datastructure initialization for all objects
-        final Map<Class<?> , Object> objectsToUse = new Hashtable<Class<?> , Object>();
+        final Map<Class<?>, Object> objectsToUse = new Hashtable<Class<?>, Object>();
 
         // generating including already instaniated objects
         for (final Object obj : this.objects) {
@@ -256,14 +290,14 @@ public final class Benchmark {
 
     /**
      * Executing beforeBenchClass if present.
-     * 
+     *
      * @param instantiatedObj with the instantiatedObj;
-     * @param res where the Exceptions should be stored to
+     * @param res             where the Exceptions should be stored to
      * @return valid instances with valid beforeCall
      */
-    private Map<Class<?> , Object> executeBeforeBenchClass (final Map<Class<?> , Object> instantiatedObj, final BenchmarkResult res) {
+    private Map<Class<?>, Object> executeBeforeBenchClass(final Map<Class<?>, Object> instantiatedObj, final BenchmarkResult res) {
 
-        final Map<Class<?> , Object> returnVal = new Hashtable<Class<?> , Object>();
+        final Map<Class<?>, Object> returnVal = new Hashtable<Class<?>, Object>();
 
         // invoking before bench class
         for (final Class<?> clazz : instantiatedObj.keySet()) {
@@ -308,11 +342,11 @@ public final class Benchmark {
 
     /**
      * Tear down executable objects for all registered classes and executing {@link AfterBenchClass} annotated methods.
-     * 
+     *
      * @param objects a mapping with class->objects to be teared down
-     * @param res the {@link BenchmarkResult} for storing possible failures.
+     * @param res     the {@link BenchmarkResult} for storing possible failures.
      */
-    private void tearDownObjectsToExecute (final Map<Class<?> , Object> objects, final BenchmarkResult res) {
+    private void tearDownObjectsToExecute(final Map<Class<?>, Object> objects, final BenchmarkResult res) {
 
         // executing tearDown for all clazzes registered in given Map
         for (final Class<?> clazz : objects.keySet()) {
@@ -344,10 +378,10 @@ public final class Benchmark {
 
     /**
      * Getting all Benchmarkable methods out of the registered class.
-     * 
+     *
      * @return a Set with {@link BenchmarkMethod}
      */
-    public List<BenchmarkMethod> getBenchmarkMethods () {
+    public List<BenchmarkMethod> getBenchmarkMethods() {
         // Generating Set for returnVal
         final List<BenchmarkMethod> elems = new ArrayList<BenchmarkMethod>();
         // Getting all Methods and testing if its benchmarkable
@@ -363,44 +397,14 @@ public final class Benchmark {
         return elems;
     }
 
-    public static Object[][] getDataProviderContent (final Method meth, final Object toInvoke) {
-        final String dataProviderMethod = meth.getAnnotation(Bench.class).dataProvider();
-
-        Method m = null;
-        try {
-            final Method[] methods = meth.getDeclaringClass().getMethods();
-            for (Method method : methods) {
-                final DataProvider provider = method.getAnnotation(DataProvider.class);
-                if (provider != null) {
-                    if (m != null) { throw new PerfidixMethodCheckException(new IllegalStateException("DataProvider arbitrary, please use only one DataProvider with the same name"), m, DataProvider.class); }
-                    if (provider.name().equals(dataProviderMethod)) {
-                        m = method;
-                    }
-                }
-            }
-
-        } catch (PerfidixMethodCheckException | SecurityException e) {
-            throw new IllegalArgumentException(new StringBuilder("Method ").append(meth).append(" uses a non-existing data provider " + dataProviderMethod).toString());
-        }
-
-        Object[][] res;
-        try {
-            res = (Object[][]) m.invoke(toInvoke);
-        } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-            throw new IllegalArgumentException(new StringBuilder("Method ").append(meth).append(" uses the data provider " + dataProviderMethod + " which threw an exception on invocation").toString());
-        }
-
-        return res;
-    }
-
     /**
      * Getting all benchmarkable objects out of the registered classes with the annotated number of runs.
-     * 
+     *
      * @param paramObjs a set with all existing objects for getting data from the dataproviders
      * @return a Set with {@link BenchmarkMethod}
      * @throws PerfidixMethodCheckException
      */
-    private List<BenchmarkElement> getBenchmarkElements (final Map<Class<?> , Object> paramObjs) throws PerfidixMethodCheckException {
+    private List<BenchmarkElement> getBenchmarkElements(final Map<Class<?>, Object> paramObjs) throws PerfidixMethodCheckException {
 
         final List<BenchmarkElement> elems = new ArrayList<BenchmarkElement>();
         final List<BenchmarkMethod> meths = getBenchmarkMethods();
@@ -408,20 +412,35 @@ public final class Benchmark {
         for (final BenchmarkMethod meth : meths) {
 
             final Method dataProv = meth.findDataProvider();
+            //Test if benchmark is parameterized. If not..
             if (dataProv == null) {
-
+                //...simple execute the benchrun on the base of the runs set...
                 int numberOfRuns = BenchmarkMethod.getNumberOfAnnotatedRuns(meth.getMethodToBench());
                 if (numberOfRuns == Bench.NONE_RUN) {
                     numberOfRuns = conf.getRuns();
                 }
 
-                // getting the number of runs and adding this number of
+                // ...and adding this number of
                 // elements to the set to be evaluated.
                 for (int i = 0; i < numberOfRuns; i++) {
-                    elems.add(new BenchmarkElement(meth, new Object[][] {}));
+                    elems.add(new BenchmarkElement(meth, new Object[][]{}));
                 }
-            } else {
+            }//If the method is parameterized...
+            else {
+                //..get the parameters
+                final Object[][] dataProvider = getDataProviderContent(dataProv, paramObjs.get(meth.getMethodToBench().getDeclaringClass()));
+                final List<Object> params = new ArrayList<>();
+                for (final Object[] parameterSet : dataProvider) {
+                    if (parameterSet.length != 2) {
+                        throw new PerfidixMethodCheckException(new IllegalArgumentException(new StringBuilder("Method ").append(meth).append(" has invalid dataprovider. Dataproviders must always have parameters like Object[][] = {{Class, Object[]},{Class,Object[]}}").toString()), meth.getMethodToBench(), DataProvider.class);
+                    }
+                    params.add((Class<?>) parameterSet[0]);
+                    params.add(parameterSet[1]);
+                    //elems.add(new BenchmarkElement(meth, params.));
+                }
 
+
+//TODO continue over here
             }
         }
 

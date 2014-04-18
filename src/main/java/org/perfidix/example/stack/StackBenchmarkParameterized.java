@@ -19,17 +19,16 @@
 package org.perfidix.example.stack;
 
 
-import java.util.ArrayDeque;
-import java.util.Random;
-import java.util.Stack;
-
 import org.perfidix.Benchmark;
-import org.perfidix.annotation.BeforeBenchClass;
 import org.perfidix.annotation.Bench;
 import org.perfidix.annotation.DataProvider;
 import org.perfidix.example.Config;
 import org.perfidix.ouput.TabularSummaryOutput;
 import org.perfidix.result.BenchmarkResult;
+
+import java.util.ArrayDeque;
+import java.util.Random;
+import java.util.Stack;
 
 
 /**
@@ -59,10 +58,26 @@ public final class StackBenchmarkParameterized {
     private transient ArrayDeque<Integer> arrayDeque;
 
     /**
+     * Simple setUp of a benchmark. The {@link Benchmark} is initialized with two Meters (<code>TimeMeter</code> and
+     * <code>MemMeter</code>). Afterwards the benchmark is running with a TabularOutput as a listener registered. The
+     * result of the benchmark is displayed in a complete table at the end.
+     *
+     * @param args not used here
+     */
+    public static void main(final String[] args) {
+
+        final Benchmark bench = new Benchmark(new Config());
+        bench.add(StackBenchmarkParameterized.class);
+
+        final BenchmarkResult res = bench.run();
+        new TabularSummaryOutput().visitBenchmark(res);
+    }
+
+    /**
      * Generating the data, just once per runtime.
      */
-    @DataProvider (name = "generateData")
-    public Object[][] generateData () {
+    @DataProvider(name = "generateData")
+    public Object[][] generateData() {
         final Random ran = new Random();
         final Integer[] intData = new Integer[ARRAYSIZE];
         int counter = 0;
@@ -70,14 +85,14 @@ public final class StackBenchmarkParameterized {
             intData[counter] = ran.nextInt();
             counter++;
         }
-        return new Object[][] { { Integer[].class }, intData };
+        return new Object[][]{{Integer[].class}, intData};
     }
 
     /**
      * Bench for pushing the data to the {@link FastIntStack}.
      */
-    @Bench (runs = RUNS , dataProvider = "generateData")
-    public void benchFastIntPush (final Class<Integer[]> clazz, final Integer[] intData) {
+    @Bench(runs = RUNS, dataProvider = "generateData")
+    public void benchFastIntPush(final Class<Integer[]> clazz, final Integer[] intData) {
         fastInt = new FastIntStack();
         for (final int i : intData) {
             fastInt.push(i);
@@ -87,8 +102,8 @@ public final class StackBenchmarkParameterized {
     /**
      * Bench for popping the data from the {@link FastIntStack}.
      */
-    @Bench (runs = RUNS , beforeEachRun = "benchFastIntPush")
-    public void benchFastIntStackPop () {
+    @Bench(runs = RUNS, beforeEachRun = "benchFastIntPush")
+    public void benchFastIntStackPop() {
 
         while (fastInt.size() > 0) {
             fastInt.pop();
@@ -99,8 +114,8 @@ public final class StackBenchmarkParameterized {
     /**
      * Bench for pushing the data to the {@link Stack}.
      */
-    @Bench (runs = RUNS , dataProvider = "generateData")
-    public void benchNormalIntPush (final Class<Integer[]> clazz, final Integer[] intData) {
+    @Bench(runs = RUNS, dataProvider = "generateData")
+    public void benchNormalIntPush(final Class<Integer[]> clazz, final Integer[] intData) {
         normalInt = new Stack<Integer>();
         for (final int i : intData) {
             normalInt.push(i);
@@ -110,8 +125,8 @@ public final class StackBenchmarkParameterized {
     /**
      * Bench for popping the data from the {@link Stack}.
      */
-    @Bench (runs = RUNS , beforeEachRun = "benchNormalIntPush")
-    public void benchNormalIntPop () {
+    @Bench(runs = RUNS, beforeEachRun = "benchNormalIntPush")
+    public void benchNormalIntPop() {
         while (normalInt.size() > 0) {
             normalInt.pop();
         }
@@ -120,8 +135,8 @@ public final class StackBenchmarkParameterized {
     /**
      * Bench for pushing the data to the {@link ArrayDeque}.
      */
-    @Bench (runs = RUNS , dataProvider = "generateData")
-    public void benchArrayDequePush (final Class<Integer[]> clazz, final Integer[] intData) {
+    @Bench(runs = RUNS, dataProvider = "generateData")
+    public void benchArrayDequePush(final Class<Integer[]> clazz, final Integer[] intData) {
         arrayDeque = new ArrayDeque<Integer>();
         for (final int i : intData) {
             arrayDeque.push(i);
@@ -131,28 +146,12 @@ public final class StackBenchmarkParameterized {
     /**
      * Bench for popping the data from the {@link ArrayDeque}.
      */
-    @Bench (runs = RUNS , beforeEachRun = "benchArrayDequePush")
-    public void benchArrayDequeStackPop () {
+    @Bench(runs = RUNS, beforeEachRun = "benchArrayDequePush")
+    public void benchArrayDequeStackPop() {
 
         while (arrayDeque.size() > 0) {
             arrayDeque.pop();
         }
-    }
-
-    /**
-     * Simple setUp of a benchmark. The {@link Benchmark} is initialized with two Meters (<code>TimeMeter</code> and
-     * <code>MemMeter</code>). Afterwards the benchmark is running with a TabularOutput as a listener registered. The
-     * result of the benchmark is displayed in a complete table at the end.
-     * 
-     * @param args not used here
-     */
-    public static void main (final String[] args) {
-
-        final Benchmark bench = new Benchmark(new Config());
-        bench.add(StackBenchmarkParameterized.class);
-
-        final BenchmarkResult res = bench.run();
-        new TabularSummaryOutput().visitBenchmark(res);
     }
 
 }

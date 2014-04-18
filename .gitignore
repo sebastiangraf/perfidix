@@ -4,5 +4,5 @@ target
 .project
 .classpath
 test-output
+.idea
 *.iml
-*.idea

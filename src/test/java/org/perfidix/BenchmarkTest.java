@@ -1,13 +1,13 @@
 /**
  * Copyright (c) 2012, University of Konstanz, Distributed Systems Group All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without modification, are permitted provided that the
  * following conditions are met: * Redistributions of source code must retain the above copyright notice, this list of
  * conditions and the following disclaimer. * Redistributions in binary form must reproduce the above copyright notice,
  * this list of conditions and the following disclaimer in the documentation and/or other materials provided with the
  * distribution. * Neither the name of the University of Konstanz nor the names of its contributors may be used to
  * endorse or promote products derived from this software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES,
  * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
  * DISCLAIMED. IN NO EVENT SHALL <COPYRIGHT HOLDER> BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY,
@@ -18,11 +18,6 @@
  */
 package org.perfidix;
 
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
-import java.util.Map;
 
 import org.junit.After;
 import org.junit.Before;
@@ -37,10 +32,15 @@ import org.perfidix.element.BenchmarkMethod;
 import org.perfidix.exceptions.AbstractPerfidixMethodException;
 import org.perfidix.result.BenchmarkResult;
 
+import java.util.Map;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 
 /**
  * Complete test for a normal Benchmark.
- * 
+ *
  * @author Sebastian Graf, University of Konstanz
  */
 public final class BenchmarkTest {
@@ -49,21 +49,17 @@ public final class BenchmarkTest {
 
     /**
      * Simple setUp.
-     * 
-     * @throws java.lang.Exception
      */
     @Before
-    public void setUp () throws Exception {
+    public void setUp() throws Exception {
         benchmark = new Benchmark(new StandardConfig());
     }
 
     /**
      * Simple tearDown.
-     * 
-     * @throws java.lang.Exception
      */
     @After
-    public void tearDown () throws Exception {
+    public void tearDown() throws Exception {
         NormalCompleteBench.reset();
     }
 
@@ -71,7 +67,7 @@ public final class BenchmarkTest {
      * Test method for {@link org.perfidix.Benchmark#run()} .
      */
     @Test
-    public void testRunBeforeClassError () {
+    public void testRunBeforeClassError() {
         benchmark.add(BeforeBenchClassError.class);
         final BenchmarkResult benchRes = benchmark.run();
         assertEquals("Meters should be empty", 0, benchRes.getRegisteredMeters().size());
@@ -86,14 +82,14 @@ public final class BenchmarkTest {
      * Test method for {@link org.perfidix.Benchmark#run()} .
      */
     @Test
-    public void testNormalBenchrun () {
+    public void testNormalBenchrun() {
         benchmark.add(NormalCompleteBench.class);
-        final Map<BenchmarkMethod , Integer> mapping = benchmark.getNumberOfMethodsAndRuns();
+        final Map<BenchmarkMethod, Integer> mapping = benchmark.getNumberOfMethodsAndRuns();
         assertEquals("The mapping of methods and runs should be 2", 2, mapping.size());
         assertTrue("The mapping contains the number of estimated runs", mapping.values().contains(NormalCompleteBench.RUNS));
         final BenchmarkResult benchRes = benchmark.run();
         assertEquals("Only one meter is registered", 1, benchRes.getRegisteredMeters().size());
-        assertEquals("No expcetion was thrown", 0, benchRes.getExceptions().size());
+        assertEquals("No exception was thrown", 0, benchRes.getExceptions().size());
 
         assertEquals("The BeforeClass-method was invoked once", 1, NormalCompleteBench.getBeforeClassCounter());
         assertEquals("The BeforeFirst-Run was invoked twice", 2, NormalCompleteBench.getBeforeFirstRunCounter());
@@ -109,7 +105,7 @@ public final class BenchmarkTest {
      * Test method for {@link org.perfidix.Benchmark#run()} .
      */
     @Test
-    public void testIncompleteBenchrun () {
+    public void testIncompleteBenchrun() {
         benchmark.add(NormalIncompleteBench.class);
         final BenchmarkResult benchRes = benchmark.run();
         assertEquals("No Meter is given", 0, benchRes.getRegisteredMeters().size());
@@ -120,7 +116,7 @@ public final class BenchmarkTest {
      * Test method for {@link org.perfidix.Benchmark#add(Class)} .
      */
     @Test
-    public void testAddClazz () {
+    public void testAddClazz() {
         benchmark.add(NormalCompleteBench.class);
         final BenchmarkResult benchRes = benchmark.run();
         assertEquals("One meter is registered", 1, benchRes.getRegisteredMeters().size());
@@ -140,7 +136,7 @@ public final class BenchmarkTest {
      * Test method for {@link org.perfidix.Benchmark#add(Object)} .
      */
     @Test
-    public void testAddObject () {
+    public void testAddObject() {
         final NormalCompleteBench obj = new NormalCompleteBench();
         benchmark.add(obj);
         final BenchmarkResult benchRes = benchmark.run();
@@ -160,8 +156,8 @@ public final class BenchmarkTest {
     /**
      * Test method for {@link org.perfidix.Benchmark#add(Object)} .
      */
-    @Test (expected = IllegalArgumentException.class)
-    public void testDuplicateObject () {
+    @Test(expected = IllegalArgumentException.class)
+    public void testDuplicateObject() {
         final NormalCompleteBench obj1 = new NormalCompleteBench();
         benchmark.add(obj1);
         final NormalCompleteBench obj2 = new NormalCompleteBench();
@@ -171,8 +167,8 @@ public final class BenchmarkTest {
     /**
      * Test method for {@link org.perfidix.Benchmark#add(Object)} and {@link org.perfidix.Benchmark#add(Class)}.
      */
-    @Test (expected = IllegalArgumentException.class)
-    public void testAddObjectAndClass () {
+    @Test(expected = IllegalArgumentException.class)
+    public void testAddObjectAndClass() {
         final NormalCompleteBench obj = new NormalCompleteBench();
         benchmark.add(obj);
         benchmark.add(NormalCompleteBench.class);
@@ -181,8 +177,8 @@ public final class BenchmarkTest {
     /**
      * Test method for {@link org.perfidix.Benchmark#add(Object)} and {@link org.perfidix.Benchmark#add(Class)}.
      */
-    @Test (expected = IllegalArgumentException.class)
-    public void testAddObjectAndClassWithoutBefore () {
+    @Test(expected = IllegalArgumentException.class)
+    public void testAddObjectAndClassWithoutBefore() {
         final NormalBenchForClassAndObjectAdd obj = new NormalBenchForClassAndObjectAdd();
         benchmark.add(obj);
         benchmark.add(NormalBenchForClassAndObjectAdd.class);

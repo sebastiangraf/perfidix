@@ -32,21 +32,18 @@ import java.util.Map;
  */
 public final class BenchmarkElement {
 
-    /** The BenchmarkMethod related to this element. */
-    private transient final BenchmarkMethod meth;
-
-    /** The unique elementId for this elements. */
-    private transient final int elementId;
-
-    /**
-     * Parameter for this benchmark.
-     */
-    private transient final Object[][] parameter;
-
     /**
      * Static Mapping for BenchmarkMethod->Integer. Every BenchmarkMethod gains one unique elementId from this mapping.
      */
-    private static final Map<BenchmarkMethod , Integer> ID_MAPPING = new Hashtable<BenchmarkMethod , Integer>();
+    private static final Map<BenchmarkMethod, Integer> ID_MAPPING = new Hashtable<>();
+    /** The BenchmarkMethod related to this element. */
+    private transient final BenchmarkMethod meth;
+    /** The unique elementId for this elements. */
+    private transient final int elementId;
+    /**
+     * Parameter for this benchmark.
+     */
+    private transient final Object[] parameter;
 
     /**
      * Constructor, simple taking the corresponding {@link BenchmarkMethod}.
@@ -54,7 +51,7 @@ public final class BenchmarkElement {
      * @param paramMeth the related {@link BenchmarkMethod}
      * @param paramParameter the parameter for this element if dataprovider is used
      */
-    public BenchmarkElement (final BenchmarkMethod paramMeth, final Object[][] paramParameter) {
+    public BenchmarkElement(final BenchmarkMethod paramMeth, Object... paramParameter) {
         meth = paramMeth;
         if (!ID_MAPPING.containsKey(paramMeth)) {
             ID_MAPPING.put(getMeth(), 0);
@@ -67,7 +64,7 @@ public final class BenchmarkElement {
     /**
      * @return the parameter
      */
-    public Object[][] getParameter () {
+    public Object[] getParameter() {
         return parameter;
     }
 

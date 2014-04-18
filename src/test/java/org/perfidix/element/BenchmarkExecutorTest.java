@@ -19,26 +19,10 @@
 package org.perfidix.element;
 
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.fail;
-
-import java.lang.reflect.Method;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.perfidix.AbstractConfig;
-import org.perfidix.annotation.AfterEachRun;
-import org.perfidix.annotation.AfterLastRun;
-import org.perfidix.annotation.BeforeEachRun;
-import org.perfidix.annotation.BeforeFirstRun;
-import org.perfidix.annotation.Bench;
-import org.perfidix.annotation.SkipBench;
+import org.perfidix.annotation.*;
 import org.perfidix.exceptions.PerfidixMethodCheckException;
 import org.perfidix.exceptions.PerfidixMethodInvocationException;
 import org.perfidix.meter.AbstractMeter;
@@ -48,6 +32,13 @@ import org.perfidix.meter.TimeMeter;
 import org.perfidix.result.BenchmarkResult;
 import org.perfidix.result.ClassResult;
 import org.perfidix.result.MethodResult;
+
+import java.lang.reflect.Method;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
+
+import static org.junit.Assert.*;
 
 
 /**
@@ -60,13 +51,13 @@ public class BenchmarkExecutorTest {
 
     /** Method name to test */
     private final static String METHODNAME = "bench";
-
-    private transient Set<AbstractMeter> meter;
     /** static int to check the beforefirstcounter */
     public static int once;
-    /** static int to check the beforeeachcounter */
+    /**
+     * static int to check the beforeeachcounter
+     */
     public static int each;
-
+    private transient Set<AbstractMeter> meter;
     private transient BenchmarkResult res;
 
     /**
@@ -75,7 +66,7 @@ public class BenchmarkExecutorTest {
     @Before
     public void setUp () {
         res = new BenchmarkResult();
-        meter = new HashSet<AbstractMeter>();
+        meter = new HashSet<>();
         meter.add(new TimeMeter(Time.MilliSeconds));
         meter.add(new CountingMeter());
 
@@ -101,9 +92,7 @@ public class BenchmarkExecutorTest {
             final BenchmarkExecutor exec2 = BenchmarkExecutor.getExecutor(new BenchmarkElement(elem2, new Object[][] {}));
 
             assertEquals("Singleton test of executor", exec1, exec2);
-        } catch (final SecurityException e) {
-            fail(e.getMessage());
-        } catch (final NoSuchMethodException e) {
+        } catch (final SecurityException | NoSuchMethodException e) {
             fail(e.getMessage());
         }
     }
@@ -126,20 +115,14 @@ public class BenchmarkExecutorTest {
 
             assertEquals("Once should be inoked once", 1, once);
             assertEquals("Each should be invoked twice", 2, each);
-        } catch (final SecurityException e) {
-            fail(e.getMessage());
-        } catch (final NoSuchMethodException e) {
-            fail(e.getMessage());
-        } catch (final InstantiationException e) {
-            fail(e.getMessage());
-        } catch (final IllegalAccessException e) {
+        } catch (final SecurityException | NoSuchMethodException | InstantiationException | IllegalAccessException e) {
             fail(e.getMessage());
         }
 
     }
 
     /**
-     * Test method for {@link org.perfidix.element.BenchmarkExecutor#executeBench(Object)} .
+     * Test method for {@link org.perfidix.element.BenchmarkExecutor#executeBench(Object, Object[])} .
      */
     @Test
     public void testExecuteBench () {
@@ -188,21 +171,15 @@ public class BenchmarkExecutorTest {
 
             assertEquals("Once should be invoked once", 1, once);
             assertEquals("Each should be invoked twice", 2, each);
-        } catch (final SecurityException e) {
-            fail(e.getMessage());
-        } catch (final NoSuchMethodException e) {
-            fail(e.getMessage());
-        } catch (final InstantiationException e) {
-            fail(e.getMessage());
-        } catch (final IllegalAccessException e) {
+        } catch (final SecurityException | NoSuchMethodException | InstantiationException | IllegalAccessException e) {
             fail(e.getMessage());
         }
 
     }
 
     /**
-     * Test method for {@link org.perfidix.element.BenchmarkExecutor#checkMethod(Object, Method, Class)} and
-     * {@link org.perfidix.element.BenchmarkExecutor#invokeMethod(Object, Method, Class)}
+     * Test method for {@link org.perfidix.element.BenchmarkExecutor#checkMethod(Object, Class, java.lang.reflect.Method...)} and
+     * {@link org.perfidix.element.BenchmarkExecutor#invokeMethod(Object, Class, java.lang.reflect.Method, Object[])}
      */
     @Test
     public void testCheckAndExecute () {
@@ -224,14 +201,12 @@ public class BenchmarkExecutorTest {
             final PerfidixMethodCheckException excep3 = BenchmarkExecutor.checkMethod(correctObj, SkipBench.class, correctMethod);
             assertNull("Exception 3 should be null", excep3);
 
-            final PerfidixMethodInvocationException excep4 = BenchmarkExecutor.invokeMethod(correctObj, SkipBench.class, correctMethod, null);
+            final PerfidixMethodInvocationException excep4 = BenchmarkExecutor.invokeMethod(correctObj, SkipBench.class, correctMethod);
             assertNull("Exception 4 shouldn't be null", excep4);
 
             assertEquals("invokation of beforeFirst should be occured just once", 1, once);
-        } catch (final SecurityException e) {
-            fail(e.getMessage());
-        } catch (final NoSuchMethodException e) {
-            fail(e.getMessage());
+        } catch (final SecurityException | NoSuchMethodException e) {
+            e.printStackTrace();
         }
     }
 }
