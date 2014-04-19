@@ -1,13 +1,13 @@
 /**
  * Copyright (c) 2012, University of Konstanz, Distributed Systems Group All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without modification, are permitted provided that the
  * following conditions are met: * Redistributions of source code must retain the above copyright notice, this list of
  * conditions and the following disclaimer. * Redistributions in binary form must reproduce the above copyright notice,
  * this list of conditions and the following disclaimer in the documentation and/or other materials provided with the
  * distribution. * Neither the name of the University of Konstanz nor the names of its contributors may be used to
  * endorse or promote products derived from this software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES,
  * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
  * DISCLAIMED. IN NO EVENT SHALL <COPYRIGHT HOLDER> BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY,
@@ -18,13 +18,6 @@
  */
 package org.perfidix.output;
 
-
-import static org.junit.Assert.assertTrue;
-
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.PrintStream;
-import java.lang.reflect.Method;
 
 import org.junit.After;
 import org.junit.Before;
@@ -40,10 +33,17 @@ import org.perfidix.result.BenchmarkResult;
 import org.perfidix.result.ClassResult;
 import org.perfidix.result.MethodResult;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.PrintStream;
+import java.lang.reflect.Method;
+
+import static org.junit.Assert.assertTrue;
+
 
 /**
  * Testcase for CSVOutput.
- * 
+ *
  * @author Sebastian Graf, University of Konstanz
  */
 public final class CSVOutputTest {
@@ -62,11 +62,11 @@ public final class CSVOutputTest {
 
     /**
      * Simple setUp
-     * 
+     *
      * @throws java.lang.Exception
      */
     @Before
-    public void setUp () throws Exception {
+    public void setUp() throws Exception {
         benchRes = new BenchmarkResult();
 
         final Class<?> class1 = Class1.class;
@@ -94,11 +94,11 @@ public final class CSVOutputTest {
 
     /**
      * Simple tearDown
-     * 
+     *
      * @throws java.lang.Exception
      */
     @After
-    public void tearDown () throws Exception {
+    public void tearDown() throws Exception {
         System.setOut(consoleOut);
         // for (final File file : TEST_FOLDER.listFiles()) {
         // file.delete();
@@ -110,7 +110,7 @@ public final class CSVOutputTest {
      * Test method for {@link org.perfidix.ouput.CSVOutput#visitBenchmark(org.perfidix.result.BenchmarkResult)} .
      */
     @Test
-    public void testVisitSystemOut () {
+    public void testVisitSystemOut() {
 
         final CSVOutput output = new CSVOutput();
         output.visitBenchmark(benchRes);
@@ -134,7 +134,7 @@ public final class CSVOutputTest {
      * .
      */
     @Test
-    public void testListenSystemOut () {
+    public void testListenSystemOut() {
         final ClassResult classRes = benchRes.getIncludedResults().iterator().next();
         final CSVOutput output = new CSVOutput();
 
@@ -160,7 +160,7 @@ public final class CSVOutputTest {
      * {@link org.perfidix.ouput.CSVOutput#listenToException(org.perfidix.exceptions.AbstractPerfidixMethodException)} .
      */
     @Test
-    public void testListenExceptionSystemOut () {
+    public void testListenExceptionSystemOut() {
 
         final CSVOutput output = new CSVOutput();
         output.listenToException(testException);
@@ -172,7 +172,7 @@ public final class CSVOutputTest {
      * Test method for {@link org.perfidix.ouput.CSVOutput#visitBenchmark(org.perfidix.result.BenchmarkResult)} .
      */
     @Test
-    public void testVisitListenSystemOut () {
+    public void testVisitListenSystemOut() {
         final CSVOutput output = new CSVOutput();
 
         final ClassResult classRes = benchRes.getIncludedResults().iterator().next();
@@ -366,12 +366,12 @@ public final class CSVOutputTest {
 
     class Class1 {
         @Bench
-        public void method1 () {
+        public void method1() {
             // empty skeleton
         }
 
         @Bench
-        public void method2 () {
+        public void method2() {
             // empty skeleton
         }
     }

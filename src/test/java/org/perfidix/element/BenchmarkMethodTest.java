@@ -28,6 +28,7 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import static org.junit.Assert.*;
@@ -118,24 +119,22 @@ public class BenchmarkMethodTest {
 
     /**
      * Test method for {@link org.perfidix.element.BenchmarkMethod#isReflectedExecutable(java.lang.reflect.Method)} .
+     * @throws InvocationTargetException 
+     * @throws IllegalArgumentException 
+     * @throws IllegalAccessException 
      */
     @Test
-    public void testIsReflectedExecutable() {
-        try {
-            final Object[] param = {};
-            toTest = new TestIsReflectedExecutable();
-            final Method[] meths = toTest.getClass().getDeclaredMethods();
-            int numOfMethods = 0;
-            for (final Method meth : meths) {
-                if (BenchmarkMethod.isReflectedExecutable(meth, Bench.class)) {
-                    meth.invoke(toTest, param);
-                    numOfMethods++;
-                }
+    public void testIsReflectedExecutable() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+        toTest = new TestIsReflectedExecutable();
+        final Method[] meths = toTest.getClass().getDeclaredMethods();
+        int numOfMethods = 0;
+        for (final Method meth : meths) {
+            if (BenchmarkMethod.isReflectedExecutable(meth, Bench.class)) {
+                meth.invoke(toTest, null);
+                numOfMethods++;
             }
-            assertEquals("Number of methods should be 1", numOfMethods, 1);
-        } catch (final Exception e) {
-            fail(e.toString());
         }
+        assertEquals("Number of methods should be 1", numOfMethods, 1);
     }
 
     /**
@@ -630,10 +629,6 @@ public class BenchmarkMethodTest {
     }
 
     class TestIsReflectedExecutable {
-
-        public final void paramMethod(final Object obj) {
-            fail("Only param-less methods allowed");
-        }
 
         protected final void notPublicMethod() {
             fail("Only methods with public identifier allowed");

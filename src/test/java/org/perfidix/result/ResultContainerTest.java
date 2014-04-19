@@ -1,13 +1,13 @@
 /**
  * Copyright (c) 2012, University of Konstanz, Distributed Systems Group All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without modification, are permitted provided that the
  * following conditions are met: * Redistributions of source code must retain the above copyright notice, this list of
  * conditions and the following disclaimer. * Redistributions in binary form must reproduce the above copyright notice,
  * this list of conditions and the following disclaimer in the documentation and/or other materials provided with the
  * distribution. * Neither the name of the University of Konstanz nor the names of its contributors may be used to
  * endorse or promote products derived from this software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES,
  * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
  * DISCLAIMED. IN NO EVENT SHALL <COPYRIGHT HOLDER> BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY,
@@ -19,12 +19,6 @@
 package org.perfidix.result;
 
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
-import java.io.IOException;
-import java.lang.reflect.Method;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.perfidix.annotation.Bench;
@@ -32,10 +26,16 @@ import org.perfidix.element.BenchmarkMethod;
 import org.perfidix.exceptions.PerfidixMethodInvocationException;
 import org.perfidix.meter.CountingMeter;
 
+import java.io.IOException;
+import java.lang.reflect.Method;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 
 /**
  * Test class for the whole package of the results.
- * 
+ *
  * @author Sebastian Graf, University of Konstanz
  */
 public class ResultContainerTest {
@@ -60,11 +60,11 @@ public class ResultContainerTest {
 
     /**
      * Simple setUp.
-     * 
+     *
      * @throws java.lang.Exception
      */
     @Before
-    public void setUp () throws Exception {
+    public void setUp() throws Exception {
 
         benchRes = new BenchmarkResult();
 
@@ -121,7 +121,7 @@ public class ResultContainerTest {
      * and {@link org.perfidix.result.BenchmarkResult#getExceptions()} .
      */
     @Test
-    public void testResultWithException () {
+    public void testResultWithException() {
         assertTrue("Check if benchRes.exceptions contains the desired exception", benchRes.getExceptions().contains(new PerfidixMethodInvocationException(testException, (Method) ((BenchmarkMethod) methodRes11.getRelatedElement()).getMethodToBench(), Bench.class)));
     }
 
@@ -129,7 +129,7 @@ public class ResultContainerTest {
      * Test method1 for {@link org.perfidix.result.MethodResult} .
      */
     @Test
-    public void testMethodRes11 () {
+    public void testMethodRes11() {
 
         assertEquals("Mean should be the same as given by method11", 5.5, methodRes11.mean(meter), 0);
         assertEquals("Min should be the same as given by method11", 1.0, methodRes11.min(meter), 0);
@@ -147,7 +147,7 @@ public class ResultContainerTest {
      * Test method2 for {@link org.perfidix.result.MethodResult} .
      */
     @Test
-    public void testMethodRes12 () {
+    public void testMethodRes12() {
         assertEquals("Mean should be the same as given by method12", 20.5, methodRes12.mean(meter), 0);
         assertEquals("Min should be the same as given by method12", 11.0, methodRes12.min(meter), 0);
         assertEquals("Max should be the same as given by method12", 30.0, methodRes12.max(meter), 0);
@@ -164,7 +164,7 @@ public class ResultContainerTest {
      * Test method3 for {@link org.perfidix.result.MethodResult} .
      */
     @Test
-    public void testMethodRes21 () {
+    public void testMethodRes21() {
         assertEquals("Mean should be the same as given by method21", 50.5, methodRes21.mean(meter), 0);
         assertEquals("Min should be the same as given by method21", 31.0, methodRes21.min(meter), 0);
         assertEquals("Max should be the same as given by method21", 70.0, methodRes21.max(meter), 0);
@@ -181,7 +181,7 @@ public class ResultContainerTest {
      * Test method3 for {@link org.perfidix.result.MethodResult} .
      */
     @Test
-    public void testMethodRes22 () {
+    public void testMethodRes22() {
         assertEquals("Mean should be the same as given by method22", 110.5, methodRes22.mean(meter), 0);
         assertEquals("Min should be the same as given by method22", 71.0, methodRes22.min(meter), 0);
         assertEquals("Max should be the same as given by method22", 150.0, methodRes22.max(meter), 0);
@@ -197,7 +197,7 @@ public class ResultContainerTest {
      * Test method for {@link org.perfidix.result.ClassResult} .
      */
     @Test
-    public void testClassResults () {
+    public void testClassResults() {
         assertEquals("Mean should be the same as given by class1", 15.5, classRes1.mean(meter), 0);
         assertEquals("Min should be the same as given by class1", 1.0, classRes1.min(meter), 0);
         assertEquals("Max should be the same as given by class1", 30.0, classRes1.max(meter), 0);
@@ -223,7 +223,7 @@ public class ResultContainerTest {
      * Test method for {@link org.perfidix.result.BenchmarkResult} .
      */
     @Test
-    public void testBenchmarkResults () {
+    public void testBenchmarkResults() {
 
         assertEquals("Mean should be the same as given by benchmark", 75.5, benchRes.mean(meter), 0);
         assertEquals("Min should be the same as given by benchmark", 1.0, benchRes.min(meter), 0);
@@ -239,24 +239,24 @@ public class ResultContainerTest {
 
     class Class1 {
         @Bench
-        public void method1 () {
+        public void method1() {
             // empty method for class1#method1 invocation
         }
 
         @Bench
-        public void method2 () {
+        public void method2() {
             // empty method for class1#method2 invocation
         }
     }
 
     class Class2 {
         @Bench
-        public void method1 () {
+        public void method1() {
             // empty method for class2#method1 invocation
         }
 
         @Bench
-        public void method2 () {
+        public void method2() {
             // empty method for class2#method2 invocation
         }
     }

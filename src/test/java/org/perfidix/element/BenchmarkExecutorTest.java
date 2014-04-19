@@ -1,13 +1,13 @@
 /**
  * Copyright (c) 2012, University of Konstanz, Distributed Systems Group All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without modification, are permitted provided that the
  * following conditions are met: * Redistributions of source code must retain the above copyright notice, this list of
  * conditions and the following disclaimer. * Redistributions in binary form must reproduce the above copyright notice,
  * this list of conditions and the following disclaimer in the documentation and/or other materials provided with the
  * distribution. * Neither the name of the University of Konstanz nor the names of its contributors may be used to
  * endorse or promote products derived from this software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES,
  * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
  * DISCLAIMED. IN NO EVENT SHALL <COPYRIGHT HOLDER> BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY,
@@ -44,14 +44,18 @@ import static org.junit.Assert.*;
 /**
  * Test case for the BenchmarkExecutor. Note that all classes used in this testcase are not allowed to be internal
  * classes because of the reflective invocation. This is not working with encapsulated classes.
- * 
+ *
  * @author Sebastian Graf, University of Konstanz
  */
 public class BenchmarkExecutorTest {
 
-    /** Method name to test */
+    /**
+     * Method name to test
+     */
     private final static String METHODNAME = "bench";
-    /** static int to check the beforefirstcounter */
+    /**
+     * static int to check the beforefirstcounter
+     */
     public static int once;
     /**
      * static int to check the beforeeachcounter
@@ -64,7 +68,7 @@ public class BenchmarkExecutorTest {
      * Simple SetUp.
      */
     @Before
-    public void setUp () {
+    public void setUp() {
         res = new BenchmarkResult();
         meter = new HashSet<>();
         meter.add(new TimeMeter(Time.MilliSeconds));
@@ -79,7 +83,7 @@ public class BenchmarkExecutorTest {
      * Test method for {@link org.perfidix.element.BenchmarkExecutor#getExecutor(org.perfidix.element.BenchmarkElement)}
      */
     @Test
-    public void testGetExecutor () {
+    public void testGetExecutor() {
         final NormalClass getInstanceClass = new NormalClass();
         Method meth;
         try {
@@ -88,8 +92,8 @@ public class BenchmarkExecutorTest {
             final BenchmarkMethod elem1 = new BenchmarkMethod(meth);
             final BenchmarkMethod elem2 = new BenchmarkMethod(meth);
 
-            final BenchmarkExecutor exec1 = BenchmarkExecutor.getExecutor(new BenchmarkElement(elem1, new Object[][] {}));
-            final BenchmarkExecutor exec2 = BenchmarkExecutor.getExecutor(new BenchmarkElement(elem2, new Object[][] {}));
+            final BenchmarkExecutor exec1 = BenchmarkExecutor.getExecutor(new BenchmarkElement(elem1, new Object[][]{}));
+            final BenchmarkExecutor exec2 = BenchmarkExecutor.getExecutor(new BenchmarkElement(elem2, new Object[][]{}));
 
             assertEquals("Singleton test of executor", exec1, exec2);
         } catch (final SecurityException | NoSuchMethodException e) {
@@ -101,14 +105,14 @@ public class BenchmarkExecutorTest {
      * Test method for {@link org.perfidix.element.BenchmarkExecutor#executeBeforeMethods(java.lang.Object)}
      */
     @Test
-    public void testExecuteBeforeMethods () {
+    public void testExecuteBeforeMethods() {
         try {
             final Method meth = BeforeClass.class.getMethod("bench");
             final Object objToExecute = BeforeClass.class.newInstance();
 
             final BenchmarkMethod elem = new BenchmarkMethod(meth);
 
-            final BenchmarkExecutor exec = BenchmarkExecutor.getExecutor(new BenchmarkElement(elem, new Object[][] {}));
+            final BenchmarkExecutor exec = BenchmarkExecutor.getExecutor(new BenchmarkElement(elem, new Object[][]{}));
 
             exec.executeBeforeMethods(objToExecute);
             exec.executeBeforeMethods(objToExecute);
@@ -125,13 +129,13 @@ public class BenchmarkExecutorTest {
      * Test method for {@link org.perfidix.element.BenchmarkExecutor#executeBench(Object, Object[])} .
      */
     @Test
-    public void testExecuteBench () {
+    public void testExecuteBench() {
         try {
             final Method meth = NormalClass.class.getMethod(METHODNAME);
             final Object objToExecute = NormalClass.class.newInstance();
             final BenchmarkMethod elem = new BenchmarkMethod(meth);
-            final BenchmarkExecutor exec = BenchmarkExecutor.getExecutor(new BenchmarkElement(elem, new Object[][] {}));
-            exec.executeBench(objToExecute, new Object[][] {});
+            final BenchmarkExecutor exec = BenchmarkExecutor.getExecutor(new BenchmarkElement(elem, new Object[][]{}));
+            exec.executeBench(objToExecute, new Object[][]{});
 
             assertEquals("Each is invoked just once", 1, each);
             assertEquals("Set should be included in the frameworks as well", meter, res.getRegisteredMeters());
@@ -157,14 +161,14 @@ public class BenchmarkExecutorTest {
      * Test method for {@link org.perfidix.element.BenchmarkExecutor#executeAfterMethods(java.lang.Object)}
      */
     @Test
-    public void testExecuteAfterMethods () {
+    public void testExecuteAfterMethods() {
         try {
             final Method meth = AfterClass.class.getMethod(METHODNAME);
             final Object objToExecute = AfterClass.class.newInstance();
 
             final BenchmarkMethod elem = new BenchmarkMethod(meth);
 
-            final BenchmarkExecutor exec = BenchmarkExecutor.getExecutor(new BenchmarkElement(elem, new Object[][] {}));
+            final BenchmarkExecutor exec = BenchmarkExecutor.getExecutor(new BenchmarkElement(elem, new Object[][]{}));
 
             exec.executeAfterMethods(objToExecute);
             exec.executeAfterMethods(objToExecute);
@@ -182,7 +186,7 @@ public class BenchmarkExecutorTest {
      * {@link org.perfidix.element.BenchmarkExecutor#invokeMethod(Object, Class, java.lang.reflect.Method, Object[])}
      */
     @Test
-    public void testCheckAndExecute () {
+    public void testCheckAndExecute() {
         try {
             final Object falseObj = new Object();
             final Object correctObj = new CheckAndExecuteClass();
@@ -214,11 +218,11 @@ public class BenchmarkExecutorTest {
 
 class CheckAndExecuteClass {
 
-    public void correctMethod () {
+    public void correctMethod() {
         BenchmarkExecutorTest.once++;
     }
 
-    public Object incorrectMethod () {
+    public Object incorrectMethod() {
         return null;
     }
 
@@ -228,7 +232,7 @@ class CheckAndExecuteClass {
 class NormalClass {
 
     @Bench
-    public void bench () {
+    public void bench() {
         BenchmarkExecutorTest.each++;
     }
 
@@ -238,17 +242,17 @@ class NormalClass {
 class AfterClass {
 
     @Bench
-    public void bench () {
+    public void bench() {
         // empty method, just for counting
     }
 
     @AfterLastRun
-    public void afterLast () {
+    public void afterLast() {
         BenchmarkExecutorTest.once++;
     }
 
     @AfterEachRun
-    public void afterEach () {
+    public void afterEach() {
         BenchmarkExecutorTest.each++;
     }
 
@@ -258,17 +262,17 @@ class AfterClass {
 class BeforeClass {
 
     @Bench
-    public void bench () {
+    public void bench() {
         // empty method, just for counting
     }
 
     @BeforeFirstRun
-    public void beforeFirst () {
+    public void beforeFirst() {
         BenchmarkExecutorTest.once++;
     }
 
     @BeforeEachRun
-    public void beforeEach () {
+    public void beforeEach() {
         BenchmarkExecutorTest.each++;
     }
 
@@ -277,7 +281,7 @@ class BeforeClass {
 
 class CheckConfig extends AbstractConfig {
 
-    protected CheckConfig (Set<AbstractMeter> meter) {
+    protected CheckConfig(Set<AbstractMeter> meter) {
         super(1, meter, AbstractConfig.LISTENERS, AbstractConfig.ARRAN, AbstractConfig.GARBAGE_PROB);
     }
 

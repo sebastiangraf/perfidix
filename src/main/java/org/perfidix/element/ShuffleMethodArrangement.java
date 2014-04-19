@@ -1,13 +1,13 @@
 /**
  * Copyright (c) 2012, University of Konstanz, Distributed Systems Group All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without modification, are permitted provided that the
  * following conditions are met: * Redistributions of source code must retain the above copyright notice, this list of
  * conditions and the following disclaimer. * Redistributions in binary form must reproduce the above copyright notice,
  * this list of conditions and the following disclaimer in the documentation and/or other materials provided with the
  * distribution. * Neither the name of the University of Konstanz nor the names of its contributors may be used to
  * endorse or promote products derived from this software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES,
  * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
  * DISCLAIMED. IN NO EVENT SHALL <COPYRIGHT HOLDER> BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY,
@@ -28,27 +28,31 @@ import java.util.Random;
 /**
  * This class represents a shuffle random arrangement of elements. All elements are shuffled and executed in a complete
  * random order.
- * 
+ *
  * @author Sebastian Graf, University of Konstanz
  */
 public final class ShuffleMethodArrangement extends AbstractMethodArrangement {
 
-    /** Seed for the random arrangement of the elements. */
+    /**
+     * Seed for the random arrangement of the elements.
+     */
     private static final long SEED = 1L;
 
     /**
      * Constructor for shuffle arrangement. That means that the order which is given as an input is shuffled in a random
      * way and given back as the output. The order is complete randomlike and depends on a seed.
-     * 
+     *
      * @param elements with benchmarkable elements.
      */
-    protected ShuffleMethodArrangement (final List<BenchmarkElement> elements) {
+    protected ShuffleMethodArrangement(final List<BenchmarkElement> elements) {
         super(elements);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    protected List<BenchmarkElement> arrangeList (final List<BenchmarkElement> methods) {
+    protected List<BenchmarkElement> arrangeList(final List<BenchmarkElement> methods) {
         final Random ran = new Random(SEED);
         final List<BenchmarkElement> inputList = new LinkedList<BenchmarkElement>();
         inputList.addAll(methods);

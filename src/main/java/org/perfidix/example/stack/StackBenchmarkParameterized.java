@@ -1,13 +1,13 @@
 /**
  * Copyright (c) 2012, University of Konstanz, Distributed Systems Group All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without modification, are permitted provided that the
  * following conditions are met: * Redistributions of source code must retain the above copyright notice, this list of
  * conditions and the following disclaimer. * Redistributions in binary form must reproduce the above copyright notice,
  * this list of conditions and the following disclaimer in the documentation and/or other materials provided with the
  * distribution. * Neither the name of the University of Konstanz nor the names of its contributors may be used to
  * endorse or promote products derived from this software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES,
  * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
  * DISCLAIMED. IN NO EVENT SHALL <COPYRIGHT HOLDER> BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY,
@@ -33,7 +33,7 @@ import java.util.Stack;
 
 /**
  * Benching {@link FastIntStack} against {@link Stack}. Just a simple example of Perfidix.
- * 
+ *
  * @author Sebastian Graf, University of Konstanz
  */
 public final class StackBenchmarkParameterized {
@@ -48,13 +48,19 @@ public final class StackBenchmarkParameterized {
      */
     private static final int ARRAYSIZE = 100;
 
-    /** FastStack instance. */
+    /**
+     * FastStack instance.
+     */
     private transient FastIntStack fastInt;
 
-    /** Stack instance. */
+    /**
+     * Stack instance.
+     */
     private transient Stack<Integer> normalInt;
 
-    /** Deque instance. */
+    /**
+     * Deque instance.
+     */
     private transient ArrayDeque<Integer> arrayDeque;
 
     /**
@@ -79,20 +85,24 @@ public final class StackBenchmarkParameterized {
     @DataProvider(name = "generateData")
     public Object[][] generateData() {
         final Random ran = new Random();
-        final Integer[] intData = new Integer[ARRAYSIZE];
-        int counter = 0;
-        while (counter < ARRAYSIZE) {
-            intData[counter] = ran.nextInt();
-            counter++;
+        final Integer[][] intData = new Integer[10][];
+        for (int i = 0; i < intData.length; i++) {
+            intData[i] = new Integer[ARRAYSIZE];
+            int counter = 0;
+            while (counter < ARRAYSIZE) {
+                intData[i][counter] = ran.nextInt();
+                counter++;
+            }
         }
-        return new Object[][]{{Integer[].class}, intData};
+
+        return intData;
     }
 
     /**
      * Bench for pushing the data to the {@link FastIntStack}.
      */
-    @Bench(runs = RUNS, dataProvider = "generateData")
-    public void benchFastIntPush(final Class<Integer[]> clazz, final Integer[] intData) {
+    @Bench(dataProvider = "generateData")
+    public void benchFastIntPush(final Integer[] intData) {
         fastInt = new FastIntStack();
         for (final int i : intData) {
             fastInt.push(i);
@@ -114,8 +124,8 @@ public final class StackBenchmarkParameterized {
     /**
      * Bench for pushing the data to the {@link Stack}.
      */
-    @Bench(runs = RUNS, dataProvider = "generateData")
-    public void benchNormalIntPush(final Class<Integer[]> clazz, final Integer[] intData) {
+    @Bench(dataProvider = "generateData")
+    public void benchNormalIntPush(final Integer[] intData) {
         normalInt = new Stack<Integer>();
         for (final int i : intData) {
             normalInt.push(i);
@@ -135,8 +145,8 @@ public final class StackBenchmarkParameterized {
     /**
      * Bench for pushing the data to the {@link ArrayDeque}.
      */
-    @Bench(runs = RUNS, dataProvider = "generateData")
-    public void benchArrayDequePush(final Class<Integer[]> clazz, final Integer[] intData) {
+    @Bench(dataProvider = "generateData")
+    public void benchArrayDequePush(final Integer[] intData) {
         arrayDeque = new ArrayDeque<Integer>();
         for (final int i : intData) {
             arrayDeque.push(i);

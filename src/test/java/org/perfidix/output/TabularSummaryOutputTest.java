@@ -1,13 +1,13 @@
 /**
  * Copyright (c) 2012, University of Konstanz, Distributed Systems Group All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without modification, are permitted provided that the
  * following conditions are met: * Redistributions of source code must retain the above copyright notice, this list of
  * conditions and the following disclaimer. * Redistributions in binary form must reproduce the above copyright notice,
  * this list of conditions and the following disclaimer in the documentation and/or other materials provided with the
  * distribution. * Neither the name of the University of Konstanz nor the names of its contributors may be used to
  * endorse or promote products derived from this software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES,
  * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
  * DISCLAIMED. IN NO EVENT SHALL <COPYRIGHT HOLDER> BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY,
@@ -18,14 +18,6 @@
  */
 package org.perfidix.output;
 
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.PrintStream;
-import java.lang.reflect.Method;
 
 import org.junit.After;
 import org.junit.Before;
@@ -40,10 +32,18 @@ import org.perfidix.ouput.TabularSummaryOutput;
 import org.perfidix.result.BenchmarkResult;
 import org.perfidix.result.MethodResult;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.PrintStream;
+import java.lang.reflect.Method;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 
 /**
  * Test case for {@link TabularSummaryOutput}
- * 
+ *
  * @author Sebastian Graf, University of Konstanz
  */
 public class TabularSummaryOutputTest {
@@ -63,12 +63,12 @@ public class TabularSummaryOutputTest {
 
     /**
      * Simple Constructor.
-     * 
+     *
      * @throws NoSuchMethodException if declaration fails
-     * @throws SecurityException if declaration fails
+     * @throws SecurityException     if declaration fails
      */
     @Before
-    public void setUp () throws SecurityException , NoSuchMethodException {
+    public void setUp() throws SecurityException, NoSuchMethodException {
         benchRes = new BenchmarkResult();
 
         final Class<?> class1 = Class1.class;
@@ -92,11 +92,11 @@ public class TabularSummaryOutputTest {
 
     /**
      * Simple Constructor.
-     * 
+     *
      * @throws java.lang.Exception
      */
     @After
-    public void tearDown () throws Exception {
+    public void tearDown() throws Exception {
         System.setOut(consoleOut);
     }
 
@@ -105,7 +105,7 @@ public class TabularSummaryOutputTest {
      * {@link org.perfidix.ouput.TabularSummaryOutput#visitBenchmark(org.perfidix.result.BenchmarkResult)} .
      */
     @Test
-    public final void testVisitBenchmark () {
+    public final void testVisitBenchmark() {
         final TabularSummaryOutput output = new TabularSummaryOutput();
         output.visitBenchmark(benchRes);
         final StringBuilder builder = new StringBuilder();
@@ -134,11 +134,11 @@ public class TabularSummaryOutputTest {
      * Test method for
      * {@link org.perfidix.ouput.TabularSummaryOutput#listenToResultSet(java.lang.reflect.Method, org.perfidix.meter.AbstractMeter, double)}
      * .
-     * 
+     *
      * @throws IOException
      */
     @Test
-    public final void testListenToResultSet () throws IOException {
+    public final void testListenToResultSet() throws IOException {
 
         final MethodResult methRes = benchRes.getIncludedResults().iterator().next().getIncludedResults().iterator().next();
         final AbstractMeter meter = methRes.getRegisteredMeters().iterator().next();
@@ -198,7 +198,7 @@ public class TabularSummaryOutputTest {
      * .
      */
     @Test
-    public final void testListenToException () {
+    public final void testListenToException() {
         final TabularSummaryOutput output = new TabularSummaryOutput();
         output.listenToException(testException);
 
@@ -212,7 +212,7 @@ public class TabularSummaryOutputTest {
 
     class Class1 {
         @Bench
-        public void method1 () {
+        public void method1() {
             // Simple skeleton
         }
 

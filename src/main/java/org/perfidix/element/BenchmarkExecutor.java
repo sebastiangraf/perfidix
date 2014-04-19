@@ -1,13 +1,13 @@
 /**
  * Copyright (c) 2012, University of Konstanz, Distributed Systems Group All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without modification, are permitted provided that the
  * following conditions are met: * Redistributions of source code must retain the above copyright notice, this list of
  * conditions and the following disclaimer. * Redistributions in binary form must reproduce the above copyright notice,
  * this list of conditions and the following disclaimer in the documentation and/or other materials provided with the
  * distribution. * Neither the name of the University of Konstanz nor the names of its contributors may be used to
  * endorse or promote products derived from this software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES,
  * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
  * DISCLAIMED. IN NO EVENT SHALL <COPYRIGHT HOLDER> BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY,
@@ -37,7 +37,7 @@ import java.util.*;
  * {@link AfterEachRun} and {@link AfterLastRun} classes. To store the data if the single-execute before classes have
  * been executed, this class is implemented as a singleton to store this information related to the method. All the data
  * comes from the {@link BenchmarkMethod} class.
- * 
+ *
  * @author Sebastian Graf, University of Konstanz
  */
 public final class BenchmarkExecutor {
@@ -47,16 +47,24 @@ public final class BenchmarkExecutor {
      */
     private static final Map<BenchmarkMethod, BenchmarkExecutor> EXECUTOR = new Hashtable<>();
 
-    /** Static Mapping of runs to occur for each BenchmarkMethod.} */
+    /**
+     * Static Mapping of runs to occur for each BenchmarkMethod.}
+     */
     private static final Map<BenchmarkMethod, Integer> RUNS = new Hashtable<>();
 
-    /** Set with all meters to be benched automatically. */
+    /**
+     * Set with all meters to be benched automatically.
+     */
     private static final Set<AbstractMeter> METERS_TO_BENCH = new LinkedHashSet<>();
 
-    /** Result for all Benchmarks. */
+    /**
+     * Result for all Benchmarks.
+     */
     private static BenchmarkResult BENCHRES;
 
-    /** Config for all Benchmarks. */
+    /**
+     * Config for all Benchmarks.
+     */
     private static AbstractConfig CONFIG;
     /**
      * Corresponding BenchmarkElement of this executor to get the before/after methods.
@@ -69,23 +77,25 @@ public final class BenchmarkExecutor {
 
     /**
      * Private constructor, just setting the booleans and one element to get the before/after methods.
-     * 
+     *
      * @param paramElement BenchmarkElement to provide easy access to the before/after methods.
      */
-    private BenchmarkExecutor (final BenchmarkMethod paramElement) {
+    private BenchmarkExecutor(final BenchmarkMethod paramElement) {
         beforeFirstRun = false;
         element = paramElement;
     }
 
     /**
      * Getting the executor corresponding to a BenchmarkElement.
-     * 
+     *
      * @param meth for the executor. If the underlaying {@link Method} was not registered, a new mapping-entry will be
-     *            created.
+     *             created.
      * @return the BenchmarkExecutor corresponding to the Method of the BenchmarkElement
      */
-    public static BenchmarkExecutor getExecutor (final BenchmarkElement meth) {
-        if (BENCHRES == null) { throw new IllegalStateException("Call initialize method first!"); }
+    public static BenchmarkExecutor getExecutor(final BenchmarkElement meth) {
+        if (BENCHRES == null) {
+            throw new IllegalStateException("Call initialize method first!");
+        }
 
         // check if new instance needs to be created
         if (!EXECUTOR.containsKey(meth.getMeth())) {
@@ -104,11 +114,11 @@ public final class BenchmarkExecutor {
 
     /**
      * Initializing the executor.
-     * 
+     *
      * @param config to be benched
      * @param result to be stored to
      */
-    public static void initialize (final AbstractConfig config, final BenchmarkResult result) {
+    public static void initialize(final AbstractConfig config, final BenchmarkResult result) {
         METERS_TO_BENCH.clear();
         METERS_TO_BENCH.addAll(Arrays.asList(config.getMeters()));
         EXECUTOR.clear();
@@ -175,7 +185,7 @@ public final class BenchmarkExecutor {
      *
      * @param obj the object of the class where the bench runs currently in.
      */
-    public void executeBeforeMethods (final Object obj) {
+    public void executeBeforeMethods(final Object obj) {
 
         // invoking once the beforeFirstRun-method
         if (!beforeFirstRun) {
@@ -208,6 +218,7 @@ public final class BenchmarkExecutor {
      * Execution of bench method. All data is stored corresponding to the meters.
      *
      * @param objToExecute the instance of the benchclass where the method should be executed with.
+     * @param args         arguments for the method to execure
      */
     public void executeBench(final Object objToExecute, final Object... args) {
 
@@ -280,9 +291,9 @@ public final class BenchmarkExecutor {
     /**
      * Checking and executing several before/after methods.
      *
-     * @param obj on which the execution should take place
+     * @param obj   on which the execution should take place
      * @param meths to be executed
-     * @param anno the related annotation
+     * @param anno  the related annotation
      */
     private void checkAndExectuteBeforeAfters(final Object obj, final Class<? extends Annotation> anno, final Method... meths) {
         final PerfidixMethodCheckException checkExc = checkMethod(obj, anno, meths);

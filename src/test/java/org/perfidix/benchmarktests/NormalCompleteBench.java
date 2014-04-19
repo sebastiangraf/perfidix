@@ -1,13 +1,13 @@
 /**
  * Copyright (c) 2012, University of Konstanz, Distributed Systems Group All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without modification, are permitted provided that the
  * following conditions are met: * Redistributions of source code must retain the above copyright notice, this list of
  * conditions and the following disclaimer. * Redistributions in binary form must reproduce the above copyright notice,
  * this list of conditions and the following disclaimer in the documentation and/or other materials provided with the
  * distribution. * Neither the name of the University of Konstanz nor the names of its contributors may be used to
  * endorse or promote products derived from this software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES,
  * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
  * DISCLAIMED. IN NO EVENT SHALL <COPYRIGHT HOLDER> BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY,
@@ -19,23 +19,19 @@
 package org.perfidix.benchmarktests;
 
 
-import org.perfidix.annotation.AfterBenchClass;
-import org.perfidix.annotation.AfterEachRun;
-import org.perfidix.annotation.AfterLastRun;
-import org.perfidix.annotation.BeforeBenchClass;
-import org.perfidix.annotation.BeforeEachRun;
-import org.perfidix.annotation.BeforeFirstRun;
-import org.perfidix.annotation.Bench;
+import org.perfidix.annotation.*;
 
 
 /**
  * One complete Bench, just looking if everthing is going well.
- * 
+ *
  * @author Sebastian Graf, University of Konstanz
  */
 public final class NormalCompleteBench {
 
-    /** Static for setting number of runs */
+    /**
+     * Static for setting number of runs
+     */
     public final static int RUNS = 25;
 
     private static int beforeClassC = 0;
@@ -48,73 +44,9 @@ public final class NormalCompleteBench {
     private static int afterClassC = 0;
 
     /**
-     * before benchclass
-     */
-    @BeforeBenchClass
-    public void beforeClass () {
-        beforeClassC++;
-    }
-
-    /**
-     * before firstrun
-     */
-    @BeforeFirstRun
-    public void beforeFirstRun () {
-        beforeFirstRunC++;
-    }
-
-    /**
-     * before eachrun
-     */
-    @BeforeEachRun
-    public void beforeEachRun () {
-        beforeEachRunC++;
-    }
-
-    /**
-     * Bench
-     */
-    @Bench (runs = RUNS)
-    public void bench1 () {
-        benchC1++;
-    }
-
-    /**
-     * Bench
-     */
-    @Bench
-    public void bench () {
-        benchC2++;
-    }
-
-    /**
-     * after eachrun
-     */
-    @AfterEachRun
-    public void afterEachRun () {
-        afterEachC++;
-    }
-
-    /**
-     * before eachrun
-     */
-    @AfterLastRun
-    public void afterLastRun () {
-        afterLastC++;
-    }
-
-    /**
-     * after benchclass
-     */
-    @AfterBenchClass
-    public void afterClass () {
-        afterClassC++;
-    }
-
-    /**
      * Resetting everything
      */
-    public static void reset () {
+    public static void reset() {
         beforeClassC = 0;
         beforeEachRunC = 0;
         beforeFirstRunC = 0;
@@ -127,74 +59,138 @@ public final class NormalCompleteBench {
 
     /**
      * Getter for member beforeClassC
-     * 
+     *
      * @return the beforeClassC
      */
-    public static int getBeforeClassCounter () {
+    public static int getBeforeClassCounter() {
         return beforeClassC;
     }
 
     /**
      * Getter for member beforeFirstRunC
-     * 
+     *
      * @return the beforeFirstRunC
      */
-    public static int getBeforeFirstRunCounter () {
+    public static int getBeforeFirstRunCounter() {
         return beforeFirstRunC;
     }
 
     /**
      * Getter for member beforeEachRunC
-     * 
+     *
      * @return the beforeEachRunC
      */
-    public static int getBeforeEachRunCounter () {
+    public static int getBeforeEachRunCounter() {
         return beforeEachRunC;
     }
 
     /**
      * Getter for member benchC
-     * 
+     *
      * @return the benchC
      */
-    public static int getBenchCounter1 () {
+    public static int getBenchCounter1() {
         return benchC1;
     }
 
     /**
      * Getter for member benchC
-     * 
+     *
      * @return the benchC
      */
-    public static int getBenchCounter2 () {
+    public static int getBenchCounter2() {
         return benchC2;
     }
 
     /**
      * Getter for member afterEachC
-     * 
+     *
      * @return the afterEachC
      */
-    public static int getAfterEachRunCounter () {
+    public static int getAfterEachRunCounter() {
         return afterEachC;
     }
 
     /**
      * Getter for member afterLastC
-     * 
+     *
      * @return the afterLastC
      */
-    public static int getAfterLastRunCounter () {
+    public static int getAfterLastRunCounter() {
         return afterLastC;
     }
 
     /**
      * Getter for member afterClassC
-     * 
+     *
      * @return the afterClassC
      */
-    public static int getAfterClassCounter () {
+    public static int getAfterClassCounter() {
         return afterClassC;
+    }
+
+    /**
+     * before benchclass
+     */
+    @BeforeBenchClass
+    public void beforeClass() {
+        beforeClassC++;
+    }
+
+    /**
+     * before firstrun
+     */
+    @BeforeFirstRun
+    public void beforeFirstRun() {
+        beforeFirstRunC++;
+    }
+
+    /**
+     * before eachrun
+     */
+    @BeforeEachRun
+    public void beforeEachRun() {
+        beforeEachRunC++;
+    }
+
+    /**
+     * Bench
+     */
+    @Bench(runs = RUNS)
+    public void bench1() {
+        benchC1++;
+    }
+
+    /**
+     * Bench
+     */
+    @Bench
+    public void bench() {
+        benchC2++;
+    }
+
+    /**
+     * after eachrun
+     */
+    @AfterEachRun
+    public void afterEachRun() {
+        afterEachC++;
+    }
+
+    /**
+     * before eachrun
+     */
+    @AfterLastRun
+    public void afterLastRun() {
+        afterLastC++;
+    }
+
+    /**
+     * after benchclass
+     */
+    @AfterBenchClass
+    public void afterClass() {
+        afterClassC++;
     }
 
 }

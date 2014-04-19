@@ -23,7 +23,6 @@ import org.perfidix.AbstractConfig.StandardConfig;
 import org.perfidix.annotation.AfterBenchClass;
 import org.perfidix.annotation.BeforeBenchClass;
 import org.perfidix.annotation.Bench;
-import org.perfidix.annotation.DataProvider;
 import org.perfidix.element.AbstractMethodArrangement;
 import org.perfidix.element.BenchmarkElement;
 import org.perfidix.element.BenchmarkExecutor;
@@ -116,36 +115,12 @@ public final class Benchmark {
     }
 
     public static Object[][] getDataProviderContent(final Method meth, final Object toInvoke) {
-        final String dataProviderMethod = meth.getAnnotation(Bench.class).dataProvider();
-
-        Method m = null;
-        try {
-            final Method[] methods = meth.getDeclaringClass().getMethods();
-            for (Method method : methods) {
-                final DataProvider provider = method.getAnnotation(DataProvider.class);
-                if (provider != null) {
-                    if (m != null) {
-                        throw new PerfidixMethodCheckException(new IllegalStateException("DataProvider arbitrary, please use only one DataProvider with the same name"), m, DataProvider.class);
-                    }
-                    if (provider.name().equals(dataProviderMethod)) {
-                        m = method;
-                    }
-                }
-            }
-
-        } catch (PerfidixMethodCheckException | SecurityException e) {
-            throw new IllegalArgumentException(new StringBuilder("Method ").append(meth).append(" uses a non-existing data provider " + dataProviderMethod).toString());
-        }
-
-        if (m == null) {
-            throw new IllegalStateException(new StringBuilder("Method ").append(meth.toString()).append(" refers to a method named ").append(dataProviderMethod).append(". Unfortunately there is none.").toString());
-        }
 
         Object[][] res;
         try {
-            res = (Object[][]) m.invoke(toInvoke);
+            res = (Object[][]) meth.invoke(toInvoke);
         } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-            throw new IllegalArgumentException(new StringBuilder("Method ").append(meth).append(" uses the data provider " + dataProviderMethod + " which threw an exception on invocation").toString());
+            throw new IllegalArgumentException(new StringBuilder("Method ").append(meth).append(" as data provider throws an exception on invocation").toString());
         }
 
         return res;
@@ -276,12 +251,9 @@ public final class Benchmark {
                     final Object obj = clazz.newInstance();
                     objectsToUse.put(clazz, obj);
                     // otherwise adding an exception to the result
-                } catch (final InstantiationException e) {
-                    res.addException(new PerfidixMethodInvocationException(e, BeforeBenchClass.class));
-                } catch (final IllegalAccessException e) {
+                } catch (final InstantiationException | IllegalAccessException e) {
                     res.addException(new PerfidixMethodInvocationException(e, BeforeBenchClass.class));
                 }
-
             }
         }
 
@@ -423,20 +395,14 @@ public final class Benchmark {
                 // ...and adding this number of
                 // elements to the set to be evaluated.
                 for (int i = 0; i < numberOfRuns; i++) {
-                    elems.add(new BenchmarkElement(meth, new Object[][]{}));
+                    elems.add(new BenchmarkElement(meth));
                 }
             }//If the method is parameterized...
             else {
                 //..get the parameters
                 final Object[][] dataProvider = getDataProviderContent(dataProv, paramObjs.get(meth.getMethodToBench().getDeclaringClass()));
-                final List<Object> params = new ArrayList<>();
                 for (final Object[] parameterSet : dataProvider) {
-                    if (parameterSet.length != 2) {
-                        throw new PerfidixMethodCheckException(new IllegalArgumentException(new StringBuilder("Method ").append(meth).append(" has invalid dataprovider. Dataproviders must always have parameters like Object[][] = {{Class, Object[]},{Class,Object[]}}").toString()), meth.getMethodToBench(), DataProvider.class);
-                    }
-                    params.add((Class<?>) parameterSet[0]);
-                    params.add(parameterSet[1]);
-                    //elems.add(new BenchmarkElement(meth, params.));
+                    elems.add(new BenchmarkElement(meth, parameterSet));
                 }
 
 
