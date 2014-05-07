@@ -24,6 +24,7 @@ package org.perfidix.socketadapter;
 import org.junit.Before;
 import org.junit.Test;
 import org.perfidix.element.BenchmarkMethod;
+import org.perfidix.exceptions.PerfidixMethodCheckException;
 import org.perfidix.exceptions.SocketViewException;
 import org.perfidix.meter.AbstractMeter;
 import org.perfidix.meter.Time;
@@ -73,9 +74,10 @@ public class SocketListenerTest {
      *
      * @throws InterruptedException Thread sleep exception.
      * @throws SocketViewException  if view is not correctly notified
+     * @throws PerfidixMethodCheckException 
      */
     @Test
-    public void testListenToResultSet() throws InterruptedException, SocketViewException {
+    public void testListenToResultSet() throws InterruptedException, SocketViewException, PerfidixMethodCheckException {
         final Method[] methods = BenchWithException.class.getMethods();
         BenchmarkMethod method1 = null;
         for (Method method : methods) {
@@ -98,9 +100,10 @@ public class SocketListenerTest {
      * .
      *
      * @throws InterruptedException Thread exception occurred.
+     * @throws PerfidixMethodCheckException 
      */
     @Test
-    public void testListenToException() throws InterruptedException, SocketViewException {
+    public void testListenToException() throws InterruptedException, SocketViewException, PerfidixMethodCheckException {
         final Method[] methods = BenchWithException.class.getMethods();
         BenchmarkMethod method1 = null;
         for (Method method : methods) {

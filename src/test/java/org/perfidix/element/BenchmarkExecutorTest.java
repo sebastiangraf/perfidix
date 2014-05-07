@@ -81,9 +81,10 @@ public class BenchmarkExecutorTest {
 
     /**
      * Test method for {@link org.perfidix.element.BenchmarkExecutor#getExecutor(org.perfidix.element.BenchmarkElement)}
+     * @throws PerfidixMethodCheckException 
      */
     @Test
-    public void testGetExecutor() {
+    public void testGetExecutor() throws PerfidixMethodCheckException {
         final NormalClass getInstanceClass = new NormalClass();
         Method meth;
         try {
@@ -92,8 +93,8 @@ public class BenchmarkExecutorTest {
             final BenchmarkMethod elem1 = new BenchmarkMethod(meth);
             final BenchmarkMethod elem2 = new BenchmarkMethod(meth);
 
-            final BenchmarkExecutor exec1 = BenchmarkExecutor.getExecutor(new BenchmarkElement(elem1, new Object[][]{}));
-            final BenchmarkExecutor exec2 = BenchmarkExecutor.getExecutor(new BenchmarkElement(elem2, new Object[][]{}));
+            final BenchmarkExecutor exec1 = BenchmarkExecutor.getExecutor(new BenchmarkElement(elem1));
+            final BenchmarkExecutor exec2 = BenchmarkExecutor.getExecutor(new BenchmarkElement(elem2));
 
             assertEquals("Singleton test of executor", exec1, exec2);
         } catch (final SecurityException | NoSuchMethodException e) {
@@ -103,16 +104,17 @@ public class BenchmarkExecutorTest {
 
     /**
      * Test method for {@link org.perfidix.element.BenchmarkExecutor#executeBeforeMethods(java.lang.Object)}
+     * @throws PerfidixMethodCheckException 
      */
     @Test
-    public void testExecuteBeforeMethods() {
+    public void testExecuteBeforeMethods() throws PerfidixMethodCheckException {
         try {
             final Method meth = BeforeClass.class.getMethod("bench");
             final Object objToExecute = BeforeClass.class.newInstance();
 
             final BenchmarkMethod elem = new BenchmarkMethod(meth);
 
-            final BenchmarkExecutor exec = BenchmarkExecutor.getExecutor(new BenchmarkElement(elem, new Object[][]{}));
+            final BenchmarkExecutor exec = BenchmarkExecutor.getExecutor(new BenchmarkElement(elem));
 
             exec.executeBeforeMethods(objToExecute);
             exec.executeBeforeMethods(objToExecute);
@@ -127,15 +129,16 @@ public class BenchmarkExecutorTest {
 
     /**
      * Test method for {@link org.perfidix.element.BenchmarkExecutor#executeBench(Object, Object[])} .
+     * @throws PerfidixMethodCheckException 
      */
     @Test
-    public void testExecuteBench() {
+    public void testExecuteBench() throws PerfidixMethodCheckException {
         try {
             final Method meth = NormalClass.class.getMethod(METHODNAME);
             final Object objToExecute = NormalClass.class.newInstance();
             final BenchmarkMethod elem = new BenchmarkMethod(meth);
-            final BenchmarkExecutor exec = BenchmarkExecutor.getExecutor(new BenchmarkElement(elem, new Object[][]{}));
-            exec.executeBench(objToExecute, new Object[][]{});
+            final BenchmarkExecutor exec = BenchmarkExecutor.getExecutor(new BenchmarkElement(elem));
+            exec.executeBench(objToExecute);
 
             assertEquals("Each is invoked just once", 1, each);
             assertEquals("Set should be included in the frameworks as well", meter, res.getRegisteredMeters());
@@ -159,16 +162,17 @@ public class BenchmarkExecutorTest {
 
     /**
      * Test method for {@link org.perfidix.element.BenchmarkExecutor#executeAfterMethods(java.lang.Object)}
+     * @throws PerfidixMethodCheckException 
      */
     @Test
-    public void testExecuteAfterMethods() {
+    public void testExecuteAfterMethods() throws PerfidixMethodCheckException {
         try {
             final Method meth = AfterClass.class.getMethod(METHODNAME);
             final Object objToExecute = AfterClass.class.newInstance();
 
             final BenchmarkMethod elem = new BenchmarkMethod(meth);
 
-            final BenchmarkExecutor exec = BenchmarkExecutor.getExecutor(new BenchmarkElement(elem, new Object[][]{}));
+            final BenchmarkExecutor exec = BenchmarkExecutor.getExecutor(new BenchmarkElement(elem));
 
             exec.executeAfterMethods(objToExecute);
             exec.executeAfterMethods(objToExecute);

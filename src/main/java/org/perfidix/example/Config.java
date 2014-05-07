@@ -37,7 +37,7 @@ import java.util.Set;
 @BenchmarkConfig
 public class Config extends AbstractConfig {
 
-    private final static int RUNS = 100;
+    public final static int RUNS = 100;
     private final static Set<AbstractMeter> METERS = new HashSet<AbstractMeter>();
     private final static Set<AbstractOutput> OUTPUT = new HashSet<AbstractOutput>();
 

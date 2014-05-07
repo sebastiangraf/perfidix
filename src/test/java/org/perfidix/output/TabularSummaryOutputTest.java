@@ -25,6 +25,7 @@ import org.junit.Test;
 import org.perfidix.annotation.Bench;
 import org.perfidix.element.BenchmarkMethod;
 import org.perfidix.exceptions.AbstractPerfidixMethodException;
+import org.perfidix.exceptions.PerfidixMethodCheckException;
 import org.perfidix.exceptions.PerfidixMethodInvocationException;
 import org.perfidix.meter.AbstractMeter;
 import org.perfidix.meter.CountingMeter;
@@ -66,9 +67,10 @@ public class TabularSummaryOutputTest {
      *
      * @throws NoSuchMethodException if declaration fails
      * @throws SecurityException     if declaration fails
+     * @throws PerfidixMethodCheckException 
      */
     @Before
-    public void setUp() throws SecurityException, NoSuchMethodException {
+    public void setUp() throws SecurityException, NoSuchMethodException, PerfidixMethodCheckException {
         benchRes = new BenchmarkResult();
 
         final Class<?> class1 = Class1.class;

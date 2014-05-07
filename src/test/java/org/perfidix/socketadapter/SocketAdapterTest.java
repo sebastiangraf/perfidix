@@ -24,6 +24,7 @@ import org.junit.Test;
 import org.perfidix.Benchmark;
 import org.perfidix.Perfidix;
 import org.perfidix.element.BenchmarkMethod;
+import org.perfidix.exceptions.PerfidixMethodCheckException;
 import org.perfidix.exceptions.SocketViewException;
 
 import java.util.Map;
@@ -45,9 +46,10 @@ public class SocketAdapterTest {
      * Test method for {@link org.perfidix.socketadapter.SocketAdapter} .
      *
      * @throws InterruptedException Exception occurred.
+     * @throws PerfidixMethodCheckException 
      */
     @Test
-    public void testMain() throws InterruptedException, SocketViewException, ClassNotFoundException, InstantiationException, IllegalAccessException {
+    public void testMain() throws InterruptedException, SocketViewException, ClassNotFoundException, InstantiationException, IllegalAccessException, PerfidixMethodCheckException {
         iUpdaterMock = mock(IUpdater.class);
         final String[] classes = {"org.perfidix.example.Config", "org.perfidix.example.stack.StackBenchmark", "org.perfidix.socketadapter.BenchWithException"};
         final Benchmark tmpBench = Perfidix.setUpBenchmark(classes, new Benchmark(Perfidix.getConfiguration(classes)));

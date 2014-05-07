@@ -30,6 +30,7 @@ import org.perfidix.benchmarktests.NormalCompleteBench;
 import org.perfidix.benchmarktests.NormalIncompleteBench;
 import org.perfidix.element.BenchmarkMethod;
 import org.perfidix.exceptions.AbstractPerfidixMethodException;
+import org.perfidix.exceptions.PerfidixMethodCheckException;
 import org.perfidix.result.BenchmarkResult;
 
 import java.util.Map;
@@ -80,9 +81,10 @@ public final class BenchmarkTest {
 
     /**
      * Test method for {@link org.perfidix.Benchmark#run()} .
+     * @throws PerfidixMethodCheckException 
      */
     @Test
-    public void testNormalBenchrun() {
+    public void testNormalBenchrun() throws PerfidixMethodCheckException {
         benchmark.add(NormalCompleteBench.class);
         final Map<BenchmarkMethod, Integer> mapping = benchmark.getNumberOfMethodsAndRuns();
         assertEquals("The mapping of methods and runs should be 2", 2, mapping.size());

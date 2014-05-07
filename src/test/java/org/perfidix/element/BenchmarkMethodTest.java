@@ -130,7 +130,7 @@ public class BenchmarkMethodTest {
         int numOfMethods = 0;
         for (final Method meth : meths) {
             if (BenchmarkMethod.isReflectedExecutable(meth, Bench.class)) {
-                meth.invoke(toTest, null);
+                meth.invoke(toTest);
                 numOfMethods++;
             }
         }

@@ -22,6 +22,7 @@ package org.perfidix.element;
 import org.junit.Before;
 import org.junit.Test;
 import org.perfidix.annotation.Bench;
+import org.perfidix.exceptions.PerfidixMethodCheckException;
 
 import java.lang.reflect.Method;
 import java.util.*;
@@ -40,14 +41,15 @@ public class NoMethodArrangementTest {
 
     /**
      * Before method to setUp Benchmarkables.
+     * @throws PerfidixMethodCheckException 
      */
     @Before
-    public void setUp() {
+    public void setUp() throws PerfidixMethodCheckException {
         elemSet = new ArrayList<BenchmarkElement>();
         final Class<?> testClazz = TestBenchClass.class;
         for (final Method meth : testClazz.getDeclaredMethods()) {
             if (BenchmarkMethod.isBenchmarkable(meth)) {
-                elemSet.add(new BenchmarkElement(new BenchmarkMethod(meth), new Object[][]{}));
+                elemSet.add(new BenchmarkElement(new BenchmarkMethod(meth)));
             }
         }
 

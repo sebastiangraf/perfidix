@@ -23,6 +23,7 @@ import org.perfidix.AbstractConfig;
 import org.perfidix.Benchmark;
 import org.perfidix.Perfidix;
 import org.perfidix.element.BenchmarkMethod;
+import org.perfidix.exceptions.PerfidixMethodCheckException;
 import org.perfidix.exceptions.SocketViewException;
 import org.perfidix.meter.AbstractMeter;
 import org.perfidix.ouput.AbstractOutput;
@@ -129,7 +130,7 @@ public final class SocketAdapter {
 
             final Map<BenchmarkMethod, Integer> vals = benchmark.getNumberOfMethodsAndRuns();
             return view.initProgressView(vals);
-        } catch (final ClassNotFoundException e2) {
+        } catch (final ClassNotFoundException | PerfidixMethodCheckException e2) {
             return view.updateErrorInElement(e2.toString(), e2);
         }
     }
