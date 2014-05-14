@@ -34,7 +34,7 @@ public final class MethodResult extends AbstractResult {
     /**
      * Simple Constructor.
      *
-     * @param paramMethod , the method related to these results
+     * @param meth , the method related to these results
      */
     public MethodResult(final BenchmarkMethod meth) {
         super(meth);

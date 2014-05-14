@@ -118,10 +118,11 @@ public class BenchmarkMethodTest {
     }
 
     /**
-     * Test method for {@link org.perfidix.element.BenchmarkMethod#isReflectedExecutable(java.lang.reflect.Method)} .
-     * @throws InvocationTargetException 
-     * @throws IllegalArgumentException 
-     * @throws IllegalAccessException 
+     * Test method for {@link org.perfidix.element.BenchmarkMethod#isReflectedExecutable(java.lang.reflect.Method, Class)}.
+     *
+     * @throws InvocationTargetException
+     * @throws IllegalArgumentException
+     * @throws IllegalAccessException
      */
     @Test
     public void testIsReflectedExecutable() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
@@ -457,7 +458,7 @@ public class BenchmarkMethodTest {
     }
 
     @BenchClass(runs = 20)
-    class TestNumberOfAnnotatedRuns {
+    private class TestNumberOfAnnotatedRuns {
 
         @Bench(runs = 10)
         public void bench1() {
@@ -480,7 +481,7 @@ public class BenchmarkMethodTest {
 
     }
 
-    class TestAfterLastRun2 {
+    private class TestAfterLastRun2 {
 
         @AfterLastRun
         public final void afterLastRun() {
@@ -517,7 +518,7 @@ public class BenchmarkMethodTest {
         }
     }
 
-    class TestAfterEachRun2 {
+    private class TestAfterEachRun2 {
 
         @AfterEachRun
         public final void afterEachRun() {
@@ -554,7 +555,7 @@ public class BenchmarkMethodTest {
         }
     }
 
-    class TestBeforeEachRun2 {
+    private class TestBeforeEachRun2 {
 
         @BeforeEachRun
         public final void beforeEachRun() {
@@ -591,7 +592,7 @@ public class BenchmarkMethodTest {
         }
     }
 
-    class TestBeforeFirstRun2 {
+    private class TestBeforeFirstRun2 {
 
         @BeforeFirstRun
         public final void beforeFirstRun() {
@@ -628,7 +629,7 @@ public class BenchmarkMethodTest {
         }
     }
 
-    class TestIsReflectedExecutable {
+    private class TestIsReflectedExecutable {
 
         protected final void notPublicMethod() {
             fail("Only methods with public identifier allowed");
@@ -644,7 +645,7 @@ public class BenchmarkMethodTest {
         }
     }
 
-    class TestFindAndCheckBenchClass {
+    private class TestFindAndCheckBenchClass {
 
         @ShouldOccureOnce
         public final void benchAnno1() {
@@ -657,7 +658,7 @@ public class BenchmarkMethodTest {
         }
     }
 
-    class TestClassCheckThisMethodAsBenchmarkable1 {
+    private class TestClassCheckThisMethodAsBenchmarkable1 {
         @Bench
         public final void benchAnno1() {
             // Just for performing a search
@@ -668,7 +669,7 @@ public class BenchmarkMethodTest {
         }
     }
 
-    class TestClassCheckThisMethodAsBenchmarkable2 {
+    private class TestClassCheckThisMethodAsBenchmarkable2 {
 
         @SkipBench
         @Bench

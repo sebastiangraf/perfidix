@@ -19,13 +19,6 @@
 package org.perfidix.example.stack;
 
 
-import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import java.util.Stack;
-
 import org.perfidix.Benchmark;
 import org.perfidix.annotation.Bench;
 import org.perfidix.annotation.DataProvider;
@@ -33,13 +26,16 @@ import org.perfidix.example.Config;
 import org.perfidix.ouput.TabularSummaryOutput;
 import org.perfidix.result.BenchmarkResult;
 
+import java.lang.reflect.InvocationTargetException;
+import java.util.*;
+
 
 /**
  * Benching {@link FastIntStack} against {@link Stack}. Just a simple example of Perfidix.
  *
  * @author Sebastian Graf, University of Konstanz
  */
-public final class StackBenchmarkParameterized {
+final class StackBenchmarkParameterized {
 
     private static final Config config = new Config();
 
@@ -75,7 +71,7 @@ public final class StackBenchmarkParameterized {
      * @throws IllegalArgumentException
      * @throws IllegalAccessException
      */
-    public static void main (final String[] args) throws NoSuchMethodException , SecurityException , IllegalAccessException , IllegalArgumentException , InvocationTargetException {
+    public static void main(final String[] args) throws NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 
         final Benchmark bench = new Benchmark(config);
         bench.add(StackBenchmarkParameterized.class);
@@ -87,8 +83,8 @@ public final class StackBenchmarkParameterized {
     /**
      * Generating the data, just once per runtime.
      */
-    @DataProvider (name = "generateData")
-    public Object[][] generateData () {
+    @DataProvider(name = "generateData")
+    Object[][] generateData() {
         final Random ran = new Random();
         final Object[][] intData = new Object[Config.RUNS][];
         for (int i = 0; i < intData.length; i++) {
@@ -98,7 +94,7 @@ public final class StackBenchmarkParameterized {
                 data.add(ran.nextInt());
                 counter++;
             }
-            intData[i] = new Object[] { data };
+            intData[i] = new Object[]{data};
         }
         return intData;
     }
@@ -106,15 +102,15 @@ public final class StackBenchmarkParameterized {
     /**
      * Bench for pushing the data to the {@link FastIntStack}.
      */
-    @Bench (dataProvider = "generateData")
-    public void benchFastIntPush (final List<Integer> intData) {
+    @Bench(dataProvider = "generateData")
+    void benchFastIntPush(final List<Integer> intData) {
         fastInt = new FastIntStack();
         for (final Object i : intData) {
             fastInt.push((Integer) i);
         }
     }
 
-    public void benchFastIntPush () {
+    public void benchFastIntPush() {
         Object[][] data = generateData();
         benchFastIntPush((List<Integer>) data[0][0]);
     }
@@ -122,8 +118,8 @@ public final class StackBenchmarkParameterized {
     /**
      * Bench for popping the data from the {@link FastIntStack}.
      */
-    @Bench (beforeEachRun = "benchFastIntPush")
-    public void benchFastIntStackPop () {
+    @Bench(beforeEachRun = "benchFastIntPush")
+    public void benchFastIntStackPop() {
         while (fastInt.size() > 0) {
             fastInt.pop();
 
@@ -133,15 +129,15 @@ public final class StackBenchmarkParameterized {
     /**
      * Bench for pushing the data to the {@link Stack}.
      */
-    @Bench (dataProvider = "generateData")
-    public void benchNormalIntPush (final List<Integer> intData) {
+    @Bench(dataProvider = "generateData")
+    void benchNormalIntPush(final List<Integer> intData) {
         normalInt = new Stack<Integer>();
         for (final int i : intData) {
             normalInt.push(i);
         }
     }
 
-    public void benchNormalIntPush () {
+    public void benchNormalIntPush() {
         Object[][] data = generateData();
         benchNormalIntPush((List<Integer>) data[0][0]);
     }
@@ -149,8 +145,8 @@ public final class StackBenchmarkParameterized {
     /**
      * Bench for popping the data from the {@link Stack}.
      */
-    @Bench (beforeEachRun = "benchNormalIntPush")
-    public void benchNormalIntPop () {
+    @Bench(beforeEachRun = "benchNormalIntPush")
+    public void benchNormalIntPop() {
         while (normalInt.size() > 0) {
             normalInt.pop();
         }
@@ -159,15 +155,15 @@ public final class StackBenchmarkParameterized {
     /**
      * Bench for pushing the data to the {@link ArrayDeque}.
      */
-    @Bench (dataProvider = "generateData")
-    public void benchArrayDequePush (final List<Integer> intData) {
+    @Bench(dataProvider = "generateData")
+    void benchArrayDequePush(final List<Integer> intData) {
         arrayDeque = new ArrayDeque<Integer>();
         for (final int i : intData) {
             arrayDeque.push(i);
         }
     }
 
-    public void benchArrayDequePush () {
+    public void benchArrayDequePush() {
         Object[][] data = generateData();
         benchArrayDequePush((List<Integer>) data[0][0]);
     }
@@ -175,8 +171,8 @@ public final class StackBenchmarkParameterized {
     /**
      * Bench for popping the data from the {@link ArrayDeque}.
      */
-    @Bench (beforeEachRun = "benchArrayDequePush")
-    public void benchArrayDequeStackPop () {
+    @Bench(beforeEachRun = "benchArrayDequePush")
+    public void benchArrayDequeStackPop() {
 
         while (arrayDeque.size() > 0) {
             arrayDeque.pop();

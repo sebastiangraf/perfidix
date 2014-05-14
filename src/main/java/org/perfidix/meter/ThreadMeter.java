@@ -119,11 +119,7 @@ public final class ThreadMeter extends AbstractMeter {
         if (this == obj) {
             returnVal = true;
         }
-        if (getClass() == obj.getClass()) {
-            returnVal = true;
-        } else {
-            returnVal = false;
-        }
+        returnVal = getClass() == obj.getClass();
         return returnVal;
     }
 

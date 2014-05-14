@@ -32,7 +32,7 @@ public class IntList extends ElementList {
     /**
      * Element container.
      */
-    protected int[] list;
+    private int[] list;
 
     /**
      * Default constructor.
@@ -75,7 +75,7 @@ public class IntList extends ElementList {
      *
      * @param e entry to be added
      */
-    public final void add(final int e) {
+    final void add(final int e) {
         if (size == list.length) list = Arrays.copyOf(list, newSize());
         list[size++] = e;
     }

@@ -44,7 +44,7 @@ public abstract class AbstractMethodArrangement implements Iterable<BenchmarkEle
      *
      * @param elements definitly benchmarkable objects.
      */
-    protected AbstractMethodArrangement(final List<BenchmarkElement> elements) {
+    AbstractMethodArrangement(final List<BenchmarkElement> elements) {
         final List<BenchmarkElement> arrangedList = arrangeList(elements);
         this.elementList = Collections.unmodifiableList(arrangedList);
     }
@@ -57,7 +57,7 @@ public abstract class AbstractMethodArrangement implements Iterable<BenchmarkEle
      * @param kind     for the method arrangement
      * @return the arrangement, mainly an iterator
      */
-    public static final AbstractMethodArrangement getMethodArrangement(final List<BenchmarkElement> elements, final KindOfArrangement kind) {
+    public static AbstractMethodArrangement getMethodArrangement(final List<BenchmarkElement> elements, final KindOfArrangement kind) {
         AbstractMethodArrangement arrang = null;
         switch (kind) {
             case NoArrangement:

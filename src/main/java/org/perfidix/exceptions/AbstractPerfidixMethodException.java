@@ -56,7 +56,7 @@ public abstract class AbstractPerfidixMethodException extends Exception {
      * @param paramMeth       the related method to the exception.
      * @param paramAnnotation the related annotation to this method
      */
-    public AbstractPerfidixMethodException(final Throwable paramExec, final Method paramMeth, final Class<? extends Annotation> paramAnnotation) {
+    AbstractPerfidixMethodException(final Throwable paramExec, final Method paramMeth, final Class<? extends Annotation> paramAnnotation) {
         super();
         this.exec = paramExec;
         this.meth = paramMeth;
@@ -166,15 +166,7 @@ public abstract class AbstractPerfidixMethodException extends Exception {
      */
     @Override
     public final String toString() {
-        final StringBuilder builder = new StringBuilder();
-        builder.append(this.getClass().getSimpleName());
-        builder.append(":");
-        builder.append(this.exec.getClass().getSimpleName());
-        builder.append(":");
-        builder.append(this.relatedAnno.getClass().getSimpleName());
-        builder.append(":");
-        builder.append(this.meth.getName());
-        return builder.toString();
+        return this.getClass().getSimpleName() + ":" + this.exec.getClass().getSimpleName() + ":" + this.relatedAnno.getClass().getSimpleName() + ":" + this.meth.getName();
     }
 
 }

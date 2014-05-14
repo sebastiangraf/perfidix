@@ -41,7 +41,8 @@ public class NoMethodArrangementTest {
 
     /**
      * Before method to setUp Benchmarkables.
-     * @throws PerfidixMethodCheckException 
+     *
+     * @throws PerfidixMethodCheckException
      */
     @Before
     public void setUp() throws PerfidixMethodCheckException {
@@ -85,7 +86,7 @@ public class NoMethodArrangementTest {
         }
     }
 
-    class TestBenchClass {
+    private class TestBenchClass {
 
         @Bench
         public void bench1() {

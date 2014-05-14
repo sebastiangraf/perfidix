@@ -28,17 +28,16 @@ public abstract class AbstractTabularComponent {
     /**
      * Constant for the newline-symbol.
      */
-    protected static final String NEWLINE = "\n";
+    static final String NEWLINE = "\n";
 
-    ;
     /**
      * Border symbol, can be changed in the runtime.
      */
-    protected static final char BORDER = '|';
+    static final char BORDER = '|';
     /**
      * Constant for the space between data and border.
      */
-    protected static final String SPACE = " ";
+    static final String SPACE = " ";
     /**
      * Instance to draw to.
      */
@@ -49,7 +48,7 @@ public abstract class AbstractTabularComponent {
      *
      * @param paramTable to be drawn
      */
-    protected AbstractTabularComponent(final NiceTable paramTable) {
+    AbstractTabularComponent(final NiceTable paramTable) {
         table = paramTable;
     }
 
@@ -65,7 +64,7 @@ public abstract class AbstractTabularComponent {
      *
      * @return the table
      */
-    protected final NiceTable getTable() {
+    final NiceTable getTable() {
         return table;
     }
 

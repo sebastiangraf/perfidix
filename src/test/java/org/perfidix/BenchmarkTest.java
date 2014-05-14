@@ -81,7 +81,8 @@ public final class BenchmarkTest {
 
     /**
      * Test method for {@link org.perfidix.Benchmark#run()} .
-     * @throws PerfidixMethodCheckException 
+     *
+     * @throws PerfidixMethodCheckException
      */
     @Test
     public void testNormalBenchrun() throws PerfidixMethodCheckException {

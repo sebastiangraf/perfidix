@@ -119,7 +119,7 @@ public final class BenchmarkElement {
      */
     @Override
     public String toString() {
-        return new StringBuilder(meth.toString()).append(":").append(elementId).toString();
+        return meth.toString() + ":" + elementId;
     }
 
 }

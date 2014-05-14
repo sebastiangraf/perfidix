@@ -39,7 +39,7 @@ import java.util.Vector;
  *
  * @author Nuray Guerler, University of Konstanz
  */
-public class ListBenchmark extends ElementList {
+class ListBenchmark extends ElementList {
 
     /**
      * Number of runs.

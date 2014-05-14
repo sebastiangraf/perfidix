@@ -108,13 +108,7 @@ public final class SocketAdapter {
 
             adapter.registerClasses(classList.toArray(new String[classList.size()]));
             adapter.runBenchmark();
-        } catch (final SocketViewException e) {
-            throw new IllegalStateException(e);
-        } catch (ClassNotFoundException e) {
-            throw new IllegalStateException(e);
-        } catch (InstantiationException e) {
-            throw new IllegalStateException(e);
-        } catch (IllegalAccessException e) {
+        } catch (final SocketViewException | ClassNotFoundException | InstantiationException | IllegalAccessException e) {
             throw new IllegalStateException(e);
         }
     }

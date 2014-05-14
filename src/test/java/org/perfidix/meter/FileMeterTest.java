@@ -68,33 +68,27 @@ public class FileMeterTest {
      * Creating a new file if not existing at the path defined in the config. Note that it is advised to create the file
      * beforehand.
      *
-     * @param pConf configuration to be updated
      * @return true if creation successful, false if file already exists.
      * @throws IOException if anything weird happens
      */
-    private static synchronized boolean createStorageVolume(final File pToCreate, final long pLength) throws IOException {
-        try {
-            // if file exists, remove it after questioning.
-            if (pToCreate.exists()) {
-                if (!pToCreate.delete()) {
-                    return false;
-                }
+    private static synchronized void createStorageVolume(final File pToCreate, final long pLength) throws IOException {
+        // if file exists, remove it after questioning.
+        if (pToCreate.exists()) {
+            if (!pToCreate.delete()) {
+                return;
             }
-
-            // create file
-            final File parent = pToCreate.getCanonicalFile().getParentFile();
-            if (!parent.exists() && !parent.mkdirs()) {
-                throw new FileNotFoundException("Unable to create directory: " + parent.getAbsolutePath());
-            }
-
-            pToCreate.createNewFile();
-            RandomAccessFile file = new RandomAccessFile(pToCreate, "rw");
-            file.setLength(pLength);
-            file.close();
-            return true;
-        } catch (IOException e) {
-            throw e;
         }
+
+        // create file
+        final File parent = pToCreate.getCanonicalFile().getParentFile();
+        if (!parent.exists() && !parent.mkdirs()) {
+            throw new FileNotFoundException("Unable to create directory: " + parent.getAbsolutePath());
+        }
+
+        pToCreate.createNewFile();
+        RandomAccessFile file = new RandomAccessFile(pToCreate, "rw");
+        file.setLength(pLength);
+        file.close();
 
     }
 

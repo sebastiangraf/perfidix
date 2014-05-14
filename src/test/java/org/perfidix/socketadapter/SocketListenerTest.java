@@ -72,9 +72,9 @@ public class SocketListenerTest {
      * Test method for
      * {@link org.perfidix.socketadapter.SocketListener#listenToResultSet(org.perfidix.element.BenchmarkMethod, org.perfidix.meter.AbstractMeter, double)}.
      *
-     * @throws InterruptedException Thread sleep exception.
-     * @throws SocketViewException  if view is not correctly notified
-     * @throws PerfidixMethodCheckException 
+     * @throws InterruptedException         Thread sleep exception.
+     * @throws SocketViewException          if view is not correctly notified
+     * @throws PerfidixMethodCheckException
      */
     @Test
     public void testListenToResultSet() throws InterruptedException, SocketViewException, PerfidixMethodCheckException {
@@ -99,8 +99,8 @@ public class SocketListenerTest {
      * {@link org.perfidix.socketadapter.SocketListener#listenToException (org.perfidix.exceptions.AbstractPerfidixMethodException)}
      * .
      *
-     * @throws InterruptedException Thread exception occurred.
-     * @throws PerfidixMethodCheckException 
+     * @throws InterruptedException         Thread exception occurred.
+     * @throws PerfidixMethodCheckException
      */
     @Test
     public void testListenToException() throws InterruptedException, SocketViewException, PerfidixMethodCheckException {

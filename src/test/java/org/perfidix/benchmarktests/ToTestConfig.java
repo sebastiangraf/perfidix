@@ -67,8 +67,6 @@ public final class ToTestConfig extends AbstractConfig {
         TESTLISTENER.add(new TabularSummaryOutput());
     }
 
-    ;
-
     /**
      * Simple Constructors, taking the statics
      */

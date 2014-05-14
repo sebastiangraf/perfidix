@@ -57,7 +57,7 @@ public abstract class AbstractResult {
      *
      * @param paramElement element to this result.
      */
-    protected AbstractResult(final Object paramElement) {
+    AbstractResult(final Object paramElement) {
         this.relatedElement = paramElement;
         this.meterResults = new Hashtable<AbstractMeter, Collection<Double>>();
 
@@ -68,7 +68,7 @@ public abstract class AbstractResult {
      *
      * @return the name as a String.
      */
-    public abstract String getElementName();
+    protected abstract String getElementName();
 
     /**
      * an array of all data items in the structure.
@@ -223,7 +223,7 @@ public abstract class AbstractResult {
      * @param meter the related meter
      * @param data  the data to be added
      */
-    protected final void addData(final AbstractMeter meter, final double data) {
+    final void addData(final AbstractMeter meter, final double data) {
         checkIfMeterExists(meter);
         meterResults.get(meter).add(data);
     }
@@ -244,9 +244,7 @@ public abstract class AbstractResult {
      */
     @Override
     public String toString() {
-        final StringBuilder builder = new StringBuilder();
-        builder.append(getElementName()).append("\nmeters: ").append(getRegisteredMeters()).append("\nresults: ").append(meterResults);
-        return builder.toString();
+        return getElementName() + "\nmeters: " + getRegisteredMeters() + "\nresults: " + meterResults;
     }
 
 }

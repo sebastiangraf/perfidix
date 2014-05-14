@@ -82,7 +82,7 @@ public final class CSVOutputTest {
             benchRes.addData(new BenchmarkMethod(meth12), meter, meter.getValue() / 2);
         }
 
-        testException = new PerfidixMethodInvocationException(new IOException(), new Class1().getClass().getDeclaredMethod("method1"), Bench.class);
+        testException = new PerfidixMethodInvocationException(new IOException(), Class1.class.getDeclaredMethod("method1"), Bench.class);
 
         benchRes.addException(testException);
         consoleOut = System.out;
@@ -114,23 +114,17 @@ public final class CSVOutputTest {
 
         final CSVOutput output = new CSVOutput();
         output.visitBenchmark(benchRes);
-        final StringBuilder builderData1 = new StringBuilder();
-        builderData1.append("1.0,2.0,3.0,4.0,5.0,6.0,7.0,8.0,9.0,10.0");
-        assertTrue("first bunch of must be the same", bytes.toString().contains(builderData1.toString()));
+        assertTrue("first bunch of must be the same", bytes.toString().contains("1.0,2.0,3.0,4.0,5.0,6.0,7.0,8.0,9.0,10.0"));
 
-        final StringBuilder builderData2 = new StringBuilder();
-        builderData2.append("0.5,1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0");
-        assertTrue("second bunch of must be the same", bytes.toString().contains(builderData2.toString()));
+        assertTrue("second bunch of must be the same", bytes.toString().contains("0.5,1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0"));
 
-        final StringBuilder builderException = new StringBuilder();
-        builderException.append("Bench:Class1#method1\njava.io.IOException");
-        assertTrue("third bunch of must be the same", bytes.toString().contains(builderException.toString()));
+        assertTrue("third bunch of must be the same", bytes.toString().contains("Bench:Class1#method1\njava.io.IOException"));
 
     }
 
     /**
      * Test method for
-     * {@link org.perfidix.ouput.CSVOutput#listenToResultSet(java.lang.reflect.Method, org.perfidix.meter.AbstractMeter, double)}
+     * {@link org.perfidix.ouput.CSVOutput#listenToResultSet(org.perfidix.element.BenchmarkMethod, org.perfidix.meter.AbstractMeter, double)}.
      * .
      */
     @Test
@@ -145,13 +139,9 @@ public final class CSVOutputTest {
                 output.listenToResultSet((BenchmarkMethod) methRes.getRelatedElement(), meter, d);
             }
         }
-        final StringBuilder builderData1 = new StringBuilder();
-        builderData1.append("1.0,2.0,3.0,4.0,5.0,6.0,7.0,8.0,9.0,10.0");
-        assertTrue("first bunch of in the test string", bytes.toString().contains(builderData1.toString()));
+        assertTrue("first bunch of in the test string", bytes.toString().contains("1.0,2.0,3.0,4.0,5.0,6.0,7.0,8.0,9.0,10.0"));
 
-        final StringBuilder builderData2 = new StringBuilder();
-        builderData2.append("0.5,1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0");
-        assertTrue("second bunch of in the test string", bytes.toString().contains(builderData2.toString()));
+        assertTrue("second bunch of in the test string", bytes.toString().contains("0.5,1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0"));
 
     }
 
@@ -364,7 +354,7 @@ public final class CSVOutputTest {
     //
     // }
 
-    class Class1 {
+    private class Class1 {
         @Bench
         public void method1() {
             // empty skeleton

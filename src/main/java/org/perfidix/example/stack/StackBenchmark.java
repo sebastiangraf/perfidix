@@ -63,6 +63,9 @@ public final class StackBenchmark {
      */
     private transient Stack<Integer> normalInt;
 
+    /**
+     * Dequeue instance.
+     */
     private transient ArrayDeque<Integer> arrayDeque;
 
     /**

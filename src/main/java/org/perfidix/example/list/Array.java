@@ -29,7 +29,7 @@ import java.util.Arrays;
  * @author BaseX Team 2005-11, BSD License
  * @author Christian Gruen
  */
-public final class Array {
+final class Array {
     /**
      * Default factor for resizing dynamic arrays.
      */
@@ -141,18 +141,17 @@ public final class Array {
      * @param arr array
      */
     public static void reverse(final byte[] arr) {
-        reverse(arr, 0, arr.length);
+        reverse(arr, arr.length);
     }
 
     /**
      * Reverses the order of all elements in the given interval.
      *
      * @param arr array
-     * @param pos position of first element of the interval
      * @param len length of the interval
      */
-    public static void reverse(final byte[] arr, final int pos, final int len) {
-        for (int l = pos, r = pos + len - 1; l < r; l++, r--) {
+    private static void reverse(final byte[] arr, final int len) {
+        for (int l = 0, r = 0 + len - 1; l < r; l++, r--) {
             final byte tmp = arr[l];
             arr[l] = arr[r];
             arr[r] = tmp;
@@ -202,7 +201,7 @@ public final class Array {
      * @param a   first position
      * @param b   second position
      */
-    public static void swap(final int[] arr, final int a, final int b) {
+    private static void swap(final int[] arr, final int a, final int b) {
         final int c = arr[a];
         arr[a] = arr[b];
         arr[b] = c;

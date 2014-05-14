@@ -65,9 +65,9 @@ public class TabularSummaryOutputTest {
     /**
      * Simple Constructor.
      *
-     * @throws NoSuchMethodException if declaration fails
-     * @throws SecurityException     if declaration fails
-     * @throws PerfidixMethodCheckException 
+     * @throws NoSuchMethodException        if declaration fails
+     * @throws SecurityException            if declaration fails
+     * @throws PerfidixMethodCheckException
      */
     @Before
     public void setUp() throws SecurityException, NoSuchMethodException, PerfidixMethodCheckException {
@@ -84,7 +84,7 @@ public class TabularSummaryOutputTest {
             benchRes.addData(new BenchmarkMethod(meth11), meter, meter.getValue());
         }
 
-        testException = new PerfidixMethodInvocationException(new IOException(), new Class1().getClass().getDeclaredMethod("method1"), Bench.class);
+        testException = new PerfidixMethodInvocationException(new IOException(), Class1.class.getDeclaredMethod("method1"), Bench.class);
 
         benchRes.addException(testException);
         consoleOut = System.out;
@@ -110,31 +110,13 @@ public class TabularSummaryOutputTest {
     public final void testVisitBenchmark() {
         final TabularSummaryOutput output = new TabularSummaryOutput();
         output.visitBenchmark(benchRes);
-        final StringBuilder builder = new StringBuilder();
-        builder.append("|= Benchmark ======================================================================|\n");
-        builder.append("| -       | unit  | sum   | min   | max   | avg   | stddev | conf95        | runs  |\n");
-        builder.append("|===================================== Meter1 =====================================|\n");
-        builder.append("|. Class1 .........................................................................|\n");
-        builder.append("| method1 | ticks | 55.00 | 01.00 | 10.00 | 05.50 | 03.03  | [01.00-10.00] | 10.00 |\n");
-        builder.append("|_ Summary for Class1 _____________________________________________________________|\n");
-        builder.append("|         | ticks | 55.00 | 01.00 | 10.00 | 05.50 | 03.03  | [01.00-10.00] | 10.00 |\n");
-        builder.append("|----------------------------------------------------------------------------------|\n");
-        builder.append("|======================== Summary for the whole benchmark =========================|\n");
-        builder.append("|         | ticks | 55.00 | 01.00 | 10.00 | 05.50 | 03.03  | [01.00-10.00] | 10.00 |\n");
-        builder.append("|=================================== Exceptions ===================================|\n");
-        builder.append("|  Related exception: IOException                                                  |\n");
-        builder.append("|  Related place: method invocation                                                |\n");
-        builder.append("|  Related method: method1                                                         |\n");
-        builder.append("|  Related annotation: Bench                                                       |\n");
-        builder.append("|----------------------------------------------------------------------------------|\n");
-        builder.append("|==================================================================================|\n");
         final String result = bytes.toString();
-        assertTrue("Complete Output check", result.startsWith(builder.toString()));
+        assertTrue("Complete Output check", result.startsWith("|= Benchmark ======================================================================|\n" + "| -       | unit  | sum   | min   | max   | avg   | stddev | conf95        | runs  |\n" + "|===================================== Meter1 =====================================|\n" + "|. Class1 .........................................................................|\n" + "| method1 | ticks | 55.00 | 01.00 | 10.00 | 05.50 | 03.03  | [01.00-10.00] | 10.00 |\n" + "|_ Summary for Class1 _____________________________________________________________|\n" + "|         | ticks | 55.00 | 01.00 | 10.00 | 05.50 | 03.03  | [01.00-10.00] | 10.00 |\n" + "|----------------------------------------------------------------------------------|\n" + "|======================== Summary for the whole benchmark =========================|\n" + "|         | ticks | 55.00 | 01.00 | 10.00 | 05.50 | 03.03  | [01.00-10.00] | 10.00 |\n" + "|=================================== Exceptions ===================================|\n" + "|  Related exception: IOException                                                  |\n" + "|  Related place: method invocation                                                |\n" + "|  Related method: method1                                                         |\n" + "|  Related annotation: Bench                                                       |\n" + "|----------------------------------------------------------------------------------|\n" + "|==================================================================================|\n"));
     }
 
     /**
      * Test method for
-     * {@link org.perfidix.ouput.TabularSummaryOutput#listenToResultSet(java.lang.reflect.Method, org.perfidix.meter.AbstractMeter, double)}
+     * {@link org.perfidix.ouput.TabularSummaryOutput#listenToResultSet(org.perfidix.element.BenchmarkMethod, org.perfidix.meter.AbstractMeter, double)}.
      * .
      *
      * @throws IOException
@@ -148,50 +130,8 @@ public class TabularSummaryOutputTest {
         for (final double d : methRes.getResultSet(meter)) {
             output.listenToResultSet((BenchmarkMethod) methRes.getRelatedElement(), meter, d);
         }
-        final StringBuilder builder = new StringBuilder();
 
-        builder.append(CLASSSTRING);
-        builder.append(METERSTRING);
-        builder.append("Data: 1.0\n");
-        builder.append("\n");
-        builder.append(CLASSSTRING);
-        builder.append(METERSTRING);
-        builder.append("Data: 2.0\n");
-        builder.append("\n");
-        builder.append(CLASSSTRING);
-        builder.append(METERSTRING);
-        builder.append("Data: 3.0\n");
-        builder.append("\n");
-        builder.append(CLASSSTRING);
-        builder.append(METERSTRING);
-        builder.append("Data: 4.0\n");
-        builder.append("\n");
-        builder.append(CLASSSTRING);
-        builder.append(METERSTRING);
-        builder.append("Data: 5.0\n");
-        builder.append("\n");
-        builder.append(CLASSSTRING);
-        builder.append(METERSTRING);
-        builder.append("Data: 6.0\n");
-        builder.append("\n");
-        builder.append(CLASSSTRING);
-        builder.append(METERSTRING);
-        builder.append("Data: 7.0\n");
-        builder.append("\n");
-        builder.append(CLASSSTRING);
-        builder.append(METERSTRING);
-        builder.append("Data: 8.0\n");
-        builder.append("\n");
-        builder.append(CLASSSTRING);
-        builder.append(METERSTRING);
-        builder.append("Data: 9.0\n");
-        builder.append("\n");
-        builder.append(CLASSSTRING);
-        builder.append(METERSTRING);
-        builder.append("Data: 10.0\n");
-        builder.append("\n");
-
-        assertEquals("Complete listener test", builder.toString(), bytes.toString());
+        assertEquals("Complete listener test", CLASSSTRING + METERSTRING + "Data: 1.0\n" + "\n" + CLASSSTRING + METERSTRING + "Data: 2.0\n" + "\n" + CLASSSTRING + METERSTRING + "Data: 3.0\n" + "\n" + CLASSSTRING + METERSTRING + "Data: 4.0\n" + "\n" + CLASSSTRING + METERSTRING + "Data: 5.0\n" + "\n" + CLASSSTRING + METERSTRING + "Data: 6.0\n" + "\n" + CLASSSTRING + METERSTRING + "Data: 7.0\n" + "\n" + CLASSSTRING + METERSTRING + "Data: 8.0\n" + "\n" + CLASSSTRING + METERSTRING + "Data: 9.0\n" + "\n" + CLASSSTRING + METERSTRING + "Data: 10.0\n" + "\n", bytes.toString());
     }
 
     /**
@@ -204,15 +144,10 @@ public class TabularSummaryOutputTest {
         final TabularSummaryOutput output = new TabularSummaryOutput();
         output.listenToException(testException);
 
-        final StringBuilder builder = new StringBuilder();
-        builder.append("Class: Class1#method1\n");
-        builder.append("Annotation: Bench\n");
-        builder.append("Exception: PerfidixMethodInvocationException/java.io.IOException\n");
-        builder.append("java.io.IOException\n");
-        assertTrue("Exception listener test", bytes.toString().startsWith(builder.toString()));
+        assertTrue("Exception listener test", bytes.toString().startsWith("Class: Class1#method1\n" + "Annotation: Bench\n" + "Exception: PerfidixMethodInvocationException/java.io.IOException\n" + "java.io.IOException\n"));
     }
 
-    class Class1 {
+    private class Class1 {
         @Bench
         public void method1() {
             // Simple skeleton

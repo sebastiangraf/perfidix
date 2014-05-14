@@ -81,7 +81,8 @@ public class BenchmarkExecutorTest {
 
     /**
      * Test method for {@link org.perfidix.element.BenchmarkExecutor#getExecutor(org.perfidix.element.BenchmarkElement)}
-     * @throws PerfidixMethodCheckException 
+     *
+     * @throws PerfidixMethodCheckException
      */
     @Test
     public void testGetExecutor() throws PerfidixMethodCheckException {
@@ -104,7 +105,8 @@ public class BenchmarkExecutorTest {
 
     /**
      * Test method for {@link org.perfidix.element.BenchmarkExecutor#executeBeforeMethods(java.lang.Object)}
-     * @throws PerfidixMethodCheckException 
+     *
+     * @throws PerfidixMethodCheckException
      */
     @Test
     public void testExecuteBeforeMethods() throws PerfidixMethodCheckException {
@@ -129,7 +131,8 @@ public class BenchmarkExecutorTest {
 
     /**
      * Test method for {@link org.perfidix.element.BenchmarkExecutor#executeBench(Object, Object[])} .
-     * @throws PerfidixMethodCheckException 
+     *
+     * @throws PerfidixMethodCheckException
      */
     @Test
     public void testExecuteBench() throws PerfidixMethodCheckException {
@@ -162,7 +165,8 @@ public class BenchmarkExecutorTest {
 
     /**
      * Test method for {@link org.perfidix.element.BenchmarkExecutor#executeAfterMethods(java.lang.Object)}
-     * @throws PerfidixMethodCheckException 
+     *
+     * @throws PerfidixMethodCheckException
      */
     @Test
     public void testExecuteAfterMethods() throws PerfidixMethodCheckException {
@@ -285,7 +289,7 @@ class BeforeClass {
 
 class CheckConfig extends AbstractConfig {
 
-    protected CheckConfig(Set<AbstractMeter> meter) {
+    CheckConfig(Set<AbstractMeter> meter) {
         super(1, meter, AbstractConfig.LISTENERS, AbstractConfig.ARRAN, AbstractConfig.GARBAGE_PROB);
     }
 

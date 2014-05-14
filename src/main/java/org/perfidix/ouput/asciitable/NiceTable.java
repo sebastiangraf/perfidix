@@ -142,7 +142,7 @@ public final class NiceTable {
      * @param columnIndex the index of the column for which to fetch the width.
      * @return the width (in number of chars) for the column index.
      */
-    protected int getColumnWidth(final int columnIndex) {
+    int getColumnWidth(final int columnIndex) {
 
         return columnLengths[columnIndex];
     }
@@ -153,7 +153,7 @@ public final class NiceTable {
      * @param index   the index of the column
      * @param newSize the new size of the column
      */
-    protected void updateColumnWidth(final int index, final int newSize) {
+    void updateColumnWidth(final int index, final int newSize) {
         columnLengths[index] = Math.max(columnLengths[index], newSize);
     }
 
@@ -172,7 +172,7 @@ public final class NiceTable {
      * @param columnIndex integer
      * @return Alignment for the column
      */
-    protected Alignment getOrientation(final int columnIndex) {
+    Alignment getOrientation(final int columnIndex) {
 
         return orientations[columnIndex];
     }
@@ -200,7 +200,7 @@ public final class NiceTable {
      *
      * @return int the width of the table
      */
-    protected int getTotalWidth() {
+    int getTotalWidth() {
         return this.getRowWidth() + 3 * numColumns() + 1;
     }
 

@@ -27,7 +27,6 @@ import org.perfidix.exceptions.PerfidixMethodInvocationException;
 import org.perfidix.meter.CountingMeter;
 
 import java.io.IOException;
-import java.lang.reflect.Method;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -122,7 +121,7 @@ public class ResultContainerTest {
      */
     @Test
     public void testResultWithException() {
-        assertTrue("Check if benchRes.exceptions contains the desired exception", benchRes.getExceptions().contains(new PerfidixMethodInvocationException(testException, (Method) ((BenchmarkMethod) methodRes11.getRelatedElement()).getMethodToBench(), Bench.class)));
+        assertTrue("Check if benchRes.exceptions contains the desired exception", benchRes.getExceptions().contains(new PerfidixMethodInvocationException(testException, ((BenchmarkMethod) methodRes11.getRelatedElement()).getMethodToBench(), Bench.class)));
     }
 
     /**
@@ -237,7 +236,7 @@ public class ResultContainerTest {
 
     }
 
-    class Class1 {
+    private class Class1 {
         @Bench
         public void method1() {
             // empty method for class1#method1 invocation
@@ -249,7 +248,7 @@ public class ResultContainerTest {
         }
     }
 
-    class Class2 {
+    private class Class2 {
         @Bench
         public void method1() {
             // empty method for class2#method1 invocation

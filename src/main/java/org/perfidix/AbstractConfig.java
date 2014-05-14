@@ -59,30 +59,25 @@ import java.util.Set;
 public abstract class AbstractConfig {
 
     /**
-     * Standard runs
-     */
-    public final static int RUNS = 10;
-
-    /**
-     * Standard meters
-     */
-    public final static Set<AbstractMeter> METERS = new HashSet<AbstractMeter>();
-
-    /**
      * Standard listeners
      */
     public final static Set<AbstractOutput> LISTENERS = new HashSet<AbstractOutput>();
-
     /**
      * Standard arrangement
      */
-    public final static KindOfArrangement ARRAN = KindOfArrangement.NoArrangement;
-
+    protected final static KindOfArrangement ARRAN = KindOfArrangement.NoArrangement;
     /**
      * Standard gc-prob
      */
-    public final static double GARBAGE_PROB = 1d;
-
+    protected final static double GARBAGE_PROB = 1d;
+    /**
+     * Standard runs
+     */
+    private final static int RUNS = 10;
+    /**
+     * Standard meters
+     */
+    private final static Set<AbstractMeter> METERS = new HashSet<AbstractMeter>();
     /**
      * actual value for runs
      */

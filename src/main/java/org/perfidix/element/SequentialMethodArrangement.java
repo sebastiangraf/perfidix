@@ -45,9 +45,9 @@ public final class SequentialMethodArrangement extends AbstractMethodArrangement
     /**
      * Simple Constructor-
      *
-     * @param elements
+     * @param elements to be arranged
      */
-    protected SequentialMethodArrangement(final List<BenchmarkElement> elements) {
+    SequentialMethodArrangement(final List<BenchmarkElement> elements) {
         super(elements);
     }
 
@@ -108,7 +108,7 @@ public final class SequentialMethodArrangement extends AbstractMethodArrangement
      *
      * @author Sebastian Graf, University of Konstanz
      */
-    class BenchmarkElementComparator implements Comparator<Entry<BenchmarkMethod, ArrayList<BenchmarkElement>>> {
+    private class BenchmarkElementComparator implements Comparator<Entry<BenchmarkMethod, ArrayList<BenchmarkElement>>> {
 
         /**
          * {@inheritDoc}

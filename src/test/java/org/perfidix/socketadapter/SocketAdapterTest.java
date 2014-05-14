@@ -40,17 +40,16 @@ import static org.mockito.Mockito.when;
  * @author Lewandowski Lukas, DiSy, University of Konstanz
  */
 public class SocketAdapterTest {
-    private transient IUpdater iUpdaterMock = null;
 
     /**
      * Test method for {@link org.perfidix.socketadapter.SocketAdapter} .
      *
-     * @throws InterruptedException Exception occurred.
-     * @throws PerfidixMethodCheckException 
+     * @throws InterruptedException         Exception occurred.
+     * @throws PerfidixMethodCheckException
      */
     @Test
     public void testMain() throws InterruptedException, SocketViewException, ClassNotFoundException, InstantiationException, IllegalAccessException, PerfidixMethodCheckException {
-        iUpdaterMock = mock(IUpdater.class);
+        final IUpdater iUpdaterMock = mock(IUpdater.class);
         final String[] classes = {"org.perfidix.example.Config", "org.perfidix.example.stack.StackBenchmark", "org.perfidix.socketadapter.BenchWithException"};
         final Benchmark tmpBench = Perfidix.setUpBenchmark(classes, new Benchmark(Perfidix.getConfiguration(classes)));
         final Map<BenchmarkMethod, Integer> vals = tmpBench.getNumberOfMethodsAndRuns();

@@ -25,24 +25,24 @@ package org.perfidix.example.list;
  * @author BaseX Team 2005-11, BSD License
  * @author Christian Gruen
  */
-public abstract class ElementList {
+abstract class ElementList {
     /**
      * Initial hash capacity.
      */
-    public static final int CAP = 1 << 3;
+    static final int CAP = 1 << 3;
     /**
      * Resize factor for extending the arrays.
      */
-    protected double factor = Array.RESIZE;
+    double factor = Array.RESIZE;
     /**
      * Number of elements.
      */
-    protected int size;
+    int size;
 
     /**
      * Default constructor.
      */
-    protected ElementList() {
+    ElementList() {
     }
 
     /**
@@ -50,7 +50,7 @@ public abstract class ElementList {
      *
      * @return new array size
      */
-    protected final int newSize() {
+    final int newSize() {
         return Array.newSize(size, factor);
     }
 
@@ -60,7 +60,7 @@ public abstract class ElementList {
      * @param min minimum size
      * @return new array size
      */
-    protected final int newSize(final int min) {
+    final int newSize(final int min) {
         return Math.max(newSize(), min);
     }
 
@@ -69,7 +69,7 @@ public abstract class ElementList {
      *
      * @return number of elements
      */
-    public final int size() {
+    final int size() {
         return size;
     }
 

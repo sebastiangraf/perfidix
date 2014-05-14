@@ -79,7 +79,7 @@ public class BenchmarkElementTest {
         assertEquals("HashCode of Method should be the same", benchClass1.getMeth().hashCode(), benchClass2.getMeth().hashCode());
     }
 
-    class BenchClass {
+    private class BenchClass {
         @Bench
         public void bench() {
             // Just a test for identifying classes and methods.

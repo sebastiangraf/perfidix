@@ -44,7 +44,8 @@ public class ShuffleMethodArrangementTest {
 
     /**
      * Before method to setUp Benchmarkables.
-     * @throws PerfidixMethodCheckException 
+     *
+     * @throws PerfidixMethodCheckException
      */
     @Before
     public void setUp() throws PerfidixMethodCheckException {
@@ -81,7 +82,7 @@ public class ShuffleMethodArrangementTest {
         }
     }
 
-    class TestBenchClass {
+    private class TestBenchClass {
 
         @Bench
         public void bench1() {

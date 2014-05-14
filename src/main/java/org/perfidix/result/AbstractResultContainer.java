@@ -37,14 +37,14 @@ public abstract class AbstractResultContainer<ResultType extends AbstractResult>
     /**
      * Map of all elements with the Mapping Method/Class -> ResultType.
      */
-    protected transient final Map<Object, ResultType> elements;
+    transient final Map<Object, ResultType> elements;
 
     /**
      * Constructor.
      *
      * @param paramElem related element
      */
-    protected AbstractResultContainer(final Object paramElem) {
+    AbstractResultContainer(final Object paramElem) {
         super(paramElem);
         elements = new Hashtable<Object, ResultType>();
     }

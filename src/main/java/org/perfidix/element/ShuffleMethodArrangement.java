@@ -44,7 +44,7 @@ public final class ShuffleMethodArrangement extends AbstractMethodArrangement {
      *
      * @param elements with benchmarkable elements.
      */
-    protected ShuffleMethodArrangement(final List<BenchmarkElement> elements) {
+    ShuffleMethodArrangement(final List<BenchmarkElement> elements) {
         super(elements);
     }
 

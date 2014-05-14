@@ -93,7 +93,7 @@ public class SequentialMethodArrangementTest {
         }
     }
 
-    class TestBenchClass {
+    private class TestBenchClass {
 
         @Bench
         public void bench1() {

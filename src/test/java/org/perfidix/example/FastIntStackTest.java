@@ -36,7 +36,7 @@ import static org.junit.Assert.assertEquals;
 @BenchClass(runs = 100)
 public class FastIntStackTest {
 
-    private static int[] data = new int[15];
+    private static final int[] data = new int[15];
 
     @BeforeBenchClass
     @BeforeClass

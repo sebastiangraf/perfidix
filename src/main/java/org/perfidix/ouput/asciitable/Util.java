@@ -25,7 +25,7 @@ import org.perfidix.ouput.asciitable.AbstractTabularComponent.Alignment;
 /**
  * Utilities for the ascii table.
  */
-public final class Util {
+final class Util {
 
     /**
      * private constructor.
@@ -40,7 +40,7 @@ public final class Util {
      * @param args multiple Strings
      * @return the combined string
      */
-    protected static String combine(final String... args) {
+    static String combine(final String... args) {
         final StringBuilder builder = new StringBuilder();
         for (final String arg : args) {
             builder.append(arg);
@@ -67,22 +67,22 @@ public final class Util {
      * @param totalWidth    the total width of the result string
      * @return padded string
      */
-    protected static String pad(final String data, final char doPadWithThis, final int totalWidth, final Alignment orientation) {
+    static String pad(final String data, final char doPadWithThis, final int totalWidth, final Alignment orientation) {
 
         final String pad = repeat(new String(new char[]{doPadWithThis}), Math.max(0, totalWidth - data.length()));
         String returnVal = "";
         if (orientation == null) {
-            returnVal = new StringBuilder(data).append(pad).toString();
+            returnVal = data + pad;
         } else {
             switch (orientation) {
                 case Center:
                     returnVal = pad.substring(0, pad.length() / 2) + data + pad.substring(pad.length() / 2, pad.length());
                     break;
                 case Right:
-                    returnVal = new StringBuilder(pad).append(data).toString();
+                    returnVal = pad + data;
                     break;
                 default:
-                    returnVal = new StringBuilder(data).append(pad).toString();
+                    returnVal = data + pad;
 
             }
         }
@@ -96,14 +96,14 @@ public final class Util {
      * @param glue the glue string to use.
      *             <p/>
      *             <pre>
-     *                         String[] what = { &quot;a&quot;, &quot;b&quot;, &quot;c&quot; };
+     *                                                 String[] what = { &quot;a&quot;, &quot;b&quot;, &quot;c&quot; };
      *
-     *                         String s = Util.implode(&quot;-&quot;, what);
-     *                         // result is &quot;a-b-c&quot;
-     *                         </pre>
+     *                                                 String s = Util.implode(&quot;-&quot;, what);
+     *                                                 // result is &quot;a-b-c&quot;
+     *                                                 </pre>
      * @return String
      */
-    protected static String implode(final String glue, final String[] what) {
+    static String implode(final String glue, final String[] what) {
 
         final StringBuilder builder = new StringBuilder();
         for (int i = 0; i < what.length; i++) {
@@ -122,7 +122,7 @@ public final class Util {
      * @param numTimes     how many times to concantenate the string
      * @return the repeated string.
      */
-    protected static String repeat(final String toBeRepeated, final int numTimes) {
+    static String repeat(final String toBeRepeated, final int numTimes) {
         final StringBuilder builder = new StringBuilder();
 
         for (int i = 0; i < numTimes; i++) {
@@ -134,19 +134,18 @@ public final class Util {
     /**
      * Splits a string with the help of a given char.
      *
-     * @param splitter     the separator char
      * @param toBeSplitted the string to be splitted
      * @return an array of elements
      */
-    private static String[] explode(final char splitter, final String toBeSplitted) {
-        return toBeSplitted.split("\\" + splitter);
+    private static String[] explode(final String toBeSplitted) {
+        return toBeSplitted.split("\\" + '\n');
     }
 
     /**
      * Returns how many new lines are in the string.
      *
      * @param toExamine the string to look upon.
-     * @return the number of occurences of {@link NiceTable#NEWLINE} in the string.
+     * @return the number of occurences of {@link org.perfidix.ouput.asciitable.AbstractTabularComponent#NEWLINE} in the string.
      */
     private static int numNewLines(final String toExamine) {
         final char[] arr = toExamine.toCharArray();
@@ -183,7 +182,7 @@ public final class Util {
         }
         final String[][] matrix = new String[maxNewLines + 1][data.length];
         for (int col = 0; col < data.length; col++) {
-            final String[] exploded = Util.explode('\n', data[col]);
+            final String[] exploded = Util.explode(data[col]);
             for (int row = 0; row < maxNewLines + 1; row++) {
                 if (exploded.length > row) {
                     matrix[row][col] = exploded[row];

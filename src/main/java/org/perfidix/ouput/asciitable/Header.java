@@ -51,7 +51,7 @@ public final class Header extends AbstractTabularComponent {
         this.orientation = theOrientation;
         this.enclosing = theEnclosing;
 
-        this.title = Util.combine(new String(new char[]{enclosing}).toString(), SPACE, contentToDisplay, SPACE, new String(new char[]{enclosing}).toString());
+        this.title = Util.combine(new String(new char[]{enclosing}), SPACE, contentToDisplay, SPACE, new String(new char[]{enclosing}).toString());
 
     }
 

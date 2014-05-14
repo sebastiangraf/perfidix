@@ -126,9 +126,7 @@ public final class BenchmarkResult extends AbstractResultContainer<ClassResult> 
      */
     @Override
     public String toString() {
-        final StringBuilder builder = new StringBuilder(super.toString());
-        builder.append("\nexceptions: ").append(getExceptions());
-        return builder.toString();
+        return super.toString() + "\nexceptions: " + getExceptions();
     }
 
 }

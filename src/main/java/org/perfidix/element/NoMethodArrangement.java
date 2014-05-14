@@ -37,7 +37,7 @@ public final class NoMethodArrangement extends AbstractMethodArrangement {
      *
      * @param elements with benchmarkable elements.
      */
-    protected NoMethodArrangement(final List<BenchmarkElement> elements) {
+    NoMethodArrangement(final List<BenchmarkElement> elements) {
         super(elements);
     }
 

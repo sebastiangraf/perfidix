@@ -162,13 +162,7 @@ public class NiceTableTest {
         zero.addRow(new String[]{numbers[0].toString(), numbers[1].toString(), numbers[2].toString(), numbers[3].toString(), numbers[4].toString()});
         zero.addLine('-');
         final String result = zero.toString();
-        final StringBuilder expected = new StringBuilder();
-        expected.append("|------------------------------------|\n");
-        expected.append("| a           | b   | c | d   | e    |\n");
-        expected.append("|====================================|\n");
-        expected.append("| 1.222222222 | 3.0 | 4 | 5.0 | 4444 |\n");
-        expected.append("|------------------------------------|\n");
-        assertEquals("Another test for a complete table", expected.toString(), result);
+        assertEquals("Another test for a complete table", "|------------------------------------|\n" + "| a           | b   | c | d   | e    |\n" + "|====================================|\n" + "| 1.222222222 | 3.0 | 4 | 5.0 | 4444 |\n" + "|------------------------------------|\n", result);
 
     }
 }
