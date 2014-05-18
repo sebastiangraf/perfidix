@@ -18,16 +18,15 @@
  */
 package org.perfidix.annotation;
 
-
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-
 /**
- * This Annotation marks a simple bench. Each Class annotated with <code>Bench</code> is executed by perfidix. Settings
- * as parameters of this annotation are overriden by settings from extra annotated methods.
+ * This Annotation marks a simple bench. Each Class annotated with
+ * <code>Bench</code> is executed by perfidix. Settings as parameters of this
+ * annotation are overriden by settings from extra annotated methods.
  *
  * @author Sebastian Graf, University of Konstanz
  */
@@ -36,9 +35,11 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 public @interface BenchClass {
 
-    /**
-     * Parameter for the number of runs of this bench.
-     */
-    int runs() default 1;
+	/**
+	 * Parameter for the number of runs of this bench.
+	 * 
+	 * @return number of runs f containing benchmarks
+	 */
+	int runs() default 1;
 
 }

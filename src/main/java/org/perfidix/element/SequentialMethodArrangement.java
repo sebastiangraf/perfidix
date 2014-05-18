@@ -24,14 +24,14 @@ import java.util.Map.Entry;
 
 
 /**
- * This class represents an arrangement where each method is executed after another. That means that <br/>
+ * This class represents an arrangement where each method is executed after another. That means that 
  * <code>
- * <p/>
- * &#064;Bench(runs=3) public bench1(){ .. }<br/>
- * &#064;Bench(runs=2) public bench2(){ .. }<br/>
- * &#064;Bench(runs=1) public bench3(){ .. }<br/> </code><br/>
- * results in the following execution order:<br/>
- * <code>
+ * &#064;Bench(runs=3) public bench1(){ .. }
+ * &#064;Bench(runs=2) public bench2(){ .. }
+ * &#064;Bench(runs=1) public bench3(){ .. }
+ * </code>
+ * results in the following execution order:
+ * 29<code>
  * bench1
  * bench2
  * bench3

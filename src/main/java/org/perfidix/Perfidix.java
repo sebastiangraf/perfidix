@@ -29,8 +29,6 @@ import org.perfidix.result.BenchmarkResult;
  * running the bench with a {@link Benchmark} instance, this class just takes all classes as a String and gives less
  * control over the Benchmark itself. The Classes to be given are either Benchmark-Classes or (one single) Config-Class.
  * Additionaly, this class holds multiple utility-methods to get Bench-Classes and Config out of a set of Strings.
- * <p>
- * <p/>
  * <pre>
  *
  * public class MyBenchmark {
@@ -48,8 +46,6 @@ import org.perfidix.result.BenchmarkResult;
  * }
  *
  * </pre>
- * <p/>
- * </p>
  *
  * @author Sebastian Graf, University of Konstanz
  * @see AbstractConfig

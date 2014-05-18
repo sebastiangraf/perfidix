@@ -18,7 +18,6 @@
  */
 package org.perfidix.socketadapter;
 
-
 import org.perfidix.AbstractConfig;
 import org.perfidix.Benchmark;
 import org.perfidix.Perfidix;
@@ -32,113 +31,140 @@ import org.perfidix.result.BenchmarkResult;
 
 import java.util.*;
 
-
 /**
- * The SocketAdapter is the main-class for registration of the classes that will be benched and creation of the socket
- * stub to the ide view.
+ * The SocketAdapter is the main-class for registration of the classes that will
+ * be benched and creation of the socket stub to the ide view.
  *
  * @author Lukas Lewandowski, University of Konstanz
  * @author Sebastian Graf, University of Konstanz
  */
 public final class SocketAdapter {
 
-    /**
-     * View instance for communicating with the perclipse plugin
-     */
-    private transient final IUpdater view;
-    /**
-     * Instance for this run of the adapter
-     */
-    private transient Benchmark benchmark;
+	/**
+	 * View instance for communicating with the perclipse plugin
+	 */
+	private transient final IUpdater view;
+	/**
+	 * Instance for this run of the adapter
+	 */
+	private transient Benchmark benchmark;
 
-    /**
-     * public constructor.
-     *
-     * @throws IllegalAccessException
-     * @throws InstantiationException
-     * @throws ClassNotFoundException
-     * @throws SocketViewException
-     */
-    public SocketAdapter(final IUpdater update, final String... classes) throws SocketViewException, ClassNotFoundException, InstantiationException, IllegalAccessException {
-        view = update;
+	/**
+	 * Public constructor.
+	 *
+	 * @param update
+	 *            updater for this output
+	 * @param classes
+	 *            to be benchmarked
+	 * @throws IllegalAccessException
+	 *             if communication with socket fails
+	 * @throws InstantiationException
+	 *             if initiation fails
+	 * @throws ClassNotFoundException
+	 *             if class is not found
+	 * @throws SocketViewException
+	 *             if socket communication fails
+	 */
+	public SocketAdapter(final IUpdater update, final String... classes)
+			throws SocketViewException, ClassNotFoundException,
+			InstantiationException, IllegalAccessException {
+		view = update;
 
-        // config adaptions for including the view
-        final AbstractConfig oldConf = Perfidix.getConfiguration(classes);
-        final AbstractOutput[] outputs = new AbstractOutput[oldConf.getListener().length + 1];
-        System.arraycopy(oldConf.getListener(), 0, outputs, 0, oldConf.getListener().length);
-        outputs[outputs.length - 1] = new SocketListener(view);
+		// config adaptions for including the view
+		final AbstractConfig oldConf = Perfidix.getConfiguration(classes);
+		final AbstractOutput[] outputs = new AbstractOutput[oldConf
+				.getListener().length + 1];
+		System.arraycopy(oldConf.getListener(), 0, outputs, 0,
+				oldConf.getListener().length);
+		outputs[outputs.length - 1] = new SocketListener(view);
 
-        Set<AbstractMeter> meters = new HashSet<AbstractMeter>();
-        meters.addAll(Arrays.asList(oldConf.getMeters()));
+		Set<AbstractMeter> meters = new HashSet<AbstractMeter>();
+		meters.addAll(Arrays.asList(oldConf.getMeters()));
 
-        Set<AbstractOutput> listeners = new HashSet<AbstractOutput>();
-        listeners.addAll(Arrays.asList(outputs));
+		Set<AbstractOutput> listeners = new HashSet<AbstractOutput>();
+		listeners.addAll(Arrays.asList(outputs));
 
-        // Building up the benchmark object
-        final AbstractConfig newConf = new AbstractConfig(oldConf.getRuns(), meters, listeners, oldConf.getArrangement(), oldConf.getGcProb()) {
-        };
-        benchmark = new Benchmark(newConf);
+		// Building up the benchmark object
+		final AbstractConfig newConf = new AbstractConfig(oldConf.getRuns(),
+				meters, listeners, oldConf.getArrangement(),
+				oldConf.getGcProb()) {
+		};
+		benchmark = new Benchmark(newConf);
 
-    }
+	}
 
-    /**
-     * Main method for invoking benchs with classes as strings.
-     *
-     * @param args the classes
-     */
-    public static void main(final String[] args) {
-        // init of the connection to the plugin
-        int viewPort = 0;
-        final List<String> classList = new ArrayList<String>();
-        for (int i = 0; i < args.length; i++) {
-            if (args[i].equals("-Port")) {
-                if (args[i + 1] != null) {
-                    viewPort = Integer.parseInt(args[i + 1]);
-                }
-                break;
-            } else {
-                classList.add(args[i]);
-            }
-        }
-        try {
+	/**
+	 * Main method for invoking benchs with classes as strings.
+	 *
+	 * @param args
+	 *            the classes
+	 */
+	public static void main(final String[] args) {
+		// init of the connection to the plugin
+		int viewPort = 0;
+		final List<String> classList = new ArrayList<String>();
+		for (int i = 0; i < args.length; i++) {
+			if (args[i].equals("-Port")) {
+				if (args[i + 1] != null) {
+					viewPort = Integer.parseInt(args[i + 1]);
+				}
+				break;
+			} else {
+				classList.add(args[i]);
+			}
+		}
+		try {
 
-            final IUpdater updater = new SocketViewProgressUpdater(null, viewPort);
+			final IUpdater updater = new SocketViewProgressUpdater(null,
+					viewPort);
 
-            final SocketAdapter adapter = new SocketAdapter(updater, classList.toArray(new String[classList.size()]));
+			final SocketAdapter adapter = new SocketAdapter(updater,
+					classList.toArray(new String[classList.size()]));
 
-            adapter.registerClasses(classList.toArray(new String[classList.size()]));
-            adapter.runBenchmark();
-        } catch (final SocketViewException | ClassNotFoundException | InstantiationException | IllegalAccessException e) {
-            throw new IllegalStateException(e);
-        }
-    }
+			adapter.registerClasses(classList.toArray(new String[classList
+					.size()]));
+			adapter.runBenchmark();
+		} catch (final SocketViewException | ClassNotFoundException
+				| InstantiationException | IllegalAccessException e) {
+			throw new IllegalStateException(e);
+		}
+	}
 
-    /**
-     * Registering all classes and getting a mapping with the Methods and the corresponding overall runs
-     *
-     * @param classNames the names of the classes to be benched
-     */
-    public boolean registerClasses(final String... classNames) throws SocketViewException {
-        try {
-            benchmark = Perfidix.setUpBenchmark(classNames, benchmark);
+	/**
+	 * Registering all classes and getting a mapping with the Methods and the
+	 * corresponding overall runs
+	 *
+	 * @param classNames
+	 *            the names of the classes to be benched
+	 * @throws SocketViewException
+	 *             exception if socket communication fails
+	 * @return if register succeeds or not
+	 */
+	public boolean registerClasses(final String... classNames)
+			throws SocketViewException {
+		try {
+			benchmark = Perfidix.setUpBenchmark(classNames, benchmark);
 
-            final Map<BenchmarkMethod, Integer> vals = benchmark.getNumberOfMethodsAndRuns();
-            return view.initProgressView(vals);
-        } catch (final ClassNotFoundException | PerfidixMethodCheckException e2) {
-            return view.updateErrorInElement(e2.toString(), e2);
-        }
-    }
+			final Map<BenchmarkMethod, Integer> vals = benchmark
+					.getNumberOfMethodsAndRuns();
+			return view.initProgressView(vals);
+		} catch (final ClassNotFoundException | PerfidixMethodCheckException e2) {
+			return view.updateErrorInElement(e2.toString(), e2);
+		}
+	}
 
-    /**
-     * This method starts the bench progress with the registered classes.
-     *
-     * @throws SocketViewException
-     */
-    public boolean runBenchmark() throws SocketViewException {
-        final BenchmarkResult res = benchmark.run();
-        new TabularSummaryOutput().visitBenchmark(res);
-        view.finished();
-        return true;
-    }
+	/**
+	 * This method starts the bench progress with the registered classes.
+	 *
+	 * @throws SocketViewException
+	 *             if runs can not be communicated
+	 * @return if run succeeds or not
+	 */
+	public boolean runBenchmark() throws SocketViewException {
+		final BenchmarkResult res = benchmark.run();
+		new TabularSummaryOutput().visitBenchmark(res);
+		view.finished();
+		return true;
+	}
 
 }

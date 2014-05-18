@@ -18,15 +18,14 @@
  */
 package org.perfidix.annotation;
 
-
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-
 /**
- * This Annotation marks a simple bench. Each Method annotated with <code>Bench</code> is executed by perfidix.
+ * This Annotation marks a simple bench. Each Method annotated with
+ * <code>Bench</code> is executed by perfidix.
  *
  * @author Sebastian Graf, University of Konstanz
  */
@@ -35,40 +34,53 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 public @interface Bench {
 
-    /**
-     * Constant for NONE_RUN_Counter
-     */
-    final static int NONE_RUN = -1;
+	/**
+	 * Constant for NONE_RUN_Counter
+	 */
+	final static int NONE_RUN = -1;
 
-    /**
-     * Parameter of the method which works as a setUp-like, but just once for all runs. For more information to setUp,
-     * look at JUnit.
-     */
-    String beforeFirstRun() default "";
+	/**
+	 * Parameter of the method which works as a setUp-like, but just once for
+	 * all runs. For more information to setUp, look at JUnit.
+	 * 
+	 * @return name of method before first bench run
+	 */
+	String beforeFirstRun() default "";
 
-    /**
-     * Parameter of the method which works as a tearDown-like, but just once for all runs. For more information to
-     * setUp, look at JUnit.
-     */
-    String afterLastRun() default "";
+	/**
+	 * Parameter of the method which works as a tearDown-like, but just once for
+	 * all runs. For more information to setUp, look at JUnit.
+	 * 
+	 * @return name of method returned after last bench run.
+	 */
+	String afterLastRun() default "";
 
-    /**
-     * Parameter of the method which works as a setUp-like. For more information to setUp, look at JUnit.
-     */
-    String beforeEachRun() default "";
+	/**
+	 * Parameter of the method which works as a setUp-like. For more information
+	 * to setUp, look at JUnit.
+	 * 
+	 * @return name of method return before each bench run.
+	 */
+	String beforeEachRun() default "";
 
-    /**
-     * Parameter of the method which works as a tearDown-like. For more information to setUp, look at JUnit.
-     */
-    String afterEachRun() default "";
+	/**
+	 * Parameter of the method which works as a tearDown-like. For more
+	 * information to setUp, look at JUnit.
+	 * 
+	 * @return name of method invoked after each bench run
+	 */
+	String afterEachRun() default "";
 
-    /**
-     * Parameter for the number of runs of this bench.
-     */
-    int runs() default NONE_RUN;
+	/**
+	 * Parameter for the number of runs of this bench.
+	 * 
+	 * @return number of runs of benchmark
+	 */
+	int runs() default NONE_RUN;
 
-    /**
-     * Data provider for multiple invocations of the same benchmarked method with different parameters
-     */
-    String dataProvider() default "";
+	/**
+	 * Data provider for multiple invocations of the same benchmarked method
+	 * with different parameters
+	 */
+	String dataProvider() default "";
 }

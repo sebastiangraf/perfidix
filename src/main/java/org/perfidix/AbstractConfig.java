@@ -33,8 +33,6 @@ import java.util.Set;
  * Configuration for Benchmark. Simple pass this class through the Perfidix-Class. Each setting is hold over here. This
  * class must be inherited by a constructor which has no arguments to provide easy instantiation. This can be done in
  * the following way:
- * <p>
- * <p/>
  * <pre>
  *
  * &#064;BenchmarkConfig
@@ -51,8 +49,6 @@ import java.util.Set;
  * }
  *
  * </pre>
- * <p/>
- * </p>
  *
  * @author Sebastian Graf, University of Konstanz
  */
@@ -109,6 +105,11 @@ public abstract class AbstractConfig {
 
     /**
      * Simple constructor.
+     * @param paramRuns runs of the benchmark
+     * @param paramMeters meters to benchmark
+     * @param paramOutput output of the benchmarks
+     * @param paramArr arrangement of methods
+     * @param paramGC prob of invoking the gc.
      */
     protected AbstractConfig(final int paramRuns, final Set<AbstractMeter> paramMeters, final Set<AbstractOutput> paramOutput, final KindOfArrangement paramArr, final double paramGC) {
         runs = paramRuns;
