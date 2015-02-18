@@ -5,7 +5,7 @@ Similar to JUnit, annotations can be placed before methods.
 Within the invocation of these methods, flexible measurements are performed.
 An eclipse plugin (Perclipse, available under https://github.com/disy/perclipse) offers easy usage of any annotated methods.
 
-[![Build Status](https://secure.travis-ci.org/disy/perfidix.png)](http://travis-ci.org/disy/perfidix)
+[![Build Status](https://secure.travis-ci.org/sebastiangraf/perfidix.png)](http://travis-ci.org/sebastiangraf/perfidix)
 
 ##5 steps how to use Perfidix
 
