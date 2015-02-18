@@ -1,7 +1,7 @@
 language: java
 branches:
-  only:
-    - master
+  except:
+    - gh-pages
 install: echo 'Skipping mvn install' 
 script: mvn clean test -U
 notifications:

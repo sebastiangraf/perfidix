@@ -12,35 +12,10 @@ An eclipse plugin (Perclipse, available under https://github.com/disy/perclipse)
 * Get the lastest jar over Github or Maven
 
 ```xml
-<!-- Only needed when accessing perfidix 3.6.4 or older. Note that the group changed within 3.6.5 from "perfidix" to "org.perfidix" -->
-<!--<repository>
-	<id>disyInternal</id>
-	<name>Internal Repository for the Distributed System Group</name>
-	<url>http://mavenrepo.disy.inf.uni-konstanz.de/repository/disyInternal</url>
-	<releases>
-		<enabled>true</enabled>
-	</releases>
-	<snapshots>
-		<enabled>false</enabled>
-	</snapshots>
-</repository>
-<repository>
-	<id>disyInternalSnapshot</id>
-	<name>Internal Snapshot Repository for the Distributed System Group</name>
-	<url>http://mavenrepo.disy.inf.uni-konstanz.de/repository/disyInternalSnapshot</url>
-	<releases>
-		<enabled>true</enabled>
-	</releases>
-	<snapshots>
-		<enabled>true</enabled>
-	</snapshots>
-</repository>-->
-
-
 <dependency>
 	<groupId>org.perfidix</groupId>
 	<artifactId>perfidix</artifactId>
-	<version>3.6.6</version>
+	<version>4.0.0</version>
 </dependency>
 ```
 
@@ -84,7 +59,7 @@ Perfidix is maintained by:
 
 Concluded subprojects were:
 
-* Nico Haase (Parameterized Benchmarks)
+* Nico Haase<nico@nicohaase.de> (Parameterized Benchmarks)
 * Nuray Gürler (Mocking and Maven-Website)
 * Bastian Lemke (Graph Output)
 * Alexander Onea (first release of the core)

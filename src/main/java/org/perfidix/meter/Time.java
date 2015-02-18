@@ -1,13 +1,13 @@
 /**
  * Copyright (c) 2012, University of Konstanz, Distributed Systems Group All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without modification, are permitted provided that the
  * following conditions are met: * Redistributions of source code must retain the above copyright notice, this list of
  * conditions and the following disclaimer. * Redistributions in binary form must reproduce the above copyright notice,
  * this list of conditions and the following disclaimer in the documentation and/or other materials provided with the
  * distribution. * Neither the name of the University of Konstanz nor the names of its contributors may be used to
  * endorse or promote products derived from this software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES,
  * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
  * DISCLAIMED. IN NO EVENT SHALL <COPYRIGHT HOLDER> BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY,
@@ -20,18 +20,26 @@ package org.perfidix.meter;
 
 /**
  * Small enum to store different times.
- * 
+ *
  * @author Sebastian Graf, University of Konstanz
  */
 public enum Time {
 
-    /** Enum for nano seconds. */
+    /**
+     * Enum for nano seconds.
+     */
     NanoSeconds("ns", "nano seconds", 1),
-    /** Enum for milli seconds. */
+    /**
+     * Enum for milli seconds.
+     */
     MilliSeconds("ms", "milli seconds", 1000000),
-    /** Enum for seconds. */
+    /**
+     * Enum for seconds.
+     */
     Seconds("s", "second", 1000000000),
-    /** Enum for minutes. */
+    /**
+     * Enum for minutes.
+     */
     Minutes("min", "minutes", 60000000000.0);
 
     /**
@@ -51,12 +59,12 @@ public enum Time {
 
     /**
      * The constructor for the memory sizes.
-     * 
-     * @param paramUnit to give
+     *
+     * @param paramUnit     to give
      * @param paramUnitDesc to give
-     * @param paramMillis to give
+     * @param paramMillis   to give
      */
-    private Time (final String paramUnit, final String paramUnitDesc, final double paramMillis) {
+    private Time(final String paramUnit, final String paramUnitDesc, final double paramMillis) {
         unit = paramUnit;
         unitDescription = paramUnitDesc;
         milliSeconds = paramMillis;
@@ -64,28 +72,28 @@ public enum Time {
 
     /**
      * Getting the number of milli seconds.
-     * 
+     *
      * @return the number of milli seconds
      */
-    public double getNumberOfMilliSeconds () {
+    public double getNumberOfMilliSeconds() {
         return milliSeconds;
     }
 
     /**
      * Getting the unit.
-     * 
+     *
      * @return the unit
      */
-    public String getUnit () {
+    public String getUnit() {
         return unit;
     }
 
     /**
      * Getting the full unitname.
-     * 
+     *
      * @return the full unitname
      */
-    public String getUnitDescription () {
+    public String getUnitDescription() {
         return unitDescription;
     }
 

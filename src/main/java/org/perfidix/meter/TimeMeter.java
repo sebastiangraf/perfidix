@@ -1,13 +1,13 @@
 /**
  * Copyright (c) 2012, University of Konstanz, Distributed Systems Group All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without modification, are permitted provided that the
  * following conditions are met: * Redistributions of source code must retain the above copyright notice, this list of
  * conditions and the following disclaimer. * Redistributions in binary form must reproduce the above copyright notice,
  * this list of conditions and the following disclaimer in the documentation and/or other materials provided with the
  * distribution. * Neither the name of the University of Konstanz nor the names of its contributors may be used to
  * endorse or promote products derived from this software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES,
  * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
  * DISCLAIMED. IN NO EVENT SHALL <COPYRIGHT HOLDER> BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY,
@@ -26,13 +26,15 @@ import java.math.MathContext;
 /**
  * Meter to bench the amount of time used by the current Benchmark. The TimeMeter is in need of an instance of the
  * {@link Time} enumeration to give back the suitable time.
- * 
- * @see Time
+ *
  * @author Sebastian Graf, University of Konstanz
+ * @see Time
  */
 public final class TimeMeter extends AbstractMeter {
 
-    /** Name of the Meter. */
+    /**
+     * Name of the Meter.
+     */
     private static final String NAME = "TimeMeter";
 
     /**
@@ -42,10 +44,10 @@ public final class TimeMeter extends AbstractMeter {
 
     /**
      * Constructor which is in need of a given time.
-     * 
+     *
      * @param paramTime the time for the values.
      */
-    public TimeMeter (final Time paramTime) {
+    public TimeMeter(final Time paramTime) {
         super();
         currentTime = paramTime;
     }
@@ -54,31 +56,39 @@ public final class TimeMeter extends AbstractMeter {
      * {@inheritDoc}
      */
     @Override
-    public double getValue () {
+    public double getValue() {
         return new BigDecimal(System.nanoTime(), MathContext.DECIMAL128).divide(new BigDecimal(currentTime.getNumberOfMilliSeconds(), MathContext.DECIMAL128), MathContext.DECIMAL128).doubleValue();
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public String getName () {
+    public String getName() {
         return NAME;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public String getUnit () {
+    public String getUnit() {
         return currentTime.getUnit();
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public String getUnitDescription () {
+    public String getUnitDescription() {
         return currentTime.getUnitDescription();
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public int hashCode () {
+    public int hashCode() {
         final int prime = 31;
         int result = prime;
         if (currentTime == null) {
@@ -90,9 +100,11 @@ public final class TimeMeter extends AbstractMeter {
         return result;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public boolean equals (final Object obj) {
+    public boolean equals(final Object obj) {
         boolean returnVal = true;
         if (this == obj) {
             returnVal = true;
