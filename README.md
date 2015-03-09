@@ -3,7 +3,7 @@
 Perfidix is a light-weight java library enabling users to benchmark sourcecode.
 Similar to JUnit, annotations can be placed before methods.
 Within the invocation of these methods, flexible measurements are performed.
-An eclipse plugin (Perclipse, available under https://github.com/disy/perclipse) offers easy usage of any annotated methods.
+An eclipse plugin (Perclipse, available under https://github.com/sebastiangraf/perclipse) offers easy usage of any annotated methods.
 
 [![Build Status](https://secure.travis-ci.org/sebastiangraf/perfidix.png)](http://travis-ci.org/sebastiangraf/perfidix)
 
@@ -27,7 +27,7 @@ An eclipse plugin (Perclipse, available under https://github.com/disy/perclipse)
 
 OR
 
-* Install the Perclipse Plugin over its update site (http://disy.github.com/perclipse/) and run over "Run As" (see the Perclipse-Readme for further information: https://github.com/disy/perclipse).
+* Install the Perclipse Plugin over its update site (http://sebastiangraf.github.com/perclipse/) and run over "Run As" (see the Perclipse-Readme for further information: https://github.com/sebastiangraf/perclipse).
 
 For further documentation and as an example, please refer to the `org.perfidix.example` package.
 
@@ -44,7 +44,7 @@ This work is released in the public domain under the BSD 3-clause license
 
 ##Further information
 
-The documentation so far is accessible under http://perfidix.org (pointing to http://disy.github.com/perfidix/).
+The documentation so far is accessible under http://perfidix.org (pointing to http://sebastiangraf.github.com/perfidix/).
 
 The framework was presented at the Jazoon '07 as work in progress. The paper can be found over [here](http://nbn-resolving.de/urn:nbn:de:bsz:352-opus-84446).
 
