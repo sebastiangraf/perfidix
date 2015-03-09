@@ -18,9 +18,9 @@
         these simple modifications fast evaluation and real-time measurements can be made with existing source code
         without adapting the program.
     </description>
-    <url>https://github.com/disy/perfidix</url>
+    <url>https://github.com/sebastiangraf/perfidix</url>
     <issueManagement>
-        <url>https://github.com/disy/perfidix/issues</url>
+        <url>https://github.com/sebastiangraf/perfidix/issues</url>
         <system>GitHub Issues</system>
     </issueManagement>
     <licenses>
@@ -32,12 +32,12 @@
     </licenses>
     <ciManagement>
         <system>Travis CI</system>
-        <url>http://travis-ci.org/#!/disy/perfidix</url>
+        <url>http://travis-ci.org/#!/sebastiangraf/perfidix</url>
     </ciManagement>
     <scm>
-        <url>git@github.com:disy/perfidix.git</url>
-        <connection>scm:git:git@github.com:disy/perfidix.git</connection>
-        <developerConnection>scm:git:git@github.com:disy/perfidix.git</developerConnection>
+        <url>git@github.com:sebastiangraf/perfidix.git</url>
+        <connection>scm:git:git@github.com:sebastiangraf/perfidix.git</connection>
+        <developerConnection>scm:git:git@github.com:sebastiangraf/perfidix.git</developerConnection>
     </scm>
     <developers>
         <developer>
