@@ -59,7 +59,7 @@ Perfidix is maintained by:
 
 Concluded subprojects were:
 
-* Nico Haase[nico@nicohaase.de] (Parameterized Benchmarks)
+* [Nico Haase](mailto:nico@nicohaase.de) (Parameterized Benchmarks)
 * Nuray Gürler (Mocking and Maven-Website)
 * Bastian Lemke (Graph Output)
 * Alexander Onea (first release of the core)
