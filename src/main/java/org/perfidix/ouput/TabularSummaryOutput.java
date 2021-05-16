@@ -32,6 +32,11 @@ import org.perfidix.result.MethodResult;
 
 import java.io.PrintStream;
 import java.lang.reflect.Method;
+import java.security.MessageDigest;
+import java.text.MessageFormat;
+import java.util.Enumeration;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 
 /**
@@ -41,7 +46,7 @@ import java.lang.reflect.Method;
  * @author Sebastian Graf, University of Konstanz
  */
 public final class TabularSummaryOutput extends AbstractOutput {
-
+	private final ResourceBundle bundle;
     /**
      * Print stream where the result should end.
      */
@@ -55,6 +60,7 @@ public final class TabularSummaryOutput extends AbstractOutput {
     public TabularSummaryOutput(final PrintStream paramOut) {
         super();
         out = paramOut;
+        bundle = ResourceBundle.getBundle("messages", Locale.getDefault());  
     }
 
     /**
@@ -80,38 +86,38 @@ public final class TabularSummaryOutput extends AbstractOutput {
                     table = generateMeterResult(methRes.getElementName(), meter, methRes, table);
                 }
 
-                table.addHeader(new StringBuilder("Summary for ").append(classRes.getElementName()).toString(), '_', Alignment.Left);
+                table.addHeader(new StringBuilder(getMessageI18n("summary.for")).append(classRes.getElementName()).toString(), '_', Alignment.Left);
                 table = generateMeterResult("", meter, classRes, table);
                 table.addLine('-');
 
             }
         }
-        table.addHeader("Summary for the whole benchmark", '=', Alignment.Center);
+        table.addHeader(getMessageI18n("summary"), '=', Alignment.Center);
 
         for (final AbstractMeter meter : benchRes.getRegisteredMeters()) {
             table = generateMeterResult("", meter, benchRes, table);
         }
 
-        table.addHeader("Exceptions", '=', Alignment.Center);
+        table.addHeader(getMessageI18n("exceptions"), '=', Alignment.Center);
         for (final AbstractPerfidixMethodException exec : benchRes.getExceptions()) {
             final StringBuilder execBuilder0 = new StringBuilder();
-            execBuilder0.append("Related exception: ").append(exec.getExec().getClass().getSimpleName());
+            execBuilder0.append(getMessageI18n("related.exceptions")).append(exec.getExec().getClass().getSimpleName());
             table.addHeader(execBuilder0.toString(), ' ', Alignment.Left);
 
             final StringBuilder execBuilder1 = new StringBuilder();
             if (exec instanceof PerfidixMethodInvocationException) {
-                execBuilder1.append("Related place: method invocation");
+                execBuilder1.append(getMessageI18n("related.place", "method.invocation"));
             } else {
-                execBuilder1.append("Related place: method check");
+                execBuilder1.append(getMessageI18n("related.place", "method.check"));
             }
             table.addHeader(execBuilder1.toString(), ' ', Alignment.Left);
             if (exec.getMethod() != null) {
                 final StringBuilder execBuilder2 = new StringBuilder();
-                execBuilder2.append("Related method: ").append(exec.getMethod().getName());
+                execBuilder2.append(getMessageI18n("related.method")).append(exec.getMethod().getName());
                 table.addHeader(execBuilder2.toString(), ' ', Alignment.Left);
             }
             final StringBuilder execBuilder3 = new StringBuilder();
-            execBuilder3.append("Related annotation: ").append(exec.getRelatedAnno().getSimpleName());
+            execBuilder3.append(getMessageI18n("related.annotation")).append(exec.getRelatedAnno().getSimpleName());
             table.addHeader(execBuilder3.toString(), ' ', Alignment.Left);
             table.addLine('-');
 
@@ -172,9 +178,20 @@ public final class TabularSummaryOutput extends AbstractOutput {
      * @return another {@link NiceTable} instance
      */
     private NiceTable generateHeader(final NiceTable table) {
-        table.addHeader("Benchmark");
-        table.addRow(new String[]{"-", "unit", "sum", "min", "max", "avg", "stddev", "conf95", "runs"});
+        table.addHeader(getMessageI18n("benchmark"));
+        table.addRow(new String[]{"-", getMessageI18n("unit"), getMessageI18n("sum"), getMessageI18n("min"), getMessageI18n("max"), getMessageI18n("avg"), getMessageI18n("stddev"), getMessageI18n("conf95"), getMessageI18n("runs")});
         return table;
+    }
+    
+    private String getMessageI18n(String key) {
+    	return bundle.getString(MessageFormat.format("tabularSummaryOutput.{0}", key));
+    }
+    
+    private String getMessageI18n(String key1, String key2) {
+    	String message = bundle.getString(MessageFormat.format("tabularSummaryOutput.{0}", key1));
+    	String message2 = bundle.getString(MessageFormat.format("tabularSummaryOutput.{0}", key2));
+    	
+    	return MessageFormat.format("{0} {1}", message, message2);
     }
 
 }
