@@ -1,4 +1,4 @@
-[! [en] (https://img.shields.io/badge/lang-en-red.svg)] (https://github.com/denisbenjamim/perfidix/blob/master/README.md)
+[![en](https://img.shields.io/badge/lang-en-red.svg)](https://github.com/denisbenjamim/perfidix/blob/master/README.md)
 
 # Perfidix - Sem discussões, apenas fatos.
 
@@ -9,7 +9,7 @@ Um plugin do eclipse (Perclipse, disponível em https://github.com/sebastiangraf
 
 [![Build Status](https://secure.travis-ci.org/sebastiangraf/perfidix.png)](http://travis-ci.org/sebastiangraf/perfidix)
 
-##5 etapas para usar o Perfidix
+## 5 etapas para usar o Perfidix
 
 * Pegue o último jar no Github ou Maven
 
@@ -33,7 +33,7 @@ OU
 
 Para obter mais documentação e exemplo, consulte o pacote `org.perfidix.example`.
 
-##Conteúdo
+## Conteúdo
 
 * README:				 	arquivo leia-me original
 * README.pt-BR:				este arquivo leia-me
@@ -41,11 +41,11 @@ Para obter mais documentação e exemplo, consulte o pacote `org.perfidix.exampl
 * src:						pasta de origem para o próprio perfidix
 * pom.xml:					pom simples (sim, usamos Maven)
 
-##Licença
+## Licença
 
 Este trabalho foi lançado em domínio público sob a licença BSD de 3 cláusulas
 
-##Outras informações
+## Outras informações
 
 A documentação até agora está acessível em http://perfidix.org (apontando para http://sebastiangraf.github.com/perfidix/ ).
 
@@ -53,7 +53,7 @@ A estrutura foi apresentada no Jazoon '07 como um trabalho em andamento. O jorna
 
 Qualquer dúvida, basta entrar em contato com sebastian.graf AT uni-konstanz.de
 
-##Pessoas Envolvidas
+## Pessoas Envolvidas
 
 Perfidix é mantido por:
 
