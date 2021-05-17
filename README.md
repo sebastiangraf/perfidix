@@ -1,4 +1,7 @@
-#Perfidix - No discussions, Just facts.
+[! [en] (https://img.shields.io/badge/lang-en-red.svg)] (https://github.com/denisbenjamim/perfidix/blob/master/README.md)
+[! [pt-BR] (https://img.shields.io/badge/lang-pt--BR-green.svg)] (https://github.com/denisbenjamim/perfidix/blob/master/README.pt-BR.md)
+
+# Perfidix - No discussions, Just facts.
 
 Perfidix is a light-weight java library enabling users to benchmark sourcecode.
 Similar to JUnit, annotations can be placed before methods.
