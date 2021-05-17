@@ -19,6 +19,16 @@
 package org.perfidix.output;
 
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.PrintStream;
+import java.lang.reflect.Method;
+import java.text.MessageFormat;
+import java.util.Locale;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -33,14 +43,6 @@ import org.perfidix.ouput.TabularSummaryOutput;
 import org.perfidix.result.BenchmarkResult;
 import org.perfidix.result.MethodResult;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.PrintStream;
-import java.lang.reflect.Method;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
 
 /**
  * Test case for {@link TabularSummaryOutput}
@@ -48,9 +50,10 @@ import static org.junit.Assert.assertTrue;
  * @author Sebastian Graf, University of Konstanz
  */
 public class TabularSummaryOutputTest {
+	private final String LINE_SEPARATOR = System.lineSeparator();
 
-    private final static String CLASSSTRING = "Class: Class1#method1\n";
-    private final static String METERSTRING = "Meter: Meter1\n";
+    private final String CLASSSTRING = MessageFormat.format("Class: Class1#method1{0}", LINE_SEPARATOR);
+    private final String METERSTRING =  MessageFormat.format("Meter: Meter1{0}", LINE_SEPARATOR);
 
     private final static int NUMBEROFTICKS = 10;
 
@@ -62,6 +65,10 @@ public class TabularSummaryOutputTest {
 
     private transient AbstractPerfidixMethodException testException;
 
+	private String TEMPLATE_EXPECTED_LISTEN_TO_RESULT_SET;
+	private String TEMPLATE_EXPECTED_LISTEN_TO_EXCEPTION;
+    
+
     /**
      * Simple Constructor.
      *
@@ -71,6 +78,7 @@ public class TabularSummaryOutputTest {
      */
     @Before
     public void setUp() throws SecurityException, NoSuchMethodException, PerfidixMethodCheckException {
+    	Locale.setDefault(Locale.ENGLISH);
         benchRes = new BenchmarkResult();
 
         final Class<?> class1 = Class1.class;
@@ -90,6 +98,19 @@ public class TabularSummaryOutputTest {
         consoleOut = System.out;
         bytes = new ByteArrayOutputStream();
         System.setOut(new PrintStream(bytes));
+        
+        buildTemplatesListen();
+    }
+    
+    private void buildTemplatesListen() {
+    	StringBuilder builderPatterExpected =  new StringBuilder();
+        
+        for(double data = 1; data < 11 ;data++) {
+        	builderPatterExpected.append(MessageFormat.format("{1}{2}Data: {3}{0}{0}", LINE_SEPARATOR, CLASSSTRING, METERSTRING, String.valueOf(data)));
+        }
+        
+        TEMPLATE_EXPECTED_LISTEN_TO_RESULT_SET = builderPatterExpected.toString();
+        TEMPLATE_EXPECTED_LISTEN_TO_EXCEPTION = MessageFormat.format("Class: Class1#method1{0}Annotation: Bench{0}Exception: PerfidixMethodInvocationException/java.io.IOException{0}java.io.IOException{0}", LINE_SEPARATOR);
     }
 
     /**
@@ -107,11 +128,13 @@ public class TabularSummaryOutputTest {
      * {@link org.perfidix.ouput.TabularSummaryOutput#visitBenchmark(org.perfidix.result.BenchmarkResult)} .
      */
     @Test
-    public final void testVisitBenchmark() {
+    public final void testVisitBenchmark() {    	
+    	final String expected = MessageFormat.format("|= Benchmark ======================================================================|{0}| -       | unit  | sum   | min   | max   | avg   | stddev | conf95        | runs  |{0}|===================================== Meter1 =====================================|{0}|. Class1 .........................................................................|{0}| method1 | ticks | 55.00 | 01.00 | 10.00 | 05.50 | 03.03  | [01.00-10.00] | 10.00 |{0}|_ Summary for Class1 _____________________________________________________________|{0}|         | ticks | 55.00 | 01.00 | 10.00 | 05.50 | 03.03  | [01.00-10.00] | 10.00 |{0}|----------------------------------------------------------------------------------|{0}|======================== Summary for the whole benchmark =========================|{0}|         | ticks | 55.00 | 01.00 | 10.00 | 05.50 | 03.03  | [01.00-10.00] | 10.00 |{0}|=================================== Exceptions ===================================|{0}|  Related exception: IOException                                                  |{0}|  Related place: method invocation                                                |{0}|  Related method: method1                                                         |{0}|  Related annotation: Bench                                                       |{0}|----------------------------------------------------------------------------------|{0}|==================================================================================|{0}{0}", LINE_SEPARATOR);
         final TabularSummaryOutput output = new TabularSummaryOutput();
         output.visitBenchmark(benchRes);
         final String result = bytes.toString();
-        assertTrue("Complete Output check", result.startsWith("|= Benchmark ======================================================================|\n" + "| -       | unit  | sum   | min   | max   | avg   | stddev | conf95        | runs  |\n" + "|===================================== Meter1 =====================================|\n" + "|. Class1 .........................................................................|\n" + "| method1 | ticks | 55.00 | 01.00 | 10.00 | 05.50 | 03.03  | [01.00-10.00] | 10.00 |\n" + "|_ Summary for Class1 _____________________________________________________________|\n" + "|         | ticks | 55.00 | 01.00 | 10.00 | 05.50 | 03.03  | [01.00-10.00] | 10.00 |\n" + "|----------------------------------------------------------------------------------|\n" + "|======================== Summary for the whole benchmark =========================|\n" + "|         | ticks | 55.00 | 01.00 | 10.00 | 05.50 | 03.03  | [01.00-10.00] | 10.00 |\n" + "|=================================== Exceptions ===================================|\n" + "|  Related exception: IOException                                                  |\n" + "|  Related place: method invocation                                                |\n" + "|  Related method: method1                                                         |\n" + "|  Related annotation: Bench                                                       |\n" + "|----------------------------------------------------------------------------------|\n" + "|==================================================================================|\n"));
+        
+        assertTrue("Complete Output check", result.startsWith(expected));
     }
 
     /**
@@ -127,11 +150,13 @@ public class TabularSummaryOutputTest {
         final MethodResult methRes = benchRes.getIncludedResults().iterator().next().getIncludedResults().iterator().next();
         final AbstractMeter meter = methRes.getRegisteredMeters().iterator().next();
         final TabularSummaryOutput output = new TabularSummaryOutput();
+        
         for (final double d : methRes.getResultSet(meter)) {
             output.listenToResultSet((BenchmarkMethod) methRes.getRelatedElement(), meter, d);
-        }
-
-        assertEquals("Complete listener test", CLASSSTRING + METERSTRING + "Data: 1.0\n" + "\n" + CLASSSTRING + METERSTRING + "Data: 2.0\n" + "\n" + CLASSSTRING + METERSTRING + "Data: 3.0\n" + "\n" + CLASSSTRING + METERSTRING + "Data: 4.0\n" + "\n" + CLASSSTRING + METERSTRING + "Data: 5.0\n" + "\n" + CLASSSTRING + METERSTRING + "Data: 6.0\n" + "\n" + CLASSSTRING + METERSTRING + "Data: 7.0\n" + "\n" + CLASSSTRING + METERSTRING + "Data: 8.0\n" + "\n" + CLASSSTRING + METERSTRING + "Data: 9.0\n" + "\n" + CLASSSTRING + METERSTRING + "Data: 10.0\n" + "\n", bytes.toString());
+        }        
+        final String result = bytes.toString();
+        
+        assertEquals("Complete listener test", TEMPLATE_EXPECTED_LISTEN_TO_RESULT_SET, result);
     }
 
     /**
@@ -143,8 +168,9 @@ public class TabularSummaryOutputTest {
     public final void testListenToException() {
         final TabularSummaryOutput output = new TabularSummaryOutput();
         output.listenToException(testException);
-
-        assertTrue("Exception listener test", bytes.toString().startsWith("Class: Class1#method1\n" + "Annotation: Bench\n" + "Exception: PerfidixMethodInvocationException/java.io.IOException\n" + "java.io.IOException\n"));
+        final String result = bytes.toString();
+        
+        assertTrue("Exception listener test", result.startsWith(TEMPLATE_EXPECTED_LISTEN_TO_EXCEPTION));
     }
 
     private class Class1 {
@@ -154,5 +180,4 @@ public class TabularSummaryOutputTest {
         }
 
     }
-
 }

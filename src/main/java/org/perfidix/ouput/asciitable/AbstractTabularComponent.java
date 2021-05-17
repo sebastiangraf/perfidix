@@ -28,7 +28,7 @@ public abstract class AbstractTabularComponent {
     /**
      * Constant for the newline-symbol.
      */
-    static final String NEWLINE = "\n";
+    static final String NEWLINE = System.lineSeparator();
 
     /**
      * Border symbol, can be changed in the runtime.

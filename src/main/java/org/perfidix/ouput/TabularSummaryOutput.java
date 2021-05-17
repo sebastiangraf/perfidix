@@ -19,6 +19,12 @@
 package org.perfidix.ouput;
 
 
+import java.io.PrintStream;
+import java.lang.reflect.Method;
+import java.text.MessageFormat;
+import java.util.Locale;
+import java.util.ResourceBundle;
+
 import org.perfidix.element.BenchmarkMethod;
 import org.perfidix.exceptions.AbstractPerfidixMethodException;
 import org.perfidix.exceptions.PerfidixMethodInvocationException;
@@ -30,14 +36,6 @@ import org.perfidix.result.BenchmarkResult;
 import org.perfidix.result.ClassResult;
 import org.perfidix.result.MethodResult;
 
-import java.io.PrintStream;
-import java.lang.reflect.Method;
-import java.security.MessageDigest;
-import java.text.MessageFormat;
-import java.util.Enumeration;
-import java.util.Locale;
-import java.util.ResourceBundle;
-
 
 /**
  * Summary output using the {@link NiceTable} to format. Just giving an overview of statistical analysis over the
@@ -46,7 +44,9 @@ import java.util.ResourceBundle;
  * @author Sebastian Graf, University of Konstanz
  */
 public final class TabularSummaryOutput extends AbstractOutput {
-	private final ResourceBundle bundle;
+	private final String LINE_SEPARATOR;
+	
+	private final ResourceBundle BUNDLE;
     /**
      * Print stream where the result should end.
      */
@@ -60,7 +60,8 @@ public final class TabularSummaryOutput extends AbstractOutput {
     public TabularSummaryOutput(final PrintStream paramOut) {
         super();
         out = paramOut;
-        bundle = ResourceBundle.getBundle("messages", Locale.getDefault());  
+        BUNDLE = ResourceBundle.getBundle("messages", Locale.getDefault());  
+        LINE_SEPARATOR = System.lineSeparator();
     }
 
     /**
@@ -147,10 +148,11 @@ public final class TabularSummaryOutput extends AbstractOutput {
     public boolean listenToResultSet(final BenchmarkMethod meth, final AbstractMeter meter, final double data) {
         Method m = meth.getMethodToBench();
         final StringBuilder builder = new StringBuilder();
-        builder.append("Class: ").append(m.getDeclaringClass().getSimpleName()).append("#").append(m.getName());
-        builder.append("\nMeter: ").append(meter.getName());
-        builder.append("\nData: ").append(data).append("\n");
-        out.println(builder.toString());
+        
+        builder.append(MessageFormat.format("Class: {1}#{2}{0}", LINE_SEPARATOR, m.getDeclaringClass().getSimpleName(), m.getName()));
+        builder.append(MessageFormat.format("Meter: {1}{0}", LINE_SEPARATOR, meter.getName()));
+        builder.append(MessageFormat.format("Data: {1}{0}", LINE_SEPARATOR, String.valueOf(data)));
+        out.println(builder.toString());       
         return true;
     }
 
@@ -161,10 +163,10 @@ public final class TabularSummaryOutput extends AbstractOutput {
     public boolean listenToException(final AbstractPerfidixMethodException exec) {
         final StringBuilder builder = new StringBuilder();
         if (exec.getMethod() != null) {
-            builder.append("Class: ").append(exec.getMethod().getDeclaringClass().getSimpleName()).append("#").append(exec.getMethod().getName()).append("\n");
+            builder.append("Class: ").append(exec.getMethod().getDeclaringClass().getSimpleName()).append("#").append(exec.getMethod().getName()).append(LINE_SEPARATOR);
         }
-        builder.append("Annotation: ").append(exec.getRelatedAnno().getSimpleName());
-        builder.append("\nException: ").append(exec.getClass().getSimpleName()).append("/").append(exec.getExec().toString());
+        builder.append("Annotation: ").append(exec.getRelatedAnno().getSimpleName()).append(LINE_SEPARATOR);
+        builder.append("Exception: ").append(exec.getClass().getSimpleName()).append("/").append(exec.getExec().toString());
         out.println(builder.toString());
         exec.getExec().printStackTrace(out);
         return true;
@@ -184,12 +186,12 @@ public final class TabularSummaryOutput extends AbstractOutput {
     }
     
     private String getMessageI18n(String key) {
-    	return bundle.getString(MessageFormat.format("tabularSummaryOutput.{0}", key));
+    	return BUNDLE.getString(MessageFormat.format("tabularSummaryOutput.{0}", key));
     }
     
     private String getMessageI18n(String key1, String key2) {
-    	String message = bundle.getString(MessageFormat.format("tabularSummaryOutput.{0}", key1));
-    	String message2 = bundle.getString(MessageFormat.format("tabularSummaryOutput.{0}", key2));
+    	String message = BUNDLE.getString(MessageFormat.format("tabularSummaryOutput.{0}", key1));
+    	String message2 = BUNDLE.getString(MessageFormat.format("tabularSummaryOutput.{0}", key2));
     	
     	return MessageFormat.format("{0} {1}", message, message2);
     }
