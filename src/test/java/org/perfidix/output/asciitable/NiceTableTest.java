@@ -132,7 +132,7 @@ public class NiceTableTest {
         zero.addRow(new String[]{one.toString(), two.toString(), three.toString()});
 
         final String result = zero.toString().trim();
-        assertEquals("Test for encapsulated tables", "| | a | b |   | | c | d |   | | e | f |   |", result);
+        assertEquals("Test for encapsulated tables", "| | a | b |  | | c | d |  | | e | f |  |", result);
     }
 
     /**
