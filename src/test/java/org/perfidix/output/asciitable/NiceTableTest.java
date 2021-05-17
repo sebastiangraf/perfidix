@@ -19,12 +19,14 @@
 package org.perfidix.output.asciitable;
 
 
+import static org.junit.Assert.assertEquals;
+
+import java.text.MessageFormat;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.perfidix.ouput.asciitable.AbstractTabularComponent.Alignment;
 import org.perfidix.ouput.asciitable.NiceTable;
-
-import static org.junit.Assert.assertEquals;
 
 
 /**
@@ -33,7 +35,7 @@ import static org.junit.Assert.assertEquals;
  * @author Sebastian Graf, University of Konstanz
  */
 public class NiceTableTest {
-
+	private final String LINE_SEPARATOR = System.lineSeparator();
     private final static int COLUMNNUMBER = 10;
     private final static String TESTSTRING = "This is a test";
     private transient NiceTable table;
@@ -60,7 +62,7 @@ public class NiceTableTest {
     @Test
     public void testAddHeaderString() {
         table.addHeader(TESTSTRING);
-        assertEquals("Test for normal adding", "|= This is a test =============|\n", table.toString());
+        assertEquals("Test for normal adding", MessageFormat.format("|= This is a test =============|{0}", LINE_SEPARATOR), table.toString());
     }
 
     /**
@@ -70,17 +72,17 @@ public class NiceTableTest {
     @Test
     public void testAddHeaderStringCharAlignment() {
         table.addHeader(TESTSTRING, '-', Alignment.Left);
-        assertEquals("Test for left alignement adding", "|- This is a test -------------|\n", table.toString());
+        assertEquals("Test for left alignement adding", MessageFormat.format("|- This is a test -------------|{0}", LINE_SEPARATOR), table.toString());
 
         setUp();
 
         table.addHeader(TESTSTRING, '/', Alignment.Center);
-        assertEquals("Test for center alignment", "|/////// This is a test ///////|\n", table.toString());
+        assertEquals("Test for center alignment", MessageFormat.format("|/////// This is a test ///////|{0}",LINE_SEPARATOR), table.toString());
 
         setUp();
 
         table.addHeader(TESTSTRING, '\\', Alignment.Right);
-        assertEquals("Test for right alignment", "|\\\\\\\\\\\\\\\\\\\\\\\\\\ This is a test \\|\n", table.toString());
+        assertEquals("Test for right alignment", MessageFormat.format("|\\\\\\\\\\\\\\\\\\\\\\\\\\ This is a test \\|{0}", LINE_SEPARATOR), table.toString());
     }
 
     /**
@@ -90,7 +92,7 @@ public class NiceTableTest {
     public void testAddRow() {
         final String[] data = {"this", "is", "a", "test"};
         table.addRow(data);
-        assertEquals("Test for | delim", "| this | is | a | test |\n", table.toString());
+        assertEquals("Test for | delim", MessageFormat.format("| this | is | a | test |{0}", LINE_SEPARATOR), table.toString());
     }
 
     /**
@@ -99,7 +101,7 @@ public class NiceTableTest {
     @Test
     public void testAddLine() {
         table.addLine('*');
-        assertEquals("Test for adding a line", "|******************************|\n", table.toString());
+        assertEquals("Test for adding a line", MessageFormat.format("|******************************|{0}",LINE_SEPARATOR), table.toString());
     }
 
     /**
@@ -111,7 +113,7 @@ public class NiceTableTest {
         table.addRow(new String[]{"This", "is", "one", "data"});
         table.addLine('-');
         table.addRow(new String[]{"This", "is", "another", "data"});
-        assertEquals("Test for a complete table", "|= This is a header ===========================|\n| This | is | one     | data |\n|----------------------------------------------|\n| This | is | another | data |\n", table.toString());
+        assertEquals("Test for a complete table", MessageFormat.format("|= This is a header ===========================|{0}| This | is | one     | data |{0}|----------------------------------------------|{0}| This | is | another | data |{0}", LINE_SEPARATOR), table.toString());
     }
 
     /**
@@ -139,10 +141,10 @@ public class NiceTableTest {
     @Test
     public void testRowAlignment() {
         final NiceTable zero = new NiceTable(2);
-        zero.addRow(new String[]{"a\nb\nc", "a\nb"});
+        zero.addRow(new String[]{ MessageFormat.format("a{0}b{0}c", LINE_SEPARATOR), MessageFormat.format("a{0}b", LINE_SEPARATOR)});
         zero.addRow(new String[]{"d", "d"});
 
-        final String expected = "| a | a |\n" + "| b | b |\n" + "| c |   |\n" + "| d | d |\n";
+        final String expected = MessageFormat.format("| a | a |{0}| b | b |{0}| c |   |{0}| d | d |{0}", LINE_SEPARATOR);
         assertEquals("Test for row alignment", expected, zero.toString());
     }
 
@@ -162,7 +164,7 @@ public class NiceTableTest {
         zero.addRow(new String[]{numbers[0].toString(), numbers[1].toString(), numbers[2].toString(), numbers[3].toString(), numbers[4].toString()});
         zero.addLine('-');
         final String result = zero.toString();
-        assertEquals("Another test for a complete table", "|------------------------------------|\n" + "| a           | b   | c | d   | e    |\n" + "|====================================|\n" + "| 1.222222222 | 3.0 | 4 | 5.0 | 4444 |\n" + "|------------------------------------|\n", result);
+        assertEquals("Another test for a complete table", MessageFormat.format("|------------------------------------|{0}| a           | b   | c | d   | e    |{0}|====================================|{0}| 1.222222222 | 3.0 | 4 | 5.0 | 4444 |{0}|------------------------------------|{0}", LINE_SEPARATOR), result);
 
     }
 }

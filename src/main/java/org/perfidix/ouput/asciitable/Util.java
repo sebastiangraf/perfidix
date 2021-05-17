@@ -138,7 +138,7 @@ final class Util {
      * @return an array of elements
      */
     private static String[] explode(final String toBeSplitted) {
-        return toBeSplitted.split("\\" + '\n');
+        return toBeSplitted.split(AbstractTabularComponent.NEWLINE);
     }
 
     /**
@@ -148,14 +148,7 @@ final class Util {
      * @return the number of occurences of {@link org.perfidix.ouput.asciitable.AbstractTabularComponent#NEWLINE} in the string.
      */
     private static int numNewLines(final String toExamine) {
-        final char[] arr = toExamine.toCharArray();
-        int result = 0;
-        for (char ch : arr) {
-            if (AbstractTabularComponent.NEWLINE.equals(new String(new char[]{ch}))) {
-                result++;
-            }
-        }
-        return result;
+        return toExamine.split(AbstractTabularComponent.NEWLINE).length;
     }
 
     /**
@@ -180,10 +173,10 @@ final class Util {
         for (final String col : data) {
             maxNewLines = Math.max(maxNewLines, Util.numNewLines(col));
         }
-        final String[][] matrix = new String[maxNewLines + 1][data.length];
+        final String[][] matrix = new String[maxNewLines][data.length];
         for (int col = 0; col < data.length; col++) {
             final String[] exploded = Util.explode(data[col]);
-            for (int row = 0; row < maxNewLines + 1; row++) {
+            for (int row = 0; row < maxNewLines; row++) {
                 if (exploded.length > row) {
                     matrix[row][col] = exploded[row];
                 } else {

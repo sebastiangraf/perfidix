@@ -1,4 +1,7 @@
-#Perfidix - No discussions, Just facts.
+[![en](https://img.shields.io/badge/lang-en-red.svg)](https://github.com/denisbenjamim/perfidix/blob/master/README.md)
+[![pt-BR](https://img.shields.io/badge/lang-pt--BR-green.svg)](https://github.com/denisbenjamim/perfidix/blob/master/README.pt-BR.md)
+
+# Perfidix - No discussions, Just facts.
 
 Perfidix is a light-weight java library enabling users to benchmark sourcecode.
 Similar to JUnit, annotations can be placed before methods.
@@ -7,7 +10,7 @@ An eclipse plugin (Perclipse, available under https://github.com/sebastiangraf/p
 
 [![Build Status](https://secure.travis-ci.org/sebastiangraf/perfidix.png)](http://travis-ci.org/sebastiangraf/perfidix)
 
-##5 steps how to use Perfidix
+## 5 steps how to use Perfidix
 
 * Get the lastest jar over Github or Maven
 
@@ -31,18 +34,18 @@ OR
 
 For further documentation and as an example, please refer to the `org.perfidix.example` package.
 
-##Content
+## Content
 
 * README:					this readme file
 * LICENSE:	 				license file
 * src:						Source folder for perfidix itself
 * pom.xml:					Simple pom (yes we use Maven)
 
-##License
+## License
 
 This work is released in the public domain under the BSD 3-clause license
 
-##Further information
+## Further information
 
 The documentation so far is accessible under http://perfidix.org (pointing to http://sebastiangraf.github.com/perfidix/).
 
@@ -51,7 +54,7 @@ The framework was presented at the Jazoon '07 as work in progress. The paper can
 
 Any questions, just contact sebastian.graf AT uni-konstanz.de
 
-##Involved People
+## Involved People
 
 Perfidix is maintained by:
 
